@@ -1,0 +1,495 @@
+# 英推 Affiliate 选题运营系统
+
+这是一个本地 Affiliate 选题验证工具。它每天从 Product Hunt 找新工具，给工具打分，生成自然英文 X 文案，并把发推反馈、Affiliate 研究、长线程候选、SEO 测评页候选和每周复盘都沉淀到本地 JSON。
+
+它适合现在这个阶段：先验证哪些小工具有人点、有人问、有人收藏，再决定要不要做长推、测评页或 Affiliate 转化。
+
+它不会自动发推，不接数据库，不登录，不上传数据，不保证收益，也不会编造 affiliate link、价格、佣金、点击量或收入。Dashboard 支持手动确认后发布到 X，但每条都必须你确认。
+
+## 快速开始
+
+```bash
+npm install
+npm run daily
+npm run x:auth
+npm start
+```
+
+打开：
+
+```text
+http://127.0.0.1:4173/dashboard/
+```
+
+如果只想看 Markdown：
+
+```text
+output/YYYY-MM-DD-daily-x-pack.md
+```
+
+## 每天怎么用
+
+1. 跑 `npm run daily`，生成今天的工具评分和英文文案。
+2. 跑 `npm start`，自动找可用端口并打开本地页面。
+3. 先看「今天打开后先看这里」。如果提示数据超过 6 小时，点 `刷新 Live Feed`。
+4. 如果你从 X、newsletter、微信群或官网看到新工具，先放进「候选收集」，再点 `刷新 Live Feed` 让它参与评分。
+5. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
+6. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
+7. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+8. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+9. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+10. 对值得做测评页的工具点「生成测评页大纲」。
+11. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+
+不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
+
+## Dashboard 怎么看
+
+页面顶部有几个常用按钮：
+
+- `刷新 Live Feed`：在 Dashboard 里直接跑一次 daily，重新拉 Product Hunt live feed、重算候选并更新本地 JSON。
+- `重新读取`：只重新读取本地 JSON，不重新抓 Product Hunt。
+- `复制今日计划`：生成并复制今天的行动计划。
+- `生成周报`：生成最近 7 天复盘文件。
+- `导出 JSON`：打开 `data/latest.json`。
+- `今日 Markdown`：打开当天 Markdown 文案包。
+- `切换主题`：深色/浅色切换，只存在浏览器本地。
+
+页面 Tab 的含义：
+
+- `今日行动`：今天优先做什么。顶部 `今天只做这 3 件事` 会把发布、联盟研究、长文/测评页压成三个明确动作；下面保留原始 action list 和系统建议。
+- `候选收集`：把 Product Hunt 之外的新工具手动放进本地收集箱；active 候选会在下一次 `daily` 或 `刷新 Live Feed` 时参与打分。
+- `工具池`：所有候选工具卡片，适合按分数、affiliate、风险、是否已发筛选。
+- `文案库`：每个工具的 5 种英文文案，适合集中复制、标记已发，或手动确认发布到 X。
+- `反馈录入`：已经标记已发的文案和表现数据。顶部会列出 `待补反馈`，也可以粘贴 CSV 批量导入 X 数据。
+- `反馈决策`：把录入的反馈转成下一步动作，判断哪些工具该加码、查联盟、做长推、做测评页或先观察。
+- `跟进队列`：你手动加入的 thread、review page、affiliate research、watch、skip。顶部 `Follow-up pipeline` 会显示活跃队列、下一步该处理哪项，以及每项下一步提示。
+- `联盟研究`：记录真实查到的 programUrl、network、affiliateLink 和状态，并提供 affiliate / partner / referral 一键搜索链接。
+- `测评页候选`：适合做 SEO review page 的工具，并可生成英文大纲。
+- `历史复盘`：历史出现过的工具，避免连续推荐同一个工具。
+- `每周复盘`：最近 7 天趋势、Top angle、摘要和系统建议。
+- `设置/数据`：只读查看禁用词、affiliate links 数量和各类数据条数。
+
+如果顶部「发布前信心」显示 `先别花 credits`，今日行动会优先提示 `先别付费发布`，并把旧候选转成观察、联盟研究或长文候选，而不是硬推荐你发推。顶部的发布守门员会同时显示三件事：数据年龄、数据来源、API 发布规则。只有 6 小时内的 live feed，并且候选是 `Fresh today` / `Fresh 48h`，才值得考虑花 API credits 发。
+
+`Feed diagnostic` 会告诉你这次 Product Hunt feed 里到底有多少 `Today / 48h / 7d` 工具。如果 Top Picks 没有新鲜候选，它会说明是 feed 本身没新货，还是有新工具但评分不够，并列出 `Fresh feed watchlist` 供你手动观察。
+
+`Candidate Inbox` 是补充来源，不会自动发推，也不会自动生成 affiliate link。它只是把你手动发现的工具加入评分池，解决只靠 Product Hunt RSS 时候选不够新鲜的问题。
+
+批量粘贴后可以先点 `预览评分`，系统会按同一套 pain/niche/affiliate/content/novelty/risk 规则给候选打分，但不会保存。确认值得跟进后，再点 `批量导入候选`。
+
+候选收集支持单条录入，也支持批量粘贴。批量粘贴可以用 CSV：
+
+```csv
+name,url,tagline,source
+Tool A,https://example.com,Fixes one narrow workflow,X
+```
+
+也可以一行一个：
+
+```text
+Tool A | https://example.com | Fixes one narrow workflow
+Tool B | https://example.org | Better reporting for small teams
+```
+
+## 命令说明
+
+```bash
+npm run daily
+```
+
+拉取 Product Hunt，并合并 `data/candidate-inbox.json` 里的 active 候选，生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并更新历史记录。
+
+```bash
+npm run daily:top10
+```
+
+生成 Top 10 候选，适合你想多看一些备选时使用。
+
+```bash
+npm start
+```
+
+启动本地 Dashboard。默认从 `http://127.0.0.1:4173/dashboard/` 开始，如果 4173 被占用，会自动换到 4174、4175 等可用端口，并在 macOS 上自动打开浏览器。
+
+```bash
+npm run dashboard
+```
+
+用固定 4173 启动本地 Dashboard。适合你明确知道端口没被占用时使用。
+
+```bash
+npm run x:auth
+```
+
+打开 X OAuth 授权页，授权后把可发推的 `X_ACCESS_TOKEN` 写入本地 `.env`。需要先在 X Developer Console 的 User authentication settings 里配置好回调地址。
+
+```bash
+npm run history
+```
+
+查看历史推荐摘要，包括出现次数、重复工具和适合继续观察的候选。
+
+```bash
+npm run affiliate-queue
+```
+
+查看没有 affiliate link、但 affiliateScore 较高的工具。
+
+```bash
+npm run affiliate:research
+```
+
+查看联盟研究记录：未开始、researching、approved 但未加入配置、rejected/no_program 等。
+
+```bash
+npm run feedback
+```
+
+汇总发推反馈，列出 engagementScore 高的文案、表现好的 angle、值得继续跟进的工具。
+
+```bash
+npm run decisions
+```
+
+根据真实反馈生成下一步行动建议，并标出是否已经在队列里。
+
+```bash
+npm run promote
+```
+
+根据 daily score、历史和 feedback 给出系统建议：thread candidate、review page candidate、affiliate priority、watch 或 skip。
+
+```bash
+npm run review:queue
+```
+
+查看 SEO review page 队列。
+
+```bash
+npm run review:generate -- --tool "Tool Name"
+```
+
+给指定工具生成英文测评页大纲，输出到 `output/reviews/`，并写入 `data/review-pages.json`。
+
+```bash
+npm run today-plan
+```
+
+生成今天的行动计划，输出到终端并写入 `output/YYYY-MM-DD-today-plan.md`。
+
+```bash
+npm run weekly
+```
+
+生成最近 7 天复盘，输出到 `output/YYYY-MM-DD-weekly-report.md` 和 `data/weekly/YYYY-MM-DD.json`。
+
+```bash
+npm run check
+npm test
+npm audit --audit-level=moderate
+```
+
+做结构校验、核心逻辑测试和依赖安全检查。
+
+## 数据文件
+
+- `data/latest.json`：Dashboard 默认读取的最新每日结构化数据。
+- `data/daily/*.json`：每天的结构化快照。
+- `data/history.json`：历史推荐记录，包含 seen before 和降权依据。
+- `data/feedback.json`：发推记录和手动录入的表现数据。
+- `data/queues.json`：thread、review page、affiliate research、watch、skip 队列。
+- `data/affiliate-research.json`：真实查到的 affiliate program 研究记录。
+- `data/review-pages.json`：已经生成的 SEO review outline 记录。
+- `data/weekly/*.json`：每周复盘结构化数据。
+- `data/backups/YYYY-MM-DD/`：写入重要 JSON 前的本地备份。
+- `config/affiliate-links.json`：你已经拥有的真实 affiliate links。
+- `config/voice.json`：英文文案风格和禁用词。
+
+## 配置 Affiliate Link
+
+编辑 `config/affiliate-links.json`：
+
+```json
+{
+  "links": [
+    {
+      "name": "Tool Name",
+      "match": "tool-name-or-domain",
+      "keywords": ["keyword"],
+      "domains": ["example.com"],
+      "affiliateUrl": "https://tool.com/?ref=your-real-id",
+      "note": "program note"
+    }
+  ]
+}
+```
+
+匹配逻辑会看工具名、Product Hunt URL、tagline、domain、keywords 和 match。只有匹配到真实配置时才会使用 affiliate link。没有匹配时会显示：
+
+```text
+No affiliate link yet — research needed
+```
+
+不要把没申请到的链接写进去。Dashboard 的「联盟研究」可以记录你查到的 programUrl、network、申请状态和真实 affiliateLink，但不会自动替你编造链接。
+
+## 调整英文文风
+
+编辑 `config/voice.json`。
+
+常用字段：
+
+- `allowEmoji`：是否允许 emoji。
+- `maxTweetCharacters`：单条 X 文案长度上限。
+- `avoid`：禁用词列表。
+
+建议保持：
+
+- 英文自然，像个人观察。
+- 不像广告。
+- 不承诺收益。
+- 不夸张。
+- 一条文案只讲一个痛点或观察。
+
+`npm run check` 会检查禁用词是否出现在 copyVariants 中。Dashboard 的「文案库」也会显示 `Copy QA`，包括字数、禁用词和高风险承诺词；如果发布弹窗发现 voice 禁用词，会直接阻止发布。
+
+## 手动确认发布到 X
+
+Dashboard 里的「今日行动」和「文案库」会出现 `发布到 X` 按钮。
+
+发布流程：
+
+1. 点某条文案的 `发布到 X`。
+2. 弹窗里检查文案和发布前 checklist。
+3. 如果出现 `暂不能 API 发布`，先按提示处理，比如配置 token、缩短文案或刷新 Live Feed。
+4. 如果出现 `需要额外确认`，说明这条可能是 Seen before、Older useful，或文案里有收益/承诺类高风险词；确认仍要发时，需要额外勾选风险确认。
+5. 勾选“我确认这条内容可以发布到 X”。
+6. 点 `确认发布`。
+
+后端还会再次校验 `confirmed: true`，所以不会静默自动发。
+
+要真正调用 X API，推荐先用本地授权命令生成 token：
+
+```bash
+npm run x:auth
+npm run dashboard
+```
+
+`npm run x:auth` 会打开 X 授权页，授权成功后把 `X_ACCESS_TOKEN` 写进 `.env`。Dashboard 启动时会自动读取 `.env`。
+
+在 X Developer Console 里这样配置：
+
+- App permissions：`Read and write`。
+- Type of App：`Native App`。
+- Request email from users：关闭。
+- Callback URI / Redirect URL：`http://127.0.0.1:8787/callback`。
+- Website URL：可以先填你的 X 主页或个人站，例如 `https://x.com/guamee4`。
+
+如果你已经手动拿到了 user-context token，也可以直接在启动 Dashboard 前设置：
+
+```bash
+export X_ACCESS_TOKEN="你的 X OAuth 2.0 User Context access token"
+npm run dashboard
+```
+
+这个 token 需要有 `tweet.write` 权限。没有 `X_ACCESS_TOKEN` 时，页面可以预览和确认流程，但发布会失败并提示缺少 token。
+
+Dashboard 的「设置/数据」会显示 X 授权健康状态：
+
+- `已配置`：access token 当前可用。
+- `已过期，可刷新`：access token 已过期，但有 refresh token；点击发布时会先刷新再发。
+- `已过期`：没有 refresh token，先重新跑 `npm run x:auth`。
+- `未配置`：只能预览，不能调用 X API。
+
+发布成功后，系统会把 X status URL 写入 `data/feedback.json`，并默认 metrics 为 0，后续你可以继续录入表现数据。
+
+注意：
+
+- 不要把 token 写进 `config/*.json`。
+- 不要把 token 提交到 git。
+- `.env` 已经在 `.gitignore` 里，不要把里面的 key/token 发给别人。
+- OAuth 授权只在本机临时运行，用完即可关闭。
+- 仍然建议一天只发少量、人工确认过的内容。
+
+## 评分和跟进逻辑
+
+每个工具会拆成这些分项：
+
+- `painScore`：痛点是否明确。
+- `nicheScore`：是否适合小众人群。
+- `affiliateScore`：是否有付费、订阅、转介绍或联盟潜力。
+- `contentScore`：是否容易写成英文 X thread 或测评页。
+- `noveltyScore`：是否有新鲜感。
+- `riskScore`：是否太泛、太卷、太像一次性热点。
+
+历史出现过的工具会标记 `Seen before` 并降权。fallback sample 在 Product Hunt 网络失败时可以让命令继续跑，但不会污染长期 history。
+
+## 反馈分数
+
+发推后录入 metrics，系统会计算：
+
+```text
+engagementScore =
+likes * 1
++ bookmarks * 3
++ replies * 4
++ reposts * 5
++ clicks * 4
++ profileVisits * 2
++ min(impressions / 100, 20)
+```
+
+同时会计算 engagementRate、saveRate、replyRate、clickRate。impressions 为 0 时 rate 会显示为 0，不会出现 NaN。
+
+### CSV 批量导入反馈
+
+打开 Dashboard 的「反馈录入」，把表格或 CSV 粘贴到 `CSV / X Analytics 粘贴导入` 里。
+
+推荐表头：
+
+```csv
+toolName,variantType,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes
+Mailwarm 2.0,shortPost,https://x.com/your/status/123,1200,18,6,3,1,9,4,first test
+```
+
+也可以从 X Analytics 复制表格直接粘贴，系统会识别 tab 分隔和常见表头：
+
+```text
+Post text	Tweet permalink	Impressions	Likes	Bookmarks	Replies	Reposts	Link clicks	Profile visits
+Your posted copy...	https://x.com/your/status/123	1200	18	6	3	1	9	4
+```
+
+说明：
+
+- `toolName` 会优先匹配当天 `data/latest.json` 里的工具。
+- 如果某条推已经在 Dashboard 点过「标记已发」，粘贴 X Analytics 时可以通过 `Tweet permalink` 或 `Post text` 匹配到原记录。
+- `variantType` 可填 `shortPost`、`casualPost`、`contrarianAngle`、`painPointHook`、`threadOpening`。
+- 如果没有 `copyText`，系统会用匹配工具对应的文案补上。
+- 如果某一行无法匹配 toolName/toolUrl/copyText，会跳过并提示。
+
+## Vercel 版本
+
+这个项目可以部署到 Vercel 做只读 Dashboard，方便你在外面查看当天候选、历史和队列。
+
+线上版本的边界：
+
+- 可以读取仓库里的 `dashboard/`、`data/`、`output/` 静态文件。
+- 可以打开 Dashboard、看 `data/latest.json`、看历史和队列快照。
+- 不能刷新 Product Hunt。
+- 不能写入 feedback / queue / affiliate research。
+- 不能发布到 X，也不要在 Vercel 配置 X token。
+
+本地仍然是唯一的工作台：
+
+```bash
+npm start
+```
+
+如果要更新线上看到的数据，先在本地跑 `npm run daily`，确认 `data/latest.json` 更新后，再提交并部署。
+
+## Affiliate Research 搜索
+
+打开「联盟研究」后，每个候选工具旁边会有 3 个搜索按钮：
+
+- `affiliate`
+- `partner`
+- `referral`
+
+它们只会打开 Google 搜索，例如：
+
+```text
+"Tool Name" affiliate program
+```
+
+这个功能只帮你查真实 program，不会自动生成 affiliate link。只有你手动填入真实 `affiliateLink`，系统才会记录到 `data/affiliate-research.json`。
+
+「联盟研究」顶部的 `Affiliate readiness` 会把研究记录分成：
+
+- `可配置`：状态为 approved，且有真实 `programUrl` 和 `affiliateLink`。
+- `缺字段`：状态通过了，但还缺 programUrl 或 affiliateLink。
+- `研究中`：还在 searching / applied / not_started。
+- `不适合`：rejected 或 no_program。
+
+只有 `可配置` 的记录会出现 `复制配置片段`。复制后再手动粘到 `config/affiliate-links.json`，不要把官网链接或 programUrl 当成 affiliate link。
+
+## 每周复盘图表
+
+打开「每周复盘」或点击顶部「生成周报」。
+
+Dashboard 会显示：
+
+- `7 天趋势`：每天工具数、发推记录数、engagementScore 的条形图。
+- `Top angle`：哪些文案类型表现最好，例如 shortPost、painPointHook、threadOpening。
+- `摘要`：最近 7 天跑 daily 天数、历史工具记录、已追踪发推数量、最佳 angle。
+- `系统建议`：哪些工具适合继续做 thread、review page 或 affiliate research。
+
+命令行 `npm run weekly` 会同步输出 Markdown，并写入：
+
+```text
+output/YYYY-MM-DD-weekly-report.md
+data/weekly/YYYY-MM-DD.json
+```
+
+## 生成 SEO Review Page 大纲
+
+命令行：
+
+```bash
+npm run review:generate -- --tool "Tool Name"
+```
+
+Dashboard：
+
+1. 打开「测评页候选」。
+2. 找到工具。
+3. 点「生成测评页大纲」。
+4. 文件会写入 `output/reviews/YYYY-MM-DD-tool-slug-review-outline.md`。
+
+大纲不会编造价格、佣金、真实用户评价或 affiliate link。没有真实 affiliate link 时会使用：
+
+```text
+Affiliate link not available yet — replace after approval.
+```
+
+## 故障排查
+
+Product Hunt 请求失败：
+
+- 命令会提示失败原因。
+- 系统会使用 `data/sample-producthunt-feed.xml` 作为 fallback。
+- fallback 不会写入长期 history。
+
+Dashboard 打不开：
+
+- 优先运行 `npm start`，它会自动避开被占用端口。
+- 打开 `http://127.0.0.1:4173/dashboard/`。
+- 如果端口被占用，可以运行 `node scripts/dashboard.mjs --port 4174`。
+
+`latest.json` 不存在：
+
+- 先运行 `npm run daily`。
+
+JSON 文件损坏：
+
+- 脚本会报清楚是哪个 JSON 解析失败。
+- 原文件会保留，不会覆盖。
+- 查看 `data/backups/YYYY-MM-DD/` 找最近备份。
+
+Copy 按钮不可用：
+
+- 某些浏览器会限制剪贴板权限。
+- 页面会提示复制失败，这时手动选中文案复制。
+
+没有 feedback 数据：
+
+- 先在「文案库」或「今日行动」点击「标记已发」。
+- 后续再到「反馈录入」填表现数据。
+
+## 当前限制
+
+- 不自动发推；只支持你逐条确认后发布到 X。
+- 不自动抓 X 数据，需要你手动录入。
+- 不自动申请 affiliate program。
+- 不自动把 affiliateLink 写进配置。
+- 不做法律、税务或收益判断。
+- 不接数据库，所有数据都在本地 JSON。

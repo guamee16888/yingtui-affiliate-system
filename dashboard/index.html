@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Affiliate 选题运营台</title>
+    <link rel="stylesheet" href="/dashboard/style.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">本地运营闭环</p>
+        <h1>Affiliate 选题运营台</h1>
+        <p class="subtitle" id="dataStatus">读取本地 JSON 中...</p>
+      </div>
+      <div class="top-actions">
+        <button class="button ghost" id="themeButton" type="button">切换主题</button>
+        <button class="button ghost" id="copyPlanButton" type="button">复制今日计划</button>
+        <button class="button ghost" id="weeklyButton" type="button">生成周报</button>
+        <a class="button ghost" id="jsonLink" href="/data/latest.json">导出 JSON</a>
+        <a class="button ghost" id="markdownLink" href="/output/2026-06-06-daily-x-pack.md">今日 Markdown</a>
+        <button class="button" id="runDailyButton" data-run-daily type="button">刷新 Live Feed</button>
+        <button class="button ghost" id="refreshButton" type="button">重新读取</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="metrics" id="metrics"></section>
+      <section class="readiness" id="readiness"></section>
+
+      <nav class="tabs" aria-label="Dashboard tabs">
+        <button class="tab active" data-tab="today" type="button">今日行动</button>
+        <button class="tab" data-tab="review" type="button">发布审核</button>
+        <button class="tab" data-tab="candidates" type="button">候选收集</button>
+        <button class="tab" data-tab="tools" type="button">工具池</button>
+        <button class="tab" data-tab="copy" type="button">文案库</button>
+        <button class="tab" data-tab="feedback" type="button">反馈录入</button>
+        <button class="tab" data-tab="decisions" type="button">反馈决策</button>
+        <button class="tab" data-tab="queues" type="button">跟进队列</button>
+        <button class="tab" data-tab="affiliate" type="button">联盟研究</button>
+        <button class="tab" data-tab="reviews" type="button">测评页候选</button>
+        <button class="tab" data-tab="history" type="button">历史复盘</button>
+        <button class="tab" data-tab="weekly" type="button">每周复盘</button>
+        <button class="tab" data-tab="settings" type="button">设置/数据</button>
+      </nav>
+
+      <section class="panel filters" id="toolFilters">
+        <label>
+          <span>搜索</span>
+          <input id="searchInput" type="search" placeholder="工具、痛点、文案、动作">
+        </label>
+        <label>
+          <span>动作</span>
+          <select id="actionFilter">
+            <option value="all">全部</option>
+            <option value="tweet only">只发单条</option>
+            <option value="thread candidate">适合长推</option>
+            <option value="review page candidate">适合测评页</option>
+            <option value="affiliate priority">优先查联盟</option>
+            <option value="skip">跳过</option>
+          </select>
+        </label>
+        <label>
+          <span>联盟</span>
+          <select id="affiliateFilter">
+            <option value="all">全部</option>
+            <option value="matched">已有链接</option>
+            <option value="research_needed">需要查联盟</option>
+            <option value="no_fit">暂不适合</option>
+          </select>
+        </label>
+        <label>
+          <span>状态</span>
+          <select id="stateFilter">
+            <option value="all">全部</option>
+            <option value="posted">已发</option>
+            <option value="feedback">有反馈</option>
+            <option value="queued">在队列</option>
+            <option value="fresh">新工具</option>
+            <option value="seen">历史出现</option>
+          </select>
+        </label>
+        <label>
+          <span>最低分</span>
+          <input id="minScore" type="number" min="0" max="60" value="0">
+        </label>
+        <label>
+          <span>排序</span>
+          <select id="sortBy">
+            <option value="score">score</option>
+            <option value="affiliateScore">affiliateScore</option>
+            <option value="engagementScore">engagementScore</option>
+            <option value="bookmarks">bookmarks</option>
+            <option value="clicks">clicks</option>
+            <option value="riskScore">riskScore</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="view active" id="view-today"></section>
+      <section class="view" id="view-review"></section>
+      <section class="view" id="view-candidates"></section>
+      <section class="view" id="view-tools"></section>
+      <section class="view" id="view-copy"></section>
+      <section class="view" id="view-feedback"></section>
+      <section class="view" id="view-decisions"></section>
+      <section class="view" id="view-queues"></section>
+      <section class="view" id="view-affiliate"></section>
+      <section class="view" id="view-reviews"></section>
+      <section class="view" id="view-history"></section>
+      <section class="view" id="view-weekly"></section>
+      <section class="view" id="view-settings"></section>
+    </main>
+
+    <dialog id="feedbackDialog">
+      <form method="dialog" class="modal-form" id="feedbackForm">
+        <h2>录入发推反馈</h2>
+        <input type="hidden" name="id">
+        <input type="hidden" name="toolId">
+        <input type="hidden" name="toolName">
+        <input type="hidden" name="toolUrl">
+        <input type="hidden" name="sourceDate">
+        <input type="hidden" name="variantType">
+        <input type="hidden" name="copyText">
+        <label>Post URL <input name="postedUrl" type="url" placeholder="https://x.com/..."></label>
+        <div class="form-grid">
+          <label>impressions <input name="impressions" type="number" min="0" value="0"></label>
+          <label>likes <input name="likes" type="number" min="0" value="0"></label>
+          <label>bookmarks <input name="bookmarks" type="number" min="0" value="0"></label>
+          <label>replies <input name="replies" type="number" min="0" value="0"></label>
+          <label>reposts <input name="reposts" type="number" min="0" value="0"></label>
+          <label>clicks <input name="clicks" type="number" min="0" value="0"></label>
+          <label>profileVisits <input name="profileVisits" type="number" min="0" value="0"></label>
+        </div>
+        <label>notes <textarea name="notes" rows="4"></textarea></label>
+        <div class="modal-actions">
+          <button class="button ghost" value="cancel" type="button" id="cancelFeedback">取消</button>
+          <button class="button" value="save" type="submit">保存反馈</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="publishDialog">
+      <form method="dialog" class="modal-form" id="publishForm">
+        <h2>确认发布到 X</h2>
+        <p class="muted">请先检查文案。点击确认后才会调用 X API 发布；没有配置 token 时不会发布。</p>
+        <input type="hidden" name="toolId">
+        <input type="hidden" name="toolName">
+        <input type="hidden" name="toolUrl">
+        <input type="hidden" name="sourceDate">
+        <input type="hidden" name="variantType">
+        <label>Post text <textarea name="text" rows="7" maxlength="280" required></textarea></label>
+        <div class="publish-meta">
+          <span id="publishCount">0 / 280</span>
+          <span id="publishStatus">X 未检查</span>
+        </div>
+        <div class="publish-checklist" id="publishChecklist"></div>
+        <div class="publish-risk" id="publishRisk"></div>
+        <div class="safety-note">
+          每条都要单独勾选确认。Dashboard 不会批量发布，也不会保存你的 X token。
+        </div>
+        <label class="confirm-line">
+          <input name="confirmChecked" type="checkbox" required>
+          <span>我确认这条内容可以发布到 X</span>
+        </label>
+        <label class="confirm-line" id="publishOverrideLine" hidden>
+          <input name="overrideChecked" type="checkbox">
+          <span>我理解这条存在额外风险，仍然手动确认发布</span>
+        </label>
+        <div class="modal-actions">
+          <button class="button ghost" value="cancel" type="button" id="cancelPublish">取消</button>
+          <button class="button" value="publish" type="submit" id="confirmPublishButton">确认发布</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/dashboard/js/app.js"></script>
+  </body>
+</html>

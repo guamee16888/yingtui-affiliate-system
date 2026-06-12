@@ -1,0 +1,11 @@
+{
+  "links": [
+    {
+      "match": "example-tool",
+      "keywords": ["example keyword"],
+      "domains": ["example.com"],
+      "affiliateUrl": "https://example.com/?ref=your-id",
+      "note": "Replace with your real affiliate link."
+    }
+  ]
+}

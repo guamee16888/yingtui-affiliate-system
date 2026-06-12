@@ -1,0 +1,31 @@
+{
+  "name": "yingtui-affiliate-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "daily": "node scripts/generate-daily.mjs",
+    "daily:top10": "node scripts/generate-daily.mjs --limit 10",
+    "history": "node scripts/history.mjs",
+    "affiliate-queue": "node scripts/affiliate-queue.mjs",
+    "affiliate:research": "node scripts/affiliate-research-summary.mjs",
+    "feedback": "node scripts/feedback-summary.mjs",
+    "decisions": "node scripts/decision-report.mjs",
+    "promote": "node scripts/promote.mjs",
+    "review:queue": "node scripts/review-queue.mjs",
+    "review:generate": "node scripts/generate-review-outline.mjs",
+    "today-plan": "node scripts/today-plan.mjs",
+    "weekly": "node scripts/weekly-report.mjs",
+    "check": "node scripts/check-system.mjs",
+    "x:auth": "node scripts/x-auth.mjs",
+    "start": "node scripts/start-dashboard.mjs",
+    "dashboard": "node scripts/dashboard.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.2.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

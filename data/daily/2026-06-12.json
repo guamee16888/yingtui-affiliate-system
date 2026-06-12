@@ -1,0 +1,946 @@
+{
+  "date": "2026-06-12",
+  "generatedAt": "2026-06-12T00:45:14.062Z",
+  "source": {
+    "feed": "https://www.producthunt.com/feed",
+    "usedFallback": false,
+    "breakdown": {
+      "productHuntTools": 50,
+      "candidateInboxTools": 0,
+      "mergedTools": 50
+    }
+  },
+  "warnings": [],
+  "summary": {
+    "totalTools": 50,
+    "topPicks": 6,
+    "affiliateQueueCount": 0,
+    "candidateInboxCount": 0,
+    "seenBeforeCount": 0
+  },
+  "freshnessReport": {
+    "source": "https://www.producthunt.com/feed",
+    "usedFallback": false,
+    "stats": {
+      "totalTools": 50,
+      "freshToday": 1,
+      "fresh48": 32,
+      "fresh7d": 11,
+      "older": 6,
+      "unknownPublished": 0,
+      "topPickFreshPostCandidates": 1,
+      "topPickSeenBefore": 0
+    },
+    "publishableTools": [
+      {
+        "name": "BlenderHunt",
+        "url": "https://www.producthunt.com/products/blenderhunt",
+        "published": "2026-06-09T04:09:54-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 2,
+        "score": 19,
+        "followUpAction": "tweet only",
+        "seenBefore": false,
+        "inTopPicks": true
+      }
+    ],
+    "freshFeedWatchlist": [
+      {
+        "name": "BlenderHunt",
+        "url": "https://www.producthunt.com/products/blenderhunt",
+        "published": "2026-06-09T04:09:54-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 2,
+        "score": 19,
+        "followUpAction": "tweet only",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
+      {
+        "name": "EndpointMe",
+        "url": "https://www.producthunt.com/products/endpointme",
+        "published": "2026-06-10T02:22:20-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 1,
+        "score": 17,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
+      {
+        "name": "Fluido",
+        "url": "https://www.producthunt.com/products/fluido",
+        "published": "2026-06-08T23:20:18-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 2,
+        "score": 17,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
+      {
+        "name": "Airbrush Studio",
+        "url": "https://www.producthunt.com/products/airbrush-studio",
+        "published": "2026-06-10T02:15:09-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 1,
+        "score": 11,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
+      {
+        "name": "INVO Ride",
+        "url": "https://www.producthunt.com/products/invo-ride",
+        "published": "2026-06-09T23:21:29-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 1,
+        "score": 11,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": true
+      }
+    ],
+    "newestFeedTools": [
+      {
+        "name": "Cloudskill",
+        "url": "https://www.producthunt.com/products/cloudskill",
+        "published": "2026-06-10T21:32:54-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 0,
+        "score": 6,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": false
+      },
+      {
+        "name": "EndpointMe",
+        "url": "https://www.producthunt.com/products/endpointme",
+        "published": "2026-06-10T02:22:20-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 1,
+        "score": 17,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
+      {
+        "name": "Airbrush Studio",
+        "url": "https://www.producthunt.com/products/airbrush-studio",
+        "published": "2026-06-10T02:15:09-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 1,
+        "score": 11,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
+      {
+        "name": "INVO Ride",
+        "url": "https://www.producthunt.com/products/invo-ride",
+        "published": "2026-06-09T23:21:29-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 1,
+        "score": 11,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
+      {
+        "name": "Tabstack Structured Extraction",
+        "url": "https://www.producthunt.com/products/tabstack",
+        "published": "2026-06-09T23:04:01-07:00",
+        "sourceType": "producthunt",
+        "sourceName": "Product Hunt",
+        "ageDays": 1,
+        "score": 11,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": false
+      }
+    ],
+    "diagnosis": "Top picks include fresh candidates that are suitable for cautious posting.",
+    "recommendation": "Post only the Fresh today / Fresh 48h candidates, then record feedback."
+  },
+  "actionList": [
+    {
+      "type": "post",
+      "toolName": "BlenderHunt",
+      "reason": "Post one X draft: Testing BlenderHunt today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/blenderhunt"
+    }
+  ],
+  "tools": [
+    {
+      "id": "tool_producthunt_com_typingmind_ef333ec43f",
+      "toolId": "tool_producthunt_com_typingmind_ef333ec43f",
+      "name": "TypingMind",
+      "url": "https://www.producthunt.com/products/typing-mind",
+      "domain": "producthunt.com",
+      "tagline": "Pay per use, no subscription, 18 model providers supported",
+      "published": "2026-06-06T01:05:56-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 20,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 3,
+        "affiliateScore": 4,
+        "contentScore": 5,
+        "noveltyScore": 4,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 20
+      },
+      "reason": "has at least one narrow workflow angle.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "tweet only",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "support teams want fewer repetitive support tasks; test whether it solves answering repeat customer questions without adding another queue.",
+      "angle": {
+        "audience": "support teams",
+        "outcome": "fewer repetitive support tasks",
+        "pain": "answering repeat customer questions without adding another queue",
+        "solution": "pay per use, no subscription, 18 model providers supported"
+      },
+      "copyVariants": {
+        "shortPost": "Testing TypingMind today. It looks narrow enough to be useful: answering repeat customer questions without adding another queue. Worth a quick look if you care about fewer repetitive support tasks. https://www.producthunt.com/products/typing-mind",
+        "casualPost": "I like AI tools more when the buyer is obvious. TypingMind seems built for support teams, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/typing-mind",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. TypingMind is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/typing-mind",
+        "painPointHook": "People actually search for ways to fix answering repeat customer questions without adding another queue. That's why TypingMind is more interesting than another vague launch. https://www.producthunt.com/products/typing-mind",
+        "threadOpening": "I found TypingMind on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/typing-mind"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 221,
+          "issues": "OK (221 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 181,
+          "issues": "OK (181 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 163,
+          "issues": "OK (163 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 197,
+          "issues": "OK (197 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 189,
+          "issues": "OK (189 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_blenderhunt_2832a6e62d",
+      "toolId": "tool_producthunt_com_blenderhunt_2832a6e62d",
+      "name": "BlenderHunt",
+      "url": "https://www.producthunt.com/products/blenderhunt",
+      "domain": "producthunt.com",
+      "tagline": "The indie marketplace for Blender artists and creators",
+      "published": "2026-06-09T04:09:54-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 19,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 5,
+        "affiliateScore": 0,
+        "contentScore": 3,
+        "noveltyScore": 5,
+        "riskScore": 0,
+        "seenPenalty": 0,
+        "total": 19
+      },
+      "reason": "has at least one narrow workflow angle.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "tweet only",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "creators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "creators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "the indie marketplace for blender artists and creators"
+      },
+      "copyVariants": {
+        "shortPost": "Testing BlenderHunt today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/blenderhunt",
+        "casualPost": "I like AI tools more when the buyer is obvious. BlenderHunt seems built for creators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/blenderhunt",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. BlenderHunt is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/blenderhunt",
+        "painPointHook": "People actually search for ways to fix removing one narrow, repeated manual step. That's why BlenderHunt is more interesting than another vague launch. https://www.producthunt.com/products/blenderhunt",
+        "threadOpening": "I found BlenderHunt on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/blenderhunt"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 188,
+          "issues": "OK (188 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 177,
+          "issues": "OK (177 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 164,
+          "issues": "OK (164 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 175,
+          "issues": "OK (175 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 190,
+          "issues": "OK (190 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_endpointme_d5b57e210c",
+      "toolId": "tool_producthunt_com_endpointme_d5b57e210c",
+      "name": "EndpointMe",
+      "url": "https://www.producthunt.com/products/endpointme",
+      "domain": "producthunt.com",
+      "tagline": "Your identity as a live, queryable API endpoint",
+      "published": "2026-06-10T02:22:20-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 17,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 3,
+        "affiliateScore": 2,
+        "contentScore": 3,
+        "noveltyScore": 5,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 17
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
+      "angle": {
+        "audience": "developers",
+        "outcome": "less glue code",
+        "pain": "removing one annoying developer workflow step",
+        "solution": "your identity as a live, queryable API endpoint"
+      },
+      "copyVariants": {
+        "shortPost": "Testing EndpointMe today. It looks narrow enough to be useful: removing one annoying developer workflow step. Worth a quick look if you care about less glue code. https://www.producthunt.com/products/endpointme",
+        "casualPost": "I like AI tools more when the buyer is obvious. EndpointMe seems built for developers, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/endpointme",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. EndpointMe is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/endpointme",
+        "painPointHook": "People actually search for ways to fix removing one annoying developer workflow step. That's why EndpointMe is more interesting than another vague launch. https://www.producthunt.com/products/endpointme",
+        "threadOpening": "I found EndpointMe on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/endpointme"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 186,
+          "issues": "OK (186 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 178,
+          "issues": "OK (178 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 163,
+          "issues": "OK (163 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 178,
+          "issues": "OK (178 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 189,
+          "issues": "OK (189 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_fluido_106ce85e03",
+      "toolId": "tool_producthunt_com_fluido_106ce85e03",
+      "name": "Fluido",
+      "url": "https://www.producthunt.com/products/fluido",
+      "domain": "producthunt.com",
+      "tagline": "Turn any Figma shape into liquid metal in one click",
+      "published": "2026-06-08T23:20:18-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 17,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 5,
+        "affiliateScore": 0,
+        "contentScore": 3,
+        "noveltyScore": 5,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 17
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "design teams want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "design teams",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "turn any figma shape into liquid metal in one click"
+      },
+      "copyVariants": {
+        "shortPost": "Testing Fluido today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/fluido",
+        "casualPost": "I like AI tools more when the buyer is obvious. Fluido seems built for design teams, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/fluido",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Fluido is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/fluido",
+        "painPointHook": "People actually search for ways to fix removing one narrow, repeated manual step. That's why Fluido is more interesting than another vague launch. https://www.producthunt.com/products/fluido",
+        "threadOpening": "I found Fluido on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/fluido"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 183,
+          "issues": "OK (183 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 176,
+          "issues": "OK (176 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 159,
+          "issues": "OK (159 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 170,
+          "issues": "OK (170 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 185,
+          "issues": "OK (185 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_airbrush-studio_e2dac8bb83",
+      "toolId": "tool_producthunt_com_airbrush-studio_e2dac8bb83",
+      "name": "Airbrush Studio",
+      "url": "https://www.producthunt.com/products/airbrush-studio",
+      "domain": "producthunt.com",
+      "tagline": "AI-powered photo editor for pro results w/o manual editing",
+      "published": "2026-06-10T02:15:09-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "AI-powered photo editor for pro results w/o manual editing"
+      },
+      "copyVariants": {
+        "shortPost": "Testing Airbrush Studio today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/airbrush-studio",
+        "casualPost": "I like AI tools more when the buyer is obvious. Airbrush Studio seems built for solo operators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/airbrush-studio",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Airbrush Studio is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/airbrush-studio",
+        "painPointHook": "People actually search for ways to fix removing one narrow, repeated manual step. That's why Airbrush Studio is more interesting than another vague launch. https://www.producthunt.com/products/airbrush-studio",
+        "threadOpening": "I found Airbrush Studio on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/airbrush-studio"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 192,
+          "issues": "OK (192 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 187,
+          "issues": "OK (187 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 168,
+          "issues": "OK (168 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 179,
+          "issues": "OK (179 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 194,
+          "issues": "OK (194 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_invo-ride_e989cf3f83",
+      "toolId": "tool_producthunt_com_invo-ride_e989cf3f83",
+      "name": "INVO Ride",
+      "url": "https://www.producthunt.com/products/invo-ride",
+      "domain": "producthunt.com",
+      "tagline": "Book autonomous eVTOL flights over photoreal San Francisco",
+      "published": "2026-06-09T23:21:29-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "book autonomous evtol flights over photoreal san francisco"
+      },
+      "copyVariants": {
+        "shortPost": "Testing INVO Ride today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/invo-ride",
+        "casualPost": "I like AI tools more when the buyer is obvious. INVO Ride seems built for solo operators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/invo-ride",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. INVO Ride is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/invo-ride",
+        "painPointHook": "People actually search for ways to fix removing one narrow, repeated manual step. That's why INVO Ride is more interesting than another vague launch. https://www.producthunt.com/products/invo-ride",
+        "threadOpening": "I found INVO Ride on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/invo-ride"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 186,
+          "issues": "OK (186 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 181,
+          "issues": "OK (181 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 162,
+          "issues": "OK (162 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 173,
+          "issues": "OK (173 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 188,
+          "issues": "OK (188 chars)"
+        }
+      }
+    }
+  ],
+  "skippedTools": [
+    {
+      "id": "tool_producthunt_com_endpointme_d5b57e210c",
+      "toolId": "tool_producthunt_com_endpointme_d5b57e210c",
+      "name": "EndpointMe",
+      "url": "https://www.producthunt.com/products/endpointme",
+      "domain": "producthunt.com",
+      "tagline": "Your identity as a live, queryable API endpoint",
+      "published": "2026-06-10T02:22:20-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 17,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 3,
+        "affiliateScore": 2,
+        "contentScore": 3,
+        "noveltyScore": 5,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 17
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
+      "angle": {
+        "audience": "developers",
+        "outcome": "less glue code",
+        "pain": "removing one annoying developer workflow step",
+        "solution": "your identity as a live, queryable API endpoint"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_fluido_106ce85e03",
+      "toolId": "tool_producthunt_com_fluido_106ce85e03",
+      "name": "Fluido",
+      "url": "https://www.producthunt.com/products/fluido",
+      "domain": "producthunt.com",
+      "tagline": "Turn any Figma shape into liquid metal in one click",
+      "published": "2026-06-08T23:20:18-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 17,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 5,
+        "affiliateScore": 0,
+        "contentScore": 3,
+        "noveltyScore": 5,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 17
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "design teams want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "design teams",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "turn any figma shape into liquid metal in one click"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_airbrush-studio_e2dac8bb83",
+      "toolId": "tool_producthunt_com_airbrush-studio_e2dac8bb83",
+      "name": "Airbrush Studio",
+      "url": "https://www.producthunt.com/products/airbrush-studio",
+      "domain": "producthunt.com",
+      "tagline": "AI-powered photo editor for pro results w/o manual editing",
+      "published": "2026-06-10T02:15:09-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "AI-powered photo editor for pro results w/o manual editing"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_invo-ride_e989cf3f83",
+      "toolId": "tool_producthunt_com_invo-ride_e989cf3f83",
+      "name": "INVO Ride",
+      "url": "https://www.producthunt.com/products/invo-ride",
+      "domain": "producthunt.com",
+      "tagline": "Book autonomous eVTOL flights over photoreal San Francisco",
+      "published": "2026-06-09T23:21:29-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "book autonomous evtol flights over photoreal san francisco"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_asmi-ai_96d89052c8",
+      "toolId": "tool_producthunt_com_asmi-ai_96d89052c8",
+      "name": "Asmi AI",
+      "url": "https://www.producthunt.com/products/asmi-ai",
+      "domain": "producthunt.com",
+      "tagline": "AI that handles your personal chores in the real world",
+      "published": "2026-06-09T07:42:15-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "AI that handles your personal chores in the real world"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_tabstack-structured-extraction_565c84595a",
+      "toolId": "tool_producthunt_com_tabstack-structured-extraction_565c84595a",
+      "name": "Tabstack Structured Extraction",
+      "url": "https://www.producthunt.com/products/tabstack",
+      "domain": "producthunt.com",
+      "tagline": "Extract web data into structured JSON, no scraper required.",
+      "published": "2026-06-09T23:04:01-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "extract web data into structured json, no scraper required"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_gemini-3-5-live-translate_63f4cfbc26",
+      "toolId": "tool_producthunt_com_gemini-3-5-live-translate_63f4cfbc26",
+      "name": "Gemini 3.5 Live Translate",
+      "url": "https://www.producthunt.com/products/gemini-3-5-live-translate",
+      "domain": "producthunt.com",
+      "tagline": "Latest audio model for live speech-to-speech translation",
+      "published": "2026-06-09T11:59:25-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "latest audio model for live speech-to-speech translation"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_hero-studio-photos_2b960044c0",
+      "toolId": "tool_producthunt_com_hero-studio-photos_2b960044c0",
+      "name": "Hero Studio Photos",
+      "url": "https://www.producthunt.com/products/hero-9",
+      "domain": "producthunt.com",
+      "tagline": "Snap one photo, get listing-ready shots from every angle",
+      "published": "2026-06-09T19:26:12-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "snap one photo, get listing-ready shots from every angle"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    }
+  ],
+  "affiliateResearchQueue": [],
+  "historicalNotes": [
+    "History records before this run: 36",
+    "Unique tools seen: 21",
+    "Last history date before this run: 2026-06-08",
+    "Seen-before tools in today's picks: 0",
+    "Records written by this run: 6"
+  ]
+}

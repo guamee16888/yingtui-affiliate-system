@@ -1,0 +1,342 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { mkdtemp, rm, readFile } from "node:fs/promises";
+import path from "node:path";
+import { tmpdir } from "node:os";
+import { createToolId, slugify } from "../scripts/lib/ids.mjs";
+import { calculateEngagement } from "../scripts/lib/scoring.mjs";
+import { readJson, writeJsonAtomic } from "../scripts/lib/file-store.mjs";
+import { buildCandidateItem, buildFeedbackEntry, buildQueueItem } from "../scripts/lib/data-store.mjs";
+import { buildReviewOutline } from "../scripts/lib/review-outline.mjs";
+import { mapFeedbackCsv, parseCsv } from "../scripts/lib/csv-feedback.mjs";
+import { parseCandidatePaste } from "../scripts/lib/candidate-parser.mjs";
+import { buildDecisionReport } from "../scripts/lib/decision-engine.mjs";
+import { buildPromotionSuggestions } from "../scripts/lib/promotion-engine.mjs";
+import { buildXPostPayload, getXPublishStatus, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
+import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
+import { buildDailyModel, candidateInboxToTools, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
+
+test("createToolId is stable", () => {
+  const a = createToolId("Test Tool", "https://example.com/product");
+  const b = createToolId("Test Tool", "https://example.com/product?utm=1");
+  assert.equal(a, b);
+});
+
+test("slugify normalizes text", () => {
+  assert.equal(slugify("Hello, AI Tool!"), "hello-ai-tool");
+});
+
+test("engagement score and rates are finite", () => {
+  const result = calculateEngagement({ impressions: 200, likes: 2, bookmarks: 1, replies: 1, reposts: 1, clicks: 3, profileVisits: 4 });
+  assert.equal(Number.isFinite(result.engagementScore), true);
+  assert.equal(result.engagementRate > 0, true);
+  assert.equal(calculateEngagement({ impressions: 0 }).clickRate, 0);
+});
+
+test("feedback entry can represent posted copy before metrics are recorded", () => {
+  const entry = buildFeedbackEntry({
+    toolName: "Tool",
+    toolUrl: "https://tool.example.com",
+    sourceDate: "2026-06-08",
+    variantType: "shortPost",
+    copyText: "Short copy",
+    posted: true,
+    metrics: {}
+  });
+
+  assert.equal(entry.posted, true);
+  assert.equal(entry.metrics.impressions, 0);
+  assert.equal(entry.engagementScore, 0);
+});
+
+test("queue item id is stable for tool and type", () => {
+  const a = buildQueueItem({ toolName: "Tool", toolUrl: "https://tool.com", type: "thread" });
+  const b = buildQueueItem({ toolName: "Tool", toolUrl: "https://tool.com", type: "thread" });
+  assert.equal(a.id, b.id);
+  assert.equal(a.status, "new");
+});
+
+test("candidate inbox item is stable and converts to daily tool source", () => {
+  const item = buildCandidateItem({
+    name: "Inbox Tool",
+    url: "https://inbox.example.com",
+    tagline: "A narrow workflow tool",
+    description: "A narrow workflow tool for Shopify teams.",
+    source: "X",
+    published: "2026-06-08T00:00:00.000Z"
+  });
+  const duplicate = buildCandidateItem({ name: "Inbox Tool", url: "https://inbox.example.com" });
+  const tools = candidateInboxToTools({ items: [item] }, "2026-06-08");
+
+  assert.equal(item.id, duplicate.id);
+  assert.equal(tools[0].sourceType, "inbox");
+  assert.equal(tools[0].sourceName, "X");
+  assert.equal(tools[0].published, "2026-06-08T00:00:00.000Z");
+});
+
+test("mergeToolSources keeps Product Hunt tool when inbox has duplicate", () => {
+  const ph = { name: "Same Tool", url: "https://same.example.com", sourceType: "producthunt" };
+  const inbox = { name: "Same Tool", url: "https://same.example.com?utm=1", sourceType: "inbox" };
+  const merged = mergeToolSources([ph], [inbox]);
+
+  assert.equal(merged.length, 1);
+  assert.equal(merged[0].sourceType, "producthunt");
+});
+
+test("parseCandidatePaste handles CSV candidate rows", () => {
+  const parsed = parseCandidatePaste("name,url,tagline,source\nTool,https://tool.example.com,Narrow pain,X");
+
+  assert.equal(parsed.errors.length, 0);
+  assert.equal(parsed.entries[0].name, "Tool");
+  assert.equal(parsed.entries[0].url, "https://tool.example.com");
+  assert.equal(parsed.entries[0].source, "X");
+});
+
+test("parseCandidatePaste handles one candidate per line", () => {
+  const parsed = parseCandidatePaste("Tool Name | https://tool.example.com | Fixes one clear workflow");
+
+  assert.equal(parsed.errors.length, 0);
+  assert.equal(parsed.entries[0].name, "Tool Name");
+  assert.equal(parsed.entries[0].tagline, "Fixes one clear workflow");
+});
+
+test("review outline uses placeholder without affiliate link", () => {
+  const markdown = buildReviewOutline({ name: "Tool", url: "https://tool.com", copyVariants: {} }, null);
+  assert.match(markdown, /Affiliate link not available yet/);
+});
+
+test("readJson missing file returns fallback and writeJsonAtomic writes JSON", async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), "yingtui-"));
+  const file = path.join(dir, "test.json");
+  assert.deepEqual(await readJson(file, { ok: true }), { ok: true });
+  await writeJsonAtomic(file, { hello: "world" });
+  assert.deepEqual(JSON.parse(await readFile(file, "utf8")), { hello: "world" });
+  await rm(dir, { recursive: true, force: true });
+});
+
+test("parseCsv handles quoted commas", () => {
+  assert.deepEqual(parseCsv('toolName,notes\n"Tool, Inc","nice, small tool"'), [
+    ["toolName", "notes"],
+    ["Tool, Inc", "nice, small tool"]
+  ]);
+});
+
+test("mapFeedbackCsv resolves latest tool copy", () => {
+  const latest = {
+    date: "2026-06-07",
+    tools: [
+      {
+        toolId: "tool_1",
+        name: "Tool",
+        url: "https://tool.com",
+        copyVariants: { shortPost: "Short copy" }
+      }
+    ]
+  };
+  const result = mapFeedbackCsv("toolName,variantType,impressions,likes\nTool,shortPost,100,2", { latest });
+  assert.equal(result.errors.length, 0);
+  assert.equal(result.entries[0].toolId, "tool_1");
+  assert.equal(result.entries[0].copyText, "Short copy");
+  assert.equal(result.entries[0].metrics.impressions, 100);
+});
+
+test("mapFeedbackCsv accepts pasted X Analytics table", () => {
+  const feedback = {
+    entries: [
+      {
+        id: "feedback_1",
+        toolId: "tool_1",
+        toolName: "Tool",
+        toolUrl: "https://tool.com",
+        variantType: "shortPost",
+        copyText: "A small workflow note",
+        postedUrl: "https://x.com/user/status/123"
+      }
+    ]
+  };
+  const text = [
+    "Post text\tTweet permalink\tImpressions\tLikes\tBookmarks\tReplies\tReposts\tLink clicks\tProfile visits",
+    "A small workflow note\thttps://x.com/user/status/123\t1,200\t18\t6\t3\t1\t9\t4"
+  ].join("\n");
+  const result = mapFeedbackCsv(text, { feedback });
+
+  assert.equal(result.errors.length, 0);
+  assert.equal(result.entries[0].id, "feedback_1");
+  assert.equal(result.entries[0].toolName, "Tool");
+  assert.equal(result.entries[0].metrics.impressions, 1200);
+  assert.equal(result.entries[0].metrics.clicks, 9);
+  assert.equal(result.entries[0].metrics.profileVisits, 4);
+});
+
+test("daily model ignores same-day history when marking seen-before", () => {
+  const tool = {
+    name: "Narrow Shopify Tool",
+    url: "https://example.com/shopify",
+    tagline: "Fix one Shopify workflow",
+    description: "A Shopify automation tool for store teams that fixes one repeated workflow without code.",
+    published: "2026-06-08T00:00:00.000Z"
+  };
+  const base = {
+    date: "2026-06-08",
+    feedSource: "test",
+    usedFallback: false,
+    tools: [tool],
+    affiliateConfig: { links: [] },
+    voice: { style: { avoid: [], maxTweetCharacters: 260, allowEmoji: false } },
+    limit: 1,
+    warnings: []
+  };
+  const sameDay = buildDailyModel({
+    ...base,
+    history: { tools: [{ date: "2026-06-08", toolName: tool.name, url: tool.url, score: 20 }] }
+  });
+  const priorDay = buildDailyModel({
+    ...base,
+    history: { tools: [{ date: "2026-06-07", toolName: tool.name, url: tool.url, score: 20 }] }
+  });
+
+  assert.equal(sameDay.picked[0].seenBefore, false);
+  assert.equal(sameDay.picked[0].scoreBreakdown.seenPenalty, 0);
+  assert.equal(sameDay.actionList.some((action) => action.type === "post"), true);
+  assert.equal(sameDay.freshnessReport.stats.topPickFreshPostCandidates, 1);
+  assert.equal(priorDay.picked[0].seenBefore, true);
+  assert.equal(priorDay.actionList.some((action) => action.type === "post"), false);
+});
+
+test("daily model reports feed freshness even when top picks are old", () => {
+  const tools = [
+    {
+      name: "Old Better Tool",
+      url: "https://old.example.com",
+      tagline: "Shopify email automation for store teams",
+      description: "Shopify email automation for store teams with pricing and customer workflow support.",
+      published: "2026-06-01T00:00:00.000Z"
+    },
+    {
+      name: "Fresh Weak Tool",
+      url: "https://fresh.example.com",
+      tagline: "A tiny personal helper",
+      description: "A tiny personal helper.",
+      published: "2026-06-08T00:00:00.000Z"
+    }
+  ];
+  const model = buildDailyModel({
+    date: "2026-06-08",
+    feedSource: "test",
+    usedFallback: false,
+    tools,
+    history: { tools: [{ date: "2026-06-07", toolName: "Old Better Tool", url: "https://old.example.com", score: 25 }] },
+    affiliateConfig: { links: [] },
+    voice: { style: { avoid: [], maxTweetCharacters: 260, allowEmoji: false } },
+    limit: 1,
+    warnings: []
+  });
+
+  assert.equal(model.freshnessReport.stats.freshToday, 1);
+  assert.equal(model.freshnessReport.freshFeedWatchlist[0].name, "Fresh Weak Tool");
+  assert.match(model.freshnessReport.diagnosis, /fresh tools/i);
+});
+
+test("buildDecisionReport recommends review page for strong bookmarks", () => {
+  const latest = {
+    tools: [
+      {
+        toolId: "tool_1",
+        name: "Tool",
+        url: "https://tool.com",
+        scoreBreakdown: { affiliateScore: 7 },
+        copyVariants: { shortPost: "Short copy" }
+      }
+    ]
+  };
+  const feedback = {
+    entries: [
+      {
+        toolId: "tool_1",
+        toolName: "Tool",
+        toolUrl: "https://tool.com",
+        variantType: "shortPost",
+        engagementScore: 30,
+        metrics: { impressions: 500, likes: 5, bookmarks: 4, replies: 1, reposts: 0, clicks: 2, profileVisits: 1 }
+      }
+    ]
+  };
+  const report = buildDecisionReport({ latest, history: { tools: [] }, feedback, queues: { items: [] } });
+  assert.equal(report.summary.recommendations > 0, true);
+  assert.equal(report.recommendations.some((item) => item.queueType === "review_page"), true);
+  assert.equal(report.summary.topAngle, "shortPost");
+});
+
+test("promotion suggestions do not recommend posting stale seen-before tools without feedback", () => {
+  const latest = {
+    generatedAt: "2026-06-08T00:00:00.000Z",
+    tools: [
+      {
+        toolId: "tool_1",
+        name: "Old Tool",
+        url: "https://tool.com",
+        tagline: "Old workflow tool",
+        published: "2026-06-01T00:00:00.000Z",
+        seenBefore: true,
+        followUpAction: "tweet only",
+        scoreBreakdown: { affiliateScore: 2, riskScore: 1 }
+      }
+    ]
+  };
+  const suggestions = buildPromotionSuggestions({
+    latest,
+    history: { tools: [{ toolId: "tool_1", date: "2026-06-07" }] },
+    feedback: { entries: [] },
+    affiliateLinks: { links: [] }
+  });
+
+  assert.equal(suggestions[0].suggestion, "watch");
+});
+
+test("x publish payload requires text under 280 chars", () => {
+  assert.deepEqual(buildXPostPayload(" hello "), { text: "hello" });
+  assert.throws(() => buildXPostPayload(""), /Post text is required/);
+  assert.throws(() => buildXPostPayload("x".repeat(281)), /280/);
+});
+
+test("x publish status does not expose token", () => {
+  const status = getXPublishStatus({ X_ACCESS_TOKEN: "secret" });
+  assert.equal(status.configured, true);
+  assert.equal(JSON.stringify(status).includes("secret"), false);
+});
+
+test("x publish status reports expired refreshable token", () => {
+  const status = getXPublishStatus({
+    X_ACCESS_TOKEN: "secret",
+    X_REFRESH_TOKEN: "refresh-secret-value",
+    X_ACCESS_TOKEN_EXPIRES_AT: "2026-06-07T00:00:00.000Z"
+  }, new Date("2026-06-07T00:10:00.000Z"));
+
+  assert.equal(status.configured, true);
+  assert.equal(status.publishReady, true);
+  assert.equal(status.expired, true);
+  assert.equal(status.health, "expired_refresh_ready");
+  assert.equal(JSON.stringify(status).includes("secret"), false);
+  assert.equal(JSON.stringify(status).includes("refresh-secret-value"), false);
+});
+
+test("x token refresh check uses refresh token and expiry", () => {
+  const now = new Date("2026-06-07T00:00:00.000Z");
+  assert.equal(shouldRefreshXToken({ X_REFRESH_TOKEN: "r", X_ACCESS_TOKEN_EXPIRES_AT: "2026-06-07T00:01:00.000Z" }, now), true);
+  assert.equal(shouldRefreshXToken({ X_REFRESH_TOKEN: "r", X_ACCESS_TOKEN_EXPIRES_AT: "2026-06-07T00:30:00.000Z" }, now), false);
+  assert.equal(shouldRefreshXToken({ X_ACCESS_TOKEN_EXPIRES_AT: "2026-06-07T00:01:00.000Z" }, now), false);
+});
+
+test("dotenv helper parses and updates local env text", () => {
+  assert.deepEqual(parseDotEnv('X_CLIENT_ID="abc"\n# skip\nX_AUTH_PORT=8787\n'), {
+    X_CLIENT_ID: "abc",
+    X_AUTH_PORT: "8787"
+  });
+  const merged = mergeDotEnvText("X_CLIENT_ID=\"old\"\nKEEP=\"yes\"\n", {
+    X_CLIENT_ID: "new",
+    X_ACCESS_TOKEN: "token"
+  });
+  assert.match(merged, /X_CLIENT_ID="new"/);
+  assert.match(merged, /KEEP="yes"/);
+  assert.match(merged, /X_ACCESS_TOKEN="token"/);
+});

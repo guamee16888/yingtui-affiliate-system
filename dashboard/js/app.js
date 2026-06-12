@@ -1,0 +1,1928 @@
+const api = {
+  async get(path) {
+    const res = await fetch(path);
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error || "API error");
+    return json.data;
+  },
+  async post(path, body = {}) {
+    const res = await fetch(path, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error || "API error");
+    return json.data;
+  }
+};
+
+const state = {
+  tab: "today",
+  apiWarning: "",
+  latest: null,
+  history: { tools: [] },
+  feedback: { entries: [] },
+  queues: { items: [] },
+  candidateInbox: { items: [] },
+  affiliateResearch: { items: [] },
+  reviewPages: { items: [] },
+  decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
+  xStatus: { configured: false, note: "" },
+  settings: null,
+  weekly: null,
+  candidatePreview: null,
+  feedbackPreview: null,
+  publishTool: null,
+  dailyRun: { running: false, message: "" },
+  filters: { search: "", action: "all", affiliate: "all", state: "all", minScore: 0, sortBy: "score" }
+};
+
+const labels = {
+  shortPost: "短推",
+  casualPost: "日常口吻",
+  contrarianAngle: "反常识角度",
+  painPointHook: "痛点开头",
+  threadOpening: "长推开头",
+  "tweet only": "只发单条",
+  "thread candidate": "适合长推",
+  "review page candidate": "适合测评页",
+  "affiliate priority": "优先查联盟",
+  skip: "跳过",
+  watch: "观察",
+  affiliate_research: "联盟研究",
+  thread: "长线程",
+  review_page: "SEO 测评页",
+  not_started: "未开始",
+  searching: "查找中",
+  applied: "已申请",
+  approved: "已通过",
+  rejected: "已拒绝",
+  no_program: "无计划",
+  added_to_config: "已加入配置"
+};
+
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+async function loadAll() {
+  try {
+    const [latest, history, feedback, queues, candidateInbox, affiliateResearch, reviewPages, decisions, xStatus, settings, weekly] = await Promise.all([
+      api.get("/api/latest"),
+      api.get("/api/history"),
+      api.get("/api/feedback"),
+      api.get("/api/queues"),
+      api.get("/api/candidate-inbox"),
+      api.get("/api/affiliate-research"),
+      api.get("/api/review-pages"),
+      api.get("/api/decision-report"),
+      api.get("/api/x/status"),
+      api.get("/api/settings"),
+      api.get("/api/weekly-summary")
+    ]);
+    Object.assign(state, { latest, history, feedback, queues, candidateInbox, affiliateResearch, reviewPages, decisions, xStatus, settings, weekly, apiWarning: "" });
+    render();
+  } catch (error) {
+    try {
+      await loadStaticFallback(error);
+      toast("API 失败，已切到静态 JSON 只读模式");
+    } catch (fallbackError) {
+      toast(`读取失败：${fallbackError.message}`);
+      $("#dataStatus").textContent = "读取失败。请先运行 npm run daily。";
+    }
+  }
+}
+
+async function loadStaticFallback(apiError) {
+  const [latest, history, feedback, queues, candidateInbox, affiliateResearch, reviewPages] = await Promise.all([
+    fetchJson("/data/latest.json"),
+    fetchJson("/data/history.json", { tools: [] }),
+    fetchJson("/data/feedback.json", { entries: [] }),
+    fetchJson("/data/queues.json", { items: [] }),
+    fetchJson("/data/candidate-inbox.json", { items: [] }),
+    fetchJson("/data/affiliate-research.json", { items: [] }),
+    fetchJson("/data/review-pages.json", { items: [] })
+  ]);
+  const settings = {
+    latestDate: latest?.date ?? null,
+    historyCount: history.tools?.length ?? 0,
+    forbiddenWords: [],
+    maxTweetCharacters: 260,
+    affiliateLinks: [],
+    feedbackCount: feedback.entries?.length ?? 0,
+    queueCount: queues.items?.length ?? 0,
+    candidateInboxCount: candidateInbox.items?.length ?? 0,
+    reviewPageCount: reviewPages.items?.length ?? 0,
+    affiliateResearchCount: affiliateResearch.items?.length ?? 0
+  };
+  const weekly = {
+    latestDate: latest?.date ?? null,
+    historyCount: history.tools?.length ?? 0,
+    feedbackCount: feedback.entries?.length ?? 0,
+    queueCount: queues.items?.length ?? 0,
+    suggestions: []
+  };
+  Object.assign(state, {
+    latest,
+    history,
+    feedback,
+    queues,
+    candidateInbox,
+    affiliateResearch,
+    reviewPages,
+    decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
+    xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
+    settings,
+    weekly,
+    apiWarning: `API 暂不可用，当前为静态只读模式：${apiError.message}`
+  });
+  render();
+}
+
+async function fetchJson(path, fallback = null) {
+  const res = await fetch(path);
+  if (!res.ok) {
+    if (fallback !== null) return fallback;
+    throw new Error(`${path} 不存在或不可读`);
+  }
+  return res.json();
+}
+
+function render() {
+  $("#dataStatus").textContent = state.apiWarning || `数据日期 ${state.latest?.date ?? "无"} · 本地 JSON · 不自动发推`;
+  $("#markdownLink").href = state.latest?.date ? `/output/${state.latest.date}-daily-x-pack.md` : "/output/";
+  $("#jsonLink").href = "/data/latest.json";
+  updateRunDailyControls();
+  renderMetrics();
+  renderReadiness();
+  renderActiveView();
+  updateRunDailyControls();
+}
+
+function updateRunDailyControls() {
+  $$("[data-run-daily]").forEach((button) => {
+    button.disabled = state.dailyRun.running;
+    button.textContent = state.dailyRun.running ? "刷新中..." : "刷新 Live Feed";
+  });
+}
+
+function renderMetrics() {
+  const feedbackCount = state.feedback.entries.length;
+  const queueCount = state.queues.items.length;
+  const latest = state.latest ?? { summary: {} };
+  $("#metrics").innerHTML = [
+    ["日期", latest.date ?? "-"],
+    ["扫描工具", latest.summary?.totalTools ?? 0],
+    ["今日候选", latest.summary?.topPicks ?? 0],
+    ["已发记录", feedbackCount],
+    ["跟进队列", queueCount],
+    ["收集候选", state.candidateInbox.items.filter((item) => item.status === "active").length],
+    ["待查联盟", latest.summary?.affiliateQueueCount ?? 0]
+  ].map(([label, value]) => `<div class="metric"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("");
+}
+
+function renderReadiness() {
+  const latest = state.latest;
+  if (!latest) {
+    $("#readiness").innerHTML = "";
+    return;
+  }
+  const stats = freshnessStats(latest.tools ?? []);
+  const report = latest.freshnessReport;
+  const sourceText = latest.source?.usedFallback ? "本地 fallback sample" : "Product Hunt live feed";
+  const refreshText = formatDateTime(latest.generatedAt);
+  const ageMinutes = dataAgeMinutes(latest.generatedAt);
+  const isOldData = ageMinutes !== null && ageMinutes > 360;
+  const apiReady = stats.apiReady;
+  const confidenceKind = latest.source?.usedFallback ? "bad" : isOldData ? "warn" : apiReady ? "good" : "warn";
+  const confidenceText = latest.source?.usedFallback
+    ? "不要 API 发"
+    : isOldData
+      ? "先刷新再发"
+      : apiReady
+      ? "可谨慎发布"
+      : "先别花 credits";
+  $("#readiness").innerHTML = `<section class="panel readiness-panel ${confidenceKind}">
+    <div class="readiness-head">
+      <div>
+        <p class="eyebrow">Publish confidence</p>
+        <h2>发布前信心：${esc(confidenceText)}</h2>
+        <p class="muted">刷新 ${esc(refreshText)} · ${esc(sourceText)} · ${latest.source?.usedFallback ? "样例数据" : "实时 feed"}</p>
+      </div>
+      <button class="button ghost" type="button" data-run-daily>${state.dailyRun.running ? "刷新中..." : "刷新 Live Feed"}</button>
+    </div>
+    <div class="readiness-stats">
+      <div><strong>${esc(apiReady)}</strong><span>建议花 credits 发</span></div>
+      <div><strong>${esc(stats.freshToday)}</strong><span>Fresh today</span></div>
+      <div><strong>${esc(stats.fresh48)}</strong><span>Fresh 48h</span></div>
+      <div><strong>${esc(stats.seen)}</strong><span>Seen before</span></div>
+      <div><strong>${esc(stats.stale)}</strong><span>Older useful</span></div>
+    </div>
+    ${renderPublishGuard(latest, stats, ageMinutes)}
+    ${renderRefreshPolicy(latest, stats, ageMinutes)}
+    <p class="readiness-advice">${esc(readinessAdvice(latest, stats))}</p>
+    ${renderFeedDiagnostic(report)}
+    ${state.dailyRun.message ? `<p class="muted">${esc(state.dailyRun.message)}</p>` : ""}
+  </section>`;
+  updateRunDailyControls();
+}
+
+function renderPublishGuard(latest, stats, ageMinutes) {
+  const stale = ageMinutes !== null && ageMinutes > 360;
+  const ageKind = latest.source?.usedFallback ? "bad" : stale ? "warn" : "good";
+  const sourceKind = latest.source?.usedFallback ? "bad" : "good";
+  const ruleKind = stats.apiReady > 0 && !latest.source?.usedFallback && !stale ? "good" : "warn";
+  const ageLabel = ageMinutes === null ? "数据年龄未知" : `数据年龄 ${formatDuration(ageMinutes)}`;
+  const sourceLabel = latest.source?.usedFallback ? "Fallback sample" : "Live feed";
+  const ruleLabel = stats.apiReady > 0 ? `只发 ${stats.apiReady} 条新鲜候选` : "今天先不 API 发";
+
+  return `<div class="readiness-guardrails">
+    <div class="${ageKind}">
+      <span>刷新状态</span>
+      <strong>${esc(ageLabel)}</strong>
+      <small>${stale ? "超过 6 小时，发布前先刷新" : "6 小时内可参考"}</small>
+    </div>
+    <div class="${sourceKind}">
+      <span>数据来源</span>
+      <strong>${esc(sourceLabel)}</strong>
+      <small>${latest.source?.usedFallback ? "只看格式，不要发布" : "来自 Product Hunt 当前 feed"}</small>
+    </div>
+    <div class="${ruleKind}">
+      <span>发布规则</span>
+      <strong>${esc(ruleLabel)}</strong>
+      <small>Seen before / Older useful 只做观察或长文</small>
+    </div>
+  </div>`;
+}
+
+function renderRefreshPolicy(latest, stats, ageMinutes) {
+  const stale = ageMinutes !== null && ageMinutes > 360;
+  const freshnessText = latest.source?.usedFallback
+    ? "Fallback 数据不发布"
+    : stale
+      ? "超过 6 小时，先刷新"
+      : "6 小时内可参考";
+  const publishText = stats.apiReady > 0 && !latest.source?.usedFallback && !stale
+    ? `只花 credits 发 ${stats.apiReady} 条`
+    : "今天先不花 API credits";
+  return `<div class="refresh-policy">
+    <div><span>刷新方式</span><strong>手动刷新</strong><small>点击刷新 Live Feed，或运行 npm run daily</small></div>
+    <div><span>当前新鲜度</span><strong>${esc(freshnessText)}</strong><small>Product Hunt feed 不会自动轮询</small></div>
+    <div><span>花钱发布</span><strong>${esc(publishText)}</strong><small>Fresh today / Fresh 48h 优先，Seen before 谨慎</small></div>
+  </div>`;
+}
+
+function renderFeedDiagnostic(report) {
+  if (!report) return "";
+  const stats = report.stats ?? {};
+  const breakdown = state.latest?.source?.breakdown ?? {};
+  const watchlist = report.freshFeedWatchlist ?? [];
+  return `<div class="feed-diagnostic">
+    <div>
+      <p class="eyebrow">Feed diagnostic</p>
+      <strong>${esc(report.diagnosis)}</strong>
+      <p class="muted">${esc(report.recommendation)}</p>
+    </div>
+    <div class="feed-stats">
+      <span>Feed ${esc(stats.totalTools ?? 0)}</span>
+      <span>PH ${esc(breakdown.productHuntTools ?? "-")}</span>
+      <span>Inbox ${esc(breakdown.candidateInboxTools ?? 0)}</span>
+      <span>Today ${esc(stats.freshToday ?? 0)}</span>
+      <span>48h ${esc(stats.fresh48 ?? 0)}</span>
+      <span>7d ${esc(stats.fresh7d ?? 0)}</span>
+      <span>Fresh top picks ${esc(stats.topPickFreshPostCandidates ?? 0)}</span>
+    </div>
+    ${watchlist.length ? `<div class="feed-watchlist">
+      <strong>Fresh feed watchlist</strong>
+      ${watchlist.map((item) => `<div class="watch-item">
+        <span>${esc(item.name)}</span>
+        <span>${esc(formatAgeDays(item.ageDays))} · score ${esc(item.score)}${item.inTopPicks ? " · top pick" : ""}</span>
+      </div>`).join("")}
+    </div>` : ""}
+  </div>`;
+}
+
+function renderActiveView() {
+  $$(".view").forEach((view) => view.classList.remove("active"));
+  $(`#view-${state.tab}`).classList.add("active");
+  const renderers = { today: renderToday, review: renderFinalReviewQueue, candidates: renderCandidates, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
+  renderers[state.tab]();
+}
+
+function switchTab(tabName) {
+  state.tab = tabName;
+  $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === tabName));
+  renderActiveView();
+}
+
+function filteredTools() {
+  const entries = state.feedback.entries;
+  const queuedIds = new Set(state.queues.items.map((item) => item.toolId));
+  return [...(state.latest?.tools ?? [])]
+    .filter((tool) => {
+      const query = state.filters.search.toLowerCase();
+      const matchesSearch = !query || `${tool.name} ${tool.tagline} ${tool.reason} ${tool.suggestedAngle}`.toLowerCase().includes(query);
+      const matchesAction = state.filters.action === "all" || tool.followUpAction === state.filters.action;
+      const matchesAffiliate = state.filters.affiliate === "all" || tool.affiliateStatus === state.filters.affiliate;
+      const hasFeedback = entries.some((entry) => entry.toolId === tool.toolId && Number(entry.engagementScore ?? 0) > 0);
+      const posted = entries.some((entry) => entry.toolId === tool.toolId);
+      const stateMatch = state.filters.state === "all"
+        || (state.filters.state === "posted" && posted)
+        || (state.filters.state === "feedback" && hasFeedback)
+        || (state.filters.state === "queued" && queuedIds.has(tool.toolId))
+        || (state.filters.state === "fresh" && !tool.seenBefore)
+        || (state.filters.state === "seen" && tool.seenBefore);
+      return matchesSearch && matchesAction && matchesAffiliate && stateMatch && Number(tool.score) >= Number(state.filters.minScore || 0);
+    })
+    .sort((a, b) => sortValue(b, state.filters.sortBy) - sortValue(a, state.filters.sortBy));
+}
+
+function sortValue(tool, sortBy) {
+  if (sortBy === "engagementScore") return feedbackFor(tool.toolId).engagementScore;
+  if (sortBy === "bookmarks") return feedbackFor(tool.toolId).bookmarks;
+  if (sortBy === "clicks") return feedbackFor(tool.toolId).clicks;
+  if (sortBy === "riskScore") return tool.scoreBreakdown?.riskScore ?? 0;
+  if (sortBy === "affiliateScore") return tool.scoreBreakdown?.affiliateScore ?? 0;
+  return tool.score ?? 0;
+}
+
+function feedbackFor(toolId) {
+  return state.feedback.entries.filter((entry) => entry.toolId === toolId).reduce((acc, entry) => {
+    acc.entries += 1;
+    acc.engagementScore += Number(entry.engagementScore ?? 0);
+    for (const key of ["likes", "bookmarks", "replies", "reposts", "clicks", "profileVisits", "impressions"]) {
+      acc[key] += Number(entry.metrics?.[key] ?? 0);
+    }
+    return acc;
+  }, { entries: 0, engagementScore: 0, likes: 0, bookmarks: 0, replies: 0, reposts: 0, clicks: 0, profileVisits: 0, impressions: 0 });
+}
+
+function pendingFeedbackEntries() {
+  return [...(state.feedback.entries ?? [])]
+    .filter((entry) => entry.posted !== false && !hasRecordedMetrics(entry))
+    .sort((a, b) => String(b.updatedAt || b.createdAt || "").localeCompare(String(a.updatedAt || a.createdAt || "")));
+}
+
+function hasRecordedMetrics(entry) {
+  const metrics = entry.metrics ?? {};
+  return ["impressions", "likes", "bookmarks", "replies", "reposts", "clicks", "profileVisits"]
+    .some((key) => Number(metrics[key] ?? 0) > 0);
+}
+
+function renderToday() {
+  $("#view-today").innerHTML = `${renderDailyChecklistPanel()}
+  ${renderFocusPanel()}
+  ${renderFeedbackFollowUpPanel()}
+  ${renderQueuePipelinePanel("today")}
+  <div class="grid">
+    <section class="panel"><h2>今天最该做</h2><div class="list">${(state.latest?.actionList ?? []).map(renderAction).join("") || empty("暂无今日行动。")}</div></section>
+    <section class="panel"><h2>系统建议</h2><div class="list">${(state.weekly?.suggestions ?? []).slice(0, 6).map((item) => `<div class="list-item"><strong>${esc(item.toolName)}</strong><div class="muted">${esc(labels[item.suggestion] ?? item.suggestion)} · ${esc(item.reason)}</div></div>`).join("") || empty("暂无建议。")}</div></section>
+  </div>`;
+}
+
+function renderDailyChecklistPanel() {
+  const latest = state.latest ?? {};
+  const ageMinutes = dataAgeMinutes(latest.generatedAt);
+  const pending = pendingFeedbackEntries();
+  const candidates = finalReviewCandidates();
+  const affiliateQueue = latest.affiliateResearchQueue ?? [];
+  const stale = ageMinutes === null || ageMinutes > 360 || latest.source?.usedFallback;
+  const items = [
+    {
+      done: !stale,
+      title: stale ? "刷新今天数据" : "数据可用",
+      detail: stale ? "先点刷新 Live Feed。超过 6 小时或 fallback 数据不建议花 API credits 发。" : `${formatDuration(ageMinutes)}前生成，可以进入发布审核。`,
+      action: `<button class="button ghost" data-run-daily>${stale ? "刷新 Live Feed" : "重新刷新"}</button>`
+    },
+    {
+      done: candidates.length > 0,
+      title: candidates.length ? `审核 ${candidates.length} 条可发候选` : "没有安全发布候选",
+      detail: candidates.length ? "去发布前最终审核队列，最多选 3 条，每条手动确认。" : "今天先研究 affiliate / 长文，不要硬发旧工具。",
+      action: `<button class="button ghost" data-tab-jump="review">打开发布审核</button>`
+    },
+    {
+      done: pending.length === 0,
+      title: pending.length ? `补 ${pending.length} 条发推反馈` : "没有待补反馈",
+      detail: pending.length ? "把 X Analytics 的 impressions、likes、bookmarks、clicks 粘进反馈页。" : "发完后记得点标记已发，下一轮再补数据。",
+      action: `<button class="button ghost" data-tab-jump="feedback">打开反馈录入</button>`
+    },
+    {
+      done: affiliateQueue.length === 0,
+      title: affiliateQueue.length ? `查 ${Math.min(affiliateQueue.length, 3)} 个联盟项目` : "联盟研究队列清爽",
+      detail: affiliateQueue.length ? "只查真实 official affiliate / partner / referral program，不要填假链接。" : "有互动的工具再加入 affiliate research。",
+      action: `<button class="button ghost" data-tab-jump="affiliate">打开联盟研究</button>`
+    }
+  ];
+  const ready = items.every((item) => item.done);
+
+  return `<section class="panel daily-checklist">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Start here</p>
+        <h2>今天打开后先看这里</h2>
+        <p class="muted">按这 4 步走：刷新、审核、补反馈、查联盟。不要被整个控制台拖散。</p>
+      </div>
+      ${pill(ready ? "Ready" : "Needs action", ready ? "good" : "warn")}
+    </div>
+    <div class="checklist-grid">${items.map(renderChecklistItem).join("")}</div>
+  </section>`;
+}
+
+function renderChecklistItem(item) {
+  return `<article class="checklist-item ${item.done ? "done" : "todo"}">
+    <div class="check-dot">${item.done ? "✓" : "!"}</div>
+    <div>
+      <strong>${esc(item.title)}</strong>
+      <p>${esc(item.detail)}</p>
+      <div class="row-actions">${item.action}</div>
+    </div>
+  </article>`;
+}
+
+function renderFeedbackFollowUpPanel() {
+  const pending = pendingFeedbackEntries();
+  const recent = pending.slice(0, 4);
+  return `<section class="panel feedback-followup ${pending.length ? "warn" : "good"}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Feedback loop</p>
+        <h2>${pending.length ? `待补反馈 ${pending.length} 条` : "反馈闭环正常"}</h2>
+      </div>
+      ${pill(pending.length ? "Need metrics" : "Clean", pending.length ? "warn" : "good")}
+    </div>
+    <p class="muted">${pending.length ? "这些内容已经标记已发，但还没有 impressions / likes / bookmarks / clicks。补完数据后，系统才能判断该做 thread、SEO 测评页还是联盟研究。" : "当前没有已发但缺数据的文案。继续发少量新鲜候选，然后记得回填表现。"}</p>
+    ${recent.length ? `<div class="list">${recent.map(renderPendingFeedbackItem).join("")}</div>` : ""}
+  </section>`;
+}
+
+function renderPendingFeedbackItem(entry) {
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(entry.toolName)} · ${esc(labels[entry.variantType] ?? entry.variantType)}</strong>
+      ${pill("metrics 0", "warn")}
+    </div>
+    <p class="muted">${esc(entry.copyText || "No copy text saved.")}</p>
+    <div class="row-actions">
+      <button class="button ghost" data-edit-feedback="${attr(entry.id)}">录入反馈</button>
+      ${entry.postedUrl ? `<a class="button ghost" href="${attr(entry.postedUrl)}" target="_blank" rel="noreferrer">打开 X</a>` : ""}
+    </div>
+  </div>`;
+}
+
+function activeQueueItems() {
+  return (state.queues.items ?? []).filter((item) => !["published", "skipped", "archived"].includes(item.status));
+}
+
+function queuePipelineSummary() {
+  const active = activeQueueItems();
+  const byType = {};
+  for (const item of active) byType[item.type] = (byType[item.type] ?? 0) + 1;
+  const next = [...active].sort((a, b) => Number(b.priorityScore ?? 0) - Number(a.priorityScore ?? 0) || String(a.createdAt ?? "").localeCompare(String(b.createdAt ?? "")))[0] ?? null;
+  return { active, byType, next };
+}
+
+function renderQueuePipelinePanel(scope = "full") {
+  const summary = queuePipelineSummary();
+  const next = summary.next;
+  const compact = scope === "today";
+  return `<section class="panel queue-pipeline ${summary.active.length ? "warn" : "good"}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Follow-up pipeline</p>
+        <h2>${summary.active.length ? `活跃跟进 ${summary.active.length} 项` : "跟进队列为空"}</h2>
+      </div>
+      ${pill(summary.active.length ? "Active" : "Clean", summary.active.length ? "warn" : "good")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.byType.affiliate_research ?? 0)}</strong><span>联盟研究</span></div>
+      <div><strong>${esc(summary.byType.thread ?? 0)}</strong><span>长线程</span></div>
+      <div><strong>${esc(summary.byType.review_page ?? 0)}</strong><span>测评页</span></div>
+      <div><strong>${esc(summary.byType.watch ?? 0)}</strong><span>观察</span></div>
+    </div>
+    ${next ? `<div class="pipeline-next">
+      <strong>下一步：${esc(next.toolName)}</strong>
+      <p>${esc(queueNextStep(next))}</p>
+      <div class="row-actions">
+        ${queuePrimaryAction(next)}
+        <button class="button ghost" data-tab-jump="queues">打开队列</button>
+      </div>
+    </div>` : `<p class="muted">${compact ? "还没有活跃队列。先从 Focus 面板、反馈决策或工具卡里加入一个联盟研究/长文/测评页候选。" : "暂无活跃跟进。等发推有反馈后，再把强信号工具加入队列。"}</p>`}
+  </section>`;
+}
+
+function queueNextStep(item) {
+  if (item.type === "affiliate_research") {
+    if (item.status === "new") return "先查 official affiliate / partner / referral program，记录 programUrl 和真实 affiliate link。";
+    if (item.status === "researching") return "把查到的 network、programUrl、申请状态写进联盟研究页。";
+    return "确认状态是否还能推进，不能推进就标记 skipped 或 archived。";
+  }
+  if (item.type === "review_page") {
+    if (item.status === "new") return "先生成测评页大纲，再补官方价格、限制、竞品和真实 affiliate 信息。";
+    if (item.status === "drafted") return "检查大纲里的价格/联盟信息是否真实，再决定是否发布。";
+    return "推进 SEO 测评页，或者根据反馈归档。";
+  }
+  if (item.type === "thread") {
+    if (item.status === "new") return "先把 short post 扩成 5-7 条 thread opening，不要直接写成广告。";
+    if (item.status === "drafted") return "检查 thread 是否仍然自然、具体、无夸张承诺。";
+    return "根据反馈决定发布、重写或归档。";
+  }
+  if (item.type === "watch") return "继续观察，不要急着发；等新反馈或新版本出现再处理。";
+  return "确认这个队列项是否还值得保留。";
+}
+
+function queuePrimaryAction(item) {
+  if (item.type === "affiliate_research") {
+    return `<button class="button ghost" data-affiliate="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-score="${attr(item.priorityScore)}">加入联盟研究</button>`;
+  }
+  if (item.type === "review_page") {
+    return `<button class="button ghost" data-review="${attr(item.toolName)}">生成大纲</button>`;
+  }
+  if (item.type === "thread") {
+    return `<button class="button ghost" data-tab-jump="copy">打开文案库</button>`;
+  }
+  return `<button class="button ghost" data-tab-jump="tools">打开工具池</button>`;
+}
+
+function renderFocusPanel() {
+  const tasks = buildFocusTasks();
+  return `<section class="panel focus-panel">
+    <div class="focus-head">
+      <div>
+        <p class="eyebrow">Daily focus</p>
+        <h2>今天只做这 3 件事</h2>
+        <p class="muted">先按这里执行，再去工具池深挖。这样不会被 50 个候选拖散注意力。</p>
+      </div>
+      <div class="row-actions">
+        ${pill(focusStatusText(tasks), focusStatusKind(tasks))}
+        <button class="button ghost" type="button" data-tab-jump="review">打开发布审核</button>
+      </div>
+    </div>
+    <div class="focus-grid">${tasks.map(renderFocusTask).join("")}</div>
+  </section>`;
+}
+
+function buildFocusTasks() {
+  const actions = state.latest?.actionList ?? [];
+  const tools = state.latest?.tools ?? [];
+  const byName = new Map(tools.map((tool) => [tool.name, tool]));
+  const postAction = actions.find((action) => action.type === "post");
+  const waitAction = actions.find((action) => action.type === "wait");
+  const affiliateAction = actions.find((action) => action.type === "research affiliate");
+  const longformAction = actions.find((action) => action.type === "longform");
+  const postTool = postAction ? byName.get(postAction.toolName) : null;
+  const affiliateTool = affiliateAction ? byName.get(affiliateAction.toolName) : null;
+  const longformTool = longformAction ? byName.get(longformAction.toolName) : null;
+  const fallbackAffiliate = !affiliateTool ? (state.latest?.affiliateResearchQueue ?? [])[0] : null;
+  const fallbackLongform = !longformTool ? tools.find((tool) => ["review page candidate", "thread candidate"].includes(tool.followUpAction)) : null;
+  const tasks = [];
+
+  tasks.push({
+    step: "1",
+    kind: postTool ? "post" : "wait",
+    title: postTool ? `发 1 条新鲜 X：${postTool.name}` : "今天先别花 credits 发",
+    detail: postTool ? postAction.reason : waitAction?.reason || readinessAdvice(state.latest ?? {}, freshnessStats(tools)),
+    tool: postTool,
+    action: postAction,
+    cta: postTool ? "发布前确认" : "刷新 Live Feed"
+  });
+
+  tasks.push({
+    step: "2",
+    kind: "affiliate",
+    title: affiliateTool ? `查联盟：${affiliateTool.name}` : fallbackAffiliate ? `查联盟：${fallbackAffiliate.name}` : "补一个真实 affiliate link",
+    detail: affiliateAction?.reason || (fallbackAffiliate ? `affiliateScore ${fallbackAffiliate.affiliateScore}，还没有真实联盟链接。` : "从待查联盟列表挑一个高分工具，确认 programUrl 和真实 affiliate link。"),
+    tool: affiliateTool,
+    fallback: fallbackAffiliate,
+    cta: "加入联盟研究"
+  });
+
+  tasks.push({
+    step: "3",
+    kind: "longform",
+    title: longformTool ? `留作长文：${longformTool.name}` : fallbackLongform ? `留作长文：${fallbackLongform.name}` : "复盘反馈，选一个长文候选",
+    detail: longformAction?.reason || (fallbackLongform ? fallbackLongform.reason : "如果今天没有新鲜工具，就把已有反馈高的工具推进到 thread 或 SEO review page。"),
+    tool: longformTool || fallbackLongform,
+    action: longformAction,
+    cta: "加入测评页队列"
+  });
+
+  return tasks;
+}
+
+function renderFocusTask(task) {
+  const freshness = task.tool ? freshnessBadge(task.tool) : null;
+  const actionType = task.kind === "longform" && task.tool?.followUpAction === "thread candidate" ? "thread" : "review_page";
+  const copy = task.tool?.copyVariants?.shortPost ?? task.detail;
+  return `<article class="focus-task ${task.kind}">
+    <div class="focus-step">${esc(task.step)}</div>
+    <div class="focus-content">
+      <div class="line-head">
+        <strong>${esc(task.title)}</strong>
+        ${freshness ? pill(freshness.label, freshness.kind) : pill(task.kind === "wait" ? "Hold" : "Follow up", task.kind === "wait" ? "warn" : "good")}
+      </div>
+      <p>${esc(task.detail)}</p>
+      <div class="row-actions">
+        ${task.kind === "post" && task.tool ? `<button class="button publish" data-publish="${attr(task.tool.toolId)}" data-tool="${attr(task.tool.name)}" data-url="${attr(task.tool.url)}" data-copytext="${attr(copy)}" data-variant="shortPost">${esc(task.cta)}</button>` : ""}
+        ${task.kind === "post" && task.tool ? `<button class="button ghost" data-copy="${attr(copy)}">复制文案</button>` : ""}
+        ${task.kind === "wait" ? `<button class="button ghost" data-run-daily>刷新 Live Feed</button>` : ""}
+        ${task.kind === "wait" ? `<button class="button ghost" data-tab-jump="affiliate">去做联盟研究</button>` : ""}
+        ${task.kind === "affiliate" && task.tool ? `<button class="button ghost" data-queue="affiliate_research" data-tool-id="${attr(task.tool.toolId)}" data-tool="${attr(task.tool.name)}" data-url="${attr(task.tool.url)}">加入联盟研究</button>` : ""}
+        ${task.kind === "affiliate" && task.fallback ? `<button class="button ghost" data-affiliate="${attr(task.fallback.name)}" data-url="${attr(task.fallback.url)}" data-score="${attr(task.fallback.affiliateScore)}">加入联盟研究</button>` : ""}
+        ${task.kind === "affiliate" ? `<button class="button ghost" data-tab-jump="affiliate">打开联盟页</button>` : ""}
+        ${task.kind === "longform" && task.tool ? `<button class="button ghost" data-queue="${attr(actionType)}" data-tool-id="${attr(task.tool.toolId)}" data-tool="${attr(task.tool.name)}" data-url="${attr(task.tool.url)}">${esc(task.cta)}</button>` : ""}
+        ${task.kind === "longform" && task.tool ? `<button class="button ghost" data-review="${attr(task.tool.name)}">生成大纲</button>` : ""}
+        ${task.kind === "longform" && !task.tool ? `<button class="button ghost" data-tab-jump="decisions">看反馈决策</button>` : ""}
+      </div>
+    </div>
+  </article>`;
+}
+
+function renderFinalReviewQueue() {
+  const candidates = finalReviewCandidates();
+  const latest = state.latest ?? {};
+  const ageMinutes = dataAgeMinutes(latest.generatedAt);
+  const blocked = latest.source?.usedFallback || (ageMinutes !== null && ageMinutes > 360);
+  $("#view-review").innerHTML = `<section class="panel final-review ${blocked ? "warn" : "good"}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Final publish review</p>
+        <h2>发布前最终审核队列</h2>
+        <p class="muted">只集中看今天最值得发的 3 条。每条仍然必须打开确认弹窗，Dashboard 不会批量发布。</p>
+      </div>
+      ${pill(candidates.length ? `${candidates.length}/3 ready` : "No safe post", candidates.length ? "good" : "warn")}
+    </div>
+    ${blocked ? `<div class="safety-note">当前数据不是可付费发布状态：${latest.source?.usedFallback ? "Fallback sample" : "刷新超过 6 小时"}。先刷新 Live Feed，再花 API credits。</div>` : ""}
+    <div class="final-review-grid">${candidates.map(renderFinalReviewCard).join("") || empty("没有符合 Fresh today / Fresh 48h 的发布候选。先刷新 Live Feed，或改做联盟研究和测评页。")}</div>
+  </section>`;
+}
+
+function finalReviewCandidates() {
+  const latest = state.latest ?? {};
+  const ageMinutes = dataAgeMinutes(latest.generatedAt);
+  if (latest.source?.usedFallback || (ageMinutes !== null && ageMinutes > 360)) return [];
+  const postedIds = new Set((state.feedback.entries ?? [])
+    .filter((entry) => entry.posted !== false)
+    .map((entry) => entry.toolId)
+    .filter(Boolean));
+  return [...(latest.tools ?? [])]
+    .map((tool) => {
+      const text = tool.copyVariants?.shortPost ?? "";
+      const qa = copyQuality(text);
+      const freshness = freshnessBadge(tool);
+      const readiness = buildPublishReadiness(tool, text);
+      return { tool, text, qa, freshness, readiness, priority: finalReviewPriority(tool, qa) };
+    })
+    .filter((item) => item.freshness.kind === "fresh")
+    .filter((item) => !postedIds.has(item.tool.toolId))
+    .filter((item) => item.tool.followUpAction !== "skip")
+    .filter((item) => Number(item.tool.scoreBreakdown?.riskScore ?? 0) < 8)
+    .filter((item) => item.qa.kind !== "bad")
+    .sort((a, b) => b.priority - a.priority)
+    .slice(0, 3);
+}
+
+function finalReviewPriority(tool, qa) {
+  const score = Number(tool.score ?? 0);
+  const affiliateScore = Number(tool.scoreBreakdown?.affiliateScore ?? 0);
+  const contentScore = Number(tool.scoreBreakdown?.contentScore ?? 0);
+  const riskScore = Number(tool.scoreBreakdown?.riskScore ?? 0);
+  return score + affiliateScore * 2 + contentScore - riskScore * 2 - (qa.kind === "warn" ? 4 : 0);
+}
+
+function renderFinalReviewCard(item, index) {
+  const tool = item.tool;
+  const checks = item.readiness.checks.slice(0, 4);
+  return `<article class="final-card ${item.readiness.kind}">
+    <div class="line-head">
+      <div>
+        <strong>${esc(`${index + 1}. ${tool.name}`)}</strong>
+        <div class="muted">score ${esc(tool.score)} · ${esc(labels[tool.followUpAction] ?? tool.followUpAction)}</div>
+      </div>
+      ${pill(item.freshness.label, item.freshness.kind)}
+    </div>
+    <p>${esc(tool.reason)}</p>
+    <div class="copy-qa">
+      <span>${esc(item.qa.length)} chars</span>
+      <span>${esc(item.qa.forbidden.length ? `禁用词 ${item.qa.forbidden.join(", ")}` : "无禁用词")}</span>
+      <span>${esc(item.qa.risky.length ? `风险词 ${item.qa.risky.join(", ")}` : "无高风险承诺")}</span>
+    </div>
+    <pre class="copy-text">${esc(item.text)}</pre>
+    <div class="mini-checks">${checks.map((check) => `<span class="${check.ok ? "ok" : "warn"}">${esc(check.label)}: ${esc(check.value)}</span>`).join("")}</div>
+    ${item.readiness.blockReasons.length ? `<p class="muted">阻断：${esc(item.readiness.blockReasons.join(" "))}</p>` : ""}
+    ${item.readiness.overrideReasons.length ? `<p class="muted">需确认：${esc(item.readiness.overrideReasons.join(" "))}</p>` : ""}
+    <div class="row-actions">
+      <button class="button publish" data-publish="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost">打开发布确认</button>
+      <button class="button ghost" data-copy="${attr(item.text)}">复制文案</button>
+      <button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost">标记已发</button>
+      <button class="button ghost" data-feedback="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost">录入反馈</button>
+    </div>
+  </article>`;
+}
+
+function focusStatusText(tasks) {
+  return tasks.some((task) => task.kind === "post") ? "有新鲜发布候选" : "今天偏研究";
+}
+
+function focusStatusKind(tasks) {
+  return tasks.some((task) => task.kind === "post") ? "good" : "warn";
+}
+
+function renderCandidates() {
+  const active = state.candidateInbox.items.filter((item) => item.status === "active");
+  const archived = state.candidateInbox.items.filter((item) => item.status !== "active");
+  $("#view-candidates").innerHTML = `<div class="grid">
+    <section class="panel">
+      <h2>添加外部候选</h2>
+      <p class="muted">从 X、newsletter、微信群、官网看到的新工具可以先放这里。保存后点「刷新 Live Feed」，它会和 Product Hunt 一起打分。</p>
+      <form class="inline-form" id="candidateForm">
+        <label>工具名 <input name="name" required placeholder="Tool name"></label>
+        <label>URL <input name="url" required type="url" placeholder="https://..."></label>
+        <label>一句话痛点 <input name="tagline" placeholder="What narrow problem does it solve?"></label>
+        <label>来源 <input name="source" placeholder="X / newsletter / manual"></label>
+        <label>来源链接 <input name="sourceUrl" type="url" placeholder="https://..."></label>
+        <label>发布时间 <input name="published" type="datetime-local" value="${attr(defaultCandidateDateTime())}"></label>
+        <label class="wide">描述/备注 <textarea name="description" rows="3" placeholder="Who is it for, what pain, why it might convert?"></textarea></label>
+        <label class="wide">内部备注 <textarea name="notes" rows="2" placeholder="Where you found it, why to watch it"></textarea></label>
+        <button class="button" type="submit">保存候选</button>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>批量粘贴导入</h2>
+      <p class="muted">支持 CSV 表头：name,url,tagline,source；也支持一行一个：Tool name | https://... | narrow pain。</p>
+      <form class="stack-form" id="candidatePasteForm">
+        <label>默认来源 <input name="source" placeholder="X / newsletter / manual" value="paste"></label>
+        <textarea name="text" rows="9" placeholder="Tool A | https://example.com | Fixes one narrow workflow&#10;Tool B | https://example.org | Better reporting for small teams"></textarea>
+        <div class="row-actions">
+          <button class="button ghost" type="button" data-preview-candidates="candidatePasteForm">预览评分</button>
+          <button class="button" type="submit">批量导入候选</button>
+        </div>
+      </form>
+      ${renderCandidatePreview()}
+    </section>
+    <section class="panel">
+      <h2>Active 收集箱</h2>
+      <p class="muted">${esc(active.length)} 个 active 候选会参与下一次 daily 评分。</p>
+      <div class="list">${active.map(renderCandidateItem).join("") || empty("暂无 active 候选。")}</div>
+    </section>
+    <section class="panel">
+      <h2>已归档</h2>
+      <div class="list">${archived.slice(-10).reverse().map(renderCandidateItem).join("") || empty("暂无归档候选。")}</div>
+    </section>
+  </div>`;
+}
+
+function renderCandidatePreview() {
+  const preview = state.candidatePreview;
+  if (!preview) return "";
+  const rows = preview.previews ?? [];
+  return `<div class="preview-box">
+    <div class="line-head"><strong>预评分结果</strong><span class="muted">${esc(preview.date ?? "")} · parsed ${esc(preview.parsed ?? rows.length)}</span></div>
+    ${preview.errors?.length ? `<p class="muted">跳过：${esc(preview.errors.join(" "))}</p>` : ""}
+    <div class="list">${rows.map((item) => `<div class="list-item">
+      <div class="line-head"><strong>${esc(item.name)}</strong>${pill(labels[item.followUpAction] ?? item.followUpAction, item.followUpAction === "skip" ? "bad" : "good")}<strong class="mini-score">${esc(item.score)}</strong></div>
+      <div class="muted">${esc(item.sourceName)} · ${esc(item.affiliateStatus)} · ${item.seenBefore ? "Seen before" : "New to history"}</div>
+      <p>${esc(item.reason)}</p>
+      <div class="score-bars">${Object.entries(item.scoreBreakdown ?? {}).filter(([key]) => ["painScore","nicheScore","affiliateScore","contentScore","noveltyScore","riskScore"].includes(key)).map(([key, value]) => bar(key, value)).join("")}</div>
+    </div>`).join("") || empty("暂无预览结果。")}</div>
+  </div>`;
+}
+
+function renderCandidateItem(item) {
+  return `<div class="list-item">
+    <div class="line-head"><strong>${esc(item.name)}</strong>${pill(item.status, item.status === "active" ? "good" : "stale")}</div>
+    <div class="muted">${esc(item.source || "manual")} · ${esc(formatCandidatePublished(item.published))}</div>
+    <p>${esc(item.tagline || item.description || item.notes || "")}</p>
+    <div class="row-actions">
+      <a class="button ghost" href="${attr(item.url)}" target="_blank" rel="noreferrer">打开</a>
+      ${item.sourceUrl ? `<a class="button ghost" href="${attr(item.sourceUrl)}" target="_blank" rel="noreferrer">来源</a>` : ""}
+      ${item.status === "active"
+        ? `<button class="button ghost" data-candidate-status="${attr(item.id)}" data-status="archived">归档</button>`
+        : `<button class="button ghost" data-candidate-status="${attr(item.id)}" data-status="active">重新激活</button>`}
+    </div>
+  </div>`;
+}
+
+function renderAction(action) {
+  const tool = (state.latest?.tools ?? []).find((item) => item.name === action.toolName);
+  const copy = tool?.copyVariants?.shortPost ?? action.reason;
+  const freshness = tool ? freshnessBadge(tool) : null;
+  const canPublish = action.type === "post" && tool;
+  const canQueueThread = action.type === "post" || action.type === "longform";
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(actionLabel(action.type))}: ${esc(action.toolName)}</strong>
+      ${freshness ? pill(freshness.label, freshness.kind) : ""}
+    </div>
+    <p class="muted">${esc(action.reason)}</p>
+    <div class="row-actions">
+      ${canPublish ? `<button class="button ghost" data-copy="${attr(copy)}">复制相关文案</button>` : ""}
+      ${canPublish ? `<button class="button publish" data-publish="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(copy)}" data-variant="shortPost">发布到 X</button>` : ""}
+      ${canPublish ? `<button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(copy)}" data-variant="shortPost">标记已发</button>` : ""}
+      ${canQueueThread && tool ? `<button class="button ghost" data-queue="thread" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入长推队列</button>` : ""}
+    </div>
+  </div>`;
+}
+
+function renderTools() {
+  const tools = filteredTools();
+  $("#view-tools").innerHTML = `<div class="grid">${tools.map(renderToolCard).join("") || empty("没有匹配工具。")}</div>`;
+}
+
+function renderCopyLibrary() {
+  const blocks = filteredTools().flatMap((tool) => Object.entries(tool.copyVariants ?? {}).map(([variant, text]) => renderCopyBlock(tool, variant, text)));
+  $("#view-copy").innerHTML = `<section class="panel"><h2>文案库</h2><div class="list">${blocks.join("") || empty("暂无文案。")}</div></section>`;
+}
+
+function renderToolCard(tool) {
+  const stats = feedbackFor(tool.toolId);
+  const queued = state.queues.items.filter((item) => item.toolId === tool.toolId);
+  const freshness = freshnessBadge(tool);
+  return `<article class="tool-card">
+    <div class="card-head"><div><div class="title-row"><h2>${esc(tool.name)}</h2>${pill(freshness.label, freshness.kind)}</div><p class="muted">${esc(tool.tagline || "")}</p></div><strong class="score">${esc(tool.score)}</strong></div>
+    <div class="pill-row">
+      ${pill(labels[tool.followUpAction] ?? tool.followUpAction, "good")}
+      ${pill(tool.affiliateLink ? "已有联盟链接" : "需要查联盟", tool.affiliateLink ? "good" : "warn")}
+      ${tool.seenBefore ? pill("历史出现过", "warn") : pill("新工具", "good")}
+      ${stats.entries ? pill(`已发 ${stats.entries}`, "good") : ""}
+      ${queued.length ? pill(`队列 ${queued.length}`, "warn") : ""}
+    </div>
+    <p>${esc(tool.reason)}</p>
+    <p class="muted">反馈：score ${stats.engagementScore} · like ${stats.likes} · bookmark ${stats.bookmarks} · reply ${stats.replies} · click ${stats.clicks}</p>
+    <div class="score-bars">${Object.entries(tool.scoreBreakdown).filter(([key]) => ["painScore","nicheScore","affiliateScore","contentScore","noveltyScore","riskScore"].includes(key)).map(([key, value]) => bar(key, value)).join("")}</div>
+    <div class="copy-block">${Object.entries(tool.copyVariants ?? {}).slice(0, 2).map(([variant, text]) => renderCopyBlock(tool, variant, text)).join("")}</div>
+    <div class="row-actions">
+      <a class="button ghost" href="${attr(tool.url)}" target="_blank" rel="noreferrer">Product Hunt</a>
+      <button class="button ghost" data-queue="affiliate_research" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入联盟研究</button>
+      <button class="button ghost" data-queue="review_page" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入测评页队列</button>
+      <button class="button ghost" data-review="${attr(tool.name)}">生成大纲</button>
+    </div>
+  </article>`;
+}
+
+function renderCopyBlock(tool, variant, text) {
+  const freshness = freshnessBadge(tool);
+  const qa = copyQuality(text);
+  return `<div class="copy-block">
+    <div class="line-head">
+      <strong>${esc(tool.name)} · ${esc(labels[variant] ?? variant)}</strong>
+      ${pill(freshness.label, freshness.kind)}
+      ${pill(qa.label, qa.kind)}
+    </div>
+    <div class="copy-qa">
+      <span>${esc(qa.length)} chars</span>
+      <span>${esc(qa.forbidden.length ? `禁用词 ${qa.forbidden.join(", ")}` : "无禁用词")}</span>
+      <span>${esc(qa.risky.length ? `风险词 ${qa.risky.join(", ")}` : "无高风险承诺")}</span>
+    </div>
+    <pre class="copy-text">${esc(text)}</pre>
+    <div class="copy-actions">
+      <button class="button ghost" data-copy="${attr(text)}">Copy</button>
+      <button class="button publish" data-publish="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(text)}" data-variant="${attr(variant)}">发布到 X</button>
+      <button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(text)}" data-variant="${attr(variant)}">标记已发</button>
+      <button class="button ghost" data-feedback="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(text)}" data-variant="${attr(variant)}">录入反馈</button>
+      <button class="button ghost" data-queue="thread" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入长推</button>
+      <button class="button ghost" data-queue="review_page" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入测评页</button>
+    </div>
+  </div>`;
+}
+
+function renderFeedback() {
+  const rows = [...state.feedback.entries].sort((a, b) => Number(b.engagementScore ?? 0) - Number(a.engagementScore ?? 0));
+  $("#view-feedback").innerHTML = `<div class="grid">
+    <section class="panel"><h2>待补反馈</h2><p class="muted">发完以后，先把这块清零。没有真实反馈，后面的决策报告会变钝。X Analytics 一般等几个小时或第二天再补。</p><div class="list">${pendingFeedbackEntries().map(renderPendingFeedbackItem).join("") || empty("没有待补反馈。")}</div></section>
+    <section class="panel"><h2>CSV / X Analytics 粘贴导入</h2>
+      <p class="muted">支持 CSV，也支持从 X Analytics 表格直接复制出来的 tab 分隔数据。推荐先点预览；不会自动保存。</p>
+      <form class="stack-form" id="feedbackCsvForm">
+        <textarea name="csv" rows="8" placeholder="toolName,variantType,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes&#10;Mailwarm 2.0,shortPost,https://x.com/you/status/123,1200,18,6,3,1,9,4,first test&#10;&#10;或直接粘贴 X Analytics 表格：&#10;Post text&#9;Tweet permalink&#9;Impressions&#9;Likes&#9;Bookmarks&#9;Replies&#9;Reposts&#9;Link clicks&#10;Your posted copy...&#9;https://x.com/you/status/123&#9;1200&#9;18&#9;6&#9;3&#9;1&#9;9"></textarea>
+        <div class="row-actions">
+          <button class="button ghost" type="button" data-preview-feedback="feedbackCsvForm">预览导入</button>
+          <button class="button" type="submit">确认导入反馈</button>
+        </div>
+      </form>
+      ${renderFeedbackPreview()}
+    </section>
+    <section class="panel"><h2>反馈录入</h2><p class="muted">还没有 feedback 时，先在今日文案里点击「标记已发」，或直接用左侧 CSV 导入。</p><div class="list">${rows.map((entry) => `<div class="list-item"><strong>${esc(entry.toolName)} · ${esc(labels[entry.variantType] ?? entry.variantType)}</strong><div class="muted">engagement ${esc(entry.engagementScore ?? 0)} · likes ${esc(entry.metrics.likes)} · bookmarks ${esc(entry.metrics.bookmarks)} · replies ${esc(entry.metrics.replies)} · clicks ${esc(entry.metrics.clicks)}</div><div class="row-actions"><button class="button ghost" data-edit-feedback="${attr(entry.id)}">录入反馈</button></div></div>`).join("") || empty("还没有发推反馈。先在今日文案里点击「标记已发」。")}</div></section>
+  </div>`;
+}
+
+function renderFeedbackPreview() {
+  const preview = state.feedbackPreview;
+  if (!preview) return "";
+  const rows = preview.previews ?? [];
+  return `<div class="preview-box">
+    <div class="line-head"><strong>反馈预览</strong><span class="muted">valid ${esc(preview.count ?? rows.length)}</span></div>
+    ${preview.errors?.length ? `<p class="muted">跳过：${esc(preview.errors.join(" "))}</p>` : ""}
+    <div class="list">${rows.map((entry) => `<div class="list-item">
+      <div class="line-head"><strong>${esc(entry.toolName)} · ${esc(labels[entry.variantType] ?? entry.variantType)}</strong><strong class="mini-score">${esc(entry.engagementScore ?? 0)}</strong></div>
+      <div class="muted">impressions ${esc(entry.metrics?.impressions ?? 0)} · likes ${esc(entry.metrics?.likes ?? 0)} · bookmarks ${esc(entry.metrics?.bookmarks ?? 0)} · replies ${esc(entry.metrics?.replies ?? 0)} · clicks ${esc(entry.metrics?.clicks ?? 0)}</div>
+      <div class="muted">engagement rate ${esc(formatRate(entry.engagementRate))} · click rate ${esc(formatRate(entry.clickRate))}</div>
+      ${entry.postedUrl ? `<a class="muted-link" href="${attr(entry.postedUrl)}" target="_blank" rel="noreferrer">打开 X 链接</a>` : ""}
+      <p>${esc(entry.copyText || "")}</p>
+    </div>`).join("") || empty("暂无可导入反馈。")}</div>
+  </div>`;
+}
+
+function renderDecisions() {
+  const recommendations = state.decisions?.recommendations ?? [];
+  const summary = state.decisions?.summary ?? {};
+  $("#view-decisions").innerHTML = `<div class="grid">
+    <section class="panel"><h2>反馈决策摘要</h2><div class="list">
+      <div class="list-item">反馈记录: ${esc(summary.feedbackEntries ?? 0)}</div>
+      <div class="list-item">有反馈工具: ${esc(summary.toolsWithFeedback ?? 0)}</div>
+      <div class="list-item">建议动作: ${esc(summary.recommendations ?? 0)}</div>
+      <div class="list-item">赢家信号: ${esc(summary.winners ?? 0)}</div>
+      <div class="list-item">弱信号: ${esc(summary.weakSignals ?? 0)}</div>
+      <div class="list-item">最佳 angle: ${esc(labels[summary.topAngle] ?? summary.topAngle ?? "暂无")}</div>
+    </div></section>
+    <section class="panel"><h2>Top angle</h2><div class="chart-list">${(state.decisions?.angleScores ?? []).map(renderDecisionAngle).join("") || empty("暂无 angle 反馈。")}</div></section>
+    <section class="panel"><h2>推荐动作</h2><div class="list">${recommendations.map(renderDecisionCard).join("") || empty("还没有足够反馈。先在「反馈录入」导入 CSV，或给已发文案录入数据。")}</div></section>
+    <section class="panel"><h2>弱信号</h2><div class="list">${(state.decisions?.weakSignals ?? []).map(renderDecisionCard).join("") || empty("暂无需要暂停的工具。")}</div></section>
+  </div>`;
+}
+
+function renderDecisionCard(item) {
+  return `<div class="list-item">
+    <strong>${esc(item.toolName)} · ${esc(decisionLabel(item.decision))}</strong>
+    <div class="muted">建议加入 ${esc(labels[item.queueType] ?? item.queueType)} · priority ${esc(item.priorityScore)} · ${item.alreadyQueued ? "已在队列" : "未入队"}</div>
+    <p>${esc(item.reason)}</p>
+    <div class="muted">score ${esc(item.evidence.engagementScore)} · bookmark ${esc(item.evidence.bookmarks)} · reply ${esc(item.evidence.replies)} · click ${esc(item.evidence.clicks)} · angle ${esc(labels[item.suggestedAngle] ?? item.suggestedAngle)}</div>
+    <div class="row-actions">
+      <button class="button ghost" data-queue="${attr(item.queueType)}" data-tool-id="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-priority="${attr(item.priorityScore)}" data-reason="${attr(item.reason)}">${item.alreadyQueued ? "再次更新队列" : "加入队列"}</button>
+    </div>
+  </div>`;
+}
+
+function renderDecisionAngle(item) {
+  const maxValue = Math.max(1, ...(state.decisions?.angleScores ?? []).map((angle) => Number(angle.engagementScore || 0)));
+  const width = Math.round((Number(item.engagementScore || 0) / maxValue) * 100);
+  return `<div class="chart-row">
+    <div><strong>${esc(labels[item.variantType] ?? item.variantType)}</strong><div class="muted">score ${esc(item.engagementScore)} · entries ${esc(item.entries)} · bookmarks ${esc(item.bookmarks)} · clicks ${esc(item.clicks)}</div></div>
+    <div class="chart-track"><div class="chart-fill accent" style="width:${width}%"></div></div>
+  </div>`;
+}
+
+function renderQueues() {
+  const groups = ["affiliate_research", "thread", "review_page", "watch", "skip"];
+  $("#view-queues").innerHTML = `${renderQueuePipelinePanel("full")}
+  <div class="three-grid">${groups.map((type) => `<section class="panel"><h2>${esc(labels[type] ?? type)}</h2><div class="list">${state.queues.items.filter((item) => item.type === type).map(renderQueueItem).join("") || empty("暂无。")}</div></section>`).join("")}</div>`;
+}
+
+function renderQueueItem(item) {
+  return `<div class="queue-card">
+    <strong>${esc(item.toolName)}</strong>
+    <div class="muted">${esc(item.status)} · priority ${esc(item.priorityScore)} · ${esc((item.sourceDates ?? []).join(", "))}</div>
+    <p>${esc(item.reason)}</p>
+    <div class="queue-next">${esc(queueNextStep(item))}</div>
+    <div class="row-actions">${["new","researching","drafted","published","skipped","archived"].map((status) => `<button class="button ghost" data-queue-status="${attr(item.id)}" data-status="${status}">${status}</button>`).join("")}</div>
+  </div>`;
+}
+
+function renderAffiliate() {
+  const latestCandidates = (state.latest?.affiliateResearchQueue ?? []);
+  $("#view-affiliate").innerHTML = `${renderAffiliateReadinessPanel()}
+  <div class="grid">
+    <section class="panel"><h2>待查候选</h2><div class="list">${latestCandidates.map((item) => `<div class="list-item"><strong>${esc(item.name)}</strong><div class="muted">affiliateScore ${esc(item.affiliateScore)} · 搜索 "${esc(item.name)} affiliate program"</div><div class="row-actions">${renderSearchLinks(item.name, item.url)}<button class="button ghost" data-affiliate="${attr(item.name)}" data-url="${attr(item.url)}" data-score="${attr(item.affiliateScore)}">加入联盟研究</button></div></div>`).join("") || empty("暂无。")}</div></section>
+    <section class="panel"><h2>手动记录</h2>
+      <form class="inline-form" id="affiliateForm">
+        <label>工具名 <input name="toolName" required placeholder="Tool name"></label>
+        <label>官网或 PH URL <input name="toolUrl" required type="url" placeholder="https://..."></label>
+        <label>分数 <input name="affiliateScore" type="number" min="0" max="10" value="0"></label>
+        <label>状态 <select name="status">${["not_started","searching","applied","approved","rejected","no_program","added_to_config"].map((status) => `<option value="${status}">${esc(labels[status] ?? status)}</option>`).join("")}</select></label>
+        <label>network <input name="network" placeholder="PartnerStack / Impact / self-hosted"></label>
+        <label>programUrl <input name="programUrl" type="url" placeholder="https://..."></label>
+        <label>affiliateLink <input name="affiliateLink" type="url" placeholder="只填你真实拿到的链接"></label>
+        <label>commissionNote <input name="commissionNote" placeholder="人工确认后再写"></label>
+        <label class="wide">notes <textarea name="notes" rows="3" placeholder="搜索记录、申请状态、注意事项"></textarea></label>
+        <button class="button" type="submit">保存研究记录</button>
+      </form>
+    </section>
+    <section class="panel"><h2>研究记录</h2><div class="list">${state.affiliateResearch.items.map(renderAffiliateRecord).join("") || empty("暂无研究记录。")}</div></section>
+  </div>`;
+}
+
+function renderAffiliateReadinessPanel() {
+  const summary = affiliateReadinessSummary();
+  return `<section class="panel affiliate-readiness ${summary.ready ? "good" : summary.missing ? "warn" : ""}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Affiliate readiness</p>
+        <h2>${summary.ready ? `${summary.ready} 条可加入配置` : "还没有可加入配置的联盟链接"}</h2>
+      </div>
+      ${pill(summary.ready ? "Ready" : "Research", summary.ready ? "good" : "warn")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.ready)}</strong><span>可配置</span></div>
+      <div><strong>${esc(summary.missing)}</strong><span>缺字段</span></div>
+      <div><strong>${esc(summary.researching)}</strong><span>研究中</span></div>
+      <div><strong>${esc(summary.noFit)}</strong><span>不适合</span></div>
+    </div>
+    <p class="muted">${summary.ready ? "只复制你真实拿到的 affiliateLink 到配置；不要把 programUrl 或官网链接当成 affiliate link。" : "先查官方 partner / affiliate / referral 页面，拿到真实 affiliateLink 后再复制配置片段。"}</p>
+  </section>`;
+}
+
+function affiliateReadinessSummary() {
+  return (state.affiliateResearch.items ?? []).reduce((acc, item) => {
+    const readiness = affiliateReadiness(item);
+    if (readiness.state === "ready") acc.ready += 1;
+    else if (readiness.state === "missing") acc.missing += 1;
+    else if (readiness.state === "no_fit") acc.noFit += 1;
+    else acc.researching += 1;
+    return acc;
+  }, { ready: 0, missing: 0, researching: 0, noFit: 0 });
+}
+
+function renderAffiliateRecord(item) {
+  const readiness = affiliateReadiness(item);
+  const snippet = affiliateConfigSnippet(item);
+  return `<div class="list-item affiliate-record">
+    <div class="line-head">
+      <strong>${esc(item.toolName)}</strong>
+      ${pill(readiness.label, readiness.kind)}
+    </div>
+    <div class="muted">${esc(labels[item.status] ?? item.status)} · ${esc(item.network || "no network")} · score ${esc(item.affiliateScore ?? 0)}</div>
+    <div class="affiliate-checks">
+      ${renderAffiliateCheck("programUrl", Boolean(item.programUrl), item.programUrl || "missing")}
+      ${renderAffiliateCheck("affiliateLink", Boolean(item.affiliateLink), item.affiliateLink || "missing")}
+      ${renderAffiliateCheck("status", readiness.state !== "researching", labels[item.status] ?? item.status)}
+    </div>
+    <p class="muted">${esc(readiness.reason)}</p>
+    ${item.notes ? `<div class="muted">${esc(item.notes)}</div>` : ""}
+    <div class="row-actions">
+      ${renderSearchLinks(item.toolName, item.toolUrl)}
+      ${readiness.state === "ready" ? `<button class="button ghost" data-copy="${attr(snippet)}">复制配置片段</button>` : ""}
+      ${["searching","applied","approved","rejected","no_program","added_to_config"].map((status) => `<button class="button ghost" data-aff-status="${attr(item.id)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-status="${status}">${esc(labels[status] ?? status)}</button>`).join("")}
+    </div>
+  </div>`;
+}
+
+function affiliateReadiness(item) {
+  if (item.status === "added_to_config") {
+    return { state: "ready", kind: "good", label: "已配置", reason: "这条已经标记为 added_to_config，后续只需定期确认链接仍然有效。" };
+  }
+  if (["rejected", "no_program"].includes(item.status)) {
+    return { state: "no_fit", kind: "stale", label: "暂不适合", reason: "当前没有可用 program 或申请未通过，不要把它写进 affiliate 配置。" };
+  }
+  if (item.status === "approved" && item.programUrl && item.affiliateLink) {
+    return { state: "ready", kind: "good", label: "可加入配置", reason: "已通过且有真实 affiliateLink，可以复制配置片段到 config/affiliate-links.json。" };
+  }
+  if (item.status === "approved" && (!item.programUrl || !item.affiliateLink)) {
+    const missing = [!item.programUrl ? "programUrl" : "", !item.affiliateLink ? "affiliateLink" : ""].filter(Boolean).join(", ");
+    return { state: "missing", kind: "warn", label: "缺字段", reason: `状态已通过，但还缺 ${missing}。补齐前不要写入配置。` };
+  }
+  if (item.status === "applied") {
+    return { state: "researching", kind: "warn", label: "等待审核", reason: "已申请但还没 approved；先不要使用 affiliate link。" };
+  }
+  return { state: "researching", kind: "warn", label: "继续查", reason: "先确认官方 programUrl、network 和申请路径，再记录真实 affiliateLink。" };
+}
+
+function renderAffiliateCheck(label, ok, value) {
+  return `<div class="affiliate-check ${ok ? "ok" : "warn"}">
+    <span>${esc(label)}</span>
+    <strong>${esc(value)}</strong>
+  </div>`;
+}
+
+function affiliateConfigSnippet(item) {
+  const domain = safeHost(item.toolUrl);
+  const record = {
+    match: item.toolName,
+    keywords: [],
+    domains: domain ? [domain] : [],
+    affiliateUrl: item.affiliateLink || "",
+    note: item.commissionNote || `Verified affiliate program: ${item.programUrl || "programUrl missing"}`
+  };
+  return JSON.stringify(record, null, 2);
+}
+
+function safeHost(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+}
+
+function renderReviews() {
+  const candidates = (state.latest?.tools ?? []).filter((tool) => ["review page candidate", "thread candidate"].includes(tool.followUpAction));
+  $("#view-reviews").innerHTML = `<div class="grid"><section class="panel"><h2>候选工具</h2><div class="list">${candidates.map((tool) => `<div class="list-item"><strong>${esc(tool.name)}</strong><div class="muted">${esc(tool.reason)}</div><button class="button ghost" data-review="${attr(tool.name)}">生成测评页大纲</button></div>`).join("") || empty("暂无候选。")}</div></section><section class="panel"><h2>已生成大纲</h2><div class="list">${state.reviewPages.items.map((item) => `<div class="list-item"><strong>${esc(item.toolName)}</strong><div class="muted">${esc(item.status)} · ${esc(item.filePath)}</div></div>`).join("") || empty("暂无大纲。")}</div></section></div>`;
+}
+
+function renderHistory() {
+  const records = [...state.history.tools].sort((a, b) => String(b.date).localeCompare(String(a.date)) || Number(b.score) - Number(a.score)).slice(0, 30);
+  $("#view-history").innerHTML = `<section class="panel"><h2>历史复盘</h2><div class="list">${records.map((item) => `<div class="list-item"><strong>${esc(item.toolName)}</strong><div class="muted">${esc(item.date)} · score ${esc(item.score)} · ${esc(labels[item.followUpAction] ?? item.followUpAction)}</div></div>`).join("") || empty("暂无历史。")}</div></section>`;
+}
+
+function renderWeekly() {
+  const trend = state.weekly?.dailyTrend ?? [];
+  const angles = state.weekly?.topAngles ?? [];
+  $("#view-weekly").innerHTML = `<div class="weekly-layout">
+    ${renderWeeklySummaryCards()}
+    <section class="panel wide-panel"><h2>7 天趋势图</h2><p class="muted">柱高看 engagementScore；下面的小标签看 posts、bookmarks、clicks。没有反馈时，系统会退回用 topScore / toolsSeen 做参考。</p>${renderTrendChart(trend)}</section>
+    <section class="panel"><h2>Top angle 统计</h2><p class="muted">优先看 avg score 和 bookmarks/clicks；likes 不是主要决策指标。</p><div class="chart-list">${angles.map(renderAngleRow).join("") || empty("暂无 angle 反馈。")}</div></section>
+    <section class="panel"><h2>Angle 结论</h2>${renderAngleInsight(angles)}</section>
+    <section class="panel"><h2>摘要</h2><div class="list">
+      <div class="list-item">跑 daily 天数: ${esc(state.weekly?.summary?.dailyDays ?? 0)}</div>
+      <div class="list-item">历史工具记录: ${esc(state.weekly?.summary?.toolsSeen ?? state.weekly?.historyCount ?? 0)}</div>
+      <div class="list-item">已追踪发推: ${esc(state.weekly?.summary?.postsTracked ?? state.weekly?.feedbackCount ?? 0)}</div>
+      <div class="list-item">最佳 angle: ${esc(labels[state.weekly?.summary?.topAngle] ?? state.weekly?.summary?.topAngle ?? "暂无")}</div>
+    </div></section>
+    <section class="panel"><h2>系统建议</h2><div class="list">${(state.weekly?.suggestions ?? []).slice(0, 8).map((item) => `<div class="list-item"><strong>${esc(item.toolName)}</strong><div class="muted">${esc(labels[item.suggestion] ?? item.suggestion)} · ${esc(item.reason)}</div></div>`).join("") || empty("暂无建议。")}</div></section>
+  </div>`;
+}
+
+function renderSettings() {
+  const xAuth = xAuthStatus();
+  $("#view-settings").innerHTML = `<div class="grid"><section class="panel"><h2>数据状态</h2><div class="list">
+    <div class="list-item">latest 日期: ${esc(state.settings?.latestDate ?? "-")}</div>
+    <div class="list-item">history 记录: ${esc(state.settings?.historyCount ?? 0)}</div>
+    <div class="list-item">voice 禁用词: ${esc(state.settings?.forbiddenWords?.length ?? 0)}</div>
+    <div class="list-item">voice 长度上限: ${esc(state.settings?.maxTweetCharacters ?? 260)}</div>
+    <div class="list-item">affiliate links: ${esc(state.settings?.affiliateLinks?.length ?? 0)}</div>
+    <div class="list-item">feedback: ${esc(state.settings?.feedbackCount ?? 0)}</div>
+    <div class="list-item">queues: ${esc(state.settings?.queueCount ?? 0)}</div>
+    <div class="list-item">candidate inbox: ${esc(state.settings?.candidateInboxCount ?? 0)}</div>
+    <div class="list-item">X 发布: ${esc(xAuth.label)} · ${esc(state.xStatus.health ?? "unknown")}</div>
+    <div class="list-item">X refresh: ${esc(state.xStatus.refreshConfigured ? "已配置" : "未配置")} · expires ${esc(state.xStatus.expiresAt ? formatDateTime(state.xStatus.expiresAt) : "未知")}</div>
+    <div class="list-item">affiliate research: ${esc(state.settings?.affiliateResearchCount ?? 0)}</div>
+    <div class="list-item">review pages: ${esc(state.settings?.reviewPageCount ?? 0)}</div>
+  </div></section><section class="panel"><h2>禁用词</h2><p class="muted">${esc((state.settings?.forbiddenWords ?? []).join(", ") || "暂无")}</p></section><section class="panel"><h2>Affiliate Links</h2><div class="list">${(state.settings?.affiliateLinks ?? []).map((link) => `<div class="list-item"><strong>${esc(link.name ?? link.match ?? "unnamed")}</strong><div class="muted">${esc(link.affiliateUrl ?? "")}</div></div>`).join("") || empty("还没有配置 affiliate link。")}</div></section></div>`;
+}
+
+function renderSearchLinks(toolName, toolUrl = "") {
+  const links = affiliateSearchLinks(toolName, toolUrl);
+  return `<div class="affiliate-search-group">
+    <button class="button ghost" type="button" data-open-searches="${attr(JSON.stringify(links.map((item) => item.url)))}">一键打开搜索组</button>
+    ${links.map((item) => `<a class="button ghost" href="${attr(item.url)}" target="_blank" rel="noreferrer">${esc(item.label)}</a>`).join("")}
+  </div>`;
+}
+
+function affiliateSearchLinks(toolName, toolUrl = "") {
+  const domain = safeHost(toolUrl);
+  const quoted = `"${toolName}"`;
+  const google = (query) => `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+  const links = [];
+  if (toolUrl) links.push({ label: "官网", url: toolUrl });
+  links.push({ label: "official affiliate", url: google(domain ? `site:${domain} affiliate OR partner OR referral` : `${quoted} affiliate program`) });
+  links.push({ label: "PartnerStack", url: google(`site:partnerstack.com ${quoted}`) });
+  links.push({ label: "Impact", url: google(`site:impact.com ${quoted} affiliate`) });
+  links.push({ label: "Rewardful", url: google(`site:rewardful.com ${quoted}`) });
+  links.push({ label: "Terms", url: google(`${quoted} terms affiliate referral partner`) });
+  return links;
+}
+
+function renderWeeklySummaryCards() {
+  const trend = state.weekly?.dailyTrend ?? [];
+  const totalEngagement = trend.reduce((sum, item) => sum + Number(item.engagementScore ?? 0), 0);
+  const totalPosts = trend.reduce((sum, item) => sum + Number(item.postsTracked ?? 0), 0);
+  const totalBookmarks = trend.reduce((sum, item) => sum + Number(item.bookmarks ?? 0), 0);
+  const totalClicks = trend.reduce((sum, item) => sum + Number(item.clicks ?? 0), 0);
+  const topAngle = state.weekly?.topAngles?.[0];
+  const cards = [
+    ["7d engagement", roundDisplay(totalEngagement)],
+    ["tracked posts", totalPosts],
+    ["bookmarks", totalBookmarks],
+    ["clicks", totalClicks],
+    ["top angle", labels[topAngle?.variantType] ?? topAngle?.variantType ?? "暂无"]
+  ];
+  return `<section class="weekly-cards">${cards.map(([label, value]) => `<div class="metric"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join("")}</section>`;
+}
+
+function renderTrendChart(trend) {
+  if (!trend.length) return empty("数据还少，先连续跑几天 daily 并录入发推反馈。");
+  const maxValue = Math.max(1, ...trend.map(trendValue));
+  return `<div class="trend-chart">${trend.map((item) => {
+    const value = trendValue(item);
+    const height = Math.max(8, Math.round((value / maxValue) * 100));
+    return `<div class="trend-column">
+      <div class="trend-bar-wrap"><div class="trend-bar" style="height:${height}%"></div></div>
+      <strong>${esc(item.date.slice(5))}</strong>
+      <span>score ${esc(roundDisplay(item.engagementScore ?? 0))}</span>
+      <small>posts ${esc(item.postsTracked)} · bm ${esc(item.bookmarks)} · clicks ${esc(item.clicks)}</small>
+    </div>`;
+  }).join("")}</div>`;
+}
+
+function renderAngleInsight(angles) {
+  if (!angles.length) return empty("暂无 angle 反馈。先导入几条发推数据，再看哪类文案值得重复。");
+  const top = angles[0];
+  const runnerUp = angles[1];
+  const avg = Number(top.posts) ? Number(top.engagementScore || 0) / Number(top.posts) : 0;
+  return `<div class="insight-card">
+    <strong>${esc(labels[top.variantType] ?? top.variantType)} 暂时领先</strong>
+    <p class="muted">总分 ${esc(top.engagementScore)}，平均 ${esc(roundDisplay(avg))}/post，bookmarks ${esc(top.bookmarks)}，clicks ${esc(top.clicks)}。</p>
+    <p>${esc(runnerUp ? `下一个对照角度可以测 ${labels[runnerUp.variantType] ?? runnerUp.variantType}，避免过早押单一文案套路。` : "样本还少，先继续用不同角度发 3-5 条再判断。")}</p>
+  </div>`;
+}
+
+function renderTrendRow(item) {
+  const maxValue = Math.max(1, ...(state.weekly?.dailyTrend ?? []).map(trendValue));
+  const width = Math.round((trendValue(item) / maxValue) * 100);
+  return `<div class="chart-row">
+    <div><strong>${esc(item.date)}</strong><div class="muted">tools ${esc(item.toolsSeen)} · posts ${esc(item.postsTracked)} · engagement ${esc(item.engagementScore)}</div></div>
+    <div class="chart-track"><div class="chart-fill" style="width:${width}%"></div></div>
+  </div>`;
+}
+
+function renderAngleRow(item) {
+  const maxValue = Math.max(1, ...(state.weekly?.topAngles ?? []).map((angle) => Number(angle.engagementScore || 0)));
+  const width = Math.round((Number(item.engagementScore || 0) / maxValue) * 100);
+  const avg = Number(item.posts) ? Number(item.engagementScore || 0) / Number(item.posts) : 0;
+  return `<div class="chart-row">
+    <div><strong>${esc(labels[item.variantType] ?? item.variantType)}</strong><div class="muted">score ${esc(item.engagementScore)} · avg ${esc(roundDisplay(avg))} · posts ${esc(item.posts)} · bookmarks ${esc(item.bookmarks)} · clicks ${esc(item.clicks)}</div></div>
+    <div class="chart-track"><div class="chart-fill accent" style="width:${width}%"></div></div>
+  </div>`;
+}
+
+function trendValue(item) {
+  return Number(item.engagementScore || item.topScore || item.toolsSeen || 0);
+}
+
+function roundDisplay(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 0;
+  return Math.round(number * 10) / 10;
+}
+
+function bar(key, value) {
+  const label = { painScore: "痛点", nicheScore: "小众", affiliateScore: "联盟", contentScore: "内容", noveltyScore: "新鲜", riskScore: "风险" }[key] ?? key;
+  const width = Math.max(0, Math.min(100, Number(value) * 10));
+  return `<div class="bar"><span>${esc(label)}</span><div class="track"><div class="fill ${key === "riskScore" ? "risk" : ""}" style="width:${width}%"></div></div><strong>${esc(value)}</strong></div>`;
+}
+
+function actionLabel(type) {
+  return { post: "发这条推", "research affiliate": "查联盟计划", longform: "保留做长文", wait: "先别付费发布" }[type] ?? type;
+}
+
+function decisionLabel(type) {
+  return { double_down: "继续加码", monetize: "查转化", pause: "暂停观察", watch: "继续观察" }[type] ?? type;
+}
+
+function pill(text, kind = "") {
+  return `<span class="pill ${kind}">${esc(text)}</span>`;
+}
+
+function freshnessBadge(tool) {
+  const category = freshnessCategory(tool);
+  if (category === "seen") return { label: "Seen before", kind: "seen" };
+  if (category === "freshToday") return { label: "Fresh today", kind: "fresh" };
+  if (category === "fresh48") return { label: "Fresh 48h", kind: "fresh" };
+  return { label: "Older but useful", kind: "stale" };
+}
+
+function freshnessCategory(tool) {
+  if (tool?.seenBefore) return "seen";
+  const ageHours = productAgeHours(tool.published);
+  if (ageHours !== null && ageHours <= 24) return "freshToday";
+  if (ageHours !== null && ageHours <= 48) return "fresh48";
+  return "stale";
+}
+
+function productAgeHours(published) {
+  const date = new Date(published);
+  if (Number.isNaN(date.getTime())) return null;
+  const reference = state.latest?.generatedAt ? new Date(state.latest.generatedAt) : new Date();
+  if (Number.isNaN(reference.getTime())) return null;
+  return Math.max(0, (reference.getTime() - date.getTime()) / 3600000);
+}
+
+function freshnessStats(tools) {
+  const stats = { freshToday: 0, fresh48: 0, seen: 0, stale: 0, apiReady: 0 };
+  for (const tool of tools) {
+    const category = freshnessCategory(tool);
+    if (category === "freshToday") stats.freshToday += 1;
+    if (category === "fresh48") stats.fresh48 += 1;
+    if (category === "seen") stats.seen += 1;
+    if (category === "stale") stats.stale += 1;
+    if (["freshToday", "fresh48"].includes(category)) stats.apiReady += 1;
+  }
+  return stats;
+}
+
+function readinessAdvice(latest, stats) {
+  const ageMinutes = dataAgeMinutes(latest.generatedAt);
+  if (latest.source?.usedFallback) return "当前数据来自 fallback sample，只适合看格式，不建议发布。";
+  if (ageMinutes !== null && ageMinutes > 360) return "数据已经超过 6 小时，发布前先跑 npm run daily 刷新一遍。";
+  if (stats.apiReady > 0) return "只建议用 API 发布 Fresh today / Fresh 48h；Seen before 先手动观察或放进长文/测评页。";
+  return "今天没有明显的新鲜候选，先别花 credits；可以做历史工具的测评页或联盟研究。";
+}
+
+function renderPublishRisk(tool) {
+  if (!tool) return `<div class="publish-risk-card warn">找不到工具记录，建议取消后刷新数据。</div>`;
+  const latest = state.latest ?? {};
+  const freshness = freshnessBadge(tool);
+  const age = productAgeHours(tool.published);
+  const risks = [];
+  if (latest.source?.usedFallback) risks.push("当前是 fallback sample，不建议 API 发布。");
+  if (dataAgeMinutes(latest.generatedAt) > 360) risks.push("数据刷新超过 6 小时，建议先跑 npm run daily。");
+  if (tool.seenBefore) risks.push("历史出现过，不要把它当今天新工具发。");
+  if (freshness.kind === "stale") risks.push("发布时间超过 48 小时，更适合长文或 SEO 测评页。");
+  const xAuth = xAuthStatus();
+  if (xAuth.blocked) risks.push(xAuth.reason);
+  else if (xAuth.warning) risks.push(xAuth.reason);
+  if (!risks.length) risks.push("新鲜度适合小额 API 测试，发布后记得回填反馈。");
+  const kind = latest.source?.usedFallback || freshness.kind === "stale" ? "bad" : tool.seenBefore ? "warn" : "good";
+  const ageText = age === null ? "发布时间未知" : `PH 发布时间约 ${Math.round(age)} 小时前`;
+  return `<div class="publish-risk-card ${kind}">
+    <div class="line-head">${pill(freshness.label, freshness.kind)}<strong>${esc(ageText)}</strong></div>
+    <ul>${risks.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>
+  </div>`;
+}
+
+function buildPublishReadiness(tool, text) {
+  const latest = state.latest ?? {};
+  const normalized = String(text ?? "").trim();
+  const count = normalized.length;
+  const ageMinutes = dataAgeMinutes(latest.generatedAt);
+  const staleData = ageMinutes !== null && ageMinutes > 360;
+  const freshness = tool ? freshnessBadge(tool) : null;
+  const claimRisks = findRiskyClaims(normalized);
+  const forbidden = forbiddenPhrases(normalized);
+  const xAuth = xAuthStatus();
+  const blockReasons = [];
+  const overrideReasons = [];
+
+  if (!tool) blockReasons.push("找不到工具记录，刷新页面后再试。");
+  if (xAuth.blocked) blockReasons.push(xAuth.reason);
+  if (!normalized) blockReasons.push("文案为空。");
+  if (count > 280) blockReasons.push(`文案 ${count} 字，超过 X 280 字限制。`);
+  if (forbidden.length) blockReasons.push(`文案包含 voice 禁用词：${forbidden.join(", ")}。`);
+  if (latest.source?.usedFallback) blockReasons.push("当前是 fallback sample，不允许 API 发布。");
+  if (staleData) blockReasons.push("数据刷新超过 6 小时，先刷新 Live Feed。");
+  if (!xAuth.blocked && xAuth.warning) overrideReasons.push(xAuth.reason);
+  if (tool?.seenBefore) overrideReasons.push("这个工具历史出现过，不要当成今天新工具发。");
+  if (freshness?.kind === "stale") overrideReasons.push("这条不是 Fresh today / Fresh 48h，更适合观察、长推或测评页。");
+  if (claimRisks.length) overrideReasons.push(`文案含高风险承诺词：${claimRisks.join(", ")}。`);
+
+  const kind = blockReasons.length ? "bad" : overrideReasons.length ? "warn" : "good";
+  const actionText = blockReasons.length ? "暂不能 API 发布" : overrideReasons.length ? "需要额外确认" : "可以谨慎发布";
+  const checks = [
+    {
+      label: "数据",
+      value: latest.source?.usedFallback ? "Fallback sample" : ageMinutes === null ? "年龄未知" : `刷新 ${formatDuration(ageMinutes)}前`,
+      ok: !latest.source?.usedFallback && !staleData
+    },
+    {
+      label: "新鲜度",
+      value: freshness?.label ?? "未知",
+      ok: freshness?.kind === "fresh"
+    },
+    {
+      label: "X 配置",
+      value: xAuth.label,
+      ok: !xAuth.blocked
+    },
+    {
+      label: "字数",
+      value: `${count} / 280`,
+      ok: count > 0 && count <= 280
+    },
+    {
+      label: "Voice",
+      value: forbidden.length ? forbidden.join(", ") : "无禁用词",
+      ok: !forbidden.length
+    },
+    {
+      label: "承诺风险",
+      value: claimRisks.length ? claimRisks.join(", ") : "未发现明显高风险词",
+      ok: !claimRisks.length
+    }
+  ];
+
+  return { kind, actionText, blockReasons, overrideReasons, checks };
+}
+
+function findRiskyClaims(text) {
+  const lower = String(text ?? "").toLowerCase();
+  const terms = ["guaranteed", "passive income", "make money", "revenue", "profit", "earn", "10x"];
+  const found = terms.filter((term) => lower.includes(term));
+  if (text.includes("$")) found.push("$");
+  return Array.from(new Set(found)).slice(0, 5);
+}
+
+function copyQuality(text) {
+  const normalized = String(text ?? "").trim();
+  const length = normalized.length;
+  const forbidden = forbiddenPhrases(normalized);
+  const risky = findRiskyClaims(normalized);
+  const max = maxTweetCharacters();
+  const tooLong = length > max;
+  const ok = length > 0 && !tooLong && !forbidden.length && !risky.length;
+  const kind = forbidden.length || tooLong ? "bad" : risky.length ? "warn" : "good";
+  const label = ok ? "Copy QA OK" : tooLong ? `Too long ${length}/${max}` : forbidden.length ? "禁用词" : "需复查";
+  return { ok, kind, label, length, max, forbidden, risky, tooLong };
+}
+
+function forbiddenPhrases(text) {
+  const lower = String(text ?? "").toLowerCase();
+  return (state.settings?.forbiddenWords ?? [])
+    .filter((phrase) => lower.includes(String(phrase).toLowerCase()))
+    .slice(0, 6);
+}
+
+function maxTweetCharacters() {
+  return Number(state.settings?.maxTweetCharacters || 260);
+}
+
+function xAuthStatus() {
+  const status = state.xStatus ?? {};
+  if (!status.configured) {
+    return {
+      label: "未配置",
+      blocked: true,
+      warning: false,
+      reason: "X token 未配置，只能预览，不能调用 API 发布。"
+    };
+  }
+  if (status.health === "expired_no_refresh") {
+    return {
+      label: "已过期",
+      blocked: true,
+      warning: false,
+      reason: "X token 已过期且没有 refresh token，请重新运行 npm run x:auth。"
+    };
+  }
+  if (status.health === "expired_refresh_ready") {
+    return {
+      label: "已过期，可刷新",
+      blocked: false,
+      warning: true,
+      reason: "X token 已过期，但 refresh token 已配置；发布前会自动刷新。"
+    };
+  }
+  if (status.health === "refresh_due") {
+    return {
+      label: "即将刷新",
+      blocked: false,
+      warning: true,
+      reason: "X token 接近过期；发布前会自动刷新。"
+    };
+  }
+  return {
+    label: "已配置",
+    blocked: false,
+    warning: false,
+    reason: "X token 可用。"
+  };
+}
+
+function renderPublishChecklist(readiness) {
+  return `<div class="publish-checklist-card ${readiness.kind}">
+    <div class="line-head">
+      <strong>${esc(readiness.actionText)}</strong>
+      ${pill(readiness.kind === "good" ? "Clear" : readiness.kind === "warn" ? "Review" : "Blocked", readiness.kind)}
+    </div>
+    <div class="check-list">
+      ${readiness.checks.map((item) => `<div class="check-row ${item.ok ? "ok" : "warn"}">
+        <span>${esc(item.label)}</span>
+        <strong>${esc(item.value)}</strong>
+      </div>`).join("")}
+    </div>
+    ${readiness.blockReasons.length ? `<ul class="publish-reasons">${readiness.blockReasons.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : ""}
+    ${readiness.overrideReasons.length ? `<ul class="publish-reasons">${readiness.overrideReasons.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : ""}
+  </div>`;
+}
+
+function updatePublishReview() {
+  const form = $("#publishForm");
+  const text = form.elements.text?.value ?? "";
+  const readiness = buildPublishReadiness(state.publishTool, text);
+  const overrideLine = $("#publishOverrideLine");
+  const overrideInput = form.elements.overrideChecked;
+  const confirmButton = $("#confirmPublishButton");
+
+  $("#publishCount").textContent = `${String(text).trim().length} / 280`;
+  $("#publishCount").classList.toggle("bad", String(text).trim().length > 280);
+  $("#publishStatus").textContent = readiness.actionText;
+  $("#publishChecklist").innerHTML = renderPublishChecklist(readiness);
+  overrideLine.hidden = readiness.overrideReasons.length === 0;
+  overrideInput.required = readiness.overrideReasons.length > 0;
+  if (!readiness.overrideReasons.length) overrideInput.checked = false;
+  confirmButton.disabled = readiness.blockReasons.length > 0;
+  confirmButton.textContent = readiness.blockReasons.length ? "暂不能发布" : readiness.overrideReasons.length ? "额外确认并发布" : "确认发布";
+}
+
+function dataAgeMinutes(generatedAt) {
+  const date = new Date(generatedAt);
+  if (Number.isNaN(date.getTime())) return null;
+  return Math.max(0, (Date.now() - date.getTime()) / 60000);
+}
+
+function formatDuration(minutes) {
+  const rounded = Math.round(Number(minutes));
+  if (!Number.isFinite(rounded)) return "未知";
+  if (rounded < 60) return `${rounded} 分钟`;
+  const hours = Math.floor(rounded / 60);
+  const rest = rounded % 60;
+  if (hours < 24) return rest ? `${hours} 小时 ${rest} 分钟` : `${hours} 小时`;
+  const days = Math.floor(hours / 24);
+  const dayHours = hours % 24;
+  return dayHours ? `${days} 天 ${dayHours} 小时` : `${days} 天`;
+}
+
+function formatRate(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return "0%";
+  return `${(number * 100).toFixed(1)}%`;
+}
+
+function formatDateTime(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "未知时间";
+  return date.toLocaleString("zh-CN", {
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+function formatAgeDays(value) {
+  if (value === null || value === undefined) return "unknown age";
+  if (Number(value) <= 0) return "today";
+  if (Number(value) === 1) return "1 day old";
+  return `${Number(value)} days old`;
+}
+
+function defaultCandidateDateTime() {
+  const date = new Date();
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date.toISOString().slice(0, 16);
+}
+
+function formatCandidatePublished(value) {
+  if (!value) return "发布时间未知";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+}
+
+function empty(text) {
+  return `<p class="empty">${esc(text)}</p>`;
+}
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast("已复制");
+  } catch {
+    if (legacyCopy(text)) {
+      toast("已复制");
+    } else {
+      toast("复制失败，请手动选中文案复制");
+    }
+  }
+}
+
+function openSearchGroup(button) {
+  const urls = JSON.parse(button.dataset.openSearches || "[]");
+  urls.slice(0, 6).forEach((url) => window.open(url, "_blank", "noopener,noreferrer"));
+  toast(`已打开 ${Math.min(urls.length, 6)} 个搜索页`);
+}
+
+function legacyCopy(text) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+  let copied = false;
+  try {
+    copied = document.execCommand("copy");
+  } catch {
+    copied = false;
+  }
+  textarea.remove();
+  return copied;
+}
+
+function flashButton(button, text = "已复制") {
+  const original = button.textContent;
+  button.textContent = text;
+  window.setTimeout(() => {
+    button.textContent = original;
+  }, 1200);
+}
+
+async function markPosted(button) {
+  const payload = {
+    toolId: button.dataset.posted,
+    toolName: button.dataset.tool,
+    toolUrl: button.dataset.url,
+    sourceDate: state.latest.date,
+    variantType: button.dataset.variant,
+    copyText: button.dataset.copytext,
+    posted: true,
+    metrics: {}
+  };
+  await api.post("/api/feedback/upsert", payload);
+  toast("已标记已发，待录入数据");
+  await loadAll();
+}
+
+function openFeedback(button, existing = null) {
+  const form = $("#feedbackForm");
+  form.reset();
+  const data = existing ?? {
+    toolId: button.dataset.feedback,
+    toolName: button.dataset.tool,
+    toolUrl: button.dataset.url,
+    sourceDate: state.latest.date,
+    variantType: button.dataset.variant,
+    copyText: button.dataset.copytext,
+    metrics: {}
+  };
+  for (const key of ["id","toolId","toolName","toolUrl","sourceDate","variantType","copyText","postedUrl","notes"]) {
+    if (form.elements[key]) form.elements[key].value = data[key] ?? "";
+  }
+  for (const key of ["impressions","likes","bookmarks","replies","reposts","clicks","profileVisits"]) {
+    form.elements[key].value = data.metrics?.[key] ?? 0;
+  }
+  $("#feedbackDialog").showModal();
+}
+
+function openPublish(button) {
+  const form = $("#publishForm");
+  form.reset();
+  const text = button.dataset.copytext || "";
+  const tool = (state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.publish);
+  state.publishTool = tool ?? null;
+  const data = {
+    toolId: button.dataset.publish,
+    toolName: button.dataset.tool,
+    toolUrl: button.dataset.url,
+    sourceDate: state.latest?.date ?? "",
+    variantType: button.dataset.variant,
+    text
+  };
+  for (const key of ["toolId", "toolName", "toolUrl", "sourceDate", "variantType", "text"]) {
+    if (form.elements[key]) form.elements[key].value = data[key] ?? "";
+  }
+  $("#publishRisk").innerHTML = renderPublishRisk(tool);
+  updatePublishReview();
+  $("#publishDialog").showModal();
+}
+
+function updatePublishCount() {
+  updatePublishReview();
+}
+
+async function submitFeedback(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const payload = Object.fromEntries(new FormData(form).entries());
+  payload.metrics = {};
+  for (const key of ["impressions","likes","bookmarks","replies","reposts","clicks","profileVisits"]) {
+    payload.metrics[key] = Number(payload[key] || 0);
+    delete payload[key];
+  }
+  payload.posted = true;
+  await api.post("/api/feedback/upsert", payload);
+  $("#feedbackDialog").close();
+  toast("反馈已保存");
+  await loadAll();
+}
+
+async function submitPublish(event) {
+  event.preventDefault();
+  try {
+    const form = event.currentTarget;
+    const payload = Object.fromEntries(new FormData(form).entries());
+    const readiness = buildPublishReadiness(state.publishTool, payload.text);
+    if (readiness.blockReasons.length) throw new Error(readiness.blockReasons[0]);
+    if (readiness.overrideReasons.length && payload.overrideChecked !== "on") {
+      throw new Error("这条需要额外风险确认后才能发布。");
+    }
+    payload.confirmed = payload.confirmChecked === "on";
+    delete payload.confirmChecked;
+    delete payload.overrideChecked;
+    const result = await api.post("/api/x/publish", payload);
+    $("#publishDialog").close();
+    toast(result.url ? `已发布到 X：${result.url}` : "已发布到 X");
+    await loadAll();
+  } catch (error) {
+    toast(error.message);
+  }
+}
+
+async function addQueue(button) {
+  await api.post("/api/queue/upsert", {
+    toolId: button.dataset.toolId,
+    toolName: button.dataset.tool,
+    toolUrl: button.dataset.url,
+    sourceDate: state.latest.date,
+    type: button.dataset.queue,
+    priorityScore: Number(button.dataset.priority || 10),
+    reason: button.dataset.reason || "Dashboard 手动加入"
+  });
+  toast("已加入队列");
+  await loadAll();
+}
+
+async function generateReview(toolName) {
+  const result = await api.post("/api/review-outline/generate", { toolName });
+  await copyText(result.markdown);
+  toast(`大纲已生成：${result.filePath}`);
+  await loadAll();
+}
+
+async function addAffiliate(button) {
+  await api.post("/api/affiliate-research/upsert", {
+    toolName: button.dataset.affiliate,
+    toolUrl: button.dataset.url,
+    affiliateScore: Number(button.dataset.score || 0),
+    status: "not_started"
+  });
+  toast("已加入联盟研究");
+  await loadAll();
+}
+
+async function submitAffiliateResearch(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const payload = Object.fromEntries(new FormData(form).entries());
+  payload.affiliateScore = Number(payload.affiliateScore || 0);
+  await api.post("/api/affiliate-research/upsert", payload);
+  form.reset();
+  toast("联盟研究记录已保存");
+  await loadAll();
+}
+
+async function submitCandidate(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const payload = Object.fromEntries(new FormData(form).entries());
+  if (payload.published) payload.published = new Date(payload.published).toISOString();
+  await api.post("/api/candidate-inbox/upsert", payload);
+  state.candidatePreview = null;
+  form.reset();
+  toast("候选已保存，刷新 Live Feed 后会参与评分");
+  await loadAll();
+}
+
+async function submitCandidatePaste(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const payload = Object.fromEntries(new FormData(form).entries());
+  const result = await api.post("/api/candidate-inbox/import-paste", payload);
+  state.candidatePreview = null;
+  form.reset();
+  toast(`已导入 ${result.imported} 个候选${result.errors?.length ? `，${result.errors.length} 行跳过` : ""}`);
+  await loadAll();
+}
+
+async function previewCandidatePaste(formId) {
+  const form = document.getElementById(formId);
+  if (!form) throw new Error("candidate paste form not found");
+  const payload = Object.fromEntries(new FormData(form).entries());
+  state.candidatePreview = await api.post("/api/candidate-inbox/preview-paste", payload);
+  renderActiveView();
+  toast(`已预览 ${state.candidatePreview.previews.length} 个候选`);
+}
+
+async function submitFeedbackCsv(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const csv = new FormData(form).get("csv");
+  const result = await api.post("/api/feedback/import-csv", { csv });
+  state.feedbackPreview = null;
+  form.reset();
+  toast(`已导入 ${result.imported} 条反馈${result.errors?.length ? `，${result.errors.length} 行跳过` : ""}`);
+  await loadAll();
+}
+
+async function previewFeedbackCsv(formId) {
+  const form = document.getElementById(formId);
+  if (!form) throw new Error("feedback CSV form not found");
+  const csv = new FormData(form).get("csv");
+  state.feedbackPreview = await api.post("/api/feedback/preview-csv", { csv });
+  renderActiveView();
+  toast(`已预览 ${state.feedbackPreview.previews.length} 条反馈`);
+}
+
+async function runDaily() {
+  if (state.dailyRun.running) return;
+  state.dailyRun = { running: true, message: "正在从 Product Hunt live feed 刷新..." };
+  render();
+  try {
+    const result = await api.post("/api/daily/run", {});
+    state.dailyRun = {
+      running: false,
+      message: `刷新完成：${result.latestDate ?? "unknown"} · ${result.topPicks ?? 0} 个候选${result.usedFallback ? " · 使用 fallback" : ""}`
+    };
+    toast("Live feed 已刷新");
+    await loadAll();
+  } catch (error) {
+    state.dailyRun = { running: false, message: `刷新失败：${error.message}` };
+    render();
+    toast(error.message);
+  }
+}
+
+function toast(message) {
+  const node = $("#toast");
+  node.textContent = message;
+  node.classList.add("show");
+  setTimeout(() => node.classList.remove("show"), 1800);
+}
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+}
+function attr(value) { return esc(value).replace(/`/g, "&#96;"); }
+
+document.addEventListener("click", async (event) => {
+  const button = event.target.closest("button, a");
+  if (!button) return;
+  try {
+    if (button.dataset.tab) {
+      switchTab(button.dataset.tab);
+    } else if (button.dataset.tabJump) {
+      switchTab(button.dataset.tabJump);
+    } else if (button.dataset.copy) {
+      await copyText(button.dataset.copy);
+      flashButton(button);
+    } else if (button.dataset.openSearches) {
+      openSearchGroup(button);
+    } else if (button.dataset.runDaily !== undefined) {
+      await runDaily();
+    } else if (button.dataset.previewCandidates) {
+      await previewCandidatePaste(button.dataset.previewCandidates);
+    } else if (button.dataset.previewFeedback) {
+      await previewFeedbackCsv(button.dataset.previewFeedback);
+    } else if (button.dataset.publish) {
+      openPublish(button);
+    } else if (button.dataset.posted) {
+      await markPosted(button);
+    } else if (button.dataset.feedback) {
+      openFeedback(button);
+    } else if (button.dataset.editFeedback) {
+      openFeedback(button, state.feedback.entries.find((entry) => entry.id === button.dataset.editFeedback));
+    } else if (button.dataset.queue) {
+      await addQueue(button);
+    } else if (button.dataset.queueStatus) {
+      await api.post("/api/queue/status", { id: button.dataset.queueStatus, status: button.dataset.status });
+      toast("队列状态已更新");
+      await loadAll();
+    } else if (button.dataset.candidateStatus) {
+      await api.post("/api/candidate-inbox/status", { id: button.dataset.candidateStatus, status: button.dataset.status });
+      toast("候选状态已更新");
+      await loadAll();
+    } else if (button.dataset.affiliate) {
+      await addAffiliate(button);
+    } else if (button.dataset.affStatus) {
+      await api.post("/api/affiliate-research/upsert", { id: button.dataset.affStatus, toolName: button.dataset.tool, toolUrl: button.dataset.url, status: button.dataset.status });
+      toast("联盟研究状态已更新");
+      await loadAll();
+    } else if (button.dataset.review) {
+      await generateReview(button.dataset.review);
+    }
+  } catch (error) {
+    toast(error.message);
+  }
+});
+
+document.addEventListener("submit", async (event) => {
+  if (!["affiliateForm", "feedbackCsvForm", "candidateForm", "candidatePasteForm"].includes(event.target?.id)) return;
+  try {
+    if (event.target.id === "affiliateForm") await submitAffiliateResearch(event);
+    if (event.target.id === "feedbackCsvForm") await submitFeedbackCsv(event);
+    if (event.target.id === "candidateForm") await submitCandidate(event);
+    if (event.target.id === "candidatePasteForm") await submitCandidatePaste(event);
+  } catch (error) {
+    toast(error.message);
+  }
+});
+
+$("#feedbackForm").addEventListener("submit", submitFeedback);
+$("#cancelFeedback").addEventListener("click", () => $("#feedbackDialog").close());
+$("#publishForm").addEventListener("submit", submitPublish);
+$("#publishForm").elements.text.addEventListener("input", updatePublishCount);
+$("#cancelPublish").addEventListener("click", () => $("#publishDialog").close());
+$("#refreshButton").addEventListener("click", loadAll);
+$("#copyPlanButton").addEventListener("click", async () => {
+  const result = await api.post("/api/export/today-plan", {});
+  await copyText(result.markdown);
+});
+$("#weeklyButton").addEventListener("click", async () => {
+  const result = await api.post("/api/weekly/generate", {});
+  state.tab = "weekly";
+  $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === "weekly"));
+  await loadAll();
+  toast(`周报已生成：${result.filePath}`);
+});
+$("#themeButton").addEventListener("click", () => {
+  const current = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = current;
+  localStorage.setItem("theme", current);
+});
+for (const [selector, key] of [["#searchInput", "search"], ["#actionFilter", "action"], ["#affiliateFilter", "affiliate"], ["#stateFilter", "state"], ["#minScore", "minScore"], ["#sortBy", "sortBy"]]) {
+  const updateFilter = (event) => {
+    state.filters[key] = event.target.value;
+    if (["tools", "copy"].includes(state.tab)) renderActiveView();
+  };
+  $(selector).addEventListener("input", updateFilter);
+  $(selector).addEventListener("change", updateFilter);
+}
+document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+loadAll();

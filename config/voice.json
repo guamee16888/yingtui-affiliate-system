@@ -1,0 +1,29 @@
+{
+  "style": {
+    "maxTweetCharacters": 260,
+    "allowEmoji": false,
+    "tone": [
+      "plain English",
+      "specific",
+      "slightly skeptical",
+      "useful to builders, marketers, freelancers, and solo operators"
+    ],
+    "avoid": [
+      "game-changer",
+      "revolutionize",
+      "unlock",
+      "seamless",
+      "leverage",
+      "boost productivity",
+      "in today's fast-paced world",
+      "delve",
+      "ultimate",
+      "cutting-edge",
+      "effortlessly",
+      "supercharge",
+      "transform the way",
+      "streamline",
+      "robust"
+    ]
+  }
+}

@@ -1,0 +1,797 @@
+{
+  "date": "2026-06-07",
+  "generatedAt": "2026-06-07T07:28:24.022Z",
+  "source": {
+    "feed": "https://www.producthunt.com/feed",
+    "usedFallback": false
+  },
+  "warnings": [],
+  "summary": {
+    "totalTools": 50,
+    "topPicks": 6,
+    "affiliateQueueCount": 2,
+    "seenBeforeCount": 5
+  },
+  "actionList": [
+    {
+      "type": "post",
+      "toolName": "Mailwarm 2.0",
+      "reason": "Post one X draft: Testing Mailwarm 2.0 today. It looks narrow enough to be useful: getting emails out of spam before a launch. Worth a quick look if you care about fewer email deliverability headaches. https://www.producthunt.com/products/mailwarm"
+    },
+    {
+      "type": "post",
+      "toolName": "Manus Shopify Connector",
+      "reason": "Post one X draft: Testing Manus Shopify Connector today. It looks narrow enough to be useful: changing store ops without touching five admin screens. Worth a quick look if you care about better store operations. https://www.producthunt.com/products/manus-shopify-connector"
+    },
+    {
+      "type": "post",
+      "toolName": "Navi+ Menu Builder",
+      "reason": "Post one X draft: Testing Navi+ Menu Builder today. It looks narrow enough to be useful: changing a site without waiting on a dev ticket. Worth a quick look if you care about a better site workflow. https://www.producthunt.com/products/navi-menu-builder"
+    },
+    {
+      "type": "research affiliate",
+      "toolName": "Mailwarm 2.0",
+      "reason": "Check whether Mailwarm 2.0 has an affiliate, partner, or referral program."
+    },
+    {
+      "type": "longform",
+      "toolName": "Mailwarm 2.0",
+      "reason": "Save Mailwarm 2.0 for a thread or SEO review page if the X post gets feedback."
+    }
+  ],
+  "tools": [
+    {
+      "id": "tool_producthunt_com_mailwarm-2-0_4b26ecfc38",
+      "toolId": "tool_producthunt_com_mailwarm-2-0_4b26ecfc38",
+      "name": "Mailwarm 2.0",
+      "url": "https://www.producthunt.com/products/mailwarm",
+      "domain": "producthunt.com",
+      "tagline": "The email warmup tool, upgraded for deliverability.",
+      "published": "2026-05-11T01:28:25-07:00",
+      "score": 28,
+      "scoreBreakdown": {
+        "painScore": 8,
+        "nicheScore": 6,
+        "affiliateScore": 6,
+        "contentScore": 9,
+        "noveltyScore": 5,
+        "riskScore": 0,
+        "seenPenalty": 6,
+        "total": 28
+      },
+      "reason": "clear pain: getting emails out of spam before a launch; easy before/after/price/alternative content angle. Caution: Seen before, so it is downgraded today.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "review page candidate",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 2,
+        "lastSeen": "2026-06-07",
+        "bestScore": 34
+      },
+      "suggestedAngle": "people who live in email want fewer email deliverability headaches; test whether it solves getting emails out of spam before a launch.",
+      "angle": {
+        "audience": "people who live in email",
+        "outcome": "fewer email deliverability headaches",
+        "pain": "getting emails out of spam before a launch",
+        "solution": "the email warmup tool, upgraded for deliverability"
+      },
+      "copyVariants": {
+        "shortPost": "Testing Mailwarm 2.0 today. It looks narrow enough to be useful: getting emails out of spam before a launch. Worth a quick look if you care about fewer email deliverability headaches. https://www.producthunt.com/products/mailwarm",
+        "casualPost": "I like AI tools more when the buyer is obvious. Mailwarm 2.0 seems built for people who live in email, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/mailwarm",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Mailwarm 2.0 is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/mailwarm",
+        "painPointHook": "People actually search for ways to fix getting emails out of spam before a launch. That's why Mailwarm 2.0 is more interesting than another vague launch. https://www.producthunt.com/products/mailwarm",
+        "threadOpening": "I found Mailwarm 2.0 on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/mailwarm"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 207,
+          "issues": "OK (207 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 194,
+          "issues": "OK (194 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 165,
+          "issues": "OK (165 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 177,
+          "issues": "OK (177 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 191,
+          "issues": "OK (191 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_manus-shopify-connector_912daa0f92",
+      "toolId": "tool_producthunt_com_manus-shopify-connector_912daa0f92",
+      "name": "Manus Shopify Connector",
+      "url": "https://www.producthunt.com/products/manus-shopify-connector",
+      "domain": "producthunt.com",
+      "tagline": "Build and manage Shopify stores from one chat",
+      "published": "2026-06-04T08:34:33-07:00",
+      "score": 24,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 6,
+        "affiliateScore": 4,
+        "contentScore": 7,
+        "noveltyScore": 7,
+        "riskScore": 0,
+        "seenPenalty": 6,
+        "total": 24
+      },
+      "reason": "easy before/after/price/alternative content angle; fresh enough to test now. Caution: Seen before, so it is downgraded today.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "thread candidate",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 2,
+        "lastSeen": "2026-06-07",
+        "bestScore": 24
+      },
+      "suggestedAngle": "Shopify stores want better store operations; test whether it solves changing store ops without touching five admin screens.",
+      "angle": {
+        "audience": "Shopify stores",
+        "outcome": "better store operations",
+        "pain": "changing store ops without touching five admin screens",
+        "solution": "build and manage Shopify stores from one chat"
+      },
+      "copyVariants": {
+        "shortPost": "Testing Manus Shopify Connector today. It looks narrow enough to be useful: changing store ops without touching five admin screens. Worth a quick look if you care about better store operations. https://www.producthunt.com/products/manus-shopify-connector",
+        "casualPost": "I like AI tools more when the buyer is obvious. Manus Shopify Connector seems built for Shopify stores, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/manus-shopify-connector",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Manus Shopify Connector is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/manus-shopify-connector",
+        "painPointHook": "People actually search for ways to fix changing store ops without touching five admin screens. That's why Manus Shopify Connector is more interesting than another vague launch. https://www.producthunt.com/products/manus-shopify-connector",
+        "threadOpening": "I found Manus Shopify Connector on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/manus-shopify-connector"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 217,
+          "issues": "OK (217 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 195,
+          "issues": "OK (195 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 176,
+          "issues": "OK (176 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 200,
+          "issues": "OK (200 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 202,
+          "issues": "OK (202 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_navi-menu-builder_ea709585f4",
+      "toolId": "tool_producthunt_com_navi-menu-builder_ea709585f4",
+      "name": "Navi+ Menu Builder",
+      "url": "https://www.producthunt.com/products/navi-menu-builder",
+      "domain": "producthunt.com",
+      "tagline": "Add Tab Bar, Mega Menu & more to any website — no code",
+      "published": "2026-06-05T03:40:09-07:00",
+      "score": 24,
+      "scoreBreakdown": {
+        "painScore": 8,
+        "nicheScore": 4,
+        "affiliateScore": 4,
+        "contentScore": 7,
+        "noveltyScore": 7,
+        "riskScore": 0,
+        "seenPenalty": 6,
+        "total": 24
+      },
+      "reason": "clear pain: changing a site without waiting on a dev ticket; easy before/after/price/alternative content angle; fresh enough to test now. Caution: Seen before, so it is downgraded today.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "thread candidate",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 2,
+        "lastSeen": "2026-06-07",
+        "bestScore": 24
+      },
+      "suggestedAngle": "site owners want a better site workflow; test whether it solves changing a site without waiting on a dev ticket.",
+      "angle": {
+        "audience": "site owners",
+        "outcome": "a better site workflow",
+        "pain": "changing a site without waiting on a dev ticket",
+        "solution": "add tab bar, mega menu & more to any website — no code"
+      },
+      "copyVariants": {
+        "shortPost": "Testing Navi+ Menu Builder today. It looks narrow enough to be useful: changing a site without waiting on a dev ticket. Worth a quick look if you care about a better site workflow. https://www.producthunt.com/products/navi-menu-builder",
+        "casualPost": "I like AI tools more when the buyer is obvious. Navi+ Menu Builder seems built for site owners, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/navi-menu-builder",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Navi+ Menu Builder is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/navi-menu-builder",
+        "painPointHook": "People actually search for ways to fix changing a site without waiting on a dev ticket. That's why Navi+ Menu Builder is more interesting than another vague launch. https://www.producthunt.com/products/navi-menu-builder",
+        "threadOpening": "I found Navi+ Menu Builder on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/navi-menu-builder"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 204,
+          "issues": "OK (204 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 187,
+          "issues": "OK (187 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 171,
+          "issues": "OK (171 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 188,
+          "issues": "OK (188 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 197,
+          "issues": "OK (197 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_cignara_9f1744a84e",
+      "toolId": "tool_producthunt_com_cignara_9f1744a84e",
+      "name": "Cignara",
+      "url": "https://www.producthunt.com/products/cignara",
+      "domain": "producthunt.com",
+      "tagline": "AI Agents for Fortune 500 grade customer support",
+      "published": "2026-06-03T10:38:03-07:00",
+      "score": 20,
+      "scoreBreakdown": {
+        "painScore": 8,
+        "nicheScore": 5,
+        "affiliateScore": 6,
+        "contentScore": 5,
+        "noveltyScore": 4,
+        "riskScore": 2,
+        "seenPenalty": 6,
+        "total": 20
+      },
+      "reason": "clear pain: answering repeat customer questions without adding another queue. Caution: Seen before, so it is downgraded today.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "tweet only",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 2,
+        "lastSeen": "2026-06-07",
+        "bestScore": 21
+      },
+      "suggestedAngle": "support teams want fewer repetitive support tasks; test whether it solves answering repeat customer questions without adding another queue.",
+      "angle": {
+        "audience": "support teams",
+        "outcome": "fewer repetitive support tasks",
+        "pain": "answering repeat customer questions without adding another queue",
+        "solution": "AI agents for fortune 500 grade customer support"
+      },
+      "copyVariants": {
+        "shortPost": "Testing Cignara today. It looks narrow enough to be useful: answering repeat customer questions without adding another queue. Worth a quick look if you care about fewer repetitive support tasks. https://www.producthunt.com/products/cignara",
+        "casualPost": "I like AI tools more when the buyer is obvious. Cignara seems built for support teams, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/cignara",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Cignara is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/cignara",
+        "painPointHook": "People actually search for ways to fix answering repeat customer questions without adding another queue. That's why Cignara is more interesting than another vague launch. https://www.producthunt.com/products/cignara",
+        "threadOpening": "I found Cignara on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/cignara"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 218,
+          "issues": "OK (218 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 178,
+          "issues": "OK (178 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 160,
+          "issues": "OK (160 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 194,
+          "issues": "OK (194 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 186,
+          "issues": "OK (186 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_job-postings-api_c3205c5190",
+      "toolId": "tool_producthunt_com_job-postings-api_c3205c5190",
+      "name": "Job Postings API",
+      "url": "https://www.producthunt.com/products/free-job-postings-api",
+      "domain": "producthunt.com",
+      "tagline": "View, monitor, and analyze 1.8M+ US jobs",
+      "published": "2026-06-06T13:32:22-07:00",
+      "score": 18,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 4,
+        "affiliateScore": 2,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 0,
+        "seenPenalty": 0,
+        "total": 18
+      },
+      "reason": "fresh enough to test now.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "tweet only",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
+      "angle": {
+        "audience": "developers",
+        "outcome": "less glue code",
+        "pain": "removing one annoying developer workflow step",
+        "solution": "view, monitor, and analyze 1.8m+ us jobs"
+      },
+      "copyVariants": {
+        "shortPost": "Testing Job Postings API today. It looks narrow enough to be useful: removing one annoying developer workflow step. Worth a quick look if you care about less glue code. https://www.producthunt.com/products/free-job-postings-api",
+        "casualPost": "I like AI tools more when the buyer is obvious. Job Postings API seems built for developers, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/free-job-postings-api",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Job Postings API is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/free-job-postings-api",
+        "painPointHook": "People actually search for ways to fix removing one annoying developer workflow step. That's why Job Postings API is more interesting than another vague launch. https://www.producthunt.com/products/free-job-postings-api",
+        "threadOpening": "I found Job Postings API on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/free-job-postings-api"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 192,
+          "issues": "OK (192 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 184,
+          "issues": "OK (184 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 169,
+          "issues": "OK (169 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 184,
+          "issues": "OK (184 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 195,
+          "issues": "OK (195 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_producthunt_com_google-search-profiles_8073b22bf3",
+      "toolId": "tool_producthunt_com_google-search-profiles_8073b22bf3",
+      "name": "Google Search Profiles",
+      "url": "https://www.producthunt.com/products/google",
+      "domain": "producthunt.com",
+      "tagline": "Profile for publishers/creators to highlight work on Search",
+      "published": "2026-06-04T12:56:28-07:00",
+      "score": 18,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 8,
+        "affiliateScore": 0,
+        "contentScore": 5,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 6,
+        "total": 18
+      },
+      "reason": "specific buyer: creators; fresh enough to test now. Caution: Seen before, so it is downgraded today.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "tweet only",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 2,
+        "lastSeen": "2026-06-07",
+        "bestScore": 18
+      },
+      "suggestedAngle": "creators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "creators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "profile for publishers/creators to highlight work on search"
+      },
+      "copyVariants": {
+        "shortPost": "Testing Google Search Profiles today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/google",
+        "casualPost": "I like AI tools more when the buyer is obvious. Google Search Profiles seems built for creators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/google",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Google Search Profiles is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/google",
+        "painPointHook": "People actually search for ways to fix removing one narrow, repeated manual step. That's why Google Search Profiles is more interesting than another vague launch. https://www.producthunt.com/products/google",
+        "threadOpening": "I found Google Search Profiles on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/google"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 199,
+          "issues": "OK (199 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 188,
+          "issues": "OK (188 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 175,
+          "issues": "OK (175 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 186,
+          "issues": "OK (186 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 201,
+          "issues": "OK (201 chars)"
+        }
+      }
+    }
+  ],
+  "skippedTools": [
+    {
+      "id": "tool_producthunt_com_deliveryman-ai_4b7e214612",
+      "toolId": "tool_producthunt_com_deliveryman-ai_4b7e214612",
+      "name": "Deliveryman.ai",
+      "url": "https://www.producthunt.com/products/deliveryman-ai",
+      "domain": "producthunt.com",
+      "tagline": "Cold email infrastructure on autopilot without Gsuite",
+      "published": "2026-06-01T06:24:10-07:00",
+      "score": 18,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 5,
+        "affiliateScore": 4,
+        "contentScore": 5,
+        "noveltyScore": 4,
+        "riskScore": 0,
+        "seenPenalty": 6,
+        "total": 18
+      },
+      "reason": "has at least one narrow workflow angle. Caution: Seen before, so it is downgraded today.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "tweet only",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 2,
+        "lastSeen": "2026-06-07",
+        "bestScore": 18
+      },
+      "suggestedAngle": "people who live in email want fewer email deliverability headaches; test whether it solves getting emails out of spam before a launch.",
+      "angle": {
+        "audience": "people who live in email",
+        "outcome": "fewer email deliverability headaches",
+        "pain": "getting emails out of spam before a launch",
+        "solution": "cold email infrastructure on autopilot without Google Workspace"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_microsoft-mai-voice-2_8788944667",
+      "toolId": "tool_producthunt_com_microsoft-mai-voice-2_8788944667",
+      "name": "Microsoft MAI-Voice-2",
+      "url": "https://www.producthunt.com/products/mai-image-2-3",
+      "domain": "producthunt.com",
+      "tagline": "Expressive TTS with voice cloning in 15 languages",
+      "published": "2026-06-04T14:38:54-07:00",
+      "score": 9,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 4,
+        "seenPenalty": 0,
+        "total": 9
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "expressive tts with voice cloning in 15 languages"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_dreambeans-by-google-labs_c599e8486d",
+      "toolId": "tool_producthunt_com_dreambeans-by-google-labs_c599e8486d",
+      "name": "Dreambeans by Google Labs",
+      "url": "https://www.producthunt.com/products/google-labs",
+      "domain": "producthunt.com",
+      "tagline": "Daily AI stories personalised from your Google apps",
+      "published": "2026-06-03T09:29:48-07:00",
+      "score": 8,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 6,
+        "riskScore": 4,
+        "seenPenalty": 0,
+        "total": 8
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "daily AI stories personalised from your google apps"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_qwertys_9384b7e632",
+      "toolId": "tool_producthunt_com_qwertys_9384b7e632",
+      "name": "QWERTYS",
+      "url": "https://www.producthunt.com/products/qwertys",
+      "domain": "producthunt.com",
+      "tagline": "My keyboard fell apart. Now it's your problem.",
+      "published": "2026-06-05T12:12:55-07:00",
+      "score": 8,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 0,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 5,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 8
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "my keyboard fell apart. now it's your problem"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_veltrix-ai_7330674a7b",
+      "toolId": "tool_producthunt_com_veltrix-ai_7330674a7b",
+      "name": "Veltrix AI",
+      "url": "https://www.producthunt.com/products/veltrix-ai",
+      "domain": "producthunt.com",
+      "tagline": "AI finance copilot for cash flow, margins, and growth",
+      "published": "2026-05-21T01:17:52-07:00",
+      "score": 8,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 4,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 8
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "AI finance copilot for cash flow, margins, and growth"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_recursi_5b5804416e",
+      "toolId": "tool_producthunt_com_recursi_5b5804416e",
+      "name": "Recursi",
+      "url": "https://www.producthunt.com/products/recursi-self-improving-vibe-coding-env",
+      "domain": "producthunt.com",
+      "tagline": "Self improving vibe coding env with no API fees",
+      "published": "2026-06-04T10:18:43-07:00",
+      "score": 8,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 3,
+        "affiliateScore": 2,
+        "contentScore": 3,
+        "noveltyScore": 5,
+        "riskScore": 5,
+        "seenPenalty": 6,
+        "total": 8
+      },
+      "reason": "has at least one narrow workflow angle. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 2,
+        "lastSeen": "2026-06-07",
+        "bestScore": 14
+      },
+      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
+      "angle": {
+        "audience": "developers",
+        "outcome": "less glue code",
+        "pain": "removing one annoying developer workflow step",
+        "solution": "self improving vibe coding env with no API fees"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_visionsync_885800869b",
+      "toolId": "tool_producthunt_com_visionsync_885800869b",
+      "name": "VisionSync",
+      "url": "https://www.producthunt.com/products/visionsync",
+      "domain": "producthunt.com",
+      "tagline": "Where strategy execution meets the people doing the work",
+      "published": "2026-06-04T09:57:47-07:00",
+      "score": 8,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 0,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 5,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 8
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "where strategy execution meets the people doing the work"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_floatpic_781dc2b2d3",
+      "toolId": "tool_producthunt_com_floatpic_781dc2b2d3",
+      "name": "FloatPic",
+      "url": "https://www.producthunt.com/products/floatpic",
+      "domain": "producthunt.com",
+      "tagline": "Ultra-minimalist, borderless macOS native image viewer",
+      "published": "2026-06-03T21:45:58-07:00",
+      "score": 8,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 0,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 5,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 8
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "ultra-minimalist, borderless macos native image viewer"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    }
+  ],
+  "affiliateResearchQueue": [
+    {
+      "name": "Mailwarm 2.0",
+      "url": "https://www.producthunt.com/products/mailwarm",
+      "tagline": "The email warmup tool, upgraded for deliverability.",
+      "score": 28,
+      "affiliateScore": 6,
+      "followUpAction": "review page candidate",
+      "reason": "No affiliate link yet — research needed"
+    },
+    {
+      "name": "Cignara",
+      "url": "https://www.producthunt.com/products/cignara",
+      "tagline": "AI Agents for Fortune 500 grade customer support",
+      "score": 20,
+      "affiliateScore": 6,
+      "followUpAction": "tweet only",
+      "reason": "No affiliate link yet — research needed"
+    }
+  ],
+  "historicalNotes": [
+    "History records before this run: 29",
+    "Unique tools seen: 20",
+    "Last history date before this run: 2026-06-07",
+    "Seen-before tools in today's picks: 5",
+    "Records written by this run: 6"
+  ]
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom">
+  <id>tag:www.producthunt.com,2005:/feed</id>
+  <link rel="alternate" type="text/html" href="https://www.producthunt.com"/>
+  <link rel="self" type="application/atom+xml" href="https://www.producthunt.com/feed"/>
+  <title>Product Hunt — Fallback Sample</title>
+  <updated>2026-06-06T00:00:00-07:00</updated>
+  <entry>
+    <id>tag:www.producthunt.com,2005:Post/sample-1</id>
+    <published>2026-06-06T02:00:00-07:00</published>
+    <updated>2026-06-06T02:00:00-07:00</updated>
+    <link rel="alternate" type="text/html" href="https://www.producthunt.com/products/sample-email-tool"/>
+    <title>InboxWarm Sample</title>
+    <content type="html">&lt;p&gt;Email warmup and deliverability checks for small outbound teams&lt;/p&gt;&lt;p&gt;&lt;a href="https://www.producthunt.com/products/sample-email-tool"&gt;Discussion&lt;/a&gt; | &lt;a href="https://example.com"&gt;Link&lt;/a&gt;&lt;/p&gt;</content>
+    <author><name>Sample Author</name></author>
+  </entry>
+  <entry>
+    <id>tag:www.producthunt.com,2005:Post/sample-2</id>
+    <published>2026-06-05T02:00:00-07:00</published>
+    <updated>2026-06-05T02:00:00-07:00</updated>
+    <link rel="alternate" type="text/html" href="https://www.producthunt.com/products/sample-shopify-tool"/>
+    <title>StoreFix Sample</title>
+    <content type="html">&lt;p&gt;No code Shopify checks for broken menus, product pages, and checkout issues&lt;/p&gt;&lt;p&gt;&lt;a href="https://www.producthunt.com/products/sample-shopify-tool"&gt;Discussion&lt;/a&gt; | &lt;a href="https://example.com"&gt;Link&lt;/a&gt;&lt;/p&gt;</content>
+    <author><name>Sample Author</name></author>
+  </entry>
+  <entry>
+    <id>tag:www.producthunt.com,2005:Post/sample-3</id>
+    <published>2026-06-04T02:00:00-07:00</published>
+    <updated>2026-06-04T02:00:00-07:00</updated>
+    <link rel="alternate" type="text/html" href="https://www.producthunt.com/products/sample-agent-tool"/>
+    <title>Personal AI Agent Sample</title>
+    <content type="html">&lt;p&gt;An all-in-one personal AI assistant for everything you do online&lt;/p&gt;&lt;p&gt;&lt;a href="https://www.producthunt.com/products/sample-agent-tool"&gt;Discussion&lt;/a&gt; | &lt;a href="https://example.com"&gt;Link&lt;/a&gt;&lt;/p&gt;</content>
+    <author><name>Sample Author</name></author>
+  </entry>
+</feed>

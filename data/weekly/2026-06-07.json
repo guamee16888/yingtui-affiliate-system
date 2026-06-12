@@ -1,0 +1,79 @@
+{
+  "date": "2026-06-07",
+  "summary": {
+    "dailyDays": 2,
+    "toolsSeen": 29,
+    "postsTracked": 0,
+    "queueItems": 0,
+    "topAngle": null
+  },
+  "topFeedback": [],
+  "reviewCandidates": [],
+  "affiliateCandidates": [],
+  "dailyTrend": [
+    {
+      "date": "2026-06-01",
+      "toolsSeen": 0,
+      "topScore": 0,
+      "postsTracked": 0,
+      "engagementScore": 0,
+      "bookmarks": 0,
+      "clicks": 0
+    },
+    {
+      "date": "2026-06-02",
+      "toolsSeen": 0,
+      "topScore": 0,
+      "postsTracked": 0,
+      "engagementScore": 0,
+      "bookmarks": 0,
+      "clicks": 0
+    },
+    {
+      "date": "2026-06-03",
+      "toolsSeen": 0,
+      "topScore": 0,
+      "postsTracked": 0,
+      "engagementScore": 0,
+      "bookmarks": 0,
+      "clicks": 0
+    },
+    {
+      "date": "2026-06-04",
+      "toolsSeen": 0,
+      "topScore": 0,
+      "postsTracked": 0,
+      "engagementScore": 0,
+      "bookmarks": 0,
+      "clicks": 0
+    },
+    {
+      "date": "2026-06-05",
+      "toolsSeen": 0,
+      "topScore": 0,
+      "postsTracked": 0,
+      "engagementScore": 0,
+      "bookmarks": 0,
+      "clicks": 0
+    },
+    {
+      "date": "2026-06-06",
+      "toolsSeen": 19,
+      "topScore": 34,
+      "postsTracked": 0,
+      "engagementScore": 0,
+      "bookmarks": 0,
+      "clicks": 0
+    },
+    {
+      "date": "2026-06-07",
+      "toolsSeen": 10,
+      "topScore": 28,
+      "postsTracked": 0,
+      "engagementScore": 0,
+      "bookmarks": 0,
+      "clicks": 0
+    }
+  ],
+  "topAngles": []
+}

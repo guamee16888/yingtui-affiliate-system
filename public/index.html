@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Affiliate Topic Dashboard</title>
+    <link rel="stylesheet" href="/public/styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">本地 Affiliate 选题验证</p>
+        <h1>英推选题看板</h1>
+      </div>
+      <div class="header-actions">
+        <a class="button ghost" href="/output/2026-06-06-daily-x-pack.md" id="markdownLink">打开 Markdown</a>
+        <button class="button" id="refreshButton" type="button">刷新数据</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary-grid" id="summaryGrid" aria-label="Daily summary"></section>
+
+      <section class="layout">
+        <aside class="side-panel">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>今天照做</h2>
+                <p class="panel-note">先发 3 条推，再查 1 个 Affiliate，再留 1 个长文候选。</p>
+              </div>
+            </div>
+            <ol class="action-list" id="actionList"></ol>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Affiliate 待查</h2>
+                <p class="panel-note">这些工具有变现潜力，但还没配置你的联盟链接。</p>
+              </div>
+            </div>
+            <div class="queue-list" id="affiliateQueue"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>历史记录</h2>
+            </div>
+            <div class="history-list" id="historyList"></div>
+          </section>
+        </aside>
+
+        <section class="workspace">
+          <div class="toolbar">
+            <label class="search-label">
+              <span>搜索</span>
+              <input id="searchInput" type="search" placeholder="工具名、用途、动作">
+            </label>
+            <div class="filter-group" aria-label="Follow-up filters">
+              <button class="filter active" type="button" data-filter="all">全部</button>
+              <button class="filter" type="button" data-filter="tweet only">只发单条</button>
+              <button class="filter" type="button" data-filter="thread candidate">适合长推</button>
+              <button class="filter" type="button" data-filter="review page candidate">适合测评页</button>
+              <button class="filter" type="button" data-filter="affiliate priority">优先查联盟</button>
+              <button class="filter" type="button" data-filter="skip">跳过</button>
+            </div>
+          </div>
+
+          <section class="tool-list" id="toolList" aria-label="Tool cards"></section>
+
+          <section class="panel low-priority">
+            <div class="panel-heading">
+              <h2>跳过 / 低优先级</h2>
+            </div>
+            <div class="skipped-list" id="skippedList"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <template id="toolCardTemplate">
+      <article class="tool-card">
+        <div class="tool-card-header">
+          <div>
+            <div class="tool-meta"></div>
+            <h2></h2>
+            <p class="tagline"></p>
+          </div>
+          <strong class="score"></strong>
+        </div>
+        <div class="status-row"></div>
+        <p class="reason"></p>
+        <div class="score-bars"></div>
+        <div class="copy-tabs"></div>
+        <pre class="copy-text"></pre>
+        <div class="card-actions">
+          <button class="button copy-button" type="button">复制文案</button>
+          <a class="button ghost product-link" target="_blank" rel="noreferrer">Product Hunt</a>
+        </div>
+      </article>
+    </template>
+
+    <script src="/public/app.js" type="module"></script>
+  </body>
+</html>

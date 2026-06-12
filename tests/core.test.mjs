@@ -199,6 +199,19 @@ test("parseCandidatePaste handles one candidate per line", () => {
   assert.equal(parsed.entries[0].tagline, "Fixes one clear workflow");
 });
 
+test("parseCandidatePaste infers circle from pasted text", () => {
+  const parsed = parseCandidatePaste([
+    "Agent CRM | https://agent.example.com | AI agent workflow for sales teams",
+    "Pricing Lab | https://pricing.example.com | SaaS pricing page teardown",
+    "Wallet API | https://wallet.example.com | onchain wallet developer API"
+  ].join("\n"));
+
+  assert.equal(parsed.errors.length, 0);
+  assert.equal(parsed.entries[0].circle, "ai_startups");
+  assert.equal(parsed.entries[1].circle, "saas_founders");
+  assert.equal(parsed.entries[2].circle, "crypto_builders");
+});
+
 test("review outline uses placeholder without affiliate link", () => {
   const markdown = buildReviewOutline({ name: "Tool", url: "https://tool.com", copyVariants: {} }, null);
   assert.match(markdown, /Affiliate link not available yet/);

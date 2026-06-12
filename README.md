@@ -116,7 +116,9 @@ output/YYYY-MM-DD-daily-x-pack.md
 
 `Promotion review` 会把候选工具和反馈信号翻译成手动审核清单：该查 affiliate、该做 SEO review page、该扩成长推，还是只观察。它不会自动入队，更不会自动发布；只有你点按钮后才写入本地队列。
 
-批量粘贴后可以先点 `预览评分`，系统会按同一套 pain/niche/affiliate/content/novelty/risk 规则给候选打分，但不会保存。确认值得跟进后，再点 `批量导入候选`。
+批量粘贴后可以先点 `预览评分`，系统会按同一套 pain/niche/affiliate/content/novelty/risk 规则给候选打分，但不会保存。预览会给每条候选标记 `可导入`、`先人工看` 或 `跳过`，并提示是否和本次粘贴、Candidate Inbox 或今天的 daily 数据重复。
+
+默认导入策略是 `只导入可导入项`：只保存非重复、过质量线的候选。`导入全部非重复项` 会把边界候选也保存进收集箱，适合你明确想人工再筛一遍时使用。
 
 候选收集支持单条录入，也支持批量粘贴。批量粘贴可以用 CSV，`circle` 可填 `ai_startups`、`indie_hackers`、`saas_founders`、`crypto_builders`，`candidateType` 可填 `product` 或 `topic`：
 
@@ -131,6 +133,8 @@ Tool A,https://example.com,Fixes one narrow workflow,X,saas_founders,product
 Tool A | https://example.com | Fixes one narrow workflow
 Tool B | https://example.org | Better reporting for small teams
 ```
+
+如果没有填写 `circle`，系统会根据名称、tagline、描述和 URL 尝试自动判断：AI/agent/LLM 归到 `ai_startups`，SaaS/pricing/churn 归到 `saas_founders`，indie/micro SaaS/build in public 归到 `indie_hackers`，crypto/web3/wallet/onchain 归到 `crypto_builders`。自动判断只是辅助，预览后仍然可以改成更准确的圈子再导入。
 
 ## 命令说明
 

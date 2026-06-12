@@ -90,6 +90,14 @@ function normalizeHeader(value) {
 
 function normalizeCandidate(input, defaults) {
   const url = String(input.url ?? "").trim();
+  const text = [
+    input.name,
+    input.tagline,
+    input.description,
+    input.notes,
+    url
+  ].filter(Boolean).join(" ");
+  const circle = String(input.circle || defaults.circle || inferCandidateCircle(text) || "").trim();
   return {
     name: String(input.name || nameFromUrl(url)).trim(),
     url,
@@ -97,12 +105,35 @@ function normalizeCandidate(input, defaults) {
     description: String(input.description || input.tagline || "").trim(),
     source: String(input.source || defaults.source || "paste").trim(),
     sourceUrl: String(input.sourceUrl || defaults.sourceUrl || "").trim(),
-    circle: String(input.circle || defaults.circle || "").trim(),
+    circle,
     candidateType: String(input.candidateType || defaults.candidateType || "product").trim(),
     published: input.published || defaults.published || new Date().toISOString(),
     notes: String(input.notes || defaults.notes || "").trim(),
     status: "active"
   };
+}
+
+export function inferCandidateCircle(text) {
+  const lower = String(text ?? "").toLowerCase();
+  const rules = [
+    {
+      circle: "crypto_builders",
+      terms: ["crypto", "web3", "wallet", "onchain", "defi", "stablecoin", "token", "ethereum", "solana", "bitcoin"]
+    },
+    {
+      circle: "saas_founders",
+      terms: ["saas", "b2b", "pricing", "churn", "onboarding", "plg", "activation", "retention", "trial"]
+    },
+    {
+      circle: "indie_hackers",
+      terms: ["indie", "solo founder", "micro saas", "build in public", "side project", "maker", "revenue"]
+    },
+    {
+      circle: "ai_startups",
+      terms: ["ai", "agent", "llm", "automation", "workflow", "assistant", "model", "prompt"]
+    }
+  ];
+  return rules.find((rule) => rule.terms.some((term) => lower.includes(term)))?.circle ?? "";
 }
 
 function nameFromUrl(url) {

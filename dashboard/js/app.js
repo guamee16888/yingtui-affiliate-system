@@ -25,7 +25,7 @@ async function parseApiResponse(res, path) {
   return res.json();
 }
 
-const tabNames = ["today", "roadmap", "review", "candidates", "supply", "tools", "copy", "feedback", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
+const tabNames = ["today", "roadmap", "review", "candidates", "supply", "tools", "copy", "feedback", "learning", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
 
 const state = {
   tab: initialTab(),
@@ -40,6 +40,7 @@ const state = {
   reviewPages: { items: [] },
   decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
   feedbackOps: null,
+  learningLoop: null,
   productRoadmap: null,
   xStatus: { configured: false, note: "" },
   settings: null,
@@ -110,7 +111,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, productRoadmap, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, productRoadmap, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -121,12 +122,13 @@ async function loadAll() {
       api.get("/api/review-pages"),
       api.get("/api/decision-report"),
       api.get("/api/feedback-ops"),
+      api.get("/api/learning-loop"),
       api.get("/api/product-roadmap"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -140,7 +142,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps, productRoadmap] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps, learningLoop, productRoadmap] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -150,6 +152,7 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/affiliate-research.json", { items: [] }),
     fetchJson("/data/review-pages.json", { items: [] }),
     fetchJson("/data/feedback-ops.json", null),
+    fetchJson("/data/learning-loop.json", { missing: true }),
     fetchJson("/data/product-roadmap.json", { missing: true })
   ]);
   const settings = {
@@ -183,6 +186,7 @@ async function loadStaticFallback(apiError) {
     reviewPages,
     decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
     feedbackOps: feedbackOps ?? latest?.feedbackOps ?? null,
+    learningLoop: learningLoop?.missing ? null : learningLoop,
     productRoadmap: productRoadmap?.missing ? null : productRoadmap,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
@@ -402,7 +406,7 @@ function renderActiveView() {
   $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === state.tab));
   $$(".view").forEach((view) => view.classList.remove("active"));
   $(`#view-${state.tab}`).classList.add("active");
-  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, candidates: renderCandidates, supply: renderSourceSupply, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
+  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, candidates: renderCandidates, supply: renderSourceSupply, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, learning: renderLearning, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
   renderers[state.tab]();
 }
 
@@ -645,6 +649,7 @@ function hasRecordedMetrics(entry) {
 function renderToday() {
   $("#view-today").innerHTML = `${renderRoadmapSnapshotPanel()}
   ${renderDailyChecklistPanel()}
+  ${renderLearningStarterPanel("today")}
   ${renderFocusPanel()}
   ${renderFeedbackFollowUpPanel()}
   ${renderFeedbackOpsPanel(state.feedbackOps ?? state.latest?.feedbackOps, "today")}
@@ -830,7 +835,7 @@ function roadmapTabForDimension(id) {
   return {
     content_supply: "accounts",
     content_calendar: "accounts",
-    feedback_loop: "feedback",
+    feedback_loop: "learning",
     affiliate_monetization: "affiliate",
     source_diversity: "accounts",
     quality_safety: "review",
@@ -844,7 +849,7 @@ function roadmapCommandForDimension(id) {
   return {
     content_supply: "npm run source-queue && npm run source-pack",
     content_calendar: "npm run draft-plan && npm run content-calendar",
-    feedback_loop: "npm run feedback-ops",
+    feedback_loop: "npm run learning-loop",
     affiliate_monetization: "npm run affiliate-queue && npm run affiliate:research",
     source_diversity: "npm run source-health && npm run source-discovery",
     quality_safety: "npm run daily && npm run check",
@@ -879,7 +884,7 @@ function renderDailyChecklistPanel() {
       done: pending.length === 0,
       title: pending.length ? `补 ${pending.length} 条发推反馈` : "没有待补反馈",
       detail: pending.length ? "把 X Analytics 的 impressions、likes、bookmarks、clicks 粘进反馈页。" : "发完后记得点标记已发，下一轮再补数据。",
-      action: `<button class="button ghost" data-tab-jump="feedback">打开反馈录入</button>`
+      action: `<button class="button ghost" data-tab-jump="learning">打开反馈启动台</button>`
     },
     {
       done: affiliateQueue.length === 0,
@@ -928,6 +933,139 @@ function renderFeedbackFollowUpPanel() {
     <p class="muted">${pending.length ? "这些内容已经标记已发，但还没有 impressions / likes / bookmarks / clicks。补完数据后，系统才能判断该做 thread、SEO 测评页还是联盟研究。" : "当前没有已发但缺数据的文案。继续发少量新鲜候选，然后记得回填表现。"}</p>
     ${recent.length ? `<div class="list">${recent.map(renderPendingFeedbackItem).join("")}</div>` : ""}
   </section>`;
+}
+
+function renderLearning() {
+  $("#view-learning").innerHTML = renderLearningStarterPanel("full");
+}
+
+function renderLearningStarterPanel(scope = "full") {
+  const loop = state.learningLoop;
+  const compact = scope === "today";
+  if (!loop) {
+    return `<section class="panel learning-loop warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Learning loop</p>
+          <h2>还没有反馈学习启动台数据</h2>
+          <p class="muted">本地运行 npm run learning-loop，或直接用本地 Dashboard API 重新读取。线上 Vercel 只读版需要先生成 JSON 后再部署。</p>
+        </div>
+        ${pill("Missing", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="npm run learning-loop">复制命令</button>
+        <button class="button ghost" data-tab-jump="feedback">打开反馈录入</button>
+      </div>
+    </section>`;
+  }
+  const seedTests = loop.seedTests ?? [];
+  const pending = loop.pendingFeedback ?? [];
+  const actions = (loop.nextActions ?? []).slice(0, compact ? 3 : 6);
+  const statusKind = learningStatusKind(loop.status);
+  return `<section class="panel learning-loop ${statusKind}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Learning loop starter</p>
+        <h2>${compact ? "反馈学习启动台" : "今天能不能继续发，由这里说了算"}</h2>
+        <p class="muted">${esc(loop.headline || "从少量手动确认发布开始，用真实 X Analytics 训练后续决策。")}</p>
+      </div>
+      ${pill(loop.status || "unknown", statusKind)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(loop.summary?.learningScore ?? 0)}/100</strong><span>learning score</span></div>
+      <div><strong>${esc(loop.summary?.measured ?? 0)}/${esc(loop.summary?.posted ?? 0)}</strong><span>measured</span></div>
+      <div><strong>${esc(loop.summary?.pending ?? 0)}</strong><span>pending</span></div>
+      <div><strong>${esc(loop.summary?.safeNewPosts ?? 0)}</strong><span>safe new posts</span></div>
+    </div>
+    ${renderLearningWorkflow(loop.workflow ?? [])}
+    <div class="grid">
+      <div class="list">
+        <strong>下一步</strong>
+        ${actions.map((item) => `<div class="list-item">${esc(item)}</div>`).join("") || empty("暂无学习动作。")}
+      </div>
+      <div class="list">
+        <strong>必须补的数据</strong>
+        ${pending.slice(0, compact ? 3 : 8).map(renderLearningPendingItem).join("") || empty("没有待补 metrics。")}
+      </div>
+    </div>
+    <div class="line-head">
+      <div>
+        <h3>Seed tests</h3>
+        <p class="muted">最多先发 3 条。发完必须标记账号并回填 X Analytics，否则不要继续放大。</p>
+      </div>
+      ${pill(`${seedTests.length} seeds`, seedTests.length ? "good" : "warn")}
+    </div>
+    <div class="learning-seed-grid">${seedTests.slice(0, compact ? 3 : 6).map(renderLearningSeedItem).join("") || empty("没有可测 seed。先刷新 Live Feed 或补来源。")}</div>
+    ${compact ? `<div class="row-actions"><button class="button ghost" data-tab-jump="learning">打开完整启动台</button></div>` : renderLearningCsvBox(loop)}
+  </section>`;
+}
+
+function renderLearningWorkflow(workflow) {
+  if (!workflow.length) return "";
+  return `<div class="learning-steps">
+    ${workflow.map((item, index) => `<div class="learning-step ${attr(item.status)}">
+      <span>${esc(index + 1)}</span>
+      <strong>${esc(item.title)}</strong>
+      <small>${esc(item.detail)}</small>
+    </div>`).join("")}
+  </div>`;
+}
+
+function renderLearningSeedItem(item) {
+  const copy = item.copyText || "";
+  return `<article class="learning-seed-card">
+    <div class="line-head">
+      <strong>${esc(item.toolName)}</strong>
+      ${item.accountName ? pill(item.accountName, "good") : pill("No account", "warn")}
+      ${pill(labels[item.variantType] ?? item.variantType, "neutral")}
+    </div>
+    <p class="muted">${esc(item.reason || "Small manual test candidate.")}</p>
+    <pre class="copy-text">${esc(copy)}</pre>
+    <div class="row-actions">
+      <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
+      <button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">发布前确认</button>
+      <button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">标记已发</button>
+      <button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">录入反馈</button>
+    </div>
+  </article>`;
+}
+
+function renderLearningPendingItem(item) {
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(item.toolName)} · ${esc(labels[item.variantType] ?? item.variantType)}</strong>
+      ${pill(`${item.ageHours ?? 0}h`, "warn")}
+    </div>
+    <div class="muted">账号：${esc(item.accountName || accountLabel(item.accountId))}</div>
+    <p class="muted">${esc(item.copyText || "No copy text saved.")}</p>
+    <div class="row-actions">
+      <button class="button ghost" data-edit-feedback="${attr(item.id)}">录入反馈</button>
+      ${item.postedUrl ? `<a class="button ghost" href="${attr(item.postedUrl)}" target="_blank" rel="noreferrer">打开 X</a>` : ""}
+    </div>
+  </div>`;
+}
+
+function renderLearningCsvBox(loop) {
+  const csv = loop.feedbackCsvTemplate ?? "";
+  return `<div class="learning-csv">
+    <div class="line-head">
+      <div>
+        <h3>CSV template</h3>
+        <p class="muted">发完后从这里复制模板，填 X Analytics，再到反馈录入页粘贴导入。</p>
+      </div>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="${attr(csv)}">复制 CSV 模板</button>
+        <button class="button ghost" data-tab-jump="feedback">去粘贴导入</button>
+      </div>
+    </div>
+    <pre class="copy-text">${esc(csv)}</pre>
+  </div>`;
+}
+
+function learningStatusKind(status) {
+  if (["learning", "controlled_test"].includes(status)) return "good";
+  if (["blocked_until_metrics", "feedback_debt"].includes(status)) return "bad";
+  return "warn";
 }
 
 function renderPendingFeedbackItem(entry) {
@@ -1036,9 +1174,9 @@ function renderSeedTestItem(item) {
     <pre class="copy-text">${esc(copy)}</pre>
     <div class="row-actions">
       <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
-      <button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}">发布前确认</button>
-      <button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}">标记已发</button>
-      <button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}">录入反馈</button>
+      <button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">发布前确认</button>
+      <button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">标记已发</button>
+      <button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">录入反馈</button>
     </div>
   </div>`;
 }
@@ -2879,7 +3017,7 @@ async function markPosted(button) {
     toolUrl: button.dataset.url,
     sourceDate: state.latest.date,
     variantType: button.dataset.variant,
-    accountId: recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.posted)),
+    accountId: button.dataset.accountId || recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.posted)),
     copyText: button.dataset.copytext,
     posted: true,
     metrics: {}
@@ -2895,7 +3033,7 @@ function openFeedback(button, existing = null) {
     toolUrl: button.dataset.url,
     sourceDate: state.latest.date,
     variantType: button.dataset.variant,
-    accountId: recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.feedback)),
+    accountId: button.dataset.accountId || recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.feedback)),
     copyText: button.dataset.copytext,
     metrics: {}
   };
@@ -2917,7 +3055,7 @@ function openPublish(button) {
   const text = button.dataset.copytext || "";
   const tool = (state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.publish);
   state.publishTool = tool ?? null;
-  const accountId = recommendedAccountId(tool);
+  const accountId = button.dataset.accountId || recommendedAccountId(tool);
   const data = {
     toolId: button.dataset.publish,
     toolName: button.dataset.tool,

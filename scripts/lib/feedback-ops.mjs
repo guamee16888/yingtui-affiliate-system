@@ -1,6 +1,8 @@
 import { calculateEngagement } from "./scoring.mjs";
 import { normalizeAccountConfig } from "./account-system.mjs";
 
+const MAX_X_POST_CHARS = 280;
+
 export function buildFeedbackOps({ date, latest = null, feedback = { entries: [] }, accountPosts = { items: [] }, accountConfig = { accounts: [] } }) {
   const entries = feedback.entries ?? [];
   const posted = entries.filter((entry) => entry.posted !== false);
@@ -40,7 +42,7 @@ export function buildFeedbackOps({ date, latest = null, feedback = { entries: []
     },
     debtGate,
     seedTestPlan,
-    actionList: feedbackOpsActions({ pending, unlinkedPosts, accountStats, angleStats, sourceStats, activeAccounts, debtGate }),
+    actionList: feedbackOpsActions({ pending, unlinkedPosts, accountStats, angleStats, sourceStats, activeAccounts, debtGate, seedTestPlan }),
     pendingFeedback: pending
       .sort((a, b) => pendingAgeHours(b) - pendingAgeHours(a))
       .slice(0, 20)
@@ -107,6 +109,107 @@ ${ops.notes.map((item) => `- ${item}`).join("\n")}
 `;
 }
 
+export function buildLearningLoop({ ops = null }) {
+  if (!ops) {
+    return {
+      status: "missing",
+      stage: "missing_report",
+      summary: {},
+      nextActions: ["Run npm run feedback-ops first."],
+      seedTests: [],
+      pendingFeedback: [],
+      feedbackCsvTemplate: feedbackCsvTemplate([]),
+      workflow: learningWorkflow("missing_report")
+    };
+  }
+  const summary = ops.summary ?? {};
+  const posted = Number(summary.posted ?? 0);
+  const measured = Number(summary.measured ?? 0);
+  const pending = Number(summary.pending ?? 0);
+  const gate = ops.debtGate;
+  const stage = learningStage({ posted, measured, pending, gate });
+  const seedTests = (ops.seedTestPlan?.items ?? []).map(seedLearningItem);
+  const pendingFeedback = (ops.pendingFeedback ?? []).map(pendingLearningItem);
+  const csvRows = pendingFeedback.length ? pendingFeedback : seedTests;
+
+  return {
+    date: ops.date,
+    generatedAt: new Date().toISOString(),
+    status: stage.status,
+    stage: stage.id,
+    headline: stage.headline,
+    summary: {
+      learningScore: Number(summary.learningScore ?? 0),
+      posted,
+      measured,
+      pending,
+      activeAccounts: Number(summary.activeAccounts ?? 0),
+      measuredAccounts: Number(summary.measuredAccounts ?? 0),
+      safeNewPosts: Number(gate?.maxNewPostsBeforeMetrics ?? summary.maxNewPostsBeforeMetrics ?? 0),
+      seedTests: seedTests.length,
+      topAccount: summary.topAccount || "",
+      topAngle: summary.topAngle || "",
+      topSource: summary.topSource || ""
+    },
+    gate: gate ? {
+      status: gate.status,
+      severity: gate.severity,
+      title: gate.title,
+      headline: gate.headline,
+      maxNewPostsBeforeMetrics: gate.maxNewPostsBeforeMetrics,
+      pendingLimit: gate.pendingLimit,
+      measuredRate: gate.measuredRate,
+      oldestPendingHours: gate.oldestPendingHours,
+      nextActions: gate.nextActions ?? []
+    } : null,
+    workflow: learningWorkflow(stage.id),
+    nextActions: learningNextActions({ stage: stage.id, ops }),
+    seedTests,
+    pendingFeedback,
+    feedbackCsvTemplate: feedbackCsvTemplate(csvRows),
+    afterPosting: ops.seedTestPlan?.afterPosting ?? []
+  };
+}
+
+export function renderLearningLoopMarkdown(loop) {
+  if (!loop) return "# Learning Loop Starter\n\nNo learning loop report available. Run npm run learning-loop.\n";
+  return `# Learning Loop Starter - ${loop.date ?? "unknown"}
+
+- Status: ${loop.status}
+- Stage: ${loop.stage}
+- Headline: ${loop.headline ?? ""}
+- Learning score: ${loop.summary?.learningScore ?? 0}/100
+- Posted: ${loop.summary?.posted ?? 0}
+- Measured: ${loop.summary?.measured ?? 0}
+- Pending: ${loop.summary?.pending ?? 0}
+- Safe new posts: ${loop.summary?.safeNewPosts ?? 0}
+- Seed tests: ${loop.summary?.seedTests ?? 0}
+
+## Next Actions
+
+${(loop.nextActions ?? []).map((item, index) => `${index + 1}. ${item}`).join("\n") || "No actions."}
+
+## Workflow
+
+${(loop.workflow ?? []).map((item, index) => `${index + 1}. ${item.title} — ${item.detail}`).join("\n")}
+
+## Seed Tests
+
+${(loop.seedTests ?? []).length ? loop.seedTests.map((item, index) => `${index + 1}. ${item.toolName} — ${item.accountName} — ${item.variantType}
+   ${item.copyText}`).join("\n") : "No seed tests available."}
+
+## Pending Feedback
+
+${(loop.pendingFeedback ?? []).length ? loop.pendingFeedback.map((item, index) => `${index + 1}. ${item.toolName} — ${item.accountName || item.accountId || "no account"} — ${item.variantType} — ${item.ageHours}h old`).join("\n") : "No pending feedback."}
+
+## Feedback CSV Template
+
+\`\`\`csv
+${loop.feedbackCsvTemplate ?? ""}
+\`\`\`
+`;
+}
+
 export function buildFeedbackSeedTestPlan({ latest = null, posted = [], accountPosts = { items: [] }, activeAccounts = [], debtGate = null }) {
   const maxTests = Math.max(0, Math.min(3, Number(debtGate?.maxNewPostsBeforeMetrics ?? 3)));
   const postedToolIds = new Set([
@@ -137,8 +240,10 @@ export function buildFeedbackSeedTestPlan({ latest = null, posted = [], accountP
     if (candidate.accountId && usedAccounts.has(candidate.accountId) && activeAccounts.length >= maxTests) continue;
     candidate.position = items.length + 1;
     const preferredVariant = variantOrder[items.length % variantOrder.length];
-    candidate.variantType = candidate.copyVariants[preferredVariant] ? preferredVariant : candidate.variantType;
-    candidate.copyText = candidate.copyVariants[candidate.variantType] || candidate.copyText;
+    const selectedVariant = selectPostableVariant(candidate.copyVariants, variantOrder, preferredVariant);
+    if (!selectedVariant) continue;
+    candidate.variantType = selectedVariant.variantType;
+    candidate.copyText = selectedVariant.copyText;
     candidate.checklist = seedChecklist(candidate);
     items.push(candidate);
     if (candidate.accountId) usedAccounts.add(candidate.accountId);
@@ -188,9 +293,8 @@ function seedCandidate(tool, latest, activeById, variantOrder, postedToolIds) {
   const account = activeById.get(accountId);
   if (!account) return null;
   const copyVariants = normalizeCopyVariants(tool.copyVariants);
-  const variantType = variantOrder.find((variant) => copyVariants[variant]) ?? Object.keys(copyVariants)[0] ?? "";
-  const copyText = copyVariants[variantType] ?? "";
-  if (!copyText) return null;
+  const selectedVariant = selectPostableVariant(copyVariants, variantOrder);
+  if (!selectedVariant) return null;
   const affiliateScore = Number(tool.scoreBreakdown?.affiliateScore ?? 0);
   const contentScore = Number(tool.scoreBreakdown?.contentScore ?? 0);
   const riskScore = Number(tool.scoreBreakdown?.riskScore ?? 0);
@@ -212,13 +316,30 @@ function seedCandidate(tool, latest, activeById, variantOrder, postedToolIds) {
     accountId: account.id,
     accountName: account.displayName,
     accountCategory: account.category,
-    variantType,
-    copyText,
+    variantType: selectedVariant.variantType,
+    copyText: selectedVariant.copyText,
     copyVariants,
     reason: `Fresh ${tool.sourceName || "candidate"} routed to ${account.displayName}; score ${tool.score}, risk ${riskScore}.`,
     suggestedAngle: tool.suggestedAngle || "",
     affiliateStatus: tool.affiliateStatus || "research_needed"
   };
+}
+
+function selectPostableVariant(copyVariants, variantOrder, preferredVariant = "") {
+  const orderedVariants = uniqueDisplayNames([
+    preferredVariant,
+    ...variantOrder,
+    ...Object.keys(copyVariants ?? {})
+  ]);
+  const variantType = orderedVariants.find((variant) => {
+    const text = copyVariants?.[variant];
+    return text && xPostLength(text) <= MAX_X_POST_CHARS;
+  });
+  return variantType ? { variantType, copyText: copyVariants[variantType] } : null;
+}
+
+function xPostLength(text) {
+  return String(text ?? "").trim().length;
 }
 
 function seedFreshness(tool, generatedAt) {
@@ -380,7 +501,7 @@ function buildSourceStats(posted, measured, toolById) {
   return finalizeGroupStats([...map.values()], "sourceName");
 }
 
-function feedbackOpsActions({ pending, unlinkedPosts, accountStats, angleStats, sourceStats, activeAccounts, debtGate }) {
+function feedbackOpsActions({ pending, unlinkedPosts, accountStats, angleStats, sourceStats, activeAccounts, debtGate, seedTestPlan }) {
   const actions = [];
   const pendingByAccount = accountStats.filter((item) => item.pending > 0).sort((a, b) => b.pending - a.pending)[0];
   const topAngle = angleStats.find((item) => item.measured > 0);
@@ -412,7 +533,14 @@ function feedbackOpsActions({ pending, unlinkedPosts, accountStats, angleStats, 
     title: `继续观察 ${topSource.sourceName}`,
     detail: `当前来源 score ${topSource.engagementScore}，最佳工具 ${topSource.bestTool?.toolName || "暂无"}.`
   });
-  if (emptyAccounts.length) actions.push({
+  const seedAccounts = uniqueDisplayNames((seedTestPlan?.items ?? []).map((item) => item.accountName || item.accountId));
+  if (seedAccounts.length) {
+    actions.push({
+      type: "cover_accounts",
+      title: `给 ${seedAccounts.length} 个账号补第一条测试`,
+      detail: seedAccounts.join(" / ")
+    });
+  } else if (emptyAccounts.length) actions.push({
     type: "cover_accounts",
     title: `给 ${emptyAccounts.length} 个账号补第一条测试`,
     detail: emptyAccounts.map((item) => item.displayName).join(" / ")
@@ -557,6 +685,160 @@ function debtGate(input) {
     accountsMissingMeasured: input.accountsMissingMeasured,
     nextActions: input.nextActions
   };
+}
+
+function learningStage({ posted, measured, pending, gate }) {
+  if (!posted) {
+    return {
+      id: "seed_batch",
+      status: "seed_ready",
+      headline: "Start with three manually reviewed seed posts, then mark each one with accountId."
+    };
+  }
+  if (!measured && pending) {
+    return {
+      id: "metrics_required",
+      status: "blocked_until_metrics",
+      headline: "You have posted rows, but no X Analytics metrics yet. Fill feedback before posting more."
+    };
+  }
+  if (gate?.severity === "bad") {
+    return {
+      id: "clear_debt",
+      status: "feedback_debt",
+      headline: gate.headline
+    };
+  }
+  if (measured < 5) {
+    return {
+      id: "controlled_learning",
+      status: "controlled_test",
+      headline: "Keep testing small batches until at least five posts have measured feedback."
+    };
+  }
+  return {
+    id: "learning",
+    status: "learning",
+    headline: "The loop has enough measured feedback to start ranking accounts, angles, and sources."
+  };
+}
+
+function learningWorkflow(stage) {
+  const current = (id) => id === stage ? "current" : "todo";
+  return [
+    {
+      id: "seed_batch",
+      status: ["metrics_required", "clear_debt", "controlled_learning", "learning"].includes(stage) ? "done" : current("seed_batch"),
+      title: "Post tiny seed batch",
+      detail: "Use at most three fresh, low-risk posts and confirm each manually."
+    },
+    {
+      id: "mark_posted",
+      status: ["metrics_required", "clear_debt", "controlled_learning", "learning"].includes(stage) ? "done" : "todo",
+      title: "Mark posted with accountId",
+      detail: "Use the Dashboard button so account routing and cooldown records stay linked."
+    },
+    {
+      id: "metrics_required",
+      status: stage === "metrics_required" || stage === "clear_debt" ? "current" : ["controlled_learning", "learning"].includes(stage) ? "done" : "todo",
+      title: "Paste X Analytics",
+      detail: "Import impressions, likes, bookmarks, replies, reposts, clicks, and profile visits."
+    },
+    {
+      id: "controlled_learning",
+      status: stage === "controlled_learning" ? "current" : stage === "learning" ? "done" : "todo",
+      title: "Compare account and angle",
+      detail: "Use measured winners before repeating an angle or scaling account volume."
+    },
+    {
+      id: "learning",
+      status: stage === "learning" ? "current" : "todo",
+      title: "Promote winners",
+      detail: "Move proven tools into thread, review page, or affiliate research queues."
+    }
+  ];
+}
+
+function learningNextActions({ stage, ops }) {
+  if (stage === "seed_batch") {
+    return [
+      "Post only the seed test items shown below.",
+      "Use the publish confirmation dialog or Mark posted button so accountId is saved.",
+      "Do not expand beyond the gate until X Analytics is imported."
+    ];
+  }
+  if (stage === "metrics_required" || stage === "clear_debt") {
+    const pending = ops.pendingFeedback?.length ?? ops.summary?.pending ?? 0;
+    return [
+      `Fill metrics for ${pending} pending post${pending === 1 ? "" : "s"} first.`,
+      "Paste X Analytics into the CSV import box.",
+      "Run npm run feedback-ops after importing metrics."
+    ];
+  }
+  if (stage === "controlled_learning") {
+    return [
+      "Keep posting small batches only.",
+      "Aim for at least five measured posts.",
+      "Use top account and top angle as hints, not proof."
+    ];
+  }
+  if (stage === "learning") {
+    return [
+      "Double down on the best account and angle.",
+      "Promote winners into follow-up queues.",
+      "Keep pending feedback below the gate limit."
+    ];
+  }
+  return ["Run npm run feedback-ops first."];
+}
+
+function seedLearningItem(item) {
+  return {
+    toolId: item.toolId,
+    toolName: item.toolName,
+    toolUrl: item.toolUrl,
+    accountId: item.accountId,
+    accountName: item.accountName,
+    variantType: item.variantType,
+    copyText: item.copyText,
+    priorityScore: item.priorityScore,
+    freshnessLabel: item.freshnessLabel,
+    reason: item.reason
+  };
+}
+
+function pendingLearningItem(item) {
+  return {
+    id: item.id,
+    toolId: item.toolId,
+    toolName: item.toolName,
+    toolUrl: item.toolUrl,
+    accountId: item.accountId,
+    accountName: item.accountName,
+    variantType: item.variantType,
+    copyText: item.copyText,
+    postedUrl: item.postedUrl,
+    ageHours: item.ageHours
+  };
+}
+
+function feedbackCsvTemplate(items) {
+  const headers = ["toolName", "toolUrl", "variantType", "accountId", "accountName", "postedUrl", "impressions", "likes", "bookmarks", "replies", "reposts", "clicks", "profileVisits", "notes"];
+  const rows = items.length ? items.slice(0, 10) : [{ toolName: "", toolUrl: "", variantType: "shortPost", accountId: "", accountName: "", postedUrl: "" }];
+  return [
+    headers.join(","),
+    ...rows.map((item) => headers.map((header) => csvCell(item[header] ?? "")).join(","))
+  ].join("\n");
+}
+
+function csvCell(value) {
+  const text = String(value ?? "");
+  if (!/[",\n\r]/.test(text)) return text;
+  return `"${text.replaceAll("\"", "\"\"")}"`;
+}
+
+function uniqueDisplayNames(values) {
+  return [...new Set(values.map((value) => String(value ?? "").trim()).filter(Boolean))];
 }
 
 function renderFeedbackDebtGateMarkdown(gate) {

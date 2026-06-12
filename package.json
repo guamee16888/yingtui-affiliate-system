@@ -31,6 +31,7 @@
     "accounts": "node scripts/account-summary.mjs",
     "feedback": "node scripts/feedback-summary.mjs",
     "feedback-ops": "node scripts/feedback-ops.mjs",
+    "learning-loop": "node scripts/learning-loop.mjs",
     "decisions": "node scripts/decision-report.mjs",
     "promote": "node scripts/promote.mjs",
     "promotion-review": "node scripts/promotion-review.mjs",

@@ -20,7 +20,7 @@ import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPackRows,
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
-import { buildFeedbackOps, buildFeedbackSeedTestPlan } from "../scripts/lib/feedback-ops.mjs";
+import { buildFeedbackOps, buildFeedbackSeedTestPlan, buildLearningLoop, renderLearningLoopMarkdown } from "../scripts/lib/feedback-ops.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -222,6 +222,115 @@ test("feedback seed plan stops when gate blocks new posts", () => {
   assert.equal(plan.status, "blocked");
   assert.equal(plan.items.length, 0);
   assert.match(plan.reason, /Fill metrics first/);
+});
+
+test("feedback seed plan only picks postable copy variants", () => {
+  const longPost = "x".repeat(301);
+  const plan = buildFeedbackSeedTestPlan({
+    latest: {
+      generatedAt: "2026-06-12T12:00:00.000Z",
+      tools: [
+        {
+          ...seedTool({ id: "tool_ai", accountId: "ai", score: 30, published: "2026-06-12T06:00:00.000Z" }),
+          copyVariants: {
+            shortPost: longPost,
+            painPointHook: "Short enough to post."
+          }
+        }
+      ]
+    },
+    activeAccounts: [{ id: "ai", displayName: "AI Tools", active: true }],
+    debtGate: { maxNewPostsBeforeMetrics: 3 }
+  });
+
+  assert.equal(plan.status, "ready");
+  assert.equal(plan.items[0].variantType, "painPointHook");
+  assert.equal(plan.items[0].copyText.length < 280, true);
+});
+
+test("learning loop starts with seed batch when no posts exist", () => {
+  const ops = {
+    date: "2026-06-12",
+    summary: {
+      posted: 0,
+      measured: 0,
+      pending: 0,
+      learningScore: 0,
+      activeAccounts: 20,
+      measuredAccounts: 0,
+      maxNewPostsBeforeMetrics: 3
+    },
+    debtGate: {
+      status: "seed_test",
+      severity: "warn",
+      maxNewPostsBeforeMetrics: 3
+    },
+    seedTestPlan: {
+      items: [
+        {
+          toolId: "seed_tool",
+          toolName: "Seed Tool",
+          toolUrl: "https://seed.example.com",
+          accountId: "ai_tools_lab",
+          accountName: "AI Tools Lab",
+          variantType: "shortPost",
+          copyText: "A small seed post."
+        }
+      ],
+      afterPosting: ["Mark each seed post as posted."]
+    },
+    pendingFeedback: []
+  };
+  const loop = buildLearningLoop({ ops });
+  const markdown = renderLearningLoopMarkdown(loop);
+
+  assert.equal(loop.status, "seed_ready");
+  assert.equal(loop.summary.safeNewPosts, 3);
+  assert.equal(loop.seedTests.length, 1);
+  assert.match(loop.feedbackCsvTemplate, /Seed Tool/);
+  assert.match(markdown, /Learning Loop Starter/);
+});
+
+test("learning loop blocks posting when metrics are missing", () => {
+  const ops = {
+    date: "2026-06-12",
+    summary: {
+      posted: 1,
+      measured: 0,
+      pending: 1,
+      learningScore: 0,
+      activeAccounts: 20,
+      measuredAccounts: 0,
+      maxNewPostsBeforeMetrics: 0
+    },
+    debtGate: {
+      status: "blocked_no_metrics",
+      severity: "bad",
+      headline: "Fill metrics before posting more.",
+      maxNewPostsBeforeMetrics: 0
+    },
+    seedTestPlan: { items: [] },
+    pendingFeedback: [
+      {
+        id: "feedback_1",
+        toolId: "pending_tool",
+        toolName: "Pending Tool",
+        toolUrl: "https://pending.example.com",
+        accountId: "ai_tools_lab",
+        accountName: "AI Tools Lab",
+        variantType: "shortPost",
+        copyText: "A pending post.",
+        postedUrl: "https://x.com/user/status/1",
+        ageHours: 3
+      }
+    ]
+  };
+  const loop = buildLearningLoop({ ops });
+
+  assert.equal(loop.status, "blocked_until_metrics");
+  assert.equal(loop.summary.safeNewPosts, 0);
+  assert.equal(loop.pendingFeedback.length, 1);
+  assert.match(loop.feedbackCsvTemplate, /Pending Tool/);
 });
 
 test("queue item id is stable for tool and type", () => {

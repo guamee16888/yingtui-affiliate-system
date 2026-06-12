@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "date": "2026-06-12",
+  "generatedAt": "2026-06-12T15:58:05.644Z",
+  "status": "seed_ready",
+  "stage": "seed_batch",
+  "headline": "Start with three manually reviewed seed posts, then mark each one with accountId.",
+  "summary": {
+    "learningScore": 0,
+    "posted": 0,
+    "measured": 0,
+    "pending": 0,
+    "activeAccounts": 20,
+    "measuredAccounts": 0,
+    "safeNewPosts": 3,
+    "seedTests": 3,
+    "topAccount": "",
+    "topAngle": "",
+    "topSource": ""
+  },
+  "gate": {
+    "status": "seed_test",
+    "severity": "warn",
+    "title": "Seed the feedback loop",
+    "headline": "Start with a tiny manually reviewed batch before scaling.",
+    "maxNewPostsBeforeMetrics": 3,
+    "pendingLimit": 5,
+    "measuredRate": 0,
+    "oldestPendingHours": 0,
+    "nextActions": [
+      "Post 3 fresh candidates at most.",
+      "Mark each post with accountId immediately.",
+      "Wait for X Analytics, then import impressions and engagement."
+    ]
+  },
+  "workflow": [
+    {
+      "id": "seed_batch",
+      "status": "current",
+      "title": "Post tiny seed batch",
+      "detail": "Use at most three fresh, low-risk posts and confirm each manually."
+    },
+    {
+      "id": "mark_posted",
+      "status": "todo",
+      "title": "Mark posted with accountId",
+      "detail": "Use the Dashboard button so account routing and cooldown records stay linked."
+    },
+    {
+      "id": "metrics_required",
+      "status": "todo",
+      "title": "Paste X Analytics",
+      "detail": "Import impressions, likes, bookmarks, replies, reposts, clicks, and profile visits."
+    },
+    {
+      "id": "controlled_learning",
+      "status": "todo",
+      "title": "Compare account and angle",
+      "detail": "Use measured winners before repeating an angle or scaling account volume."
+    },
+    {
+      "id": "learning",
+      "status": "todo",
+      "title": "Promote winners",
+      "detail": "Move proven tools into thread, review page, or affiliate research queues."
+    }
+  ],
+  "nextActions": [
+    "Post only the seed test items shown below.",
+    "Use the publish confirmation dialog or Mark posted button so accountId is saved.",
+    "Do not expand beyond the gate until X Analytics is imported."
+  ],
+  "seedTests": [
+    {
+      "toolId": "tool_coindesk_com_canton-network-developer-raises-355-million-to-bring-wall-street-onchain_390caf00dc",
+      "toolName": "Canton Network developer raises $355 million to bring Wall Street onchain",
+      "toolUrl": "https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+      "accountId": "ai_founder_signals",
+      "accountName": "AI Founder Signals",
+      "variantType": "painPointHook",
+      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one annoying developer workflow step. Worth watching before turning it into a thread. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+      "priorityScore": 118,
+      "freshnessLabel": "Fresh today",
+      "reason": "Fresh CoinDesk crypto feed routed to AI Founder Signals; score 37, risk 0."
+    },
+    {
+      "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
+      "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+      "toolUrl": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+      "accountId": "ai_agent_ops",
+      "accountName": "AI Agent Ops",
+      "variantType": "painPointHook",
+      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+      "priorityScore": 85,
+      "freshnessLabel": "Fresh today",
+      "reason": "Fresh CoinDesk crypto feed routed to AI Agent Ops; score 26, risk 0."
+    },
+    {
+      "toolId": "tool_techcrunch_com_theker-just-raised-85m-to-build-the-factory-robot-that-doesn-t-specialize-in-any_3d469281ec",
+      "toolName": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
+      "toolUrl": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+      "accountId": "ai_tools_lab",
+      "accountName": "AI Tools Lab",
+      "variantType": "painPointHook",
+      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+      "priorityScore": 82,
+      "freshnessLabel": "Fresh today",
+      "reason": "Fresh TechCrunch AI feed routed to AI Tools Lab; score 25, risk 0."
+    }
+  ],
+  "pendingFeedback": [],
+  "feedbackCsvTemplate": "toolName,toolUrl,variantType,accountId,accountName,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes\nCanton Network developer raises $355 million to bring Wall Street onchain,https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain,painPointHook,ai_founder_signals,AI Founder Signals,,,,,,,,,\n\"BlackRock files to list its bitcoin income ETF, with expected debut next week\",https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week,painPointHook,ai_agent_ops,AI Agent Ops,,,,,,,,,\nTheker just raised $85M to build the factory robot that doesn’t specialize in anything,https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/,painPointHook,ai_tools_lab,AI Tools Lab,,,,,,,,,",
+  "afterPosting": [
+    "Click Mark posted or publish through the confirmation dialog so accountId is recorded.",
+    "Wait until X Analytics has impressions.",
+    "Paste the analytics table into Feedback import.",
+    "Do not scale beyond the gate until measured feedback exists."
+  ]
+}

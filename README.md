@@ -63,10 +63,11 @@ output/YYYY-MM-DD-daily-x-pack.md
 18. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
 19. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
 20. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-21. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
-22. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-23. 对值得做测评页的工具点「生成测评页大纲」。
-24. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+21. 跑 `npm run learning-loop` 或看「反馈启动台」，确认今天最多还能安全新发几条、哪几条是 seed test、哪些已发内容必须先补 X Analytics。
+22. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
+23. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+24. 对值得做测评页的工具点「生成测评页大纲」。
+25. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -92,6 +93,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `工具池`：所有候选工具卡片，适合按分数、affiliate、风险、是否已发筛选。
 - `文案库`：每个工具的 5 种英文文案，适合集中复制、标记已发，或手动确认发布到 X。
 - `反馈录入`：已经标记已发的文案和表现数据。顶部会列出 `待补反馈`，也可以粘贴 CSV 批量导入 X 数据。
+- `反馈启动台`：把反馈学习变成一个执行面板。它会显示当前阶段、最多还能安全新发几条、建议先测试的 seed posts、待补 X Analytics 的已发内容，以及可复制的 feedback CSV 模板。
 - `反馈决策`：把录入的反馈转成下一步动作，判断哪些工具该加码、查联盟、做长推、做测评页或先观察。
 - `跟进队列`：顶部 `Promotion review` 会先列出值得审核的候选；你确认后再手动加入 thread、review page、affiliate research、watch、skip。`Follow-up pipeline` 会显示活跃队列、下一步该处理哪项，以及每项下一步提示。
 - `账号策略`：查看最多 20 个 X 账号画像、今日工具推荐发到哪个账号、每日限制、冷却时间和 20×10 内容供给缺口。当前不做授权，只做分类和路由建议。
@@ -104,6 +106,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 如果顶部「发布前信心」显示 `先别花 credits`，今日行动会优先提示 `先别付费发布`，并把旧候选转成观察、联盟研究或长文候选，而不是硬推荐你发推。顶部的发布守门员会同时显示三件事：数据年龄、数据来源、API 发布规则。只有 6 小时内的 live feed，并且候选是 `Fresh today` / `Fresh 48h`，才值得考虑花 API credits 发。
 
 `反馈种子测试` 会在反馈闭环里挑最多 3 条新鲜、未发过、低风险、已有账号路由的候选，作为第一批手动测试。它只给建议和按钮：复制、发布前确认、标记已发、录入反馈；不会批量发布，也不会绕过确认弹窗。发完以后必须回填 X Analytics，否则 Feedback debt gate 会阻止继续放大。
+
+`反馈启动台` 是更直接的执行页：如果还没有真实反馈，它会先给最多 3 条 seed tests；如果已经标记已发但没填 metrics，它会显示 `blocked_until_metrics` 并要求先补 X Analytics。这个页的目标是防止你在还没学到任何表现数据之前，就把 20 个账号一起放大。
 
 `Feed diagnostic` 会告诉你这次 Product Hunt feed 里到底有多少 `Today / 48h / 7d` 工具。如果 Top Picks 没有新鲜候选，它会说明是 feed 本身没新货，还是有新工具但评分不够，并列出 `Fresh feed watchlist` 供你手动观察。
 
@@ -278,6 +282,12 @@ npm run feedback-ops
 生成反馈运营报告，输出到 `data/feedback-ops.json` 和 `output/YYYY-MM-DD-feedback-ops.md`。它会按账号、文案角度、来源统计真实表现，并列出哪些已发内容还缺 X Analytics 数据。报告里的 `Feedback debt gate` 会提示当前是否该继续发、最多还能发几条测试内容，还是应该先补反馈；`Seed Test Plan` 会列出最多 3 条适合启动反馈学习的小批量手动测试。
 
 ```bash
+npm run learning-loop
+```
+
+生成反馈学习启动台数据，输出到 `data/learning-loop.json` 和 `output/YYYY-MM-DD-learning-loop.md`。它会把 `feedback-ops` 的结果压成一个执行清单：当前学习阶段、最多还能安全新发几条、先发哪几条 seed posts、哪些已发内容缺 metrics，以及可复制到反馈录入页的 CSV 模板。
+
+```bash
 npm run decisions
 ```
 
@@ -334,6 +344,7 @@ npm audit --audit-level=moderate
 - `data/history.json`：历史推荐记录，包含 seen before 和降权依据。
 - `data/feedback.json`：发推记录和手动录入的表现数据。
 - `data/feedback-ops.json`：反馈学习闭环报告，包含 pending metrics、账号表现、angle 表现和来源表现。
+- `data/learning-loop.json`：反馈学习启动台，包含 seed tests、待补 metrics、safe new posts 和 CSV 模板。
 - `data/queues.json`：thread、review page、affiliate research、watch、skip 队列。
 - `data/account-posts.json`：预留的多账号发帖记录文件，后续授权后用来做账号级去重和冷却。
 - `data/source-candidates.json`：从补充 RSS/Atom 来源刷新来的候选缓存。

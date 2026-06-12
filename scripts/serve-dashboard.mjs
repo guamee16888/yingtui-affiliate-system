@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   deleteFeedback,
+  loadAccountPosts,
   loadCandidateInbox,
   loadAffiliateLinks,
   loadAffiliateResearch,
@@ -14,7 +15,9 @@ import {
   loadQueues,
   loadReviewPages,
   loadVoiceConfig,
+  loadXAccountsConfig,
   saveReviewPages,
+  upsertAccountPostFromFeedback,
   upsertCandidate,
   upsertAffiliateResearch,
   upsertFeedback,
@@ -35,6 +38,8 @@ import { calculateEngagement } from "./lib/scoring.mjs";
 import { getXPublishStatus, publishToX } from "./lib/x-publish.mjs";
 import { loadLocalEnv } from "./lib/env.mjs";
 import { todayString } from "./lib/ids.mjs";
+import { findAccountById, normalizeAccountConfig, recommendedAccountIdForTool } from "./lib/account-system.mjs";
+import { getAccountXPublishStatus } from "./lib/x-publish.mjs";
 
 await loadLocalEnv();
 
@@ -114,12 +119,13 @@ async function handleApiGet(pathname) {
   if (pathname === "/api/history") return loadHistoryData();
   if (pathname === "/api/candidate-inbox") return loadCandidateInbox();
   if (pathname === "/api/feedback") return loadFeedback();
+  if (pathname === "/api/account-posts") return loadAccountPosts();
   if (pathname === "/api/affiliate-links") return loadAffiliateLinks();
   if (pathname === "/api/queues") return loadQueues();
   if (pathname === "/api/review-pages") return loadReviewPages();
   if (pathname === "/api/affiliate-research") return loadAffiliateResearch();
   if (pathname === "/api/settings") {
-    const [latest, history, voice, affiliateLinks, feedback, queues, reviews, affiliateResearch, candidateInbox] = await Promise.all([
+    const [latest, history, voice, affiliateLinks, feedback, queues, reviews, affiliateResearch, candidateInbox, accountPosts] = await Promise.all([
       loadLatest(),
       loadHistoryData(),
       loadVoiceConfig(),
@@ -128,7 +134,8 @@ async function handleApiGet(pathname) {
       loadQueues(),
       loadReviewPages(),
       loadAffiliateResearch(),
-      loadCandidateInbox()
+      loadCandidateInbox(),
+      loadAccountPosts()
     ]);
     return {
       latestDate: latest?.date ?? null,
@@ -137,6 +144,7 @@ async function handleApiGet(pathname) {
       maxTweetCharacters: voice.style?.maxTweetCharacters ?? 260,
       affiliateLinks: affiliateLinks.links ?? [],
       feedbackCount: feedback.entries?.length ?? 0,
+      accountPostCount: accountPosts.items?.length ?? 0,
       queueCount: queues.items?.length ?? 0,
       candidateInboxCount: candidateInbox.items?.length ?? 0,
       reviewPageCount: reviews.items?.length ?? 0,
@@ -171,12 +179,12 @@ async function handleApiGet(pathname) {
     ]);
     return buildDecisionReport({ latest, history, feedback, queues, affiliateLinks });
   }
-  if (pathname === "/api/x/status") return getXPublishStatus();
+  if (pathname === "/api/x/status") return xStatusWithAccounts();
   throw new Error(`Unknown API route: ${pathname}`);
 }
 
 async function handleApiPost(pathname, body) {
-  if (pathname === "/api/feedback/upsert") return upsertFeedback(validateFeedback(body));
+  if (pathname === "/api/feedback/upsert") return upsertFeedbackWithAccount(body);
   if (pathname === "/api/candidate-inbox/upsert") return upsertCandidate(validateCandidate(body));
   if (pathname === "/api/candidate-inbox/preview-paste") return previewCandidatePaste(body);
   if (pathname === "/api/candidate-inbox/import-paste") return importCandidatePaste(body);
@@ -212,6 +220,22 @@ async function runDailyGeneration() {
   };
 }
 
+async function xStatusWithAccounts() {
+  await loadLocalEnv();
+  const config = normalizeAccountConfig(await loadXAccountsConfig());
+  const globalStatus = getXPublishStatus();
+  return {
+    ...globalStatus,
+    accounts: config.accounts.map((account) => ({
+      accountId: account.id,
+      displayName: account.displayName,
+      handle: account.handle,
+      active: account.active,
+      authStatus: getAccountXPublishStatus(account.id)
+    }))
+  };
+}
+
 function runNodeScript(relativeScriptPath) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [path.join(rootDir, relativeScriptPath)], {
@@ -237,25 +261,150 @@ function runNodeScript(relativeScriptPath) {
   });
 }
 
+async function upsertFeedbackWithAccount(body) {
+  const latest = await loadLatest();
+  const accountConfig = normalizeAccountConfig(await loadXAccountsConfig());
+  const feedback = await loadFeedback();
+  const accountPosts = await loadAccountPosts();
+  const payload = withResolvedAccount(validateFeedback(body), latest, accountConfig);
+  const safety = buildPostingSafety({
+    payload,
+    accountConfig,
+    accountPosts,
+    feedback,
+    excludeFeedbackId: payload.id
+  });
+  if (safety.blockReasons.length) throw new Error(safety.blockReasons[0]);
+  const entry = await upsertFeedback(payload);
+  await upsertAccountPostFromFeedback(entry);
+  return entry;
+}
+
 async function publishXPost(body) {
-  const result = await publishToX({ text: body.text, confirmed: body.confirmed });
+  const latest = await loadLatest();
+  const accountConfig = normalizeAccountConfig(await loadXAccountsConfig());
+  const feedback = await loadFeedback();
+  const accountPosts = await loadAccountPosts();
+  const payload = withResolvedAccount(validateFeedback({
+    ...body,
+    copyText: body.text
+  }), latest, accountConfig);
+  const safety = buildPostingSafety({ payload, accountConfig, accountPosts, feedback });
+  if (safety.blockReasons.length) throw new Error(safety.blockReasons[0]);
+  const result = await publishToX({ text: body.text, confirmed: body.confirmed, accountId: payload.accountId });
   if (body.toolName && body.toolUrl && body.variantType && body.text) {
     const entry = await upsertFeedback({
-      toolId: body.toolId,
-      toolName: body.toolName,
-      toolUrl: body.toolUrl,
-      sourceDate: body.sourceDate,
-      variantType: body.variantType,
+      ...payload,
       copyText: body.text,
       posted: true,
       postedUrl: result.url,
       postedAt: new Date().toISOString(),
       metrics: {},
-      notes: "Published to X from Dashboard"
+      notes: `Published to X from Dashboard${payload.accountName ? ` via ${payload.accountName}` : ""}`
     });
+    await upsertAccountPostFromFeedback(entry);
     return { ...result, feedbackEntry: entry };
   }
   return result;
+}
+
+function withResolvedAccount(body, latest, accountConfig) {
+  const tool = (latest?.tools ?? []).find((item) => item.toolId === body.toolId || item.name === body.toolName) ?? null;
+  const accountId = String(body.accountId || recommendedAccountIdForTool(tool) || "").trim();
+  const account = accountId ? findAccountById(accountConfig, accountId) : null;
+  if (!accountId) throw new Error("Select an X account before saving or publishing.");
+  if (!account) throw new Error(`Unknown X account: ${accountId}. Check config/x-accounts.json.`);
+  if (!account.active) throw new Error(`${account.displayName} is paused in config/x-accounts.json.`);
+  return {
+    ...body,
+    toolId: body.toolId || tool?.toolId,
+    sourceDate: body.sourceDate || latest?.date || todayString(),
+    accountId: account.id,
+    accountName: account.displayName
+  };
+}
+
+function buildPostingSafety({ payload, accountConfig, accountPosts, feedback, excludeFeedbackId = "" }) {
+  const account = findAccountById(accountConfig, payload.accountId);
+  const policy = accountConfig.rotationPolicy ?? {};
+  const now = new Date();
+  const posts = combinedPostRecords(accountPosts, feedback)
+    .filter((post) => post.feedbackId !== excludeFeedbackId)
+    .filter((post) => post.accountId || post.toolId || post.copyText);
+  const blockReasons = [];
+
+  if (!account) blockReasons.push(`Unknown X account: ${payload.accountId}.`);
+  if (account && postsTodayForAccount(posts, account.id, now) >= account.dailyPostLimit) {
+    blockReasons.push(`${account.displayName} reached its daily limit (${account.dailyPostLimit}/day). Pick another account or wait until tomorrow.`);
+  }
+
+  const lastAccountPost = latestPostForAccount(posts, payload.accountId);
+  const cooldownHours = Number(account?.cooldownHours ?? 0);
+  if (lastAccountPost && cooldownHours > 0 && hoursSince(lastAccountPost.postedAt, now) < cooldownHours) {
+    blockReasons.push(`${account.displayName} is still in cooldown (${cooldownHours}h). Last post was ${Math.round(hoursSince(lastAccountPost.postedAt, now) * 10) / 10}h ago.`);
+  }
+
+  const toolCooldownDays = Number(policy.sameToolCooldownDays ?? 7);
+  const sameTool = posts.find((post) => post.toolId && post.toolId === payload.toolId && daysSince(post.postedAt, now) < toolCooldownDays);
+  if (sameTool) {
+    blockReasons.push(`This tool was already posted by ${sameTool.accountName || sameTool.accountId || "another account"} within ${toolCooldownDays} days.`);
+  }
+
+  const copyCooldownDays = Number(policy.sameCopyCooldownDays ?? 30);
+  const copy = normalizeCopy(payload.copyText);
+  const sameCopy = copy ? posts.find((post) => normalizeCopy(post.copyText) === copy && daysSince(post.postedAt, now) < copyCooldownDays) : null;
+  if (sameCopy) {
+    blockReasons.push(`This copy was already used by ${sameCopy.accountName || sameCopy.accountId || "another account"} within ${copyCooldownDays} days.`);
+  }
+
+  return { blockReasons };
+}
+
+function combinedPostRecords(accountPosts, feedback) {
+  const records = [...(accountPosts.items ?? [])];
+  for (const entry of feedback.entries ?? []) {
+    if (entry.posted === false || !entry.accountId) continue;
+    records.push({
+      feedbackId: entry.id,
+      accountId: entry.accountId,
+      accountName: entry.accountName,
+      toolId: entry.toolId,
+      toolName: entry.toolName,
+      toolUrl: entry.toolUrl,
+      variantType: entry.variantType,
+      copyText: entry.copyText,
+      postedUrl: entry.postedUrl,
+      postedAt: entry.postedAt || entry.updatedAt || entry.createdAt
+    });
+  }
+  return records;
+}
+
+function postsTodayForAccount(posts, accountId, now) {
+  const today = now.toISOString().slice(0, 10);
+  return posts.filter((post) => post.accountId === accountId && String(post.postedAt || "").slice(0, 10) === today).length;
+}
+
+function latestPostForAccount(posts, accountId) {
+  return posts
+    .filter((post) => post.accountId === accountId)
+    .sort((a, b) => new Date(b.postedAt || 0).getTime() - new Date(a.postedAt || 0).getTime())[0] ?? null;
+}
+
+function daysSince(value, now) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return Number.POSITIVE_INFINITY;
+  return Math.max(0, (now.getTime() - date.getTime()) / 86400000);
+}
+
+function hoursSince(value, now) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return Number.POSITIVE_INFINITY;
+  return Math.max(0, (now.getTime() - date.getTime()) / 3600000);
+}
+
+function normalizeCopy(value) {
+  return String(value ?? "").toLowerCase().replace(/\s+/g, " ").trim();
 }
 
 async function importFeedbackCsv(body) {
@@ -269,7 +418,9 @@ async function importFeedbackCsv(body) {
   if (mapped.entries.length > 100) throw new Error("CSV import is limited to 100 rows at a time");
   const entries = [];
   for (const entry of mapped.entries) {
-    entries.push(await upsertFeedback(entry));
+    const saved = await upsertFeedback(entry);
+    await upsertAccountPostFromFeedback(saved);
+    entries.push(saved);
   }
   return { imported: entries.length, entries, errors: mapped.errors };
 }
@@ -291,6 +442,8 @@ async function previewFeedbackCsv(body) {
         toolUrl: entry.toolUrl,
         sourceDate: entry.sourceDate,
         variantType: entry.variantType,
+        accountId: entry.accountId,
+        accountName: entry.accountName,
         postedUrl: entry.postedUrl,
         copyText: entry.copyText,
         metrics: entry.metrics,

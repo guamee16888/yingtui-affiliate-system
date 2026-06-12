@@ -33,6 +33,33 @@ export function getXPublishStatus(env = process.env, now = new Date()) {
   };
 }
 
+export function getAccountXPublishStatus(accountId, env = process.env, now = new Date()) {
+  const status = getXPublishStatus(scopedAccountEnv(env, accountId), now);
+  return {
+    ...status,
+    accountId,
+    envPrefix: accountEnvPrefix(accountId)
+  };
+}
+
+export function accountEnvPrefix(accountId) {
+  return `X_ACCOUNT_${sanitizeAccountId(accountId)}_`;
+}
+
+export function sanitizeAccountId(accountId) {
+  return String(accountId ?? "").trim().toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+}
+
+export function accountEnvUpdates(accountId, updates) {
+  const prefix = accountEnvPrefix(accountId);
+  return {
+    [`${prefix}ACCESS_TOKEN`]: updates.X_ACCESS_TOKEN,
+    [`${prefix}TOKEN_TYPE`]: updates.X_TOKEN_TYPE,
+    ...(updates.X_REFRESH_TOKEN ? { [`${prefix}REFRESH_TOKEN`]: updates.X_REFRESH_TOKEN } : {}),
+    ...(updates.X_ACCESS_TOKEN_EXPIRES_AT ? { [`${prefix}ACCESS_TOKEN_EXPIRES_AT`]: updates.X_ACCESS_TOKEN_EXPIRES_AT } : {})
+  };
+}
+
 function xStatusNote({ configured, refreshConfigured, expired, refreshDue, health }) {
   if (!configured) return "Set X_ACCESS_TOKEN to an OAuth 2.0 User Context token with tweet.write scope.";
   if (health === "expired_refresh_ready") return "X access token is expired, but refresh token is configured. Publishing will refresh before posting.";
@@ -48,11 +75,13 @@ export function buildXPostPayload(text) {
   return { text: normalized };
 }
 
-export async function publishToX({ text, confirmed }, env = process.env) {
+export async function publishToX({ text, confirmed, accountId = "" }, env = process.env) {
   if (!confirmed) throw new Error("Manual confirmation is required before publishing to X.");
-  const accessToken = await resolveXAccessToken(env);
+  const accessToken = await resolveXAccessToken(env, accountId);
   if (!accessToken) {
-    throw new Error("X_ACCESS_TOKEN is missing. Set a real X OAuth 2.0 User Context access token with tweet.write scope.");
+    throw new Error(accountId
+      ? `X token is missing for account ${accountId}. Run npm run x:auth -- --account ${accountId}.`
+      : "X_ACCESS_TOKEN is missing. Set a real X OAuth 2.0 User Context access token with tweet.write scope.");
   }
 
   const payload = buildXPostPayload(text);
@@ -86,18 +115,22 @@ export function shouldRefreshXToken(env = process.env, now = new Date()) {
   return expiresAt - now.getTime() < 120000;
 }
 
-export async function resolveXAccessToken(env = process.env) {
-  if (shouldRefreshXToken(env)) return refreshXAccessToken(env);
-  return env.X_ACCESS_TOKEN || "";
+export async function resolveXAccessToken(env = process.env, accountId = "") {
+  const scoped = accountId ? scopedAccountEnv(env, accountId) : env;
+  if (shouldRefreshXToken(scoped)) return refreshXAccessToken(env, accountId);
+  return scoped.X_ACCESS_TOKEN || "";
 }
 
-export async function refreshXAccessToken(env = process.env) {
+export async function refreshXAccessToken(env = process.env, accountId = "") {
+  const scoped = accountId ? scopedAccountEnv(env, accountId) : env;
   if (!env.X_CLIENT_ID) throw new Error("X_CLIENT_ID is missing. Run npm run x:auth setup first.");
-  if (!env.X_REFRESH_TOKEN) throw new Error("X_REFRESH_TOKEN is missing. Run npm run x:auth again.");
+  if (!scoped.X_REFRESH_TOKEN) throw new Error(accountId
+    ? `X refresh token is missing for account ${accountId}. Run npm run x:auth -- --account ${accountId}.`
+    : "X_REFRESH_TOKEN is missing. Run npm run x:auth again.");
 
   const body = new URLSearchParams({
     grant_type: "refresh_token",
-    refresh_token: env.X_REFRESH_TOKEN
+    refresh_token: scoped.X_REFRESH_TOKEN
   });
   const headers = { "content-type": "application/x-www-form-urlencoded" };
   if (env.X_CLIENT_SECRET) {
@@ -120,13 +153,26 @@ export async function refreshXAccessToken(env = process.env) {
 
   const updates = {
     X_ACCESS_TOKEN: json.access_token,
-    X_TOKEN_TYPE: json.token_type || env.X_TOKEN_TYPE || "bearer"
+    X_TOKEN_TYPE: json.token_type || scoped.X_TOKEN_TYPE || "bearer"
   };
   if (json.refresh_token) updates.X_REFRESH_TOKEN = json.refresh_token;
   if (json.expires_in) {
     updates.X_ACCESS_TOKEN_EXPIRES_AT = new Date(Date.now() + Number(json.expires_in) * 1000).toISOString();
   }
-  Object.assign(env, updates);
-  if (env === process.env) await updateDotEnv(updates);
+  const envUpdates = accountId ? accountEnvUpdates(accountId, updates) : updates;
+  Object.assign(env, envUpdates);
+  if (env === process.env) await updateDotEnv(envUpdates);
   return updates.X_ACCESS_TOKEN;
+}
+
+function scopedAccountEnv(env, accountId) {
+  const prefix = accountEnvPrefix(accountId);
+  return {
+    X_CLIENT_ID: env.X_CLIENT_ID,
+    X_CLIENT_SECRET: env.X_CLIENT_SECRET,
+    X_ACCESS_TOKEN: env[`${prefix}ACCESS_TOKEN`] || "",
+    X_TOKEN_TYPE: env[`${prefix}TOKEN_TYPE`] || "bearer",
+    X_REFRESH_TOKEN: env[`${prefix}REFRESH_TOKEN`] || "",
+    X_ACCESS_TOKEN_EXPIRES_AT: env[`${prefix}ACCESS_TOKEN_EXPIRES_AT`] || ""
+  };
 }

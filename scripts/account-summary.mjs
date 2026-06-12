@@ -17,6 +17,11 @@ for (const account of config.accounts) {
   console.log(`- ${account.displayName} (${account.id}) — ${account.category} — limit ${account.dailyPostLimit}/day — ${account.active ? "active" : "paused"}`);
 }
 
+console.log("\n## OAuth Binding Commands\n");
+for (const account of config.accounts) {
+  console.log(`- ${account.displayName}: npm run x:auth -- --account ${account.id}`);
+}
+
 console.log("\n## Today's Suggested Routing\n");
 const recommendations = strategy?.toolRecommendations ?? [];
 if (!recommendations.length) {

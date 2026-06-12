@@ -62,6 +62,9 @@ if ((xAccounts.accounts ?? []).length > Number(xAccounts.rotationPolicy?.maxAcco
   errors.push("x-accounts config exceeds maxAccounts");
 }
 
+const accountPosts = await readJson("data/account-posts.json", { items: [] });
+if (!Array.isArray(accountPosts.items)) errors.push("account-posts.json structure is invalid");
+
 const voice = await readJson("config/voice.json", { style: { avoid: [] } });
 const forbidden = voice.style?.avoid ?? [];
 for (const tool of latest?.tools ?? []) {

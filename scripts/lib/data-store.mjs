@@ -7,15 +7,18 @@ export const DATA_FILES = {
   history: "data/history.json",
   feedback: "data/feedback.json",
   queues: "data/queues.json",
+  accountPosts: "data/account-posts.json",
   candidateInbox: "data/candidate-inbox.json",
   affiliateResearch: "data/affiliate-research.json",
   reviewPages: "data/review-pages.json",
   affiliateLinks: "config/affiliate-links.json",
+  xAccounts: "config/x-accounts.json",
   voice: "config/voice.json"
 };
 
 export const DEFAULT_FEEDBACK = { version: 1, updatedAt: "", entries: [] };
 export const DEFAULT_QUEUES = { version: 1, updatedAt: "", items: [] };
+export const DEFAULT_ACCOUNT_POSTS = { version: 1, updatedAt: "", items: [] };
 export const DEFAULT_CANDIDATE_INBOX = { version: 1, updatedAt: "", items: [] };
 export const DEFAULT_AFFILIATE_RESEARCH = { version: 1, updatedAt: "", items: [] };
 export const DEFAULT_REVIEW_PAGES = { version: 1, updatedAt: "", items: [] };
@@ -42,6 +45,18 @@ export async function loadQueues() {
 
 export async function saveQueues(queues) {
   await writeJsonAtomic(DATA_FILES.queues, withUpdatedAt({ ...DEFAULT_QUEUES, ...queues }));
+}
+
+export async function loadAccountPosts() {
+  return readJson(DATA_FILES.accountPosts, DEFAULT_ACCOUNT_POSTS);
+}
+
+export async function saveAccountPosts(accountPosts) {
+  await writeJsonAtomic(DATA_FILES.accountPosts, withUpdatedAt({ ...DEFAULT_ACCOUNT_POSTS, ...accountPosts }));
+}
+
+export async function loadXAccountsConfig() {
+  return readJson(DATA_FILES.xAccounts, { version: 1, rotationPolicy: {}, accounts: [] });
 }
 
 export async function loadCandidateInbox() {
@@ -80,7 +95,8 @@ export function buildFeedbackEntry(input) {
   const now = new Date().toISOString();
   const toolId = input.toolId || createToolId(input.toolName, input.toolUrl);
   const variantType = input.variantType || "shortPost";
-  const id = input.id || createStableId("feedback", [toolId, input.sourceDate || todayString(), variantType, input.copyText || ""]);
+  const accountId = String(input.accountId || "").trim();
+  const id = input.id || createStableId("feedback", [toolId, input.sourceDate || todayString(), variantType, accountId || "no_account", input.copyText || ""]);
   const metrics = normalizeMetrics(input.metrics);
 
   return {
@@ -90,6 +106,8 @@ export function buildFeedbackEntry(input) {
     toolUrl: input.toolUrl,
     sourceDate: input.sourceDate || todayString(),
     variantType,
+    accountId,
+    accountName: input.accountName || "",
     copyText: input.copyText || "",
     posted: input.posted ?? true,
     postedUrl: input.postedUrl || "",
@@ -119,6 +137,62 @@ export async function deleteFeedback(id) {
   const removed = entries.length !== feedback.entries.length;
   await saveFeedback({ ...feedback, entries });
   return { removed };
+}
+
+export function buildAccountPost(input) {
+  const now = new Date().toISOString();
+  const toolId = input.toolId || createToolId(input.toolName, input.toolUrl);
+  const id = input.id || createStableId("account_post", [input.feedbackId || "", input.accountId || "", toolId, input.variantType || "shortPost"]);
+
+  return {
+    id,
+    feedbackId: input.feedbackId || "",
+    accountId: String(input.accountId || "").trim(),
+    accountName: input.accountName || "",
+    toolId,
+    toolName: input.toolName,
+    toolUrl: input.toolUrl,
+    sourceDate: input.sourceDate || todayString(),
+    variantType: input.variantType || "shortPost",
+    copyText: input.copyText || "",
+    postedUrl: input.postedUrl || "",
+    postedAt: input.postedAt || now,
+    status: input.status || "posted",
+    notes: input.notes || "",
+    createdAt: input.createdAt || now,
+    updatedAt: now
+  };
+}
+
+export async function upsertAccountPost(input) {
+  const accountPosts = await loadAccountPosts();
+  const incoming = buildAccountPost(input);
+  const existing = accountPosts.items.find((item) => item.id === incoming.id || (incoming.feedbackId && item.feedbackId === incoming.feedbackId));
+  const saved = existing
+    ? { ...existing, ...incoming, createdAt: existing.createdAt, updatedAt: new Date().toISOString() }
+    : incoming;
+  const items = accountPosts.items.filter((item) => item.id !== saved.id && (!saved.feedbackId || item.feedbackId !== saved.feedbackId));
+  items.push(saved);
+  await saveAccountPosts({ ...accountPosts, items });
+  return saved;
+}
+
+export async function upsertAccountPostFromFeedback(entry) {
+  if (!entry?.posted || !entry.accountId) return null;
+  return upsertAccountPost({
+    feedbackId: entry.id,
+    accountId: entry.accountId,
+    accountName: entry.accountName,
+    toolId: entry.toolId,
+    toolName: entry.toolName,
+    toolUrl: entry.toolUrl,
+    sourceDate: entry.sourceDate,
+    variantType: entry.variantType,
+    copyText: entry.copyText,
+    postedUrl: entry.postedUrl,
+    postedAt: entry.postedAt || entry.updatedAt,
+    notes: entry.notes
+  });
 }
 
 export function buildQueueItem(input) {

@@ -6,13 +6,13 @@ import { tmpdir } from "node:os";
 import { createToolId, slugify } from "../scripts/lib/ids.mjs";
 import { calculateEngagement } from "../scripts/lib/scoring.mjs";
 import { readJson, writeJsonAtomic } from "../scripts/lib/file-store.mjs";
-import { buildCandidateItem, buildFeedbackEntry, buildQueueItem } from "../scripts/lib/data-store.mjs";
+import { buildAccountPost, buildCandidateItem, buildFeedbackEntry, buildQueueItem } from "../scripts/lib/data-store.mjs";
 import { buildReviewOutline } from "../scripts/lib/review-outline.mjs";
 import { mapFeedbackCsv, parseCsv } from "../scripts/lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "../scripts/lib/candidate-parser.mjs";
 import { buildDecisionReport } from "../scripts/lib/decision-engine.mjs";
 import { buildPromotionSuggestions } from "../scripts/lib/promotion-engine.mjs";
-import { buildXPostPayload, getXPublishStatus, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
+import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPublishStatus, getXPublishStatus, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
@@ -40,14 +40,33 @@ test("feedback entry can represent posted copy before metrics are recorded", () 
     toolUrl: "https://tool.example.com",
     sourceDate: "2026-06-08",
     variantType: "shortPost",
+    accountId: "ai_tools_lab",
+    accountName: "AI Tools Lab",
     copyText: "Short copy",
     posted: true,
     metrics: {}
   });
 
   assert.equal(entry.posted, true);
+  assert.equal(entry.accountId, "ai_tools_lab");
+  assert.equal(entry.accountName, "AI Tools Lab");
   assert.equal(entry.metrics.impressions, 0);
   assert.equal(entry.engagementScore, 0);
+});
+
+test("account post preserves account and feedback linkage", () => {
+  const post = buildAccountPost({
+    feedbackId: "feedback_1",
+    accountId: "ai_tools_lab",
+    accountName: "AI Tools Lab",
+    toolName: "Tool",
+    toolUrl: "https://tool.com",
+    copyText: "Short copy"
+  });
+
+  assert.equal(post.feedbackId, "feedback_1");
+  assert.equal(post.accountId, "ai_tools_lab");
+  assert.equal(post.status, "posted");
 });
 
 test("queue item id is stable for tool and type", () => {
@@ -359,6 +378,25 @@ test("x publish payload requires text under 280 chars", () => {
 test("x publish status does not expose token", () => {
   const status = getXPublishStatus({ X_ACCESS_TOKEN: "secret" });
   assert.equal(status.configured, true);
+  assert.equal(JSON.stringify(status).includes("secret"), false);
+});
+
+test("x account token status uses account-scoped env keys", () => {
+  const prefix = accountEnvPrefix("ai_tools_lab");
+  const updates = accountEnvUpdates("ai_tools_lab", {
+    X_ACCESS_TOKEN: "secret",
+    X_REFRESH_TOKEN: "refresh-secret",
+    X_TOKEN_TYPE: "bearer",
+    X_ACCESS_TOKEN_EXPIRES_AT: "2026-06-12T00:30:00.000Z"
+  });
+  const status = getAccountXPublishStatus("ai_tools_lab", {
+    X_CLIENT_ID: "client",
+    ...updates
+  }, new Date("2026-06-12T00:00:00.000Z"));
+
+  assert.equal(prefix, "X_ACCOUNT_AI_TOOLS_LAB_");
+  assert.equal(status.configured, true);
+  assert.equal(status.accountId, "ai_tools_lab");
   assert.equal(JSON.stringify(status).includes("secret"), false);
 });
 

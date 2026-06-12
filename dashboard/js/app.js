@@ -31,6 +31,7 @@ const state = {
   latest: null,
   history: { tools: [] },
   feedback: { entries: [] },
+  accountPosts: { items: [] },
   queues: { items: [] },
   candidateInbox: { items: [] },
   affiliateResearch: { items: [] },
@@ -97,10 +98,11 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, queues, candidateInbox, affiliateResearch, reviewPages, decisions, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
+      api.get("/api/account-posts"),
       api.get("/api/queues"),
       api.get("/api/candidate-inbox"),
       api.get("/api/affiliate-research"),
@@ -110,7 +112,7 @@ async function loadAll() {
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, queues, candidateInbox, affiliateResearch, reviewPages, decisions, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -124,10 +126,11 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, queues, candidateInbox, affiliateResearch, reviewPages] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
+    fetchJson("/data/account-posts.json", { items: [] }),
     fetchJson("/data/queues.json", { items: [] }),
     fetchJson("/data/candidate-inbox.json", { items: [] }),
     fetchJson("/data/affiliate-research.json", { items: [] }),
@@ -140,6 +143,7 @@ async function loadStaticFallback(apiError) {
     maxTweetCharacters: 260,
     affiliateLinks: [],
     feedbackCount: feedback.entries?.length ?? 0,
+    accountPostCount: accountPosts.items?.length ?? 0,
     queueCount: queues.items?.length ?? 0,
     candidateInboxCount: candidateInbox.items?.length ?? 0,
     reviewPageCount: reviewPages.items?.length ?? 0,
@@ -156,6 +160,7 @@ async function loadStaticFallback(apiError) {
     latest,
     history,
     feedback,
+    accountPosts,
     queues,
     candidateInbox,
     affiliateResearch,
@@ -421,6 +426,167 @@ function feedbackFor(toolId) {
   }, { entries: 0, engagementScore: 0, likes: 0, bookmarks: 0, replies: 0, reposts: 0, clicks: 0, profileVisits: 0, impressions: 0 });
 }
 
+function activeAccounts() {
+  return state.latest?.accountStrategy?.accounts ?? [];
+}
+
+function accountById(accountId) {
+  return activeAccounts().find((account) => account.id === accountId) ?? null;
+}
+
+function accountAuthById(accountId) {
+  return (state.xStatus?.accounts ?? []).find((account) => account.accountId === accountId)?.authStatus ?? null;
+}
+
+function recommendedAccountId(tool) {
+  return tool?.accountRecommendation?.primary?.accountId || activeAccounts()[0]?.id || "";
+}
+
+function accountSelectOptions(selectedId = "") {
+  const accounts = activeAccounts();
+  if (!accounts.length) return `<option value="">未配置账号</option>`;
+  return accounts.map((account) => {
+    const selected = account.id === selectedId ? " selected" : "";
+    const auth = accountAuthById(account.id);
+    const status = auth?.configured ? "已绑定" : "未绑定";
+    return `<option value="${attr(account.id)}"${selected}>${esc(account.displayName)} · ${esc(account.category)} · ${status}</option>`;
+  }).join("");
+}
+
+function accountLabel(accountId) {
+  const account = accountById(accountId);
+  return account?.displayName || accountId || "未选择账号";
+}
+
+function combinedPostRecords() {
+  const records = [...(state.accountPosts.items ?? [])];
+  for (const entry of state.feedback.entries ?? []) {
+    if (entry.posted === false || !entry.accountId) continue;
+    records.push({
+      feedbackId: entry.id,
+      accountId: entry.accountId,
+      accountName: entry.accountName,
+      toolId: entry.toolId,
+      toolName: entry.toolName,
+      variantType: entry.variantType,
+      copyText: entry.copyText,
+      postedUrl: entry.postedUrl,
+      postedAt: entry.postedAt || entry.updatedAt || entry.createdAt
+    });
+  }
+  return records;
+}
+
+function accountSafety(tool, copyText, accountId, excludeFeedbackId = "") {
+  const account = accountById(accountId);
+  const auth = accountAuthById(accountId);
+  const policy = state.latest?.accountStrategy ?? {};
+  const now = new Date();
+  const posts = combinedPostRecords().filter((post) => post.feedbackId !== excludeFeedbackId);
+  const checks = [];
+  const blockReasons = [];
+  const warnings = [];
+
+  checks.push({
+    label: "账号",
+    value: account ? account.displayName : "未选择",
+    ok: Boolean(account),
+    block: !account
+  });
+  checks.push({
+    label: "授权",
+    value: auth?.configured ? "已绑定" : "未绑定",
+    ok: Boolean(auth?.configured),
+    block: true
+  });
+
+  const todayPosts = account ? posts.filter((post) => post.accountId === account.id && sameLocalDate(post.postedAt, now)).length : 0;
+  checks.push({
+    label: "今日账号限额",
+    value: account ? `${todayPosts}/${account.dailyPostLimit}` : "-",
+    ok: account ? todayPosts < Number(account.dailyPostLimit ?? 0) : false,
+    block: true
+  });
+
+  const lastPost = account ? latestPostForAccount(posts, account.id) : null;
+  const lastHours = lastPost ? hoursSince(lastPost.postedAt, now) : Number.POSITIVE_INFINITY;
+  checks.push({
+    label: "账号冷却",
+    value: lastPost ? `${roundDisplay(lastHours)}h / ${account.cooldownHours}h` : "无近期发帖",
+    ok: !lastPost || lastHours >= Number(account?.cooldownHours ?? 0),
+    block: true
+  });
+
+  const toolCooldownDays = Number(policy.sameToolCooldownDays ?? 7);
+  const sameTool = tool ? posts.find((post) => post.toolId === tool.toolId && daysSince(post.postedAt, now) < toolCooldownDays) : null;
+  checks.push({
+    label: "同工具冷却",
+    value: sameTool ? `${sameTool.accountName || sameTool.accountId} 已发` : "无冲突",
+    ok: !sameTool,
+    block: true
+  });
+
+  const copyCooldownDays = Number(policy.sameCopyCooldownDays ?? 30);
+  const normalizedCopy = normalizeCopy(copyText);
+  const sameCopy = normalizedCopy ? posts.find((post) => normalizeCopy(post.copyText) === normalizedCopy && daysSince(post.postedAt, now) < copyCooldownDays) : null;
+  checks.push({
+    label: "同文案冷却",
+    value: sameCopy ? `${sameCopy.accountName || sameCopy.accountId} 已用` : "无冲突",
+    ok: !sameCopy,
+    block: true
+  });
+
+  for (const check of checks) {
+    if (check.ok) continue;
+    const message = `${check.label}: ${check.value}`;
+    if (check.block) blockReasons.push(message);
+    else warnings.push(message);
+  }
+
+  return { account, auth, checks, blockReasons, warnings };
+}
+
+function renderAccountSafety(safety, compact = false) {
+  return `<div class="account-safety-card ${safety.blockReasons.length ? "bad" : safety.warnings.length ? "warn" : "good"}">
+    <div class="line-head">
+      <strong>${esc(safety.account?.displayName || "选择账号")}</strong>
+      ${pill(safety.blockReasons.length ? "Blocked" : safety.warnings.length ? "Review" : "OK", safety.blockReasons.length ? "bad" : safety.warnings.length ? "warn" : "good")}
+    </div>
+    <div class="check-list ${compact ? "compact" : ""}">
+      ${safety.checks.map((item) => `<div class="check-row ${item.ok ? "ok" : "warn"}"><span>${esc(item.label)}</span><strong>${esc(item.value)}</strong></div>`).join("")}
+    </div>
+    ${safety.blockReasons.length ? `<ul class="publish-reasons">${safety.blockReasons.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : ""}
+  </div>`;
+}
+
+function latestPostForAccount(posts, accountId) {
+  return posts
+    .filter((post) => post.accountId === accountId)
+    .sort((a, b) => new Date(b.postedAt || 0).getTime() - new Date(a.postedAt || 0).getTime())[0] ?? null;
+}
+
+function sameLocalDate(value, now) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return false;
+  return date.toLocaleDateString("en-CA") === now.toLocaleDateString("en-CA");
+}
+
+function daysSince(value, now = new Date()) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return Number.POSITIVE_INFINITY;
+  return Math.max(0, (now.getTime() - date.getTime()) / 86400000);
+}
+
+function hoursSince(value, now = new Date()) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return Number.POSITIVE_INFINITY;
+  return Math.max(0, (now.getTime() - date.getTime()) / 3600000);
+}
+
+function normalizeCopy(value) {
+  return String(value ?? "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
 function pendingFeedbackEntries() {
   return [...(state.feedback.entries ?? [])]
     .filter((entry) => entry.posted !== false && !hasRecordedMetrics(entry))
@@ -525,6 +691,7 @@ function renderPendingFeedbackItem(entry) {
       <strong>${esc(entry.toolName)} · ${esc(labels[entry.variantType] ?? entry.variantType)}</strong>
       ${pill("metrics 0", "warn")}
     </div>
+    <div class="muted">账号：${esc(entry.accountName || accountLabel(entry.accountId))}</div>
     <p class="muted">${esc(entry.copyText || "No copy text saved.")}</p>
     <div class="row-actions">
       <button class="button ghost" data-edit-feedback="${attr(entry.id)}">录入反馈</button>
@@ -733,7 +900,7 @@ function finalReviewCandidates() {
       const text = tool.copyVariants?.shortPost ?? "";
       const qa = copyQuality(text);
       const freshness = freshnessBadge(tool);
-      const readiness = buildPublishReadiness(tool, text);
+      const readiness = buildPublishReadiness(tool, text, recommendedAccountId(tool));
       return { tool, text, qa, freshness, readiness, priority: finalReviewPriority(tool, qa) };
     })
     .filter((item) => item.freshness.kind === "fresh")
@@ -983,7 +1150,7 @@ function renderFeedback() {
       </form>
       ${renderFeedbackPreview()}
     </section>
-    <section class="panel"><h2>反馈录入</h2><p class="muted">还没有 feedback 时，先在今日文案里点击「标记已发」，或直接用左侧 CSV 导入。</p><div class="list">${rows.map((entry) => `<div class="list-item"><strong>${esc(entry.toolName)} · ${esc(labels[entry.variantType] ?? entry.variantType)}</strong><div class="muted">engagement ${esc(entry.engagementScore ?? 0)} · likes ${esc(entry.metrics.likes)} · bookmarks ${esc(entry.metrics.bookmarks)} · replies ${esc(entry.metrics.replies)} · clicks ${esc(entry.metrics.clicks)}</div><div class="row-actions"><button class="button ghost" data-edit-feedback="${attr(entry.id)}">录入反馈</button></div></div>`).join("") || empty("还没有发推反馈。先在今日文案里点击「标记已发」。")}</div></section>
+    <section class="panel"><h2>反馈录入</h2><p class="muted">还没有 feedback 时，先在今日文案里点击「标记已发」，或直接用左侧 CSV 导入。</p><div class="list">${rows.map((entry) => `<div class="list-item"><strong>${esc(entry.toolName)} · ${esc(labels[entry.variantType] ?? entry.variantType)}</strong><div class="muted">账号 ${esc(entry.accountName || accountLabel(entry.accountId))} · engagement ${esc(entry.engagementScore ?? 0)} · likes ${esc(entry.metrics.likes)} · bookmarks ${esc(entry.metrics.bookmarks)} · replies ${esc(entry.metrics.replies)} · clicks ${esc(entry.metrics.clicks)}</div><div class="row-actions"><button class="button ghost" data-edit-feedback="${attr(entry.id)}">录入反馈</button></div></div>`).join("") || empty("还没有发推反馈。先在今日文案里点击「标记已发」。")}</div></section>
   </div>`;
 }
 
@@ -996,7 +1163,7 @@ function renderFeedbackPreview() {
     ${preview.errors?.length ? `<p class="muted">跳过：${esc(preview.errors.join(" "))}</p>` : ""}
     <div class="list">${rows.map((entry) => `<div class="list-item">
       <div class="line-head"><strong>${esc(entry.toolName)} · ${esc(labels[entry.variantType] ?? entry.variantType)}</strong><strong class="mini-score">${esc(entry.engagementScore ?? 0)}</strong></div>
-      <div class="muted">impressions ${esc(entry.metrics?.impressions ?? 0)} · likes ${esc(entry.metrics?.likes ?? 0)} · bookmarks ${esc(entry.metrics?.bookmarks ?? 0)} · replies ${esc(entry.metrics?.replies ?? 0)} · clicks ${esc(entry.metrics?.clicks ?? 0)}</div>
+      <div class="muted">账号 ${esc(entry.accountName || accountLabel(entry.accountId))} · impressions ${esc(entry.metrics?.impressions ?? 0)} · likes ${esc(entry.metrics?.likes ?? 0)} · bookmarks ${esc(entry.metrics?.bookmarks ?? 0)} · replies ${esc(entry.metrics?.replies ?? 0)} · clicks ${esc(entry.metrics?.clicks ?? 0)}</div>
       <div class="muted">engagement rate ${esc(formatRate(entry.engagementRate))} · click rate ${esc(formatRate(entry.clickRate))}</div>
       ${entry.postedUrl ? `<a class="muted-link" href="${attr(entry.postedUrl)}" target="_blank" rel="noreferrer">打开 X 链接</a>` : ""}
       <p>${esc(entry.copyText || "")}</p>
@@ -1090,6 +1257,11 @@ function renderAccounts() {
       <div class="list">${recommendations.map(renderAccountRecommendation).join("") || empty("暂无分配。")}</div>
     </section>
     <section class="panel wide-panel">
+      <h2>OAuth 绑定准备</h2>
+      <p class="muted">先不在页面里粘 token。需要绑定时，在本机运行对应命令，token 会写入本地 .env 的账号命名空间，不会进入 Git。</p>
+      <div class="account-grid">${accounts.map(renderAccountBindingCard).join("") || empty("暂无账号配置。")}</div>
+    </section>
+    <section class="panel wide-panel">
       <h2>账号画像</h2>
       <div class="account-grid">${accounts.map(renderAccountCard).join("") || empty("暂无账号配置。")}</div>
     </section>
@@ -1110,16 +1282,34 @@ function renderAccountRecommendation(item) {
 }
 
 function renderAccountCard(account) {
+  const auth = accountAuthById(account.id);
   return `<article class="account-card">
     <div class="line-head">
       <strong>${esc(account.displayName)}</strong>
       ${pill(account.active ? "active" : "paused", account.active ? "good" : "warn")}
+      ${pill(auth?.configured ? "auth bound" : "auth missing", auth?.configured ? "good" : "warn")}
     </div>
     <div class="muted">${esc(account.category)} · ${esc(account.id)}</div>
     <p>${esc(account.description)}</p>
     <div class="pill-row">${(account.contentPillars ?? []).map((item) => pill(item, "good")).join("")}</div>
     <div class="muted">limit ${esc(account.dailyPostLimit)}/day · planned ${esc(account.plannedToolsToday ?? 0)} · remaining ${esc(account.remainingSlotsToday ?? 0)} · cooldown ${esc(account.cooldownHours)}h</div>
     <div class="muted">keywords: ${esc((account.keywords ?? []).slice(0, 8).join(", "))}</div>
+  </article>`;
+}
+
+function renderAccountBindingCard(account) {
+  const auth = accountAuthById(account.id);
+  const command = `npm run x:auth -- --account ${account.id}`;
+  return `<article class="account-card">
+    <div class="line-head">
+      <strong>${esc(account.displayName)}</strong>
+      ${pill(auth?.configured ? xAuthStatus(account.id).label : "未绑定", auth?.configured ? "good" : "warn")}
+    </div>
+    <div class="muted">${esc(account.id)} · ${esc(auth?.envPrefix ?? "")}</div>
+    <pre class="copy-text">${esc(command)}</pre>
+    <div class="row-actions">
+      <button class="button ghost" data-copy="${attr(command)}">复制授权命令</button>
+    </div>
   </article>`;
 }
 
@@ -1285,6 +1475,7 @@ function renderSettings() {
     <div class="list-item">voice 长度上限: ${esc(state.settings?.maxTweetCharacters ?? 260)}</div>
     <div class="list-item">affiliate links: ${esc(state.settings?.affiliateLinks?.length ?? 0)}</div>
     <div class="list-item">feedback: ${esc(state.settings?.feedbackCount ?? 0)}</div>
+    <div class="list-item">account posts: ${esc(state.settings?.accountPostCount ?? 0)}</div>
     <div class="list-item">queues: ${esc(state.settings?.queueCount ?? 0)}</div>
     <div class="list-item">candidate inbox: ${esc(state.settings?.candidateInboxCount ?? 0)}</div>
     <div class="list-item">X 发布: ${esc(xAuth.label)} · ${esc(state.xStatus.health ?? "unknown")}</div>
@@ -1452,7 +1643,7 @@ function readinessAdvice(latest, stats) {
   return "今天没有明显的新鲜候选，先别花 credits；可以做历史工具的测评页或联盟研究。";
 }
 
-function renderPublishRisk(tool) {
+function renderPublishRisk(tool, accountId = "") {
   if (!tool) return `<div class="publish-risk-card warn">找不到工具记录，建议取消后刷新数据。</div>`;
   const latest = state.latest ?? {};
   const freshness = freshnessBadge(tool);
@@ -1462,7 +1653,7 @@ function renderPublishRisk(tool) {
   if (dataAgeMinutes(latest.generatedAt) > 360) risks.push("数据刷新超过 6 小时，建议先跑 npm run daily。");
   if (tool.seenBefore) risks.push("历史出现过，不要把它当今天新工具发。");
   if (freshness.kind === "stale") risks.push("发布时间超过 48 小时，更适合长文或 SEO 测评页。");
-  const xAuth = xAuthStatus();
+  const xAuth = xAuthStatus(accountId);
   if (xAuth.blocked) risks.push(xAuth.reason);
   else if (xAuth.warning) risks.push(xAuth.reason);
   if (!risks.length) risks.push("新鲜度适合小额 API 测试，发布后记得回填反馈。");
@@ -1474,7 +1665,7 @@ function renderPublishRisk(tool) {
   </div>`;
 }
 
-function buildPublishReadiness(tool, text) {
+function buildPublishReadiness(tool, text, accountId = "") {
   const latest = state.latest ?? {};
   const normalized = String(text ?? "").trim();
   const count = normalized.length;
@@ -1483,7 +1674,8 @@ function buildPublishReadiness(tool, text) {
   const freshness = tool ? freshnessBadge(tool) : null;
   const claimRisks = findRiskyClaims(normalized);
   const forbidden = forbiddenPhrases(normalized);
-  const xAuth = xAuthStatus();
+  const xAuth = xAuthStatus(accountId);
+  const safety = accountSafety(tool, normalized, accountId);
   const blockReasons = [];
   const overrideReasons = [];
 
@@ -1498,10 +1690,16 @@ function buildPublishReadiness(tool, text) {
   if (tool?.seenBefore) overrideReasons.push("这个工具历史出现过，不要当成今天新工具发。");
   if (freshness?.kind === "stale") overrideReasons.push("这条不是 Fresh today / Fresh 48h，更适合观察、长推或测评页。");
   if (claimRisks.length) overrideReasons.push(`文案含高风险承诺词：${claimRisks.join(", ")}。`);
+  blockReasons.push(...safety.blockReasons);
 
   const kind = blockReasons.length ? "bad" : overrideReasons.length ? "warn" : "good";
   const actionText = blockReasons.length ? "暂不能 API 发布" : overrideReasons.length ? "需要额外确认" : "可以谨慎发布";
   const checks = [
+    {
+      label: "账号",
+      value: safety.account?.displayName || "未选择",
+      ok: Boolean(safety.account)
+    },
     {
       label: "数据",
       value: latest.source?.usedFallback ? "Fallback sample" : ageMinutes === null ? "年龄未知" : `刷新 ${formatDuration(ageMinutes)}前`,
@@ -1534,7 +1732,7 @@ function buildPublishReadiness(tool, text) {
     }
   ];
 
-  return { kind, actionText, blockReasons, overrideReasons, checks };
+  return { kind, actionText, blockReasons, overrideReasons, checks, accountSafety: safety };
 }
 
 function findRiskyClaims(text) {
@@ -1569,8 +1767,8 @@ function maxTweetCharacters() {
   return Number(state.settings?.maxTweetCharacters || 260);
 }
 
-function xAuthStatus() {
-  const status = state.xStatus ?? {};
+function xAuthStatus(accountId = "") {
+  const status = accountId ? accountAuthById(accountId) || {} : state.xStatus ?? {};
   if (!status.configured) {
     return {
       label: "未配置",
@@ -1631,7 +1829,8 @@ function renderPublishChecklist(readiness) {
 function updatePublishReview() {
   const form = $("#publishForm");
   const text = form.elements.text?.value ?? "";
-  const readiness = buildPublishReadiness(state.publishTool, text);
+  const accountId = form.elements.accountId?.value ?? "";
+  const readiness = buildPublishReadiness(state.publishTool, text, accountId);
   const overrideLine = $("#publishOverrideLine");
   const overrideInput = form.elements.overrideChecked;
   const confirmButton = $("#confirmPublishButton");
@@ -1639,6 +1838,7 @@ function updatePublishReview() {
   $("#publishCount").textContent = `${String(text).trim().length} / 280`;
   $("#publishCount").classList.toggle("bad", String(text).trim().length > 280);
   $("#publishStatus").textContent = readiness.actionText;
+  $("#publishAccountSafety").innerHTML = renderAccountSafety(readiness.accountSafety);
   $("#publishChecklist").innerHTML = renderPublishChecklist(readiness);
   overrideLine.hidden = readiness.overrideReasons.length === 0;
   overrideInput.required = readiness.overrideReasons.length > 0;
@@ -1752,19 +1952,17 @@ function flashButton(button, text = "已复制") {
 }
 
 async function markPosted(button) {
-  const payload = {
+  openFeedback(button, {
     toolId: button.dataset.posted,
     toolName: button.dataset.tool,
     toolUrl: button.dataset.url,
     sourceDate: state.latest.date,
     variantType: button.dataset.variant,
+    accountId: recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.posted)),
     copyText: button.dataset.copytext,
     posted: true,
     metrics: {}
-  };
-  await api.post("/api/feedback/upsert", payload);
-  toast("已标记已发，待录入数据");
-  await loadAll();
+  });
 }
 
 function openFeedback(button, existing = null) {
@@ -1776,10 +1974,14 @@ function openFeedback(button, existing = null) {
     toolUrl: button.dataset.url,
     sourceDate: state.latest.date,
     variantType: button.dataset.variant,
+    accountId: recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.feedback)),
     copyText: button.dataset.copytext,
     metrics: {}
   };
-  for (const key of ["id","toolId","toolName","toolUrl","sourceDate","variantType","copyText","postedUrl","notes"]) {
+  const selectedAccountId = data.accountId || recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === data.toolId));
+  data.accountId = selectedAccountId;
+  $("#feedbackAccountSelect").innerHTML = accountSelectOptions(selectedAccountId);
+  for (const key of ["id","toolId","toolName","toolUrl","sourceDate","variantType","accountId","copyText","postedUrl","notes"]) {
     if (form.elements[key]) form.elements[key].value = data[key] ?? "";
   }
   for (const key of ["impressions","likes","bookmarks","replies","reposts","clicks","profileVisits"]) {
@@ -1794,18 +1996,21 @@ function openPublish(button) {
   const text = button.dataset.copytext || "";
   const tool = (state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.publish);
   state.publishTool = tool ?? null;
+  const accountId = recommendedAccountId(tool);
   const data = {
     toolId: button.dataset.publish,
     toolName: button.dataset.tool,
     toolUrl: button.dataset.url,
     sourceDate: state.latest?.date ?? "",
     variantType: button.dataset.variant,
+    accountId,
     text
   };
-  for (const key of ["toolId", "toolName", "toolUrl", "sourceDate", "variantType", "text"]) {
+  $("#publishAccountSelect").innerHTML = accountSelectOptions(accountId);
+  for (const key of ["toolId", "toolName", "toolUrl", "sourceDate", "variantType", "accountId", "text"]) {
     if (form.elements[key]) form.elements[key].value = data[key] ?? "";
   }
-  $("#publishRisk").innerHTML = renderPublishRisk(tool);
+  $("#publishRisk").innerHTML = renderPublishRisk(tool, accountId);
   updatePublishReview();
   $("#publishDialog").showModal();
 }
@@ -1837,7 +2042,7 @@ async function submitPublish(event) {
   try {
     const form = event.currentTarget;
     const payload = Object.fromEntries(new FormData(form).entries());
-    const readiness = buildPublishReadiness(state.publishTool, payload.text);
+    const readiness = buildPublishReadiness(state.publishTool, payload.text, payload.accountId);
     if (readiness.blockReasons.length) throw new Error(readiness.blockReasons[0]);
     if (readiness.overrideReasons.length && payload.overrideChecked !== "on") {
       throw new Error("这条需要额外风险确认后才能发布。");
@@ -2072,6 +2277,10 @@ $("#feedbackForm").addEventListener("submit", submitFeedback);
 $("#cancelFeedback").addEventListener("click", () => $("#feedbackDialog").close());
 $("#publishForm").addEventListener("submit", submitPublish);
 $("#publishForm").elements.text.addEventListener("input", updatePublishCount);
+$("#publishForm").elements.accountId.addEventListener("change", () => {
+  $("#publishRisk").innerHTML = renderPublishRisk(state.publishTool, $("#publishForm").elements.accountId.value);
+  updatePublishReview();
+});
 $("#cancelPublish").addEventListener("click", () => $("#publishDialog").close());
 $("#refreshButton").addEventListener("click", loadAll);
 $("#copyPlanButton").addEventListener("click", async () => {

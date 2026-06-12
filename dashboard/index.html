@@ -124,6 +124,7 @@
         <input type="hidden" name="sourceDate">
         <input type="hidden" name="variantType">
         <input type="hidden" name="copyText">
+        <label>发布账号 <select name="accountId" id="feedbackAccountSelect" required></select></label>
         <label>Post URL <input name="postedUrl" type="url" placeholder="https://x.com/..."></label>
         <div class="form-grid">
           <label>impressions <input name="impressions" type="number" min="0" value="0"></label>
@@ -151,6 +152,8 @@
         <input type="hidden" name="toolUrl">
         <input type="hidden" name="sourceDate">
         <input type="hidden" name="variantType">
+        <label>选择账号 <select name="accountId" id="publishAccountSelect" required></select></label>
+        <div class="account-safety" id="publishAccountSafety"></div>
         <label>Post text <textarea name="text" rows="7" maxlength="280" required></textarea></label>
         <div class="publish-meta">
           <span id="publishCount">0 / 280</span>

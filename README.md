@@ -150,6 +150,14 @@ npm run accounts
 
 查看 10 个 X 账号画像、手动轮换规则，以及今天每个工具建议发到哪个账号。这个命令只读配置和 `data/latest.json`，不会授权、不会发推。
 
+按账号绑定 X OAuth token 时使用：
+
+```bash
+npm run x:auth -- --account ai_tools_lab
+```
+
+把 `ai_tools_lab` 换成 `config/x-accounts.json` 里的任意 `accountId`。授权成功后 token 会写进本地 `.env` 的账号命名空间，例如 `X_ACCOUNT_AI_TOOLS_LAB_ACCESS_TOKEN`，不会写进 Git。
+
 ```bash
 npm run feedback
 ```
@@ -270,22 +278,24 @@ Dashboard 里的「今日行动」和「文案库」会出现 `发布到 X` 按�
 发布流程：
 
 1. 点某条文案的 `发布到 X`。
-2. 弹窗里检查文案和发布前 checklist。
-3. 如果出现 `暂不能 API 发布`，先按提示处理，比如配置 token、缩短文案或刷新 Live Feed。
-4. 如果出现 `需要额外确认`，说明这条可能是 Seen before、Older useful，或文案里有收益/承诺类高风险词；确认仍要发时，需要额外勾选风险确认。
-5. 勾选“我确认这条内容可以发布到 X”。
-6. 点 `确认发布`。
+2. 弹窗里先选择账号。默认是系统推荐账号，但你可以手动改。
+3. 检查账号安全：账号是否已绑定、今日限额、账号冷却、同工具冷却、同文案冷却。
+4. 再检查文案和发布前 checklist。
+5. 如果出现 `暂不能 API 发布`，先按提示处理，比如绑定该账号 token、缩短文案或刷新 Live Feed。
+6. 如果出现 `需要额外确认`，说明这条可能是 Seen before、Older useful，或文案里有收益/承诺类高风险词；确认仍要发时，需要额外勾选风险确认。
+7. 勾选“我确认这条内容可以发布到 X”。
+8. 点 `确认发布`。
 
 后端还会再次校验 `confirmed: true`，所以不会静默自动发。
 
-要真正调用 X API，推荐先用本地授权命令生成 token：
+要真正调用 X API，推荐先用按账号绑定的本地授权命令生成 token：
 
 ```bash
-npm run x:auth
+npm run x:auth -- --account ai_tools_lab
 npm run dashboard
 ```
 
-`npm run x:auth` 会打开 X 授权页，授权成功后把 `X_ACCESS_TOKEN` 写进 `.env`。Dashboard 启动时会自动读取 `.env`。
+`npm run x:auth -- --account ai_tools_lab` 会打开 X 授权页，授权成功后把该账号的 access token 写进 `.env`。Dashboard 启动时会自动读取 `.env`，并在「账号策略」里显示每个账号的绑定状态。
 
 在 X Developer Console 里这样配置：
 
@@ -295,23 +305,23 @@ npm run dashboard
 - Callback URI / Redirect URL：`http://127.0.0.1:8787/callback`。
 - Website URL：可以先填你的 X 主页或个人站，例如 `https://x.com/guamee4`。
 
-如果你已经手动拿到了 user-context token，也可以直接在启动 Dashboard 前设置：
+如果你只做单账号测试，也可以继续用旧的全局 token：
 
 ```bash
 export X_ACCESS_TOKEN="你的 X OAuth 2.0 User Context access token"
 npm run dashboard
 ```
 
-这个 token 需要有 `tweet.write` 权限。没有 `X_ACCESS_TOKEN` 时，页面可以预览和确认流程，但发布会失败并提示缺少 token。
+但多账号发布不会把全局 token 当成某个账号的授权，避免误用 A 账号 token 发到 B 账号逻辑里。账号 token 需要有 `tweet.write` 权限。未绑定账号 token 时，页面可以预览和记录手动发帖，但不能调用 X API 发布。
 
-Dashboard 的「设置/数据」会显示 X 授权健康状态：
+Dashboard 的「账号策略」和「设置/数据」会显示 X 授权健康状态：
 
 - `已配置`：access token 当前可用。
 - `已过期，可刷新`：access token 已过期，但有 refresh token；点击发布时会先刷新再发。
 - `已过期`：没有 refresh token，先重新跑 `npm run x:auth`。
 - `未配置`：只能预览，不能调用 X API。
 
-发布成功后，系统会把 X status URL 写入 `data/feedback.json`，并默认 metrics 为 0，后续你可以继续录入表现数据。
+发布成功后，系统会把 X status URL、`accountId`、`accountName` 写入 `data/feedback.json`，并同步写入 `data/account-posts.json`，默认 metrics 为 0，后续你可以继续录入表现数据。
 
 注意：
 
@@ -498,7 +508,7 @@ Copy 按钮不可用：
 ## 当前限制
 
 - 不自动发推；只支持你逐条确认后发布到 X。
-- 多账号目前只做账号画像和内容路由建议，还没有接多账号 OAuth。
+- 多账号 OAuth 目前是本地 `.env` 按账号绑定，不做云端托管 token，也不做自动轮发。
 - 不自动抓 X 数据，需要你手动录入。
 - 不自动申请 affiliate program。
 - 不自动把 affiliateLink 写进配置。

@@ -98,6 +98,15 @@ export function recommendAccountForItem(item, accountConfig = DEFAULT_ACCOUNT_CO
   };
 }
 
+export function findAccountById(accountConfig = DEFAULT_ACCOUNT_CONFIG, accountId = "") {
+  const config = normalizeAccountConfig(accountConfig);
+  return config.accounts.find((account) => account.id === accountId) ?? null;
+}
+
+export function recommendedAccountIdForTool(tool = null) {
+  return tool?.accountRecommendation?.primary?.accountId ?? "";
+}
+
 function recommendAccountWithLoad(item, accountConfig, accountLoad) {
   const config = normalizeAccountConfig(accountConfig);
   const activeAccounts = config.accounts.filter((account) => account.active);

@@ -675,6 +675,17 @@ input:focus, select:focus, textarea:focus {
   gap: 8px;
 }
 .account-card p { margin: 0; color: var(--muted); }
+.account-safety-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--soft);
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+.account-safety-card.good { border-color: color-mix(in srgb, var(--success) 40%, var(--border)); }
+.account-safety-card.warn { border-color: color-mix(in srgb, var(--warning) 40%, var(--border)); }
+.account-safety-card.bad { border-color: color-mix(in srgb, var(--danger) 40%, var(--border)); }
 .copy-qa {
   display: flex;
   gap: 7px;

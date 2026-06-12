@@ -25,7 +25,7 @@ async function parseApiResponse(res, path) {
   return res.json();
 }
 
-const tabNames = ["today", "review", "candidates", "tools", "copy", "feedback", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
+const tabNames = ["today", "roadmap", "review", "candidates", "tools", "copy", "feedback", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
 
 const state = {
   tab: initialTab(),
@@ -40,6 +40,7 @@ const state = {
   reviewPages: { items: [] },
   decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
   feedbackOps: null,
+  productRoadmap: null,
   xStatus: { configured: false, note: "" },
   settings: null,
   weekly: null,
@@ -107,7 +108,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, productRoadmap, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -118,11 +119,12 @@ async function loadAll() {
       api.get("/api/review-pages"),
       api.get("/api/decision-report"),
       api.get("/api/feedback-ops"),
+      api.get("/api/product-roadmap"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -136,7 +138,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps, productRoadmap] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -145,7 +147,8 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/candidate-inbox.json", { items: [] }),
     fetchJson("/data/affiliate-research.json", { items: [] }),
     fetchJson("/data/review-pages.json", { items: [] }),
-    fetchJson("/data/feedback-ops.json", null)
+    fetchJson("/data/feedback-ops.json", null),
+    fetchJson("/data/product-roadmap.json", { missing: true })
   ]);
   const settings = {
     latestDate: latest?.date ?? null,
@@ -178,6 +181,7 @@ async function loadStaticFallback(apiError) {
     reviewPages,
     decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
     feedbackOps: feedbackOps ?? latest?.feedbackOps ?? null,
+    productRoadmap: productRoadmap?.missing ? null : productRoadmap,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
@@ -387,7 +391,7 @@ function renderActiveView() {
   $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === state.tab));
   $$(".view").forEach((view) => view.classList.remove("active"));
   $(`#view-${state.tab}`).classList.add("active");
-  const renderers = { today: renderToday, review: renderFinalReviewQueue, candidates: renderCandidates, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
+  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, candidates: renderCandidates, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
   renderers[state.tab]();
 }
 
@@ -628,7 +632,8 @@ function hasRecordedMetrics(entry) {
 }
 
 function renderToday() {
-  $("#view-today").innerHTML = `${renderDailyChecklistPanel()}
+  $("#view-today").innerHTML = `${renderRoadmapSnapshotPanel()}
+  ${renderDailyChecklistPanel()}
   ${renderFocusPanel()}
   ${renderFeedbackFollowUpPanel()}
   ${renderFeedbackOpsPanel(state.feedbackOps ?? state.latest?.feedbackOps, "today")}
@@ -637,6 +642,197 @@ function renderToday() {
     <section class="panel"><h2>今天最该做</h2><div class="list">${(state.latest?.actionList ?? []).map(renderAction).join("") || empty("暂无今日行动。")}</div></section>
     <section class="panel"><h2>系统建议</h2><div class="list">${(state.weekly?.suggestions ?? []).slice(0, 6).map((item) => `<div class="list-item"><strong>${esc(item.toolName)}</strong><div class="muted">${esc(labels[item.suggestion] ?? item.suggestion)} · ${esc(item.reason)}</div></div>`).join("") || empty("暂无建议。")}</div></section>
   </div>`;
+}
+
+function renderRoadmapSnapshotPanel() {
+  const roadmap = state.productRoadmap;
+  if (!roadmap) {
+    return `<section class="panel roadmap-snapshot warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Product gap</p>
+          <h2>还没有产品路线图数据</h2>
+          <p class="muted">先运行 npm run roadmap。它会把内容供给、反馈学习、联盟变现和账号扩展缺口汇总成一张产品级报告。</p>
+        </div>
+        ${pill("Need roadmap", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="npm run roadmap">复制命令</button>
+        <button class="button ghost" data-tab-jump="accounts">先看账号策略</button>
+      </div>
+    </section>`;
+  }
+  const blockers = (roadmap.topBlockers ?? []).slice(0, 3);
+  return `<section class="panel roadmap-snapshot ${roadmap.overallScore >= 65 ? "good" : "warn"}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Product gap</p>
+        <h2>距离产品级：${esc(roadmap.level)} · ${esc(roadmap.overallScore)}/100</h2>
+        <p class="muted">X 账号切换已被标记为 deferred。当前先看非授权阻塞点：供给、日历、反馈、联盟和长文闭环。</p>
+      </div>
+      ${pill(`${roadmap.summary?.blockers ?? 0} blockers`, Number(roadmap.summary?.blockers ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="roadmap-blocker-strip">
+      ${blockers.map((item) => `<article>
+        <strong>${esc(item.name)}</strong>
+        <span>${esc(item.score)}/100</span>
+        <p>${esc(item.nextAction)}</p>
+      </article>`).join("") || empty("非授权阻塞点已经清爽。继续用真实反馈打磨。")}
+    </div>
+    <div class="row-actions">
+      <button class="button ghost" data-tab-jump="roadmap">打开产品路线图</button>
+      <button class="button ghost" data-copy="npm run roadmap">复制刷新命令</button>
+    </div>
+  </section>`;
+}
+
+function renderRoadmap() {
+  const roadmap = state.productRoadmap;
+  if (!roadmap) {
+    $("#view-roadmap").innerHTML = `<section class="panel">
+      <h2>产品路线图</h2>
+      <p class="muted">还没有 data/product-roadmap.json。先在本机运行 npm run roadmap，再重新读取 Dashboard。</p>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="npm run roadmap">复制命令</button>
+        <button class="button ghost" id="refreshRoadmapButton" type="button">重新读取</button>
+      </div>
+    </section>`;
+    $("#refreshRoadmapButton")?.addEventListener("click", loadAll, { once: true });
+    return;
+  }
+  const dimensions = roadmap.dimensions ?? [];
+  const blockers = roadmap.topBlockers ?? [];
+  const nextSprint = roadmap.nextSprint ?? [];
+  $("#view-roadmap").innerHTML = `<div class="roadmap-layout">
+    <section class="panel roadmap-hero">
+      <div>
+        <p class="eyebrow">Product readiness</p>
+        <h2>产品级进度：${esc(roadmap.overallScore)}/100</h2>
+        <p class="muted">${esc(roadmap.objective)}</p>
+      </div>
+      <div class="roadmap-score">
+        <strong>${esc(roadmap.overallScore)}</strong>
+        <span>${esc(roadmap.level)}</span>
+      </div>
+      <div class="pipeline-stats">
+        <div><strong>${esc(roadmap.summary?.dimensions ?? dimensions.length)}</strong><span>维度</span></div>
+        <div><strong>${esc(roadmap.summary?.blockers ?? blockers.length)}</strong><span>阻塞点</span></div>
+        <div><strong>${esc(roadmap.summary?.deferred ?? 0)}</strong><span>延后项</span></div>
+        <div><strong>${esc(roadmap.summary?.nextSprintItems ?? nextSprint.length)}</strong><span>sprint</span></div>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Top blockers</p>
+          <h2>现在真正差什么</h2>
+        </div>
+        ${pill(blockers.length ? `${blockers.length} focus` : "Clean", blockers.length ? "warn" : "good")}
+      </div>
+      <div class="list">${blockers.map(renderRoadmapBlocker).join("") || empty("没有主要阻塞点。")}</div>
+    </section>
+    <section class="panel">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Next sprint</p>
+          <h2>下一轮直接做这些</h2>
+        </div>
+        <button class="button ghost" data-copy="${attr(nextSprint.map((item, index) => `${index + 1}. ${item}`).join("\n"))}">复制 sprint</button>
+      </div>
+      <div class="list">${nextSprint.map((item, index) => `<div class="list-item"><strong>${esc(index + 1)}. ${esc(item)}</strong></div>`).join("") || empty("暂无 sprint 项。")}</div>
+    </section>
+    <section class="panel wide-panel">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Dimensions</p>
+          <h2>产品级维度体检</h2>
+        </div>
+        <button class="button ghost" data-copy="npm run roadmap">复制刷新命令</button>
+      </div>
+      <div class="roadmap-grid">${dimensions.map(renderRoadmapDimension).join("")}</div>
+    </section>
+    <section class="panel wide-panel">
+      <h2>产品原则</h2>
+      <div class="principle-grid">${(roadmap.productPrinciples ?? []).map((item) => `<div class="principle-card">${esc(item)}</div>`).join("")}</div>
+    </section>
+  </div>`;
+}
+
+function renderRoadmapBlocker(item) {
+  const targetTab = roadmapTabForDimension(item.id);
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(item.name)}</strong>
+      ${pill(`${item.score}/100`, roadmapScoreKind(item.score))}
+    </div>
+    <p>${esc(item.whyItMatters)}</p>
+    <div class="queue-next">${esc(item.nextAction)}</div>
+    <div class="row-actions">
+      ${targetTab ? `<button class="button ghost" data-tab-jump="${attr(targetTab)}">打开相关页面</button>` : ""}
+      <button class="button ghost" data-copy="${attr(roadmapCommandForDimension(item.id))}">复制建议命令</button>
+    </div>
+  </div>`;
+}
+
+function renderRoadmapDimension(item) {
+  return `<article class="roadmap-card ${item.status}">
+    <div class="line-head">
+      <strong>${esc(item.name)}</strong>
+      ${pill(`${item.score}/100`, item.status === "good" ? "good" : item.status === "deferred" ? "neutral" : item.status === "blocked" ? "bad" : "warn")}
+    </div>
+    <p>${esc(item.whyItMatters)}</p>
+    <div class="roadmap-evidence">
+      <strong>证据</strong>
+      ${(item.evidence ?? []).map((text) => `<span>${esc(text)}</span>`).join("")}
+    </div>
+    <div class="roadmap-gaps">
+      <strong>缺口</strong>
+      ${(item.gaps ?? []).map((text) => `<span>${esc(text)}</span>`).join("")}
+    </div>
+    <div class="roadmap-actions">
+      <strong>下一步</strong>
+      ${(item.nextActions ?? []).map((text) => `<span>${esc(text)}</span>`).join("")}
+    </div>
+    <div class="row-actions">
+      ${roadmapTabForDimension(item.id) ? `<button class="button ghost" data-tab-jump="${attr(roadmapTabForDimension(item.id))}">打开相关页面</button>` : ""}
+      <button class="button ghost" data-copy="${attr(roadmapCommandForDimension(item.id))}">复制命令</button>
+    </div>
+  </article>`;
+}
+
+function roadmapScoreKind(score) {
+  const value = Number(score);
+  if (value >= 80) return "good";
+  if (value >= 50) return "warn";
+  return "bad";
+}
+
+function roadmapTabForDimension(id) {
+  return {
+    content_supply: "accounts",
+    content_calendar: "accounts",
+    feedback_loop: "feedback",
+    affiliate_monetization: "affiliate",
+    source_diversity: "accounts",
+    quality_safety: "review",
+    longform_engine: "queues",
+    public_product: "settings",
+    account_switching: "accounts"
+  }[id] ?? "";
+}
+
+function roadmapCommandForDimension(id) {
+  return {
+    content_supply: "npm run source-queue && npm run source-pack",
+    content_calendar: "npm run draft-plan && npm run content-calendar",
+    feedback_loop: "npm run feedback-ops",
+    affiliate_monetization: "npm run affiliate-queue && npm run affiliate:research",
+    source_diversity: "npm run source-health && npm run source-discovery",
+    quality_safety: "npm run daily && npm run check",
+    longform_engine: "npm run promotion-review",
+    public_product: "npm run build",
+    account_switching: "npm run accounts"
+  }[id] ?? "npm run roadmap";
 }
 
 function renderDailyChecklistPanel() {

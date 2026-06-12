@@ -28,7 +28,7 @@ import {
 import { buildPromotionSuggestions } from "./lib/promotion-engine.mjs";
 import { buildReviewOutline, buildReviewRecord, reviewFilePath } from "./lib/review-outline.mjs";
 import { formatTodayPlanMarkdown } from "./lib/formatters.mjs";
-import { writeTextAtomic } from "./lib/file-store.mjs";
+import { readJson, writeTextAtomic } from "./lib/file-store.mjs";
 import { buildWeeklyReport, generateWeeklyReport } from "./lib/weekly-report.mjs";
 import { mapFeedbackCsv } from "./lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "./lib/candidate-parser.mjs";
@@ -125,6 +125,7 @@ async function handleApiGet(pathname) {
   if (pathname === "/api/queues") return loadQueues();
   if (pathname === "/api/review-pages") return loadReviewPages();
   if (pathname === "/api/affiliate-research") return loadAffiliateResearch();
+  if (pathname === "/api/product-roadmap") return readJson("data/product-roadmap.json", null);
   if (pathname === "/api/settings") {
     const [latest, history, voice, affiliateLinks, feedback, queues, reviews, affiliateResearch, candidateInbox, accountPosts] = await Promise.all([
       loadLatest(),

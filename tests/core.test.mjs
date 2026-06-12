@@ -10,6 +10,7 @@ import { buildAccountPost, buildCandidateItem, buildFeedbackEntry, buildQueueIte
 import { buildReviewOutline } from "../scripts/lib/review-outline.mjs";
 import { mapFeedbackCsv, parseCsv } from "../scripts/lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "../scripts/lib/candidate-parser.mjs";
+import { evaluateCandidateQualityGate } from "../scripts/lib/candidate-quality-gate.mjs";
 import { buildDecisionReport } from "../scripts/lib/decision-engine.mjs";
 import { buildPromotionReviewQueue, buildPromotionSuggestions } from "../scripts/lib/promotion-engine.mjs";
 import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPublishStatus, getXPublishStatus, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
@@ -558,6 +559,60 @@ test("parseCandidatePaste handles one candidate per line", () => {
   assert.equal(parsed.errors.length, 0);
   assert.equal(parsed.entries[0].name, "Tool Name");
   assert.equal(parsed.entries[0].tagline, "Fixes one clear workflow");
+});
+
+test("candidate quality gate blocks placeholder rows", () => {
+  const gate = evaluateCandidateQualityGate({
+    name: "Placeholder Tool",
+    url: "https://example.com",
+    tagline: "todo placeholder",
+    circle: "ai_startups",
+    candidateType: "product"
+  }, { date: "2026-06-13" });
+
+  assert.equal(gate.status, "skip");
+  assert.equal(gate.tags.includes("placeholder"), true);
+});
+
+test("candidate quality gate sends broad unclear rows to review", () => {
+  const gate = evaluateCandidateQualityGate({
+    name: "Best AI Suite",
+    url: "https://bestaisuite.ai",
+    tagline: "Ultimate best AI tool for everyone",
+    circle: "ai_startups",
+    candidateType: "product"
+  }, { date: "2026-06-13" });
+
+  assert.notEqual(gate.status, "import");
+  assert.equal(gate.tags.includes("too_broad"), true);
+});
+
+test("candidate quality gate imports specific audience and pain rows", () => {
+  const gate = evaluateCandidateQualityGate({
+    name: "Retention Bench",
+    url: "https://retentionbench.com",
+    tagline: "SaaS founders automate churn reporting workflow for small teams",
+    circle: "saas_founders",
+    candidateType: "product",
+    published: "2026-06-13"
+  }, { date: "2026-06-13" });
+
+  assert.equal(gate.status, "import");
+  assert.equal(gate.score >= 75, true);
+});
+
+test("candidate quality gate reviews crypto market-only topics", () => {
+  const gate = evaluateCandidateQualityGate({
+    name: "ETF Outflow Watch",
+    url: "https://etfoutflowwatch.com",
+    tagline: "Bitcoin price ETF outflows and trading market signal today",
+    circle: "crypto_builders",
+    candidateType: "topic",
+    published: "2026-06-13"
+  }, { date: "2026-06-13" });
+
+  assert.notEqual(gate.status, "import");
+  assert.equal(gate.tags.includes("market_only_crypto"), true);
 });
 
 test("parseCandidatePaste infers circle from pasted text", () => {

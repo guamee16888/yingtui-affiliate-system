@@ -32,6 +32,7 @@ import { readJson, writeTextAtomic } from "./lib/file-store.mjs";
 import { buildWeeklyReport, generateWeeklyReport } from "./lib/weekly-report.mjs";
 import { mapFeedbackCsv } from "./lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "./lib/candidate-parser.mjs";
+import { evaluateCandidateQualityGate } from "./lib/candidate-quality-gate.mjs";
 import { buildHistoryIndex, candidateInboxToTools, scoreTool } from "./lib/affiliate-system.mjs";
 import { buildDecisionReport } from "./lib/decision-engine.mjs";
 import { buildFeedbackOps, buildLearningLoop } from "./lib/feedback-ops.mjs";
@@ -602,7 +603,7 @@ async function importCandidatePaste(body) {
   const plan = await buildCandidatePastePlan(body);
   const importMode = body.importMode === "all" ? "all" : "recommended";
   const candidates = plan.previews
-    .filter((item) => importMode === "all" ? !item.duplicate : item.importEligible)
+    .filter((item) => importMode === "all" ? item.importDecision !== "skip" : item.importEligible)
     .map((item) => item.candidate);
   const entries = [];
   for (const candidate of candidates) {
@@ -657,7 +658,7 @@ async function buildCandidatePastePlan(body) {
       const candidate = parsed.entries[index];
       const toolId = createToolId(candidate.name, candidate.url);
       const duplicate = candidateDuplicateStatus({ toolId, url: candidate.url, seenInPaste, duplicateContext });
-      return candidatePreviewJson(scored, candidate, duplicate);
+      return candidatePreviewJson(scored, candidate, duplicate, date);
     })
     .sort((a, b) => Number(b.score) - Number(a.score));
 
@@ -708,8 +709,9 @@ function normalizedUrlKey(url) {
   }
 }
 
-function candidatePreviewJson(item, candidate, duplicate) {
-  const importDecision = candidateImportDecision(item, duplicate);
+function candidatePreviewJson(item, candidate, duplicate, date) {
+  const qualityGate = evaluateCandidateQualityGate(candidate, { date });
+  const importDecision = candidateImportDecision(item, duplicate, qualityGate);
   return {
     candidate,
     name: item.tool.name,
@@ -722,9 +724,10 @@ function candidatePreviewJson(item, candidate, duplicate) {
     score: item.score,
     scoreBreakdown: item.scoreBreakdown,
     followUpAction: item.followUpAction,
+    qualityGate,
     importEligible: importDecision === "import",
     importDecision,
-    importReason: candidateImportReason(item, duplicate, importDecision),
+    importReason: candidateImportReason(item, duplicate, importDecision, qualityGate),
     seenBefore: item.seenBefore,
     duplicate: duplicate.duplicate,
     duplicateStatus: duplicate.duplicateStatus,
@@ -735,14 +738,19 @@ function candidatePreviewJson(item, candidate, duplicate) {
   };
 }
 
-function candidateImportDecision(item, duplicate) {
+function candidateImportDecision(item, duplicate, qualityGate) {
   if (duplicate.duplicate) return "skip";
+  if (qualityGate.status === "skip") return "skip";
+  if (Number(item.score) < 14) return "skip";
+  if (qualityGate.status === "review") return "review";
   if (item.followUpAction === "skip" || Number(item.score) < 18) return Number(item.score) >= 14 ? "review" : "skip";
   return "import";
 }
 
-function candidateImportReason(item, duplicate, decision) {
+function candidateImportReason(item, duplicate, decision, qualityGate) {
   if (duplicate.duplicate) return duplicate.duplicateReason;
+  if (qualityGate.status === "skip") return `Quality gate blocked it: ${qualityGate.reasons[0] ?? "needs stronger source detail"}`;
+  if (qualityGate.status === "review") return `Quality gate asks for review: ${qualityGate.reasons[0] ?? "needs manual check"}`;
   if (decision === "import") return "Meets quality floor and is not a duplicate.";
   if (decision === "review") return "Borderline score. Keep for manual review before importing.";
   return item.followUpAction === "skip" ? "Scoring says skip." : "Below quality floor.";

@@ -92,6 +92,12 @@ const candidateDecisionLabels = {
   skip: "跳过"
 };
 
+const qualityGateLabels = {
+  import: "质量通过",
+  review: "质量复核",
+  skip: "质量拦截"
+};
+
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 const writeActionSelector = [
@@ -1786,12 +1792,31 @@ function renderCandidatePreview() {
     <div class="line-head"><strong>预评分结果</strong><span class="muted">${esc(preview.date ?? "")} · parsed ${esc(preview.parsed ?? rows.length)} · import ${esc(preview.summary?.importable ?? 0)} · review ${esc(preview.summary?.review ?? 0)} · skip ${esc(preview.summary?.skipped ?? 0)} · duplicate ${esc(preview.summary?.duplicates ?? 0)}</span></div>
     ${preview.errors?.length ? `<p class="muted">跳过：${esc(preview.errors.join(" "))}</p>` : ""}
     <div class="list">${rows.map((item) => `<div class="list-item">
-      <div class="line-head"><strong>${esc(item.name)}</strong>${pill(candidateDecisionLabels[item.importDecision] ?? item.importDecision, item.importDecision === "import" ? "good" : item.importDecision === "review" ? "warn" : "bad")}${pill(labels[item.followUpAction] ?? item.followUpAction, item.followUpAction === "skip" ? "bad" : "good")}<strong class="mini-score">${esc(item.score)}</strong></div>
+      <div class="line-head"><strong>${esc(item.name)}</strong>${pill(candidateDecisionLabels[item.importDecision] ?? item.importDecision, item.importDecision === "import" ? "good" : item.importDecision === "review" ? "warn" : "bad")}${renderQualityGatePill(item.qualityGate)}${pill(labels[item.followUpAction] ?? item.followUpAction, item.followUpAction === "skip" ? "bad" : "good")}<strong class="mini-score">${esc(item.score)}</strong></div>
       <div class="muted">${esc(item.sourceName)} · ${esc(item.circle || "unknown circle")} · ${esc(item.candidateType || "product")} · ${esc(item.affiliateStatus)} · ${item.seenBefore ? "Seen before" : "New to history"} · ${esc(item.duplicateStatus || "new_candidate")}</div>
       <p class="muted">${esc(item.importReason || "")}</p>
+      ${renderQualityGateDetail(item.qualityGate)}
       <p>${esc(item.reason)}</p>
       <div class="score-bars">${Object.entries(item.scoreBreakdown ?? {}).filter(([key]) => ["painScore","nicheScore","affiliateScore","contentScore","noveltyScore","riskScore"].includes(key)).map(([key, value]) => bar(key, value)).join("")}</div>
     </div>`).join("") || empty("暂无预览结果。")}</div>
+  </div>`;
+}
+
+function renderQualityGatePill(gate) {
+  if (!gate) return "";
+  const tone = gate.status === "import" ? "good" : gate.status === "review" ? "warn" : "bad";
+  return pill(`${qualityGateLabels[gate.status] ?? gate.status} ${gate.score ?? 0}/100`, tone);
+}
+
+function renderQualityGateDetail(gate) {
+  if (!gate || (!gate.reasons?.length && !gate.fixes?.length && !gate.tags?.length)) return "";
+  const reasons = (gate.reasons ?? []).slice(0, 2);
+  const fixes = (gate.fixes ?? []).slice(0, 2);
+  const tags = (gate.tags ?? []).slice(0, 4);
+  return `<div class="quality-gate-detail">
+    ${tags.length ? `<div class="pill-row">${tags.map((tag) => pill(tag, "neutral")).join("")}</div>` : ""}
+    ${reasons.length ? `<p class="muted">门禁原因：${esc(reasons.join(" "))}</p>` : ""}
+    ${fixes.length ? `<p class="muted">建议补充：${esc(fixes.join(" "))}</p>` : ""}
   </div>`;
 }
 

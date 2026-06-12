@@ -1,6 +1,6 @@
 {
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T19:11:10.587Z",
+  "generatedAt": "2026-06-12T19:18:40.511Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -2150,7 +2150,7 @@
   },
   "sourceDiscovery": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:11:10.578Z",
+    "generatedAt": "2026-06-12T19:18:40.502Z",
     "summary": {
       "circles": 4,
       "totalNeededCandidates": 80,
@@ -2688,7 +2688,7 @@
   },
   "sourceHealth": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:11:10.580Z",
+    "generatedAt": "2026-06-12T19:18:40.504Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -4029,7 +4029,7 @@
   },
   "feedbackOps": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:11:10.584Z",
+    "generatedAt": "2026-06-12T19:18:40.508Z",
     "summary": {
       "posted": 0,
       "measured": 0,
@@ -4549,7 +4549,7 @@
   },
   "promotionReview": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:11:10.585Z",
+    "generatedAt": "2026-06-12T19:18:40.509Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {
@@ -7766,13 +7766,13 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_slack-data-agent_f160e26ca0",
-      "toolId": "tool_producthunt_com_slack-data-agent_f160e26ca0",
-      "name": "Slack Data Agent",
-      "url": "https://www.producthunt.com/products/basedash",
+      "id": "tool_producthunt_com_nodus-ph-radar-for-product-hunt_f1f78e58b4",
+      "toolId": "tool_producthunt_com_nodus-ph-radar-for-product-hunt_f1f78e58b4",
+      "name": "NODUS PH Radar for Product Hunt",
+      "url": "https://www.producthunt.com/products/nodus-ph-radar-for-product-hunt",
       "domain": "producthunt.com",
-      "tagline": "Ask about your data without leaving Slack",
-      "published": "2026-06-11T21:35:06-07:00",
+      "tagline": "Product Hunt analytics beyond the daily leaderboard",
+      "published": "2026-06-08T14:47:33-07:00",
       "sourceId": "",
       "sourceType": "producthunt",
       "sourceName": "Product Hunt",
@@ -7789,30 +7789,34 @@
       "candidateType": "product",
       "score": 14,
       "scoreBreakdown": {
-        "painScore": 4,
-        "nicheScore": 3,
-        "affiliateScore": 0,
+        "painScore": 6,
+        "nicheScore": 1,
+        "affiliateScore": 4,
         "contentScore": 3,
-        "noveltyScore": 7,
-        "riskScore": 3,
+        "noveltyScore": 6,
+        "riskScore": 2,
         "sourceNoisePenalty": 0,
-        "seenPenalty": 0,
+        "seenPenalty": 4,
         "total": 14
       },
-      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "reason": "fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.",
       "affiliateStatus": "no_fit",
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
       "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 1,
+        "lastSeen": "2026-06-12",
+        "bestScore": 18
+      },
+      "suggestedAngle": "solo operators want faster reporting; test whether it solves removing one narrow, repeated manual step.",
       "angle": {
         "audience": "solo operators",
-        "outcome": "a narrower workflow",
+        "outcome": "faster reporting",
         "pain": "removing one narrow, repeated manual step",
-        "solution": "ask about your data without leaving slack"
+        "solution": "product hunt analytics beyond the daily leaderboard"
       },
       "copyVariants": {},
       "copyChecks": {}

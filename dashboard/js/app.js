@@ -54,6 +54,7 @@ const state = {
   weekly: null,
   candidatePreview: null,
   candidateImportResult: null,
+  pendingCandidatePaste: null,
   feedbackPreview: null,
   publishTool: null,
   dailyRun: { running: false, message: "" },
@@ -1747,6 +1748,7 @@ function focusStatusKind(tasks) {
 function renderCandidates() {
   const active = state.candidateInbox.items.filter((item) => item.status === "active");
   const archived = state.candidateInbox.items.filter((item) => item.status !== "active");
+  const pendingPaste = state.pendingCandidatePaste;
   $("#view-candidates").innerHTML = `<div class="grid">
     <section class="panel">
       <h2>添加外部候选</h2>
@@ -1768,12 +1770,16 @@ function renderCandidates() {
     <section class="panel">
       <h2>批量粘贴导入</h2>
       <p class="muted">支持 CSV 表头：name,url,tagline,source；也支持一行一个：Tool name | https://... | narrow pain。</p>
+      ${pendingPaste ? `<div class="inline-note">
+        <strong>${esc(pendingPaste.label || "已填入补题模板")}</strong>
+        <span>${esc(pendingPaste.detail || "填真实 name/url/tagline 后再预览评分。")}</span>
+      </div>` : ""}
       <form class="stack-form" id="candidatePasteForm">
-        <label>默认来源 <input name="source" placeholder="X / newsletter / manual" value="paste"></label>
+        <label>默认来源 <input name="source" placeholder="X / newsletter / manual" value="${attr(pendingPaste?.source || "paste")}"></label>
         <label>默认圈子 <select name="circle">${circleOptions()}</select></label>
         <label>默认类型 <select name="candidateType"><option value="product">product/tool</option><option value="topic">topic/signal</option></select></label>
         <label>导入策略 <select name="importMode"><option value="recommended" selected>只导入可导入项</option><option value="all">导入全部非重复项</option></select></label>
-        <textarea name="text" rows="9" placeholder="Tool A | https://example.com | Fixes one narrow workflow&#10;Tool B | https://example.org | Better reporting for small teams"></textarea>
+        <textarea name="text" rows="9" placeholder="Tool A | https://example.com | Fixes one narrow workflow&#10;Tool B | https://example.org | Better reporting for small teams">${esc(pendingPaste?.text || "")}</textarea>
         <div class="row-actions">
           <button class="button ghost" type="button" data-preview-candidates="candidatePasteForm">预览评分</button>
           <button class="button" type="submit">批量导入候选</button>
@@ -2887,7 +2893,7 @@ function renderInventoryFocusItem(account) {
     <p class="muted">${esc(account.actionDetail || "")}</p>
     <div class="row-actions">
       ${account.refillTemplate?.rows?.length ? `<button class="button ghost" type="button" data-refill-csv="${attr(account.accountId)}">复制补题 CSV</button>` : ""}
-      <button class="button ghost" type="button" data-tab-jump="candidates">去候选收集</button>
+      ${account.refillTemplate?.rows?.length ? `<button class="button ghost" type="button" data-refill-fill="${attr(account.accountId)}">填入候选收集</button>` : `<button class="button ghost" type="button" data-tab-jump="candidates">去候选收集</button>`}
     </div>
   </div>`;
 }
@@ -2912,7 +2918,7 @@ function renderMatrixAccountItem(account) {
     </div>
     <div class="muted">${esc(account.status)} · postable ${esc(inventory.postableToday ?? 0)} · matched ${esc(account.matchedCandidates)}/${esc(account.candidateBenchTarget)} · fresh ${esc(account.freshCandidates)} · drafts ${esc(account.plannedDrafts)}/${esc(account.targetPosts)}</div>
     <p>${esc(inventory.actionDetail || account.nextAction)}</p>
-    ${hasRefillTemplate ? `<div class="row-actions"><button class="button ghost" type="button" data-refill-csv="${attr(account.accountId)}">复制补题 CSV</button></div>` : ""}
+    ${hasRefillTemplate ? `<div class="row-actions"><button class="button ghost" type="button" data-refill-csv="${attr(account.accountId)}">复制补题 CSV</button><button class="button ghost" type="button" data-refill-fill="${attr(account.accountId)}">填入候选收集</button></div>` : ""}
   </div>`;
 }
 
@@ -3855,6 +3861,23 @@ function accountRefillCsv(accountId) {
   return accountRefillRowsToCsv(template.rows);
 }
 
+function fillCandidatePasteFromAccount(accountId) {
+  const account = (state.accountContentMatrix?.inventory?.accounts ?? [])
+    .find((item) => item.accountId === accountId);
+  const csv = accountRefillCsv(accountId);
+  state.pendingCandidatePaste = {
+    accountId,
+    source: "account_refill",
+    text: csv,
+    label: `${account?.displayName || accountId} 补题 CSV 已填入`,
+    detail: "先补真实 name/url/tagline；空行会被跳过，不会导入假候选。"
+  };
+  state.candidatePreview = null;
+  state.candidateImportResult = null;
+  switchTab("candidates");
+  toast("已填入候选收集");
+}
+
 function accountRefillTemplate(accountId) {
   return (state.accountContentMatrix?.inventory?.accounts ?? [])
     .find((account) => account.accountId === accountId)?.refillTemplate ?? null;
@@ -4298,6 +4321,8 @@ document.addEventListener("click", async (event) => {
     } else if (button.dataset.refillCsv) {
       await copyText(accountRefillCsv(button.dataset.refillCsv));
       flashButton(button);
+    } else if (button.dataset.refillFill) {
+      fillCandidatePasteFromAccount(button.dataset.refillFill);
     } else if (button.dataset.fillFeedbackCsv) {
       fillFeedbackCsv(button.dataset.fillFeedbackCsv);
     } else if (button.dataset.openSearches) {

@@ -973,6 +973,9 @@ input:focus, select:focus, textarea:focus {
   font-weight: 540;
 }
 .preview-box { margin-top: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--soft); padding: 13px; display: grid; gap: 10px; }
+.inline-note { border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border)); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--accent) 5%, var(--card)); padding: 11px 12px; display: grid; gap: 4px; }
+.inline-note strong { color: var(--ink); font-weight: 620; }
+.inline-note span { color: var(--muted); font-size: 13px; }
 .import-result-box { border-color: color-mix(in srgb, var(--accent) 28%, var(--border)); background: color-mix(in srgb, var(--accent) 5%, var(--card)); }
 .import-action-item { border-color: color-mix(in srgb, var(--border-strong) 70%, var(--border)); }
 .seed-import-readiness { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); padding: 11px; display: grid; gap: 10px; }

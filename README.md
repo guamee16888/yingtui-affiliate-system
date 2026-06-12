@@ -58,12 +58,12 @@ output/YYYY-MM-DD-daily-x-pack.md
 12. 跑 `npm run content-calendar` 或打开「内容日历」，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
 13. 跑 `npm run account-matrix` 或打开「账号策略」里的 `Account content matrix`，看每个账号缺候选、缺新鲜内容、缺草稿还是缺排期。
 14. 看「账号策略」里的 `Account refill workbench`，先处理今天前 5 个补给账号：打开搜索组、填真实候选、粘到候选收集预览。
-15. 跑 `npm run scale-ramp` 或看「账号策略」里的 `Scale ramp plan`，先确定今天只启动哪 3 个种子账号、最多安全测试几条。
-16. 跑 `npm run seed-pack` 或看「账号策略」里的 `Seed batch pack`，按当前种子账号生成可填写 CSV。
-17. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
-18. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
-19. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
-20. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
+15. 看「今日行动」顶部的 `Today operating target`，按它给出的真实上限发帖、补账号候选和补圈层来源，不要盯 200 条配置目标硬推。
+16. 跑 `npm run scale-ramp` 或看「账号策略」里的 `Scale ramp plan`，先确定今天只启动哪 3 个种子账号、最多安全测试几条。
+17. 跑 `npm run seed-pack` 或看「账号策略」里的 `Seed batch pack`，按当前种子账号生成可填写 CSV。
+18. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
+19. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
+20. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
 21. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
 22. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
 23. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
@@ -171,7 +171,7 @@ Tool B | https://example.org | Better reporting for small teams
 npm run daily
 ```
 
-拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并同步刷新 `data/scale-readiness.json`、`data/account-content-matrix.json`、`data/account-refill-workbench.json`、`data/scale-ramp-plan.json`、`data/seed-batch-pack.json` 与 `data/product-roadmap.json`。每日打分会读取真实反馈生成 `feedbackLearningSignals`：Top account / angle / source 只能小幅影响排序，不能绕过质量门禁。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
+拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并同步刷新 `data/scale-readiness.json`、`data/account-content-matrix.json`、`data/account-refill-workbench.json`、`data/content-ops-plan.json`、`data/scale-ramp-plan.json`、`data/seed-batch-pack.json` 与 `data/product-roadmap.json`。每日打分会读取真实反馈生成 `feedbackLearningSignals`：Top account / angle / source 只能小幅影响排序，不能绕过质量门禁。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
 
 ```bash
 npm run daily:top10
@@ -275,6 +275,12 @@ npm run refill-workbench
 ```
 
 生成账号补给工作台，输出到 `data/account-refill-workbench.json` 和 `output/YYYY-MM-DD-account-refill-workbench.md`。它会从账号内容矩阵里挑出今天最该补的账号，集中给出搜索组、补题 CSV、first bottleneck 和执行顺序。`npm run daily` 会自动刷新它；只有需要单独重算补给清单时才手动跑这个命令。
+
+```bash
+npm run content-ops-plan
+```
+
+生成今日内容运营计划，输出到 `data/content-ops-plan.json` 和 `output/YYYY-MM-DD-content-ops-plan.md`。它会把 20 账号目标压成今天现实可执行的上限：最多安全发几条、先补哪几个账号、先找哪些圈层候选、导入后要跑什么命令。`npm run daily` 会自动刷新它。
 
 ```bash
 npm run scale-ramp
@@ -402,6 +408,7 @@ npm audit --audit-level=moderate
 - `data/draft-plans/*.json`：按账号生成的不重复草稿规划。
 - `data/content-calendar/*.json`：按账号冷却时间生成的本地发布审核日历。
 - `data/account-content-matrix.json`：账号级内容供给矩阵，回答每个账号离日发目标还缺多少候选、新鲜内容、草稿和排期。
+- `data/content-ops-plan.json`：今日内容运营计划，回答今天最多安全发几条、先补哪些账号和圈层候选。
 - `data/scale-ramp-plan.json`：规模爬坡计划，回答先启动哪几个账号、今天安全测试几条、哪些账号暂时只补来源。
 - `data/seed-batch-pack.json`：种子账号补题包，回答今天该优先给哪些账号补 CSV 候选行。
 - `data/product-roadmap.json`：产品级 readiness/roadmap 报告。

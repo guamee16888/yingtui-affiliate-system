@@ -30,6 +30,7 @@ import { buildAccountRefillWorkbench, renderAccountRefillWorkbenchMarkdown } fro
 import { buildAccountRefillImpact } from "../scripts/lib/account-refill-impact.mjs";
 import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
 import { buildSeedBatchPack, buildSeedImportNextActions, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
+import { buildContentOpsPlan } from "../scripts/lib/content-ops-plan.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1892,6 +1893,61 @@ test("seed batch pack creates account-specific research rows", () => {
   assert.equal(pack.rows.some((row) => row.circle === "crypto_builders"), true);
   assert.match(csv, /accountId,accountName/);
   assert.match(csv, /https:\/\/x\.com\/search/);
+});
+
+test("content ops plan caps publishing and points to refill tasks", () => {
+  const plan = buildContentOpsPlan({
+    date: "2026-06-13",
+    latest: {
+      sourceQualityQueue: {
+        summary: { totalNeededCandidates: 42 },
+        items: [
+          {
+            circleId: "indie_hackers",
+            circleName: "Indie hacker circle",
+            neededCandidates: 12,
+            currentQualifiedTools: 3,
+            searchQueries: ["\"micro SaaS\" launch"],
+            importHint: "Add indie candidates."
+          }
+        ]
+      }
+    },
+    scaleReadiness: {
+      target: { targetDailyPosts: 200 },
+      capacity: {
+        safeNewPosts: 3,
+        freshPublishCandidates: 4,
+        feedbackMeasured: 0,
+        feedbackPending: 0,
+        sourceGap: 42
+      }
+    },
+    accountRefillWorkbench: {
+      summary: { postableToday: 2 },
+      focusAccounts: [
+        {
+          accountId: "indie_launch_radar",
+          displayName: "Indie Launch Radar",
+          status: "needs_drafts",
+          statusLabel: "缺草稿",
+          refillNeed: 9,
+          postableToday: 2,
+          targetPosts: 10,
+          firstBottleneck: "drafts",
+          searchUrls: ["https://x.com/search?q=micro%20saas"],
+          csv: "accountId,name,url\nindie_launch_radar,,"
+        }
+      ]
+    }
+  });
+
+  assert.equal(plan.summary.targetDailyPosts, 200);
+  assert.equal(plan.summary.recommendedPostLimit, 2);
+  assert.equal(plan.status, "seed_then_measure");
+  assert.equal(plan.accountTasks[0].rowsToCollect, 9);
+  assert.equal(plan.circleTasks[0].circleId, "indie_hackers");
+  assert.match(plan.checklist[0].title, /seed posts/);
 });
 
 test("seed import readiness shows account launch signal from preview rows", () => {

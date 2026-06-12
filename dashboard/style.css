@@ -369,6 +369,31 @@ main {
 .roadmap-hero.good { border-left-color: var(--success); }
 .roadmap-snapshot.warn,
 .roadmap-hero.warn { border-left-color: var(--warning); }
+.content-ops-plan {
+  display: grid;
+  gap: 15px;
+  border-left: 3px solid var(--warning);
+  background:
+    radial-gradient(circle at top right, rgba(247, 181, 0, .13), transparent 30%),
+    linear-gradient(180deg, #ffffff, #f8faf8);
+}
+.content-ops-plan.good { border-left-color: var(--success); }
+.content-ops-plan.bad { border-left-color: var(--danger); }
+.ops-plan-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: 13px;
+}
+.ops-plan-list {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.ops-plan-list > strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 650;
+}
 .roadmap-blocker-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1932,6 +1957,7 @@ main {
 [data-theme="dark"] .seed-test-panel,
 [data-theme="dark"] .copy-block,
 [data-theme="dark"] .copy-text,
+[data-theme="dark"] .content-ops-plan,
 [data-theme="dark"] .source-command-center,
 [data-theme="dark"] .source-workflow-step,
 [data-theme="dark"] .source-circle-card,
@@ -1966,6 +1992,7 @@ main {
   .roadmap-hero { grid-template-columns: 1fr; }
   .roadmap-grid,
   .roadmap-blocker-strip,
+  .ops-plan-layout,
   .principle-grid,
   .source-workflow,
   .affiliate-workflow,
@@ -1998,6 +2025,7 @@ main {
   .metrics { grid-template-columns: 1fr; }
   .roadmap-grid,
   .roadmap-blocker-strip,
+  .ops-plan-layout,
   .principle-grid,
   .source-workflow,
   .affiliate-workflow,

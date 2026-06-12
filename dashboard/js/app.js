@@ -48,6 +48,7 @@ const state = {
   scaleReadiness: null,
   scaleRampPlan: null,
   seedBatchPack: null,
+  contentOpsPlan: null,
   accountContentMatrix: null,
   accountRefillWorkbench: null,
   xStatus: { configured: false, note: "" },
@@ -138,7 +139,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, accountRefillWorkbench, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -157,13 +158,14 @@ async function loadAll() {
       api.get("/api/scale-readiness"),
       api.get("/api/scale-ramp-plan"),
       api.get("/api/seed-batch-pack"),
+      api.get("/api/content-ops-plan"),
       api.get("/api/account-content-matrix"),
       api.get("/api/account-refill-workbench"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, accountRefillWorkbench, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -177,7 +179,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, accountRefillWorkbench] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -195,6 +197,7 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/scale-readiness.json", { missing: true }),
     fetchJson("/data/scale-ramp-plan.json", { missing: true }),
     fetchJson("/data/seed-batch-pack.json", { missing: true }),
+    fetchJson("/data/content-ops-plan.json", { missing: true }),
     fetchJson("/data/account-content-matrix.json", { missing: true }),
     fetchJson("/data/account-refill-workbench.json", { missing: true })
   ]);
@@ -237,6 +240,7 @@ async function loadStaticFallback(apiError) {
     scaleReadiness: scaleReadiness?.missing ? null : scaleReadiness,
     scaleRampPlan: scaleRampPlan?.missing ? null : scaleRampPlan,
     seedBatchPack: seedBatchPack?.missing ? null : seedBatchPack,
+    contentOpsPlan: contentOpsPlan?.missing ? null : contentOpsPlan,
     accountContentMatrix: accountContentMatrix?.missing ? null : accountContentMatrix,
     accountRefillWorkbench: accountRefillWorkbench?.missing ? null : accountRefillWorkbench,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
@@ -783,6 +787,7 @@ function hasRecordedMetrics(entry) {
 function renderToday() {
   $("#view-today").innerHTML = `${renderRoadmapSnapshotPanel()}
   ${renderScaleReadinessPanel()}
+  ${renderContentOpsPlanPanel()}
   ${renderDailyChecklistPanel()}
   ${renderLearningStarterPanel("today")}
   ${renderFocusPanel()}
@@ -794,6 +799,79 @@ function renderToday() {
     <section class="panel"><h2>今天最该做</h2><div class="list">${(state.latest?.actionList ?? []).map(renderAction).join("") || empty("暂无今日行动。")}</div></section>
     <section class="panel"><h2>系统建议</h2><div class="list">${(state.weekly?.suggestions ?? []).slice(0, 6).map((item) => `<div class="list-item"><strong>${esc(item.toolName)}</strong><div class="muted">${esc(labels[item.suggestion] ?? item.suggestion)} · ${esc(item.reason)}</div></div>`).join("") || empty("暂无建议。")}</div></section>
   </div>`;
+}
+
+function renderContentOpsPlanPanel() {
+  const plan = state.contentOpsPlan;
+  if (!plan) {
+    return `<section class="panel warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Content ops plan</p>
+          <h2>还没有今日操作计划</h2>
+          <p class="muted">运行 npm run content-ops-plan，或下一次 npm run daily 自动生成。</p>
+        </div>
+        ${pill("Need plan", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="npm run content-ops-plan">复制命令</button>
+        <button class="button ghost" data-tab-jump="supply">打开来源补给</button>
+      </div>
+    </section>`;
+  }
+  const summary = plan.summary ?? {};
+  const checklist = plan.checklist ?? [];
+  const accounts = plan.accountTasks ?? [];
+  const circles = plan.circleTasks ?? [];
+  const statusKind = ["controlled_publish"].includes(plan.status) ? "good" : plan.status === "clear_feedback_first" ? "bad" : "warn";
+  const topAccount = accounts[0];
+  const topCircle = circles[0];
+  return `<section class="panel wide-panel content-ops-plan ${statusKind}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Today operating target</p>
+        <h2>${esc(plan.headline || "今天先按安全门槛小步执行")}</h2>
+        <p class="muted">把 20 账号目标压成今天真实可执行的发帖、补题和回填动作；不追数量，不绕过手动确认。</p>
+      </div>
+      ${pill(plan.status || "watch", statusKind)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.recommendedPostLimit ?? 0)}</strong><span>today post cap</span></div>
+      <div><strong>${esc(summary.targetDailyPosts ?? 0)}</strong><span>configured target</span></div>
+      <div><strong>${esc(summary.safeNewPosts ?? 0)}</strong><span>safe gate</span></div>
+      <div><strong>${esc(summary.feedbackMeasured ?? 0)}/${esc(summary.feedbackPending ?? 0)}</strong><span>measured/pending</span></div>
+      <div><strong>${esc(summary.rowsToCollect ?? 0)}</strong><span>rows to collect</span></div>
+      <div><strong>${esc(summary.sourceGap ?? 0)}</strong><span>source gap</span></div>
+    </div>
+    <div class="ops-plan-layout">
+      <div class="ops-plan-list">
+        <strong>今天按这个顺序做</strong>
+        <div class="list mini-list">${checklist.map((item, index) => `<div class="list-item"><strong>${esc(index + 1)}. ${esc(item.title)}</strong><p class="muted">${esc(item.detail)}</p></div>`).join("")}</div>
+      </div>
+      <div class="ops-plan-list">
+        <strong>优先补给</strong>
+        ${topAccount ? `<div class="list-item">
+          <div class="line-head"><strong>${esc(topAccount.displayName)}</strong>${pill(`${topAccount.rowsToCollect ?? 0} rows`, "warn")}</div>
+          <p class="muted">${esc(topAccount.reason || topAccount.actionLabel || "")}</p>
+          <div class="row-actions">
+            ${topAccount.searchUrls?.length ? `<button class="button ghost" data-open-searches="${attr(JSON.stringify(topAccount.searchUrls))}">打开账号搜索组</button>` : ""}
+            <button class="button ghost" data-refill-fill="${attr(topAccount.accountId)}">填入候选收集</button>
+          </div>
+        </div>` : empty("暂无账号补给任务。")}
+        ${topCircle ? `<div class="list-item">
+          <div class="line-head"><strong>${esc(topCircle.circleName)}</strong>${pill(`need ${topCircle.neededCandidates ?? 0}`, "warn")}</div>
+          <p class="muted">${esc(topCircle.reason || "先补缺口最大的圈层。")}</p>
+          <div class="pill-row">${(topCircle.searchQueries ?? []).slice(0, 4).map((query) => pill(query, "neutral")).join("")}</div>
+        </div>` : ""}
+      </div>
+    </div>
+    <div class="row-actions">
+      <button class="button ghost" data-tab-jump="feedback">补反馈</button>
+      <button class="button ghost" data-tab-jump="supply">补来源</button>
+      <button class="button ghost" data-tab-jump="accounts">补账号候选</button>
+      <button class="button ghost" data-copy="npm run content-ops-plan">复制刷新命令</button>
+    </div>
+  </section>`;
 }
 
 function renderRoadmapSnapshotPanel() {

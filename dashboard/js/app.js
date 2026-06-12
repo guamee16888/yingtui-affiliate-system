@@ -2883,6 +2883,7 @@ function renderInventoryFocusItem(account) {
     : account.status === "needs_feedback"
       ? "warn"
       : "bad";
+  const searchUrls = accountRefillSearchUrls(account.accountId);
   return `<div class="inventory-card ${attr(account.status)}">
     <div class="line-head">
       <strong>${esc(account.displayName)}</strong>
@@ -2892,6 +2893,7 @@ function renderInventoryFocusItem(account) {
     <p>${esc(account.actionLabel || "")}</p>
     <p class="muted">${esc(account.actionDetail || "")}</p>
     <div class="row-actions">
+      ${searchUrls.length ? `<button class="button ghost" type="button" data-open-searches="${attr(JSON.stringify(searchUrls))}">打开补题搜索组</button>` : ""}
       ${account.refillTemplate?.rows?.length ? `<button class="button ghost" type="button" data-refill-csv="${attr(account.accountId)}">复制补题 CSV</button>` : ""}
       ${account.refillTemplate?.rows?.length ? `<button class="button ghost" type="button" data-refill-fill="${attr(account.accountId)}">填入候选收集</button>` : `<button class="button ghost" type="button" data-tab-jump="candidates">去候选收集</button>`}
     </div>
@@ -2910,6 +2912,7 @@ function renderMatrixRadarItem(item) {
 function renderMatrixAccountItem(account) {
   const inventory = account.contentInventory ?? {};
   const hasRefillTemplate = Boolean(accountRefillTemplate(account.accountId)?.rows?.length);
+  const searchUrls = accountRefillSearchUrls(account.accountId);
   return `<div class="list-item">
     <div class="line-head">
       <strong>${esc(account.displayName)}</strong>
@@ -2918,7 +2921,7 @@ function renderMatrixAccountItem(account) {
     </div>
     <div class="muted">${esc(account.status)} · postable ${esc(inventory.postableToday ?? 0)} · matched ${esc(account.matchedCandidates)}/${esc(account.candidateBenchTarget)} · fresh ${esc(account.freshCandidates)} · drafts ${esc(account.plannedDrafts)}/${esc(account.targetPosts)}</div>
     <p>${esc(inventory.actionDetail || account.nextAction)}</p>
-    ${hasRefillTemplate ? `<div class="row-actions"><button class="button ghost" type="button" data-refill-csv="${attr(account.accountId)}">复制补题 CSV</button><button class="button ghost" type="button" data-refill-fill="${attr(account.accountId)}">填入候选收集</button></div>` : ""}
+    ${hasRefillTemplate ? `<div class="row-actions">${searchUrls.length ? `<button class="button ghost" type="button" data-open-searches="${attr(JSON.stringify(searchUrls))}">打开补题搜索组</button>` : ""}<button class="button ghost" type="button" data-refill-csv="${attr(account.accountId)}">复制补题 CSV</button><button class="button ghost" type="button" data-refill-fill="${attr(account.accountId)}">填入候选收集</button></div>` : ""}
   </div>`;
 }
 
@@ -3881,6 +3884,11 @@ function fillCandidatePasteFromAccount(accountId) {
 function accountRefillTemplate(accountId) {
   return (state.accountContentMatrix?.inventory?.accounts ?? [])
     .find((account) => account.accountId === accountId)?.refillTemplate ?? null;
+}
+
+function accountRefillSearchUrls(accountId) {
+  const rows = accountRefillTemplate(accountId)?.rows ?? [];
+  return [...new Set(rows.map((row) => row.researchUrl || row.sourceUrl).filter(Boolean))];
 }
 
 function accountRefillRowsToCsv(rows) {

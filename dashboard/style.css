@@ -1469,6 +1469,70 @@ main {
   font-size: 12.5px;
   line-height: 1.45;
 }
+.source-import-pack {
+  border-top: 5px solid var(--success);
+}
+.source-pack-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+  gap: 16px;
+}
+.source-pack-column {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.source-pack-column > strong,
+.source-pack-bar strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+.source-pack-bars,
+.source-pack-preview {
+  display: grid;
+  gap: 10px;
+}
+.source-pack-bar {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, .74);
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+.source-pack-bar p {
+  margin: 0;
+  font-size: 12.5px;
+}
+.source-pack-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, .65fr) minmax(0, 1.5fr);
+  align-items: start;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, .74);
+  padding: 10px;
+}
+.source-pack-row span {
+  width: 24px;
+  height: 24px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--soft-strong);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+.source-pack-row strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+.source-pack-row small {
+  color: var(--muted);
+  line-height: 1.4;
+}
 .learning-loop {
   display: grid;
   gap: 16px;
@@ -1667,6 +1731,8 @@ main {
 [data-theme="dark"] .source-workflow-step,
 [data-theme="dark"] .source-circle-card,
 [data-theme="dark"] .source-check-item,
+[data-theme="dark"] .source-pack-bar,
+[data-theme="dark"] .source-pack-row,
 [data-theme="dark"] .learning-step,
 [data-theme="dark"] .learning-seed-card,
 [data-theme="dark"] .learning-csv,
@@ -1697,6 +1763,7 @@ main {
   .principle-grid,
   .source-workflow,
   .supply-circle-grid,
+  .source-pack-layout,
   .learning-steps,
   .learning-seed-grid,
   .calendar-workbench,
@@ -1722,6 +1789,7 @@ main {
   .principle-grid,
   .source-workflow,
   .supply-circle-grid,
+  .source-pack-layout,
   .learning-steps,
   .learning-seed-grid,
   .calendar-workbench,
@@ -1730,6 +1798,12 @@ main {
   .source-circle-card .compact-stats { grid-template-columns: 1fr; }
   .calendar-slot-card {
     grid-template-columns: 1fr;
+  }
+  .source-pack-row {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+  .source-pack-row small {
+    grid-column: 2;
   }
   .calendar-time {
     border-right: 0;

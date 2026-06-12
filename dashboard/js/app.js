@@ -42,6 +42,7 @@ const state = {
   feedbackOps: null,
   learningLoop: null,
   contentCalendar: null,
+  sourceImportPack: null,
   productRoadmap: null,
   xStatus: { configured: false, note: "" },
   settings: null,
@@ -51,6 +52,7 @@ const state = {
   publishTool: null,
   dailyRun: { running: false, message: "" },
   calendarRun: { running: false, message: "" },
+  sourcePackRun: { running: false, message: "" },
   roadmapRun: { running: false, message: "" },
   filters: { search: "", action: "all", affiliate: "all", state: "all", minScore: 0, sortBy: "score" }
 };
@@ -91,6 +93,7 @@ const writeActionSelector = [
   "[data-run-daily]",
   "[data-run-roadmap]",
   "[data-run-calendar]",
+  "[data-run-source-pack]",
   "[data-preview-candidates]",
   "[data-preview-feedback]",
   "[data-publish]",
@@ -114,7 +117,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, productRoadmap, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -127,12 +130,13 @@ async function loadAll() {
       api.get("/api/feedback-ops"),
       api.get("/api/learning-loop"),
       api.get("/api/content-calendar"),
+      api.get("/api/source-import-pack"),
       api.get("/api/product-roadmap"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -146,7 +150,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps, learningLoop, contentCalendar, productRoadmap] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -158,6 +162,7 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/feedback-ops.json", null),
     fetchJson("/data/learning-loop.json", { missing: true }),
     fetchJson("/data/content-calendar/latest.json", { missing: true }),
+    fetchJson("/data/source-import-pack/latest.json", { missing: true }),
     fetchJson("/data/product-roadmap.json", { missing: true })
   ]);
   const settings = {
@@ -193,6 +198,7 @@ async function loadStaticFallback(apiError) {
     feedbackOps: feedbackOps ?? latest?.feedbackOps ?? null,
     learningLoop: learningLoop?.missing ? null : learningLoop,
     contentCalendar: contentCalendar?.missing ? latest?.contentCalendar ?? null : contentCalendar,
+    sourceImportPack: sourceImportPack?.missing ? null : sourceImportPack,
     productRoadmap: productRoadmap?.missing ? null : productRoadmap,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
@@ -238,6 +244,7 @@ function render() {
   renderActiveView();
   updateRunDailyControls();
   updateCalendarControls();
+  updateSourcePackControls();
   updateRoadmapControls();
   updateReadOnlyControls();
 }
@@ -262,6 +269,14 @@ function updateCalendarControls() {
   $$("[data-run-calendar]").forEach((button) => {
     button.disabled = isReadOnlyMode() || state.calendarRun.running;
     button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.calendarRun.running ? "刷新中..." : "刷新日历";
+    button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
+  });
+}
+
+function updateSourcePackControls() {
+  $$("[data-run-source-pack]").forEach((button) => {
+    button.disabled = isReadOnlyMode() || state.sourcePackRun.running;
+    button.textContent = isReadOnlyMode() ? "本地才能生成" : state.sourcePackRun.running ? "生成中..." : "生成 100 行补题包";
     button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
   });
 }
@@ -1694,6 +1709,7 @@ function renderSourceSupply() {
   const queue = latest.sourceQualityQueue;
   const discovery = latest.sourceDiscovery;
   const health = latest.sourceHealth;
+  const pack = state.sourceImportPack;
   if (!supply && !queue && !discovery && !health) {
     $("#view-supply").innerHTML = `<section class="panel"><h2>来源补给</h2>${empty("还没有来源补给数据。先运行 npm run daily。")}</section>`;
     return;
@@ -1728,10 +1744,13 @@ function renderSourceSupply() {
       </div>
       <div class="row-actions">
         <button class="button ghost" data-tab-jump="candidates">打开候选收集</button>
+        <button class="button ghost" data-run-source-pack>${state.sourcePackRun.running ? "生成中..." : "生成 100 行补题包"}</button>
         <button class="button ghost" data-run-daily>刷新 Live Feed</button>
         <button class="button ghost" data-copy="npm run source-queue && npm run source-discovery && npm run source-health">复制来源检查命令</button>
       </div>
+      ${state.sourcePackRun.message ? `<p class="muted">${esc(state.sourcePackRun.message)}</p>` : ""}
     </section>
+    ${renderSourceImportPack(pack)}
     <section class="panel wide-panel">
       <h2>今天先补这几个圈子</h2>
       <div class="supply-circle-grid">${topCircles.map(renderSourceSupplyCircle).join("") || empty("当前没有明显来源缺口。")}</div>
@@ -1748,6 +1767,87 @@ function renderSourceSupply() {
         <div class="list-item"><strong>旧热点只做长文或观察</strong><p class="muted">Fresh today / Fresh 48h 优先发；Seen before 和 Older useful 不建议花 API credits。</p></div>
       </div>
     </section>
+  </div>`;
+}
+
+function renderSourceImportPack(pack) {
+  if (!pack) {
+    return `<section class="panel wide-panel source-import-pack">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Source import pack</p>
+          <h2>还没有 100 行补题包</h2>
+          <p class="muted">点下面按钮生成 CSV 和 JSON。生成后优先补缺口最大的圈子，再导入候选收集。</p>
+        </div>
+        ${pill("not generated", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button" data-run-source-pack>${state.sourcePackRun.running ? "生成中..." : "生成 100 行补题包"}</button>
+        <button class="button ghost" data-copy="npm run source-pack">复制命令</button>
+      </div>
+    </section>`;
+  }
+  const summary = pack.summary ?? {};
+  const rowsByCircle = pack.rowsByCircle ?? [];
+  const rowsByType = pack.rowsByCandidateType ?? [];
+  const rows = pack.rows ?? [];
+  const csvHref = summary.csvPath ? `/${summary.csvPath}` : "";
+  const guideHref = summary.guidePath ? `/${summary.guidePath}` : "";
+  return `<section class="panel wide-panel source-import-pack">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Source import pack</p>
+        <h2>100 行补题包：按缺口分配候选收集任务</h2>
+        <p class="muted">生成 ${esc(formatDateTime(pack.generatedAt))} · ${esc(summary.topCircle || "no top gap")} 优先 · 填真实 name/url/tagline 后再导入。</p>
+      </div>
+      ${pill(`${summary.totalRows ?? rows.length} rows`, "good")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.totalRows ?? rows.length)}</strong><span>rows</span></div>
+      <div><strong>${esc(summary.rowsNeedingResearch ?? rows.length)}</strong><span>need fill</span></div>
+      <div><strong>${esc(summary.totalNeededCandidates ?? 0)}</strong><span>needed candidates</span></div>
+      <div><strong>${esc(summary.productRows ?? 0)}</strong><span>product rows</span></div>
+      <div><strong>${esc(summary.topicRows ?? 0)}</strong><span>topic rows</span></div>
+      <div><strong>${esc(rowsByCircle.length)}</strong><span>circles</span></div>
+    </div>
+    <div class="source-pack-layout">
+      <div class="source-pack-column">
+        <strong>圈子分配</strong>
+        <div class="source-pack-bars">
+          ${rowsByCircle.map((item) => renderSourcePackBar(item, summary.totalRows ?? rows.length)).join("") || empty("暂无分配。")}
+        </div>
+      </div>
+      <div class="source-pack-column">
+        <strong>候选类型</strong>
+        <div class="pill-row">${rowsByType.map((item) => pill(`${item.candidateType}: ${item.rows}`, "neutral")).join("")}</div>
+        <div class="source-pack-preview">
+          ${rows.slice(0, 6).map((row, index) => `<div class="source-pack-row">
+            <span>${esc(index + 1)}</span>
+            <strong>${esc(row.circle)}</strong>
+            <small>${esc(row.candidateType)} · ${esc(row.notes)}</small>
+          </div>`).join("")}
+        </div>
+      </div>
+    </div>
+    <div class="row-actions">
+      <button class="button" data-run-source-pack>${state.sourcePackRun.running ? "生成中..." : "重新生成补题包"}</button>
+      ${csvHref ? `<a class="button ghost" href="${attr(csvHref)}" target="_blank" rel="noreferrer">打开 CSV</a>` : ""}
+      ${guideHref ? `<a class="button ghost" href="${attr(guideHref)}" target="_blank" rel="noreferrer">打开 guide</a>` : ""}
+      <button class="button ghost" data-tab-jump="candidates">去候选收集</button>
+      <button class="button ghost" data-copy="npm run source-pack">复制命令</button>
+    </div>
+  </section>`;
+}
+
+function renderSourcePackBar(item, totalRows) {
+  const percent = totalRows ? Math.round(Number(item.rows || 0) / totalRows * 100) : 0;
+  return `<div class="source-pack-bar">
+    <div class="line-head">
+      <strong>${esc(item.circleName || item.circleId)}</strong>
+      <span class="muted">${esc(item.rows)} rows · need ${esc(item.neededCandidates ?? 0)}</span>
+    </div>
+    <div class="chart-track"><div class="chart-fill accent" style="width:${Math.max(3, percent)}%"></div></div>
+    <p class="muted">${esc(item.importHint || `${item.circleName || item.circleId} candidates`)}</p>
   </div>`;
 }
 
@@ -3411,6 +3511,30 @@ async function runCalendar() {
   }
 }
 
+async function runSourcePack() {
+  if (guardReadOnlyAction()) {
+    state.sourcePackRun = { running: false, message: readOnlyActionMessage() };
+    render();
+    return;
+  }
+  if (state.sourcePackRun.running) return;
+  state.sourcePackRun = { running: true, message: "正在生成 100 行补题包..." };
+  render();
+  try {
+    const result = await api.post("/api/source-import-pack/run", {});
+    state.sourcePackRun = {
+      running: false,
+      message: `补题包已生成：${result.totalRows ?? 0} rows · ${result.topCircle || "no top gap"} · ${result.csvPath || "CSV ready"}`
+    };
+    toast("补题包已生成");
+    await loadAll();
+  } catch (error) {
+    state.sourcePackRun = { running: false, message: `补题包生成失败：${error.message}` };
+    render();
+    toast(error.message);
+  }
+}
+
 async function runRoadmap() {
   if (guardReadOnlyAction()) {
     state.roadmapRun = { running: false, message: readOnlyActionMessage() };
@@ -3483,6 +3607,8 @@ document.addEventListener("click", async (event) => {
       await runDaily();
     } else if (button.dataset.runCalendar !== undefined) {
       await runCalendar();
+    } else if (button.dataset.runSourcePack !== undefined) {
+      await runSourcePack();
     } else if (button.dataset.runRoadmap !== undefined) {
       await runRoadmap();
     } else if (button.dataset.previewCandidates) {

@@ -1,7 +1,8 @@
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
-import { readJson, rootDir, writeTextAtomic } from "./lib/file-store.mjs";
+import { readJson, rootDir, writeJsonAtomic, writeTextAtomic } from "./lib/file-store.mjs";
 import {
+  buildSourceImportPack,
   buildSourceImportPackRows,
   buildSourceQualityQueue,
   loadContentSourceConfig,
@@ -27,6 +28,8 @@ await mkdir(path.join(rootDir, outDir), { recursive: true });
 
 const csvPath = `${outDir}/${latest.date}-source-import-template.csv`;
 const guidePath = `${outDir}/${latest.date}-source-import-guide.md`;
+const dataPath = `data/source-import-pack/${latest.date}.json`;
+const latestDataPath = "data/source-import-pack/latest.json";
 const csv = sourceImportRowsToCsv(rows);
 const guide = `# Source Import Pack - ${latest.date}
 
@@ -47,7 +50,18 @@ ${csvPath}
 
 await writeTextAtomic(csvPath, csv);
 await writeTextAtomic(guidePath, guide);
+await writeJsonAtomic(dataPath, buildSourceImportPack({
+  date: latest.date,
+  sourceQualityQueue: queue,
+  contentSourceConfig: config,
+  totalRows: 100,
+  csvPath,
+  guidePath
+}));
+await writeJsonAtomic(latestDataPath, await readJson(dataPath));
 
 console.log(guide);
 console.log(`Wrote ${csvPath}`);
 console.log(`Wrote ${guidePath}`);
+console.log(`Wrote ${dataPath}`);
+console.log(`Wrote ${latestDataPath}`);

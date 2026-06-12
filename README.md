@@ -52,6 +52,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 7. 跑 `npm run source-discovery`，打开按圈子生成的 X/Google/HN/Product Hunt/CoinDesk 搜索入口。
 8. 跑 `npm run source-workbench`，把供给缺口、搜索入口、CSV 模板和来源健康度生成一份总报告。
 9. 跑 `npm run source-pack`，拿 100 行 CSV 模板去外部补题。
+   也可以在 Dashboard 的「来源补给」里点 `生成 100 行补题包`，直接看到按圈子分配的补题任务和 CSV/guide 入口。
 10. 如果你从 X、newsletter、微信群或官网看到新工具/话题，先放进「候选收集」，并标好 circle，再点 `刷新 Live Feed` 让它参与评分。
 11. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
 12. 跑 `npm run content-calendar` 或打开「内容日历」，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
@@ -238,7 +239,7 @@ npm run source-workbench
 npm run source-pack
 ```
 
-生成 100 行补来源 CSV 模板，输出到 `output/source-import-pack/YYYY-MM-DD-source-import-template.csv`。模板会按缺口自动分配 circle，但需要你手动填真实 name、url、tagline 后再导入。
+生成 100 行补来源 CSV 模板，输出到 `output/source-import-pack/YYYY-MM-DD-source-import-template.csv`，并同步生成 `data/source-import-pack/YYYY-MM-DD.json` 和 `data/source-import-pack/latest.json` 给 Dashboard 使用。模板会按缺口自动分配 circle，但需要你手动填真实 name、url、tagline 后再导入。
 
 ```bash
 npm run draft-plan

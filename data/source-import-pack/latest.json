@@ -1,0 +1,1321 @@
+{
+  "version": 1,
+  "date": "2026-06-12",
+  "generatedAt": "2026-06-12T16:29:25.808Z",
+  "summary": {
+    "totalRows": 100,
+    "circles": 4,
+    "productRows": 65,
+    "topicRows": 35,
+    "rowsNeedingResearch": 100,
+    "totalNeededCandidates": 73,
+    "topCircle": "Indie hacker circle",
+    "generatedFromQueue": true,
+    "csvPath": "output/source-import-pack/2026-06-12-source-import-template.csv",
+    "guidePath": "output/source-import-pack/2026-06-12-source-import-guide.md"
+  },
+  "rowsByCircle": [
+    {
+      "circleId": "indie_hackers",
+      "circleName": "Indie hacker circle",
+      "rows": 46,
+      "neededCandidates": 33,
+      "currentQualifiedTools": 9,
+      "affectedAccounts": [
+        {
+          "accountId": "indie_monetization",
+          "displayName": "Indie Monetization",
+          "gap": 10,
+          "category": "indie monetization"
+        },
+        {
+          "accountId": "affiliate_builder",
+          "displayName": "Affiliate Builder",
+          "gap": 8,
+          "category": "affiliate and side projects"
+        },
+        {
+          "accountId": "indie_launch_radar",
+          "displayName": "Indie Launch Radar",
+          "gap": 8,
+          "category": "indie hacker circle"
+        },
+        {
+          "accountId": "build_in_public",
+          "displayName": "Build in Public",
+          "gap": 7,
+          "category": "building and experiments"
+        }
+      ],
+      "importHint": "Add 33 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL."
+    },
+    {
+      "circleId": "saas_founders",
+      "circleName": "SaaS founder circle",
+      "rows": 28,
+      "neededCandidates": 20,
+      "currentQualifiedTools": 0,
+      "affectedAccounts": [
+        {
+          "accountId": "saas_pricing_lab",
+          "displayName": "SaaS Pricing Lab",
+          "gap": 10,
+          "category": "SaaS founder circle"
+        },
+        {
+          "accountId": "saas_growth_ops",
+          "displayName": "SaaS Growth Ops",
+          "gap": 10,
+          "category": "SaaS growth operations"
+        }
+      ],
+      "importHint": "Add 20 fresh SaaS founder circle candidates with clear buyer, narrow pain, and a real URL."
+    },
+    {
+      "circleId": "crypto_builders",
+      "circleName": "Crypto builder circle",
+      "rows": 17,
+      "neededCandidates": 13,
+      "currentQualifiedTools": 7,
+      "affectedAccounts": [
+        {
+          "accountId": "crypto_trading_tools",
+          "displayName": "Crypto Trading Tools",
+          "gap": 7,
+          "category": "crypto tooling"
+        },
+        {
+          "accountId": "crypto_builder_radar",
+          "displayName": "Crypto Builder Radar",
+          "gap": 3,
+          "category": "Crypto builder circle"
+        }
+      ],
+      "importHint": "Add 13 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
+    },
+    {
+      "circleId": "ai_startups",
+      "circleName": "AI startup circle",
+      "rows": 9,
+      "neededCandidates": 7,
+      "currentQualifiedTools": 21,
+      "affectedAccounts": [
+        {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "gap": 7,
+          "category": "sales and customer support"
+        }
+      ],
+      "importHint": "Add 7 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL."
+    }
+  ],
+  "rowsByCandidateType": [
+    {
+      "candidateType": "product",
+      "rows": 65
+    },
+    {
+      "candidateType": "topic",
+      "rows": 35
+    }
+  ],
+  "priorityGaps": [
+    {
+      "circleId": "indie_hackers",
+      "circleName": "Indie hacker circle",
+      "neededCandidates": 33,
+      "currentQualifiedTools": 9,
+      "assignedRows": 46,
+      "affectedAccounts": [
+        {
+          "accountId": "indie_monetization",
+          "displayName": "Indie Monetization",
+          "gap": 10,
+          "category": "indie monetization"
+        },
+        {
+          "accountId": "affiliate_builder",
+          "displayName": "Affiliate Builder",
+          "gap": 8,
+          "category": "affiliate and side projects"
+        },
+        {
+          "accountId": "indie_launch_radar",
+          "displayName": "Indie Launch Radar",
+          "gap": 8,
+          "category": "indie hacker circle"
+        },
+        {
+          "accountId": "build_in_public",
+          "displayName": "Build in Public",
+          "gap": 7,
+          "category": "building and experiments"
+        }
+      ],
+      "importHint": "Add 33 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL."
+    },
+    {
+      "circleId": "saas_founders",
+      "circleName": "SaaS founder circle",
+      "neededCandidates": 20,
+      "currentQualifiedTools": 0,
+      "assignedRows": 28,
+      "affectedAccounts": [
+        {
+          "accountId": "saas_pricing_lab",
+          "displayName": "SaaS Pricing Lab",
+          "gap": 10,
+          "category": "SaaS founder circle"
+        },
+        {
+          "accountId": "saas_growth_ops",
+          "displayName": "SaaS Growth Ops",
+          "gap": 10,
+          "category": "SaaS growth operations"
+        }
+      ],
+      "importHint": "Add 20 fresh SaaS founder circle candidates with clear buyer, narrow pain, and a real URL."
+    },
+    {
+      "circleId": "crypto_builders",
+      "circleName": "Crypto builder circle",
+      "neededCandidates": 13,
+      "currentQualifiedTools": 7,
+      "assignedRows": 17,
+      "affectedAccounts": [
+        {
+          "accountId": "crypto_trading_tools",
+          "displayName": "Crypto Trading Tools",
+          "gap": 7,
+          "category": "crypto tooling"
+        },
+        {
+          "accountId": "crypto_builder_radar",
+          "displayName": "Crypto Builder Radar",
+          "gap": 3,
+          "category": "Crypto builder circle"
+        }
+      ],
+      "importHint": "Add 13 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
+    },
+    {
+      "circleId": "ai_startups",
+      "circleName": "AI startup circle",
+      "neededCandidates": 7,
+      "currentQualifiedTools": 21,
+      "assignedRows": 9,
+      "affectedAccounts": [
+        {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "gap": 7,
+          "category": "sales and customer support"
+        }
+      ],
+      "importHint": "Add 7 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL."
+    }
+  ],
+  "rows": [
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"indie hacker\" \"revenue\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"build in public\" \"launched\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"solo founder\" \"pricing\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"side project\" \"SaaS\" \"users\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "indie_hackers",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"micro SaaS\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS pricing\" \"case study\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"B2B SaaS\" \"onboarding\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS founder\" \"churn\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"PLG\" \"activation\" \"SaaS\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS\" \"pricing page\" \"launch\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS pricing\" \"case study\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"B2B SaaS\" \"onboarding\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS founder\" \"churn\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"PLG\" \"activation\" \"SaaS\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS\" \"pricing page\" \"launch\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS pricing\" \"case study\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"B2B SaaS\" \"onboarding\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS founder\" \"churn\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"PLG\" \"activation\" \"SaaS\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS\" \"pricing page\" \"launch\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS pricing\" \"case study\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"B2B SaaS\" \"onboarding\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS founder\" \"churn\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"PLG\" \"activation\" \"SaaS\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS\" \"pricing page\" \"launch\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS pricing\" \"case study\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"B2B SaaS\" \"onboarding\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS founder\" \"churn\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"PLG\" \"activation\" \"SaaS\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS\" \"pricing page\" \"launch\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS pricing\" \"case study\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"B2B SaaS\" \"onboarding\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "saas_founders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"SaaS founder\" \"churn\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"crypto wallet\" \"developer\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"onchain\" \"tool\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"DeFi\" \"dashboard\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"stablecoin\" \"infrastructure\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"web3\" \"founder\" \"product\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"crypto wallet\" \"developer\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"onchain\" \"tool\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"DeFi\" \"dashboard\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"stablecoin\" \"infrastructure\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"web3\" \"founder\" \"product\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"crypto wallet\" \"developer\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"onchain\" \"tool\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"DeFi\" \"dashboard\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"stablecoin\" \"infrastructure\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"web3\" \"founder\" \"product\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"crypto wallet\" \"developer\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"onchain\" \"tool\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"AI startup\" launch new tool"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"AI agent\" founder workflow"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"LLM\" \"Product Hunt\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"AI automation\" \"pricing\" startup"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"AI tool\" \"founder\" \"waitlist\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"AI startup\" launch new tool"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"AI agent\" founder workflow"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"LLM\" \"Product Hunt\" launch"
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "ai_startups",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-12",
+      "notes": "Find from: \"AI automation\" \"pricing\" startup"
+    }
+  ]
+}

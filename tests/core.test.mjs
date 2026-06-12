@@ -16,7 +16,7 @@ import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPubl
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
-import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPackRows, buildSourceQualityQueue, buildSourceSupplyWorkbench, buildSupplyPlan, renderSourceDiscoveryMarkdown, renderSourceSupplyWorkbenchMarkdown, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
+import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPack, buildSourceImportPackRows, buildSourceQualityQueue, buildSourceSupplyWorkbench, buildSupplyPlan, renderSourceDiscoveryMarkdown, renderSourceSupplyWorkbenchMarkdown, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
@@ -853,6 +853,29 @@ test("source import pack creates 100 pre-classified rows", () => {
   assert.equal(rows.length, 100);
   assert.equal(rows.filter((row) => row.circle === "saas_founders").length > rows.filter((row) => row.circle === "crypto_builders").length, true);
   assert.equal(rows.every((row) => ["product", "topic"].includes(row.candidateType)), true);
+});
+
+test("source import pack summarizes rows for dashboard", () => {
+  const pack = buildSourceImportPack({
+    date: "2026-06-12",
+    sourceQualityQueue: {
+      summary: { totalNeededCandidates: 100, topCircle: "SaaS" },
+      items: [
+        { circleId: "saas_founders", circleName: "SaaS", neededCandidates: 80, currentQualifiedTools: 2, searchQueries: ["saas query"], importHint: "Add SaaS candidates" },
+        { circleId: "crypto_builders", circleName: "Crypto", neededCandidates: 20, currentQualifiedTools: 1, searchQueries: ["crypto query"], importHint: "Add crypto candidates" }
+      ]
+    },
+    totalRows: 100,
+    csvPath: "output/source-import-pack/2026-06-12-source-import-template.csv",
+    guidePath: "output/source-import-pack/2026-06-12-source-import-guide.md"
+  });
+
+  assert.equal(pack.summary.totalRows, 100);
+  assert.equal(pack.summary.topCircle, "SaaS");
+  assert.equal(pack.summary.csvPath.endsWith(".csv"), true);
+  assert.equal(pack.rowsByCircle[0].circleId, "saas_founders");
+  assert.equal(pack.rowsByCandidateType.some((item) => item.candidateType === "product"), true);
+  assert.equal(pack.priorityGaps.length, 2);
 });
 
 test("source supply workbench merges gaps, discovery, and health", () => {

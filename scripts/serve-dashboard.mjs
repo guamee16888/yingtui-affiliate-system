@@ -57,6 +57,7 @@ const allowedRoots = [
 
 let dailyRunPromise = null;
 let calendarRunPromise = null;
+let sourcePackRunPromise = null;
 
 const mimeTypes = new Map([
   [".html", "text/html; charset=utf-8"],
@@ -131,6 +132,7 @@ async function handleApiGet(pathname) {
     const latest = await loadLatest();
     return await readJson("data/content-calendar/latest.json", latest?.contentCalendar ?? null);
   }
+  if (pathname === "/api/source-import-pack") return readJson("data/source-import-pack/latest.json", null);
   if (pathname === "/api/settings") {
     const [latest, history, voice, affiliateLinks, feedback, queues, reviews, affiliateResearch, candidateInbox, accountPosts] = await Promise.all([
       loadLatest(),
@@ -241,6 +243,7 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/weekly/generate") return generateWeeklyReport();
   if (pathname === "/api/daily/run") return runDailyGeneration();
   if (pathname === "/api/content-calendar/run") return runContentCalendarGeneration();
+  if (pathname === "/api/source-import-pack/run") return runSourceImportPackGeneration();
   if (pathname === "/api/roadmap/generate") return runRoadmapGeneration();
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
@@ -279,6 +282,23 @@ async function runContentCalendarGeneration() {
     targetPosts: calendar?.summary?.targetPosts ?? 0,
     draftGap: calendar?.summary?.draftGap ?? 0,
     capacityGap: calendar?.summary?.capacityGap ?? 0
+  };
+}
+
+async function runSourceImportPackGeneration() {
+  if (sourcePackRunPromise) throw new Error("Source import pack is already running. Wait for it to finish.");
+  sourcePackRunPromise = runNodeScript("scripts/source-import-pack.mjs", "Source import pack")
+    .finally(() => {
+      sourcePackRunPromise = null;
+    });
+  const result = await sourcePackRunPromise;
+  const pack = await readJson("data/source-import-pack/latest.json", null);
+  return {
+    ...result,
+    date: pack?.date ?? null,
+    totalRows: pack?.summary?.totalRows ?? 0,
+    topCircle: pack?.summary?.topCircle ?? "",
+    csvPath: pack?.summary?.csvPath ?? ""
   };
 }
 

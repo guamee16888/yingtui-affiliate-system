@@ -580,12 +580,86 @@ export function buildSourceImportPackRows({ sourceQualityQueue = null, contentSo
   return rows.slice(0, totalRows);
 }
 
+export function buildSourceImportPack({
+  date,
+  sourceQualityQueue = null,
+  contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG,
+  totalRows = 100,
+  csvPath = "",
+  guidePath = ""
+}) {
+  const config = normalizeContentSourceConfig(contentSourceConfig);
+  const rows = buildSourceImportPackRows({ sourceQualityQueue, contentSourceConfig: config, totalRows, date });
+  const rowsByCircle = summarizeRowsByCircle(rows, sourceQualityQueue, config);
+  const rowsByCandidateType = summarizeRows(rows, "candidateType");
+  const priorityGaps = (sourceQualityQueue?.items ?? []).map((item) => ({
+    circleId: item.circleId,
+    circleName: item.circleName,
+    neededCandidates: Number(item.neededCandidates || 0),
+    currentQualifiedTools: Number(item.currentQualifiedTools || 0),
+    assignedRows: rows.filter((row) => row.circle === item.circleId).length,
+    affectedAccounts: item.affectedAccounts ?? [],
+    importHint: item.importHint || ""
+  }));
+
+  return {
+    version: 1,
+    date,
+    generatedAt: new Date().toISOString(),
+    summary: {
+      totalRows: rows.length,
+      circles: rowsByCircle.length,
+      productRows: rows.filter((row) => row.candidateType === "product").length,
+      topicRows: rows.filter((row) => row.candidateType === "topic").length,
+      rowsNeedingResearch: rows.filter((row) => !row.name || !row.url || !row.tagline).length,
+      totalNeededCandidates: Number(sourceQualityQueue?.summary?.totalNeededCandidates ?? priorityGaps.reduce((sum, item) => sum + item.neededCandidates, 0)),
+      topCircle: sourceQualityQueue?.summary?.topCircle || rowsByCircle[0]?.circleName || "",
+      generatedFromQueue: Boolean(sourceQualityQueue?.items?.length),
+      csvPath,
+      guidePath
+    },
+    rowsByCircle,
+    rowsByCandidateType,
+    priorityGaps,
+    rows
+  };
+}
+
 export function sourceImportRowsToCsv(rows) {
   const headers = ["name", "url", "tagline", "source", "circle", "candidateType", "sourceUrl", "published", "notes"];
   return [
     headers.join(","),
     ...rows.map((row) => headers.map((header) => csvCell(row[header] ?? "")).join(","))
   ].join("\n");
+}
+
+function summarizeRowsByCircle(rows, sourceQualityQueue, config) {
+  const queueByCircle = new Map((sourceQualityQueue?.items ?? []).map((item) => [item.circleId, item]));
+  const circleById = new Map(config.circles.map((circle) => [circle.id, circle]));
+  return summarizeRows(rows, "circle").map((item) => {
+    const queueItem = queueByCircle.get(item.circle) ?? {};
+    const circle = circleById.get(item.circle) ?? {};
+    return {
+      circleId: item.circle,
+      circleName: queueItem.circleName || circle.name || item.circle,
+      rows: item.rows,
+      neededCandidates: Number(queueItem.neededCandidates || 0),
+      currentQualifiedTools: Number(queueItem.currentQualifiedTools || 0),
+      affectedAccounts: queueItem.affectedAccounts ?? [],
+      importHint: queueItem.importHint || ""
+    };
+  }).sort((a, b) => Number(b.rows) - Number(a.rows) || a.circleName.localeCompare(b.circleName));
+}
+
+function summarizeRows(rows, key) {
+  const counts = rows.reduce((map, row) => {
+    const value = String(row[key] || "unknown");
+    map.set(value, (map.get(value) ?? 0) + 1);
+    return map;
+  }, new Map());
+  return [...counts.entries()]
+    .map(([value, rows]) => ({ [key]: value, rows }))
+    .sort((a, b) => Number(b.rows) - Number(a.rows) || String(a[key]).localeCompare(String(b[key])));
 }
 
 export function renderSourceQualityQueueMarkdown(queue) {

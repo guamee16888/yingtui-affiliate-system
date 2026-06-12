@@ -1226,8 +1226,47 @@ function renderDecisionAngle(item) {
 
 function renderQueues() {
   const groups = ["affiliate_research", "thread", "review_page", "watch", "skip"];
-  $("#view-queues").innerHTML = `${renderQueuePipelinePanel("full")}
+  $("#view-queues").innerHTML = `${renderPromotionReviewPanel(state.latest?.promotionReview)}
+  ${renderQueuePipelinePanel("full")}
   <div class="three-grid">${groups.map((type) => `<section class="panel"><h2>${esc(labels[type] ?? type)}</h2><div class="list">${state.queues.items.filter((item) => item.type === type).map(renderQueueItem).join("") || empty("暂无。")}</div></section>`).join("")}</div>`;
+}
+
+function renderPromotionReviewPanel(review) {
+  if (!review) return "";
+  const items = review.items ?? [];
+  return `<section class="panel wide-panel">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Promotion review</p>
+        <h2>推广审核清单</h2>
+        <p class="muted">${esc(review.rule)}</p>
+      </div>
+      ${pill(`${review.summary?.readyToQueue ?? 0} ready`, Number(review.summary?.readyToQueue ?? 0) ? "good" : "warn")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(review.summary?.totalItems ?? 0)}</strong><span>items</span></div>
+      <div><strong>${esc(review.summary?.readyToQueue ?? 0)}</strong><span>ready</span></div>
+      <div><strong>${esc(review.summary?.alreadyQueued ?? 0)}</strong><span>queued</span></div>
+      <div><strong>${esc(review.summary?.needsFeedback ?? 0)}</strong><span>needs feedback</span></div>
+    </div>
+    <div class="list">${items.slice(0, 10).map(renderPromotionReviewItem).join("") || empty("暂无推广审核项。")}</div>
+  </section>`;
+}
+
+function renderPromotionReviewItem(item) {
+  const canQueue = item.queueType && !item.alreadyQueued && item.reviewStatus !== "needs_feedback";
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(item.toolName)}</strong>
+      ${pill(item.reviewStatus, item.reviewStatus === "ready_to_queue" ? "good" : item.reviewStatus === "already_queued" ? "warn" : "neutral")}
+    </div>
+    <div class="muted">${esc(labels[item.queueType] ?? item.queueType ?? item.suggestion)} · priority ${esc(item.priorityScore)} · score ${esc(item.score)} · affiliate ${esc(item.evidence?.affiliateScore ?? 0)} · clicks ${esc(item.evidence?.clicks ?? 0)} · bookmarks ${esc(item.evidence?.bookmarks ?? 0)}</div>
+    <p>${esc(item.reason)}</p>
+    <div class="queue-next">${esc(item.recommendedAction)}</div>
+    <div class="row-actions">
+      ${canQueue ? `<button class="button ghost" data-queue="${attr(item.queueType)}" data-tool-id="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-priority="${attr(item.priorityScore)}" data-reason="${attr(item.reason)}">加入${esc(labels[item.queueType] ?? item.queueType)}</button>` : ""}
+    </div>
+  </div>`;
 }
 
 function renderQueueItem(item) {
@@ -1269,6 +1308,7 @@ function renderAccounts() {
     </section>
     ${renderSupplyCoverage(supplyPlan)}
     ${renderDraftPlannerPanel(state.latest?.draftPlan)}
+    ${renderContentCalendarPanel(state.latest?.contentCalendar)}
     ${renderSourceQueuePanel(state.latest?.sourceQualityQueue)}
     <section class="panel">
       <h2>今日工具分配</h2>
@@ -1284,6 +1324,33 @@ function renderAccounts() {
       <div class="account-grid">${accounts.map(renderAccountCard).join("") || empty("暂无账号配置。")}</div>
     </section>
   </div>`;
+}
+
+function renderContentCalendarPanel(calendar) {
+  if (!calendar) return "";
+  const conflicts = (calendar.accountCalendars ?? [])
+    .filter((account) => account.status === "target_incompatible")
+    .slice(0, 8);
+  return `<section class="panel">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Content calendar</p>
+        <h2>账号发布时间槽</h2>
+        <p class="muted">${esc(calendar.rule)}</p>
+      </div>
+      ${pill(`capacity gap ${calendar.summary?.capacityGap ?? 0}`, Number(calendar.summary?.capacityGap ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(calendar.summary?.scheduledPosts ?? 0)}/${esc(calendar.summary?.targetPosts ?? 0)}</strong><span>scheduled</span></div>
+      <div><strong>${esc(calendar.summary?.sameDayCapacity ?? 0)}</strong><span>same-day slots</span></div>
+      <div><strong>${esc(calendar.summary?.draftGap ?? 0)}</strong><span>draft gap</span></div>
+      <div><strong>${esc(calendar.summary?.readyAccounts ?? 0)}/${esc(calendar.summary?.accounts ?? 0)}</strong><span>ready accounts</span></div>
+    </div>
+    <div class="list">${conflicts.map((account) => `<div class="list-item">
+      <strong>${esc(account.displayName)}</strong>
+      <div class="muted">${esc(account.sameDayCapacity)}/${esc(account.targetPosts)} slots · cooldown ${esc(account.cooldownHours)}h · target needs about ${esc(account.recommendedCooldownHours)}h</div>
+    </div>`).join("") || empty("当前冷却时间能容纳目标发布槽。")}</div>
+  </section>`;
 }
 
 function renderDraftPlannerPanel(plan) {

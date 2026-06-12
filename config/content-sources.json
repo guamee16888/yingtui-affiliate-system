@@ -39,7 +39,7 @@
       "enabled": true,
       "maxItems": 20,
       "includeKeywords": ["AI", "agent", "startup", "model", "LLM", "automation", "founder", "tool", "product"],
-      "excludeKeywords": ["lawsuit", "fired", "war", "crime"],
+      "excludeKeywords": ["lawsuit", "fired", "war", "crime", "celebrity", "drama"],
       "qualityHint": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam."
     },
     {
@@ -52,7 +52,7 @@
       "enabled": true,
       "maxItems": 20,
       "includeKeywords": ["onchain", "wallet", "DeFi", "stablecoin", "tokenized", "ETF", "developer", "infrastructure", "exchange", "trading", "Solana", "Ethereum", "Bitcoin"],
-      "excludeKeywords": ["live updates", "performance update", "price prediction", "resistance test", "really bottomed"],
+      "excludeKeywords": ["live updates", "performance update", "price prediction", "resistance test", "really bottomed", "price rockets", "climbs back", "bulls", "trump", "iran", "war", "laundering", "froze", "bottomed", "green as"],
       "qualityHint": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle."
     },
     {

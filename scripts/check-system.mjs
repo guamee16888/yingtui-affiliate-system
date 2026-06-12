@@ -31,10 +31,13 @@ const requiredScripts = [
   "source-queue",
   "source-pack",
   "draft-plan",
+  "content-calendar",
+  "roadmap",
   "accounts",
   "feedback",
   "decisions",
   "promote",
+  "promotion-review",
   "review:queue",
   "review:generate",
   "today-plan",
@@ -61,6 +64,8 @@ for (const script of requiredScripts) {
 const latest = await readJson("data/latest.json", null);
 if (!latest?.date || !Array.isArray(latest.tools)) errors.push("latest.json structure is invalid");
 if (!latest?.accountStrategy) errors.push("latest.json accountStrategy is missing. Run npm run daily.");
+if (!latest?.contentCalendar) errors.push("latest.json contentCalendar is missing. Run npm run daily.");
+if (!latest?.promotionReview) errors.push("latest.json promotionReview is missing. Run npm run daily.");
 
 const xAccounts = await readJson("config/x-accounts.json", { accounts: [] });
 if (!Array.isArray(xAccounts.accounts) || xAccounts.accounts.length < 1) errors.push("x-accounts config has no accounts");

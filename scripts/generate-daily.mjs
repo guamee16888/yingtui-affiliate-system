@@ -14,7 +14,7 @@ import {
   writeDailyJsonOutputs,
   writeDailyOutput
 } from "./lib/affiliate-system.mjs";
-import { loadCandidateInbox } from "./lib/data-store.mjs";
+import { loadCandidateInbox, loadFeedback, loadQueues } from "./lib/data-store.mjs";
 import {
   loadContentSourceConfig,
   refreshSourceCandidates,
@@ -24,14 +24,16 @@ import {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const warnings = [];
-  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox, contentSourceConfig] = await Promise.all([
+  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox, contentSourceConfig, feedback, queues] = await Promise.all([
     loadVoice(warnings),
     loadAffiliateConfig(warnings),
     loadAccountConfig(warnings),
     loadHistory(warnings),
     fetchFeedWithFallback(args.feed, warnings),
     loadCandidateInbox(),
-    loadContentSourceConfig(warnings)
+    loadContentSourceConfig(warnings),
+    loadFeedback(),
+    loadQueues()
   ]);
   const sourceRefresh = await refreshSourceCandidates(contentSourceConfig, warnings);
   const productHuntTools = parseProductHuntFeed(feed.xml);
@@ -52,6 +54,8 @@ async function main() {
     affiliateConfig,
     accountConfig,
     contentSourceConfig,
+    feedback,
+    queues,
     voice,
     limit: args.limit,
     warnings,

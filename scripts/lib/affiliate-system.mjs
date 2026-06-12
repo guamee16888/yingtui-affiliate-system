@@ -7,6 +7,8 @@ import { writeJsonAtomic, writeTextAtomic } from "./file-store.mjs";
 import { buildAccountStrategy, DEFAULT_ACCOUNT_CONFIG, normalizeAccountConfig } from "./account-system.mjs";
 import { buildSourceQualityQueue, buildSupplyPlan, DEFAULT_CONTENT_SOURCE_CONFIG } from "./content-source-system.mjs";
 import { buildDraftPlan } from "./draft-planner.mjs";
+import { buildContentCalendar } from "./content-calendar.mjs";
+import { buildPromotionReviewQueue } from "./promotion-engine.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const rootDir = path.resolve(__dirname, "../..");
@@ -735,12 +737,16 @@ function ensureTweet(text, item, voice, link) {
   }
 
   if (!lint.ok) {
-    candidate = `${item.tool.name}: ${item.angle.pain}. I'd test it once before writing more. ${link}`;
+    candidate = item.tool.candidateType === "topic"
+      ? `${item.tool.name}: useful signal, but not a tool review. I would verify the details before posting more. ${link}`
+      : `${item.tool.name}: ${item.angle.pain}. I'd test it once before writing more. ${link}`;
     lint = lintTweet(candidate, voice);
   }
 
   if (!lint.ok) {
-    candidate = `Worth testing: ${item.tool.name}. Narrow problem, clear buyer. ${link}`;
+    candidate = item.tool.candidateType === "topic"
+      ? `Worth watching: ${item.tool.name}. Treat it as a signal, not a claim. ${link}`
+      : `Worth testing: ${item.tool.name}. Narrow problem, clear buyer. ${link}`;
     lint = lintTweet(candidate, voice);
   }
 
@@ -754,11 +760,11 @@ export function makeCopyVariants(item, voice) {
   const link = item.affiliate?.affiliateUrl ?? item.tool.url;
   const isTopic = item.tool.candidateType === "topic";
   const templates = isTopic ? {
-    shortPost: "Worth watching: {name}. The useful angle is not the headline. It is what this changes for {audience}. {link}",
-    casualPost: "I saved this from {sourceName} because it points at a real workflow: {pain}. I would watch the comments before turning it into a longer post. {link}",
-    contrarianAngle: "Not every good post needs a new tool. Sometimes the better angle is a small market shift: {audience} trying to get {outcome}. {link}",
-    painPointHook: "The question behind this is simple: who is still stuck with {pain}? That is usually a better content angle than repeating the news. {link}",
-    threadOpening: "This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. {link}"
+    shortPost: "Worth watching: {name}. I would not treat it as a tool review. The useful angle is what it says about {audience}. {link}",
+    casualPost: "Saving this from {sourceName}. Not a recommendation, more of a market signal: {solution}. I would verify the details before posting a stronger take. {link}",
+    contrarianAngle: "Most people will repeat the headline. The better post is probably the second-order question: what changes for {audience}? {link}",
+    painPointHook: "The hook here is not the news itself. It is the pain underneath: {pain}. Worth watching before turning it into a thread. {link}",
+    threadOpening: "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. {link}"
   } : {
     shortPost: "Testing {name} today. It looks narrow enough to be useful: {pain}. Worth a quick look if you care about {outcome}. {link}",
     casualPost: "I like AI tools more when the buyer is obvious. {name} seems built for {audience}, not everyone. I'd test setup, pricing, and one real use case first. {link}",
@@ -796,7 +802,7 @@ export function buildAffiliateStatus(item) {
   };
 }
 
-export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, voice, limit, warnings, sourceBreakdown = null }) {
+export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, feedback = { entries: [] }, queues = { items: [] }, voice, limit, warnings, sourceBreakdown = null }) {
   const historyIndex = buildHistoryIndex(history, { beforeDate: date });
   const context = { date, historyIndex, affiliateConfig };
   const scored = tools
@@ -825,6 +831,18 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
   const freshnessReport = buildFreshnessReport({ date, scored, picked, usedFallback, feedSource });
   const sourceQualityQueue = buildSourceQualityQueue({ supplyPlan, contentSourceConfig });
   const draftPlan = buildDraftPlan({ date, picked, accountStrategy, targetPerAccount: supplyPlan.targetPerAccount });
+  const contentCalendar = buildContentCalendar({ date, draftPlan, accountStrategy });
+  const promotionReview = buildPromotionReviewQueue({
+    latest: {
+      date,
+      generatedAt: `${date}T12:00:00.000Z`,
+      tools: picked.map(toToolJson)
+    },
+    history,
+    feedback,
+    queues,
+    affiliateLinks: affiliateConfig
+  });
 
   return {
     date,
@@ -841,6 +859,8 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
     supplyPlan,
     sourceQualityQueue,
     draftPlan,
+    contentCalendar,
+    promotionReview,
     historySummary: summarizeHistory(history),
     warnings
   };
@@ -1018,6 +1038,14 @@ ${renderSourceQueueSummary(model.sourceQualityQueue)}
 
 ${renderDraftPlanSummary(model.draftPlan)}
 
+## Content Calendar
+
+${renderContentCalendarSummary(model.contentCalendar)}
+
+## Promotion Review Queue
+
+${renderPromotionReviewSummary(model.promotionReview)}
+
 ## Today's Top Picks
 
 ${renderTopPicks(model.picked)}
@@ -1121,6 +1149,45 @@ function renderDraftPlanSummary(plan) {
     "",
     "Account gaps:",
     gaps || "- No account gaps in this draft plan."
+  ].join("\n");
+}
+
+function renderContentCalendarSummary(calendar) {
+  if (!calendar) return "No content calendar available.";
+  const targetIncompatible = (calendar.accountCalendars ?? [])
+    .filter((account) => account.status === "target_incompatible")
+    .slice(0, 8)
+    .map((account) => `- ${account.displayName}: ${account.sameDayCapacity}/${account.targetPosts} slots, cooldown ${account.cooldownHours}h, suggested ${account.recommendedCooldownHours}h`)
+    .join("\n");
+
+  return [
+    `- Rule: ${calendar.rule}`,
+    `- Scheduled posts: ${calendar.summary.scheduledPosts}/${calendar.summary.targetPosts}`,
+    `- Same-day capacity: ${calendar.summary.sameDayCapacity}`,
+    `- Draft gap: ${calendar.summary.draftGap}`,
+    `- Capacity gap: ${calendar.summary.capacityGap}`,
+    `- Ready accounts: ${calendar.summary.readyAccounts}/${calendar.summary.accounts}`,
+    "",
+    "Target/cooldown conflicts:",
+    targetIncompatible || "- No target/cooldown conflict detected."
+  ].join("\n");
+}
+
+function renderPromotionReviewSummary(review) {
+  if (!review) return "No promotion review generated.";
+
+  return [
+    `- Rule: ${review.rule}`,
+    `- Total items: ${review.summary.totalItems}`,
+    `- Ready to queue: ${review.summary.readyToQueue}`,
+    `- Already queued: ${review.summary.alreadyQueued}`,
+    `- Needs feedback: ${review.summary.needsFeedback}`,
+    "",
+    "Next actions:",
+    review.nextActions.length ? review.nextActions.map((item) => `- ${item}`).join("\n") : "- No promotion action yet.",
+    "",
+    "Top review items:",
+    review.items.slice(0, 5).map((item) => `- ${item.toolName}: ${item.reviewStatus} -> ${item.queueType || item.suggestion}, priority ${item.priorityScore}`).join("\n") || "- No review items."
   ].join("\n");
 }
 
@@ -1292,6 +1359,8 @@ export function toDailyJson(model) {
     supplyPlan: model.supplyPlan,
     sourceQualityQueue: model.sourceQualityQueue,
     draftPlan: model.draftPlan,
+    contentCalendar: model.contentCalendar,
+    promotionReview: model.promotionReview,
     actionList: model.actionList.map((action) => ({
       type: action.type,
       toolName: action.toolName,

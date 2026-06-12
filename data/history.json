@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T10:07:23.895Z",
+  "updatedAt": "2026-06-12T13:09:11.199Z",
   "tools": [
     {
       "date": "2026-06-06",
@@ -931,6 +931,54 @@
       "url": "https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products",
       "domain": "coindesk.com",
       "tagline": "John Hoffman will spearhead Ondo's expansion from tokenizing individual assets to full investment portfolios and strategies.",
+      "score": 31,
+      "scoreBreakdown": {
+        "painScore": 8,
+        "nicheScore": 8,
+        "affiliateScore": 0,
+        "contentScore": 8,
+        "noveltyScore": 7,
+        "riskScore": 0,
+        "seenPenalty": 0,
+        "total": 31
+      },
+      "seenBefore": false,
+      "followUpAction": "thread candidate",
+      "recommendedToFollow": true,
+      "affiliateMatched": false,
+      "affiliateStatus": "No affiliate link yet — research needed"
+    },
+    {
+      "date": "2026-06-12",
+      "toolId": "tool_coindesk_com_monero-price-rockets-33-to-438-amid-120-million-onchain-laundering-maze_ee38daf5b6",
+      "toolName": "Monero price rockets 33% to $438 amid $120 million onchain laundering maze",
+      "url": "https://www.coindesk.com/markets/2026/06/12/monero-spiked-to-usd430-as-usd120-million-moved-through-it-then-tether-froze-usd72-million",
+      "domain": "coindesk.com",
+      "tagline": "Onchain sleuth ZachXBT traced remaining funds across exchanges, instant swap services and other blockchains. Tether later froze $72 million in USDT linked to the activity.",
+      "score": 31,
+      "scoreBreakdown": {
+        "painScore": 8,
+        "nicheScore": 8,
+        "affiliateScore": 0,
+        "contentScore": 8,
+        "noveltyScore": 7,
+        "riskScore": 0,
+        "seenPenalty": 0,
+        "total": 31
+      },
+      "seenBefore": false,
+      "followUpAction": "thread candidate",
+      "recommendedToFollow": true,
+      "affiliateMatched": false,
+      "affiliateStatus": "No affiliate link yet — research needed"
+    },
+    {
+      "date": "2026-06-12",
+      "toolId": "tool_coindesk_com_while-bitcoin-holds-near-63-000-some-data-points-to-pain-ahead-for-bulls_8cb5c5637e",
+      "toolName": "While bitcoin holds near $63,000, some data points to pain ahead for bulls",
+      "url": "https://www.coindesk.com/markets/2026/06/12/while-bitcoin-holds-near-usd63-000-some-data-points-to-pain-ahead-for-bulls",
+      "domain": "coindesk.com",
+      "tagline": "Onchain data shows the bitcoin market price is only just above its realized price and demand is weakening, especially from ETFs.",
       "score": 31,
       "scoreBreakdown": {
         "painScore": 8,

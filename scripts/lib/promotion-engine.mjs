@@ -29,6 +29,152 @@ export function buildPromotionSuggestions({ latest, history, feedback, affiliate
   });
 }
 
+export function buildPromotionReviewQueue({ latest, history, feedback, queues = { items: [] }, affiliateLinks = { links: [] }, limit = 12 }) {
+  const queueItems = queues.items ?? [];
+  const suggestions = buildPromotionSuggestions({ latest, history, feedback, affiliateLinks })
+    .map((item) => {
+      const queueType = queueTypeForSuggestion(item.suggestion);
+      const alreadyQueued = queueType
+        ? queueItems.some((queued) => queued.toolId === item.toolId && queued.type === queueType && !["skipped", "archived"].includes(queued.status))
+        : false;
+      const priorityScore = promotionPriority(item, queueType, alreadyQueued);
+      const reviewStatus = reviewStatusForItem(item, queueType, alreadyQueued);
+
+      return {
+        id: `${item.toolId}:${queueType || item.suggestion}`,
+        toolId: item.toolId,
+        toolName: item.toolName,
+        toolUrl: item.toolUrl,
+        score: item.score,
+        suggestion: item.suggestion,
+        queueType,
+        reviewStatus,
+        priorityScore,
+        alreadyQueued,
+        reason: item.reason,
+        recommendedAction: recommendedAction(item, queueType, reviewStatus),
+        evidence: {
+          affiliateScore: item.affiliateScore,
+          riskScore: item.riskScore,
+          freshForPosting: item.freshForPosting,
+          historyCount: item.historyCount,
+          hasAffiliateLink: item.hasAffiliateLink,
+          feedbackEntries: item.feedback.entries,
+          engagementScore: round(item.feedback.engagementScore),
+          impressions: item.feedback.impressions,
+          bookmarks: item.feedback.bookmarks,
+          replies: item.feedback.replies,
+          clicks: item.feedback.clicks
+        }
+      };
+    })
+    .filter((item) => item.reviewStatus !== "skip")
+    .sort((a, b) => b.priorityScore - a.priorityScore || b.score - a.score)
+    .slice(0, limit);
+
+  return {
+    date: latest?.date ?? "",
+    generatedAt: new Date().toISOString(),
+    mode: "manual_review",
+    rule: "Promotion review only. Nothing is added to queues until you click the queue button.",
+    summary: {
+      totalItems: suggestions.length,
+      readyToQueue: suggestions.filter((item) => item.reviewStatus === "ready_to_queue").length,
+      alreadyQueued: suggestions.filter((item) => item.reviewStatus === "already_queued").length,
+      needsFeedback: suggestions.filter((item) => item.reviewStatus === "needs_feedback").length,
+      watch: suggestions.filter((item) => item.reviewStatus === "watch").length
+    },
+    items: suggestions,
+    nextActions: nextPromotionActions(suggestions)
+  };
+}
+
+export function renderPromotionReviewMarkdown(review) {
+  if (!review) return "# Promotion Review Queue\n\nNo promotion review generated. Run npm run promotion-review.\n";
+
+  return `# Promotion Review Queue - ${review.date}
+
+- Mode: ${review.mode}
+- Rule: ${review.rule}
+- Total items: ${review.summary.totalItems}
+- Ready to queue: ${review.summary.readyToQueue}
+- Already queued: ${review.summary.alreadyQueued}
+- Needs feedback: ${review.summary.needsFeedback}
+- Watch: ${review.summary.watch}
+
+## Next Actions
+
+${review.nextActions.length ? review.nextActions.map((item, index) => `${index + 1}. ${item}`).join("\n") : "No clear promotion actions yet."}
+
+## Review Items
+
+${review.items.length ? review.items.map((item, index) => `${index + 1}. ${item.toolName} — ${item.reviewStatus} — ${item.queueType || item.suggestion} — priority ${item.priorityScore}
+   ${item.reason}
+   Action: ${item.recommendedAction}
+   Evidence: score ${item.score}, affiliate ${item.evidence.affiliateScore}, risk ${item.evidence.riskScore}, feedback ${item.evidence.feedbackEntries}, clicks ${item.evidence.clicks}, bookmarks ${item.evidence.bookmarks}`).join("\n") : "No review items."}
+`;
+}
+
+function queueTypeForSuggestion(suggestion) {
+  if (suggestion === "affiliate priority") return "affiliate_research";
+  if (suggestion === "review page candidate") return "review_page";
+  if (suggestion === "thread candidate") return "thread";
+  if (suggestion === "watch") return "watch";
+  return "";
+}
+
+function promotionPriority(item, queueType, alreadyQueued) {
+  const base = Number(item.score || 0) * 2
+    + Number(item.affiliateScore || 0) * 6
+    - Number(item.riskScore || 0) * 5
+    + Math.min(40, Number(item.feedback.engagementScore || 0) * 2)
+    + Number(item.feedback.bookmarks || 0) * 8
+    + Number(item.feedback.clicks || 0) * 7
+    + (item.freshForPosting ? 8 : 0)
+    + (item.hasAffiliateLink ? 10 : 0);
+  const typeBonus = queueType === "affiliate_research" ? 18
+    : queueType === "review_page" ? 14
+      : queueType === "thread" ? 12
+        : queueType === "watch" ? -10
+          : -30;
+  const queuedPenalty = alreadyQueued ? 35 : 0;
+  return Math.max(0, Math.round(base + typeBonus - queuedPenalty));
+}
+
+function reviewStatusForItem(item, queueType, alreadyQueued) {
+  if (item.suggestion === "skip" || !queueType) return "skip";
+  if (alreadyQueued) return "already_queued";
+  if (queueType === "watch") return "watch";
+  if (item.feedback.entries <= 0 && !item.freshForPosting && item.suggestion !== "affiliate priority") return "needs_feedback";
+  return "ready_to_queue";
+}
+
+function recommendedAction(item, queueType, status) {
+  if (status === "already_queued") return "Keep working the existing queue item; do not duplicate it.";
+  if (status === "watch") return "Do not promote yet. Collect feedback or wait for a fresher angle.";
+  if (status === "needs_feedback") return "Post or record feedback before promoting this into a long-form queue.";
+  if (queueType === "affiliate_research") return "Open affiliate research, verify the real program, then record the result.";
+  if (queueType === "review_page") return "Add to SEO review queue, then generate an outline after confirming facts.";
+  if (queueType === "thread") return "Add to thread queue and expand only the strongest angle.";
+  return "Review manually.";
+}
+
+function nextPromotionActions(items) {
+  const ready = items.filter((item) => item.reviewStatus === "ready_to_queue");
+  const actions = [];
+  const affiliate = ready.find((item) => item.queueType === "affiliate_research");
+  const reviewPage = ready.find((item) => item.queueType === "review_page");
+  const thread = ready.find((item) => item.queueType === "thread");
+
+  if (affiliate) actions.push(`Research affiliate program for ${affiliate.toolName}.`);
+  if (reviewPage) actions.push(`Queue ${reviewPage.toolName} for an SEO review page.`);
+  if (thread) actions.push(`Queue ${thread.toolName} for a thread.`);
+  if (!actions.length && items.some((item) => item.reviewStatus === "needs_feedback")) {
+    actions.push("Record feedback before promoting more tools into long-form queues.");
+  }
+  return actions.slice(0, 5);
+}
+
 function decideSuggestion(tool, feedbackStats, historyCount, hasAffiliateLink, freshForPosting) {
   const affiliateScore = tool.scoreBreakdown?.affiliateScore ?? 0;
   const riskScore = tool.scoreBreakdown?.riskScore ?? 0;
@@ -127,4 +273,8 @@ function matchesAffiliateConfig(tool, affiliateLinks) {
     const terms = [link.match, ...(link.keywords ?? []), ...(link.domains ?? [])].filter(Boolean);
     return terms.some((term) => haystack.includes(String(term).toLowerCase()));
   });
+}
+
+function round(value) {
+  return Math.round(Number(value || 0) * 100) / 100;
 }

@@ -3,9 +3,9 @@
 ## Summary
 
 - Source: https://www.producthunt.com/feed
-- Source mix: Product Hunt 50, Candidate Inbox 0, Source Candidates 25, merged 75
-- Evaluated: 75 tools
-- Picked: 30 tools (30 fresh, 0 Seen before)
+- Source mix: Product Hunt 50, Candidate Inbox 0, Source Candidates 22, merged 72
+- Evaluated: 72 tools
+- Picked: 26 tools (26 fresh, 0 Seen before)
 - Top score: 38
 - Rule: drafts are material, not a posting queue. Pick only tools you would defend in public.
 
@@ -13,23 +13,23 @@
 
 - Target: 20 accounts x 10 posts = 200 drafts/day
 - Quality floor: score 18+ and not skip
-- Qualified unique items: 30
-- Possible non-identical draft variants: 150
-- Gap: 50
+- Qualified unique items: 26
+- Possible non-identical draft variants: 130
+- Gap: 70
 - Status: short
 - Note: Supply is short for at least one account or circle. Add more source candidates instead of lowering quality just to fill slots.
 
 Circle coverage:
-- AI startup circle: 23 qualified items, up to 115 draft variants
-- Indie hacker circle: 14 qualified items, up to 70 draft variants
+- AI startup circle: 21 qualified items, up to 105 draft variants
+- Indie hacker circle: 10 qualified items, up to 50 draft variants
 - SaaS founder circle: 0 qualified items, up to 0 draft variants
-- Crypto builder circle: 11 qualified items, up to 55 draft variants
+- Crypto builder circle: 8 qualified items, up to 40 draft variants
 
 Account shortages:
 - Affiliate Builder: 2/10 unique candidates, gap 8
 - SEO Review Lab: 1/10 unique candidates, gap 9
 - Build in Public: 3/10 unique candidates, gap 7
-- Creator Stack: 3/10 unique candidates, gap 7
+- Creator Stack: 2/10 unique candidates, gap 8
 - Ecommerce Ops: 2/10 unique candidates, gap 8
 - Dev Workflows: 3/10 unique candidates, gap 7
 - Sales Support AI: 4/10 unique candidates, gap 6
@@ -38,46 +38,84 @@ Account shortages:
 ## Source Quality Queue
 
 - Queue items: 4
-- Needed candidates: 66
+- Needed candidates: 71
 - Top gap: Indie hacker circle
 
-1. Indie hacker circle: need 31; affected accounts 4; try "micro SaaS" launch
+1. Indie hacker circle: need 33; affected accounts 4; try "micro SaaS" launch
 2. SaaS founder circle: need 20; affected accounts 2; try "SaaS pricing" "case study"
-3. Crypto builder circle: need 9; affected accounts 1; try "crypto wallet" "developer"
+3. Crypto builder circle: need 12; affected accounts 2; try "crypto wallet" "developer"
 4. AI startup circle: need 6; affected accounts 1; try "AI startup" launch new tool
 
 ## Draft Planner
 
 - Rule: Each draft uses one unique candidate. No tool is allocated to more than one account in this plan.
-- Planned posts: 30/200
-- Gap: 170
-- Unique tools used: 30
+- Planned posts: 26/200
+- Gap: 174
+- Unique tools used: 26
 
 Account gaps:
 - AI Tools Lab: 0/10, gap 10
 - Affiliate Builder: 0/10, gap 10
-- SEO Review Lab: 6/10, gap 4
+- SEO Review Lab: 0/10, gap 10
 - Productivity Ops: 0/10, gap 10
 - Build in Public: 1/10, gap 9
-- Creator Stack: 3/10, gap 7
+- Creator Stack: 2/10, gap 8
 - Ecommerce Ops: 1/10, gap 9
 - Dev Workflows: 3/10, gap 7
+
+## Content Calendar
+
+- Rule: Schedule drafts into review slots. Every slot still requires manual approval before publishing.
+- Scheduled posts: 18/200
+- Same-day capacity: 46
+- Draft gap: 174
+- Capacity gap: 154
+- Ready accounts: 0/20
+
+Target/cooldown conflicts:
+- AI Tools Lab: 3/10 slots, cooldown 6h, suggested 1.5h
+- Affiliate Builder: 2/10 slots, cooldown 8h, suggested 1.5h
+- SEO Review Lab: 2/10 slots, cooldown 12h, suggested 1.5h
+- Productivity Ops: 3/10 slots, cooldown 6h, suggested 1.5h
+- Build in Public: 2/10 slots, cooldown 12h, suggested 1.5h
+- Creator Stack: 2/10 slots, cooldown 8h, suggested 1.5h
+- Ecommerce Ops: 2/10 slots, cooldown 12h, suggested 1.5h
+- Dev Workflows: 2/10 slots, cooldown 8h, suggested 1.5h
+
+## Promotion Review Queue
+
+- Rule: Promotion review only. Nothing is added to queues until you click the queue button.
+- Total items: 9
+- Ready to queue: 8
+- Already queued: 0
+- Needs feedback: 0
+
+Next actions:
+- Research affiliate program for Decart’s new world model can simulate hours of photorealistic driving — with some caveats.
+- Queue Canton Network developer raises $355 million to bring Wall Street onchain for a thread.
+
+Top review items:
+- Decart’s new world model can simulate hours of photorealistic driving — with some caveats: ready_to_queue -> affiliate_research, priority 138
+- Canton Network developer raises $355 million to bring Wall Street onchain: ready_to_queue -> thread, priority 106
+- How memory tools can make AI models worse: ready_to_queue -> thread, priority 90
+- Tether leads $1.4 billion funding round in German robotics company Neura: ready_to_queue -> thread, priority 72
+- BlackRock files to list its bitcoin income ETF, with expected debut next week: ready_to_queue -> thread, priority 72
 
 ## Today's Top Picks
 
 1. Decart’s new world model can simulate hours of photorealistic driving — with some caveats — 38 points — tweet only.
 2. Canton Network developer raises $355 million to bring Wall Street onchain — 37 points — thread candidate.
 3. Anthropic’s Dario Amodei has just one direct report — 33 points — tweet only.
-4. Ondo Finance hires former Invesco ETF chief to build onchain investment products — 31 points — thread candidate.
-5. The company that makes your TV is taking ads onchain. Arbitrum helped — 30 points — thread candidate.
+4. The company that makes your TV is taking ads onchain. Arbitrum helped — 30 points — thread candidate.
+5. How memory tools can make AI models worse — 29 points — thread candidate.
 
 ## Freshness Diagnostic
 
-- Feed fresh today: 33
+- Feed fresh today: 30
 - Feed fresh 48h: 31
-- Feed fresh 7d: 7
-- Older/unknown: 4
-- Fresh top-pick candidates: 29
+- Feed fresh 7d: 8
+- Older/unknown: 3
+- Fresh top-pick candidates: 25
 - Diagnosis: Top picks include fresh candidates that are suitable for cautious posting.
 - Recommendation: Post only the Fresh today / Fresh 48h candidates, then record feedback.
 
@@ -85,14 +123,14 @@ Fresh feed watchlist:
 1. Decart’s new world model can simulate hours of photorealistic driving — with some caveats — 1 day old — score 38 — in top picks
 2. Canton Network developer raises $355 million to bring Wall Street onchain — 0 days old — score 37 — in top picks
 3. Anthropic’s Dario Amodei has just one direct report — 1 day old — score 33 — in top picks
-4. Ondo Finance hires former Invesco ETF chief to build onchain investment products — 0 days old — score 31 — in top picks
-5. The company that makes your TV is taking ads onchain. Arbitrum helped — 0 days old — score 30 — in top picks
+4. The company that makes your TV is taking ads onchain. Arbitrum helped — 0 days old — score 30 — in top picks
+5. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world — 0 days old — score 29 — in top picks
 
 ## Today's Action List
 
-1. post: Post one X draft: Worth watching: Decart’s new world model can simulate hours of photorealistic driving — with some caveats. The useful angle is not the headline. It is what this changes for developers. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
-2. post: Post one X draft: Worth watching: Canton Network developer raises $355 million to bring Wall Street onchain. The useful angle is not the headline. It is what this changes for developers. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
-3. post: Post one X draft: Worth watching: Anthropic’s Dario Amodei has just one direct report. The useful angle is not the headline. It is what this changes for founders. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
+1. post: Post one X draft: Worth watching: Decart’s new world model can simulate hours of photorealistic driving — with some caveats. I would not treat it as a tool review. The useful angle is what it says about developers. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
+2. post: Post one X draft: Worth watching: Canton Network developer raises $355 million to bring Wall Street onchain. I would not treat it as a tool review. The useful angle is what it says about developers. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
+3. post: Post one X draft: Worth watching: Anthropic’s Dario Amodei has just one direct report. I would not treat it as a tool review. The useful angle is what it says about founders. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
 4. research affiliate: Check whether Decart’s new world model can simulate hours of photorealistic driving — with some caveats has an affiliate, partner, or referral program.
 5. longform: Save Canton Network developer raises $355 million to bring Wall Street onchain for a thread or SEO review page if the X post gets feedback.
 
@@ -108,33 +146,29 @@ Recommended routing:
 1. Decart’s new world model can simulate hours of photorealistic driving — with some caveats → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, launch, workflow.)
 2. Canton Network developer raises $355 million to bring Wall Street onchain → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, workflow.)
 3. Anthropic’s Dario Amodei has just one direct report → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, founder, workflow.)
-4. Ondo Finance hires former Invesco ETF chief to build onchain investment products → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, onchain, token.)
-5. The company that makes your TV is taking ads onchain. Arbitrum helped → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, workflow.)
-6. How memory tools can make AI models worse → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
-7. Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, launch, agent.)
-8. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
-9. KOSH Money → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.)
-10. Jedify raises $24M to help companies arm AI agents with context on their business → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, agent, workflow.)
-11. Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
-12. Pool’s new app turns your screenshots into something useful → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
-13. Tether leads $1.4 billion funding round in German robotics company Neura → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin; pillar: crypto builders.)
-14. Citi opens new route into private markets with tokenized share offering → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-15. Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-16. BlackRock files to list its bitcoin income ETF, with expected debut next week → AI Agent Ops (AI Agent Ops: matches thread candidate / review page candidate; keywords: workflow.)
-17. BlenderHunt → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.)
-18. ‘AI-pilled’ firms spend $7,500 per employee each month on AI → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-19. Deezer’s new tool can identify AI music from Spotify, Apple Music, and others → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, tool, workflow.)
-20. Crypto for Advisors: Crypto ETFs → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-21. DoorDash’s new AI chatbot lets you order with prompts and photos → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-22. SpaceX stock is coming to Solana on the same day it lists on Nasdaq → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-23. Bitcoin climbs back into the green as Trump signals an end to the Iran war → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-24. Theker just raised $85M to build the factory robot that doesn’t specialize in anything → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-25. Meet Warren 3.0 → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, Product Hunt; pillar: Product Hunt.)
-26. Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues → Productivity Ops (Productivity Ops: matches tweet only / thread candidate; keywords: workflow.)
-27. Banking rails are moving past the 'stablecoin winner' narrative: Sygnum → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin, token.)
-28. Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto.)
-29. LocIn AI → Productivity Ops (Productivity Ops: matches tweet only / thread candidate; keywords: workflow; pillar: workflows.)
-30. NODUS PH Radar for Product Hunt → Founder Tooling (Founder Tooling: matches tweet only / review page candidate; keywords: analytics.)
+4. The company that makes your TV is taking ads onchain. Arbitrum helped → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, workflow.)
+5. How memory tools can make AI models worse → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
+6. Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, launch, agent.)
+7. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
+8. KOSH Money → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.)
+9. Jedify raises $24M to help companies arm AI agents with context on their business → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, agent, workflow.)
+10. Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
+11. Pool’s new app turns your screenshots into something useful → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
+12. Tether leads $1.4 billion funding round in German robotics company Neura → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin; pillar: crypto builders.)
+13. Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+14. BlackRock files to list its bitcoin income ETF, with expected debut next week → AI Agent Ops (AI Agent Ops: matches thread candidate / review page candidate; keywords: workflow.)
+15. ‘AI-pilled’ firms spend $7,500 per employee each month on AI → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+16. Deezer’s new tool can identify AI music from Spotify, Apple Music, and others → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, tool, workflow.)
+17. Crypto for Advisors: Crypto ETFs → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
+18. DoorDash’s new AI chatbot lets you order with prompts and photos → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+19. SpaceX stock is coming to Solana on the same day it lists on Nasdaq → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+20. Theker just raised $85M to build the factory robot that doesn’t specialize in anything → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+21. Meet Warren 3.0 → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, Product Hunt; pillar: Product Hunt.)
+22. Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+23. Banking rails are moving past the 'stablecoin winner' narrative: Sygnum → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin, token.)
+24. Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow.)
+25. LocIn AI → Productivity Ops (Productivity Ops: matches tweet only / thread candidate; keywords: workflow; pillar: workflows.)
+26. NODUS PH Radar for Product Hunt → Founder Tooling (Founder Tooling: matches tweet only / review page candidate; keywords: analytics.)
 
 ## Tool Cards
 
@@ -154,24 +188,24 @@ Recommended routing:
 #### X Copy Variants
 
 **short post**
-Worth watching: Decart’s new world model can simulate hours of photorealistic driving — with some caveats. The useful angle is not the headline. It is what this changes for developers. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
-Check: OK (208 chars)
+Worth watching: Decart’s new world model can simulate hours of photorealistic driving — with some caveats. I would not treat it as a tool review. The useful angle is what it says about developers. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
+Check: OK (220 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one annoying developer workflow step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
-Check: OK (210 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: decart is launching oasis 3, a real-time world model that generates photorealistic driv.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: developers trying to get less glue code. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
-Check: OK (154 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for developers? https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
+Check: OK (145 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one annoying developer workflow step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
-Check: OK (194 chars)
+The hook here is not the news itself. It is the pain underneath: removing one annoying developer workflow step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
+Check: OK (183 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/
+Check: OK (170 chars)
 
 ### Canton Network developer raises $355 million to bring Wall Street onchain
 
@@ -189,24 +223,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Canton Network developer raises $355 million to bring Wall Street onchain. The useful angle is not the headline. It is what this changes for developers. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
-Check: OK (192 chars)
+Worth watching: Canton Network developer raises $355 million to bring Wall Street onchain. I would not treat it as a tool review. The useful angle is what it says about developers. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
+Check: OK (204 chars)
 
 **casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one annoying developer workflow step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
-Check: OK (212 chars)
+Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment comes as blockchains designed for big banks and institutions are having.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
+Check: OK (259 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: developers trying to get less workflow friction. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
-Check: OK (162 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for developers? https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
+Check: OK (145 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one annoying developer workflow step? That is usually a better content angle than repeating the news. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
-Check: OK (194 chars)
+The hook here is not the news itself. It is the pain underneath: removing one annoying developer workflow step. Worth watching before turning it into a thread. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
+Check: OK (183 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
+Check: OK (170 chars)
 
 ### Anthropic’s Dario Amodei has just one direct report
 
@@ -224,59 +258,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Anthropic’s Dario Amodei has just one direct report. The useful angle is not the headline. It is what this changes for founders. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
-Check: OK (168 chars)
+Worth watching: Anthropic’s Dario Amodei has just one direct report. I would not treat it as a tool review. The useful angle is what it says about founders. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
+Check: OK (180 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: if founders and other business leaders weren't already envious of dario amodei, who sit.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: founders trying to get a sharper founder workflow. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
-Check: OK (164 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for founders? https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
+Check: OK (143 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
-Check: OK (168 chars)
-
-### Ondo Finance hires former Invesco ETF chief to build onchain investment products
-
-- Score breakdown: painScore 8 | nicheScore 8 | affiliateScore 0 | contentScore 8 | noveltyScore 7 | riskScore 0 | seenPenalty 0 | total 31
-- Follow-up action: thread candidate
-- Product Hunt: https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products
-- Published: Thu, 11 Jun 2026 12:57:56 +0000
-- Tagline: John Hoffman will spearhead Ondo's expansion from tokenizing individual assets to full investment portfolios and strategies.
-- Seen before: no
-- Reason: clear pain: removing one narrow, repeated manual step; specific buyer: onchain operators; easy before/after/price/alternative content angle; fresh enough to test now.
-- Recommended account: Crypto Builder Radar — Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, onchain, token.
-- Affiliate status: No affiliate link yet — research needed
-- Suggested angle: onchain operators want a clearer onchain workflow; test whether it solves removing one narrow, repeated manual step.
-
-#### X Copy Variants
-
-**short post**
-Worth watching: Ondo Finance hires former Invesco ETF chief to build onchain investment products. The useful angle is not the headline. It is what this changes for onchain operators. https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products
-Check: OK (206 chars)
-
-**casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products
-Check: OK (208 chars)
-
-**contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: onchain operators trying to get a clearer onchain workflow. https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products
-Check: OK (173 chars)
-
-**pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products
-Check: OK (190 chars)
-
-**thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
+Check: OK (170 chars)
 
 ### The company that makes your TV is taking ads onchain. Arbitrum helped
 
@@ -294,24 +293,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: The company that makes your TV is taking ads onchain. Arbitrum helped. The useful angle is not the headline. It is what this changes for onchain operators. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
-Check: OK (195 chars)
+Worth watching: The company that makes your TV is taking ads onchain. Arbitrum helped. I would not treat it as a tool review. The useful angle is what it says about onchain operators. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
+Check: OK (207 chars)
 
 **casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
-Check: OK (208 chars)
+Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: lg electronics has built a blockchain-based advertising platform with the help of arbitrum. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
+Check: OK (260 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: onchain operators trying to get a clearer onchain workflow. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
-Check: OK (173 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for onchain operators? https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
+Check: OK (152 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
+Check: OK (170 chars)
 
 ### How memory tools can make AI models worse
 
@@ -329,24 +328,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: How memory tools can make AI models worse. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
-Check: OK (164 chars)
+Worth watching: How memory tools can make AI models worse. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
+Check: OK (176 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: new research suggests that AI memory systems can degrade model performance and encourag.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
+Check: OK (170 chars)
 
 ### Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in
 
@@ -364,24 +363,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in. The useful angle is not the headline. It is what this changes for startup operators. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
-Check: OK (209 chars)
+Worth watching: Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in. I would not treat it as a tool review. The useful angle is what it says about startup operators. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
+Check: OK (221 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one annoying developer workflow step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
-Check: OK (210 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: AI coding agent startup niteshift has raised a $7 million seed round from a who's who o.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: startup operators trying to get a sharper startup workflow. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
-Check: OK (173 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for startup operators? https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
+Check: OK (152 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one annoying developer workflow step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
-Check: OK (194 chars)
+The hook here is not the news itself. It is the pain underneath: removing one annoying developer workflow step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
+Check: OK (183 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
+Check: OK (170 chars)
 
 ### Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world
 
@@ -399,24 +398,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world. The useful angle is not the headline. It is what this changes for startup operators. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
-Check: OK (226 chars)
+Worth watching: Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world. I would not treat it as a tool review. The useful angle is what it says about startup operators. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
+Check: OK (238 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new round values the physical AI startup that aims to automate heavy engineering an.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: startup operators trying to get a sharper startup workflow. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
-Check: OK (173 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for startup operators? https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
+Check: OK (152 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
+Check: OK (170 chars)
 
 ### KOSH Money
 
@@ -469,24 +468,24 @@ Check: OK (189 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Jedify raises $24M to help companies arm AI agents with context on their business. The useful angle is not the headline. It is what this changes for developers. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
-Check: OK (200 chars)
+Worth watching: Jedify raises $24M to help companies arm AI agents with context on their business. I would not treat it as a tool review. The useful angle is what it says about developers. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
+Check: OK (212 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one annoying developer workflow step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
-Check: OK (210 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round was led by norwest, with participation from s capital vc, cerca partn.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: developers trying to get less glue code. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
-Check: OK (154 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for developers? https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
+Check: OK (145 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one annoying developer workflow step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
-Check: OK (194 chars)
+The hook here is not the news itself. It is the pain underneath: removing one annoying developer workflow step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
+Check: OK (183 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/
+Check: OK (170 chars)
 
 ### Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable
 
@@ -504,24 +503,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (203 chars)
+Worth watching: Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
+Check: OK (215 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: cybersecurity researchers are complaining that anthropic's new model fable has guardrai.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
+Check: OK (170 chars)
 
 ### Pool’s new app turns your screenshots into something useful
 
@@ -539,24 +538,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Pool’s new app turns your screenshots into something useful. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
-Check: OK (182 chars)
+Worth watching: Pool’s new app turns your screenshots into something useful. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
+Check: OK (194 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: pool's new app automatically sorts screenshots into personalized collections, tracks do.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
+Check: OK (170 chars)
 
 ### Tether leads $1.4 billion funding round in German robotics company Neura
 
@@ -574,59 +573,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Tether leads $1.4 billion funding round in German robotics company Neura. The useful angle is not the headline. It is what this changes for crypto builders. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-Check: OK (196 chars)
-
-**casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
+Worth watching: Tether leads $1.4 billion funding round in German robotics company Neura. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
 Check: OK (208 chars)
 
-**contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: crypto builders trying to get a clearer crypto builder angle. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-Check: OK (175 chars)
-
-**pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-Check: OK (190 chars)
-
-**thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-Check: OK (168 chars)
-
-### Citi opens new route into private markets with tokenized share offering
-
-- Score breakdown: painScore 6 | nicheScore 6 | affiliateScore 0 | contentScore 6 | noveltyScore 8 | riskScore 0 | seenPenalty 0 | total 26
-- Follow-up action: tweet only
-- Product Hunt: https://www.coindesk.com/business/2026/06/11/citi-opens-new-route-into-private-markets-with-tokenized-share-offering
-- Published: Thu, 11 Jun 2026 13:27:12 +0000
-- Tagline: The bank said it is using blockchain technology to connect investors with private company equity through digital depositary receipts.
-- Seen before: no
-- Reason: fresh enough to test now.
-- Recommended account: AI Tools Lab — AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.
-- Affiliate status: No affiliate link yet — research needed
-- Suggested angle: solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
-
-#### X Copy Variants
-
-**short post**
-Worth watching: Citi opens new route into private markets with tokenized share offering. The useful angle is not the headline. It is what this changes for solo operators. https://www.coindesk.com/business/2026/06/11/citi-opens-new-route-into-private-markets-with-tokenized-share-offering
-Check: OK (194 chars)
-
 **casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/11/citi-opens-new-route-into-private-markets-with-tokenized-share-offering
-Check: OK (208 chars)
+Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment is part of the stablecoin giant’s expansion into industries outside of c.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
+Check: OK (260 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://www.coindesk.com/business/2026/06/11/citi-opens-new-route-into-private-markets-with-tokenized-share-offering
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for crypto builders? https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
+Check: OK (150 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/business/2026/06/11/citi-opens-new-route-into-private-markets-with-tokenized-share-offering
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/business/2026/06/11/citi-opens-new-route-into-private-markets-with-tokenized-share-offering
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
+Check: OK (170 chars)
 
 ### Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing
 
@@ -644,24 +608,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
-Check: OK (202 chars)
+Worth watching: Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
+Check: OK (214 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the decision comes as india emerges as the world’s largest gcc market. I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
+Check: OK (237 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/
+Check: OK (170 chars)
 
 ### BlackRock files to list its bitcoin income ETF, with expected debut next week
 
@@ -679,59 +643,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: BlackRock files to list its bitcoin income ETF, with expected debut next week. The useful angle is not the headline. It is what this changes for solo operators. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
-Check: OK (200 chars)
+Worth watching: BlackRock files to list its bitcoin income ETF, with expected debut next week. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
+Check: OK (212 chars)
 
 **casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
-Check: OK (208 chars)
+Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: an 8-a share registration filing, in this case for nasdaq, is usually one of the last s.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
+Check: OK (260 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
-Check: OK (168 chars)
-
-### BlenderHunt
-
-- Score breakdown: painScore 8 | nicheScore 7 | affiliateScore 0 | contentScore 5 | noveltyScore 5 | riskScore 0 | seenPenalty 0 | total 25
-- Follow-up action: tweet only
-- Product Hunt: https://www.producthunt.com/products/blenderhunt
-- Published: 2026-06-09T04:09:54-07:00
-- Tagline: The indie marketplace for Blender artists and creators
-- Seen before: no
-- Reason: clear pain: removing one narrow, repeated manual step; specific buyer: creators.
-- Recommended account: AI Tools Lab — AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.
-- Affiliate status: No affiliate link yet — research needed
-- Suggested angle: creators want a smaller builder workflow; test whether it solves removing one narrow, repeated manual step.
-
-#### X Copy Variants
-
-**short post**
-Testing BlenderHunt today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a smaller builder workflow. https://www.producthunt.com/products/blenderhunt
-Check: OK (195 chars)
-
-**casual post**
-I like AI tools more when the buyer is obvious. BlenderHunt seems built for creators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/blenderhunt
-Check: OK (177 chars)
-
-**contrarian angle**
-Hot take: broad AI tools are harder to write about. BlenderHunt is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/blenderhunt
-Check: OK (164 chars)
-
-**pain-point hook**
-People actually search for ways to fix removing one narrow, repeated manual step. That's why BlenderHunt is more interesting than another vague launch. https://www.producthunt.com/products/blenderhunt
-Check: OK (175 chars)
-
-**thread opening**
-I found BlenderHunt on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/blenderhunt
-Check: OK (190 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
+Check: OK (170 chars)
 
 ### ‘AI-pilled’ firms spend $7,500 per employee each month on AI
 
@@ -749,24 +678,24 @@ Check: OK (190 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: ‘AI-pilled’ firms spend $7,500 per employee each month on AI. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
-Check: OK (183 chars)
+Worth watching: ‘AI-pilled’ firms spend $7,500 per employee each month on AI. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
+Check: OK (195 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the most AI-obsessed firms are spending roughly $7,500 monthly per employee on AI, per.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
+Check: OK (257 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/
+Check: OK (170 chars)
 
 ### Deezer’s new tool can identify AI music from Spotify, Apple Music, and others
 
@@ -784,24 +713,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Deezer’s new tool can identify AI music from Spotify, Apple Music, and others. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
-Check: OK (200 chars)
+Worth watching: Deezer’s new tool can identify AI music from Spotify, Apple Music, and others. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
+Check: OK (212 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: deezer introduced a tool that scans playlists from spotify, apple music, and other plat.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/
+Check: OK (170 chars)
 
 ### Crypto for Advisors: Crypto ETFs
 
@@ -819,24 +748,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Crypto for Advisors: Crypto ETFs. The useful angle is not the headline. It is what this changes for crypto builders. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
-Check: OK (156 chars)
+Worth watching: Crypto for Advisors: Crypto ETFs. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
+Check: OK (168 chars)
 
 **casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
-Check: OK (208 chars)
+Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: global crypto etfs saw significant outflows in may, but diversified exposures showed re.... I would verify the details before posting a stronger take. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
+Check: OK (260 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: crypto builders trying to get a clearer crypto builder angle. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
-Check: OK (175 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for crypto builders? https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
+Check: OK (150 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs
+Check: OK (170 chars)
 
 ### DoorDash’s new AI chatbot lets you order with prompts and photos
 
@@ -854,24 +783,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: DoorDash’s new AI chatbot lets you order with prompts and photos. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
-Check: OK (187 chars)
+Worth watching: DoorDash’s new AI chatbot lets you order with prompts and photos. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
+Check: OK (199 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new chatbot, called ask doordash, allows users to search the app for what they're l.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/
+Check: OK (170 chars)
 
 ### SpaceX stock is coming to Solana on the same day it lists on Nasdaq
 
@@ -889,59 +818,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: SpaceX stock is coming to Solana on the same day it lists on Nasdaq. The useful angle is not the headline. It is what this changes for solo operators. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
-Check: OK (190 chars)
+Worth watching: SpaceX stock is coming to Solana on the same day it lists on Nasdaq. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
+Check: OK (202 chars)
 
 **casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
-Check: OK (208 chars)
+Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the firms making that possible say eligible shares can also be converted back into toke.... I would verify the details before posting a stronger take. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
+Check: OK (260 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
-Check: OK (168 chars)
-
-### Bitcoin climbs back into the green as Trump signals an end to the Iran war
-
-- Score breakdown: painScore 6 | nicheScore 6 | affiliateScore 0 | contentScore 6 | noveltyScore 7 | riskScore 0 | seenPenalty 0 | total 25
-- Follow-up action: tweet only
-- Product Hunt: https://www.coindesk.com/markets/2026/06/12/bitcoin-climbs-back-into-the-green-as-trump-signals-an-end-to-the-iran-war
-- Published: Fri, 12 Jun 2026 05:14:33 +0000
-- Tagline: A de-escalation in the Iran conflict pulled oil lower and sent global stocks higher, lifting crypto out of a wildly volatile seven days.
-- Seen before: no
-- Reason: fresh enough to test now.
-- Recommended account: Crypto Builder Radar — Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.
-- Affiliate status: No affiliate link yet — research needed
-- Suggested angle: crypto builders want a clearer crypto builder angle; test whether it solves removing one narrow, repeated manual step.
-
-#### X Copy Variants
-
-**short post**
-Worth watching: Bitcoin climbs back into the green as Trump signals an end to the Iran war. The useful angle is not the headline. It is what this changes for crypto builders. https://www.coindesk.com/markets/2026/06/12/bitcoin-climbs-back-into-the-green-as-trump-signals-an-end-to-the-iran-war
-Check: OK (198 chars)
-
-**casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/markets/2026/06/12/bitcoin-climbs-back-into-the-green-as-trump-signals-an-end-to-the-iran-war
-Check: OK (208 chars)
-
-**contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: crypto builders trying to get a clearer crypto builder angle. https://www.coindesk.com/markets/2026/06/12/bitcoin-climbs-back-into-the-green-as-trump-signals-an-end-to-the-iran-war
-Check: OK (175 chars)
-
-**pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/markets/2026/06/12/bitcoin-climbs-back-into-the-green-as-trump-signals-an-end-to-the-iran-war
-Check: OK (190 chars)
-
-**thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/markets/2026/06/12/bitcoin-climbs-back-into-the-green-as-trump-signals-an-end-to-the-iran-war
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq
+Check: OK (170 chars)
 
 ### Theker just raised $85M to build the factory robot that doesn’t specialize in anything
 
@@ -959,24 +853,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Theker just raised $85M to build the factory robot that doesn’t specialize in anything. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
-Check: OK (209 chars)
+Worth watching: Theker just raised $85M to build the factory robot that doesn’t specialize in anything. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
+Check: OK (221 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: unlike humanoid robots designed around a fixed form — think boston dynamics — theker's.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
+Check: OK (257 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
+Check: OK (170 chars)
 
 ### Meet Warren 3.0
 
@@ -1022,31 +916,31 @@ Check: OK (194 chars)
 - Tagline: Companies are burning through exorbitant sums of money to keep pace in the AI arms race. Debt is climbing.
 - Seen before: no
 - Reason: fresh enough to test now.
-- Recommended account: Productivity Ops — Productivity Ops: matches tweet only / thread candidate; keywords: workflow.
+- Recommended account: AI Tools Lab — AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.
 - Affiliate status: No affiliate link yet — research needed
 - Suggested angle: solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
 
 #### X Copy Variants
 
 **short post**
-Worth watching: Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues. The useful angle is not the headline. It is what this changes for solo operators. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
-Check: OK (201 chars)
+Worth watching: Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
+Check: OK (213 chars)
 
 **casual post**
-I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
-Check: OK (206 chars)
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: companies are burning through exorbitant sums of money to keep pace in the AI arms race.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
+Check: OK (258 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/
+Check: OK (170 chars)
 
 ### Banking rails are moving past the 'stablecoin winner' narrative: Sygnum
 
@@ -1064,24 +958,24 @@ Check: OK (168 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Banking rails are moving past the 'stablecoin winner' narrative: Sygnum. The useful angle is not the headline. It is what this changes for solo operators. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
-Check: OK (194 chars)
+Worth watching: Banking rails are moving past the 'stablecoin winner' narrative: Sygnum. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
+Check: OK (206 chars)
 
 **casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
-Check: OK (208 chars)
+Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: digital asset bank sygnum says institutional clients want multiple tokenized cash instr.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
+Check: OK (260 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure
+Check: OK (170 chars)
 
 ### Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans
 
@@ -1092,31 +986,31 @@ Check: OK (168 chars)
 - Tagline: The approximately $13.1 million acquisition gives Metaplanet a regulated securities platform to develop Bitcoin-linked investment products.
 - Seen before: no
 - Reason: fresh enough to test now.
-- Recommended account: Crypto Builder Radar — Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto.
+- Recommended account: AI Tools Lab — AI Tools Lab: matches tweet only / thread candidate; keywords: workflow.
 - Affiliate status: No affiliate link yet — research needed
 - Suggested angle: solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
 
 #### X Copy Variants
 
 **short post**
-Worth watching: Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans. The useful angle is not the headline. It is what this changes for solo operators. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
-Check: OK (204 chars)
+Worth watching: Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
+Check: OK (216 chars)
 
 **casual post**
-I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
-Check: OK (208 chars)
+Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the approximately $13.1 million acquisition gives metaplanet a regulated securities pla.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
+Check: OK (260 chars)
 
 **contrarian angle**
-Not every good post needs a new tool. Sometimes the better angle is a small market shift: solo operators trying to get a narrower workflow. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
-Check: OK (163 chars)
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
+Check: OK (149 chars)
 
 **pain-point hook**
-The question behind this is simple: who is still stuck with removing one narrow, repeated manual step? That is usually a better content angle than repeating the news. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
-Check: OK (190 chars)
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
+Check: OK (179 chars)
 
 **thread opening**
-This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
-Check: OK (168 chars)
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans
+Check: OK (170 chars)
 
 ### LocIn AI
 
@@ -1191,8 +1085,8 @@ Check: OK (210 chars)
 ## Skipped / Low Priority Tools
 
 - EndpointMe: 17 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
-- Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
+- Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Slack AI Data Analyst: 15 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - Bob's CLI: 13 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - ShellMate: 12 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
@@ -1205,8 +1099,8 @@ Check: OK (210 chars)
 
 ## Historical Notes
 
-- History records before this run: 88
-- Unique tools seen: 73
+- History records before this run: 90
+- Unique tools seen: 75
 - Last history date before this run: 2026-06-12
 - Seen-before tools in today's picks: 0
-- Records written by this run: 30
+- Records written by this run: 26

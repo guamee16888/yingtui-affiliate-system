@@ -11,13 +11,15 @@ import { buildReviewOutline } from "../scripts/lib/review-outline.mjs";
 import { mapFeedbackCsv, parseCsv } from "../scripts/lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "../scripts/lib/candidate-parser.mjs";
 import { buildDecisionReport } from "../scripts/lib/decision-engine.mjs";
-import { buildPromotionSuggestions } from "../scripts/lib/promotion-engine.mjs";
+import { buildPromotionReviewQueue, buildPromotionSuggestions } from "../scripts/lib/promotion-engine.mjs";
 import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPublishStatus, getXPublishStatus, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
-import { buildDailyModel, candidateInboxToTools, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
+import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
 import { buildSourceImportPackRows, buildSourceQualityQueue, buildSupplyPlan, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
+import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
+import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
 
 test("createToolId is stable", () => {
   const a = createToolId("Test Tool", "https://example.com/product");
@@ -281,6 +283,27 @@ test("daily model reports feed freshness even when top picks are old", () => {
   assert.match(model.freshnessReport.diagnosis, /fresh tools/i);
 });
 
+test("topic copy reads as market signal, not tool review", () => {
+  const variants = makeCopyVariants({
+    tool: {
+      name: "AI funding signal",
+      url: "https://news.example.com",
+      description: "A funding note about AI automation teams.",
+      candidateType: "topic",
+      sourceName: "Source"
+    },
+    angle: {
+      audience: "AI founders",
+      pain: "finding sharper market timing",
+      solution: "A funding note about AI automation teams.",
+      outcome: "a sharper startup workflow"
+    }
+  }, { style: { avoid: [], maxTweetCharacters: 280, allowEmoji: false } });
+
+  assert.match(variants.find((item) => item.label === "shortPost").text, /not treat it as a tool review/i);
+  assert.match(variants.find((item) => item.label === "casualPost").text, /market signal/i);
+});
+
 test("account strategy recommends matching account profile", () => {
   const item = {
     tool: {
@@ -451,6 +474,66 @@ test("draft plan allocates each tool only once across accounts", () => {
   assert.equal(plan.summary.gap, 0);
 });
 
+test("content calendar exposes cooldown target conflicts", () => {
+  const calendar = buildContentCalendar({
+    date: "2026-06-12",
+    draftPlan: {
+      accountPlans: [
+        {
+          accountId: "ai",
+          displayName: "AI",
+          category: "AI",
+          targetPosts: 10,
+          drafts: Array.from({ length: 10 }, (_, index) => ({
+            toolId: `tool_${index}`,
+            toolName: `Tool ${index}`,
+            variantType: "shortPost",
+            copyText: `Copy ${index}`
+          }))
+        }
+      ]
+    },
+    accountStrategy: {
+      accounts: [{ id: "ai", displayName: "AI", dailyPostLimit: 10, cooldownHours: 6 }]
+    }
+  });
+
+  assert.equal(calendar.summary.targetPosts, 10);
+  assert.equal(calendar.summary.sameDayCapacity, 3);
+  assert.equal(calendar.summary.capacityGap, 7);
+  assert.equal(calendar.accountCalendars[0].status, "target_incompatible");
+});
+
+test("product roadmap identifies non-auth product blockers", () => {
+  const roadmap = buildProductRoadmap({
+    date: "2026-06-12",
+    latest: {
+      summary: { affiliateQueueCount: 3 },
+      draftPlan: { summary: { targetPosts: 200, plannedPosts: 30 } },
+      supplyPlan: { qualifiedTools: 30 },
+      sourceQualityQueue: { summary: { totalNeededCandidates: 40 } },
+      source: { breakdown: { enabledExtraSources: 2, sourceCandidateTools: 20, candidateInboxTools: 0 } },
+      freshnessReport: { stats: { topPickFreshPostCandidates: 1 } },
+      warnings: [],
+      accountStrategy: { summary: { activeAccounts: 20 } }
+    },
+    contentCalendar: {
+      summary: { targetPosts: 200, scheduledPosts: 30, capacityGap: 100, draftGap: 170 },
+      accountCalendars: []
+    },
+    feedback: { entries: [] },
+    queues: { items: [] },
+    affiliateResearch: { items: [] },
+    accountPosts: { items: [] },
+    affiliateLinks: { links: [] }
+  });
+
+  assert.equal(roadmap.level, "prototype");
+  assert.equal(roadmap.dimensions.find((item) => item.id === "account_switching").status, "deferred");
+  assert.equal(roadmap.topBlockers.some((item) => item.id === "content_supply"), true);
+  assert.equal(roadmap.topBlockers.some((item) => item.id === "content_calendar"), true);
+});
+
 test("buildDecisionReport recommends review page for strong bookmarks", () => {
   const latest = {
     tools: [
@@ -505,6 +588,67 @@ test("promotion suggestions do not recommend posting stale seen-before tools wit
   });
 
   assert.equal(suggestions[0].suggestion, "watch");
+});
+
+test("promotion review maps suggestions into manual queue actions", () => {
+  const latest = {
+    date: "2026-06-12",
+    generatedAt: "2026-06-12T12:00:00.000Z",
+    tools: [
+      {
+        toolId: "tool_affiliate",
+        name: "Affiliate Tool",
+        url: "https://affiliate.example.com",
+        tagline: "Pricing workflow for SaaS teams",
+        published: "2026-06-12T00:00:00.000Z",
+        score: 30,
+        scoreBreakdown: { affiliateScore: 8, riskScore: 1 },
+        followUpAction: "affiliate priority"
+      }
+    ]
+  };
+  const review = buildPromotionReviewQueue({
+    latest,
+    history: { tools: [] },
+    feedback: { entries: [] },
+    queues: { items: [] },
+    affiliateLinks: { links: [] }
+  });
+
+  assert.equal(review.summary.readyToQueue, 1);
+  assert.equal(review.items[0].queueType, "affiliate_research");
+  assert.equal(review.items[0].reviewStatus, "ready_to_queue");
+  assert.match(review.nextActions[0], /Affiliate Tool/);
+});
+
+test("promotion review does not duplicate active queue items", () => {
+  const latest = {
+    date: "2026-06-12",
+    generatedAt: "2026-06-12T12:00:00.000Z",
+    tools: [
+      {
+        toolId: "tool_thread",
+        name: "Thread Tool",
+        url: "https://thread.example.com",
+        tagline: "A workflow note",
+        published: "2026-06-12T00:00:00.000Z",
+        score: 28,
+        scoreBreakdown: { affiliateScore: 2, riskScore: 1 },
+        followUpAction: "thread candidate"
+      }
+    ]
+  };
+  const review = buildPromotionReviewQueue({
+    latest,
+    history: { tools: [] },
+    feedback: { entries: [] },
+    queues: { items: [{ toolId: "tool_thread", type: "thread", status: "new" }] },
+    affiliateLinks: { links: [] }
+  });
+
+  assert.equal(review.summary.alreadyQueued, 1);
+  assert.equal(review.items[0].reviewStatus, "already_queued");
+  assert.equal(review.items[0].alreadyQueued, true);
 });
 
 test("x publish payload requires text under 280 chars", () => {

@@ -51,14 +51,17 @@ output/YYYY-MM-DD-daily-x-pack.md
 6. 跑 `npm run source-pack`，拿 100 行 CSV 模板去外部补题。
 7. 如果你从 X、newsletter、微信群或官网看到新工具/话题，先放进「候选收集」，并标好 circle，再点 `刷新 Live Feed` 让它参与评分。
 8. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
-9. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
-10. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
-11. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
-12. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
-13. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-14. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-15. 对值得做测评页的工具点「生成测评页大纲」。
-16. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+9. 跑 `npm run content-calendar`，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
+10. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
+11. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
+12. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
+13. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
+14. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
+15. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+16. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+17. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+18. 对值得做测评页的工具点「生成测评页大纲」。
+19. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -82,7 +85,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `文案库`：每个工具的 5 种英文文案，适合集中复制、标记已发，或手动确认发布到 X。
 - `反馈录入`：已经标记已发的文案和表现数据。顶部会列出 `待补反馈`，也可以粘贴 CSV 批量导入 X 数据。
 - `反馈决策`：把录入的反馈转成下一步动作，判断哪些工具该加码、查联盟、做长推、做测评页或先观察。
-- `跟进队列`：你手动加入的 thread、review page、affiliate research、watch、skip。顶部 `Follow-up pipeline` 会显示活跃队列、下一步该处理哪项，以及每项下一步提示。
+- `跟进队列`：顶部 `Promotion review` 会先列出值得审核的候选；你确认后再手动加入 thread、review page、affiliate research、watch、skip。`Follow-up pipeline` 会显示活跃队列、下一步该处理哪项，以及每项下一步提示。
 - `账号策略`：查看最多 20 个 X 账号画像、今日工具推荐发到哪个账号、每日限制、冷却时间和 20×10 内容供给缺口。当前不做授权，只做分类和路由建议。
 - `联盟研究`：记录真实查到的 programUrl、network、affiliateLink 和状态，并提供 affiliate / partner / referral 一键搜索链接。
 - `测评页候选`：适合做 SEO review page 的工具，并可生成英文大纲。
@@ -100,7 +103,11 @@ output/YYYY-MM-DD-daily-x-pack.md
 
 `Draft planner` 会给每个账号分配不重复候选。一个工具最多进入一个账号的计划，所以它会更严格地暴露缺口；这是为了避免 20 个号发同一个工具的变体。
 
+`Content calendar` 会把草稿放进账号级发布时间槽，并检查每日目标和冷却时间是否互相冲突。比如每号 10 条但冷却 6 小时，在一天内天然排不满，系统会显示 capacity gap，而不是假装可以完成。
+
 `Source quality queue` 会把缺口翻译成今天该补的来源方向，例如 SaaS pricing、indie launch、crypto wallet tooling。它只给搜索方向和导入模板，不自动抓取不稳定站点。
+
+`Promotion review` 会把候选工具和反馈信号翻译成手动审核清单：该查 affiliate、该做 SEO review page、该扩成长推，还是只观察。它不会自动入队，更不会自动发布；只有你点按钮后才写入本地队列。
 
 批量粘贴后可以先点 `预览评分`，系统会按同一套 pain/niche/affiliate/content/novelty/risk 规则给候选打分，但不会保存。确认值得跟进后，再点 `批量导入候选`。
 
@@ -193,6 +200,18 @@ npm run draft-plan
 按账号生成不重复草稿规划，输出到 `data/draft-plans/YYYY-MM-DD.json`、`data/draft-plans/latest.json` 和 `output/YYYY-MM-DD-draft-plan.md`。一个工具只分配给一个账号，不够就显示 gap。
 
 ```bash
+npm run content-calendar
+```
+
+按账号冷却时间把草稿排进当天发布时间槽，输出到 `data/content-calendar/YYYY-MM-DD.json`、`data/content-calendar/latest.json` 和 `output/YYYY-MM-DD-content-calendar.md`。如果目标和冷却时间冲突，会显示 capacity gap 和建议冷却时间。
+
+```bash
+npm run roadmap
+```
+
+生成产品级 readiness/roadmap 报告，输出到 `data/product-roadmap.json` 和 `output/YYYY-MM-DD-product-roadmap.md`。它会把 X 账号切换标为 deferred，并优先指出内容供给、日历、反馈闭环、affiliate 变现、来源多样性等非授权阻塞点。
+
+```bash
 npm run accounts
 ```
 
@@ -223,6 +242,12 @@ npm run promote
 ```
 
 根据 daily score、历史和 feedback 给出系统建议：thread candidate、review page candidate、affiliate priority、watch 或 skip。
+
+```bash
+npm run promotion-review
+```
+
+生成推广审核清单，输出到 `data/promotion-review.json` 和 `output/YYYY-MM-DD-promotion-review.md`。它会把建议动作映射到真实队列类型：`affiliate_research`、`thread`、`review_page`、`watch`，并标记 `ready_to_queue`、`already_queued`、`needs_feedback`。这个命令只读数据，不会自动写入队列。
 
 ```bash
 npm run review:queue
@@ -267,6 +292,9 @@ npm audit --audit-level=moderate
 - `data/source-candidates.json`：从补充 RSS/Atom 来源刷新来的候选缓存。
 - `data/source-quality-queue.json`：按账号和圈子缺口生成的补来源任务。
 - `data/draft-plans/*.json`：按账号生成的不重复草稿规划。
+- `data/content-calendar/*.json`：按账号冷却时间生成的本地发布审核日历。
+- `data/product-roadmap.json`：产品级 readiness/roadmap 报告。
+- `data/promotion-review.json`：值得手动审核加入队列的 promotion 清单。
 - `data/affiliate-research.json`：真实查到的 affiliate program 研究记录。
 - `data/review-pages.json`：已经生成的 SEO review outline 记录。
 - `data/weekly/*.json`：每周复盘结构化数据。

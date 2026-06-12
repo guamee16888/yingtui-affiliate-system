@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T21:18:51.075Z",
+  "generatedAt": "2026-06-12T22:46:43.381Z",
   "status": "needs_refill",
   "rule": "Fill only real name/url/tagline rows. Blank rows are skipped by candidate import; do not invent candidates to hit volume.",
   "summary": {

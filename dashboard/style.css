@@ -616,6 +616,28 @@ main {
   color: var(--text);
   font-weight: 540;
 }
+.account-conflict-radar {
+  border-left: 4px solid var(--border-strong);
+}
+.account-conflict-radar.good {
+  border-left-color: var(--success);
+}
+.account-conflict-radar.warn {
+  border-left-color: var(--warning);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--warning) 7%, transparent), transparent 45%),
+    var(--card);
+}
+.account-conflict-radar.bad {
+  border-left-color: var(--danger);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--danger) 7%, transparent), transparent 45%),
+    var(--card);
+}
+.account-conflict-radar h2 {
+  margin-bottom: 4px;
+  font-size: 18px;
+}
 .feedback-followup {
   border-left: 3px solid var(--border-strong);
 }

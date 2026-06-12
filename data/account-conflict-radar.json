@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T22:46:43.396Z",
+  "mode": "manual_conflict_radar",
+  "rule": "Use this as a publish-safety gate before account switching. It does not authorize or auto-post.",
+  "policy": {
+    "sameToolCooldownDays": 7,
+    "sameCopyCooldownDays": 30,
+    "defaultCooldownHours": 8,
+    "activeAccounts": 20
+  },
+  "summary": {
+    "recentPosts": 0,
+    "trackedAccounts": 0,
+    "sameToolConflicts": 0,
+    "sameUrlConflicts": 0,
+    "sameCopyConflicts": 0,
+    "cooldownConflicts": 0,
+    "candidateRisks": 0,
+    "blockedCandidates": 0,
+    "warningCandidates": 0,
+    "status": "clear"
+  },
+  "headline": "No active account conflict found. Keep manual confirmation and feedback gates on.",
+  "actionList": [
+    "Use the normal final review queue.",
+    "Keep one tool assigned to one account during the cooldown window.",
+    "Mark every manual post with accountId so the radar stays useful."
+  ],
+  "conflicts": {
+    "sameTool": [],
+    "sameUrl": [],
+    "sameCopy": [],
+    "cooldown": []
+  },
+  "candidateRisks": [],
+  "safeCandidates": []
+}

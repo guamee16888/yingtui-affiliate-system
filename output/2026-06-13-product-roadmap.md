@@ -1,7 +1,7 @@
 # Product Roadmap - 2026-06-13
 
 - Objective: Product-grade multi-account X content ops system with review-first publishing.
-- Overall score: 33/100
+- Overall score: 28/100
 - Level: prototype
 - Blockers: 5
 - Deferred: 1
@@ -22,7 +22,7 @@ After the supply and feedback loop work, convert winners into affiliate research
 
 - Affiliate monetization readiness: 5/100. Gap: No configured affiliate links detected. Next: Use the Affiliate research workbench and save real program findings.
 - Thread and SEO review engine: 0/100. Gap: No active follow-up queue items. Next: Promote posts with bookmarks/replies into thread or review_page queue.
-- Source diversity: 72/100. Gap: Need more reliable sources beyond Product Hunt and two RSS feeds. Next: Run npm run source-health and fix the worst source first.
+- Source diversity: 28/100. Gap: Need more reliable sources beyond Product Hunt and two RSS feeds. Next: Run npm run source-health and fix the worst source first.
 
 ### Later: Polish the public product surface
 
@@ -115,10 +115,10 @@ Do not prioritize real multi-account OAuth until content quality, feedback, cool
 
 ### Source diversity
 
-- Score: 72/100
-- Status: watch
+- Score: 28/100
+- Status: blocked
 - Why it matters: A multi-account system needs more than one launch feed, especially for SaaS, indie, and crypto angles.
-- Evidence: 2 enabled extra sources. 20 source candidates in the daily merge. 0 candidate inbox items in the daily merge. 2 healthy sources, 0 tune sources, 0 disable candidates.
+- Evidence: 0 enabled extra sources. 0 source candidates in the daily merge. 0 candidate inbox items in the daily merge. 2 healthy sources, 0 tune sources, 0 disable candidates.
 - Gaps: Need more reliable sources beyond Product Hunt and two RSS feeds. Need a larger manual/imported candidate bench.
 - Next: Run npm run source-health and fix the worst source first. Add source packs by circle instead of turning on noisy feeds blindly. Keep disabled sources disabled until they prove they produce useful candidates.
 

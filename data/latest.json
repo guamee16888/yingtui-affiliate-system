@@ -1,6 +1,6 @@
 {
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T21:18:51.064Z",
+  "generatedAt": "2026-06-12T22:46:43.369Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -29,8 +29,8 @@
       "totalTools": 70,
       "freshToday": 13,
       "fresh48": 42,
-      "fresh7d": 11,
-      "older": 4,
+      "fresh7d": 12,
+      "older": 3,
       "unknownPublished": 0,
       "topPickFreshPostCandidates": 3,
       "topPickSeenBefore": 16
@@ -2199,7 +2199,7 @@
   },
   "sourceDiscovery": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T21:18:51.058Z",
+    "generatedAt": "2026-06-12T22:46:43.361Z",
     "summary": {
       "circles": 4,
       "totalNeededCandidates": 78,
@@ -2737,7 +2737,7 @@
   },
   "sourceHealth": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T21:18:51.059Z",
+    "generatedAt": "2026-06-12T22:46:43.363Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -4098,7 +4098,7 @@
   },
   "feedbackOps": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T21:18:51.062Z",
+    "generatedAt": "2026-06-12T22:46:43.366Z",
     "summary": {
       "posted": 0,
       "measured": 0,
@@ -4684,7 +4684,7 @@
   },
   "promotionReview": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T21:18:51.063Z",
+    "generatedAt": "2026-06-12T22:46:43.367Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {
@@ -7969,62 +7969,6 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_pond_078dd3c545",
-      "toolId": "tool_producthunt_com_pond_078dd3c545",
-      "name": "Pond",
-      "url": "https://www.producthunt.com/products/pond-5",
-      "domain": "producthunt.com",
-      "tagline": "Fundraising, GTM, and bounties for startups",
-      "published": "2026-06-07T17:28:00-07:00",
-      "sourceId": "",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "sourceQuality": {
-        "status": "ok",
-        "isNoisy": false,
-        "reason": "Not checked by source quality gate.",
-        "blockedTerms": [],
-        "matchedTerms": []
-      },
-      "circle": "",
-      "candidateType": "product",
-      "accountId": "",
-      "accountName": "",
-      "seedId": "",
-      "score": 16,
-      "scoreBreakdown": {
-        "painScore": 4,
-        "nicheScore": 5,
-        "affiliateScore": 2,
-        "contentScore": 1,
-        "noveltyScore": 4,
-        "learningScore": 0,
-        "riskScore": 0,
-        "sourceNoisePenalty": 0,
-        "seenPenalty": 0,
-        "total": 16
-      },
-      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "startup operators want a sharper startup workflow; test whether it solves removing one narrow, repeated manual step.",
-      "angle": {
-        "audience": "startup operators",
-        "outcome": "a sharper startup workflow",
-        "pain": "removing one narrow, repeated manual step",
-        "solution": "fundraising, gtm, and bounties for startups"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
       "id": "tool_producthunt_com_firma-dev_aaeac09a66",
       "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
       "name": "Firma.dev",
@@ -8076,6 +8020,62 @@
         "outcome": "less glue code",
         "pain": "removing one annoying developer workflow step",
         "solution": "e-signatures API for your app averaging ~3¢ per envelope"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_pond_078dd3c545",
+      "toolId": "tool_producthunt_com_pond_078dd3c545",
+      "name": "Pond",
+      "url": "https://www.producthunt.com/products/pond-5",
+      "domain": "producthunt.com",
+      "tagline": "Fundraising, GTM, and bounties for startups",
+      "published": "2026-06-07T17:28:00-07:00",
+      "sourceId": "",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
+      "circle": "",
+      "candidateType": "product",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
+      "score": 16,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 5,
+        "affiliateScore": 2,
+        "contentScore": 1,
+        "noveltyScore": 4,
+        "learningScore": 0,
+        "riskScore": 0,
+        "sourceNoisePenalty": 0,
+        "seenPenalty": 0,
+        "total": 16
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "startup operators want a sharper startup workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "startup operators",
+        "outcome": "a sharper startup workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "fundraising, gtm, and bounties for startups"
       },
       "copyVariants": {},
       "copyChecks": {}
@@ -8199,7 +8199,7 @@
   ],
   "affiliateResearchQueue": [],
   "historicalNotes": [
-    "History records before this run: 110",
+    "History records before this run: 111",
     "Unique tools seen: 79",
     "Last history date before this run: 2026-06-13",
     "Seen-before tools in today's picks: 16",

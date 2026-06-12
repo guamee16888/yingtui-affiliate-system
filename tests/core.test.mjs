@@ -31,6 +31,7 @@ import { buildAccountRefillImpact } from "../scripts/lib/account-refill-impact.m
 import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
 import { buildSeedBatchPack, buildSeedImportNextActions, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
 import { buildContentOpsPlan } from "../scripts/lib/content-ops-plan.mjs";
+import { buildAccountConflictRadar } from "../scripts/lib/account-conflict-radar.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1124,6 +1125,105 @@ test("account strategy respects daily post limits when routing", () => {
   assert.equal(strategy.toolRecommendations[0].primary.accountId, "ai");
   assert.equal(strategy.toolRecommendations[1].primary.accountId, "build");
   assert.equal(strategy.accounts.find((account) => account.id === "ai").plannedToolsToday, 1);
+});
+
+test("account conflict radar blocks same tool across accounts", () => {
+  const now = new Date("2026-06-13T12:00:00.000Z");
+  const accountConfig = {
+    rotationPolicy: { sameToolCooldownDays: 7, sameCopyCooldownDays: 30 },
+    accounts: [
+      { id: "ai", displayName: "AI Tools", active: true, cooldownHours: 6 },
+      { id: "saas", displayName: "SaaS Notes", active: true, cooldownHours: 6 }
+    ]
+  };
+  const accountPosts = {
+    items: [
+      buildAccountPost({
+        accountId: "ai",
+        accountName: "AI Tools",
+        toolId: "tool_same",
+        toolName: "Same Tool",
+        toolUrl: "https://same.example.com",
+        copyText: "First copy",
+        postedAt: "2026-06-12T12:00:00.000Z"
+      }),
+      buildAccountPost({
+        accountId: "saas",
+        accountName: "SaaS Notes",
+        toolId: "tool_same",
+        toolName: "Same Tool",
+        toolUrl: "https://same.example.com",
+        copyText: "Second copy",
+        postedAt: "2026-06-13T08:00:00.000Z"
+      })
+    ]
+  };
+  const latest = {
+    tools: [
+      {
+        toolId: "tool_same",
+        name: "Same Tool",
+        url: "https://same.example.com",
+        score: 42,
+        accountRecommendation: { primary: { accountId: "saas" } },
+        copyVariants: { shortPost: "Fresh copy" }
+      }
+    ]
+  };
+  const radar = buildAccountConflictRadar({
+    date: "2026-06-13",
+    latest,
+    accountPosts,
+    feedback: { entries: [] },
+    accountConfig,
+    now
+  });
+
+  assert.equal(radar.summary.sameToolConflicts, 1);
+  assert.equal(radar.summary.blockedCandidates, 1);
+  assert.equal(radar.candidateRisks[0].riskLevel, "blocked");
+  assert.match(radar.candidateRisks[0].reasons[0], /Same tool\/URL/);
+});
+
+test("account conflict radar detects account cooldown conflicts", () => {
+  const now = new Date("2026-06-13T12:00:00.000Z");
+  const accountConfig = {
+    accounts: [
+      { id: "ai", displayName: "AI Tools", active: true, cooldownHours: 6 }
+    ]
+  };
+  const accountPosts = {
+    items: [
+      buildAccountPost({
+        accountId: "ai",
+        accountName: "AI Tools",
+        toolId: "tool_1",
+        toolName: "Tool 1",
+        toolUrl: "https://one.example.com",
+        postedAt: "2026-06-13T08:00:00.000Z"
+      }),
+      buildAccountPost({
+        accountId: "ai",
+        accountName: "AI Tools",
+        toolId: "tool_2",
+        toolName: "Tool 2",
+        toolUrl: "https://two.example.com",
+        postedAt: "2026-06-13T10:00:00.000Z"
+      })
+    ]
+  };
+  const radar = buildAccountConflictRadar({
+    date: "2026-06-13",
+    latest: { tools: [] },
+    accountPosts,
+    feedback: { entries: [] },
+    accountConfig,
+    now
+  });
+
+  assert.equal(radar.summary.cooldownConflicts, 1);
+  assert.equal(radar.conflicts.cooldown[0].accountId, "ai");
+  assert.equal(radar.conflicts.cooldown[0].spacingHours, 2);
 });
 
 test("supply plan reports account-specific shortages", () => {

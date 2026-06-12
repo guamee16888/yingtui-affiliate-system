@@ -28,6 +28,7 @@ import { buildSeedBatchPack, renderSeedBatchPackMarkdown, seedBatchRowsToCsv } f
 import { buildAccountRefillWorkbench, renderAccountRefillWorkbenchMarkdown } from "./lib/account-refill-workbench.mjs";
 import { buildProductRoadmap, renderProductRoadmapMarkdown } from "./lib/product-roadmap.mjs";
 import { buildContentOpsPlan, renderContentOpsPlanMarkdown } from "./lib/content-ops-plan.mjs";
+import { buildAccountConflictRadar, renderAccountConflictRadarMarkdown } from "./lib/account-conflict-radar.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -88,6 +89,7 @@ async function main() {
   const rampFiles = await writeScaleRampOutputs({ model, accountContentMatrix: matrixFiles.matrix, scaleReadiness: scaleFiles.report });
   const seedPackFiles = await writeSeedBatchOutputs({ model, scaleRampPlan: rampFiles.plan });
   const opsPlanFiles = await writeContentOpsPlanOutputs({ model, scaleReadiness: scaleFiles.report, accountRefillWorkbench: refillFiles.workbench });
+  const conflictFiles = await writeAccountConflictRadarOutputs({ model, accountConfig, accountPosts, feedback });
   const roadmapFiles = await writeProductRoadmapOutputs({ model, feedback, queues, affiliateResearch, accountPosts, affiliateConfig });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
@@ -116,11 +118,28 @@ async function main() {
   console.log(`Wrote ${seedPackFiles.markdownPath}`);
   console.log(`Wrote ${opsPlanFiles.jsonPath}`);
   console.log(`Wrote ${opsPlanFiles.markdownPath}`);
+  console.log(`Wrote ${conflictFiles.jsonPath}`);
+  console.log(`Wrote ${conflictFiles.markdownPath}`);
   console.log(`Wrote ${roadmapFiles.jsonPath}`);
   console.log(`Wrote ${roadmapFiles.markdownPath}`);
   console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
   console.log(`Source refresh fetched ${sourceRefresh.fetchedCount} new items from ${sourceRefresh.enabledSources} enabled extra sources`);
   console.log(historyMessage);
+}
+
+async function writeAccountConflictRadarOutputs({ model, accountConfig, accountPosts, feedback }) {
+  const radar = buildAccountConflictRadar({
+    date: model.date,
+    latest: model,
+    accountPosts,
+    feedback,
+    accountConfig
+  });
+  const jsonPath = "data/account-conflict-radar.json";
+  const markdownPath = `output/${model.date}-account-conflict-radar.md`;
+  await writeJsonAtomic(jsonPath, radar);
+  await writeTextAtomic(markdownPath, renderAccountConflictRadarMarkdown(radar));
+  return { jsonPath, markdownPath, radar };
 }
 
 async function writeContentOpsPlanOutputs({ model, scaleReadiness, accountRefillWorkbench }) {

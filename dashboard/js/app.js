@@ -51,6 +51,7 @@ const state = {
   contentOpsPlan: null,
   accountContentMatrix: null,
   accountRefillWorkbench: null,
+  accountConflictRadar: null,
   xStatus: { configured: false, note: "" },
   settings: null,
   weekly: null,
@@ -139,7 +140,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -161,11 +162,12 @@ async function loadAll() {
       api.get("/api/content-ops-plan"),
       api.get("/api/account-content-matrix"),
       api.get("/api/account-refill-workbench"),
+      api.get("/api/account-conflict-radar"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -179,7 +181,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -199,7 +201,8 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/seed-batch-pack.json", { missing: true }),
     fetchJson("/data/content-ops-plan.json", { missing: true }),
     fetchJson("/data/account-content-matrix.json", { missing: true }),
-    fetchJson("/data/account-refill-workbench.json", { missing: true })
+    fetchJson("/data/account-refill-workbench.json", { missing: true }),
+    fetchJson("/data/account-conflict-radar.json", { missing: true })
   ]);
   const settings = {
     latestDate: latest?.date ?? null,
@@ -243,6 +246,7 @@ async function loadStaticFallback(apiError) {
     contentOpsPlan: contentOpsPlan?.missing ? null : contentOpsPlan,
     accountContentMatrix: accountContentMatrix?.missing ? null : accountContentMatrix,
     accountRefillWorkbench: accountRefillWorkbench?.missing ? null : accountRefillWorkbench,
+    accountConflictRadar: accountConflictRadar?.missing ? null : accountConflictRadar,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
@@ -1773,6 +1777,7 @@ function renderFinalReviewQueue() {
   const ageMinutes = dataAgeMinutes(latest.generatedAt);
   const blocked = latest.source?.usedFallback || (ageMinutes !== null && ageMinutes > 360);
   $("#view-review").innerHTML = `${renderFeedbackDebtCommandBar("review", plan)}
+  ${renderAccountConflictRadarPanel("review")}
   ${renderSeedPublishQueue()}
   <section class="panel final-review ${blocked ? "warn" : "good"}">
     <div class="line-head">
@@ -1839,6 +1844,93 @@ function renderFeedbackDebtCommandBar(scope = "review", plan = finalReviewPlan()
       <button class="button ghost" data-run-daily>刷新 Live Feed</button>
     </div>`}
   </section>`;
+}
+
+function renderAccountConflictRadarPanel(scope = "accounts") {
+  const radar = state.accountConflictRadar;
+  if (!radar) {
+    return `<section class="panel account-conflict-radar warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Account conflict radar</p>
+          <h2>还没有账号冲突雷达</h2>
+          <p class="muted">运行 npm run conflict-radar，检查同工具、同 URL、同文案和账号冷却冲突。</p>
+        </div>
+        ${pill("Need radar", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="npm run conflict-radar">复制命令</button>
+        <button class="button ghost" data-tab-jump="accounts">打开账号策略</button>
+      </div>
+    </section>`;
+  }
+  const summary = radar.summary ?? {};
+  const blocked = Number(summary.blockedCandidates ?? 0);
+  const conflictCount = Number(summary.sameToolConflicts ?? 0)
+    + Number(summary.sameUrlConflicts ?? 0)
+    + Number(summary.sameCopyConflicts ?? 0)
+    + Number(summary.cooldownConflicts ?? 0);
+  const kind = blocked ? "bad" : conflictCount ? "warn" : "good";
+  const risks = (radar.candidateRisks ?? [])
+    .filter((item) => item.riskLevel !== "clear")
+    .slice(0, scope === "review" ? 4 : 8);
+  const conflicts = [
+    ...(radar.conflicts?.sameTool ?? []),
+    ...(radar.conflicts?.sameCopy ?? []),
+    ...(radar.conflicts?.cooldown ?? [])
+  ].slice(0, scope === "review" ? 3 : 6);
+  return `<section class="panel account-conflict-radar ${kind}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Account conflict radar</p>
+        <h2>${esc(radar.headline || "账号冲突检查")}</h2>
+        <p class="muted">发布前检查同工具、同 URL、同文案和账号冷却。这里不授权、不自动发，只把有冲突的候选移出 ready。</p>
+      </div>
+      ${pill(summary.status || "unknown", kind)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.recentPosts ?? 0)}</strong><span>recent posts</span></div>
+      <div><strong>${esc(blocked)}</strong><span>blocked candidates</span></div>
+      <div><strong>${esc(summary.sameToolConflicts ?? 0)}</strong><span>same tool</span></div>
+      <div><strong>${esc(summary.sameCopyConflicts ?? 0)}</strong><span>same copy</span></div>
+      <div><strong>${esc(summary.cooldownConflicts ?? 0)}</strong><span>cooldown</span></div>
+    </div>
+    ${risks.length ? `<div class="list mini-list"><strong>候选风险</strong>${risks.map(renderConflictCandidateRisk).join("")}</div>` : ""}
+    ${scope === "review" ? "" : `<div class="list mini-list"><strong>已发生冲突</strong>${conflicts.map(renderAccountConflictItem).join("") || empty("暂无已发生冲突。")}</div>`}
+    <div class="row-actions">
+      <button class="button ghost" data-copy="npm run conflict-radar">复制刷新命令</button>
+      <a class="button ghost" href="/data/account-conflict-radar.json" target="_blank" rel="noreferrer">打开 JSON</a>
+      <a class="button ghost" href="/output/${attr(radar.date)}-account-conflict-radar.md" target="_blank" rel="noreferrer">打开报告</a>
+    </div>
+  </section>`;
+}
+
+function renderConflictCandidateRisk(item) {
+  const kind = item.riskLevel === "blocked" ? "bad" : item.riskLevel === "warn" ? "warn" : "good";
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(item.toolName)}</strong>
+      ${pill(item.riskLevel, kind)}
+    </div>
+    <div class="muted">${esc(item.accountName || item.accountId || "no account")} · ${esc(labels[item.followUpAction] ?? (item.followUpAction || "no action"))}</div>
+    <p>${esc((item.reasons ?? [])[0] || item.recommendation || "No conflict reason.")}</p>
+  </div>`;
+}
+
+function renderAccountConflictItem(item) {
+  const kind = item.severity === "bad" ? "bad" : "warn";
+  const accounts = item.accounts?.map((account) => account.accountName || account.accountId).join(" / ")
+    || item.accountName
+    || item.accountId
+    || "";
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(item.label || item.type)}</strong>
+      ${pill(item.severity || "warn", kind)}
+    </div>
+    <div class="muted">${esc(accounts)}</div>
+    <p>${esc(item.reason || "")}</p>
+  </div>`;
 }
 
 function renderSeedPublishQueue() {
@@ -1991,7 +2083,8 @@ function finalReviewPlan() {
       const qa = copyQuality(text);
       const freshness = freshnessBadge(tool);
       const readiness = buildPublishReadiness(tool, text, recommendedAccountId(tool));
-      return { tool, text, qa, freshness, readiness, priority: finalReviewPriority(tool, qa) };
+      const conflict = accountCandidateRisk(tool);
+      return { tool, text, qa, freshness, readiness, conflict, priority: finalReviewPriority(tool, qa) };
     })
     .filter((item) => item.freshness.kind === "fresh")
     .filter((item) => !postedIds.has(item.tool.toolId))
@@ -1999,11 +2092,28 @@ function finalReviewPlan() {
     .filter((item) => Number(item.tool.scoreBreakdown?.riskScore ?? 0) < 8)
     .filter((item) => item.qa.kind !== "bad")
     .sort((a, b) => b.priority - a.priority);
+  const conflictBlocked = pool
+    .filter((item) => item.conflict?.riskLevel === "blocked")
+    .map((item) => ({ ...item, holdReason: accountConflictHoldReason(item.conflict) }));
+  const eligible = pool.filter((item) => item.conflict?.riskLevel !== "blocked");
   const limit = Math.min(3, maxNewPosts);
-  const ready = pool.slice(0, limit);
+  const ready = eligible.slice(0, limit);
   const holdReason = finalReviewHoldReason(gate, limit);
-  const hold = pool.slice(limit, limit + 6).map((item) => ({ ...item, holdReason }));
+  const hold = [
+    ...conflictBlocked,
+    ...eligible.slice(limit, limit + 6).map((item) => ({ ...item, holdReason }))
+  ];
   return { ready, hold, pool, gate, maxNewPosts: limit };
+}
+
+function accountCandidateRisk(tool) {
+  return (state.accountConflictRadar?.candidateRisks ?? []).find((item) => item.toolId === tool?.toolId) ?? null;
+}
+
+function accountConflictHoldReason(conflict) {
+  if (!conflict) return "Held by account conflict radar.";
+  const reason = conflict.reasons?.[0] || conflict.recommendation || "Account conflict risk.";
+  return `Account conflict radar: ${reason}`;
 }
 
 function feedbackDebtGate() {
@@ -2071,6 +2181,7 @@ function renderFinalReviewCard(item, index) {
     </div>
     <pre class="copy-text">${esc(item.text)}</pre>
     <div class="mini-checks">${checks.map((check) => `<span class="${check.ok ? "ok" : "warn"}">${esc(check.label)}: ${esc(check.value)}</span>`).join("")}</div>
+    ${item.conflict?.riskLevel === "warn" ? `<p class="muted">账号雷达：${esc(item.conflict.reasons?.[0] || item.conflict.recommendation)}</p>` : ""}
     ${item.readiness.blockReasons.length ? `<p class="muted">阻断：${esc(item.readiness.blockReasons.join(" "))}</p>` : ""}
     ${item.readiness.overrideReasons.length ? `<p class="muted">需确认：${esc(item.readiness.overrideReasons.join(" "))}</p>` : ""}
     <div class="row-actions">
@@ -2095,6 +2206,7 @@ function renderFinalHoldCard(item, index) {
     </div>
     <p>${esc(item.holdReason)}</p>
     <p class="muted">${esc(tool.reason)}</p>
+    ${item.conflict ? `<div class="safety-note">账号冲突：${esc((item.conflict.reasons ?? []).join(" ") || item.conflict.recommendation)}</div>` : ""}
     ${renderAccountRoute(tool)}
     <div class="hold-route">
       <span>${esc(route.title)}</span>
@@ -3107,6 +3219,7 @@ function renderAccounts() {
       </div>
       <div class="list">${(strategy.rotationNotes ?? []).map((note) => `<div class="list-item">${esc(note)}</div>`).join("")}</div>
     </section>
+    ${renderAccountConflictRadarPanel("accounts")}
     ${renderSupplyCoverage(supplyPlan)}
     ${renderScaleRampPlanPanel(state.scaleRampPlan)}
     ${renderSeedBatchPackPanel(state.seedBatchPack)}

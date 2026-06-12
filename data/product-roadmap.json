@@ -1,9 +1,9 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T21:19:02.481Z",
+  "generatedAt": "2026-06-12T22:46:43.398Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
-  "overallScore": 33,
+  "overallScore": 28,
   "level": "prototype",
   "summary": {
     "dimensions": 9,
@@ -116,12 +116,12 @@
     {
       "id": "source_diversity",
       "name": "Source diversity",
-      "score": 72,
-      "status": "watch",
+      "score": 28,
+      "status": "blocked",
       "whyItMatters": "A multi-account system needs more than one launch feed, especially for SaaS, indie, and crypto angles.",
       "evidence": [
-        "2 enabled extra sources.",
-        "20 source candidates in the daily merge.",
+        "0 enabled extra sources.",
+        "0 source candidates in the daily merge.",
         "0 candidate inbox items in the daily merge.",
         "2 healthy sources, 0 tune sources, 0 disable candidates."
       ],
@@ -251,8 +251,8 @@
         {
           "id": "source_diversity",
           "name": "Source diversity",
-          "score": 72,
-          "status": "watch",
+          "score": 28,
+          "status": "blocked",
           "gap": "Need more reliable sources beyond Product Hunt and two RSS feeds.",
           "nextAction": "Run npm run source-health and fix the worst source first."
         }

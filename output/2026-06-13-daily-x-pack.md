@@ -174,8 +174,8 @@ Top sources:
 
 - Feed fresh today: 13
 - Feed fresh 48h: 42
-- Feed fresh 7d: 11
-- Older/unknown: 4
+- Feed fresh 7d: 12
+- Older/unknown: 3
 - Fresh top-pick candidates: 3
 - Diagnosis: Top picks include fresh candidates that are suitable for cautious posting.
 - Recommendation: Post only the Fresh today / Fresh 48h candidates, then record feedback.
@@ -894,8 +894,8 @@ Check: OK (170 chars)
 - SpaceX, Anthropic, and OpenAI’s hot IPO summer: 18 points, skip. Reason: fresh enough to test now. Caution: broad or crowded angle risk; not enough signal for follow-up.
 - It’s hot IPO summer, and the MANGOS are ripe: 18 points, skip. Reason: fresh enough to test now. Caution: broad or crowded angle risk; not enough signal for follow-up.
 - Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans: 17 points, skip. Seen before. Reason: fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
-- Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
+- Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - LocIn AI: 15 points, skip. Seen before. Reason: easy before/after/price/alternative content angle; fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
 - Slack Data Agent: 14 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 
@@ -905,7 +905,7 @@ No high-affiliate-score tools without a configured affiliate link today.
 
 ## Historical Notes
 
-- History records before this run: 110
+- History records before this run: 111
 - Unique tools seen: 79
 - Last history date before this run: 2026-06-13
 - Seen-before tools in today's picks: 16

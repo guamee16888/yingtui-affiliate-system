@@ -96,7 +96,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `今日行动`：今天优先做什么。顶部 `今天只做这 3 件事` 会把发布、联盟研究、长文/测评页压成三个明确动作；下面保留原始 action list 和系统建议。
 - `产品路线图`：把 `npm run roadmap` 的产品级 readiness 报告可视化出来，直接回答“除了 X 账号切换还差什么”。它会显示整体分、Top blockers、Next sprint、每个维度的证据/缺口/下一步动作。
 - `放量准备度`：在今日页显示 `npm run scale` 的结果。它会把目标账号数、今日安全发帖数、Fresh 候选、内容排期、来源缺口和反馈债放在一起，避免数据不足时硬放量。
-- `发布审核`：发布前最终确认队列。顶部 `Feedback command` 会先显示反馈债务、最老待补时长、safe new posts 和 ready now；如果还有待补 metrics，先填反馈模板。下面的 `Seed publish queue` 会列出今天最值得手动测试的 1-3 条，并要求发完立刻标记已发、回填 X Analytics；final review 会同时检查 Fresh today / Fresh 48h 和 `Feedback debt gate`，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，并按分数自动建议转入联盟研究、长推、SEO 测评页或观察队列。
+- `发布审核`：发布前最终确认队列。顶部 `Feedback command` 会先显示反馈债务、最老待补时长、safe new posts 和 ready now；`Account conflict radar` 会把同工具、同 URL、同文案或账号冷却冲突的候选移出 ready。下面的 `Seed publish queue` 会列出今天最值得手动测试的 1-3 条，并要求发完立刻标记已发、回填 X Analytics；final review 会同时检查 Fresh today / Fresh 48h、`Feedback debt gate` 和账号冲突，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，并按分数自动建议转入联盟研究、长推、SEO 测评页或观察队列。
 - `候选收集`：把 Product Hunt 之外的新工具手动放进本地收集箱；active 候选会在下一次 `daily` 或 `刷新 Live Feed` 时参与打分。
 - `来源补给`：把 20×10 的内容缺口拆成圈子任务，集中显示需要补多少候选、哪些账号受影响、搜索入口、CSV 导入模板、质量 checklist 和来源健康度。每天内容不够时先看这里，不要靠低质内容硬凑。
 - `内容日历`：把账号草稿排进本地人工审核槽，显示今天真实能审核多少条、草稿缺口、冷却容量缺口、每个账号的可发时间和文案。这里仍然只是 review calendar，不会自动发送。
@@ -106,7 +106,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `反馈启动台`：把反馈学习变成一个执行面板。它会显示当前阶段、最多还能安全新发几条、建议先测试的 seed posts、待补 X Analytics 的已发内容，以及可复制的 feedback CSV 模板。
 - `反馈决策`：把录入的反馈转成下一步动作，判断哪些工具该加码、查联盟、做长推、做测评页或先观察。
 - `跟进队列`：顶部 `Promotion review` 会先列出值得审核的候选；你确认后再手动加入 thread、review page、affiliate research、watch、skip。`Follow-up pipeline` 会显示活跃队列、下一步该处理哪项，以及每项下一步提示。
-- `账号策略`：查看最多 20 个 X 账号画像、今日工具推荐发到哪个账号、每日限制、冷却时间和 20×10 内容供给缺口。当前不做授权，只做分类和路由建议。
+- `账号策略`：查看最多 20 个 X 账号画像、今日工具推荐发到哪个账号、每日限制、冷却时间、账号冲突雷达和 20×10 内容供给缺口。当前不做授权，只做分类和路由建议。
 - `联盟研究`：记录真实查到的 programUrl、network、affiliateLink 和状态，并提供 affiliate / partner / referral 一键搜索链接。
 - `测评页候选`：适合做 SEO review page 的工具，并可生成英文大纲。
 - `历史复盘`：历史出现过的工具，避免连续推荐同一个工具。
@@ -126,6 +126,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 `Feedback debt gate` 是硬门槛：只要已经标记已发但没有回填 X Analytics，顶部发布信心、发布审核队列和发布确认弹窗都会提示先补数据；如果 gate 变成 `blocked_no_metrics` 或 `feedback_debt_high`，本地发布 API 也会拒绝继续发布。手动记录已经发出的内容仍然允许保存，方便把真实历史补进系统。
 
 `Feedback command` 是发布审核页的总控条：它把 `Feedback debt gate` 翻译成 4 个数字：pending metrics、oldest debt、safe new posts、ready now。你每天打开后先看这里；如果 pending metrics 大于 0，就先点 `填入待补反馈模板`，不要继续放量。
+
+`Account conflict radar` 是账号级重复保护：它检查最近已发内容里的同工具、同 URL、同文案和账号冷却冲突。被标成 `blocked` 的候选不会进入发布审核 ready 队列，只能进入 Hold / watch / thread / review 方向，避免 20 个账号短期发同一个东西。
 
 `Feed diagnostic` 会告诉你这次 Product Hunt feed 里到底有多少 `Today / 48h / 7d` 工具。如果 Top Picks 没有新鲜候选，它会说明是 feed 本身没新货，还是有新工具但评分不够，并列出 `Fresh feed watchlist` 供你手动观察。
 
@@ -177,7 +179,7 @@ Tool B | https://example.org | Better reporting for small teams
 npm run daily
 ```
 
-拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并同步刷新 `data/scale-readiness.json`、`data/account-content-matrix.json`、`data/account-refill-workbench.json`、`data/content-ops-plan.json`、`data/scale-ramp-plan.json`、`data/seed-batch-pack.json` 与 `data/product-roadmap.json`。每日打分会读取真实反馈生成 `feedbackLearningSignals`：Top account / angle / source 只能小幅影响排序，不能绕过质量门禁。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
+拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并同步刷新 `data/scale-readiness.json`、`data/account-content-matrix.json`、`data/account-refill-workbench.json`、`data/content-ops-plan.json`、`data/scale-ramp-plan.json`、`data/seed-batch-pack.json`、`data/account-conflict-radar.json` 与 `data/product-roadmap.json`。每日打分会读取真实反馈生成 `feedbackLearningSignals`：Top account / angle / source 只能小幅影响排序，不能绕过质量门禁。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
 
 ```bash
 npm run daily:top10
@@ -302,6 +304,12 @@ npm run seed-pack
 填完 CSV 后粘到「候选收集」或「来源补给」的批量导入预览区，系统会按 `accountId` 显示每个种子账号是否已有 3 条可导入候选：绿灯代表够做小批量种子测试，黄灯代表需要人工修/审，红灯代表不够启动。
 
 ```bash
+npm run conflict-radar
+```
+
+生成账号冲突雷达，输出到 `data/account-conflict-radar.json` 和 `output/YYYY-MM-DD-account-conflict-radar.md`。它会检查同工具跨账号、同 URL、同文案复用和账号冷却时间冲突；Dashboard 的「发布审核」会用它把冲突候选移出 ready 队列。
+
+```bash
 npm run roadmap
 ```
 
@@ -417,6 +425,7 @@ npm audit --audit-level=moderate
 - `data/content-ops-plan.json`：今日内容运营计划，回答今天最多安全发几条、先补哪些账号和圈层候选。
 - `data/scale-ramp-plan.json`：规模爬坡计划，回答先启动哪几个账号、今天安全测试几条、哪些账号暂时只补来源。
 - `data/seed-batch-pack.json`：种子账号补题包，回答今天该优先给哪些账号补 CSV 候选行。
+- `data/account-conflict-radar.json`：账号冲突雷达，回答哪些候选因为同工具、同 URL、同文案或账号冷却冲突不能进 ready。
 - `data/product-roadmap.json`：产品级 readiness/roadmap 报告。
 - `data/scale-readiness.json`：放量准备度报告，回答今天是否适合从小批量测试扩大到多账号发布。
 - `data/promotion-review.json`：值得手动审核加入队列的 promotion 清单。

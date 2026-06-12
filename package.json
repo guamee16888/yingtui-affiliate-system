@@ -32,6 +32,7 @@
     "content-ops-plan": "node scripts/content-ops-plan.mjs",
     "scale-ramp": "node scripts/scale-ramp-plan.mjs",
     "seed-pack": "node scripts/seed-batch-pack.mjs",
+    "conflict-radar": "node scripts/account-conflict-radar.mjs",
     "roadmap": "node scripts/roadmap.mjs",
     "accounts": "node scripts/account-summary.mjs",
     "feedback": "node scripts/feedback-summary.mjs",

@@ -1823,6 +1823,7 @@ function renderCandidatePreview() {
     <div class="line-head"><strong>预评分结果</strong><span class="muted">${esc(preview.date ?? "")} · parsed ${esc(preview.parsed ?? rows.length)} · import ${esc(preview.summary?.importable ?? 0)} · review ${esc(preview.summary?.review ?? 0)} · skip ${esc(preview.summary?.skipped ?? 0)} · duplicate ${esc(preview.summary?.duplicates ?? 0)}</span></div>
     ${preview.errors?.length ? `<p class="muted">跳过：${esc(preview.errors.join(" "))}</p>` : ""}
     ${renderSeedImportReadiness(preview.seedImportReadiness)}
+    ${renderAccountRefillImpact(preview.accountRefillImpact)}
     <div class="list">${rows.map((item) => `<div class="list-item">
       <div class="line-head"><strong>${esc(item.name)}</strong>${pill(candidateDecisionLabels[item.importDecision] ?? item.importDecision, item.importDecision === "import" ? "good" : item.importDecision === "review" ? "warn" : "bad")}${renderQualityGatePill(item.qualityGate)}${pill(labels[item.followUpAction] ?? item.followUpAction, item.followUpAction === "skip" ? "bad" : "good")}<strong class="mini-score">${esc(item.score)}</strong></div>
       <div class="muted">${esc(item.sourceName)} · ${esc(item.circle || "unknown circle")} · ${esc(item.candidateType || "product")} · ${item.accountName || item.accountId ? `target ${esc(item.accountName || item.accountId)} · ` : ""}${esc(item.affiliateStatus)} · ${item.seenBefore ? "Seen before" : "New to history"} · ${esc(item.duplicateStatus || "new_candidate")}</div>
@@ -1845,6 +1846,7 @@ function renderCandidateImportResult() {
     </div>
     ${result.errors?.length ? `<p class="muted">解析跳过：${esc(result.errors.join(" "))}</p>` : ""}
     ${renderSeedImportReadiness(result.seedImportReadiness)}
+    ${renderAccountRefillImpact(result.accountRefillImpact)}
     <div class="list">${actions.map(renderCandidateImportAction).join("") || empty("暂无下一步。")}</div>
   </div>`;
 }
@@ -1862,6 +1864,7 @@ function candidateImportActionControl(type) {
   if (type === "refresh_daily") return `<button class="button" type="button" data-run-daily>刷新 Live Feed</button>`;
   if (type === "open_final_review") return `<button class="button ghost" type="button" data-tab-jump="review">打开发布审核</button>`;
   if (type === "continue_seed_pack") return `<button class="button ghost" type="button" data-tab-jump="accounts">看账号缺口</button>`;
+  if (type === "continue_refill") return `<button class="button ghost" type="button" data-tab-jump="accounts">看账号补给</button>`;
   if (type === "review_seed_rows" || type === "fix_candidates" || type === "check_skipped_rows") return `<button class="button ghost" type="button" data-tab-jump="candidates">回到候选收集</button>`;
   return "";
 }
@@ -1881,6 +1884,46 @@ function renderSeedImportReadiness(readiness) {
       </div>`).join("")}
     </div>
   </div>`;
+}
+
+function renderAccountRefillImpact(impact) {
+  if (!impact?.accounts?.length) return "";
+  const summary = impact.summary ?? {};
+  const accounts = impact.accounts ?? [];
+  return `<div class="account-refill-impact">
+    <div class="line-head">
+      <strong>账号补给影响</strong>
+      <span class="muted">touched ${esc(summary.accountsTouched ?? 0)} · improved ${esc(summary.accountsImproved ?? 0)} · accepted ${esc(summary.acceptedCandidates ?? 0)} · review ${esc(summary.reviewRows ?? 0)}</span>
+    </div>
+    <div class="seed-readiness-grid">
+      ${accounts.map((account) => `<div class="seed-readiness-card refill-impact-card ${attr(account.status)}">
+        <div class="line-head"><strong>${esc(account.displayName)}</strong>${pill(refillImpactLabel(account.status), account.tone || refillImpactTone(account.status))}</div>
+        <div class="muted">refill ${esc(account.refillNeedBefore)} → ${esc(account.projectedRefillNeedAfter)} · accepted ${esc(account.accepted)} · review ${esc(account.review)} · skipped ${esc(account.skipped)}</div>
+        <p>${esc(account.actionDetail || "")}</p>
+      </div>`).join("")}
+    </div>
+    ${impact.nextActions?.length ? `<div class="list mini-list">${impact.nextActions.map(renderCandidateImportAction).join("")}</div>` : ""}
+  </div>`;
+}
+
+function refillImpactLabel(status) {
+  return {
+    covered: "绿灯覆盖",
+    improved: "绿灯改善",
+    needs_review: "黄灯待修",
+    not_moved: "红灯未动",
+    unchanged: "未变化"
+  }[status] ?? status;
+}
+
+function refillImpactTone(status) {
+  return {
+    covered: "good",
+    improved: "good",
+    needs_review: "warn",
+    not_moved: "bad",
+    unchanged: "neutral"
+  }[status] ?? "neutral";
 }
 
 function seedReadinessLabel(status) {

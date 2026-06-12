@@ -27,6 +27,7 @@ import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/aff
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
 import { accountRefillRowsToCsv, buildAccountContentMatrix, buildAccountRefillTemplate, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
 import { buildAccountRefillWorkbench, renderAccountRefillWorkbenchMarkdown } from "../scripts/lib/account-refill-workbench.mjs";
+import { buildAccountRefillImpact } from "../scripts/lib/account-refill-impact.mjs";
 import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
 import { buildSeedBatchPack, buildSeedImportNextActions, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
 
@@ -1668,6 +1669,35 @@ test("account refill workbench ranks refill accounts with search links and CSV",
   assert.match(workbench.focusAccounts[0].csv, /AI Founder Signals/);
   assert.match(markdown, /Account Refill Workbench/);
   assert.match(markdown, /Fill only real/);
+});
+
+test("account refill impact projects account gap movement from pasted rows", () => {
+  const workbench = {
+    accounts: [
+      { accountId: "ai", displayName: "AI Founder Signals", category: "AI", refillNeed: 3, firstBottleneck: "drafts" },
+      { accountId: "saas", displayName: "SaaS Pricing Lab", category: "SaaS", refillNeed: 2, firstBottleneck: "freshness" }
+    ]
+  };
+  const previews = [
+    { accountId: "ai", candidate: { accountId: "ai" }, importDecision: "import" },
+    { accountId: "ai", candidate: { accountId: "ai" }, importDecision: "import" },
+    { accountId: "ai", candidate: { accountId: "ai" }, importDecision: "review" },
+    { accountId: "saas", candidate: { accountId: "saas" }, importDecision: "skip" }
+  ];
+  const recommended = buildAccountRefillImpact({ accountRefillWorkbench: workbench, previews, importMode: "recommended" });
+  const all = buildAccountRefillImpact({ accountRefillWorkbench: workbench, previews, importMode: "all" });
+  const noAccountRows = buildAccountRefillImpact({
+    accountRefillWorkbench: workbench,
+    previews: [{ candidate: {}, importDecision: "import" }]
+  });
+
+  assert.equal(recommended.summary.accountsTouched, 2);
+  assert.equal(recommended.summary.acceptedCandidates, 2);
+  assert.equal(recommended.accounts.find((account) => account.accountId === "ai").projectedRefillNeedAfter, 1);
+  assert.equal(recommended.accounts.find((account) => account.accountId === "ai").status, "improved");
+  assert.equal(recommended.accounts.find((account) => account.accountId === "saas").status, "not_moved");
+  assert.equal(all.accounts.find((account) => account.accountId === "ai").status, "covered");
+  assert.equal(noAccountRows.status, "no_account_rows");
 });
 
 test("scale ramp plan turns account matrix gaps into launch batches", () => {

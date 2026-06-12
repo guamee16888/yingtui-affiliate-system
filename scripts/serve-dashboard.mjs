@@ -35,6 +35,7 @@ import { parseCandidatePaste } from "./lib/candidate-parser.mjs";
 import { evaluateCandidateQualityGate } from "./lib/candidate-quality-gate.mjs";
 import { buildHistoryIndex, candidateInboxToTools, scoreTool } from "./lib/affiliate-system.mjs";
 import { buildSeedImportNextActions, buildSeedImportReadiness } from "./lib/seed-batch-pack.mjs";
+import { buildAccountRefillImpact } from "./lib/account-refill-impact.mjs";
 import { buildDecisionReport } from "./lib/decision-engine.mjs";
 import { buildFeedbackOps, buildLearningLoop } from "./lib/feedback-ops.mjs";
 import { calculateEngagement } from "./lib/scoring.mjs";
@@ -640,6 +641,7 @@ async function importCandidatePaste(body) {
     errors: plan.errors,
     summary: plan.summary,
     seedImportReadiness: plan.seedImportReadiness,
+    accountRefillImpact: plan.accountRefillImpact,
     nextActions: buildSeedImportNextActions({
       imported: entries.length,
       skipped: plan.previews.length - entries.length,
@@ -669,12 +671,13 @@ async function buildCandidatePastePlan(body) {
   }
   if (parsed.entries.length > 100) throw new Error("Candidate paste preview is limited to 100 rows at a time");
 
-  const [history, affiliateConfig, candidateInbox, latest, seedBatchPack] = await Promise.all([
+  const [history, affiliateConfig, candidateInbox, latest, seedBatchPack, accountRefillWorkbench] = await Promise.all([
     loadHistoryData(),
     loadAffiliateLinks(),
     loadCandidateInbox(),
     loadLatest(),
-    readJson("data/seed-batch-pack.json", null)
+    readJson("data/seed-batch-pack.json", null),
+    readJson("data/account-refill-workbench.json", null)
   ]);
   const context = {
     date,
@@ -705,6 +708,11 @@ async function buildCandidatePastePlan(body) {
       duplicates: previews.filter((item) => item.duplicate).length
     },
     seedImportReadiness: buildSeedImportReadiness({ seedBatchPack, previews }),
+    accountRefillImpact: buildAccountRefillImpact({
+      accountRefillWorkbench,
+      previews,
+      importMode: body.importMode === "all" ? "all" : "recommended"
+    }),
     previews,
     errors: parsed.errors
   };

@@ -87,6 +87,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `产品路线图`：把 `npm run roadmap` 的产品级 readiness 报告可视化出来，直接回答“除了 X 账号切换还差什么”。它会显示整体分、Top blockers、Next sprint、每个维度的证据/缺口/下一步动作。
 - `发布审核`：发布前最终确认队列。它会同时检查 Fresh today / Fresh 48h 和 `Feedback debt gate`，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，并按分数自动建议转入联盟研究、长推、SEO 测评页或观察队列。
 - `候选收集`：把 Product Hunt 之外的新工具手动放进本地收集箱；active 候选会在下一次 `daily` 或 `刷新 Live Feed` 时参与打分。
+- `来源补给`：把 20×10 的内容缺口拆成圈子任务，集中显示需要补多少候选、哪些账号受影响、搜索入口、CSV 导入模板、质量 checklist 和来源健康度。每天内容不够时先看这里，不要靠低质内容硬凑。
 - `工具池`：所有候选工具卡片，适合按分数、affiliate、风险、是否已发筛选。
 - `文案库`：每个工具的 5 种英文文案，适合集中复制、标记已发，或手动确认发布到 X。
 - `反馈录入`：已经标记已发的文案和表现数据。顶部会列出 `待补反馈`，也可以粘贴 CSV 批量导入 X 数据。
@@ -114,6 +115,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 `Content calendar` 会把草稿放进账号级发布时间槽，并检查每日目标和冷却时间是否互相冲突。比如每号 10 条但冷却 6 小时，在一天内天然排不满，系统会显示 capacity gap，而不是假装可以完成。`Scale Reality` 会进一步告诉你：今天实际该审核多少条、按当前冷却每号更现实是几条、如果坚持当前目标需要把冷却降到多少小时。
 
 `Source quality queue` 会把缺口翻译成今天该补的来源方向，例如 SaaS pricing、indie launch、crypto wallet tooling。它只给搜索方向和导入模板，不自动抓取不稳定站点。
+
+Dashboard 的 `来源补给` 会把 `Supply coverage`、`Source quality queue`、`Source discovery` 和 `Source health` 合到一个工作台：先看缺口最大的圈子，打开搜索组，复制 CSV 模板，把真实候选粘到 `候选收集`，预览评分后再导入。导入后点 `刷新 Live Feed`，系统会重新评分并分配到账号。
 
 `Source discovery` 会把这些缺口变成可点击搜索入口，例如 X live search、Google recent search、HN Algolia、Product Hunt 或 CoinDesk。它只做人工发现入口，不自动导入，避免把低质量噪音直接灌进内容池。
 

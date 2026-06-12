@@ -25,7 +25,7 @@ async function parseApiResponse(res, path) {
   return res.json();
 }
 
-const tabNames = ["today", "roadmap", "review", "candidates", "tools", "copy", "feedback", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
+const tabNames = ["today", "roadmap", "review", "candidates", "supply", "tools", "copy", "feedback", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
 
 const state = {
   tab: initialTab(),
@@ -402,7 +402,7 @@ function renderActiveView() {
   $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === state.tab));
   $$(".view").forEach((view) => view.classList.remove("active"));
   $(`#view-${state.tab}`).classList.add("active");
-  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, candidates: renderCandidates, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
+  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, candidates: renderCandidates, supply: renderSourceSupply, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
   renderers[state.tab]();
 }
 
@@ -1520,6 +1520,191 @@ function renderCandidateItem(item) {
         ? `<button class="button ghost" data-candidate-status="${attr(item.id)}" data-status="archived">归档</button>`
         : `<button class="button ghost" data-candidate-status="${attr(item.id)}" data-status="active">重新激活</button>`}
     </div>
+  </div>`;
+}
+
+function renderSourceSupply() {
+  const latest = state.latest ?? {};
+  const supply = latest.supplyPlan;
+  const queue = latest.sourceQualityQueue;
+  const discovery = latest.sourceDiscovery;
+  const health = latest.sourceHealth;
+  if (!supply && !queue && !discovery && !health) {
+    $("#view-supply").innerHTML = `<section class="panel"><h2>来源补给</h2>${empty("还没有来源补给数据。先运行 npm run daily。")}</section>`;
+    return;
+  }
+  const activeInbox = (state.candidateInbox.items ?? []).filter((item) => item.status === "active").length;
+  const sourceBreakdown = latest.source?.breakdown ?? {};
+  const needed = queue?.summary?.totalNeededCandidates ?? discovery?.summary?.totalNeededCandidates ?? supply?.totalGap ?? 0;
+  const circles = mergeSourceSupplyCircles(queue, discovery, health);
+  const topCircles = circles.filter((item) => Number(item.neededCandidates ?? 0) > 0).slice(0, 4);
+  $("#view-supply").innerHTML = `<div class="source-workbench">
+    <section class="panel wide-panel source-command-center">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Source supply workbench</p>
+          <h2>先补内容供给，再考虑放大发布</h2>
+          <p class="muted">目标是让 AI 创业圈、独立开发者圈、SaaS 创始人圈、Crypto 圈每天都有足够新鲜、不重复、可评分的候选。</p>
+        </div>
+        ${pill(Number(needed) > 0 ? `need ${needed}` : "covered", Number(needed) > 0 ? "warn" : "good")}
+      </div>
+      <div class="pipeline-stats">
+        <div><strong>${esc(supply?.targetDrafts ?? "-")}</strong><span>target drafts</span></div>
+        <div><strong>${esc(supply?.qualifiedTools ?? 0)}</strong><span>qualified tools</span></div>
+        <div><strong>${esc(supply?.totalGap ?? needed ?? 0)}</strong><span>supply gap</span></div>
+        <div><strong>${esc(activeInbox)}</strong><span>active inbox</span></div>
+        <div><strong>${esc(latest.summary?.sourceCandidateCount ?? sourceBreakdown.sourceCandidateTools ?? 0)}</strong><span>source candidates</span></div>
+        <div><strong>${esc(health?.summary?.enabledSources ?? 0)}/${esc(health?.summary?.configuredSources ?? 0)}</strong><span>enabled sources</span></div>
+      </div>
+      <div class="source-workflow">
+        ${renderSourceWorkflowStep("1", "打开搜索组", "先从缺口最大的圈子开 X / Google / HN 搜索。只挑有真实 URL、明确人群和具体痛点的候选。")}
+        ${renderSourceWorkflowStep("2", "复制 CSV 模板", "每个圈子卡片都有导入模板。填真实 name/url/tagline/source/circle 后粘到候选收集。")}
+        ${renderSourceWorkflowStep("3", "预览评分后导入", "在候选收集里先点预览评分，只导入可导入项，再刷新 Live Feed 重新分配到账号。")}
+      </div>
+      <div class="row-actions">
+        <button class="button ghost" data-tab-jump="candidates">打开候选收集</button>
+        <button class="button ghost" data-run-daily>刷新 Live Feed</button>
+        <button class="button ghost" data-copy="npm run source-queue && npm run source-discovery && npm run source-health">复制来源检查命令</button>
+      </div>
+    </section>
+    <section class="panel wide-panel">
+      <h2>今天先补这几个圈子</h2>
+      <div class="supply-circle-grid">${topCircles.map(renderSourceSupplyCircle).join("") || empty("当前没有明显来源缺口。")}</div>
+    </section>
+    <section class="panel">
+      <h2>来源健康度</h2>
+      ${renderSourceHealthSnapshot(health)}
+    </section>
+    <section class="panel">
+      <h2>补给底线</h2>
+      <div class="list">
+        <div class="list-item"><strong>不要用低质内容硬凑数量</strong><p class="muted">低于质量线的候选会伤账号画像，也会污染反馈学习。</p></div>
+        <div class="list-item"><strong>一个工具只进入一个账号计划</strong><p class="muted">避免 20 个号发同一个工具的不同说法，先保证不重复。</p></div>
+        <div class="list-item"><strong>旧热点只做长文或观察</strong><p class="muted">Fresh today / Fresh 48h 优先发；Seen before 和 Older useful 不建议花 API credits。</p></div>
+      </div>
+    </section>
+  </div>`;
+}
+
+function renderSourceWorkflowStep(step, title, text) {
+  return `<div class="source-workflow-step">
+    <span>${esc(step)}</span>
+    <strong>${esc(title)}</strong>
+    <p>${esc(text)}</p>
+  </div>`;
+}
+
+function mergeSourceSupplyCircles(queue, discovery, health) {
+  const discoveryByCircle = new Map((discovery?.circles ?? []).map((item) => [item.circleId, item]));
+  const healthByCircle = new Map();
+  (health?.sources ?? []).forEach((source) => {
+    const circle = source.circle || "unknown";
+    healthByCircle.set(circle, [...(healthByCircle.get(circle) ?? []), source]);
+  });
+  const queueItems = queue?.items ?? [];
+  const circleIds = new Set([...queueItems.map((item) => item.circleId), ...discoveryByCircle.keys()]);
+  return [...circleIds].map((circleId) => {
+    const queueItem = queueItems.find((item) => item.circleId === circleId) ?? {};
+    const discoveryItem = discoveryByCircle.get(circleId) ?? {};
+    return {
+      ...discoveryItem,
+      ...queueItem,
+      circleId,
+      circleName: queueItem.circleName || discoveryItem.circleName || circleId,
+      neededCandidates: queueItem.neededCandidates ?? discoveryItem.neededCandidates ?? 0,
+      currentQualifiedTools: queueItem.currentQualifiedTools ?? discoveryItem.currentQualifiedTools ?? 0,
+      searchLinks: discoveryItem.searchLinks ?? [],
+      sourceIdeas: discoveryItem.sourceIdeas ?? [],
+      configuredSources: discoveryItem.configuredSources ?? queueItem.recommendedSources ?? [],
+      qualityChecklist: discoveryItem.qualityChecklist ?? [],
+      healthSources: healthByCircle.get(circleId) ?? []
+    };
+  }).sort((a, b) => Number(b.neededCandidates ?? 0) - Number(a.neededCandidates ?? 0));
+}
+
+function renderSourceSupplyCircle(circle) {
+  const links = (circle.searchLinks ?? []).slice(0, 8);
+  const accounts = circle.affectedAccounts ?? [];
+  const sources = circle.healthSources ?? [];
+  const csv = sourceSupplyCsvTemplate(circle);
+  const healthLabel = sources.length
+    ? `${sources.filter((source) => source.enabled).length}/${sources.length} enabled`
+    : "no tracked source";
+  return `<article class="source-circle-card">
+    <div class="line-head">
+      <div>
+        <h3>${esc(circle.circleName)}</h3>
+        <p class="muted">${esc(circle.openingMove || circle.importHint || "Collect candidates, preview score, then import only strong fits.")}</p>
+      </div>
+      ${pill(`need ${circle.neededCandidates ?? 0}`, Number(circle.neededCandidates ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="pipeline-stats compact-stats">
+      <div><strong>${esc(circle.currentQualifiedTools ?? 0)}</strong><span>qualified now</span></div>
+      <div><strong>${esc(circle.neededCandidates ?? 0)}</strong><span>needed</span></div>
+      <div><strong>${esc(accounts.length)}</strong><span>affected accounts</span></div>
+      <div><strong>${esc(healthLabel)}</strong><span>source health</span></div>
+    </div>
+    <div class="source-mini-section">
+      <strong>受影响账号</strong>
+      <div class="pill-row">${accounts.slice(0, 6).map((account) => pill(`${account.displayName} gap ${account.gap}`, "warn")).join("") || pill("暂无账号缺口", "good")}</div>
+    </div>
+    <div class="source-mini-section">
+      <strong>搜索入口</strong>
+      <div class="button-row">${links.slice(0, 6).map((link) => `<a class="button ghost" href="${attr(link.url)}" target="_blank" rel="noreferrer">${esc(link.label)} · ${esc(link.query)}</a>`).join("") || `<span class="muted">暂无搜索入口。</span>`}</div>
+      ${links.length ? `<button class="button ghost" type="button" data-open-searches="${attr(JSON.stringify(links.map((item) => item.url)))}">一键打开搜索组</button>` : ""}
+    </div>
+    <div class="source-mini-section">
+      <strong>推荐来源</strong>
+      <div class="list mini-list">${(circle.sourceIdeas ?? []).slice(0, 3).map((item) => `<div class="list-item">
+        <a class="muted-link" href="${attr(item.url)}" target="_blank" rel="noreferrer">${esc(item.name)}</a>
+        <p class="muted">${esc(item.why)}</p>
+      </div>`).join("") || empty("暂无推荐来源。")}</div>
+    </div>
+    <div class="source-mini-section">
+      <strong>导入模板</strong>
+      <pre class="copy-text">${esc(csv)}</pre>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="${attr(csv)}">复制 CSV 模板</button>
+        <button class="button ghost" data-tab-jump="candidates">去粘贴导入</button>
+      </div>
+    </div>
+    <div class="source-mini-section">
+      <strong>质量 checklist</strong>
+      <div class="source-checklist">${(circle.qualityChecklist ?? []).slice(0, 5).map((item) => `<div class="source-check-item">${esc(item)}</div>`).join("")}</div>
+    </div>
+  </article>`;
+}
+
+function sourceSupplyCsvTemplate(circle) {
+  const circleId = circle.circleId || "";
+  const source = `${circleId || "manual"}_research`;
+  const query = (circle.searchQueries ?? []).find(Boolean) || (circle.searchLinks ?? []).find((item) => item.query)?.query || "specific narrow pain";
+  return [
+    "name,url,tagline,source,circle,candidateType",
+    `Real tool or topic name,https://example.com,Who has this pain and why it matters,${source},${circleId},product`,
+    `Second real candidate,https://example.com/blog,Founder/product signal found from ${query},${source},${circleId},topic`
+  ].join("\n");
+}
+
+function renderSourceHealthSnapshot(health) {
+  if (!health) return empty("暂无来源健康度。");
+  const sources = (health.sources ?? []).slice().sort((a, b) => Number(a.healthScore ?? 0) - Number(b.healthScore ?? 0));
+  return `<div class="list">
+    <div class="pipeline-stats">
+      <div><strong>${esc(health.summary?.enabledSources ?? 0)}/${esc(health.summary?.configuredSources ?? 0)}</strong><span>enabled</span></div>
+      <div><strong>${esc(health.summary?.qualifiedCandidates ?? 0)}</strong><span>qualified</span></div>
+      <div><strong>${esc(health.summary?.noiseCandidates ?? 0)}</strong><span>noise</span></div>
+      <div><strong>${esc(health.summary?.tuneSources ?? 0)}</strong><span>need tune</span></div>
+    </div>
+    ${sources.slice(0, 6).map((source) => `<div class="list-item">
+      <div class="line-head">
+        <strong>${esc(source.name)}</strong>
+        ${pill(source.enabled ? "enabled" : "disabled", source.enabled ? "good" : "neutral")}
+        ${pill(`${source.healthScore}/100`, source.healthScore >= 70 ? "good" : source.healthScore >= 30 ? "warn" : "bad")}
+      </div>
+      <div class="muted">${esc(source.circle || "unknown")} · ${esc(source.qualifiedCandidates ?? 0)}/${esc(source.totalCandidates ?? 0)} qualified · noise ${esc(source.noiseCandidates ?? 0)}</div>
+      <p class="muted">${esc(source.recommendation)}</p>
+    </div>`).join("") || empty("暂无来源记录。")}
   </div>`;
 }
 

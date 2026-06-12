@@ -1342,6 +1342,130 @@ main {
   background: #e6ece9;
 }
 
+.source-workbench {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.source-command-center {
+  border: 0;
+  border-top: 5px solid var(--accent);
+  background:
+    radial-gradient(circle at top right, rgba(124, 224, 189, .16), transparent 30%),
+    linear-gradient(180deg, #ffffff, #f7faf8);
+}
+.source-workflow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.source-workflow-step {
+  min-height: 126px;
+  border: 1px solid rgba(185, 197, 192, .82);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, #ffffff, #f7faf8);
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  box-shadow: var(--shadow-pop);
+}
+.source-workflow-step span {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #101817, #0b7a61);
+  color: #f7fbf9;
+  font-weight: 720;
+}
+.source-workflow-step strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+.source-workflow-step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.supply-circle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.source-circle-card {
+  border: 1px solid rgba(185, 197, 192, .82);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, #ffffff, #f7faf8);
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+  box-shadow: var(--shadow-pop);
+}
+.source-circle-card h3 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 680;
+}
+.source-circle-card .compact-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.source-circle-card .compact-stats div {
+  padding: 10px;
+}
+.source-circle-card .compact-stats strong {
+  font-size: 18px;
+}
+.source-mini-section {
+  display: grid;
+  gap: 9px;
+}
+.source-mini-section > strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 650;
+}
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.source-circle-card .button-row .button {
+  max-width: 100%;
+  justify-content: flex-start;
+  white-space: normal;
+  text-align: left;
+}
+.source-circle-card .mini-list {
+  gap: 8px;
+}
+.source-circle-card .mini-list .list-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, .70);
+  padding: 10px;
+}
+.source-circle-card .mini-list p {
+  margin: 0;
+}
+.source-checklist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.source-check-item {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, .74);
+  color: var(--text);
+  padding: 10px 11px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
 [data-theme="dark"] body {
   background: #0e1210;
 }
@@ -1370,7 +1494,12 @@ main {
 [data-theme="dark"] .principle-card,
 [data-theme="dark"] .seed-test-panel,
 [data-theme="dark"] .copy-block,
-[data-theme="dark"] .copy-text {
+[data-theme="dark"] .copy-text,
+[data-theme="dark"] .source-command-center,
+[data-theme="dark"] .source-workflow-step,
+[data-theme="dark"] .source-circle-card,
+[data-theme="dark"] .source-check-item,
+[data-theme="dark"] .source-circle-card .mini-list .list-item {
   background: #1b221e;
   border-color: #36403a;
 }
@@ -1387,7 +1516,10 @@ main {
   .roadmap-hero { grid-template-columns: 1fr; }
   .roadmap-grid,
   .roadmap-blocker-strip,
-  .principle-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .principle-grid,
+  .source-workflow,
+  .supply-circle-grid,
+  .source-workbench { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tabs { top: 0; }
   .readiness-panel {
     background:
@@ -1406,7 +1538,12 @@ main {
   .metrics { grid-template-columns: 1fr; }
   .roadmap-grid,
   .roadmap-blocker-strip,
-  .principle-grid { grid-template-columns: 1fr; }
+  .principle-grid,
+  .source-workflow,
+  .supply-circle-grid,
+  .source-workbench,
+  .source-checklist,
+  .source-circle-card .compact-stats { grid-template-columns: 1fr; }
   .metric { min-height: 92px; }
   .readiness-panel {
     padding: 18px;

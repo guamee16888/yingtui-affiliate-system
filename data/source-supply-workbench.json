@@ -1,16 +1,16 @@
 {
   "version": 1,
-  "date": "2026-06-12",
-  "generatedAt": "2026-06-12T15:34:29.033Z",
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T17:43:50.216Z",
   "status": "needs_supply",
   "summary": {
     "targetDrafts": 200,
     "targetAccounts": 20,
     "targetPerAccount": 10,
-    "qualifiedTools": 25,
-    "possibleDrafts": 125,
-    "supplyGap": 75,
-    "totalNeededCandidates": 73,
+    "qualifiedTools": 20,
+    "possibleDrafts": 100,
+    "supplyGap": 100,
+    "totalNeededCandidates": 78,
     "topCircle": "Indie hacker circle",
     "activeInboxCount": 0,
     "activeSourceCandidateCount": 21,
@@ -33,37 +33,37 @@
     {
       "circleId": "indie_hackers",
       "circleName": "Indie hacker circle",
-      "priorityScore": 41,
-      "neededCandidates": 33,
-      "currentQualifiedTools": 9,
+      "priorityScore": 43,
+      "neededCandidates": 35,
+      "currentQualifiedTools": 6,
       "affectedAccounts": [
-        {
-          "accountId": "indie_monetization",
-          "displayName": "Indie Monetization",
-          "gap": 10,
-          "category": "indie monetization"
-        },
         {
           "accountId": "affiliate_builder",
           "displayName": "Affiliate Builder",
-          "gap": 8,
+          "gap": 9,
           "category": "affiliate and side projects"
         },
         {
           "accountId": "indie_launch_radar",
           "displayName": "Indie Launch Radar",
-          "gap": 8,
+          "gap": 9,
           "category": "indie hacker circle"
+        },
+        {
+          "accountId": "indie_monetization",
+          "displayName": "Indie Monetization",
+          "gap": 9,
+          "category": "indie monetization"
         },
         {
           "accountId": "build_in_public",
           "displayName": "Build in Public",
-          "gap": 7,
+          "gap": 8,
           "category": "building and experiments"
         }
       ],
       "openingMove": "Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson.",
-      "importHint": "Add 33 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
+      "importHint": "Add 35 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
       "searchQueries": [
         "\"micro SaaS\" launch",
         "\"indie hacker\" \"revenue\"",
@@ -333,25 +333,25 @@
     {
       "circleId": "crypto_builders",
       "circleName": "Crypto builder circle",
-      "priorityScore": 17,
-      "neededCandidates": 13,
-      "currentQualifiedTools": 7,
+      "priorityScore": 19,
+      "neededCandidates": 15,
+      "currentQualifiedTools": 5,
       "affectedAccounts": [
         {
           "accountId": "crypto_trading_tools",
           "displayName": "Crypto Trading Tools",
-          "gap": 7,
+          "gap": 6,
           "category": "crypto tooling"
         },
         {
           "accountId": "crypto_builder_radar",
           "displayName": "Crypto Builder Radar",
-          "gap": 3,
+          "gap": 5,
           "category": "Crypto builder circle"
         }
       ],
       "openingMove": "Collect 5 candidates from search links, then import only the ones with a clear audience and URL.",
-      "importHint": "Add 13 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.",
+      "importHint": "Add 15 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.",
       "searchQueries": [
         "\"crypto wallet\" \"developer\"",
         "\"onchain\" \"tool\" launch",
@@ -492,7 +492,7 @@
         "trackedSources": 2,
         "enabledSources": 1,
         "healthySources": 1,
-        "qualifiedCandidates": 7,
+        "qualifiedCandidates": 5,
         "weakestSource": "HN crypto builder search"
       },
       "qualityChecklist": [
@@ -507,19 +507,19 @@
     {
       "circleId": "ai_startups",
       "circleName": "AI startup circle",
-      "priorityScore": 9,
-      "neededCandidates": 7,
-      "currentQualifiedTools": 21,
+      "priorityScore": 10,
+      "neededCandidates": 8,
+      "currentQualifiedTools": 17,
       "affectedAccounts": [
         {
           "accountId": "sales_support_ai",
           "displayName": "Sales Support AI",
-          "gap": 7,
+          "gap": 8,
           "category": "sales and customer support"
         }
       ],
       "openingMove": "Use this as a watchlist. Add only unusually strong candidates.",
-      "importHint": "Add 7 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL.",
+      "importHint": "Add 8 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL.",
       "searchQueries": [
         "\"AI startup\" launch new tool",
         "\"AI agent\" founder workflow",
@@ -666,7 +666,7 @@
         "trackedSources": 3,
         "enabledSources": 1,
         "healthySources": 1,
-        "qualifiedCandidates": 14,
+        "qualifiedCandidates": 13,
         "weakestSource": "HN AI tools search"
       },
       "qualityChecklist": [
@@ -688,12 +688,12 @@
       "tuneSources": 0,
       "disableCandidates": 0,
       "totalCandidates": 21,
-      "qualifiedCandidates": 21,
+      "qualifiedCandidates": 18,
       "noiseCandidates": 0
     },
     "recommendations": [
       "Add more AI startup circle sources; current enabled source gap is 2.",
-      "Fill AI startup circle; source queue still needs 7 candidates."
+      "Fill AI startup circle; source queue still needs 8 candidates."
     ]
   }
 }

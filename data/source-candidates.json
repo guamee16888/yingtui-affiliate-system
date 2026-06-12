@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T13:44:10.812Z",
+  "updatedAt": "2026-06-12T17:43:13.707Z",
   "items": [
     {
       "id": "source_candidate_3515b779c597",
@@ -17,8 +17,8 @@
       "published": "Wed, 10 Jun 2026 20:19:31 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     },
     {
       "id": "source_candidate_c05d69f1b723",
@@ -35,8 +35,8 @@
       "published": "Wed, 10 Jun 2026 17:07:35 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     },
     {
       "id": "source_candidate_a61b9a939dae",
@@ -53,8 +53,8 @@
       "published": "Wed, 10 Jun 2026 16:11:08 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     },
     {
       "id": "source_candidate_cb3f98bdaef6",
@@ -71,8 +71,8 @@
       "published": "Wed, 10 Jun 2026 15:41:22 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
+      "createdAt": "2026-06-12T17:43:13.174Z",
+      "updatedAt": "2026-06-12T17:43:13.174Z"
     },
     {
       "id": "source_candidate_e4d4d2cd4d43",
@@ -89,62 +89,8 @@
       "published": "Wed, 10 Jun 2026 15:00:00 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
-    },
-    {
-      "id": "source_candidate_bf69b7e029a1",
-      "toolId": "tool_techcrunch_com_jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business_65a0bc47fc",
-      "name": "Jedify raises $24M to help companies arm AI agents with context on their business",
-      "url": "https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/",
-      "tagline": "The funding round was led by Norwest, with participation from S Capital VC, Cerca Partners, and Oceans Ventures. Snowflake Ventures also participated as a strategic investor.",
-      "description": "The funding round was led by Norwest, with participation from S Capital VC, Cerca Partners, and Oceans Ventures. Snowflake Ventures also participated as a strategic investor.",
-      "source": "techcrunch_ai",
-      "sourceName": "TechCrunch AI feed",
-      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "circle": "ai_startups",
-      "candidateType": "topic",
-      "published": "Wed, 10 Jun 2026 13:33:09 +0000",
-      "status": "active",
-      "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
-    },
-    {
-      "id": "source_candidate_b46c9f893126",
-      "toolId": "tool_techcrunch_com_decart-s-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-_91de7fe251",
-      "name": "Decart’s new world model can simulate hours of photorealistic driving — with some caveats",
-      "url": "https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/",
-      "tagline": "Decart is launching Oasis 3, a real-time world model that generates photorealistic driving environments for autonomous vehicle testing, now available via API for developers to buil",
-      "description": "Decart is launching Oasis 3, a real-time world model that generates photorealistic driving environments for autonomous vehicle testing, now available via API for developers to build on.",
-      "source": "techcrunch_ai",
-      "sourceName": "TechCrunch AI feed",
-      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "circle": "ai_startups",
-      "candidateType": "topic",
-      "published": "Wed, 10 Jun 2026 13:07:56 +0000",
-      "status": "active",
-      "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
-    },
-    {
-      "id": "source_candidate_be4ee281e2b0",
-      "toolId": "tool_coindesk_com_banking-rails-are-moving-past-the-stablecoin-winner-narrative-sygnum_aec71fc3b7",
-      "name": "Banking rails are moving past the 'stablecoin winner' narrative: Sygnum",
-      "url": "https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure",
-      "tagline": "Digital asset bank Sygnum says institutional clients want multiple tokenized cash instruments operating interchangeably on a single platform.",
-      "description": "Digital asset bank Sygnum says institutional clients want multiple tokenized cash instruments operating interchangeably on a single platform.",
-      "source": "coindesk_crypto",
-      "sourceName": "CoinDesk crypto feed",
-      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
-      "circle": "crypto_builders",
-      "candidateType": "topic",
-      "published": "Thu, 11 Jun 2026 16:37:53 +0000",
-      "status": "active",
-      "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "createdAt": "2026-06-12T13:44:10.811Z",
-      "updatedAt": "2026-06-12T13:44:10.811Z"
+      "createdAt": "2026-06-12T17:43:13.174Z",
+      "updatedAt": "2026-06-12T17:43:13.174Z"
     },
     {
       "id": "source_candidate_71f97fb23ad5",
@@ -161,8 +107,8 @@
       "published": "Thu, 11 Jun 2026 16:36:20 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.253Z",
-      "updatedAt": "2026-06-12T13:44:10.253Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     },
     {
       "id": "source_candidate_fe5a2105b723",
@@ -179,26 +125,8 @@
       "published": "Thu, 11 Jun 2026 15:30:00 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.253Z",
-      "updatedAt": "2026-06-12T13:44:10.253Z"
-    },
-    {
-      "id": "source_candidate_138ffe781d54",
-      "toolId": "tool_coindesk_com_crypto-for-advisors-crypto-etfs_3fb777d9ce",
-      "name": "Crypto for Advisors: Crypto ETFs",
-      "url": "https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs",
-      "tagline": "Global crypto ETFs saw significant outflows in May, but diversified exposures showed relative resilience; we explore what the data signals for long-term investors.",
-      "description": "Global crypto ETFs saw significant outflows in May, but diversified exposures showed relative resilience; we explore what the data signals for long-term investors.",
-      "source": "coindesk_crypto",
-      "sourceName": "CoinDesk crypto feed",
-      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
-      "circle": "crypto_builders",
-      "candidateType": "topic",
-      "published": "Thu, 11 Jun 2026 15:00:00 +0000",
-      "status": "active",
-      "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "createdAt": "2026-06-12T13:44:10.811Z",
-      "updatedAt": "2026-06-12T13:44:10.811Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     },
     {
       "id": "source_candidate_de4683c919b4",
@@ -215,44 +143,8 @@
       "published": "Thu, 11 Jun 2026 14:23:43 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
-    },
-    {
-      "id": "source_candidate_2e53a287e6fd",
-      "toolId": "tool_coindesk_com_spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq_f6f49b9b2e",
-      "name": "SpaceX stock is coming to Solana on the same day it lists on Nasdaq",
-      "url": "https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq",
-      "tagline": "The firms making that possible say eligible shares can also be converted back into tokens, creating a bridge between traditional brokerage accounts and blockchain-based markets.",
-      "description": "The firms making that possible say eligible shares can also be converted back into tokens, creating a bridge between traditional brokerage accounts and blockchain-based markets.",
-      "source": "coindesk_crypto",
-      "sourceName": "CoinDesk crypto feed",
-      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
-      "circle": "crypto_builders",
-      "candidateType": "topic",
-      "published": "Thu, 11 Jun 2026 14:00:00 +0000",
-      "status": "active",
-      "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "createdAt": "2026-06-12T13:44:10.811Z",
-      "updatedAt": "2026-06-12T13:44:10.811Z"
-    },
-    {
-      "id": "source_candidate_f0a3705801c6",
-      "toolId": "tool_coindesk_com_canton-network-developer-raises-355-million-to-bring-wall-street-onchain_390caf00dc",
-      "name": "Canton Network developer raises $355 million to bring Wall Street onchain",
-      "url": "https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
-      "tagline": "The investment comes as blockchains designed for big banks and institutions are having a moment, with Stripe's Tempo and Circle's Arc raising hundreds of millions of dollars.",
-      "description": "The investment comes as blockchains designed for big banks and institutions are having a moment, with Stripe's Tempo and Circle's Arc raising hundreds of millions of dollars.",
-      "source": "coindesk_crypto",
-      "sourceName": "CoinDesk crypto feed",
-      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
-      "circle": "crypto_builders",
-      "candidateType": "topic",
-      "published": "Thu, 11 Jun 2026 13:50:13 +0000",
-      "status": "active",
-      "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "createdAt": "2026-06-12T13:44:10.811Z",
-      "updatedAt": "2026-06-12T13:44:10.811Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     },
     {
       "id": "source_candidate_53600397a606",
@@ -269,8 +161,8 @@
       "published": "Thu, 11 Jun 2026 04:02:19 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     },
     {
       "id": "source_candidate_576b374effa3",
@@ -287,8 +179,116 @@
       "published": "Thu, 11 Jun 2026 03:53:06 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.254Z",
-      "updatedAt": "2026-06-12T13:44:10.254Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
+    },
+    {
+      "id": "source_candidate_4286ad13115d",
+      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
+      "name": "Mistral is rumored to be raising €3B at €20 valuation",
+      "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+      "tagline": "The funding round would value the company at around €20 billion (about $23.15 billion), nearly double its Series C valuation of €11.7 billion.",
+      "description": "The funding round would value the company at around €20 billion (about $23.15 billion), nearly double its Series C valuation of €11.7 billion.",
+      "source": "techcrunch_ai",
+      "sourceName": "TechCrunch AI feed",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "published": "Fri, 12 Jun 2026 17:38:11 +0000",
+      "status": "active",
+      "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
+    },
+    {
+      "id": "source_candidate_ec6adfbaa4dd",
+      "toolId": "tool_techcrunch_com_spacex-anthropic-and-openai-s-hot-ipo-summer_6faf6694ce",
+      "name": "SpaceX, Anthropic, and OpenAI’s hot IPO summer",
+      "url": "https://techcrunch.com/video/spacex-anthropic-and-openais-hot-ipo-summer/",
+      "tagline": "The IPO market is back, and it’s not the same companies leading the charge. FAANG had a good run, but a new acronym is taking over: MANGOS — Meta (or Microsoft, depending on who yo",
+      "description": "The IPO market is back, and it’s not the same companies leading the charge. FAANG had a good run, but a new acronym is taking over: MANGOS — Meta (or Microsoft, depending on who you ask), Anthropic, Nvidia, Google, OpenAI, and SpaceX. Half of that bunch is heading to public markets in the same window, and it’s a stress test for investors, for valuations, and for […]",
+      "source": "techcrunch_ai",
+      "sourceName": "TechCrunch AI feed",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "published": "Fri, 12 Jun 2026 16:23:25 +0000",
+      "status": "active",
+      "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
+    },
+    {
+      "id": "source_candidate_100f88b5fc51",
+      "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
+      "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
+      "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
+      "tagline": "VanEck says BNB’s user activity and revenue generation make it a stronger long-term crypto investment case than many blockchain projects still selling a vision.",
+      "description": "VanEck says BNB’s user activity and revenue generation make it a stronger long-term crypto investment case than many blockchain projects still selling a vision.",
+      "source": "coindesk_crypto",
+      "sourceName": "CoinDesk crypto feed",
+      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "published": "Fri, 12 Jun 2026 16:05:31 +0000",
+      "status": "active",
+      "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "createdAt": "2026-06-12T17:43:13.705Z",
+      "updatedAt": "2026-06-12T17:43:13.705Z"
+    },
+    {
+      "id": "source_candidate_207bc2cd2436",
+      "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
+      "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
+      "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
+      "tagline": "The stock was trading above $160 in volatile action after last night's IPO at $135.",
+      "description": "The stock was trading above $160 in volatile action after last night's IPO at $135.",
+      "source": "coindesk_crypto",
+      "sourceName": "CoinDesk crypto feed",
+      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "published": "Fri, 12 Jun 2026 15:55:42 +0000",
+      "status": "active",
+      "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "createdAt": "2026-06-12T17:43:13.705Z",
+      "updatedAt": "2026-06-12T17:43:13.705Z"
+    },
+    {
+      "id": "source_candidate_e5f62ad21c0c",
+      "toolId": "tool_techcrunch_com_it-s-hot-ipo-summer-and-the-mangos-are-ripe_1258e4fab2",
+      "name": "It’s hot IPO summer, and the MANGOS are ripe",
+      "url": "https://techcrunch.com/podcast/its-hot-ipo-summer-and-the-mangos-are-ripe/",
+      "tagline": "The IPO market is back, and it’s not the same companies leading the charge. FAANG had a good run, but a new acronym is taking over: MANGOS — Meta (or Microsoft, depending on who yo",
+      "description": "The IPO market is back, and it’s not the same companies leading the charge. FAANG had a good run, but a new acronym is taking over: MANGOS — Meta (or Microsoft, depending on who you ask), Anthropic, Nvidia, Google, OpenAI, and SpaceX. Half of that bunch is heading to public markets in the same window, and it’s a stress test for investors, for valuations, and for […]",
+      "source": "techcrunch_ai",
+      "sourceName": "TechCrunch AI feed",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "published": "Fri, 12 Jun 2026 15:50:52 +0000",
+      "status": "active",
+      "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
+    },
+    {
+      "id": "source_candidate_5ef63cd5b2a5",
+      "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
+      "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
+      "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+      "tagline": "Bitcoin ETF investors have pulled billions this year, but the broader crypto ETF market remains more resilient than recent headlines suggest.",
+      "description": "Bitcoin ETF investors have pulled billions this year, but the broader crypto ETF market remains more resilient than recent headlines suggest.",
+      "source": "coindesk_crypto",
+      "sourceName": "CoinDesk crypto feed",
+      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "published": "Fri, 12 Jun 2026 15:49:36 +0000",
+      "status": "active",
+      "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "createdAt": "2026-06-12T17:43:13.705Z",
+      "updatedAt": "2026-06-12T17:43:13.705Z"
     },
     {
       "id": "source_candidate_9c2bc5a4a712",
@@ -305,8 +305,8 @@
       "published": "Fri, 12 Jun 2026 10:00:12 +0000",
       "status": "active",
       "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "createdAt": "2026-06-12T13:44:10.811Z",
-      "updatedAt": "2026-06-12T13:44:10.811Z"
+      "createdAt": "2026-06-12T17:43:13.705Z",
+      "updatedAt": "2026-06-12T17:43:13.705Z"
     },
     {
       "id": "source_candidate_72bb52a3552a",
@@ -323,8 +323,8 @@
       "published": "Fri, 12 Jun 2026 07:07:34 +0000",
       "status": "active",
       "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "createdAt": "2026-06-12T13:44:10.811Z",
-      "updatedAt": "2026-06-12T13:44:10.811Z"
+      "createdAt": "2026-06-12T17:43:13.705Z",
+      "updatedAt": "2026-06-12T17:43:13.705Z"
     },
     {
       "id": "source_candidate_a48e609eca45",
@@ -341,8 +341,8 @@
       "published": "Fri, 12 Jun 2026 05:35:25 +0000",
       "status": "active",
       "notes": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "createdAt": "2026-06-12T13:44:10.811Z",
-      "updatedAt": "2026-06-12T13:44:10.811Z"
+      "createdAt": "2026-06-12T17:43:13.705Z",
+      "updatedAt": "2026-06-12T17:43:13.705Z"
     },
     {
       "id": "source_candidate_e06dd10fbd37",
@@ -359,8 +359,8 @@
       "published": "Fri, 12 Jun 2026 01:48:07 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.253Z",
-      "updatedAt": "2026-06-12T13:44:10.253Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     },
     {
       "id": "source_candidate_6a173043e187",
@@ -377,8 +377,8 @@
       "published": "Fri, 12 Jun 2026 01:04:38 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T13:44:10.253Z",
-      "updatedAt": "2026-06-12T13:44:10.253Z"
+      "createdAt": "2026-06-12T17:43:13.173Z",
+      "updatedAt": "2026-06-12T17:43:13.173Z"
     }
   ]
 }

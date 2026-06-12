@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "date": "2026-06-12",
-  "generatedAt": "2026-06-12T17:24:51.836Z",
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T17:43:50.363Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
-  "overallScore": 38,
+  "overallScore": 34,
   "level": "prototype",
   "summary": {
     "dimensions": 9,
@@ -35,17 +35,17 @@
     {
       "id": "content_supply",
       "name": "Daily high-quality content supply",
-      "score": 18,
+      "score": 15,
       "status": "blocked",
       "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
       "evidence": [
-        "25/200 planned unique drafts.",
-        "25 qualified tools.",
-        "73 source candidates needed by the queue.",
+        "20/200 planned unique drafts.",
+        "20 qualified tools.",
+        "78 source candidates needed by the queue.",
         "100 source-pack rows generated, 100 still need real candidates."
       ],
       "gaps": [
-        "Need 175 more unique drafts for the current target.",
+        "Need 180 more unique drafts for the current target.",
         "Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles."
       ],
       "nextActions": [
@@ -56,13 +56,13 @@
     {
       "id": "content_calendar",
       "name": "Account-level content calendar",
-      "score": 9,
+      "score": 8,
       "status": "blocked",
       "whyItMatters": "A daily target is not real until it fits account cooldowns and human review time.",
       "evidence": [
-        "17/200 posts scheduled into review slots.",
+        "16/200 posts scheduled into review slots.",
         "154 slots impossible under current cooldown settings.",
-        "175 drafts missing."
+        "180 drafts missing."
       ],
       "gaps": [
         "Current cooldown settings cannot fit the configured daily target.",
@@ -101,11 +101,10 @@
       "evidence": [
         "0 configured affiliate links.",
         "0 affiliate research records.",
-        "1 current high-affiliate candidates.",
-        "1 candidates in affiliate research workbench."
+        "0 current high-affiliate candidates.",
+        "0 candidates in affiliate research workbench."
       ],
       "gaps": [
-        "High-affiliate candidates still need program research.",
         "No configured affiliate links detected."
       ],
       "nextActions": [
@@ -143,7 +142,7 @@
       "whyItMatters": "The system is valuable only if it protects account quality, avoids fake claims, and blocks stale posts.",
       "evidence": [
         "0 generation warnings.",
-        "24 fresh publish candidates.",
+        "4 fresh publish candidates.",
         "Manual-confirm publishing is the default mode."
       ],
       "gaps": [
@@ -157,14 +156,14 @@
     {
       "id": "longform_engine",
       "name": "Thread and SEO review engine",
-      "score": 35,
+      "score": 5,
       "status": "blocked",
       "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
       "evidence": [
         "0 thread queue items.",
         "0 review page queue items.",
         "0 active follow-up items.",
-        "7 promotion review items are ready to queue."
+        "1 promotion review items are ready to queue."
       ],
       "gaps": [
         "No active follow-up queue items.",
@@ -211,25 +210,25 @@
       "nextAction": "Use the Affiliate research workbench and save real program findings."
     },
     {
+      "id": "longform_engine",
+      "name": "Thread and SEO review engine",
+      "score": 5,
+      "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
+      "nextAction": "Open Promotion review and manually queue the ready items."
+    },
+    {
       "id": "content_calendar",
       "name": "Account-level content calendar",
-      "score": 9,
+      "score": 8,
       "whyItMatters": "A daily target is not real until it fits account cooldowns and human review time.",
       "nextAction": "Run npm run content-calendar after every daily generation."
     },
     {
       "id": "content_supply",
       "name": "Daily high-quality content supply",
-      "score": 18,
+      "score": 15,
       "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
       "nextAction": "Run npm run source-queue and fill the largest circle gap first."
-    },
-    {
-      "id": "longform_engine",
-      "name": "Thread and SEO review engine",
-      "score": 35,
-      "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
-      "nextAction": "Open Promotion review and manually queue the ready items."
     }
   ],
   "nextSprint": [
@@ -237,10 +236,10 @@
     "Paste X Analytics export into feedback import after posts have data.",
     "Use the Affiliate research workbench and save real program findings.",
     "Only move approved real links into config/affiliate-links.json.",
+    "Open Promotion review and manually queue the ready items.",
+    "Generate review outlines only after the tool has signal or clear affiliate fit.",
     "Run npm run content-calendar after every daily generation.",
-    "Lower per-account daily targets or reduce cooldown hours before scaling.",
-    "Run npm run source-queue and fill the largest circle gap first.",
-    "Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL."
+    "Lower per-account daily targets or reduce cooldown hours before scaling."
   ],
   "productPrinciples": [
     "Quality gates beat volume targets.",

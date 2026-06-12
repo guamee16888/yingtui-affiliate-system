@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-12T17:43:23.899Z",
+  "generatedAt": "2026-06-12T17:43:23.888Z",
   "date": "2026-06-13",
   "mode": "manual_review",
   "rule": "Each draft uses one unique candidate. No tool is allocated to more than one account in this plan.",

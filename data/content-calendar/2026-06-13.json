@@ -1,70 +1,128 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-12T17:43:23.899Z",
+  "generatedAt": "2026-06-12T17:43:23.941Z",
   "date": "2026-06-13",
-  "mode": "manual_review",
-  "rule": "Each draft uses one unique candidate. No tool is allocated to more than one account in this plan.",
+  "mode": "manual_review_calendar",
+  "window": {
+    "startHour": 9,
+    "endHour": 23,
+    "timezone": "local"
+  },
+  "rule": "Schedule drafts into review slots. Every slot still requires manual approval before publishing.",
   "summary": {
     "accounts": 20,
     "targetPosts": 200,
-    "plannedPosts": 20,
-    "gap": 180,
-    "uniqueToolsUsed": 20,
-    "accountsCovered": 0
+    "availableDrafts": 20,
+    "sameDayCapacity": 46,
+    "scheduledPosts": 16,
+    "draftGap": 180,
+    "capacityGap": 154,
+    "unscheduledDrafts": 4,
+    "readyAccounts": 0,
+    "targetIncompatibleAccounts": 20
   },
-  "accountPlans": [
+  "scalePlan": {
+    "status": "not_ready_to_scale",
+    "targetPerAccount": 10,
+    "currentScheduledPosts": 16,
+    "theoreticalMaxTodayPosts": 20,
+    "recommendedTargetPerAccountIfKeepCooldown": 2,
+    "recommendedCooldownHoursForTarget": 1.5,
+    "blockers": [
+      "draft_supply",
+      "cooldown_capacity"
+    ],
+    "headline": "Do not aim for 200/day yet. Review about 20 posts today unless you add more qualified drafts and change cooldowns.",
+    "nextActions": [
+      "Add 180 more qualified, non-duplicate drafts before trying to fill the current target.",
+      "Keep current cooldowns and lower the target to about 2/account/day, or reduce cooldown to about 1.5h for the current target.",
+      "Only manually review the 16 scheduled posts until feedback data exists."
+    ]
+  },
+  "accountCalendars": [
     {
       "accountId": "ai_tools_lab",
       "displayName": "AI Tools Lab",
       "category": "AI tools discovery",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 6,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 3,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 7,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "affiliate_builder",
       "displayName": "Affiliate Builder",
       "category": "affiliate and side projects",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 8,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "seo_review_lab",
       "displayName": "SEO Review Lab",
       "category": "SEO review pages",
       "targetPosts": 10,
-      "plannedPosts": 2,
-      "gap": 8,
-      "drafts": [
+      "cooldownHours": 12,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 2,
+      "scheduledPosts": 2,
+      "draftGap": 8,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_a61b9a939dae",
           "toolName": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
-          "score": 25,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: new research suggests that AI memory systems can degrade model performance and encourag.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
           "reason": "SEO Review Lab match score 25; TechCrunch AI feed; thread candidate."
         },
         {
+          "slot": 2,
+          "scheduledLocalTime": "2026-06-13 21:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_71f97fb23ad5",
           "toolName": "Deezer’s new tool can identify AI music from Spotify, Apple Music, and others",
           "url": "https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
-          "score": 21,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: deezer introduced a tool that scans playlists from spotify, apple music, and other plat.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
+          "score": 21,
           "reason": "SEO Review Lab match score 23; TechCrunch AI feed; thread candidate."
         }
+      ],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target.",
+        "Need 8 more unique drafts for this account."
       ]
     },
     {
@@ -72,31 +130,52 @@
       "displayName": "Productivity Ops",
       "category": "productivity and operations",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 6,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 3,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 7,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "build_in_public",
       "displayName": "Build in Public",
       "category": "building and experiments",
       "targetPosts": 10,
-      "plannedPosts": 1,
-      "gap": 9,
-      "drafts": [
+      "cooldownHours": 12,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 1,
+      "scheduledPosts": 1,
+      "draftGap": 9,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_e06dd10fbd37",
           "toolName": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
           "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
-          "score": 21,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: unlike humanoid robots designed around a fixed form — think boston dynamics — theker's.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+          "score": 21,
           "reason": "Build in Public match score 56; TechCrunch AI feed; tweet only."
         }
+      ],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target.",
+        "Need 9 more unique drafts for this account."
       ]
     },
     {
@@ -104,35 +183,44 @@
       "displayName": "Creator Stack",
       "category": "creator tools",
       "targetPosts": 10,
-      "plannedPosts": 2,
-      "gap": 8,
-      "drafts": [
+      "cooldownHours": 8,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 2,
+      "scheduledPosts": 2,
+      "draftGap": 8,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "tag:www.producthunt.com,2005:Post/1169183",
           "toolName": "KOSH Money",
           "url": "https://www.producthunt.com/products/kosh-money",
-          "score": 24,
-          "sourceName": "Product Hunt",
-          "circle": "",
-          "candidateType": "product",
-          "followUpAction": "tweet only",
           "variantType": "shortPost",
           "copyText": "Testing KOSH Money today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/kosh-money",
+          "score": 24,
           "reason": "Creator Stack match score 63; Product Hunt; tweet only."
         },
         {
+          "slot": 2,
+          "scheduledLocalTime": "2026-06-13 17:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_fe5a2105b723",
           "toolName": "Pool’s new app turns your screenshots into something useful",
           "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
-          "score": 22,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: pool's new app automatically sorts screenshots into personalized collections, tracks do.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
+          "score": 22,
           "reason": "Creator Stack match score 56; TechCrunch AI feed; tweet only."
         }
+      ],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
+        "Need 8 more unique drafts for this account."
       ]
     },
     {
@@ -140,22 +228,32 @@
       "displayName": "Ecommerce Ops",
       "category": "ecommerce and Shopify",
       "targetPosts": 10,
-      "plannedPosts": 1,
-      "gap": 9,
-      "drafts": [
+      "cooldownHours": 12,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 1,
+      "scheduledPosts": 1,
+      "draftGap": 9,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "tag:www.producthunt.com,2005:Post/1169266",
           "toolName": "Meet Warren 3.0",
           "url": "https://www.producthunt.com/products/underpay",
-          "score": 20,
-          "sourceName": "Product Hunt",
-          "circle": "",
-          "candidateType": "product",
-          "followUpAction": "tweet only",
           "variantType": "shortPost",
           "copyText": "Testing Meet Warren 3.0 today. It looks narrow enough to be useful: answering repeat customer questions without adding another queue. Worth a quick look if you care about fewer repetitive support tasks. https://www.producthunt.com/products/underpay",
+          "score": 20,
           "reason": "Ecommerce Ops match score 16; Product Hunt; tweet only."
         }
+      ],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target.",
+        "Need 9 more unique drafts for this account."
       ]
     },
     {
@@ -163,22 +261,32 @@
       "displayName": "Dev Workflows",
       "category": "developer workflows",
       "targetPosts": 10,
-      "plannedPosts": 1,
-      "gap": 9,
-      "drafts": [
+      "cooldownHours": 8,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 1,
+      "scheduledPosts": 1,
+      "draftGap": 9,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_e4d4d2cd4d43",
           "toolName": "Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in",
           "url": "https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-          "score": 25,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: AI coding agent startup niteshift has raised a $7 million seed round from a who's who o.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
+          "score": 25,
           "reason": "Dev Workflows match score 19; TechCrunch AI feed; tweet only."
         }
+      ],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
+        "Need 9 more unique drafts for this account."
       ]
     },
     {
@@ -186,114 +294,135 @@
       "displayName": "Sales Support AI",
       "category": "sales and customer support",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 12,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "career_workflows",
       "displayName": "Career Workflows",
       "category": "career and job search",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 12,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "ai_founder_signals",
       "displayName": "AI Founder Signals",
       "category": "AI startup circle",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 6,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 3,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 7,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "ai_agent_ops",
       "displayName": "AI Agent Ops",
       "category": "AI agents and automation",
       "targetPosts": 10,
-      "plannedPosts": 6,
-      "gap": 4,
-      "drafts": [
+      "cooldownHours": 6,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 3,
+      "availableDrafts": 6,
+      "scheduledPosts": 3,
+      "draftGap": 4,
+      "capacityGap": 7,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_4286ad13115d",
           "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
-          "score": 25,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "score": 25,
           "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
         },
         {
+          "slot": 2,
+          "scheduledLocalTime": "2026-06-13 15:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_6a173043e187",
           "toolName": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
           "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
-          "score": 25,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new round values the physical AI startup that aims to automate heavy engineering an.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
+          "score": 25,
           "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
         },
         {
+          "slot": 3,
+          "scheduledLocalTime": "2026-06-13 21:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_53600397a606",
           "toolName": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
           "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
-          "score": 22,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the decision comes as india emerges as the world’s largest gcc market. I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
+          "score": 22,
           "reason": "AI Agent Ops match score 17; TechCrunch AI feed; tweet only."
-        },
+        }
+      ],
+      "unscheduledDrafts": [
         {
           "toolId": "source_candidate_c05d69f1b723",
           "toolName": "‘AI-pilled’ firms spend $7,500 per employee each month on AI",
-          "url": "https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/",
-          "score": 21,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the most AI-obsessed firms are spending roughly $7,500 monthly per employee on AI, per.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/",
-          "reason": "AI Agent Ops match score 17; TechCrunch AI feed; tweet only."
+          "reason": "No same-day slot under current cooldown."
         },
         {
           "toolId": "source_candidate_de4683c919b4",
           "toolName": "DoorDash’s new AI chatbot lets you order with prompts and photos",
-          "url": "https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/",
-          "score": 21,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new chatbot, called ask doordash, allows users to search the app for what they're l.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/",
-          "reason": "AI Agent Ops match score 17; TechCrunch AI feed; tweet only."
+          "reason": "No same-day slot under current cooldown."
         },
         {
           "toolId": "source_candidate_3515b779c597",
           "toolName": "Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues",
-          "url": "https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/",
-          "score": 20,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: companies are burning through exorbitant sums of money to keep pace in the AI arms race.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/",
-          "reason": "AI Agent Ops match score 16; TechCrunch AI feed; tweet only."
+          "reason": "No same-day slot under current cooldown."
         }
+      ],
+      "notes": [
+        "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
+        "Need 4 more unique drafts for this account."
       ]
     },
     {
@@ -301,97 +430,143 @@
       "displayName": "Indie Launch Radar",
       "category": "indie hacker circle",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 8,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "indie_monetization",
       "displayName": "Indie Monetization",
       "category": "indie monetization",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 8,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "saas_pricing_lab",
       "displayName": "SaaS Pricing Lab",
       "category": "SaaS founder circle",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 8,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "saas_growth_ops",
       "displayName": "SaaS Growth Ops",
       "category": "SaaS growth operations",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 8,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     },
     {
       "accountId": "crypto_builder_radar",
       "displayName": "Crypto Builder Radar",
       "category": "Crypto builder circle",
       "targetPosts": 10,
-      "plannedPosts": 4,
-      "gap": 6,
-      "drafts": [
+      "cooldownHours": 6,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 3,
+      "availableDrafts": 4,
+      "scheduledPosts": 3,
+      "draftGap": 6,
+      "capacityGap": 7,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_a48e609eca45",
           "toolName": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
-          "score": 26,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
           "variantType": "casualPost",
           "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: lg electronics has built a blockchain-based advertising platform with the help of arbitrum. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
           "reason": "Crypto Builder Radar match score 125; CoinDesk crypto feed; thread candidate."
         },
         {
+          "slot": 2,
+          "scheduledLocalTime": "2026-06-13 15:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_5ef63cd5b2a5",
           "toolName": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
           "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
-          "score": 25,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: bitcoin etf investors have pulled billions this year, but the broader crypto etf market.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "score": 25,
           "reason": "Crypto Builder Radar match score 123; CoinDesk crypto feed; tweet only."
         },
         {
+          "slot": 3,
+          "scheduledLocalTime": "2026-06-13 21:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_207bc2cd2436",
           "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
           "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "score": 28,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
           "variantType": "casualPost",
           "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
+          "score": 28,
           "reason": "Crypto Builder Radar match score 120; CoinDesk crypto feed; thread candidate."
-        },
+        }
+      ],
+      "unscheduledDrafts": [
         {
           "toolId": "source_candidate_72bb52a3552a",
           "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
-          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
-          "score": 22,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
           "variantType": "casualPost",
-          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: an 8-a share registration filing, in this case for nasdaq, is usually one of the last s.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
-          "reason": "Crypto Builder Radar match score 117; CoinDesk crypto feed; thread candidate."
+          "reason": "No same-day slot under current cooldown."
         }
+      ],
+      "notes": [
+        "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
+        "Need 6 more unique drafts for this account."
       ]
     },
     {
@@ -399,22 +574,32 @@
       "displayName": "Crypto Trading Tools",
       "category": "crypto tooling",
       "targetPosts": 10,
-      "plannedPosts": 1,
-      "gap": 9,
-      "drafts": [
+      "cooldownHours": 6,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 3,
+      "availableDrafts": 1,
+      "scheduledPosts": 1,
+      "draftGap": 9,
+      "capacityGap": 7,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_100f88b5fc51",
           "toolName": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
-          "score": 25,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: vaneck says bnb’s user activity and revenue generation make it a stronger long-term cry.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
+          "score": 25,
           "reason": "Crypto Trading Tools match score 19; CoinDesk crypto feed; tweet only."
         }
+      ],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
+        "Need 9 more unique drafts for this account."
       ]
     },
     {
@@ -422,35 +607,44 @@
       "displayName": "Founder Tooling",
       "category": "founder workflows",
       "targetPosts": 10,
-      "plannedPosts": 2,
-      "gap": 8,
-      "drafts": [
+      "cooldownHours": 8,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 2,
+      "scheduledPosts": 2,
+      "draftGap": 8,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [
         {
+          "slot": 1,
+          "scheduledLocalTime": "2026-06-13 09:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_cb3f98bdaef6",
           "toolName": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
           "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-          "score": 22,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: cybersecurity researchers are complaining that anthropic's new model fable has guardrai.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
+          "score": 22,
           "reason": "Founder Tooling match score 66; TechCrunch AI feed; tweet only."
         },
         {
+          "slot": 2,
+          "scheduledLocalTime": "2026-06-13 17:00",
+          "status": "needs_manual_review",
           "toolId": "source_candidate_576b374effa3",
           "toolName": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
-          "score": 29,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: if founders and other business leaders weren't already envious of dario amodei, who sit.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
           "reason": "Founder Tooling match score 66; TechCrunch AI feed; tweet only."
         }
+      ],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
+        "Need 8 more unique drafts for this account."
       ]
     },
     {
@@ -458,13 +652,25 @@
       "displayName": "Market Map Notes",
       "category": "market mapping",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "cooldownHours": 10,
+      "recommendedCooldownHours": 1.5,
+      "sameDayCapacity": 2,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
+      "capacityGap": 8,
+      "status": "target_incompatible",
+      "slots": [],
+      "unscheduledDrafts": [],
+      "notes": [
+        "Target 10/day does not fit cooldown 10h. Use about 1.5h or lower daily target.",
+        "Need 10 more unique drafts for this account."
+      ]
     }
   ],
-  "unallocatedTools": [],
   "warnings": [
-    "Draft supply is short by 180 posts. Add candidates instead of reusing tools across accounts."
+    "Current cooldown settings make 154 target slots impossible inside one day.",
+    "Draft supply is short by 180 posts before manual review.",
+    "Calendar scheduled 16/200 target posts."
   ]
 }

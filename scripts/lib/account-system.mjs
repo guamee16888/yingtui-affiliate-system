@@ -154,10 +154,10 @@ function scoreAccountMatch(item, account) {
     item.angle?.pain,
     item.followUpAction
   ].filter(Boolean).join(" "));
-  const keywordMatches = account.keywords.filter((keyword) => haystack.includes(normalize(keyword)));
-  const pillarMatches = account.contentPillars.filter((pillar) => haystack.includes(normalize(pillar)));
+  const keywordMatches = account.keywords.filter((keyword) => termMatches(haystack, keyword));
+  const pillarMatches = account.contentPillars.filter((pillar) => termMatches(haystack, pillar));
   const actionMatch = account.preferredActions.includes(item.followUpAction);
-  const categoryMatch = haystack.includes(normalize(account.category));
+  const categoryMatch = termMatches(haystack, account.category);
   const score = keywordMatches.length * KEYWORD_BONUS
     + pillarMatches.length * KEYWORD_BONUS
     + (actionMatch ? ACTION_BONUS : 0)
@@ -213,7 +213,24 @@ function toolId(item) {
 }
 
 function normalize(value) {
-  return String(value ?? "").toLowerCase();
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function termMatches(haystack, term) {
+  const normalizedTerm = normalize(term).trim();
+  if (!normalizedTerm) return false;
+  if (/^[a-z0-9+#.-]{1,4}$/.test(normalizedTerm)) {
+    return new RegExp(`(^|[^a-z0-9])${escapeRegExp(normalizedTerm)}([^a-z0-9]|$)`, "i").test(haystack);
+  }
+  return haystack.includes(normalizedTerm);
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function round(value) {

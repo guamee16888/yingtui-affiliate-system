@@ -608,6 +608,62 @@ test("account strategy recommends matching account profile", () => {
   assert.equal(strategy.summary.routedTools, 1);
 });
 
+test("account strategy does not match short keywords inside unrelated words", () => {
+  const item = {
+    tool: {
+      name: "Canton Network developer raises funding to bring Wall Street onchain",
+      url: "https://coindesk.example.com/canton",
+      tagline: "Crypto infrastructure funding signal",
+      description: "Onchain infrastructure for institutional crypto builders.",
+      circle: "crypto_builders",
+      sourceName: "CoinDesk crypto feed"
+    },
+    angle: { audience: "crypto builders", outcome: "onchain infrastructure", pain: "tracking crypto builder signals" },
+    followUpAction: "tweet only",
+    scoreBreakdown: { contentScore: 8, affiliateScore: 1 }
+  };
+  const accountConfig = {
+    rotationPolicy: { maxAccounts: 10, defaultDailyPostLimit: 2 },
+    accounts: [
+      { id: "ai", displayName: "AI Founder Signals", keywords: ["AI", "agent"], preferredActions: ["tweet only"], active: true },
+      { id: "crypto", displayName: "Crypto Builder Radar", keywords: ["crypto", "onchain"], preferredActions: ["tweet only"], active: true }
+    ]
+  };
+
+  const recommendation = recommendAccountForItem(item, accountConfig);
+
+  assert.equal(recommendation.primary.accountId, "crypto");
+  assert.equal(recommendation.alternatives.some((account) => account.accountId === "ai" && account.matchedKeywords.includes("AI")), false);
+});
+
+test("account strategy treats underscored circle ids as account pillars", () => {
+  const item = {
+    tool: {
+      name: "SpaceX Nasdaq debut market signal",
+      url: "https://coindesk.example.com/spacex",
+      tagline: "Market signal",
+      description: "",
+      circle: "crypto_builders",
+      sourceName: "CoinDesk feed"
+    },
+    angle: { audience: "solo operators", outcome: "market signal", pain: "removing one narrow repeated manual step" },
+    followUpAction: "tweet only",
+    scoreBreakdown: { contentScore: 7, affiliateScore: 2 }
+  };
+  const accountConfig = {
+    rotationPolicy: { maxAccounts: 10, defaultDailyPostLimit: 2 },
+    accounts: [
+      { id: "ai", displayName: "AI Agent Ops", keywords: ["workflow"], preferredActions: ["tweet only"], active: true },
+      { id: "crypto", displayName: "Crypto Builder Radar", contentPillars: ["crypto builders"], keywords: [], preferredActions: ["tweet only"], active: true }
+    ]
+  };
+
+  const recommendation = recommendAccountForItem(item, accountConfig);
+
+  assert.equal(recommendation.primary.accountId, "crypto");
+  assert.deepEqual(recommendation.primary.matchedPillars, ["crypto builders"]);
+});
+
 test("account strategy respects daily post limits when routing", () => {
   const picked = [
     {

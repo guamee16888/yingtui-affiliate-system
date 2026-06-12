@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "date": "2026-06-12",
-  "generatedAt": "2026-06-12T17:34:43.759Z",
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T17:43:24.124Z",
   "status": "seed_ready",
   "stage": "seed_batch",
   "headline": "Start with three manually reviewed seed posts, then mark each one with accountId.",
@@ -13,7 +13,7 @@
     "activeAccounts": 20,
     "measuredAccounts": 0,
     "safeNewPosts": 3,
-    "seedTests": 3,
+    "seedTests": 2,
     "topAccount": "",
     "topAngle": "",
     "topSource": ""
@@ -72,44 +72,32 @@
   ],
   "seedTests": [
     {
-      "toolId": "tool_coindesk_com_canton-network-developer-raises-355-million-to-bring-wall-street-onchain_390caf00dc",
-      "toolName": "Canton Network developer raises $355 million to bring Wall Street onchain",
-      "toolUrl": "https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+      "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
+      "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
+      "toolUrl": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
+      "accountId": "crypto_builder_radar",
+      "accountName": "Crypto Builder Radar",
+      "variantType": "shortPost",
+      "copyText": "Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
+      "priorityScore": 97,
+      "freshnessLabel": "Fresh today",
+      "reason": "Fresh CoinDesk crypto feed routed to Crypto Builder Radar; score 28, risk 0."
+    },
+    {
+      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
+      "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+      "toolUrl": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
       "accountId": "ai_founder_signals",
       "accountName": "AI Founder Signals",
       "variantType": "painPointHook",
-      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one annoying developer workflow step. Worth watching before turning it into a thread. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
-      "priorityScore": 118,
-      "freshnessLabel": "Fresh today",
-      "reason": "Fresh CoinDesk crypto feed routed to AI Founder Signals; score 37, risk 0."
-    },
-    {
-      "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
-      "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
-      "toolUrl": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
-      "accountId": "ai_agent_ops",
-      "accountName": "AI Agent Ops",
-      "variantType": "painPointHook",
-      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
-      "priorityScore": 85,
-      "freshnessLabel": "Fresh today",
-      "reason": "Fresh CoinDesk crypto feed routed to AI Agent Ops; score 26, risk 0."
-    },
-    {
-      "toolId": "tool_techcrunch_com_theker-just-raised-85m-to-build-the-factory-robot-that-doesn-t-specialize-in-any_3d469281ec",
-      "toolName": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
-      "toolUrl": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
-      "accountId": "ai_tools_lab",
-      "accountName": "AI Tools Lab",
-      "variantType": "painPointHook",
-      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
       "priorityScore": 82,
       "freshnessLabel": "Fresh today",
-      "reason": "Fresh TechCrunch AI feed routed to AI Tools Lab; score 25, risk 0."
+      "reason": "Fresh TechCrunch AI feed routed to AI Founder Signals; score 25, risk 0."
     }
   ],
   "pendingFeedback": [],
-  "feedbackCsvTemplate": "toolName,toolUrl,variantType,accountId,accountName,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes\nCanton Network developer raises $355 million to bring Wall Street onchain,https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain,painPointHook,ai_founder_signals,AI Founder Signals,,,,,,,,,\n\"BlackRock files to list its bitcoin income ETF, with expected debut next week\",https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week,painPointHook,ai_agent_ops,AI Agent Ops,,,,,,,,,\nTheker just raised $85M to build the factory robot that doesn’t specialize in anything,https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/,painPointHook,ai_tools_lab,AI Tools Lab,,,,,,,,,",
+  "feedbackCsvTemplate": "toolName,toolUrl,variantType,accountId,accountName,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes\nElon Musk's SpaceX soars 20% in blockbuster Nasdaq debut,https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut,shortPost,crypto_builder_radar,Crypto Builder Radar,,,,,,,,,\nMistral is rumored to be raising €3B at €20 valuation,https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/,painPointHook,ai_founder_signals,AI Founder Signals,,,,,,,,,",
   "afterPosting": [
     "Click Mark posted or publish through the confirmation dialog so accountId is recorded.",
     "Wait until X Analytics has impressions.",

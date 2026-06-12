@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T20:25:13.301Z",
+  "generatedAt": "2026-06-12T20:44:29.022Z",
   "rule": "Target one account with 3x candidate bench before trying to fill its daily post limit.",
   "summary": {
     "activeAccounts": 20,
@@ -11,12 +11,12 @@
     "matchedCandidates": 54,
     "strongCandidates": 9,
     "freshCandidates": 9,
-    "plannedDrafts": 19,
-    "scheduledPosts": 16,
+    "plannedDrafts": 18,
+    "scheduledPosts": 15,
     "candidateGap": 546,
     "freshGap": 191,
-    "draftGap": 181,
-    "scheduleGap": 184,
+    "draftGap": 182,
+    "scheduleGap": 185,
     "readyAccounts": 0,
     "blockedAccounts": 20,
     "averageReadinessScore": 7
@@ -1728,9 +1728,9 @@
         }
       },
       {
-        "accountId": "indie_launch_radar",
-        "displayName": "Indie Launch Radar",
-        "category": "indie hacker circle",
+        "accountId": "dev_workflows",
+        "displayName": "Dev Workflows",
+        "category": "developer workflows",
         "readinessScore": 0,
         "targetPosts": 10,
         "status": "needs_drafts",
@@ -1783,190 +1783,190 @@
           }
         ],
         "actionLabel": "补 10 条草稿/排期",
-        "actionDetail": "Indie Launch Radar needs unique copy and review slots before it can post today.",
+        "actionDetail": "Dev Workflows needs unique copy and review slots before it can post today.",
         "actionPriority": 80,
         "refillTemplate": {
           "rowsPerAccount": 10,
           "rows": [
             {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
               "priority": "P1",
               "name": "",
               "url": "",
               "tagline": "",
               "source": "account_refill",
-              "circle": "indie_hackers",
+              "circle": "ai_startups",
               "candidateType": "topic",
-              "sourceUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
+              "sourceUrl": "https://www.producthunt.com/search?q=developer%20workflows%20tool",
               "published": "2026-06-13",
-              "researchProvider": "X live search",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+              "researchProvider": "Product Hunt search",
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://www.producthunt.com/search?q=developer%20workflows%20tool",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
             },
             {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
               "priority": "P1",
               "name": "",
               "url": "",
               "tagline": "",
               "source": "account_refill",
-              "circle": "indie_hackers",
+              "circle": "ai_startups",
               "candidateType": "product",
-              "sourceUrl": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
+              "sourceUrl": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
               "published": "2026-06-13",
-              "researchProvider": "Google recent search",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+              "researchProvider": "X live search",
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
             },
             {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
               "priority": "P1",
               "name": "",
               "url": "",
               "tagline": "",
               "source": "account_refill",
-              "circle": "indie_hackers",
+              "circle": "ai_startups",
               "candidateType": "product",
-              "sourceUrl": "https://hn.algolia.com/?q=indie%20hacker%20launch",
-              "published": "2026-06-13",
-              "researchProvider": "HN Algolia",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://hn.algolia.com/?q=indie%20hacker%20launch",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
-            },
-            {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
-              "priority": "P2",
-              "name": "",
-              "url": "",
-              "tagline": "",
-              "source": "account_refill",
-              "circle": "indie_hackers",
-              "candidateType": "topic",
-              "sourceUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
-              "published": "2026-06-13",
-              "researchProvider": "X live search",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
-            },
-            {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
-              "priority": "P2",
-              "name": "",
-              "url": "",
-              "tagline": "",
-              "source": "account_refill",
-              "circle": "indie_hackers",
-              "candidateType": "product",
-              "sourceUrl": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
+              "sourceUrl": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
               "published": "2026-06-13",
               "researchProvider": "Google recent search",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
             },
             {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
               "priority": "P2",
               "name": "",
               "url": "",
               "tagline": "",
               "source": "account_refill",
-              "circle": "indie_hackers",
-              "candidateType": "product",
-              "sourceUrl": "https://hn.algolia.com/?q=indie%20hacker%20launch",
-              "published": "2026-06-13",
-              "researchProvider": "HN Algolia",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://hn.algolia.com/?q=indie%20hacker%20launch",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
-            },
-            {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
-              "priority": "P2",
-              "name": "",
-              "url": "",
-              "tagline": "",
-              "source": "account_refill",
-              "circle": "indie_hackers",
+              "circle": "ai_startups",
               "candidateType": "topic",
-              "sourceUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
+              "sourceUrl": "https://www.producthunt.com/search?q=developer%20workflows%20tool",
+              "published": "2026-06-13",
+              "researchProvider": "Product Hunt search",
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://www.producthunt.com/search?q=developer%20workflows%20tool",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+            },
+            {
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
+              "priority": "P2",
+              "name": "",
+              "url": "",
+              "tagline": "",
+              "source": "account_refill",
+              "circle": "ai_startups",
+              "candidateType": "product",
+              "sourceUrl": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
               "published": "2026-06-13",
               "researchProvider": "X live search",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
             },
             {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
-              "priority": "P3",
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
+              "priority": "P2",
               "name": "",
               "url": "",
               "tagline": "",
               "source": "account_refill",
-              "circle": "indie_hackers",
+              "circle": "ai_startups",
               "candidateType": "product",
-              "sourceUrl": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
+              "sourceUrl": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
               "published": "2026-06-13",
               "researchProvider": "Google recent search",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
             },
             {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
-              "priority": "P3",
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
+              "priority": "P2",
               "name": "",
               "url": "",
               "tagline": "",
               "source": "account_refill",
-              "circle": "indie_hackers",
-              "candidateType": "product",
-              "sourceUrl": "https://hn.algolia.com/?q=indie%20hacker%20launch",
-              "published": "2026-06-13",
-              "researchProvider": "HN Algolia",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://hn.algolia.com/?q=indie%20hacker%20launch",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
-            },
-            {
-              "accountId": "indie_launch_radar",
-              "accountName": "Indie Launch Radar",
-              "priority": "P3",
-              "name": "",
-              "url": "",
-              "tagline": "",
-              "source": "account_refill",
-              "circle": "indie_hackers",
+              "circle": "ai_startups",
               "candidateType": "topic",
-              "sourceUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
+              "sourceUrl": "https://www.producthunt.com/search?q=developer%20workflows%20tool",
+              "published": "2026-06-13",
+              "researchProvider": "Product Hunt search",
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://www.producthunt.com/search?q=developer%20workflows%20tool",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+            },
+            {
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
+              "priority": "P3",
+              "name": "",
+              "url": "",
+              "tagline": "",
+              "source": "account_refill",
+              "circle": "ai_startups",
+              "candidateType": "product",
+              "sourceUrl": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
               "published": "2026-06-13",
               "researchProvider": "X live search",
-              "researchQuery": "\"indie hacker\" \"launch\"",
-              "researchUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
-              "acceptanceChecklist": "real URL | indie/solo founder angle | concrete build or monetization lesson",
-              "notes": "Account: Indie Launch Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+            },
+            {
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
+              "priority": "P3",
+              "name": "",
+              "url": "",
+              "tagline": "",
+              "source": "account_refill",
+              "circle": "ai_startups",
+              "candidateType": "product",
+              "sourceUrl": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
+              "published": "2026-06-13",
+              "researchProvider": "Google recent search",
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
+            },
+            {
+              "accountId": "dev_workflows",
+              "accountName": "Dev Workflows",
+              "priority": "P3",
+              "name": "",
+              "url": "",
+              "tagline": "",
+              "source": "account_refill",
+              "circle": "ai_startups",
+              "candidateType": "topic",
+              "sourceUrl": "https://www.producthunt.com/search?q=developer%20workflows%20tool",
+              "published": "2026-06-13",
+              "researchProvider": "Product Hunt search",
+              "researchQuery": "\"developer workflows\" \"tool\"",
+              "researchUrl": "https://www.producthunt.com/search?q=developer%20workflows%20tool",
+              "acceptanceChecklist": "real URL | AI/startup/tool angle | clear buyer pain | not broad hype",
+              "notes": "Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank."
             }
           ]
         }
@@ -3685,7 +3685,7 @@
         "accountId": "dev_workflows",
         "displayName": "Dev Workflows",
         "category": "developer workflows",
-        "readinessScore": 4,
+        "readinessScore": 0,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
@@ -3702,14 +3702,14 @@
           {
             "id": "drafts",
             "label": "Draft gap",
-            "missing": 9,
-            "detail": "Write 9 more unique drafts for this account."
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
           },
           {
             "id": "schedule",
             "label": "Schedule gap",
-            "missing": 9,
-            "detail": "Add 9 manual review slots before publishing."
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
           },
           {
             "id": "freshness",
@@ -3736,9 +3736,9 @@
             "detail": "Post a tiny test, then import X Analytics."
           }
         ],
-        "actionLabel": "补 9 条草稿/排期",
+        "actionLabel": "补 10 条草稿/排期",
         "actionDetail": "Dev Workflows needs unique copy and review slots before it can post today.",
-        "actionPriority": 79,
+        "actionPriority": 80,
         "refillTemplate": {
           "rowsPerAccount": 10,
           "rows": [
@@ -6859,14 +6859,14 @@
     {
       "id": "drafts",
       "label": "Drafts",
-      "score": 10,
-      "reason": "19/200 unique drafts are planned."
+      "score": 9,
+      "reason": "18/200 unique drafts are planned."
     },
     {
       "id": "schedule",
       "label": "Schedule",
       "score": 8,
-      "reason": "16/200 posts are in manual review slots."
+      "reason": "15/200 posts are in manual review slots."
     }
   ],
   "accountRows": [
@@ -6967,7 +6967,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
+          "toolId": "source_candidate_576b374effa3",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -6975,7 +6975,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
+          "toolId": "source_candidate_a61b9a939dae",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -6983,7 +6983,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+          "toolId": "source_candidate_d2c435b524db",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -6991,7 +6991,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
+          "toolId": "source_candidate_100f88b5fc51",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
           "score": 25,
@@ -6999,7 +6999,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
+          "toolId": "source_candidate_5ef63cd5b2a5",
           "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
           "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
           "score": 25,
@@ -7302,7 +7302,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+          "toolId": "source_candidate_d2c435b524db",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -7310,7 +7310,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_jeff-bezos-s-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-t_7c1dae0df3",
+          "toolId": "source_candidate_6a173043e187",
           "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
           "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
           "score": 25,
@@ -7318,7 +7318,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_opendoor-s-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing_bec68a71aa",
+          "toolId": "source_candidate_53600397a606",
           "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
           "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
           "score": 22,
@@ -7326,7 +7326,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_ai-pilled-firms-spend-7-500-per-employee-each-month-on-ai_ffbd5f22a8",
+          "toolId": "source_candidate_c05d69f1b723",
           "name": "‘AI-pilled’ firms spend $7,500 per employee each month on AI",
           "url": "https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/",
           "score": 21,
@@ -7334,7 +7334,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_doordash-s-new-ai-chatbot-lets-you-order-with-prompts-and-photos_0f0611b8fe",
+          "toolId": "source_candidate_de4683c919b4",
           "name": "DoorDash’s new AI chatbot lets you order with prompts and photos",
           "url": "https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/",
           "score": 21,
@@ -7441,7 +7441,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_techcrunch_com_theker-just-raised-85m-to-build-the-factory-robot-that-doesn-t-specialize-in-any_3d469281ec",
+          "toolId": "source_candidate_e06dd10fbd37",
           "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
           "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
           "score": 21,
@@ -7548,7 +7548,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_producthunt_com_kosh-money_ada13da65a",
+          "toolId": "tag:www.producthunt.com,2005:Post/1169183",
           "name": "KOSH Money",
           "url": "https://www.producthunt.com/products/kosh-money",
           "score": 24,
@@ -7556,7 +7556,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_pool-s-new-app-turns-your-screenshots-into-something-useful_04aa1696a9",
+          "toolId": "source_candidate_fe5a2105b723",
           "name": "Pool’s new app turns your screenshots into something useful",
           "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
           "score": 22,
@@ -7675,17 +7675,17 @@
       "alternateMatches": 0,
       "strongCandidates": 0,
       "freshCandidates": 0,
-      "plannedDrafts": 1,
-      "scheduledPosts": 1,
+      "plannedDrafts": 0,
+      "scheduledPosts": 0,
       "measuredFeedback": 0,
       "pendingFeedback": 0,
       "candidateGap": 30,
       "qualityGap": 10,
       "freshGap": 10,
-      "draftGap": 9,
-      "scheduleGap": 9,
-      "totalGap": 68,
-      "readinessScore": 4,
+      "draftGap": 10,
+      "scheduleGap": 10,
+      "totalGap": 70,
+      "readinessScore": 0,
       "status": "draft_short",
       "contentInventory": {
         "status": "needs_drafts",
@@ -7704,14 +7704,14 @@
           {
             "id": "drafts",
             "label": "Draft gap",
-            "missing": 9,
-            "detail": "Write 9 more unique drafts for this account."
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
           },
           {
             "id": "schedule",
             "label": "Schedule gap",
-            "missing": 9,
-            "detail": "Add 9 manual review slots before publishing."
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
           },
           {
             "id": "freshness",
@@ -7738,10 +7738,10 @@
             "detail": "Post a tiny test, then import X Analytics."
           }
         ],
-        "actionLabel": "补 9 条草稿/排期",
+        "actionLabel": "补 10 条草稿/排期",
         "actionDetail": "Dev Workflows needs unique copy and review slots before it can post today.",
-        "actionPriority": 79,
-        "readinessScore": 4
+        "actionPriority": 80,
+        "readinessScore": 0
       },
       "blockers": [
         "candidate_bench",
@@ -7755,12 +7755,12 @@
         "bench": 0,
         "quality": 0,
         "freshness": 0,
-        "draft": 10,
-        "schedule": 10,
+        "draft": 0,
+        "schedule": 0,
         "feedback": 0
       },
       "topMatchedTools": [],
-      "nextAction": "Add 9 unique drafts for Dev Workflows; do not reuse the same tool across accounts."
+      "nextAction": "Add 10 unique drafts for Dev Workflows; do not reuse the same tool across accounts."
     },
     {
       "accountId": "sales_support_ai",
@@ -7859,7 +7859,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_producthunt_com_meet-warren-3-0_572792bb13",
+          "toolId": "tag:www.producthunt.com,2005:Post/1169266",
           "name": "Meet Warren 3.0",
           "url": "https://www.producthunt.com/products/underpay",
           "score": 20,
@@ -8064,7 +8064,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
+          "toolId": "source_candidate_576b374effa3",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -8072,7 +8072,7 @@
           "match": "primary"
         },
         {
-          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
+          "toolId": "source_candidate_a48e609eca45",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -8080,7 +8080,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
+          "toolId": "source_candidate_a61b9a939dae",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -8088,7 +8088,7 @@
           "match": "primary"
         },
         {
-          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+          "toolId": "source_candidate_d2c435b524db",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -8096,7 +8096,7 @@
           "match": "primary"
         },
         {
-          "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
+          "toolId": "source_candidate_100f88b5fc51",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
           "score": 25,
@@ -8203,7 +8203,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
+          "toolId": "source_candidate_a48e609eca45",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -8211,7 +8211,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
+          "toolId": "source_candidate_a61b9a939dae",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -8219,7 +8219,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
+          "toolId": "source_candidate_72bb52a3552a",
           "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
           "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
           "score": 22,
@@ -8227,7 +8227,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_deezer-s-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others_c675f477fd",
+          "toolId": "source_candidate_71f97fb23ad5",
           "name": "Deezer’s new tool can identify AI music from Spotify, Apple Music, and others",
           "url": "https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
           "score": 21,
@@ -8726,7 +8726,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
+          "toolId": "source_candidate_a48e609eca45",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -8734,7 +8734,7 @@
           "match": "primary"
         },
         {
-          "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
+          "toolId": "source_candidate_100f88b5fc51",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
           "score": 25,
@@ -8742,7 +8742,7 @@
           "match": "primary"
         },
         {
-          "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
+          "toolId": "source_candidate_5ef63cd5b2a5",
           "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
           "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
           "score": 25,
@@ -8750,7 +8750,7 @@
           "match": "primary"
         },
         {
-          "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
+          "toolId": "source_candidate_72bb52a3552a",
           "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
           "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
           "score": 22,
@@ -8955,7 +8955,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
+          "toolId": "source_candidate_576b374effa3",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -8963,7 +8963,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
+          "toolId": "source_candidate_cb3f98bdaef6",
           "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
           "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
           "score": 22,
@@ -9268,6 +9268,104 @@
       },
       "topMatchedTools": [],
       "nextAction": "Add 10 unique drafts for Career Workflows; do not reuse the same tool across accounts."
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "category": "developer workflows",
+      "targetPosts": 10,
+      "candidateBenchTarget": 30,
+      "matchedCandidates": 0,
+      "primaryMatches": 0,
+      "alternateMatches": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "plannedDrafts": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "pendingFeedback": 0,
+      "candidateGap": 30,
+      "qualityGap": 10,
+      "freshGap": 10,
+      "draftGap": 10,
+      "scheduleGap": 10,
+      "totalGap": 70,
+      "readinessScore": 0,
+      "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Dev Workflows needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "radar": {
+        "bench": 0,
+        "quality": 0,
+        "freshness": 0,
+        "draft": 0,
+        "schedule": 0,
+        "feedback": 0
+      },
+      "topMatchedTools": [],
+      "nextAction": "Add 10 unique drafts for Dev Workflows; do not reuse the same tool across accounts."
     },
     {
       "accountId": "indie_launch_radar",
@@ -9856,7 +9954,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tool_producthunt_com_meet-warren-3-0_572792bb13",
+          "toolId": "tag:www.producthunt.com,2005:Post/1169266",
           "name": "Meet Warren 3.0",
           "url": "https://www.producthunt.com/products/underpay",
           "score": 20,
@@ -9963,104 +10061,6 @@
       },
       "topMatchedTools": [],
       "nextAction": "Add 9 unique drafts for Crypto Trading Tools; do not reuse the same tool across accounts."
-    },
-    {
-      "accountId": "dev_workflows",
-      "displayName": "Dev Workflows",
-      "category": "developer workflows",
-      "targetPosts": 10,
-      "candidateBenchTarget": 30,
-      "matchedCandidates": 0,
-      "primaryMatches": 0,
-      "alternateMatches": 0,
-      "strongCandidates": 0,
-      "freshCandidates": 0,
-      "plannedDrafts": 1,
-      "scheduledPosts": 1,
-      "measuredFeedback": 0,
-      "pendingFeedback": 0,
-      "candidateGap": 30,
-      "qualityGap": 10,
-      "freshGap": 10,
-      "draftGap": 9,
-      "scheduleGap": 9,
-      "totalGap": 68,
-      "readinessScore": 4,
-      "status": "draft_short",
-      "contentInventory": {
-        "status": "needs_drafts",
-        "statusLabel": "缺草稿/排期",
-        "postableToday": 0,
-        "seedTestCapacity": 0,
-        "targetPosts": 10,
-        "candidateBenchCoverage": 0,
-        "contentCoverage": 0,
-        "feedbackCoverage": 0,
-        "refillNeed": 10,
-        "contentBlocked": true,
-        "feedbackBlocked": true,
-        "firstBottleneck": "drafts",
-        "bottlenecks": [
-          {
-            "id": "drafts",
-            "label": "Draft gap",
-            "missing": 9,
-            "detail": "Write 9 more unique drafts for this account."
-          },
-          {
-            "id": "schedule",
-            "label": "Schedule gap",
-            "missing": 9,
-            "detail": "Add 9 manual review slots before publishing."
-          },
-          {
-            "id": "freshness",
-            "label": "Fresh candidate gap",
-            "missing": 10,
-            "detail": "Find 10 fresh items that fit this account."
-          },
-          {
-            "id": "quality",
-            "label": "Quality gap",
-            "missing": 10,
-            "detail": "Replace broad or weak items with stronger account-specific angles."
-          },
-          {
-            "id": "candidate_bench",
-            "label": "Candidate bench gap",
-            "missing": 30,
-            "detail": "Build toward 30 matched candidates before scale."
-          },
-          {
-            "id": "feedback",
-            "label": "Feedback missing",
-            "missing": 1,
-            "detail": "Post a tiny test, then import X Analytics."
-          }
-        ],
-        "actionLabel": "补 9 条草稿/排期",
-        "actionDetail": "Dev Workflows needs unique copy and review slots before it can post today.",
-        "actionPriority": 79,
-        "readinessScore": 4
-      },
-      "blockers": [
-        "candidate_bench",
-        "quality",
-        "freshness",
-        "drafts",
-        "schedule",
-        "feedback"
-      ],
-      "radar": {
-        "bench": 0,
-        "quality": 0,
-        "freshness": 0,
-        "draft": 10,
-        "schedule": 10,
-        "feedback": 0
-      },
-      "topMatchedTools": [],
-      "nextAction": "Add 9 unique drafts for Dev Workflows; do not reuse the same tool across accounts."
     }
   ],
   "searchTasks": [
@@ -10094,6 +10094,22 @@
       "provider": "Google recent search",
       "query": "\"career and job search\" \"tool\"",
       "url": "https://www.google.com/search?q=%22career%20and%20job%20search%22%20%22tool%22%20after%3A2026-01-01",
+      "targetRows": 10
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "provider": "X live search",
+      "query": "\"developer workflows\" \"tool\"",
+      "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+      "targetRows": 10
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "provider": "Google recent search",
+      "query": "\"developer workflows\" \"tool\"",
+      "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
       "targetRows": 10
     },
     {
@@ -10206,22 +10222,6 @@
       "provider": "Google recent search",
       "query": "\"crypto\" \"builder\" \"tool\"",
       "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
-      "targetRows": 9
-    },
-    {
-      "accountId": "dev_workflows",
-      "displayName": "Dev Workflows",
-      "provider": "X live search",
-      "query": "\"developer workflows\" \"tool\"",
-      "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
-      "targetRows": 10
-    },
-    {
-      "accountId": "dev_workflows",
-      "displayName": "Dev Workflows",
-      "provider": "Google recent search",
-      "query": "\"developer workflows\" \"tool\"",
-      "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
       "targetRows": 9
     }
   ],

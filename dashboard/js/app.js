@@ -49,6 +49,7 @@ const state = {
   scaleRampPlan: null,
   seedBatchPack: null,
   accountContentMatrix: null,
+  accountRefillWorkbench: null,
   xStatus: { configured: false, note: "" },
   settings: null,
   weekly: null,
@@ -60,6 +61,7 @@ const state = {
   dailyRun: { running: false, message: "" },
   calendarRun: { running: false, message: "" },
   sourcePackRun: { running: false, message: "" },
+  refillWorkbenchRun: { running: false, message: "" },
   affiliateWorkbenchRun: { running: false, message: "" },
   learningRun: { running: false, message: "" },
   roadmapRun: { running: false, message: "" },
@@ -109,6 +111,7 @@ const writeActionSelector = [
   "[data-run-roadmap]",
   "[data-run-calendar]",
   "[data-run-source-pack]",
+  "[data-run-refill-workbench]",
   "[data-run-affiliate-workbench]",
   "[data-run-learning-loop]",
   "[data-preview-candidates]",
@@ -135,7 +138,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, accountRefillWorkbench, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -155,11 +158,12 @@ async function loadAll() {
       api.get("/api/scale-ramp-plan"),
       api.get("/api/seed-batch-pack"),
       api.get("/api/account-content-matrix"),
+      api.get("/api/account-refill-workbench"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, accountRefillWorkbench, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -173,7 +177,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, accountRefillWorkbench] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -191,7 +195,8 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/scale-readiness.json", { missing: true }),
     fetchJson("/data/scale-ramp-plan.json", { missing: true }),
     fetchJson("/data/seed-batch-pack.json", { missing: true }),
-    fetchJson("/data/account-content-matrix.json", { missing: true })
+    fetchJson("/data/account-content-matrix.json", { missing: true }),
+    fetchJson("/data/account-refill-workbench.json", { missing: true })
   ]);
   const settings = {
     latestDate: latest?.date ?? null,
@@ -233,6 +238,7 @@ async function loadStaticFallback(apiError) {
     scaleRampPlan: scaleRampPlan?.missing ? null : scaleRampPlan,
     seedBatchPack: seedBatchPack?.missing ? null : seedBatchPack,
     accountContentMatrix: accountContentMatrix?.missing ? null : accountContentMatrix,
+    accountRefillWorkbench: accountRefillWorkbench?.missing ? null : accountRefillWorkbench,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
@@ -279,6 +285,7 @@ function render() {
   updateRunDailyControls();
   updateCalendarControls();
   updateSourcePackControls();
+  updateRefillWorkbenchControls();
   updateAffiliateWorkbenchControls();
   updateLearningControls();
   updateRoadmapControls();
@@ -328,6 +335,14 @@ function updateSourcePackControls() {
   $$("[data-run-source-pack]").forEach((button) => {
     button.disabled = isReadOnlyMode() || state.sourcePackRun.running;
     button.textContent = isReadOnlyMode() ? "本地才能生成" : state.sourcePackRun.running ? "生成中..." : "生成 100 行补题包";
+    button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
+  });
+}
+
+function updateRefillWorkbenchControls() {
+  $$("[data-run-refill-workbench]").forEach((button) => {
+    button.disabled = isReadOnlyMode() || state.refillWorkbenchRun.running;
+    button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.refillWorkbenchRun.running ? "刷新中..." : "刷新补给工作台";
     button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
   });
 }
@@ -2652,6 +2667,7 @@ function renderAccounts() {
     ${renderSupplyCoverage(supplyPlan)}
     ${renderScaleRampPlanPanel(state.scaleRampPlan)}
     ${renderSeedBatchPackPanel(state.seedBatchPack)}
+    ${renderAccountRefillWorkbenchPanel(state.accountRefillWorkbench)}
     ${renderAccountContentMatrixPanel(state.accountContentMatrix)}
     ${renderDraftPlannerPanel(state.latest?.draftPlan)}
     ${renderContentCalendarPanel(state.latest?.contentCalendar)}
@@ -2671,6 +2687,75 @@ function renderAccounts() {
       <h2>账号画像</h2>
       <div class="account-grid">${accounts.map(renderAccountCard).join("") || empty("暂无账号配置。")}</div>
     </section>
+  </div>`;
+}
+
+function renderAccountRefillWorkbenchPanel(workbench) {
+  if (!workbench) {
+    return `<section class="panel warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Account refill workbench</p>
+          <h2>还没有账号补给工作台</h2>
+          <p class="muted">运行 npm run refill-workbench，把账号缺口、搜索组和补题 CSV 合成一张执行清单。</p>
+        </div>
+        ${pill("Need refill", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button" data-run-refill-workbench>刷新补给工作台</button>
+        <button class="button ghost" data-copy="npm run refill-workbench">复制命令</button>
+      </div>
+    </section>`;
+  }
+  const summary = workbench.summary ?? {};
+  const focus = workbench.focusAccounts ?? [];
+  return `<section class="panel wide-panel account-refill-workbench ${workbench.status === "covered" ? "good" : "warn"}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Account refill workbench</p>
+        <h2>今天先补 ${esc(summary.focusAccounts ?? focus.length)} 个账号</h2>
+        <p class="muted">${esc(workbench.rule || "Fill only real candidates.")}</p>
+      </div>
+      ${pill(`${summary.totalRefillNeed ?? 0} refill need`, Number(summary.totalRefillNeed ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.targetDailyPosts ?? 0)}</strong><span>daily target</span></div>
+      <div><strong>${esc(summary.postableToday ?? 0)}</strong><span>postable today</span></div>
+      <div><strong>${esc(summary.refillAccounts ?? 0)}</strong><span>need refill</span></div>
+      <div><strong>${esc(summary.searchUrlCount ?? 0)}</strong><span>search URLs</span></div>
+      <div><strong>${esc(summary.contentBlockedAccounts ?? 0)}</strong><span>content blocked</span></div>
+      <div><strong>${esc(summary.feedbackBlockedAccounts ?? 0)}</strong><span>feedback blocked</span></div>
+    </div>
+    <div class="refill-workflow">${(workbench.workflow ?? []).map((item, index) => `<div><span>${esc(index + 1)}</span><p>${esc(item)}</p></div>`).join("")}</div>
+    <div class="list">
+      ${focus.map(renderRefillFocusAccount).join("") || empty("当前没有账号补给缺口。")}
+    </div>
+    <div class="row-actions">
+      <button class="button" data-run-refill-workbench>刷新补给工作台</button>
+      <button class="button ghost" data-copy="npm run refill-workbench">复制命令</button>
+      <button class="button ghost" data-tab-jump="candidates">去候选收集</button>
+    </div>
+    ${state.refillWorkbenchRun.message ? `<p class="muted">${esc(state.refillWorkbenchRun.message)}</p>` : ""}
+  </section>`;
+}
+
+function renderRefillFocusAccount(account) {
+  const urls = (account.searchUrls ?? []).slice(0, 6);
+  const bottlenecks = (account.bottlenecks ?? []).slice(0, 4);
+  return `<div class="list-item refill-focus-card">
+    <div class="line-head">
+      <strong>${esc(account.displayName)}</strong>
+      ${pill(account.statusLabel || account.status, account.postableToday ? "good" : "warn")}
+      ${pill(`${account.refillNeed ?? 0} need`, Number(account.refillNeed ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="muted">${esc(account.category || "")} · postable ${esc(account.postableToday ?? 0)}/${esc(account.targetPosts ?? 0)} · score ${esc(account.readinessScore ?? 0)}/100</div>
+    <p>${esc(account.actionDetail || account.actionLabel || "")}</p>
+    <div class="pill-row">${bottlenecks.map((item) => pill(`${item.label}: ${item.missing}`, "warn")).join("")}</div>
+    <div class="row-actions">
+      ${urls.length ? `<button class="button ghost" type="button" data-open-searches="${attr(JSON.stringify(urls))}">打开补题搜索组</button>` : ""}
+      <button class="button ghost" type="button" data-refill-fill="${attr(account.accountId)}">填入候选收集</button>
+      ${account.csv ? `<button class="button ghost" type="button" data-copy="${attr(account.csv)}">复制补题 CSV</button>` : ""}
+    </div>
   </div>`;
 }
 
@@ -4212,6 +4297,30 @@ async function runSourcePack() {
   }
 }
 
+async function runRefillWorkbench() {
+  if (guardReadOnlyAction()) {
+    state.refillWorkbenchRun = { running: false, message: readOnlyActionMessage() };
+    render();
+    return;
+  }
+  if (state.refillWorkbenchRun.running) return;
+  state.refillWorkbenchRun = { running: true, message: "正在刷新账号补给工作台..." };
+  render();
+  try {
+    const result = await api.post("/api/account-refill-workbench/run", {});
+    state.refillWorkbenchRun = {
+      running: false,
+      message: `补给工作台已刷新：${result.focusAccounts ?? 0} focus · ${result.refillAccounts ?? 0} accounts · need ${result.totalRefillNeed ?? 0}`
+    };
+    toast("账号补给工作台已刷新");
+    await loadAll();
+  } catch (error) {
+    state.refillWorkbenchRun = { running: false, message: `补给工作台刷新失败：${error.message}` };
+    render();
+    toast(error.message);
+  }
+}
+
 async function runAffiliateWorkbench() {
   if (guardReadOnlyAction()) {
     state.affiliateWorkbenchRun = { running: false, message: readOnlyActionMessage() };
@@ -4341,6 +4450,8 @@ document.addEventListener("click", async (event) => {
       await runCalendar();
     } else if (button.dataset.runSourcePack !== undefined) {
       await runSourcePack();
+    } else if (button.dataset.runRefillWorkbench !== undefined) {
+      await runRefillWorkbench();
     } else if (button.dataset.runAffiliateWorkbench !== undefined) {
       await runAffiliateWorkbench();
     } else if (button.dataset.runLearningLoop !== undefined) {

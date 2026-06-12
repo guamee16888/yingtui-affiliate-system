@@ -57,22 +57,23 @@ output/YYYY-MM-DD-daily-x-pack.md
 11. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
 12. 跑 `npm run content-calendar` 或打开「内容日历」，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
 13. 跑 `npm run account-matrix` 或打开「账号策略」里的 `Account content matrix`，看每个账号缺候选、缺新鲜内容、缺草稿还是缺排期。
-14. 跑 `npm run scale-ramp` 或看「账号策略」里的 `Scale ramp plan`，先确定今天只启动哪 3 个种子账号、最多安全测试几条。
-15. 跑 `npm run seed-pack` 或看「账号策略」里的 `Seed batch pack`，按当前种子账号生成可填写 CSV。
-16. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
-17. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
-18. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
-19. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
-20. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
-21. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
-22. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
-23. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-24. 跑 `npm run learning-loop` 或看「反馈启动台」，确认今天最多还能安全新发几条、哪几条是 seed test、哪些已发内容必须先补 X Analytics。
-25. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
-26. 跑 `npm run scale` 或看「今日行动」里的放量准备度，确认今天卡在反馈、来源、排期还是授权。
-27. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-28. 对值得做测评页的工具点「生成测评页大纲」。
-29. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+14. 看「账号策略」里的 `Account refill workbench`，先处理今天前 5 个补给账号：打开搜索组、填真实候选、粘到候选收集预览。
+15. 跑 `npm run scale-ramp` 或看「账号策略」里的 `Scale ramp plan`，先确定今天只启动哪 3 个种子账号、最多安全测试几条。
+16. 跑 `npm run seed-pack` 或看「账号策略」里的 `Seed batch pack`，按当前种子账号生成可填写 CSV。
+17. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
+18. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
+19. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
+20. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
+21. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
+22. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
+23. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+24. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+25. 跑 `npm run learning-loop` 或看「反馈启动台」，确认今天最多还能安全新发几条、哪几条是 seed test、哪些已发内容必须先补 X Analytics。
+26. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
+27. 跑 `npm run scale` 或看「今日行动」里的放量准备度，确认今天卡在反馈、来源、排期还是授权。
+28. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+29. 对值得做测评页的工具点「生成测评页大纲」。
+30. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -264,6 +265,12 @@ npm run account-matrix
 ```
 
 生成账号内容矩阵，输出到 `data/account-content-matrix.json` 和 `output/YYYY-MM-DD-account-content-matrix.md`。它会按账号计算候选池、强候选、新鲜候选、草稿、排期和反馈缺口，并给出账号级搜索任务。
+
+```bash
+npm run refill-workbench
+```
+
+生成账号补给工作台，输出到 `data/account-refill-workbench.json` 和 `output/YYYY-MM-DD-account-refill-workbench.md`。它会从账号内容矩阵里挑出今天最该补的账号，集中给出搜索组、补题 CSV、first bottleneck 和执行顺序。`npm run daily` 会自动刷新它；只有需要单独重算补给清单时才手动跑这个命令。
 
 ```bash
 npm run scale-ramp

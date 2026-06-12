@@ -28,6 +28,7 @@
     "draft-plan": "node scripts/draft-plan.mjs",
     "content-calendar": "node scripts/content-calendar.mjs",
     "account-matrix": "node scripts/account-content-matrix.mjs",
+    "refill-workbench": "node scripts/account-refill-workbench.mjs",
     "scale-ramp": "node scripts/scale-ramp-plan.mjs",
     "seed-pack": "node scripts/seed-batch-pack.mjs",
     "roadmap": "node scripts/roadmap.mjs",

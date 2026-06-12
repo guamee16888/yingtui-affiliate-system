@@ -25,6 +25,7 @@ import { buildScaleReadiness, renderScaleReadinessMarkdown } from "./lib/scale-r
 import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "./lib/account-content-matrix.mjs";
 import { buildScaleRampPlan, renderScaleRampPlanMarkdown } from "./lib/scale-ramp-plan.mjs";
 import { buildSeedBatchPack, renderSeedBatchPackMarkdown, seedBatchRowsToCsv } from "./lib/seed-batch-pack.mjs";
+import { buildAccountRefillWorkbench, renderAccountRefillWorkbenchMarkdown } from "./lib/account-refill-workbench.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -79,6 +80,7 @@ async function main() {
   const outputFile = await writeDailyOutput(model);
   const jsonFiles = await writeDailyJsonOutputs(model);
   const matrixFiles = await writeAccountMatrixOutputs({ model, accountConfig });
+  const refillFiles = await writeAccountRefillWorkbenchOutputs({ model, accountContentMatrix: matrixFiles.matrix });
   const scaleFiles = await writeScaleOutputs({ model, accountConfig, accountContentMatrix: matrixFiles.matrix });
   const rampFiles = await writeScaleRampOutputs({ model, accountContentMatrix: matrixFiles.matrix, scaleReadiness: scaleFiles.report });
   const seedPackFiles = await writeSeedBatchOutputs({ model, scaleRampPlan: rampFiles.plan });
@@ -100,6 +102,8 @@ async function main() {
   console.log(`Wrote ${scaleFiles.markdownPath}`);
   console.log(`Wrote ${matrixFiles.jsonPath}`);
   console.log(`Wrote ${matrixFiles.markdownPath}`);
+  console.log(`Wrote ${refillFiles.jsonPath}`);
+  console.log(`Wrote ${refillFiles.markdownPath}`);
   console.log(`Wrote ${rampFiles.jsonPath}`);
   console.log(`Wrote ${rampFiles.markdownPath}`);
   console.log(`Wrote ${seedPackFiles.jsonPath}`);
@@ -145,6 +149,18 @@ async function writeAccountMatrixOutputs({ model, accountConfig }) {
   await writeJsonAtomic(jsonPath, matrix);
   await writeTextAtomic(markdownPath, renderAccountContentMatrixMarkdown(matrix));
   return { jsonPath, markdownPath, matrix };
+}
+
+async function writeAccountRefillWorkbenchOutputs({ model, accountContentMatrix }) {
+  const workbench = buildAccountRefillWorkbench({
+    date: model.date,
+    accountContentMatrix
+  });
+  const jsonPath = "data/account-refill-workbench.json";
+  const markdownPath = `output/${model.date}-account-refill-workbench.md`;
+  await writeJsonAtomic(jsonPath, workbench);
+  await writeTextAtomic(markdownPath, renderAccountRefillWorkbenchMarkdown(workbench));
+  return { jsonPath, markdownPath, workbench };
 }
 
 async function writeScaleRampOutputs({ model, accountContentMatrix, scaleReadiness }) {

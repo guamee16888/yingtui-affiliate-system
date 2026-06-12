@@ -60,6 +60,7 @@ const allowedRoots = [
 let dailyRunPromise = null;
 let calendarRunPromise = null;
 let sourcePackRunPromise = null;
+let refillWorkbenchRunPromise = null;
 let affiliateWorkbenchRunPromise = null;
 let learningLoopRunPromise = null;
 
@@ -137,6 +138,7 @@ async function handleApiGet(pathname) {
   if (pathname === "/api/scale-ramp-plan") return readJson("data/scale-ramp-plan.json", null);
   if (pathname === "/api/seed-batch-pack") return readJson("data/seed-batch-pack.json", null);
   if (pathname === "/api/account-content-matrix") return readJson("data/account-content-matrix.json", null);
+  if (pathname === "/api/account-refill-workbench") return readJson("data/account-refill-workbench.json", null);
   if (pathname === "/api/content-calendar") {
     const latest = await loadLatest();
     return await readJson("data/content-calendar/latest.json", latest?.contentCalendar ?? null);
@@ -253,6 +255,7 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/daily/run") return runDailyGeneration();
   if (pathname === "/api/content-calendar/run") return runContentCalendarGeneration();
   if (pathname === "/api/source-import-pack/run") return runSourceImportPackGeneration();
+  if (pathname === "/api/account-refill-workbench/run") return runAccountRefillWorkbenchGeneration();
   if (pathname === "/api/affiliate-research-workbench/run") return runAffiliateResearchWorkbenchGeneration();
   if (pathname === "/api/learning-loop/run") return runLearningLoopGeneration();
   if (pathname === "/api/roadmap/generate") return runRoadmapGeneration();
@@ -310,6 +313,23 @@ async function runSourceImportPackGeneration() {
     totalRows: pack?.summary?.totalRows ?? 0,
     topCircle: pack?.summary?.topCircle ?? "",
     csvPath: pack?.summary?.csvPath ?? ""
+  };
+}
+
+async function runAccountRefillWorkbenchGeneration() {
+  if (refillWorkbenchRunPromise) throw new Error("Account refill workbench is already running. Wait for it to finish.");
+  refillWorkbenchRunPromise = runNodeScript("scripts/account-refill-workbench.mjs", "Account refill workbench")
+    .finally(() => {
+      refillWorkbenchRunPromise = null;
+    });
+  const result = await refillWorkbenchRunPromise;
+  const workbench = await readJson("data/account-refill-workbench.json", null);
+  return {
+    ...result,
+    date: workbench?.date ?? null,
+    focusAccounts: workbench?.summary?.focusAccounts ?? 0,
+    refillAccounts: workbench?.summary?.refillAccounts ?? 0,
+    totalRefillNeed: workbench?.summary?.totalRefillNeed ?? 0
   };
 }
 

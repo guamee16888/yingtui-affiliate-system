@@ -767,12 +767,14 @@ main {
   gap: 14px;
   border-top: 5px solid var(--accent);
 }
-.affiliate-workflow {
+.affiliate-workflow,
+.refill-workflow {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
-.affiliate-workflow div {
+.affiliate-workflow div,
+.refill-workflow div {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--soft);
@@ -780,7 +782,8 @@ main {
   display: grid;
   gap: 7px;
 }
-.affiliate-workflow span {
+.affiliate-workflow span,
+.refill-workflow span {
   width: 24px;
   height: 24px;
   border-radius: 999px;
@@ -791,7 +794,8 @@ main {
   font-size: 12px;
   font-weight: 700;
 }
-.affiliate-workflow p {
+.affiliate-workflow p,
+.refill-workflow p {
   margin: 0;
   color: var(--muted);
   font-size: 12.5px;
@@ -1866,6 +1870,7 @@ main {
 [data-theme="dark"] .readiness-guardrails div,
 [data-theme="dark"] .refresh-policy div,
 [data-theme="dark"] .affiliate-workflow div,
+[data-theme="dark"] .refill-workflow div,
 [data-theme="dark"] .metric,
 [data-theme="dark"] .focus-task,
 [data-theme="dark"] .final-card,
@@ -1912,6 +1917,7 @@ main {
   .principle-grid,
   .source-workflow,
   .affiliate-workflow,
+  .refill-workflow,
   .supply-circle-grid,
   .source-pack-layout,
   .learning-steps,
@@ -1943,6 +1949,7 @@ main {
   .principle-grid,
   .source-workflow,
   .affiliate-workflow,
+  .refill-workflow,
   .supply-circle-grid,
   .source-pack-layout,
   .learning-steps,

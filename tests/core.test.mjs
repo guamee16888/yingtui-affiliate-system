@@ -26,6 +26,7 @@ import { affiliateSearchLinks, buildAffiliateResearchWorkbench } from "../script
 import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/affiliate-links.mjs";
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
 import { accountRefillRowsToCsv, buildAccountContentMatrix, buildAccountRefillTemplate, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
+import { buildAccountRefillWorkbench, renderAccountRefillWorkbenchMarkdown } from "../scripts/lib/account-refill-workbench.mjs";
 import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
 import { buildSeedBatchPack, buildSeedImportNextActions, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
 
@@ -1593,6 +1594,80 @@ test("account refill CSV template preserves account routing and skips blank rows
   assert.equal(filled.entries[0].accountId, "ai");
   assert.equal(filled.entries[0].accountName, "AI Founder Signals");
   assert.equal(filled.entries[0].circle, "ai_startups");
+});
+
+test("account refill workbench ranks refill accounts with search links and CSV", () => {
+  const matrix = {
+    date: "2026-06-12",
+    summary: { activeAccounts: 2, targetDailyPosts: 20, readyAccounts: 0 },
+    inventory: {
+      summary: {
+        postableToday: 1,
+        contentBlockedAccounts: 1,
+        feedbackBlockedAccounts: 2
+      },
+      accounts: [
+        {
+          accountId: "ai",
+          displayName: "AI Founder Signals",
+          category: "AI startup circle",
+          status: "ready_to_seed",
+          statusLabel: "可手动种子测试",
+          actionLabel: "手动测 1 条",
+          actionDetail: "Post one manually reviewed test.",
+          actionPriority: 101,
+          readinessScore: 30,
+          targetPosts: 10,
+          postableToday: 1,
+          refillNeed: 3,
+          firstBottleneck: "drafts",
+          bottlenecks: [{ id: "drafts", label: "Draft gap", missing: 3 }],
+          refillTemplate: buildAccountRefillTemplate({
+            date: "2026-06-12",
+            refillNeed: 3,
+            firstBottleneck: "drafts",
+            status: "ready_to_seed",
+            account: { id: "ai", displayName: "AI Founder Signals", category: "AI startup circle" }
+          })
+        },
+        {
+          accountId: "saas",
+          displayName: "SaaS Pricing Lab",
+          category: "SaaS founder circle",
+          status: "needs_drafts",
+          statusLabel: "缺草稿/排期",
+          actionLabel: "补 8 条草稿/排期",
+          actionDetail: "Needs unique copy.",
+          actionPriority: 78,
+          readinessScore: 10,
+          targetPosts: 10,
+          postableToday: 0,
+          refillNeed: 8,
+          firstBottleneck: "drafts",
+          bottlenecks: [{ id: "drafts", label: "Draft gap", missing: 8 }],
+          refillTemplate: buildAccountRefillTemplate({
+            date: "2026-06-12",
+            refillNeed: 8,
+            firstBottleneck: "drafts",
+            status: "needs_drafts",
+            account: { id: "saas", displayName: "SaaS Pricing Lab", category: "SaaS founder circle" }
+          })
+        }
+      ]
+    }
+  };
+  const workbench = buildAccountRefillWorkbench({ date: "2026-06-12", accountContentMatrix: matrix, focusLimit: 2 });
+  const markdown = renderAccountRefillWorkbenchMarkdown(workbench);
+
+  assert.equal(workbench.status, "needs_refill");
+  assert.equal(workbench.summary.focusAccounts, 2);
+  assert.equal(workbench.summary.totalRefillNeed, 11);
+  assert.equal(workbench.focusAccounts[0].accountId, "ai");
+  assert.equal(workbench.focusAccounts[0].searchUrls.every((url) => url.startsWith("https://")), true);
+  assert.match(workbench.focusAccounts[0].csv, /accountId,accountName,priority,name,url,tagline/);
+  assert.match(workbench.focusAccounts[0].csv, /AI Founder Signals/);
+  assert.match(markdown, /Account Refill Workbench/);
+  assert.match(markdown, /Fill only real/);
 });
 
 test("scale ramp plan turns account matrix gaps into launch batches", () => {

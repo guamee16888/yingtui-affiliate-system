@@ -134,6 +134,7 @@ async function handleApiGet(pathname) {
   if (pathname === "/api/product-roadmap") return readJson("data/product-roadmap.json", null);
   if (pathname === "/api/scale-readiness") return readJson("data/scale-readiness.json", null);
   if (pathname === "/api/scale-ramp-plan") return readJson("data/scale-ramp-plan.json", null);
+  if (pathname === "/api/seed-batch-pack") return readJson("data/seed-batch-pack.json", null);
   if (pathname === "/api/account-content-matrix") return readJson("data/account-content-matrix.json", null);
   if (pathname === "/api/content-calendar") {
     const latest = await loadLatest();

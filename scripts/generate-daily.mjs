@@ -24,6 +24,7 @@ import {
 import { buildScaleReadiness, renderScaleReadinessMarkdown } from "./lib/scale-readiness.mjs";
 import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "./lib/account-content-matrix.mjs";
 import { buildScaleRampPlan, renderScaleRampPlanMarkdown } from "./lib/scale-ramp-plan.mjs";
+import { buildSeedBatchPack, renderSeedBatchPackMarkdown, seedBatchRowsToCsv } from "./lib/seed-batch-pack.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -80,6 +81,7 @@ async function main() {
   const matrixFiles = await writeAccountMatrixOutputs({ model, accountConfig });
   const scaleFiles = await writeScaleOutputs({ model, accountConfig, accountContentMatrix: matrixFiles.matrix });
   const rampFiles = await writeScaleRampOutputs({ model, accountContentMatrix: matrixFiles.matrix, scaleReadiness: scaleFiles.report });
+  const seedPackFiles = await writeSeedBatchOutputs({ model, scaleRampPlan: rampFiles.plan });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
   if (!feed.usedFallback) {
@@ -100,6 +102,9 @@ async function main() {
   console.log(`Wrote ${matrixFiles.markdownPath}`);
   console.log(`Wrote ${rampFiles.jsonPath}`);
   console.log(`Wrote ${rampFiles.markdownPath}`);
+  console.log(`Wrote ${seedPackFiles.jsonPath}`);
+  console.log(`Wrote ${seedPackFiles.csvPath}`);
+  console.log(`Wrote ${seedPackFiles.markdownPath}`);
   console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
   console.log(`Source refresh fetched ${sourceRefresh.fetchedCount} new items from ${sourceRefresh.enabledSources} enabled extra sources`);
   console.log(historyMessage);
@@ -153,6 +158,22 @@ async function writeScaleRampOutputs({ model, accountContentMatrix, scaleReadine
   await writeJsonAtomic(jsonPath, plan);
   await writeTextAtomic(markdownPath, renderScaleRampPlanMarkdown(plan));
   return { jsonPath, markdownPath, plan };
+}
+
+async function writeSeedBatchOutputs({ model, scaleRampPlan }) {
+  const csvPath = `output/${model.date}-seed-batch-template.csv`;
+  const markdownPath = `output/${model.date}-seed-batch-pack.md`;
+  const jsonPath = "data/seed-batch-pack.json";
+  const pack = buildSeedBatchPack({
+    date: model.date,
+    scaleRampPlan,
+    csvPath,
+    guidePath: markdownPath
+  });
+  await writeTextAtomic(csvPath, seedBatchRowsToCsv(pack.rows));
+  await writeTextAtomic(markdownPath, renderSeedBatchPackMarkdown(pack));
+  await writeJsonAtomic(jsonPath, pack);
+  return { jsonPath, csvPath, markdownPath, pack };
 }
 
 main().catch((error) => {

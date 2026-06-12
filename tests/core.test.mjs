@@ -27,6 +27,7 @@ import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/aff
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
 import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
 import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
+import { buildSeedBatchPack, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1566,6 +1567,46 @@ test("scale ramp plan turns account matrix gaps into launch batches", () => {
   assert.equal(plan.nextAccounts.length, 1);
   assert.equal(plan.holdAccounts.length, 0);
   assert.equal(plan.operatingRules.some((rule) => rule.includes("manual review")), true);
+});
+
+test("seed batch pack creates account-specific research rows", () => {
+  const pack = buildSeedBatchPack({
+    date: "2026-06-12",
+    rowsPerAccount: 2,
+    csvPath: "output/seed.csv",
+    guidePath: "output/seed.md",
+    scaleRampPlan: {
+      summary: { safeTestPosts: 3 },
+      startAccounts: [
+        {
+          accountId: "ai",
+          displayName: "AI Tools",
+          category: "AI tools",
+          launchStage: "seed_this_week",
+          readinessScore: 20,
+          missing: { drafts: 8, fresh: 5 },
+          searchTasks: [{ provider: "X live search", query: "ai tools", url: "https://x.com/search?q=ai" }]
+        },
+        {
+          accountId: "crypto",
+          displayName: "Crypto Builder",
+          category: "Crypto builder circle",
+          launchStage: "seed_this_week",
+          readinessScore: 10,
+          missing: { drafts: 10, fresh: 8 },
+          searchTasks: []
+        }
+      ]
+    }
+  });
+  const csv = seedBatchRowsToCsv(pack.rows);
+
+  assert.equal(pack.summary.accounts, 2);
+  assert.equal(pack.summary.rows, 4);
+  assert.equal(pack.rows[0].accountId, "ai");
+  assert.equal(pack.rows.some((row) => row.circle === "crypto_builders"), true);
+  assert.match(csv, /accountId,accountName/);
+  assert.match(csv, /https:\/\/x\.com\/search/);
 });
 
 test("affiliate research workbench prioritizes candidates and ready snippets", () => {

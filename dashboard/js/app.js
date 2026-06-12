@@ -47,6 +47,7 @@ const state = {
   productRoadmap: null,
   scaleReadiness: null,
   scaleRampPlan: null,
+  seedBatchPack: null,
   accountContentMatrix: null,
   xStatus: { configured: false, note: "" },
   settings: null,
@@ -132,7 +133,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, accountContentMatrix, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -150,12 +151,13 @@ async function loadAll() {
       api.get("/api/product-roadmap"),
       api.get("/api/scale-readiness"),
       api.get("/api/scale-ramp-plan"),
+      api.get("/api/seed-batch-pack"),
       api.get("/api/account-content-matrix"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, accountContentMatrix, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -169,7 +171,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, accountContentMatrix] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, accountContentMatrix] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -186,6 +188,7 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/product-roadmap.json", { missing: true }),
     fetchJson("/data/scale-readiness.json", { missing: true }),
     fetchJson("/data/scale-ramp-plan.json", { missing: true }),
+    fetchJson("/data/seed-batch-pack.json", { missing: true }),
     fetchJson("/data/account-content-matrix.json", { missing: true })
   ]);
   const settings = {
@@ -226,6 +229,7 @@ async function loadStaticFallback(apiError) {
     productRoadmap: productRoadmap?.missing ? null : productRoadmap,
     scaleReadiness: scaleReadiness?.missing ? null : scaleReadiness,
     scaleRampPlan: scaleRampPlan?.missing ? null : scaleRampPlan,
+    seedBatchPack: seedBatchPack?.missing ? null : seedBatchPack,
     accountContentMatrix: accountContentMatrix?.missing ? null : accountContentMatrix,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
@@ -2574,6 +2578,7 @@ function renderAccounts() {
     </section>
     ${renderSupplyCoverage(supplyPlan)}
     ${renderScaleRampPlanPanel(state.scaleRampPlan)}
+    ${renderSeedBatchPackPanel(state.seedBatchPack)}
     ${renderAccountContentMatrixPanel(state.accountContentMatrix)}
     ${renderDraftPlannerPanel(state.latest?.draftPlan)}
     ${renderContentCalendarPanel(state.latest?.contentCalendar)}
@@ -2594,6 +2599,55 @@ function renderAccounts() {
       <div class="account-grid">${accounts.map(renderAccountCard).join("") || empty("暂无账号配置。")}</div>
     </section>
   </div>`;
+}
+
+function renderSeedBatchPackPanel(pack) {
+  if (!pack) {
+    return `<section class="panel warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Seed batch pack</p>
+          <h2>还没有种子补题包</h2>
+          <p class="muted">运行 npm run seed-pack，给当前 3 个种子账号生成 CSV 补题模板。</p>
+        </div>
+        ${pill("Need pack", "warn")}
+      </div>
+      <div class="row-actions"><button class="button ghost" data-copy="npm run seed-pack">复制命令</button></div>
+    </section>`;
+  }
+  const summary = pack.summary ?? {};
+  const rowsByAccount = pack.rowsByAccount ?? [];
+  const csvHref = summary.csvPath ? `/${summary.csvPath}` : "";
+  const guideHref = summary.guidePath ? `/${summary.guidePath}` : "";
+  return `<section class="panel wide-panel seed-batch-pack">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Seed batch pack</p>
+        <h2>给种子账号补 ${esc(summary.rows ?? 0)} 行候选</h2>
+        <p class="muted">只填真实 name/url/tagline；弱行留空。填完后去候选收集预览，质量门禁会先拦一遍。</p>
+      </div>
+      ${pill(`${summary.rowsNeedingResearch ?? summary.rows ?? 0} need fill`, "warn")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.accounts ?? 0)}</strong><span>seed accounts</span></div>
+      <div><strong>${esc(summary.rows ?? 0)}</strong><span>template rows</span></div>
+      <div><strong>${esc(summary.safeTestPosts ?? 0)}</strong><span>safe test posts</span></div>
+      <div><strong>${esc(summary.rowsPerAccount ?? 0)}</strong><span>rows/account</span></div>
+    </div>
+    <div class="list mini-list">
+      ${rowsByAccount.map((item) => `<div class="list-item">
+        <div class="line-head"><strong>${esc(item.displayName)}</strong>${pill(`${item.rows} rows`, "neutral")}${pill(item.launchStage, item.launchStage === "start_today" ? "good" : "warn")}</div>
+        <div class="muted">missing drafts ${esc(item.missingDrafts)} · missing fresh ${esc(item.missingFresh)}</div>
+        ${item.firstSearchUrl ? `<div class="row-actions"><a class="button ghost" href="${attr(item.firstSearchUrl)}" target="_blank" rel="noreferrer">打开第一搜索</a></div>` : ""}
+      </div>`).join("") || empty("暂无种子账号。")}
+    </div>
+    <div class="row-actions">
+      ${csvHref ? `<a class="button ghost" href="${attr(csvHref)}" target="_blank" rel="noreferrer">打开 CSV</a>` : ""}
+      ${guideHref ? `<a class="button ghost" href="${attr(guideHref)}" target="_blank" rel="noreferrer">打开 guide</a>` : ""}
+      <button class="button ghost" data-tab-jump="candidates">去候选收集</button>
+      <button class="button ghost" data-copy="npm run seed-pack">复制刷新命令</button>
+    </div>
+  </section>`;
 }
 
 function renderScaleRampPlanPanel(plan) {

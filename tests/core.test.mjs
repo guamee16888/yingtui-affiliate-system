@@ -16,7 +16,7 @@ import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPubl
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
-import { buildSourceHealth, buildSourceImportPackRows, buildSourceQualityQueue, buildSupplyPlan, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
+import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPackRows, buildSourceQualityQueue, buildSupplyPlan, renderSourceDiscoveryMarkdown, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
@@ -533,6 +533,36 @@ test("source health rewards useful qualified sources", () => {
   assert.equal(health.sources[0].status, "healthy");
   assert.equal(health.sources[0].qualifiedCandidates, 2);
   assert.equal(health.summary.healthySources, 1);
+});
+
+test("source discovery pack turns gaps into search links", () => {
+  const discovery = buildSourceDiscoveryPack({
+    date: "2026-06-12",
+    sourceQualityQueue: {
+      items: [
+        {
+          circleId: "saas_founders",
+          circleName: "SaaS founder circle",
+          priorityScore: 20,
+          neededCandidates: 12,
+          currentQualifiedTools: 2,
+          importHint: "Add SaaS candidates",
+          searchQueries: ["\"SaaS pricing\" \"case study\""],
+          recommendedSources: []
+        }
+      ]
+    },
+    contentSourceConfig: {
+      circles: [{ id: "saas_founders", name: "SaaS founder circle", keywords: ["SaaS"] }],
+      sources: []
+    }
+  });
+  const markdown = renderSourceDiscoveryMarkdown(discovery);
+
+  assert.equal(discovery.summary.totalNeededCandidates, 12);
+  assert.equal(discovery.circles[0].searchLinks.some((link) => link.label === "X live search"), true);
+  assert.equal(discovery.circles[0].searchLinks.every((link) => link.url.startsWith("https://")), true);
+  assert.match(markdown, /Source Discovery Pack/);
 });
 
 test("source import pack creates 100 pre-classified rows", () => {

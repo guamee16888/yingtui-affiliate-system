@@ -1,6 +1,6 @@
 {
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T13:21:22.617Z",
+  "generatedAt": "2026-06-12T13:33:54.978Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -2786,9 +2786,547 @@
       }
     ]
   },
+  "sourceDiscovery": {
+    "date": "2026-06-12",
+    "generatedAt": "2026-06-12T13:33:54.972Z",
+    "summary": {
+      "circles": 4,
+      "totalNeededCandidates": 73,
+      "totalSearchLinks": 56,
+      "topCircle": "Indie hacker circle"
+    },
+    "circles": [
+      {
+        "circleId": "indie_hackers",
+        "circleName": "Indie hacker circle",
+        "priorityScore": 41,
+        "neededCandidates": 33,
+        "currentQualifiedTools": 9,
+        "openingMove": "Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson.",
+        "importHint": "Add 33 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
+        "searchLinks": [
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live",
+            "query": "\"micro SaaS\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01",
+            "query": "\"micro SaaS\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch",
+            "query": "\"micro SaaS\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live",
+            "query": "\"indie hacker\" \"revenue\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01",
+            "query": "\"indie hacker\" \"revenue\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22indie%20hacker%22%20%22revenue%22",
+            "query": "\"indie hacker\" \"revenue\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22build%20in%20public%22%20%22launched%22&src=typed_query&f=live",
+            "query": "\"build in public\" \"launched\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22build%20in%20public%22%20%22launched%22%20after%3A2026-01-01",
+            "query": "\"build in public\" \"launched\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22build%20in%20public%22%20%22launched%22",
+            "query": "\"build in public\" \"launched\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22solo%20founder%22%20%22pricing%22&src=typed_query&f=live",
+            "query": "\"solo founder\" \"pricing\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22solo%20founder%22%20%22pricing%22%20after%3A2026-01-01",
+            "query": "\"solo founder\" \"pricing\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22solo%20founder%22%20%22pricing%22",
+            "query": "\"solo founder\" \"pricing\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          }
+        ],
+        "sourceIdeas": [
+          {
+            "name": "Indie Hackers products",
+            "url": "https://www.indiehackers.com/products",
+            "why": "Best for revenue, launch, and solo founder stories."
+          },
+          {
+            "name": "X build in public search",
+            "url": "https://x.com/search?q=%22build%20in%20public%22%20launched&src=typed_query&f=live",
+            "why": "Find fresh launches before they become saturated."
+          },
+          {
+            "name": "HN launch posts",
+            "url": "https://hn.algolia.com/?q=Show%20HN%20SaaS",
+            "why": "Useful for early products with founder context."
+          }
+        ],
+        "configuredSources": [
+          {
+            "id": "hn_indie_builders",
+            "name": "HN indie builder search",
+            "url": "https://hnrss.org/newest?q=indie%20SaaS",
+            "enabled": false
+          }
+        ],
+        "qualityChecklist": [
+          "Has a real URL, not only a vague trend.",
+          "Clear buyer or audience.",
+          "One narrow pain point.",
+          "Fresh enough for X, or evergreen enough for a review page.",
+          "Avoid pure price/news drama unless there is a builder or product angle."
+        ]
+      },
+      {
+        "circleId": "saas_founders",
+        "circleName": "SaaS founder circle",
+        "priorityScore": 24,
+        "neededCandidates": 20,
+        "currentQualifiedTools": 0,
+        "openingMove": "Collect 5 candidates from search links, then import only the ones with a clear audience and URL.",
+        "importHint": "Add 20 fresh SaaS founder circle candidates with clear buyer, narrow pain, and a real URL.",
+        "searchLinks": [
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live",
+            "query": "\"SaaS pricing\" \"case study\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01",
+            "query": "\"SaaS pricing\" \"case study\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22",
+            "query": "\"SaaS pricing\" \"case study\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live",
+            "query": "\"B2B SaaS\" \"onboarding\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01",
+            "query": "\"B2B SaaS\" \"onboarding\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22B2B%20SaaS%22%20%22onboarding%22",
+            "query": "\"B2B SaaS\" \"onboarding\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22SaaS%20founder%22%20%22churn%22&src=typed_query&f=live",
+            "query": "\"SaaS founder\" \"churn\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22SaaS%20founder%22%20%22churn%22%20after%3A2026-01-01",
+            "query": "\"SaaS founder\" \"churn\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22SaaS%20founder%22%20%22churn%22",
+            "query": "\"SaaS founder\" \"churn\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22PLG%22%20%22activation%22%20%22SaaS%22&src=typed_query&f=live",
+            "query": "\"PLG\" \"activation\" \"SaaS\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22PLG%22%20%22activation%22%20%22SaaS%22%20after%3A2026-01-01",
+            "query": "\"PLG\" \"activation\" \"SaaS\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22PLG%22%20%22activation%22%20%22SaaS%22",
+            "query": "\"PLG\" \"activation\" \"SaaS\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          }
+        ],
+        "sourceIdeas": [
+          {
+            "name": "SaaStr",
+            "url": "https://www.saastr.com/",
+            "why": "Evergreen B2B SaaS lessons for review threads and founder takes."
+          },
+          {
+            "name": "Lenny's Newsletter search",
+            "url": "https://www.google.com/search?q=site%3Alennysnewsletter.com%20SaaS%20pricing",
+            "why": "Good for pricing, growth, onboarding, and activation angles."
+          },
+          {
+            "name": "OpenView blog",
+            "url": "https://openviewpartners.com/blog/",
+            "why": "Useful PLG and B2B SaaS growth material."
+          }
+        ],
+        "configuredSources": [
+          {
+            "id": "hn_saas_founders",
+            "name": "HN SaaS founder search",
+            "url": "https://hnrss.org/newest?q=SaaS",
+            "enabled": false
+          }
+        ],
+        "qualityChecklist": [
+          "Has a real URL, not only a vague trend.",
+          "Clear buyer or audience.",
+          "One narrow pain point.",
+          "Fresh enough for X, or evergreen enough for a review page.",
+          "Avoid pure price/news drama unless there is a builder or product angle."
+        ]
+      },
+      {
+        "circleId": "crypto_builders",
+        "circleName": "Crypto builder circle",
+        "priorityScore": 17,
+        "neededCandidates": 13,
+        "currentQualifiedTools": 7,
+        "openingMove": "Collect 5 candidates from search links, then import only the ones with a clear audience and URL.",
+        "importHint": "Add 13 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.",
+        "searchLinks": [
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live",
+            "query": "\"crypto wallet\" \"developer\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01",
+            "query": "\"crypto wallet\" \"developer\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22",
+            "query": "\"crypto wallet\" \"developer\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "CoinDesk search",
+            "url": "https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22",
+            "query": "\"crypto wallet\" \"developer\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22onchain%22%20%22tool%22%20launch&src=typed_query&f=live",
+            "query": "\"onchain\" \"tool\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01",
+            "query": "\"onchain\" \"tool\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22onchain%22%20%22tool%22%20launch",
+            "query": "\"onchain\" \"tool\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "CoinDesk search",
+            "url": "https://www.coindesk.com/search?s=%22onchain%22%20%22tool%22%20launch",
+            "query": "\"onchain\" \"tool\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22DeFi%22%20%22dashboard%22&src=typed_query&f=live",
+            "query": "\"DeFi\" \"dashboard\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22DeFi%22%20%22dashboard%22%20after%3A2026-01-01",
+            "query": "\"DeFi\" \"dashboard\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22DeFi%22%20%22dashboard%22",
+            "query": "\"DeFi\" \"dashboard\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "CoinDesk search",
+            "url": "https://www.coindesk.com/search?s=%22DeFi%22%20%22dashboard%22",
+            "query": "\"DeFi\" \"dashboard\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22stablecoin%22%20%22infrastructure%22&src=typed_query&f=live",
+            "query": "\"stablecoin\" \"infrastructure\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22stablecoin%22%20%22infrastructure%22%20after%3A2026-01-01",
+            "query": "\"stablecoin\" \"infrastructure\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22stablecoin%22%20%22infrastructure%22",
+            "query": "\"stablecoin\" \"infrastructure\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "CoinDesk search",
+            "url": "https://www.coindesk.com/search?s=%22stablecoin%22%20%22infrastructure%22",
+            "query": "\"stablecoin\" \"infrastructure\"",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          }
+        ],
+        "sourceIdeas": [
+          {
+            "name": "CoinDesk",
+            "url": "https://www.coindesk.com/",
+            "why": "Use only product, infrastructure, ETF, stablecoin, or builder-facing items."
+          },
+          {
+            "name": "The Block",
+            "url": "https://www.theblock.co/",
+            "why": "Good for infrastructure and funding signals when not pure market noise."
+          },
+          {
+            "name": "X onchain tools search",
+            "url": "https://x.com/search?q=%22onchain%22%20%22tool%22%20launch&src=typed_query&f=live",
+            "why": "Find fresh builder tools and protocol launches."
+          }
+        ],
+        "configuredSources": [
+          {
+            "id": "coindesk_crypto",
+            "name": "CoinDesk crypto feed",
+            "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+            "enabled": true
+          },
+          {
+            "id": "hn_crypto_builders",
+            "name": "HN crypto builder search",
+            "url": "https://hnrss.org/newest?q=crypto%20startup",
+            "enabled": false
+          }
+        ],
+        "qualityChecklist": [
+          "Has a real URL, not only a vague trend.",
+          "Clear buyer or audience.",
+          "One narrow pain point.",
+          "Fresh enough for X, or evergreen enough for a review page.",
+          "Avoid pure price/news drama unless there is a builder or product angle."
+        ]
+      },
+      {
+        "circleId": "ai_startups",
+        "circleName": "AI startup circle",
+        "priorityScore": 9,
+        "neededCandidates": 7,
+        "currentQualifiedTools": 21,
+        "openingMove": "Use this as a watchlist. Add only unusually strong candidates.",
+        "importHint": "Add 7 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL.",
+        "searchLinks": [
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live",
+            "query": "\"AI startup\" launch new tool",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22AI%20startup%22%20launch%20new%20tool%20after%3A2026-01-01",
+            "query": "\"AI startup\" launch new tool",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22AI%20startup%22%20launch%20new%20tool",
+            "query": "\"AI startup\" launch new tool",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Product Hunt search",
+            "url": "https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool",
+            "query": "\"AI startup\" launch new tool",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live",
+            "query": "\"AI agent\" founder workflow",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01",
+            "query": "\"AI agent\" founder workflow",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22AI%20agent%22%20founder%20workflow",
+            "query": "\"AI agent\" founder workflow",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Product Hunt search",
+            "url": "https://www.producthunt.com/search?q=%22AI%20agent%22%20founder%20workflow",
+            "query": "\"AI agent\" founder workflow",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch&src=typed_query&f=live",
+            "query": "\"LLM\" \"Product Hunt\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch%20after%3A2026-01-01",
+            "query": "\"LLM\" \"Product Hunt\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22LLM%22%20%22Product%20Hunt%22%20launch",
+            "query": "\"LLM\" \"Product Hunt\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Product Hunt search",
+            "url": "https://www.producthunt.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch",
+            "query": "\"LLM\" \"Product Hunt\" launch",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "X live search",
+            "url": "https://x.com/search?q=%22AI%20automation%22%20%22pricing%22%20startup&src=typed_query&f=live",
+            "query": "\"AI automation\" \"pricing\" startup",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Google recent search",
+            "url": "https://www.google.com/search?q=%22AI%20automation%22%20%22pricing%22%20startup%20after%3A2026-01-01",
+            "query": "\"AI automation\" \"pricing\" startup",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "HN Algolia",
+            "url": "https://hn.algolia.com/?q=%22AI%20automation%22%20%22pricing%22%20startup",
+            "query": "\"AI automation\" \"pricing\" startup",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          },
+          {
+            "label": "Product Hunt search",
+            "url": "https://www.producthunt.com/search?q=%22AI%20automation%22%20%22pricing%22%20startup",
+            "query": "\"AI automation\" \"pricing\" startup",
+            "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+          }
+        ],
+        "sourceIdeas": [
+          {
+            "name": "Product Hunt AI launches",
+            "url": "https://www.producthunt.com/topics/artificial-intelligence",
+            "why": "Good for new AI tools, but still needs pain/niche filtering."
+          },
+          {
+            "name": "TechCrunch AI",
+            "url": "https://techcrunch.com/category/artificial-intelligence/",
+            "why": "Useful for market signals and AI startup funding/product shifts."
+          },
+          {
+            "name": "Hacker News AI searches",
+            "url": "https://hn.algolia.com/?q=AI%20agent",
+            "why": "Good for technical/founder debates when filtered manually."
+          }
+        ],
+        "configuredSources": [
+          {
+            "id": "techcrunch_ai",
+            "name": "TechCrunch AI feed",
+            "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+            "enabled": true
+          },
+          {
+            "id": "product_hunt",
+            "name": "Product Hunt live feed",
+            "url": "https://www.producthunt.com/feed",
+            "enabled": false
+          },
+          {
+            "id": "hn_ai_tools",
+            "name": "HN AI tools search",
+            "url": "https://hnrss.org/newest?q=AI%20tools",
+            "enabled": false
+          }
+        ],
+        "qualityChecklist": [
+          "Has a real URL, not only a vague trend.",
+          "Clear buyer or audience.",
+          "One narrow pain point.",
+          "Fresh enough for X, or evergreen enough for a review page.",
+          "Avoid pure price/news drama unless there is a builder or product angle."
+        ]
+      }
+    ]
+  },
   "sourceHealth": {
     "date": "2026-06-12",
-    "generatedAt": "2026-06-12T13:21:22.611Z",
+    "generatedAt": "2026-06-12T13:33:54.973Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -4239,7 +4777,7 @@
   },
   "promotionReview": {
     "date": "2026-06-12",
-    "generatedAt": "2026-06-12T13:21:22.615Z",
+    "generatedAt": "2026-06-12T13:33:54.976Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {

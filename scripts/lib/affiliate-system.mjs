@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { createToolId, normalizeDomain } from "./ids.mjs";
 import { writeJsonAtomic, writeTextAtomic } from "./file-store.mjs";
 import { buildAccountStrategy, DEFAULT_ACCOUNT_CONFIG, normalizeAccountConfig } from "./account-system.mjs";
-import { buildSourceHealth, buildSourceQualityQueue, buildSupplyPlan, DEFAULT_CONTENT_SOURCE_CONFIG } from "./content-source-system.mjs";
+import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceQualityQueue, buildSupplyPlan, DEFAULT_CONTENT_SOURCE_CONFIG } from "./content-source-system.mjs";
 import { buildDraftPlan } from "./draft-planner.mjs";
 import { buildContentCalendar } from "./content-calendar.mjs";
 import { buildPromotionReviewQueue } from "./promotion-engine.mjs";
@@ -830,6 +830,7 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
   const actionList = buildActionList(picked, affiliateQueue, date);
   const freshnessReport = buildFreshnessReport({ date, scored, picked, usedFallback, feedSource });
   const sourceQualityQueue = buildSourceQualityQueue({ supplyPlan, contentSourceConfig });
+  const sourceDiscovery = buildSourceDiscoveryPack({ date, sourceQualityQueue, contentSourceConfig });
   const sourceHealth = buildSourceHealth({ date, sourceCandidates: sourceCandidates ?? { items: [] }, scored, contentSourceConfig, sourceQualityQueue });
   const draftPlan = buildDraftPlan({ date, picked, accountStrategy, targetPerAccount: supplyPlan.targetPerAccount });
   const contentCalendar = buildContentCalendar({ date, draftPlan, accountStrategy });
@@ -859,6 +860,7 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
     accountStrategy,
     supplyPlan,
     sourceQualityQueue,
+    sourceDiscovery,
     sourceHealth,
     draftPlan,
     contentCalendar,
@@ -1037,6 +1039,10 @@ ${renderSupplyPlan(model.supplyPlan)}
 
 ${renderSourceQueueSummary(model.sourceQualityQueue)}
 
+## Source Discovery
+
+${renderSourceDiscoverySummary(model.sourceDiscovery)}
+
 ## Source Health
 
 ${renderSourceHealthSummary(model.sourceHealth)}
@@ -1138,6 +1144,23 @@ function renderSourceQueueSummary(queue) {
     ...queue.items.slice(0, 5).map((item, index) => {
       return `${index + 1}. ${item.circleName}: need ${item.neededCandidates}; affected accounts ${item.affectedAccounts.length}; try ${item.searchQueries[0] ?? "manual research"}`;
     })
+  ].join("\n");
+}
+
+function renderSourceDiscoverySummary(discovery) {
+  if (!discovery) return "No source discovery pack generated.";
+  const top = (discovery.circles ?? []).slice(0, 4).map((circle) => {
+    const links = (circle.searchLinks ?? []).slice(0, 3).map((link) => `[${link.label}](${link.url})`).join("; ");
+    return `- ${circle.circleName}: need ${circle.neededCandidates}, ${circle.openingMove} Links: ${links}`;
+  }).join("\n");
+
+  return [
+    `- Needed candidates: ${discovery.summary.totalNeededCandidates}`,
+    `- Search links: ${discovery.summary.totalSearchLinks}`,
+    `- Top gap: ${discovery.summary.topCircle || "none"}`,
+    "",
+    "Today source discovery:",
+    top || "- No source discovery actions needed."
   ].join("\n");
 }
 
@@ -1389,6 +1412,7 @@ export function toDailyJson(model) {
     accountStrategy: model.accountStrategy,
     supplyPlan: model.supplyPlan,
     sourceQualityQueue: model.sourceQualityQueue,
+    sourceDiscovery: model.sourceDiscovery,
     sourceHealth: model.sourceHealth,
     draftPlan: model.draftPlan,
     contentCalendar: model.contentCalendar,

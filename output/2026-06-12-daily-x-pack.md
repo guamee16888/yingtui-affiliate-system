@@ -46,6 +46,18 @@ Account shortages:
 3. Crypto builder circle: need 13; affected accounts 2; try "crypto wallet" "developer"
 4. AI startup circle: need 7; affected accounts 1; try "AI startup" launch new tool
 
+## Source Discovery
+
+- Needed candidates: 73
+- Search links: 56
+- Top gap: Indie hacker circle
+
+Today source discovery:
+- Indie hacker circle: need 33, Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson. Links: [X live search](https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch)
+- SaaS founder circle: need 20, Collect 5 candidates from search links, then import only the ones with a clear audience and URL. Links: [X live search](https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22)
+- Crypto builder circle: need 13, Collect 5 candidates from search links, then import only the ones with a clear audience and URL. Links: [X live search](https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22)
+- AI startup circle: need 7, Use this as a watchlist. Add only unusually strong candidates. Links: [X live search](https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22AI%20startup%22%20launch%20new%20tool%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22AI%20startup%22%20launch%20new%20tool)
+
 ## Source Health
 
 - Enabled sources: 2/7

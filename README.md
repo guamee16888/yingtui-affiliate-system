@@ -49,20 +49,21 @@ output/YYYY-MM-DD-daily-x-pack.md
 4. 打开「账号策略」看 `Supply coverage`：如果 20×10 目标缺口很大，先补来源，不要硬发。
 5. 跑 `npm run source-health`，先看哪些来源健康、哪些来源噪音大，需要调参或关闭。
 6. 跑 `npm run source-queue`，看今天最缺 AI/Indie/SaaS/Crypto 哪类来源。
-7. 跑 `npm run source-pack`，拿 100 行 CSV 模板去外部补题。
-8. 如果你从 X、newsletter、微信群或官网看到新工具/话题，先放进「候选收集」，并标好 circle，再点 `刷新 Live Feed` 让它参与评分。
-9. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
-10. 跑 `npm run content-calendar`，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
-11. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
-12. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
-13. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
-14. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
-15. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
-16. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
-17. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-18. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-19. 对值得做测评页的工具点「生成测评页大纲」。
-20. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+7. 跑 `npm run source-discovery`，打开按圈子生成的 X/Google/HN/Product Hunt/CoinDesk 搜索入口。
+8. 跑 `npm run source-pack`，拿 100 行 CSV 模板去外部补题。
+9. 如果你从 X、newsletter、微信群或官网看到新工具/话题，先放进「候选收集」，并标好 circle，再点 `刷新 Live Feed` 让它参与评分。
+10. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
+11. 跑 `npm run content-calendar`，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
+12. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
+13. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
+14. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
+15. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
+16. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
+17. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+18. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+19. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+20. 对值得做测评页的工具点「生成测评页大纲」。
+21. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -107,6 +108,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 `Content calendar` 会把草稿放进账号级发布时间槽，并检查每日目标和冷却时间是否互相冲突。比如每号 10 条但冷却 6 小时，在一天内天然排不满，系统会显示 capacity gap，而不是假装可以完成。
 
 `Source quality queue` 会把缺口翻译成今天该补的来源方向，例如 SaaS pricing、indie launch、crypto wallet tooling。它只给搜索方向和导入模板，不自动抓取不稳定站点。
+
+`Source discovery` 会把这些缺口变成可点击搜索入口，例如 X live search、Google recent search、HN Algolia、Product Hunt 或 CoinDesk。它只做人工发现入口，不自动导入，避免把低质量噪音直接灌进内容池。
 
 `Source health` 会给每个配置来源打健康分：候选数量、合格率、新鲜度、噪音率、是否需要调参或关闭。它是质量门禁，防止为了补 20×10 目标而把低质量 RSS 噪音灌进内容池。
 
@@ -183,6 +186,12 @@ npm run sources
 ```
 
 单独刷新和查看补充内容来源。默认开启 TechCrunch AI 与 CoinDesk crypto 两个 RSS 源，并用 include/exclude 关键词过滤纯新闻噪音。HN、Product Hunt 二次源等不稳定或重复来源默认关闭，你可以在 `config/content-sources.json` 里测试后再打开。
+
+```bash
+npm run source-discovery
+```
+
+生成来源发现包，输出到 `data/source-discovery.json` 和 `output/YYYY-MM-DD-source-discovery.md`。它按 AI startup、Indie hacker、SaaS founder、Crypto builder 当前缺口生成搜索链接、来源建议和人工筛选 checklist。
 
 ```bash
 npm run source-health
@@ -299,6 +308,7 @@ npm audit --audit-level=moderate
 - `data/queues.json`：thread、review page、affiliate research、watch、skip 队列。
 - `data/account-posts.json`：预留的多账号发帖记录文件，后续授权后用来做账号级去重和冷却。
 - `data/source-candidates.json`：从补充 RSS/Atom 来源刷新来的候选缓存。
+- `data/source-discovery.json`：按当前供给缺口生成的来源发现包和搜索入口。
 - `data/source-health.json`：按来源计算的健康分、噪音率和调参/关闭建议。
 - `data/source-quality-queue.json`：按账号和圈子缺口生成的补来源任务。
 - `data/draft-plans/*.json`：按账号生成的不重复草稿规划。

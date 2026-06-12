@@ -1310,6 +1310,7 @@ function renderAccounts() {
     ${renderDraftPlannerPanel(state.latest?.draftPlan)}
     ${renderContentCalendarPanel(state.latest?.contentCalendar)}
     ${renderSourceQueuePanel(state.latest?.sourceQualityQueue)}
+    ${renderSourceDiscoveryPanel(state.latest?.sourceDiscovery)}
     ${renderSourceHealthPanel(state.latest?.sourceHealth)}
     <section class="panel">
       <h2>今日工具分配</h2>
@@ -1391,6 +1392,28 @@ function renderSourceQueuePanel(queue) {
       <div class="line-head"><strong>${esc(item.circleName)}</strong>${pill(`need ${item.neededCandidates}`, "warn")}</div>
       <div class="muted">${esc(item.importHint)}</div>
       <div class="muted">Query: ${esc(item.searchQueries?.[0] ?? "")}</div>
+    </div>`).join("")}</div>
+  </section>`;
+}
+
+function renderSourceDiscoveryPanel(discovery) {
+  if (!discovery?.circles?.length) return "";
+  return `<section class="panel">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Source discovery</p>
+        <h2>去哪里补高质量选题</h2>
+        <p class="muted">按当前缺口生成搜索入口。这里只负责发现，不自动抓取、不自动导入。</p>
+      </div>
+      ${pill(`${discovery.summary?.totalNeededCandidates ?? 0} needed`, Number(discovery.summary?.totalNeededCandidates ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="list">${discovery.circles.slice(0, 4).map((circle) => `<div class="list-item">
+      <div class="line-head">
+        <strong>${esc(circle.circleName)}</strong>
+        ${pill(`need ${circle.neededCandidates}`, Number(circle.neededCandidates) > 20 ? "warn" : "neutral")}
+      </div>
+      <p class="muted">${esc(circle.openingMove)}</p>
+      <div class="button-row">${(circle.searchLinks ?? []).slice(0, 5).map((link) => `<a class="btn ghost" href="${attr(link.url)}" target="_blank" rel="noreferrer">${esc(link.label)}</a>`).join("")}</div>
     </div>`).join("")}</div>
   </section>`;
 }

@@ -54,6 +54,7 @@ async function main() {
     affiliateConfig,
     accountConfig,
     contentSourceConfig,
+    sourceCandidates: sourceRefresh.sourceCandidates,
     feedback,
     queues,
     voice,

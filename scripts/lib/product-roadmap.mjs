@@ -232,7 +232,11 @@ function sourceDiversityDimension(latest) {
   const enabled = Number(breakdown.enabledExtraSources ?? 0);
   const sourceCandidates = Number(breakdown.sourceCandidateTools ?? 0);
   const inbox = Number(breakdown.candidateInboxTools ?? 0);
-  const score = Math.min(100, enabled * 18 + sourceCandidates + inbox);
+  const sourceHealth = latest?.sourceHealth?.summary ?? {};
+  const healthySources = Number(sourceHealth.healthySources ?? 0);
+  const tuneSources = Number(sourceHealth.tuneSources ?? 0);
+  const disableCandidates = Number(sourceHealth.disableCandidates ?? 0);
+  const score = Math.max(0, Math.min(100, enabled * 12 + healthySources * 14 + sourceCandidates + inbox - disableCandidates * 12 - tuneSources * 4));
 
   return dimension({
     id: "source_diversity",
@@ -242,13 +246,16 @@ function sourceDiversityDimension(latest) {
     evidence: [
       `${enabled} enabled extra sources.`,
       `${sourceCandidates} source candidates in the daily merge.`,
-      `${inbox} candidate inbox items in the daily merge.`
+      `${inbox} candidate inbox items in the daily merge.`,
+      `${healthySources} healthy sources, ${tuneSources} tune sources, ${disableCandidates} disable candidates.`
     ],
     gaps: [
       enabled < 6 ? "Need more reliable sources beyond Product Hunt and two RSS feeds." : "",
-      sourceCandidates + inbox < 100 ? "Need a larger manual/imported candidate bench." : ""
+      sourceCandidates + inbox < 100 ? "Need a larger manual/imported candidate bench." : "",
+      tuneSources || disableCandidates ? "Some sources need filter tuning before scaling." : ""
     ].filter(Boolean),
     nextActions: [
+      "Run npm run source-health and fix the worst source first.",
       "Add source packs by circle instead of turning on noisy feeds blindly.",
       "Keep disabled sources disabled until they prove they produce useful candidates."
     ]

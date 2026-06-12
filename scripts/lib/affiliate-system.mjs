@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { createToolId, normalizeDomain } from "./ids.mjs";
 import { writeJsonAtomic, writeTextAtomic } from "./file-store.mjs";
 import { buildAccountStrategy, DEFAULT_ACCOUNT_CONFIG, normalizeAccountConfig } from "./account-system.mjs";
-import { buildSourceQualityQueue, buildSupplyPlan, DEFAULT_CONTENT_SOURCE_CONFIG } from "./content-source-system.mjs";
+import { buildSourceHealth, buildSourceQualityQueue, buildSupplyPlan, DEFAULT_CONTENT_SOURCE_CONFIG } from "./content-source-system.mjs";
 import { buildDraftPlan } from "./draft-planner.mjs";
 import { buildContentCalendar } from "./content-calendar.mjs";
 import { buildPromotionReviewQueue } from "./promotion-engine.mjs";
@@ -802,7 +802,7 @@ export function buildAffiliateStatus(item) {
   };
 }
 
-export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, feedback = { entries: [] }, queues = { items: [] }, voice, limit, warnings, sourceBreakdown = null }) {
+export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, sourceCandidates = null, feedback = { entries: [] }, queues = { items: [] }, voice, limit, warnings, sourceBreakdown = null }) {
   const historyIndex = buildHistoryIndex(history, { beforeDate: date });
   const context = { date, historyIndex, affiliateConfig };
   const scored = tools
@@ -830,6 +830,7 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
   const actionList = buildActionList(picked, affiliateQueue, date);
   const freshnessReport = buildFreshnessReport({ date, scored, picked, usedFallback, feedSource });
   const sourceQualityQueue = buildSourceQualityQueue({ supplyPlan, contentSourceConfig });
+  const sourceHealth = buildSourceHealth({ date, sourceCandidates: sourceCandidates ?? { items: [] }, scored, contentSourceConfig, sourceQualityQueue });
   const draftPlan = buildDraftPlan({ date, picked, accountStrategy, targetPerAccount: supplyPlan.targetPerAccount });
   const contentCalendar = buildContentCalendar({ date, draftPlan, accountStrategy });
   const promotionReview = buildPromotionReviewQueue({
@@ -858,6 +859,7 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
     accountStrategy,
     supplyPlan,
     sourceQualityQueue,
+    sourceHealth,
     draftPlan,
     contentCalendar,
     promotionReview,
@@ -933,6 +935,7 @@ function freshnessToolSummary(item, date, picked) {
     name: item.tool.name,
     url: item.tool.url,
     published: item.tool.published ?? null,
+    sourceId: item.tool.sourceId ?? "",
     sourceType: item.tool.sourceType ?? "producthunt",
     sourceName: item.tool.sourceName ?? "Product Hunt",
     ageDays: daysSince(item.tool.published, date),
@@ -1034,6 +1037,10 @@ ${renderSupplyPlan(model.supplyPlan)}
 
 ${renderSourceQueueSummary(model.sourceQualityQueue)}
 
+## Source Health
+
+${renderSourceHealthSummary(model.sourceHealth)}
+
 ## Draft Planner
 
 ${renderDraftPlanSummary(model.draftPlan)}
@@ -1131,6 +1138,30 @@ function renderSourceQueueSummary(queue) {
     ...queue.items.slice(0, 5).map((item, index) => {
       return `${index + 1}. ${item.circleName}: need ${item.neededCandidates}; affected accounts ${item.affectedAccounts.length}; try ${item.searchQueries[0] ?? "manual research"}`;
     })
+  ].join("\n");
+}
+
+function renderSourceHealthSummary(health) {
+  if (!health) return "No source health report generated.";
+  const weakSources = (health.sources ?? [])
+    .filter((source) => ["disable_candidate", "needs_candidates", "weak", "tune"].includes(source.status))
+    .slice(0, 6)
+    .map((source) => `- ${source.name}: ${source.status}, health ${source.healthScore}, qualified ${source.qualifiedCandidates}/${source.totalCandidates}, noise ${source.noiseCandidates}`)
+    .join("\n");
+
+  return [
+    `- Enabled sources: ${health.summary.enabledSources}/${health.summary.configuredSources}`,
+    `- Healthy sources: ${health.summary.healthySources}`,
+    `- Tune sources: ${health.summary.tuneSources}`,
+    `- Disable candidates: ${health.summary.disableCandidates}`,
+    `- Qualified candidates: ${health.summary.qualifiedCandidates}/${health.summary.totalCandidates}`,
+    `- Noise candidates: ${health.summary.noiseCandidates}`,
+    "",
+    "Source actions:",
+    health.recommendations.length ? health.recommendations.map((item) => `- ${item}`).join("\n") : "- No source-health action needed.",
+    "",
+    "Weak/tune sources:",
+    weakSources || "- No weak sources detected."
   ].join("\n");
 }
 
@@ -1358,6 +1389,7 @@ export function toDailyJson(model) {
     accountStrategy: model.accountStrategy,
     supplyPlan: model.supplyPlan,
     sourceQualityQueue: model.sourceQualityQueue,
+    sourceHealth: model.sourceHealth,
     draftPlan: model.draftPlan,
     contentCalendar: model.contentCalendar,
     promotionReview: model.promotionReview,

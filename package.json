@@ -20,6 +20,7 @@
     "affiliate-queue": "node scripts/affiliate-queue.mjs",
     "affiliate:research": "node scripts/affiliate-research-summary.mjs",
     "sources": "node scripts/source-candidates.mjs",
+    "source-health": "node scripts/source-health.mjs",
     "source-queue": "node scripts/source-quality-queue.mjs",
     "source-pack": "node scripts/source-import-pack.mjs",
     "draft-plan": "node scripts/draft-plan.mjs",

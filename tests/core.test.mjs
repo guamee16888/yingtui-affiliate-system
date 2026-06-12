@@ -16,7 +16,7 @@ import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPubl
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
-import { buildSourceImportPackRows, buildSourceQualityQueue, buildSupplyPlan, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
+import { buildSourceHealth, buildSourceImportPackRows, buildSourceQualityQueue, buildSupplyPlan, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
@@ -107,6 +107,7 @@ test("source candidates preserve circle and candidate type", () => {
         url: "https://source.example.com/saas",
         tagline: "A pricing signal for SaaS founders",
         description: "A pricing signal for SaaS founders",
+        source: "source_1",
         sourceName: "Source",
         circle: "saas_founders",
         candidateType: "topic",
@@ -116,6 +117,7 @@ test("source candidates preserve circle and candidate type", () => {
   }, "2026-06-12");
 
   assert.equal(tools[0].sourceType, "source_feed");
+  assert.equal(tools[0].sourceId, "source_1");
   assert.equal(tools[0].circle, "saas_founders");
   assert.equal(tools[0].candidateType, "topic");
 });
@@ -417,6 +419,120 @@ test("source quality queue turns supply gaps into research tasks", () => {
   assert.equal(queue.items[0].circleId, "saas_founders");
   assert.equal(queue.items[0].neededCandidates >= 8, true);
   assert.equal(queue.items[0].searchQueries.length > 0, true);
+});
+
+test("source health flags noisy low-quality sources", () => {
+  const health = buildSourceHealth({
+    date: "2026-06-12",
+    sourceCandidates: {
+      items: [
+        {
+          source: "noisy_crypto",
+          toolId: "tool_noise_1",
+          name: "Bitcoin price prediction resistance test",
+          url: "https://noise.example.com/1",
+          description: "Price prediction and resistance test for bulls",
+          circle: "crypto_builders",
+          candidateType: "topic",
+          status: "active",
+          published: "2026-06-12T00:00:00.000Z"
+        },
+        {
+          source: "noisy_crypto",
+          toolId: "tool_noise_2",
+          name: "Market live updates",
+          url: "https://noise.example.com/2",
+          description: "Live updates about price rockets",
+          circle: "crypto_builders",
+          candidateType: "topic",
+          status: "active",
+          published: "2026-06-12T00:00:00.000Z"
+        }
+      ]
+    },
+    scored: [
+      { toolId: "tool_noise_1", score: 8, followUpAction: "skip" },
+      { toolId: "tool_noise_2", score: 9, followUpAction: "skip" }
+    ],
+    contentSourceConfig: {
+      dailyTargets: { minimumQualityScore: 18 },
+      circles: [{ id: "crypto_builders", name: "Crypto", keywords: ["crypto"] }],
+      sources: [
+        {
+          id: "noisy_crypto",
+          name: "Noisy Crypto",
+          circle: "crypto_builders",
+          type: "rss",
+          candidateType: "topic",
+          url: "https://noise.example.com/rss",
+          enabled: true,
+          includeKeywords: ["bitcoin"],
+          excludeKeywords: ["price prediction", "live updates"]
+        }
+      ]
+    }
+  });
+
+  assert.equal(health.sources[0].status, "disable_candidate");
+  assert.equal(health.sources[0].noiseCandidates, 2);
+  assert.equal(health.recommendations.some((item) => item.includes("Noisy Crypto")), true);
+});
+
+test("source health rewards useful qualified sources", () => {
+  const health = buildSourceHealth({
+    date: "2026-06-12",
+    sourceCandidates: {
+      items: [
+        {
+          source: "clean_saas",
+          toolId: "tool_clean_1",
+          name: "SaaS onboarding teardown",
+          url: "https://clean.example.com/1",
+          description: "A SaaS onboarding workflow case study",
+          circle: "saas_founders",
+          candidateType: "topic",
+          status: "active",
+          published: "2026-06-12T00:00:00.000Z"
+        },
+        {
+          source: "clean_saas",
+          toolId: "tool_clean_2",
+          name: "B2B pricing page launch",
+          url: "https://clean.example.com/2",
+          description: "A pricing page launch for B2B SaaS founders",
+          circle: "saas_founders",
+          candidateType: "product",
+          status: "active",
+          published: "2026-06-12T00:00:00.000Z"
+        }
+      ]
+    },
+    scored: [
+      { toolId: "tool_clean_1", score: 28, followUpAction: "thread candidate" },
+      { toolId: "tool_clean_2", score: 31, followUpAction: "review page candidate" }
+    ],
+    contentSourceConfig: {
+      dailyTargets: { minimumQualityScore: 18 },
+      circles: [{ id: "saas_founders", name: "SaaS", keywords: ["SaaS"] }],
+      sources: [
+        {
+          id: "clean_saas",
+          name: "Clean SaaS",
+          circle: "saas_founders",
+          type: "rss",
+          candidateType: "topic",
+          url: "https://clean.example.com/rss",
+          enabled: true,
+          includeKeywords: ["SaaS"],
+          excludeKeywords: ["lawsuit"]
+        }
+      ]
+    }
+  });
+
+  assert.equal(health.sources[0].status, "healthy");
+  assert.equal(health.sources[0].qualifiedCandidates, 2);
+  assert.equal(health.summary.healthySources, 1);
 });
 
 test("source import pack creates 100 pre-classified rows", () => {

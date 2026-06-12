@@ -1,9 +1,9 @@
 {
   "version": 1,
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T13:09:11.502Z",
+  "generatedAt": "2026-06-12T13:21:22.926Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
-  "overallScore": 37,
+  "overallScore": 38,
   "level": "prototype",
   "summary": {
     "dimensions": 9,
@@ -39,12 +39,12 @@
       "status": "blocked",
       "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
       "evidence": [
-        "26/200 planned unique drafts.",
-        "26 qualified tools.",
-        "71 source candidates needed by the queue."
+        "25/200 planned unique drafts.",
+        "25 qualified tools.",
+        "73 source candidates needed by the queue."
       ],
       "gaps": [
-        "Need 174 more unique drafts for the current target.",
+        "Need 175 more unique drafts for the current target.",
         "Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles."
       ],
       "nextActions": [
@@ -113,19 +113,21 @@
     {
       "id": "source_diversity",
       "name": "Source diversity",
-      "score": 58,
+      "score": 73,
       "status": "watch",
       "whyItMatters": "A multi-account system needs more than one launch feed, especially for SaaS, indie, and crypto angles.",
       "evidence": [
         "2 enabled extra sources.",
-        "22 source candidates in the daily merge.",
-        "0 candidate inbox items in the daily merge."
+        "21 source candidates in the daily merge.",
+        "0 candidate inbox items in the daily merge.",
+        "2 healthy sources, 0 tune sources, 0 disable candidates."
       ],
       "gaps": [
         "Need more reliable sources beyond Product Hunt and two RSS feeds.",
         "Need a larger manual/imported candidate bench."
       ],
       "nextActions": [
+        "Run npm run source-health and fix the worst source first.",
         "Add source packs by circle instead of turning on noisy feeds blindly.",
         "Keep disabled sources disabled until they prove they produce useful candidates."
       ]
@@ -138,7 +140,7 @@
       "whyItMatters": "The system is valuable only if it protects account quality, avoids fake claims, and blocks stale posts.",
       "evidence": [
         "0 generation warnings.",
-        "25 fresh publish candidates.",
+        "24 fresh publish candidates.",
         "Manual-confirm publishing is the default mode."
       ],
       "gaps": [
@@ -152,14 +154,14 @@
     {
       "id": "longform_engine",
       "name": "Thread and SEO review engine",
-      "score": 40,
+      "score": 35,
       "status": "blocked",
       "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
       "evidence": [
         "0 thread queue items.",
         "0 review page queue items.",
         "0 active follow-up items.",
-        "8 promotion review items are ready to queue."
+        "7 promotion review items are ready to queue."
       ],
       "gaps": [
         "No active follow-up queue items.",
@@ -223,7 +225,7 @@
     {
       "id": "longform_engine",
       "name": "Thread and SEO review engine",
-      "score": 40,
+      "score": 35,
       "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
       "nextAction": "Open Promotion review and manually queue the ready items."
     }

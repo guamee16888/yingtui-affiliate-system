@@ -1310,6 +1310,7 @@ function renderAccounts() {
     ${renderDraftPlannerPanel(state.latest?.draftPlan)}
     ${renderContentCalendarPanel(state.latest?.contentCalendar)}
     ${renderSourceQueuePanel(state.latest?.sourceQualityQueue)}
+    ${renderSourceHealthPanel(state.latest?.sourceHealth)}
     <section class="panel">
       <h2>今日工具分配</h2>
       <div class="list">${recommendations.map(renderAccountRecommendation).join("") || empty("暂无分配。")}</div>
@@ -1391,6 +1392,34 @@ function renderSourceQueuePanel(queue) {
       <div class="muted">${esc(item.importHint)}</div>
       <div class="muted">Query: ${esc(item.searchQueries?.[0] ?? "")}</div>
     </div>`).join("")}</div>
+  </section>`;
+}
+
+function renderSourceHealthPanel(health) {
+  if (!health) return "";
+  const sources = (health.sources ?? [])
+    .filter((source) => ["disable_candidate", "needs_candidates", "weak", "tune"].includes(source.status))
+    .slice(0, 8);
+  return `<section class="panel">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Source health</p>
+        <h2>来源健康度</h2>
+        <p class="muted">按候选数量、合格率、新鲜度和噪音率判断来源是否该保留、调参或关闭。</p>
+      </div>
+      ${pill(`${health.summary?.healthySources ?? 0} healthy`, Number(health.summary?.disableCandidates ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(health.summary?.enabledSources ?? 0)}/${esc(health.summary?.configuredSources ?? 0)}</strong><span>enabled</span></div>
+      <div><strong>${esc(health.summary?.qualifiedCandidates ?? 0)}/${esc(health.summary?.totalCandidates ?? 0)}</strong><span>qualified</span></div>
+      <div><strong>${esc(health.summary?.noiseCandidates ?? 0)}</strong><span>noise</span></div>
+      <div><strong>${esc(health.summary?.tuneSources ?? 0)}</strong><span>tune</span></div>
+    </div>
+    <div class="list">${sources.map((source) => `<div class="list-item">
+      <div class="line-head"><strong>${esc(source.name)}</strong>${pill(`${source.healthScore}/100`, source.status === "tune" ? "warn" : source.status === "disable_candidate" ? "bad" : "neutral")}</div>
+      <div class="muted">${esc(source.status)} · ${esc(source.qualifiedCandidates)}/${esc(source.totalCandidates)} qualified · noise ${esc(source.noiseCandidates)} · ${esc(source.circle || "unknown circle")}</div>
+      <p>${esc(source.recommendation)}</p>
+    </div>`).join("") || empty("来源健康度暂无明显问题。")}</div>
   </section>`;
 }
 

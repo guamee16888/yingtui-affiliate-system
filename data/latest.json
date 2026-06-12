@@ -1,38 +1,38 @@
 {
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T13:09:11.195Z",
+  "generatedAt": "2026-06-12T13:21:22.617Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
     "breakdown": {
       "productHuntTools": 50,
       "candidateInboxTools": 0,
-      "sourceCandidateTools": 22,
-      "sourceFetchedTools": 22,
+      "sourceCandidateTools": 21,
+      "sourceFetchedTools": 21,
       "enabledExtraSources": 2,
-      "mergedTools": 72
+      "mergedTools": 71
     }
   },
   "warnings": [],
   "summary": {
-    "totalTools": 72,
-    "topPicks": 26,
+    "totalTools": 71,
+    "topPicks": 25,
     "affiliateQueueCount": 1,
     "candidateInboxCount": 0,
-    "sourceCandidateCount": 22,
+    "sourceCandidateCount": 21,
     "seenBeforeCount": 0
   },
   "freshnessReport": {
     "source": "https://www.producthunt.com/feed",
     "usedFallback": false,
     "stats": {
-      "totalTools": 72,
-      "freshToday": 30,
-      "fresh48": 31,
+      "totalTools": 71,
+      "freshToday": 29,
+      "fresh48": 30,
       "fresh7d": 8,
-      "older": 3,
+      "older": 4,
       "unknownPublished": 0,
-      "topPickFreshPostCandidates": 25,
+      "topPickFreshPostCandidates": 24,
       "topPickSeenBefore": 0
     },
     "publishableTools": [
@@ -40,6 +40,7 @@
         "name": "Decart’s new world model can simulate hours of photorealistic driving — with some caveats",
         "url": "https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/",
         "published": "Wed, 10 Jun 2026 13:07:56 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -52,6 +53,7 @@
         "name": "Canton Network developer raises $355 million to bring Wall Street onchain",
         "url": "https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
         "published": "Thu, 11 Jun 2026 13:50:13 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -64,6 +66,7 @@
         "name": "Anthropic’s Dario Amodei has just one direct report",
         "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
         "published": "Thu, 11 Jun 2026 03:53:06 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -76,6 +79,7 @@
         "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
         "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
         "published": "Fri, 12 Jun 2026 05:35:25 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -88,6 +92,7 @@
         "name": "How memory tools can make AI models worse",
         "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
         "published": "Wed, 10 Jun 2026 16:11:08 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -100,6 +105,7 @@
         "name": "Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in",
         "url": "https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
         "published": "Wed, 10 Jun 2026 15:00:00 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -112,6 +118,7 @@
         "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
         "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
         "published": "Fri, 12 Jun 2026 01:04:38 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -124,6 +131,7 @@
         "name": "KOSH Money",
         "url": "https://www.producthunt.com/products/kosh-money",
         "published": "2026-06-11T02:01:13-07:00",
+        "sourceId": "",
         "sourceType": "producthunt",
         "sourceName": "Product Hunt",
         "ageDays": 0,
@@ -136,6 +144,7 @@
         "name": "Jedify raises $24M to help companies arm AI agents with context on their business",
         "url": "https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/",
         "published": "Wed, 10 Jun 2026 13:33:09 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -148,6 +157,7 @@
         "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
         "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
         "published": "Wed, 10 Jun 2026 15:41:22 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -160,6 +170,7 @@
         "name": "Pool’s new app turns your screenshots into something useful",
         "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
         "published": "Thu, 11 Jun 2026 15:30:00 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -169,21 +180,10 @@
         "inTopPicks": true
       },
       {
-        "name": "Tether leads $1.4 billion funding round in German robotics company Neura",
-        "url": "https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-        "published": "Thu, 11 Jun 2026 13:49:27 +0000",
-        "sourceType": "source_feed",
-        "sourceName": "CoinDesk crypto feed",
-        "ageDays": 0,
-        "score": 26,
-        "followUpAction": "thread candidate",
-        "seenBefore": false,
-        "inTopPicks": true
-      },
-      {
         "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
         "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
         "published": "Thu, 11 Jun 2026 04:02:19 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -196,6 +196,7 @@
         "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
         "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
         "published": "Fri, 12 Jun 2026 07:07:34 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -208,6 +209,7 @@
         "name": "‘AI-pilled’ firms spend $7,500 per employee each month on AI",
         "url": "https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/",
         "published": "Wed, 10 Jun 2026 17:07:35 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -220,6 +222,7 @@
         "name": "Deezer’s new tool can identify AI music from Spotify, Apple Music, and others",
         "url": "https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
         "published": "Thu, 11 Jun 2026 16:36:20 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -232,6 +235,7 @@
         "name": "Crypto for Advisors: Crypto ETFs",
         "url": "https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs",
         "published": "Thu, 11 Jun 2026 15:00:00 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -244,6 +248,7 @@
         "name": "DoorDash’s new AI chatbot lets you order with prompts and photos",
         "url": "https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/",
         "published": "Thu, 11 Jun 2026 14:23:43 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -256,6 +261,7 @@
         "name": "SpaceX stock is coming to Solana on the same day it lists on Nasdaq",
         "url": "https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq",
         "published": "Thu, 11 Jun 2026 14:00:00 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -268,6 +274,7 @@
         "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
         "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
         "published": "Fri, 12 Jun 2026 01:48:07 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -280,6 +287,7 @@
         "name": "Meet Warren 3.0",
         "url": "https://www.producthunt.com/products/underpay",
         "published": "2026-06-11T04:04:31-07:00",
+        "sourceId": "",
         "sourceType": "producthunt",
         "sourceName": "Product Hunt",
         "ageDays": 0,
@@ -292,6 +300,7 @@
         "name": "Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues",
         "url": "https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/",
         "published": "Wed, 10 Jun 2026 20:19:31 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -304,6 +313,7 @@
         "name": "Banking rails are moving past the 'stablecoin winner' narrative: Sygnum",
         "url": "https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure",
         "published": "Thu, 11 Jun 2026 16:37:53 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -316,6 +326,7 @@
         "name": "Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans",
         "url": "https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans",
         "published": "Fri, 12 Jun 2026 10:00:12 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -328,6 +339,7 @@
         "name": "LocIn AI",
         "url": "https://www.producthunt.com/products/locin-ai",
         "published": "2026-06-11T13:04:57-07:00",
+        "sourceId": "",
         "sourceType": "producthunt",
         "sourceName": "Product Hunt",
         "ageDays": 0,
@@ -342,6 +354,7 @@
         "name": "Decart’s new world model can simulate hours of photorealistic driving — with some caveats",
         "url": "https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/",
         "published": "Wed, 10 Jun 2026 13:07:56 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -354,6 +367,7 @@
         "name": "Canton Network developer raises $355 million to bring Wall Street onchain",
         "url": "https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
         "published": "Thu, 11 Jun 2026 13:50:13 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -366,6 +380,7 @@
         "name": "Anthropic’s Dario Amodei has just one direct report",
         "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
         "published": "Thu, 11 Jun 2026 03:53:06 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 1,
@@ -378,6 +393,7 @@
         "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
         "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
         "published": "Fri, 12 Jun 2026 05:35:25 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -390,6 +406,7 @@
         "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
         "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
         "published": "Fri, 12 Jun 2026 01:04:38 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -404,6 +421,7 @@
         "name": "Canton Network developer raises $355 million to bring Wall Street onchain",
         "url": "https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
         "published": "Thu, 11 Jun 2026 13:50:13 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -416,6 +434,7 @@
         "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
         "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
         "published": "Fri, 12 Jun 2026 05:35:25 +0000",
+        "sourceId": "coindesk_crypto",
         "sourceType": "source_feed",
         "sourceName": "CoinDesk crypto feed",
         "ageDays": 0,
@@ -428,6 +447,7 @@
         "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
         "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
         "published": "Fri, 12 Jun 2026 01:04:38 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -440,6 +460,7 @@
         "name": "KOSH Money",
         "url": "https://www.producthunt.com/products/kosh-money",
         "published": "2026-06-11T02:01:13-07:00",
+        "sourceId": "",
         "sourceType": "producthunt",
         "sourceName": "Product Hunt",
         "ageDays": 0,
@@ -452,6 +473,7 @@
         "name": "Pool’s new app turns your screenshots into something useful",
         "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
         "published": "Thu, 11 Jun 2026 15:30:00 +0000",
+        "sourceId": "techcrunch_ai",
         "sourceType": "source_feed",
         "sourceName": "TechCrunch AI feed",
         "ageDays": 0,
@@ -474,7 +496,7 @@
     "summary": {
       "totalAccounts": 20,
       "activeAccounts": 20,
-      "routedTools": 26
+      "routedTools": 25
     },
     "accounts": [
       {
@@ -996,8 +1018,8 @@
         "cooldownHours": 6,
         "active": true,
         "authStatus": "planned",
-        "plannedToolsToday": 3,
-        "remainingSlotsToday": 7
+        "plannedToolsToday": 2,
+        "remainingSlotsToday": 8
       },
       {
         "id": "crypto_trading_tools",
@@ -1650,51 +1672,6 @@
           }
         ],
         "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow."
-      },
-      {
-        "toolId": "tool_coindesk_com_tether-leads-1-4-billion-funding-round-in-german-robotics-company-neura_d6aa992f94",
-        "toolName": "Tether leads $1.4 billion funding round in German robotics company Neura",
-        "primary": {
-          "accountId": "crypto_builder_radar",
-          "displayName": "Crypto Builder Radar",
-          "handle": "",
-          "category": "Crypto builder circle",
-          "score": 13.5,
-          "dailyPostLimit": 10,
-          "cooldownHours": 6,
-          "matchedKeywords": [
-            "crypto",
-            "stablecoin"
-          ],
-          "matchedPillars": [
-            "crypto builders"
-          ]
-        },
-        "alternatives": [
-          {
-            "accountId": "ai_agent_ops",
-            "displayName": "AI Agent Ops",
-            "handle": "",
-            "category": "AI agents and automation",
-            "score": 7.5,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [],
-            "matchedPillars": []
-          },
-          {
-            "accountId": "ai_founder_signals",
-            "displayName": "AI Founder Signals",
-            "handle": "",
-            "category": "AI startup circle",
-            "score": 7.5,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [],
-            "matchedPillars": []
-          }
-        ],
-        "reason": "Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin; pillar: crypto builders."
       },
       {
         "toolId": "tool_techcrunch_com_opendoor-s-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing_bec68a71aa",
@@ -2394,9 +2371,9 @@
     "targetPerAccount": 10,
     "targetDrafts": 200,
     "minimumQualityScore": 18,
-    "qualifiedTools": 26,
-    "possibleDrafts": 130,
-    "totalGap": 70,
+    "qualifiedTools": 25,
+    "possibleDrafts": 125,
+    "totalGap": 75,
     "status": "short",
     "note": "Supply is short for at least one account or circle. Add more source candidates instead of lowering quality just to fill slots.",
     "accountCoverage": [
@@ -2485,9 +2462,9 @@
         "displayName": "Sales Support AI",
         "category": "sales and customer support",
         "targetPosts": 10,
-        "availableDrafts": 4,
-        "qualifiedTools": 4,
-        "gap": 6,
+        "availableDrafts": 3,
+        "qualifiedTools": 3,
+        "gap": 7,
         "status": "short"
       },
       {
@@ -2565,9 +2542,9 @@
         "displayName": "Crypto Builder Radar",
         "category": "Crypto builder circle",
         "targetPosts": 10,
-        "availableDrafts": 8,
-        "qualifiedTools": 8,
-        "gap": 2,
+        "availableDrafts": 7,
+        "qualifiedTools": 7,
+        "gap": 3,
         "status": "short"
       },
       {
@@ -2611,8 +2588,8 @@
       {
         "circleId": "indie_hackers",
         "name": "Indie hacker circle",
-        "qualifiedTools": 10,
-        "possibleDrafts": 50
+        "qualifiedTools": 9,
+        "possibleDrafts": 45
       },
       {
         "circleId": "saas_founders",
@@ -2623,15 +2600,15 @@
       {
         "circleId": "crypto_builders",
         "name": "Crypto builder circle",
-        "qualifiedTools": 8,
-        "possibleDrafts": 40
+        "qualifiedTools": 7,
+        "possibleDrafts": 35
       }
     ]
   },
   "sourceQualityQueue": {
     "summary": {
       "items": 4,
-      "totalNeededCandidates": 71,
+      "totalNeededCandidates": 73,
       "topCircle": "Indie hacker circle"
     },
     "items": [
@@ -2640,7 +2617,7 @@
         "circleName": "Indie hacker circle",
         "priorityScore": 41,
         "neededCandidates": 33,
-        "currentQualifiedTools": 10,
+        "currentQualifiedTools": 9,
         "affectedAccounts": [
           {
             "accountId": "indie_monetization",
@@ -2724,9 +2701,9 @@
       {
         "circleId": "crypto_builders",
         "circleName": "Crypto builder circle",
-        "priorityScore": 16,
-        "neededCandidates": 12,
-        "currentQualifiedTools": 8,
+        "priorityScore": 17,
+        "neededCandidates": 13,
+        "currentQualifiedTools": 7,
         "affectedAccounts": [
           {
             "accountId": "crypto_trading_tools",
@@ -2737,7 +2714,7 @@
           {
             "accountId": "crypto_builder_radar",
             "displayName": "Crypto Builder Radar",
-            "gap": 2,
+            "gap": 3,
             "category": "Crypto builder circle"
           }
         ],
@@ -2762,19 +2739,19 @@
           "\"stablecoin\" \"infrastructure\"",
           "\"web3\" \"founder\" \"product\""
         ],
-        "importHint": "Add 12 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
+        "importHint": "Add 13 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
       },
       {
         "circleId": "ai_startups",
         "circleName": "AI startup circle",
-        "priorityScore": 8,
-        "neededCandidates": 6,
+        "priorityScore": 9,
+        "neededCandidates": 7,
         "currentQualifiedTools": 21,
         "affectedAccounts": [
           {
             "accountId": "sales_support_ai",
             "displayName": "Sales Support AI",
-            "gap": 6,
+            "gap": 7,
             "category": "sales and customer support"
           }
         ],
@@ -2805,8 +2782,231 @@
           "\"AI automation\" \"pricing\" startup",
           "\"AI tool\" \"founder\" \"waitlist\""
         ],
-        "importHint": "Add 6 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL."
+        "importHint": "Add 7 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL."
       }
+    ]
+  },
+  "sourceHealth": {
+    "date": "2026-06-12",
+    "generatedAt": "2026-06-12T13:21:22.611Z",
+    "minimumQualityScore": 18,
+    "summary": {
+      "configuredSources": 7,
+      "enabledSources": 2,
+      "trackedSources": 7,
+      "healthySources": 2,
+      "tuneSources": 0,
+      "disableCandidates": 0,
+      "totalCandidates": 21,
+      "qualifiedCandidates": 21,
+      "noiseCandidates": 0
+    },
+    "sources": [
+      {
+        "sourceId": "coindesk_crypto",
+        "name": "CoinDesk crypto feed",
+        "circle": "crypto_builders",
+        "type": "rss",
+        "candidateType": "topic",
+        "enabled": true,
+        "totalCandidates": 7,
+        "activeCandidates": 7,
+        "qualifiedCandidates": 7,
+        "skippedCandidates": 0,
+        "freshCandidates": 7,
+        "noiseCandidates": 0,
+        "qualityRate": 1,
+        "freshRate": 1,
+        "noiseRate": 0,
+        "healthScore": 100,
+        "status": "healthy",
+        "recommendation": "Keep. This source is producing usable candidates under current scoring.",
+        "sampleNoise": []
+      },
+      {
+        "sourceId": "techcrunch_ai",
+        "name": "TechCrunch AI feed",
+        "circle": "ai_startups",
+        "type": "rss",
+        "candidateType": "topic",
+        "enabled": true,
+        "totalCandidates": 14,
+        "activeCandidates": 14,
+        "qualifiedCandidates": 14,
+        "skippedCandidates": 0,
+        "freshCandidates": 14,
+        "noiseCandidates": 0,
+        "qualityRate": 1,
+        "freshRate": 1,
+        "noiseRate": 0,
+        "healthScore": 100,
+        "status": "healthy",
+        "recommendation": "Keep. This source is producing usable candidates under current scoring.",
+        "sampleNoise": []
+      },
+      {
+        "sourceId": "hn_ai_tools",
+        "name": "HN AI tools search",
+        "circle": "ai_startups",
+        "type": "rss",
+        "candidateType": "topic",
+        "enabled": false,
+        "totalCandidates": 0,
+        "activeCandidates": 0,
+        "qualifiedCandidates": 0,
+        "skippedCandidates": 0,
+        "freshCandidates": 0,
+        "noiseCandidates": 0,
+        "qualityRate": 0,
+        "freshRate": 0,
+        "noiseRate": 0,
+        "healthScore": 5,
+        "status": "disabled",
+        "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
+        "sampleNoise": []
+      },
+      {
+        "sourceId": "hn_crypto_builders",
+        "name": "HN crypto builder search",
+        "circle": "crypto_builders",
+        "type": "rss",
+        "candidateType": "topic",
+        "enabled": false,
+        "totalCandidates": 0,
+        "activeCandidates": 0,
+        "qualifiedCandidates": 0,
+        "skippedCandidates": 0,
+        "freshCandidates": 0,
+        "noiseCandidates": 0,
+        "qualityRate": 0,
+        "freshRate": 0,
+        "noiseRate": 0,
+        "healthScore": 5,
+        "status": "disabled",
+        "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
+        "sampleNoise": []
+      },
+      {
+        "sourceId": "hn_indie_builders",
+        "name": "HN indie builder search",
+        "circle": "indie_hackers",
+        "type": "rss",
+        "candidateType": "topic",
+        "enabled": false,
+        "totalCandidates": 0,
+        "activeCandidates": 0,
+        "qualifiedCandidates": 0,
+        "skippedCandidates": 0,
+        "freshCandidates": 0,
+        "noiseCandidates": 0,
+        "qualityRate": 0,
+        "freshRate": 0,
+        "noiseRate": 0,
+        "healthScore": 5,
+        "status": "disabled",
+        "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
+        "sampleNoise": []
+      },
+      {
+        "sourceId": "hn_saas_founders",
+        "name": "HN SaaS founder search",
+        "circle": "saas_founders",
+        "type": "rss",
+        "candidateType": "topic",
+        "enabled": false,
+        "totalCandidates": 0,
+        "activeCandidates": 0,
+        "qualifiedCandidates": 0,
+        "skippedCandidates": 0,
+        "freshCandidates": 0,
+        "noiseCandidates": 0,
+        "qualityRate": 0,
+        "freshRate": 0,
+        "noiseRate": 0,
+        "healthScore": 5,
+        "status": "disabled",
+        "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
+        "sampleNoise": []
+      },
+      {
+        "sourceId": "product_hunt",
+        "name": "Product Hunt live feed",
+        "circle": "ai_startups",
+        "type": "atom",
+        "candidateType": "product",
+        "enabled": false,
+        "totalCandidates": 0,
+        "activeCandidates": 0,
+        "qualifiedCandidates": 0,
+        "skippedCandidates": 0,
+        "freshCandidates": 0,
+        "noiseCandidates": 0,
+        "qualityRate": 0,
+        "freshRate": 0,
+        "noiseRate": 0,
+        "healthScore": 5,
+        "status": "disabled",
+        "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
+        "sampleNoise": []
+      }
+    ],
+    "circles": [
+      {
+        "circleId": "ai_startups",
+        "name": "AI startup circle",
+        "sources": 3,
+        "enabledSources": 1,
+        "healthySources": 1,
+        "totalCandidates": 14,
+        "qualifiedCandidates": 14,
+        "sourceGap": 2,
+        "candidateGap": 7,
+        "status": "short",
+        "recommendation": "Add or test 2 more reliable AI startup circle sources."
+      },
+      {
+        "circleId": "indie_hackers",
+        "name": "Indie hacker circle",
+        "sources": 1,
+        "enabledSources": 0,
+        "healthySources": 0,
+        "totalCandidates": 0,
+        "qualifiedCandidates": 0,
+        "sourceGap": 3,
+        "candidateGap": 33,
+        "status": "short",
+        "recommendation": "Add or test 3 more reliable Indie hacker circle sources."
+      },
+      {
+        "circleId": "saas_founders",
+        "name": "SaaS founder circle",
+        "sources": 1,
+        "enabledSources": 0,
+        "healthySources": 0,
+        "totalCandidates": 0,
+        "qualifiedCandidates": 0,
+        "sourceGap": 3,
+        "candidateGap": 20,
+        "status": "short",
+        "recommendation": "Add or test 3 more reliable SaaS founder circle sources."
+      },
+      {
+        "circleId": "crypto_builders",
+        "name": "Crypto builder circle",
+        "sources": 2,
+        "enabledSources": 1,
+        "healthySources": 1,
+        "totalCandidates": 7,
+        "qualifiedCandidates": 7,
+        "sourceGap": 2,
+        "candidateGap": 13,
+        "status": "short",
+        "recommendation": "Add or test 2 more reliable Crypto builder circle sources."
+      }
+    ],
+    "recommendations": [
+      "Add more AI startup circle sources; current enabled source gap is 2.",
+      "Fill AI startup circle; source queue still needs 7 candidates."
     ]
   },
   "draftPlan": {
@@ -2816,9 +3016,9 @@
     "summary": {
       "accounts": 20,
       "targetPosts": 200,
-      "plannedPosts": 26,
-      "gap": 174,
-      "uniqueToolsUsed": 26,
+      "plannedPosts": 25,
+      "gap": 175,
+      "uniqueToolsUsed": 25,
       "accountsCovered": 0
     },
     "accountPlans": [
@@ -2994,23 +3194,9 @@
         "displayName": "Sales Support AI",
         "category": "sales and customer support",
         "targetPosts": 10,
-        "plannedPosts": 1,
-        "gap": 9,
-        "drafts": [
-          {
-            "toolId": "source_candidate_89469494ceb0",
-            "toolName": "Tether leads $1.4 billion funding round in German robotics company Neura",
-            "url": "https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-            "score": 26,
-            "sourceName": "CoinDesk crypto feed",
-            "circle": "crypto_builders",
-            "candidateType": "topic",
-            "followUpAction": "thread candidate",
-            "variantType": "casualPost",
-            "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment is part of the stablecoin giant’s expansion into industries outside of c.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-            "reason": "Sales Support AI match score 19; CoinDesk crypto feed; thread candidate."
-          }
-        ]
+        "plannedPosts": 0,
+        "gap": 10,
+        "drafts": []
       },
       {
         "accountId": "career_workflows",
@@ -3353,7 +3539,7 @@
     ],
     "unallocatedTools": [],
     "warnings": [
-      "Draft supply is short by 174 posts. Add candidates instead of reusing tools across accounts."
+      "Draft supply is short by 175 posts. Add candidates instead of reusing tools across accounts."
     ]
   },
   "contentCalendar": {
@@ -3368,10 +3554,10 @@
     "summary": {
       "accounts": 20,
       "targetPosts": 200,
-      "availableDrafts": 26,
+      "availableDrafts": 25,
       "sameDayCapacity": 46,
-      "scheduledPosts": 18,
-      "draftGap": 174,
+      "scheduledPosts": 17,
+      "draftGap": 175,
       "capacityGap": 154,
       "unscheduledDrafts": 8,
       "readyAccounts": 0,
@@ -3629,29 +3815,16 @@
         "cooldownHours": 12,
         "recommendedCooldownHours": 1.5,
         "sameDayCapacity": 2,
-        "availableDrafts": 1,
-        "scheduledPosts": 1,
-        "draftGap": 9,
+        "availableDrafts": 0,
+        "scheduledPosts": 0,
+        "draftGap": 10,
         "capacityGap": 8,
         "status": "target_incompatible",
-        "slots": [
-          {
-            "slot": 1,
-            "scheduledLocalTime": "2026-06-12 09:00",
-            "status": "needs_manual_review",
-            "toolId": "source_candidate_89469494ceb0",
-            "toolName": "Tether leads $1.4 billion funding round in German robotics company Neura",
-            "url": "https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-            "variantType": "casualPost",
-            "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment is part of the stablecoin giant’s expansion into industries outside of c.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-            "score": 26,
-            "reason": "Sales Support AI match score 19; CoinDesk crypto feed; thread candidate."
-          }
-        ],
+        "slots": [],
         "unscheduledDrafts": [],
         "notes": [
           "Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target.",
-          "Need 9 more unique drafts for this account."
+          "Need 10 more unique drafts for this account."
         ]
       },
       {
@@ -4060,18 +4233,18 @@
     ],
     "warnings": [
       "Current cooldown settings make 154 target slots impossible inside one day.",
-      "Draft supply is short by 174 posts before manual review.",
-      "Calendar scheduled 18/200 target posts."
+      "Draft supply is short by 175 posts before manual review.",
+      "Calendar scheduled 17/200 target posts."
     ]
   },
   "promotionReview": {
     "date": "2026-06-12",
-    "generatedAt": "2026-06-12T13:09:11.193Z",
+    "generatedAt": "2026-06-12T13:21:22.615Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {
-      "totalItems": 9,
-      "readyToQueue": 8,
+      "totalItems": 8,
+      "readyToQueue": 7,
       "alreadyQueued": 0,
       "needsFeedback": 0,
       "watch": 1
@@ -4146,33 +4319,6 @@
         "recommendedAction": "Add to thread queue and expand only the strongest angle.",
         "evidence": {
           "affiliateScore": 2,
-          "riskScore": 0,
-          "freshForPosting": true,
-          "historyCount": 1,
-          "hasAffiliateLink": false,
-          "feedbackEntries": 0,
-          "engagementScore": 0,
-          "impressions": 0,
-          "bookmarks": 0,
-          "replies": 0,
-          "clicks": 0
-        }
-      },
-      {
-        "id": "tool_coindesk_com_tether-leads-1-4-billion-funding-round-in-german-robotics-company-neura_d6aa992f94:thread",
-        "toolId": "tool_coindesk_com_tether-leads-1-4-billion-funding-round-in-german-robotics-company-neura_d6aa992f94",
-        "toolName": "Tether leads $1.4 billion funding round in German robotics company Neura",
-        "toolUrl": "https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-        "score": 26,
-        "suggestion": "thread candidate",
-        "queueType": "thread",
-        "reviewStatus": "ready_to_queue",
-        "priorityScore": 72,
-        "alreadyQueued": false,
-        "reason": "当前评分和文案角度适合先测试英文长推。",
-        "recommendedAction": "Add to thread queue and expand only the strongest angle.",
-        "evidence": {
-          "affiliateScore": 0,
           "riskScore": 0,
           "freshForPosting": true,
           "historyCount": 1,
@@ -5712,125 +5858,6 @@
           "ok": true,
           "length": 149,
           "issues": "OK (149 chars)"
-        },
-        "painPointHook": {
-          "ok": true,
-          "length": 179,
-          "issues": "OK (179 chars)"
-        },
-        "threadOpening": {
-          "ok": true,
-          "length": 170,
-          "issues": "OK (170 chars)"
-        }
-      }
-    },
-    {
-      "id": "tool_coindesk_com_tether-leads-1-4-billion-funding-round-in-german-robotics-company-neura_d6aa992f94",
-      "toolId": "tool_coindesk_com_tether-leads-1-4-billion-funding-round-in-german-robotics-company-neura_d6aa992f94",
-      "name": "Tether leads $1.4 billion funding round in German robotics company Neura",
-      "url": "https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-      "domain": "coindesk.com",
-      "tagline": "The investment is part of the stablecoin giant’s expansion into industries outside of crypto.",
-      "published": "Thu, 11 Jun 2026 13:49:27 +0000",
-      "sourceType": "source_feed",
-      "sourceName": "CoinDesk crypto feed",
-      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
-      "sourceNote": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "circle": "crypto_builders",
-      "candidateType": "topic",
-      "score": 26,
-      "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 6,
-        "affiliateScore": 0,
-        "contentScore": 7,
-        "noveltyScore": 7,
-        "riskScore": 0,
-        "seenPenalty": 0,
-        "total": 26
-      },
-      "reason": "easy before/after/price/alternative content angle; fresh enough to test now.",
-      "affiliateStatus": "research_needed",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "thread candidate",
-      "accountRecommendation": {
-        "toolId": "tool_coindesk_com_tether-leads-1-4-billion-funding-round-in-german-robotics-company-neura_d6aa992f94",
-        "toolName": "Tether leads $1.4 billion funding round in German robotics company Neura",
-        "primary": {
-          "accountId": "crypto_builder_radar",
-          "displayName": "Crypto Builder Radar",
-          "handle": "",
-          "category": "Crypto builder circle",
-          "score": 13.5,
-          "dailyPostLimit": 10,
-          "cooldownHours": 6,
-          "matchedKeywords": [
-            "crypto",
-            "stablecoin"
-          ],
-          "matchedPillars": [
-            "crypto builders"
-          ]
-        },
-        "alternatives": [
-          {
-            "accountId": "ai_agent_ops",
-            "displayName": "AI Agent Ops",
-            "handle": "",
-            "category": "AI agents and automation",
-            "score": 7.5,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [],
-            "matchedPillars": []
-          },
-          {
-            "accountId": "ai_founder_signals",
-            "displayName": "AI Founder Signals",
-            "handle": "",
-            "category": "AI startup circle",
-            "score": 7.5,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [],
-            "matchedPillars": []
-          }
-        ],
-        "reason": "Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin; pillar: crypto builders."
-      },
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "crypto builders want a clearer crypto builder angle; test whether it solves removing one narrow, repeated manual step.",
-      "angle": {
-        "audience": "crypto builders",
-        "outcome": "a clearer crypto builder angle",
-        "pain": "removing one narrow, repeated manual step",
-        "solution": "the investment is part of the stablecoin giant’s expansion into industries outside of c..."
-      },
-      "copyVariants": {
-        "shortPost": "Worth watching: Tether leads $1.4 billion funding round in German robotics company Neura. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-        "casualPost": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment is part of the stablecoin giant’s expansion into industries outside of c.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-        "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for crypto builders? https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-        "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-        "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura"
-      },
-      "copyChecks": {
-        "shortPost": {
-          "ok": true,
-          "length": 208,
-          "issues": "OK (208 chars)"
-        },
-        "casualPost": {
-          "ok": true,
-          "length": 260,
-          "issues": "OK (260 chars)"
-        },
-        "contrarianAngle": {
-          "ok": true,
-          "length": 150,
-          "issues": "OK (150 chars)"
         },
         "painPointHook": {
           "ok": true,
@@ -7610,49 +7637,6 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_firma-dev_aaeac09a66",
-      "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
-      "name": "Firma.dev",
-      "url": "https://www.producthunt.com/products/firma-dev",
-      "domain": "producthunt.com",
-      "tagline": "E-signatures API for your app averaging ~3¢ per envelope",
-      "published": "2026-06-08T08:48:32-07:00",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "circle": "",
-      "candidateType": "product",
-      "score": 16,
-      "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 3,
-        "affiliateScore": 2,
-        "contentScore": 3,
-        "noveltyScore": 4,
-        "riskScore": 2,
-        "seenPenalty": 0,
-        "total": 16
-      },
-      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
-      "angle": {
-        "audience": "developers",
-        "outcome": "less glue code",
-        "pain": "removing one annoying developer workflow step",
-        "solution": "e-signatures API for your app averaging ~3¢ per envelope"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
       "id": "tool_producthunt_com_pond_078dd3c545",
       "toolId": "tool_producthunt_com_pond_078dd3c545",
       "name": "Pond",
@@ -7696,9 +7680,52 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_slack-ai-data-analyst_530affa8c0",
-      "toolId": "tool_producthunt_com_slack-ai-data-analyst_530affa8c0",
-      "name": "Slack AI Data Analyst",
+      "id": "tool_producthunt_com_firma-dev_aaeac09a66",
+      "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
+      "name": "Firma.dev",
+      "url": "https://www.producthunt.com/products/firma-dev",
+      "domain": "producthunt.com",
+      "tagline": "E-signatures API for your app averaging ~3¢ per envelope",
+      "published": "2026-06-08T08:48:32-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "circle": "",
+      "candidateType": "product",
+      "score": 16,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 3,
+        "affiliateScore": 2,
+        "contentScore": 3,
+        "noveltyScore": 4,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 16
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
+      "angle": {
+        "audience": "developers",
+        "outcome": "less glue code",
+        "pain": "removing one annoying developer workflow step",
+        "solution": "e-signatures API for your app averaging ~3¢ per envelope"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_slack-data-agent_f160e26ca0",
+      "toolId": "tool_producthunt_com_slack-data-agent_f160e26ca0",
+      "name": "Slack Data Agent",
       "url": "https://www.producthunt.com/products/basedash",
       "domain": "producthunt.com",
       "tagline": "Ask about your data without leaving Slack",
@@ -7709,16 +7736,16 @@
       "sourceNote": null,
       "circle": "",
       "candidateType": "product",
-      "score": 15,
+      "score": 14,
       "scoreBreakdown": {
         "painScore": 4,
         "nicheScore": 3,
         "affiliateScore": 0,
         "contentScore": 3,
         "noveltyScore": 7,
-        "riskScore": 2,
+        "riskScore": 3,
         "seenPenalty": 0,
-        "total": 15
+        "total": 14
       },
       "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
       "affiliateStatus": "no_fit",
@@ -7825,49 +7852,6 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_plenx-plex-client-for-nintendo-switch_5c7acfc54a",
-      "toolId": "tool_producthunt_com_plenx-plex-client-for-nintendo-switch_5c7acfc54a",
-      "name": "pleNx — Plex client for Nintendo Switch",
-      "url": "https://www.producthunt.com/products/plenx-plex-client-for-nintendo-switch",
-      "domain": "producthunt.com",
-      "tagline": "The first native Plex client for Nintendo Switch",
-      "published": "2026-06-11T03:44:23-07:00",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "circle": "",
-      "candidateType": "product",
-      "score": 11,
-      "scoreBreakdown": {
-        "painScore": 4,
-        "nicheScore": 1,
-        "affiliateScore": 0,
-        "contentScore": 1,
-        "noveltyScore": 7,
-        "riskScore": 2,
-        "seenPenalty": 0,
-        "total": 11
-      },
-      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
-      "angle": {
-        "audience": "solo operators",
-        "outcome": "a narrower workflow",
-        "pain": "removing one narrow, repeated manual step",
-        "solution": "the first native plex client for nintendo switch"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
       "id": "tool_producthunt_com_clutch-alarm_127a132bfa",
       "toolId": "tool_producthunt_com_clutch-alarm_127a132bfa",
       "name": "Clutch Alarm",
@@ -7909,6 +7893,49 @@
       },
       "copyVariants": {},
       "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_plenx-plex-client-for-nintendo-switch_5c7acfc54a",
+      "toolId": "tool_producthunt_com_plenx-plex-client-for-nintendo-switch_5c7acfc54a",
+      "name": "pleNx — Plex client for Nintendo Switch",
+      "url": "https://www.producthunt.com/products/plenx-plex-client-for-nintendo-switch",
+      "domain": "producthunt.com",
+      "tagline": "The first native Plex client for Nintendo Switch",
+      "published": "2026-06-11T03:44:23-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "circle": "",
+      "candidateType": "product",
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "the first native plex client for nintendo switch"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
     }
   ],
   "affiliateResearchQueue": [
@@ -7927,6 +7954,6 @@
     "Unique tools seen: 75",
     "Last history date before this run: 2026-06-12",
     "Seen-before tools in today's picks: 0",
-    "Records written by this run: 26"
+    "Records written by this run: 25"
   ]
 }

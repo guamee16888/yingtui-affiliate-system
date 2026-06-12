@@ -28,6 +28,7 @@ const requiredScripts = [
   "affiliate-queue",
   "affiliate:research",
   "sources",
+  "source-health",
   "source-queue",
   "source-pack",
   "draft-plan",
@@ -64,6 +65,7 @@ for (const script of requiredScripts) {
 const latest = await readJson("data/latest.json", null);
 if (!latest?.date || !Array.isArray(latest.tools)) errors.push("latest.json structure is invalid");
 if (!latest?.accountStrategy) errors.push("latest.json accountStrategy is missing. Run npm run daily.");
+if (!latest?.sourceHealth) errors.push("latest.json sourceHealth is missing. Run npm run daily.");
 if (!latest?.contentCalendar) errors.push("latest.json contentCalendar is missing. Run npm run daily.");
 if (!latest?.promotionReview) errors.push("latest.json promotionReview is missing. Run npm run daily.");
 

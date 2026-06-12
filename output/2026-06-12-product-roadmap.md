@@ -1,7 +1,7 @@
 # Product Roadmap - 2026-06-12
 
 - Objective: Product-grade multi-account X content ops system with review-first publishing.
-- Overall score: 37/100
+- Overall score: 38/100
 - Level: prototype
 - Blockers: 5
 - Deferred: 1
@@ -20,7 +20,7 @@
 4. Affiliate monetization readiness — 15/100
    Why it matters: Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.
    Next: Open affiliate search groups for the highest affiliateScore candidates.
-5. Thread and SEO review engine — 40/100
+5. Thread and SEO review engine — 35/100
    Why it matters: The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.
    Next: Open Promotion review and manually queue the ready items.
 
@@ -51,8 +51,8 @@
 - Score: 13/100
 - Status: blocked
 - Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
-- Evidence: 26/200 planned unique drafts. 26 qualified tools. 71 source candidates needed by the queue.
-- Gaps: Need 174 more unique drafts for the current target. Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles.
+- Evidence: 25/200 planned unique drafts. 25 qualified tools. 73 source candidates needed by the queue.
+- Gaps: Need 175 more unique drafts for the current target. Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles.
 - Next: Run npm run source-queue and fill the largest circle gap first. Run npm run source-pack and import only candidates with a clear buyer, pain, and URL.
 
 ### Account-level content calendar
@@ -84,28 +84,28 @@
 
 ### Source diversity
 
-- Score: 58/100
+- Score: 73/100
 - Status: watch
 - Why it matters: A multi-account system needs more than one launch feed, especially for SaaS, indie, and crypto angles.
-- Evidence: 2 enabled extra sources. 22 source candidates in the daily merge. 0 candidate inbox items in the daily merge.
+- Evidence: 2 enabled extra sources. 21 source candidates in the daily merge. 0 candidate inbox items in the daily merge. 2 healthy sources, 0 tune sources, 0 disable candidates.
 - Gaps: Need more reliable sources beyond Product Hunt and two RSS feeds. Need a larger manual/imported candidate bench.
-- Next: Add source packs by circle instead of turning on noisy feeds blindly. Keep disabled sources disabled until they prove they produce useful candidates.
+- Next: Run npm run source-health and fix the worst source first. Add source packs by circle instead of turning on noisy feeds blindly. Keep disabled sources disabled until they prove they produce useful candidates.
 
 ### Quality and safety gates
 
 - Score: 85/100
 - Status: good
 - Why it matters: The system is valuable only if it protects account quality, avoids fake claims, and blocks stale posts.
-- Evidence: 0 generation warnings. 25 fresh publish candidates. Manual-confirm publishing is the default mode.
+- Evidence: 0 generation warnings. 24 fresh publish candidates. Manual-confirm publishing is the default mode.
 - Gaps: No major gap detected.
 - Next: Keep Fresh today/Fresh 48h as the paid publish gate. Add fact-check notes for topic/news-style candidates before scaling.
 
 ### Thread and SEO review engine
 
-- Score: 40/100
+- Score: 35/100
 - Status: blocked
 - Why it matters: The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.
-- Evidence: 0 thread queue items. 0 review page queue items. 0 active follow-up items. 8 promotion review items are ready to queue.
+- Evidence: 0 thread queue items. 0 review page queue items. 0 active follow-up items. 7 promotion review items are ready to queue.
 - Gaps: No active follow-up queue items. Promotion review has ready items that still need manual queue approval. No review page candidates have been promoted into the queue.
 - Next: Open Promotion review and manually queue the ready items. Generate review outlines only after the tool has signal or clear affiliate fit.
 

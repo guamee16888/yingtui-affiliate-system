@@ -3,9 +3,9 @@
 ## Summary
 
 - Source: https://www.producthunt.com/feed
-- Source mix: Product Hunt 50, Candidate Inbox 0, Source Candidates 22, merged 72
-- Evaluated: 72 tools
-- Picked: 26 tools (26 fresh, 0 Seen before)
+- Source mix: Product Hunt 50, Candidate Inbox 0, Source Candidates 21, merged 71
+- Evaluated: 71 tools
+- Picked: 25 tools (25 fresh, 0 Seen before)
 - Top score: 38
 - Rule: drafts are material, not a posting queue. Pick only tools you would defend in public.
 
@@ -13,17 +13,17 @@
 
 - Target: 20 accounts x 10 posts = 200 drafts/day
 - Quality floor: score 18+ and not skip
-- Qualified unique items: 26
-- Possible non-identical draft variants: 130
-- Gap: 70
+- Qualified unique items: 25
+- Possible non-identical draft variants: 125
+- Gap: 75
 - Status: short
 - Note: Supply is short for at least one account or circle. Add more source candidates instead of lowering quality just to fill slots.
 
 Circle coverage:
 - AI startup circle: 21 qualified items, up to 105 draft variants
-- Indie hacker circle: 10 qualified items, up to 50 draft variants
+- Indie hacker circle: 9 qualified items, up to 45 draft variants
 - SaaS founder circle: 0 qualified items, up to 0 draft variants
-- Crypto builder circle: 8 qualified items, up to 40 draft variants
+- Crypto builder circle: 7 qualified items, up to 35 draft variants
 
 Account shortages:
 - Affiliate Builder: 2/10 unique candidates, gap 8
@@ -32,26 +32,42 @@ Account shortages:
 - Creator Stack: 2/10 unique candidates, gap 8
 - Ecommerce Ops: 2/10 unique candidates, gap 8
 - Dev Workflows: 3/10 unique candidates, gap 7
-- Sales Support AI: 4/10 unique candidates, gap 6
+- Sales Support AI: 3/10 unique candidates, gap 7
 - Career Workflows: 0/10 unique candidates, gap 10
 
 ## Source Quality Queue
 
 - Queue items: 4
-- Needed candidates: 71
+- Needed candidates: 73
 - Top gap: Indie hacker circle
 
 1. Indie hacker circle: need 33; affected accounts 4; try "micro SaaS" launch
 2. SaaS founder circle: need 20; affected accounts 2; try "SaaS pricing" "case study"
-3. Crypto builder circle: need 12; affected accounts 2; try "crypto wallet" "developer"
-4. AI startup circle: need 6; affected accounts 1; try "AI startup" launch new tool
+3. Crypto builder circle: need 13; affected accounts 2; try "crypto wallet" "developer"
+4. AI startup circle: need 7; affected accounts 1; try "AI startup" launch new tool
+
+## Source Health
+
+- Enabled sources: 2/7
+- Healthy sources: 2
+- Tune sources: 0
+- Disable candidates: 0
+- Qualified candidates: 21/21
+- Noise candidates: 0
+
+Source actions:
+- Add more AI startup circle sources; current enabled source gap is 2.
+- Fill AI startup circle; source queue still needs 7 candidates.
+
+Weak/tune sources:
+- No weak sources detected.
 
 ## Draft Planner
 
 - Rule: Each draft uses one unique candidate. No tool is allocated to more than one account in this plan.
-- Planned posts: 26/200
-- Gap: 174
-- Unique tools used: 26
+- Planned posts: 25/200
+- Gap: 175
+- Unique tools used: 25
 
 Account gaps:
 - AI Tools Lab: 0/10, gap 10
@@ -66,9 +82,9 @@ Account gaps:
 ## Content Calendar
 
 - Rule: Schedule drafts into review slots. Every slot still requires manual approval before publishing.
-- Scheduled posts: 18/200
+- Scheduled posts: 17/200
 - Same-day capacity: 46
-- Draft gap: 174
+- Draft gap: 175
 - Capacity gap: 154
 - Ready accounts: 0/20
 
@@ -85,8 +101,8 @@ Target/cooldown conflicts:
 ## Promotion Review Queue
 
 - Rule: Promotion review only. Nothing is added to queues until you click the queue button.
-- Total items: 9
-- Ready to queue: 8
+- Total items: 8
+- Ready to queue: 7
 - Already queued: 0
 - Needs feedback: 0
 
@@ -98,8 +114,8 @@ Top review items:
 - Decart’s new world model can simulate hours of photorealistic driving — with some caveats: ready_to_queue -> affiliate_research, priority 138
 - Canton Network developer raises $355 million to bring Wall Street onchain: ready_to_queue -> thread, priority 106
 - How memory tools can make AI models worse: ready_to_queue -> thread, priority 90
-- Tether leads $1.4 billion funding round in German robotics company Neura: ready_to_queue -> thread, priority 72
 - BlackRock files to list its bitcoin income ETF, with expected debut next week: ready_to_queue -> thread, priority 72
+- The company that makes your TV is taking ads onchain. Arbitrum helped: ready_to_queue -> thread, priority 70
 
 ## Today's Top Picks
 
@@ -111,11 +127,11 @@ Top review items:
 
 ## Freshness Diagnostic
 
-- Feed fresh today: 30
-- Feed fresh 48h: 31
+- Feed fresh today: 29
+- Feed fresh 48h: 30
 - Feed fresh 7d: 8
-- Older/unknown: 3
-- Fresh top-pick candidates: 25
+- Older/unknown: 4
+- Fresh top-pick candidates: 24
 - Diagnosis: Top picks include fresh candidates that are suitable for cautious posting.
 - Recommendation: Post only the Fresh today / Fresh 48h candidates, then record feedback.
 
@@ -154,21 +170,20 @@ Recommended routing:
 9. Jedify raises $24M to help companies arm AI agents with context on their business → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, agent, workflow.)
 10. Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
 11. Pool’s new app turns your screenshots into something useful → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow.)
-12. Tether leads $1.4 billion funding round in German robotics company Neura → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin; pillar: crypto builders.)
-13. Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-14. BlackRock files to list its bitcoin income ETF, with expected debut next week → AI Agent Ops (AI Agent Ops: matches thread candidate / review page candidate; keywords: workflow.)
-15. ‘AI-pilled’ firms spend $7,500 per employee each month on AI → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-16. Deezer’s new tool can identify AI music from Spotify, Apple Music, and others → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, tool, workflow.)
-17. Crypto for Advisors: Crypto ETFs → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-18. DoorDash’s new AI chatbot lets you order with prompts and photos → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-19. SpaceX stock is coming to Solana on the same day it lists on Nasdaq → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-20. Theker just raised $85M to build the factory robot that doesn’t specialize in anything → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-21. Meet Warren 3.0 → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, Product Hunt; pillar: Product Hunt.)
-22. Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-23. Banking rails are moving past the 'stablecoin winner' narrative: Sygnum → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin, token.)
-24. Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow.)
-25. LocIn AI → Productivity Ops (Productivity Ops: matches tweet only / thread candidate; keywords: workflow; pillar: workflows.)
-26. NODUS PH Radar for Product Hunt → Founder Tooling (Founder Tooling: matches tweet only / review page candidate; keywords: analytics.)
+12. Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+13. BlackRock files to list its bitcoin income ETF, with expected debut next week → AI Agent Ops (AI Agent Ops: matches thread candidate / review page candidate; keywords: workflow.)
+14. ‘AI-pilled’ firms spend $7,500 per employee each month on AI → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+15. Deezer’s new tool can identify AI music from Spotify, Apple Music, and others → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, tool, workflow.)
+16. Crypto for Advisors: Crypto ETFs → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
+17. DoorDash’s new AI chatbot lets you order with prompts and photos → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+18. SpaceX stock is coming to Solana on the same day it lists on Nasdaq → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+19. Theker just raised $85M to build the factory robot that doesn’t specialize in anything → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+20. Meet Warren 3.0 → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, Product Hunt; pillar: Product Hunt.)
+21. Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+22. Banking rails are moving past the 'stablecoin winner' narrative: Sygnum → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin, token.)
+23. Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow.)
+24. LocIn AI → Productivity Ops (Productivity Ops: matches tweet only / thread candidate; keywords: workflow; pillar: workflows.)
+25. NODUS PH Radar for Product Hunt → Founder Tooling (Founder Tooling: matches tweet only / review page candidate; keywords: analytics.)
 
 ## Tool Cards
 
@@ -555,41 +570,6 @@ Check: OK (179 chars)
 
 **thread opening**
 If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/
-Check: OK (170 chars)
-
-### Tether leads $1.4 billion funding round in German robotics company Neura
-
-- Score breakdown: painScore 6 | nicheScore 6 | affiliateScore 0 | contentScore 7 | noveltyScore 7 | riskScore 0 | seenPenalty 0 | total 26
-- Follow-up action: thread candidate
-- Product Hunt: https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-- Published: Thu, 11 Jun 2026 13:49:27 +0000
-- Tagline: The investment is part of the stablecoin giant’s expansion into industries outside of crypto.
-- Seen before: no
-- Reason: easy before/after/price/alternative content angle; fresh enough to test now.
-- Recommended account: Crypto Builder Radar — Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, stablecoin; pillar: crypto builders.
-- Affiliate status: No affiliate link yet — research needed
-- Suggested angle: crypto builders want a clearer crypto builder angle; test whether it solves removing one narrow, repeated manual step.
-
-#### X Copy Variants
-
-**short post**
-Worth watching: Tether leads $1.4 billion funding round in German robotics company Neura. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-Check: OK (208 chars)
-
-**casual post**
-Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment is part of the stablecoin giant’s expansion into industries outside of c.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-Check: OK (260 chars)
-
-**contrarian angle**
-Most people will repeat the headline. The better post is probably the second-order question: what changes for crypto builders? https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-Check: OK (150 chars)
-
-**pain-point hook**
-The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
-Check: OK (179 chars)
-
-**thread opening**
-If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
 Check: OK (170 chars)
 
 ### Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing
@@ -1085,13 +1065,13 @@ Check: OK (210 chars)
 ## Skipped / Low Priority Tools
 
 - EndpointMe: 17 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
-- Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
-- Slack AI Data Analyst: 15 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
+- Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
+- Slack Data Agent: 14 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - Bob's CLI: 13 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - ShellMate: 12 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
-- pleNx — Plex client for Nintendo Switch: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - Clutch Alarm: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
+- pleNx — Plex client for Nintendo Switch: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 
 ## Affiliate Research Queue
 
@@ -1103,4 +1083,4 @@ Check: OK (210 chars)
 - Unique tools seen: 75
 - Last history date before this run: 2026-06-12
 - Seen-before tools in today's picks: 0
-- Records written by this run: 26
+- Records written by this run: 25

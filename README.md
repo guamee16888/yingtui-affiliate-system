@@ -66,9 +66,10 @@ output/YYYY-MM-DD-daily-x-pack.md
 20. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
 21. 跑 `npm run learning-loop` 或看「反馈启动台」，确认今天最多还能安全新发几条、哪几条是 seed test、哪些已发内容必须先补 X Analytics。
 22. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
-23. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-24. 对值得做测评页的工具点「生成测评页大纲」。
-25. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+23. 跑 `npm run scale` 或看「今日行动」里的放量准备度，确认今天卡在反馈、来源、排期还是授权。
+24. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+25. 对值得做测评页的工具点「生成测评页大纲」。
+26. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -88,6 +89,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 
 - `今日行动`：今天优先做什么。顶部 `今天只做这 3 件事` 会把发布、联盟研究、长文/测评页压成三个明确动作；下面保留原始 action list 和系统建议。
 - `产品路线图`：把 `npm run roadmap` 的产品级 readiness 报告可视化出来，直接回答“除了 X 账号切换还差什么”。它会显示整体分、Top blockers、Next sprint、每个维度的证据/缺口/下一步动作。
+- `放量准备度`：在今日页显示 `npm run scale` 的结果。它会把目标账号数、今日安全发帖数、Fresh 候选、内容排期、来源缺口和反馈债放在一起，避免数据不足时硬放量。
 - `发布审核`：发布前最终确认队列。它会同时检查 Fresh today / Fresh 48h 和 `Feedback debt gate`，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，并按分数自动建议转入联盟研究、长推、SEO 测评页或观察队列。
 - `候选收集`：把 Product Hunt 之外的新工具手动放进本地收集箱；active 候选会在下一次 `daily` 或 `刷新 Live Feed` 时参与打分。
 - `来源补给`：把 20×10 的内容缺口拆成圈子任务，集中显示需要补多少候选、哪些账号受影响、搜索入口、CSV 导入模板、质量 checklist 和来源健康度。每天内容不够时先看这里，不要靠低质内容硬凑。
@@ -261,6 +263,12 @@ npm run roadmap
 生成产品级 readiness/roadmap 报告，输出到 `data/product-roadmap.json` 和 `output/YYYY-MM-DD-product-roadmap.md`。它会把 X 账号切换标为 deferred，并优先指出内容供给、日历、反馈闭环、affiliate 变现、来源多样性等非授权阻塞点。
 
 ```bash
+npm run scale
+```
+
+生成放量准备度报告，输出到 `data/scale-readiness.json` 和 `output/YYYY-MM-DD-scale-readiness.md`。它会计算目标账号数、目标日发帖量、safe new posts、Fresh 候选、内容排期、来源缺口和反馈债；如果 safe gate 没打开，会明确提示不要按 20 账号目标硬放量。
+
+```bash
 npm run accounts
 ```
 
@@ -361,6 +369,7 @@ npm audit --audit-level=moderate
 - `data/draft-plans/*.json`：按账号生成的不重复草稿规划。
 - `data/content-calendar/*.json`：按账号冷却时间生成的本地发布审核日历。
 - `data/product-roadmap.json`：产品级 readiness/roadmap 报告。
+- `data/scale-readiness.json`：放量准备度报告，回答今天是否适合从小批量测试扩大到多账号发布。
 - `data/promotion-review.json`：值得手动审核加入队列的 promotion 清单。
 - `data/affiliate-research.json`：真实查到的 affiliate program 研究记录。
 - `data/review-pages.json`：已经生成的 SEO review outline 记录。

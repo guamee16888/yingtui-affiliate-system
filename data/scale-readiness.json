@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T18:31:48.546Z",
+  "status": "seed_only",
+  "headline": "先拿真实反馈，暂时不要放量。",
+  "readinessScore": 12,
+  "target": {
+    "activeAccounts": 20,
+    "targetPostsPerAccount": 10,
+    "targetDailyPosts": 200,
+    "mode": "manual_confirm"
+  },
+  "capacity": {
+    "safeNewPosts": 3,
+    "freshPublishCandidates": 3,
+    "topPicks": 19,
+    "plannedPosts": 19,
+    "scheduledPosts": 16,
+    "sourceGap": 79,
+    "sourcePackRows": 100,
+    "sourcePackRowsNeedingResearch": 100,
+    "feedbackPending": 0,
+    "feedbackMeasured": 0,
+    "feedbackLearningScore": 0,
+    "authReady": false
+  },
+  "coverage": {
+    "plannedRate": 0.095,
+    "scheduledRate": 0.08,
+    "freshRate": 0.3,
+    "safeRate": 0.3
+  },
+  "blockers": [
+    {
+      "id": "feedback_seed",
+      "title": "No measured feedback yet",
+      "severity": "high",
+      "detail": "The system has not seen real impressions or engagement, so scaling would be blind.",
+      "nextAction": "Post at most the seed batch and import metrics before increasing volume."
+    },
+    {
+      "id": "fresh_candidates",
+      "title": "Not enough fresh publish candidates",
+      "severity": "high",
+      "detail": "3 fresh candidates are available for posting today.",
+      "nextAction": "Refresh Live Feed and import external candidates from the source supply workbench."
+    },
+    {
+      "id": "draft_gap",
+      "title": "Draft gap is too large for the target",
+      "severity": "high",
+      "detail": "19/200 unique drafts are planned.",
+      "nextAction": "Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar."
+    },
+    {
+      "id": "source_gap",
+      "title": "Source supply is below target",
+      "severity": "medium",
+      "detail": "79 more source candidates are needed for the current account mix.",
+      "nextAction": "Fill the 100 source-pack rows that still need real candidates."
+    },
+    {
+      "id": "auth_deferred",
+      "title": "Real multi-account X auth is not connected",
+      "severity": "deferred",
+      "detail": "Account profiles exist, but OAuth binding is intentionally not the current bottleneck.",
+      "nextAction": "Keep auth deferred until feedback and source quality gates are stable."
+    }
+  ],
+  "actionPlan": [
+    "先发 1-3 条 seed posts，全部手动确认并记录 accountId。",
+    "补来源：优先填 source-pack 里缺口最大的圈子，不要用低质候选硬凑。",
+    "刷新 Live Feed，并从 X/newsletter/社区手动导入新鲜候选。",
+    "今天最多按 safe gate 发 3 条，不要按 20 账号目标硬放量。",
+    "有 measured winners 后，再把强信号工具推进 thread / SEO review / affiliate research。"
+  ],
+  "notes": [
+    "This is a scale-readiness report, not a permission to auto-post.",
+    "Manual confirmation remains required for every X publish action.",
+    "If safeNewPosts is lower than targetDailyPosts, keep the batch small and fill feedback first."
+  ]
+}

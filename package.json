@@ -32,6 +32,7 @@
     "feedback": "node scripts/feedback-summary.mjs",
     "feedback-ops": "node scripts/feedback-ops.mjs",
     "learning-loop": "node scripts/learning-loop.mjs",
+    "scale": "node scripts/scale-readiness.mjs",
     "decisions": "node scripts/decision-report.mjs",
     "promote": "node scripts/promote.mjs",
     "promotion-review": "node scripts/promotion-review.mjs",

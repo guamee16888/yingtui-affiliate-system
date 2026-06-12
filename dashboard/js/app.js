@@ -45,6 +45,7 @@ const state = {
   contentCalendar: null,
   sourceImportPack: null,
   productRoadmap: null,
+  scaleReadiness: null,
   xStatus: { configured: false, note: "" },
   settings: null,
   weekly: null,
@@ -123,7 +124,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -139,11 +140,12 @@ async function loadAll() {
       api.get("/api/content-calendar"),
       api.get("/api/source-import-pack"),
       api.get("/api/product-roadmap"),
+      api.get("/api/scale-readiness"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -157,7 +159,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -171,7 +173,8 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/learning-loop.json", { missing: true }),
     fetchJson("/data/content-calendar/latest.json", { missing: true }),
     fetchJson("/data/source-import-pack/latest.json", { missing: true }),
-    fetchJson("/data/product-roadmap.json", { missing: true })
+    fetchJson("/data/product-roadmap.json", { missing: true }),
+    fetchJson("/data/scale-readiness.json", { missing: true })
   ]);
   const settings = {
     latestDate: latest?.date ?? null,
@@ -209,6 +212,7 @@ async function loadStaticFallback(apiError) {
     contentCalendar: contentCalendar?.missing ? latest?.contentCalendar ?? null : contentCalendar,
     sourceImportPack: sourceImportPack?.missing ? null : sourceImportPack,
     productRoadmap: productRoadmap?.missing ? null : productRoadmap,
+    scaleReadiness: scaleReadiness?.missing ? null : scaleReadiness,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
@@ -725,6 +729,7 @@ function hasRecordedMetrics(entry) {
 
 function renderToday() {
   $("#view-today").innerHTML = `${renderRoadmapSnapshotPanel()}
+  ${renderScaleReadinessPanel()}
   ${renderDailyChecklistPanel()}
   ${renderLearningStarterPanel("today")}
   ${renderFocusPanel()}
@@ -779,6 +784,62 @@ function renderRoadmapSnapshotPanel() {
       <button class="button ghost" data-copy="npm run roadmap">复制刷新命令</button>
     </div>
     ${state.roadmapRun.message ? `<p class="muted">${esc(state.roadmapRun.message)}</p>` : ""}
+  </section>`;
+}
+
+function renderScaleReadinessPanel() {
+  const report = state.scaleReadiness;
+  if (!report) {
+    return `<section class="panel warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Scale readiness</p>
+          <h2>还没有放量检查报告</h2>
+          <p class="muted">运行 npm run scale，系统会按目标账号数、今日候选、反馈闸门、来源缺口和排期计算今天是否适合放量。</p>
+        </div>
+        ${pill("Need scale", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="npm run scale">复制命令</button>
+        <button class="button ghost" data-tab-jump="supply">先看来源补给</button>
+      </div>
+    </section>`;
+  }
+  const severity = report.status === "blocked" ? "bad" : report.status === "ready_for_controlled_scale" ? "good" : "warn";
+  const blockers = (report.blockers ?? []).slice(0, 4);
+  return `<section class="panel scale-readiness ${severity}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Scale readiness</p>
+        <h2>放量准备度：${esc(report.readinessScore)}/100 · ${esc(report.status)}</h2>
+        <p class="muted">${esc(report.headline)}</p>
+      </div>
+      ${pill(`${report.capacity?.safeNewPosts ?? 0} safe posts`, severity)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(report.target?.activeAccounts ?? 0)}</strong><span>accounts</span></div>
+      <div><strong>${esc(report.target?.targetDailyPosts ?? 0)}</strong><span>daily target</span></div>
+      <div><strong>${esc(report.capacity?.freshPublishCandidates ?? 0)}</strong><span>fresh candidates</span></div>
+      <div><strong>${esc(report.capacity?.plannedPosts ?? 0)}</strong><span>planned drafts</span></div>
+      <div><strong>${esc(report.capacity?.sourceGap ?? 0)}</strong><span>source gap</span></div>
+      <div><strong>${esc(report.capacity?.feedbackMeasured ?? 0)}/${esc(report.capacity?.feedbackPending ?? 0)}</strong><span>feedback</span></div>
+    </div>
+    <div class="grid">
+      <div class="list">
+        <strong>当前阻塞</strong>
+        ${blockers.map((item) => `<div class="list-item"><strong>${esc(item.title)}</strong><div class="muted">${esc(item.severity)} · ${esc(item.detail)}</div><p>${esc(item.nextAction)}</p></div>`).join("") || empty("没有明显放量阻塞。")}
+      </div>
+      <div class="list">
+        <strong>今天动作</strong>
+        ${(report.actionPlan ?? []).slice(0, 5).map((item) => `<div class="list-item">${esc(item)}</div>`).join("") || empty("暂无动作。")}
+      </div>
+    </div>
+    <div class="row-actions">
+      <button class="button ghost" data-copy="npm run scale">复制刷新命令</button>
+      <button class="button ghost" data-tab-jump="feedback">补反馈</button>
+      <button class="button ghost" data-tab-jump="supply">补来源</button>
+      <button class="button ghost" data-tab-jump="calendar">看排期</button>
+    </div>
   </section>`;
 }
 

@@ -23,6 +23,7 @@ import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
 import { buildFeedbackOps, buildFeedbackSeedTestPlan, buildLearningLoop, renderLearningLoopMarkdown } from "../scripts/lib/feedback-ops.mjs";
 import { affiliateSearchLinks, buildAffiliateResearchWorkbench } from "../scripts/lib/affiliate-research-workbench.mjs";
 import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/affiliate-links.mjs";
+import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1311,6 +1312,38 @@ test("product roadmap identifies non-auth product blockers", () => {
   assert.match(roadmap.dimensions.find((item) => item.id === "content_supply").evidence.join(" "), /100 source-pack rows/);
   assert.match(roadmap.dimensions.find((item) => item.id === "affiliate_monetization").evidence.join(" "), /2 candidates in affiliate research workbench/);
   assert.equal(roadmap.dimensions.find((item) => item.id === "public_product").score, 82);
+});
+
+test("scale readiness blocks volume when feedback and supply are missing", () => {
+  const report = buildScaleReadiness({
+    date: "2026-06-12",
+    latest: {
+      freshnessReport: { stats: { topPickFreshPostCandidates: 2 } },
+      draftPlan: { summary: { targetPosts: 20, plannedPosts: 4 } },
+      sourceQualityQueue: { summary: { totalNeededCandidates: 16 } },
+      accountStrategy: { authReady: false, mode: "manual_confirm" }
+    },
+    feedbackOps: {
+      summary: { pending: 1, measured: 0, learningScore: 0 },
+      debtGate: { maxNewPostsBeforeMetrics: 0 }
+    },
+    accountConfig: {
+      rotationPolicy: { defaultDailyPostLimit: 10 },
+      accounts: [
+        { id: "a", displayName: "A", active: true, dailyPostLimit: 10 },
+        { id: "b", displayName: "B", active: true, dailyPostLimit: 10 }
+      ]
+    },
+    contentCalendar: { summary: { targetPosts: 20, scheduledPosts: 4 } },
+    sourceImportPack: { summary: { totalRows: 100, rowsNeedingResearch: 90 } }
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.equal(report.target.targetDailyPosts, 20);
+  assert.equal(report.capacity.safeNewPosts, 0);
+  assert.equal(report.blockers.some((item) => item.id === "feedback_missing"), true);
+  assert.equal(report.blockers.some((item) => item.id === "source_gap"), true);
+  assert.match(report.actionPlan.join(" "), /不要按 20 账号目标硬放量/);
 });
 
 test("affiliate research workbench prioritizes candidates and ready snippets", () => {

@@ -454,6 +454,17 @@ async function publishXPost(body) {
     ...body,
     copyText: body.text
   }), latest, accountConfig);
+  const feedbackOps = buildFeedbackOps({
+    date: latest?.date ?? todayString(),
+    latest,
+    feedback,
+    accountPosts,
+    accountConfig
+  });
+  const publishGate = feedbackOps.debtGate;
+  if (feedbackGateBlocksPublishing(publishGate)) {
+    throw new Error(`${publishGate.title}: ${publishGate.headline}`);
+  }
   const safety = buildPostingSafety({ payload, accountConfig, accountPosts, feedback });
   if (safety.blockReasons.length) throw new Error(safety.blockReasons[0]);
   const result = await publishToX({ text: body.text, confirmed: body.confirmed, accountId: payload.accountId });
@@ -471,6 +482,12 @@ async function publishXPost(body) {
     return { ...result, feedbackEntry: entry };
   }
   return result;
+}
+
+function feedbackGateBlocksPublishing(gate) {
+  if (!gate) return false;
+  return Number(gate.maxNewPostsBeforeMetrics ?? 3) <= 0
+    || ["blocked_no_metrics", "feedback_debt_high"].includes(gate.status);
 }
 
 function withResolvedAccount(body, latest, accountConfig) {

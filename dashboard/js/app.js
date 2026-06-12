@@ -406,12 +406,18 @@ function renderReadiness() {
   const ageMinutes = dataAgeMinutes(latest.generatedAt);
   const isOldData = ageMinutes !== null && ageMinutes > 360;
   const apiReady = stats.apiReady;
-  const confidenceKind = latest.source?.usedFallback ? "bad" : isOldData ? "warn" : apiReady ? "good" : "warn";
+  const gate = feedbackDebtGate();
+  const gateMax = publishGateMax(gate);
+  const gateBlocks = feedbackGateBlocksPublishing(gate);
+  const safeApiReady = gateBlocks ? 0 : Math.min(apiReady, gateMax);
+  const confidenceKind = latest.source?.usedFallback ? "bad" : gateBlocks ? "bad" : isOldData ? "warn" : safeApiReady ? "good" : "warn";
   const confidenceText = latest.source?.usedFallback
     ? "不要 API 发"
-    : isOldData
+    : gateBlocks
+      ? "先补反馈"
+      : isOldData
       ? "先刷新再发"
-      : apiReady
+      : safeApiReady
       ? "可谨慎发布"
       : "先别花 credits";
   $("#readiness").innerHTML = `<section class="panel readiness-panel ${confidenceKind}">
@@ -424,7 +430,7 @@ function renderReadiness() {
       <button class="button ghost" type="button" data-run-daily>${state.dailyRun.running ? "刷新中..." : "刷新 Live Feed"}</button>
     </div>
     <div class="readiness-stats">
-      <div><strong>${esc(apiReady)}</strong><span>建议花 credits 发</span></div>
+      <div><strong>${esc(safeApiReady)}</strong><span>建议花 credits 发</span></div>
       <div><strong>${esc(stats.freshToday)}</strong><span>Fresh today</span></div>
       <div><strong>${esc(stats.fresh48)}</strong><span>Fresh 48h</span></div>
       <div><strong>${esc(stats.seen)}</strong><span>Seen before</span></div>
@@ -441,12 +447,15 @@ function renderReadiness() {
 
 function renderPublishGuard(latest, stats, ageMinutes) {
   const stale = ageMinutes !== null && ageMinutes > 360;
+  const gate = feedbackDebtGate();
+  const gateBlocks = feedbackGateBlocksPublishing(gate);
   const ageKind = latest.source?.usedFallback ? "bad" : stale ? "warn" : "good";
   const sourceKind = latest.source?.usedFallback ? "bad" : "good";
-  const ruleKind = stats.apiReady > 0 && !latest.source?.usedFallback && !stale ? "good" : "warn";
+  const ruleKind = stats.apiReady > 0 && !latest.source?.usedFallback && !stale && !gateBlocks ? "good" : gateBlocks ? "bad" : "warn";
+  const feedbackKind = gateBlocks ? "bad" : gate?.severity === "warn" ? "warn" : "good";
   const ageLabel = ageMinutes === null ? "数据年龄未知" : `数据年龄 ${formatDuration(ageMinutes)}`;
   const sourceLabel = latest.source?.usedFallback ? "Fallback sample" : "Live feed";
-  const ruleLabel = stats.apiReady > 0 ? `只发 ${stats.apiReady} 条新鲜候选` : "今天先不 API 发";
+  const ruleLabel = gateBlocks ? "先补 X Analytics" : stats.apiReady > 0 ? `只发 ${Math.min(stats.apiReady, publishGateMax(gate))} 条新鲜候选` : "今天先不 API 发";
 
   return `<div class="readiness-guardrails">
     <div class="${ageKind}">
@@ -464,18 +473,27 @@ function renderPublishGuard(latest, stats, ageMinutes) {
       <strong>${esc(ruleLabel)}</strong>
       <small>Seen before / Older useful 只做观察或长文</small>
     </div>
+    <div class="${feedbackKind}">
+      <span>反馈债</span>
+      <strong>${esc(feedbackGateTitle(gate))}</strong>
+      <small>${esc(feedbackGateSummary(gate))}</small>
+    </div>
   </div>`;
 }
 
 function renderRefreshPolicy(latest, stats, ageMinutes) {
   const stale = ageMinutes !== null && ageMinutes > 360;
+  const gate = feedbackDebtGate();
+  const gateBlocks = feedbackGateBlocksPublishing(gate);
   const freshnessText = latest.source?.usedFallback
     ? "Fallback 数据不发布"
     : stale
       ? "超过 6 小时，先刷新"
       : "6 小时内可参考";
-  const publishText = stats.apiReady > 0 && !latest.source?.usedFallback && !stale
-    ? `只花 credits 发 ${stats.apiReady} 条`
+  const publishText = gateBlocks
+    ? "先补 X Analytics"
+    : stats.apiReady > 0 && !latest.source?.usedFallback && !stale
+    ? `只花 credits 发 ${Math.min(stats.apiReady, publishGateMax(gate))} 条`
     : "今天先不花 API credits";
   return `<div class="refresh-policy">
     <div><span>刷新方式</span><strong>手动刷新</strong><small>点击刷新 Live Feed，或运行 npm run daily</small></div>
@@ -1721,6 +1739,25 @@ function finalReviewPlan() {
 
 function feedbackDebtGate() {
   return state.feedbackOps?.debtGate ?? state.latest?.feedbackOps?.debtGate ?? null;
+}
+
+function feedbackGateBlocksPublishing(gate = feedbackDebtGate()) {
+  if (!gate) return false;
+  return Number(gate.maxNewPostsBeforeMetrics ?? 3) <= 0
+    || ["blocked_no_metrics", "feedback_debt_high"].includes(gate.status);
+}
+
+function feedbackGateTitle(gate = feedbackDebtGate()) {
+  if (!gate) return "无反馈门禁";
+  if (feedbackGateBlocksPublishing(gate)) return gate.title || "先补反馈";
+  return gate.title || "可小批量测试";
+}
+
+function feedbackGateSummary(gate = feedbackDebtGate()) {
+  if (!gate) return "没有反馈门禁数据";
+  const pending = state.latest?.feedbackLearningSignals?.summary?.pending ?? state.feedbackOps?.summary?.pending ?? 0;
+  if (feedbackGateBlocksPublishing(gate)) return `${pending} 条待补 metrics，先别继续发`;
+  return `最多新发 ${publishGateMax(gate)} 条，发完必须补 metrics`;
 }
 
 function publishGateMax(gate) {
@@ -3801,11 +3838,13 @@ function renderPublishRisk(tool, accountId = "") {
   if (dataAgeMinutes(latest.generatedAt) > 360) risks.push("数据刷新超过 6 小时，建议先跑 npm run daily。");
   if (tool.seenBefore) risks.push("历史出现过，不要把它当今天新工具发。");
   if (freshness.kind === "stale") risks.push("发布时间超过 48 小时，更适合长文或 SEO 测评页。");
+  const gate = feedbackDebtGate();
+  if (feedbackGateBlocksPublishing(gate)) risks.push(`${feedbackGateTitle(gate)}：${feedbackGateSummary(gate)}。`);
   const xAuth = xAuthStatus(accountId);
   if (xAuth.blocked) risks.push(xAuth.reason);
   else if (xAuth.warning) risks.push(xAuth.reason);
   if (!risks.length) risks.push("新鲜度适合小额 API 测试，发布后记得回填反馈。");
-  const kind = latest.source?.usedFallback || freshness.kind === "stale" ? "bad" : tool.seenBefore ? "warn" : "good";
+  const kind = latest.source?.usedFallback || freshness.kind === "stale" || feedbackGateBlocksPublishing(gate) ? "bad" : tool.seenBefore ? "warn" : "good";
   const ageText = age === null ? "发布时间未知" : `PH 发布时间约 ${Math.round(age)} 小时前`;
   return `<div class="publish-risk-card ${kind}">
     <div class="line-head">${pill(freshness.label, freshness.kind)}<strong>${esc(ageText)}</strong></div>
@@ -3824,6 +3863,7 @@ function buildPublishReadiness(tool, text, accountId = "") {
   const forbidden = forbiddenPhrases(normalized);
   const xAuth = xAuthStatus(accountId);
   const safety = accountSafety(tool, normalized, accountId);
+  const gate = feedbackDebtGate();
   const blockReasons = [];
   const overrideReasons = [];
 
@@ -3834,7 +3874,9 @@ function buildPublishReadiness(tool, text, accountId = "") {
   if (forbidden.length) blockReasons.push(`文案包含 voice 禁用词：${forbidden.join(", ")}。`);
   if (latest.source?.usedFallback) blockReasons.push("当前是 fallback sample，不允许 API 发布。");
   if (staleData) blockReasons.push("数据刷新超过 6 小时，先刷新 Live Feed。");
+  if (feedbackGateBlocksPublishing(gate)) blockReasons.push(`${feedbackGateTitle(gate)}：${feedbackGateSummary(gate)}。`);
   if (!xAuth.blocked && xAuth.warning) overrideReasons.push(xAuth.reason);
+  if (gate && !feedbackGateBlocksPublishing(gate)) overrideReasons.push(`Feedback gate：${feedbackGateSummary(gate)}。`);
   if (tool?.seenBefore) overrideReasons.push("这个工具历史出现过，不要当成今天新工具发。");
   if (freshness?.kind === "stale") overrideReasons.push("这条不是 Fresh today / Fresh 48h，更适合观察、长推或测评页。");
   if (claimRisks.length) overrideReasons.push(`文案含高风险承诺词：${claimRisks.join(", ")}。`);
@@ -3862,6 +3904,11 @@ function buildPublishReadiness(tool, text, accountId = "") {
       label: "X 配置",
       value: xAuth.label,
       ok: !xAuth.blocked
+    },
+    {
+      label: "反馈债",
+      value: feedbackGateTitle(gate),
+      ok: !feedbackGateBlocksPublishing(gate)
     },
     {
       label: "字数",

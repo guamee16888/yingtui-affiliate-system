@@ -119,6 +119,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 
 `明天策略学习信号` 会把真实 X Analytics 转成 Top account、Top angle、Top source 和明天动作。没有 measured feedback 时它只会提示先做 seed test；有少量真实反馈后，系统会给匹配的账号/来源候选小幅 `learningScore` 加权，但不会覆盖 Fresh、质量、冷却和手动确认这些硬门槛。
 
+`Feedback debt gate` 是硬门槛：只要已经标记已发但没有回填 X Analytics，顶部发布信心、发布审核队列和发布确认弹窗都会提示先补数据；如果 gate 变成 `blocked_no_metrics` 或 `feedback_debt_high`，本地发布 API 也会拒绝继续发布。手动记录已经发出的内容仍然允许保存，方便把真实历史补进系统。
+
 `Feed diagnostic` 会告诉你这次 Product Hunt feed 里到底有多少 `Today / 48h / 7d` 工具。如果 Top Picks 没有新鲜候选，它会说明是 feed 本身没新货，还是有新工具但评分不够，并列出 `Fresh feed watchlist` 供你手动观察。
 
 `Candidate Inbox` 和 `Source Candidates` 是补充来源，不会自动发推，也不会自动生成 affiliate link。它们只是把 Product Hunt 之外的工具、话题和市场信号加入评分池，解决只靠 Product Hunt RSS 时候选不够新鲜的问题。

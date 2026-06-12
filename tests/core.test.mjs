@@ -193,6 +193,51 @@ test("feedback debt gate blocks scale when posted rows have no metrics", () => {
   assert.equal(ops.debtGate.status, "blocked_no_metrics");
   assert.equal(ops.debtGate.maxNewPostsBeforeMetrics, 0);
   assert.equal(ops.actionList[0].type, "feedback_debt_gate");
+  assert.equal(ops.learningSignals.status, "metrics_blocked");
+  assert.match(ops.learningSignals.headline, /without metrics/);
+});
+
+test("feedback debt gate stops new posts when pending debt is high", () => {
+  const measured = buildFeedbackEntry({
+    toolId: "tool_measured",
+    toolName: "Measured Tool",
+    toolUrl: "https://measured.example.com",
+    variantType: "painPointHook",
+    accountId: "ai_tools_lab",
+    accountName: "AI Tools Lab",
+    copyText: "Measured copy",
+    posted: true,
+    metrics: { impressions: 800, likes: 10, bookmarks: 3, clicks: 4 }
+  });
+  const pending = Array.from({ length: 4 }, (_, index) => buildFeedbackEntry({
+    toolId: `tool_pending_${index}`,
+    toolName: `Pending Tool ${index}`,
+    toolUrl: `https://pending-${index}.example.com`,
+    variantType: "shortPost",
+    accountId: index % 2 ? "ai_tools_lab" : "saas_growth_ops",
+    accountName: index % 2 ? "AI Tools Lab" : "SaaS Growth Ops",
+    copyText: `Pending copy ${index}`,
+    posted: true,
+    metrics: {}
+  }));
+  const entries = [measured, ...pending];
+  const ops = buildFeedbackOps({
+    date: "2026-06-12",
+    latest: { tools: entries.map((entry) => ({ toolId: entry.toolId, sourceName: "Manual" })) },
+    feedback: { entries },
+    accountPosts: { items: [] },
+    accountConfig: {
+      accounts: [
+        { id: "ai_tools_lab", displayName: "AI Tools Lab", active: true },
+        { id: "saas_growth_ops", displayName: "SaaS Growth Ops", active: true }
+      ]
+    }
+  });
+
+  assert.equal(ops.debtGate.status, "feedback_debt_high");
+  assert.equal(ops.debtGate.maxNewPostsBeforeMetrics, 0);
+  assert.equal(ops.pendingFeedback.length, 4);
+  assert.equal(ops.learningSignals.status, "clear_feedback_debt");
 });
 
 test("feedback seed plan picks a tiny fresh manual test batch", () => {

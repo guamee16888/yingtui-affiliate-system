@@ -1,10 +1,10 @@
 {
   "version": 1,
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T16:39:35.136Z",
+  "generatedAt": "2026-06-12T17:02:12.013Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
-  "overallScore": 38,
-  "level": "prototype",
+  "overallScore": 40,
+  "level": "structured-mvp",
   "summary": {
     "dimensions": 9,
     "blockers": 5,
@@ -35,13 +35,14 @@
     {
       "id": "content_supply",
       "name": "Daily high-quality content supply",
-      "score": 13,
+      "score": 18,
       "status": "blocked",
       "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
       "evidence": [
         "25/200 planned unique drafts.",
         "25 qualified tools.",
-        "73 source candidates needed by the queue."
+        "73 source candidates needed by the queue.",
+        "100 source-pack rows generated, 100 still need real candidates."
       ],
       "gaps": [
         "Need 175 more unique drafts for the current target.",
@@ -49,7 +50,7 @@
       ],
       "nextActions": [
         "Run npm run source-queue and fill the largest circle gap first.",
-        "Run npm run source-pack and import only candidates with a clear buyer, pain, and URL."
+        "Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL."
       ]
     },
     {
@@ -176,19 +177,18 @@
     {
       "id": "public_product",
       "name": "Public product surface",
-      "score": 75,
-      "status": "watch",
+      "score": 82,
+      "status": "good",
       "whyItMatters": "The public repo and Vercel demo help people understand the product and contact you.",
       "evidence": [
         "README has product positioning and contact.",
-        "Vercel static dashboard is deployable."
+        "Vercel static dashboard is deployable.",
+        "Public demo banner explains local-only actions."
       ],
       "gaps": [
-        "Public demo is static and cannot run local refresh or publish actions.",
-        "Need demo-mode labels so visitors understand what is local-only."
+        "Need screenshots/GIFs to make the public repo easier to judge quickly."
       ],
       "nextActions": [
-        "Add a public demo banner explaining local-only actions.",
         "Add screenshots/GIFs to README after the UI stabilizes."
       ]
     }
@@ -209,18 +209,18 @@
       "nextAction": "Run npm run content-calendar after every daily generation."
     },
     {
-      "id": "content_supply",
-      "name": "Daily high-quality content supply",
-      "score": 13,
-      "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
-      "nextAction": "Run npm run source-queue and fill the largest circle gap first."
-    },
-    {
       "id": "affiliate_monetization",
       "name": "Affiliate monetization readiness",
       "score": 15,
       "whyItMatters": "Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.",
       "nextAction": "Open affiliate search groups for the highest affiliateScore candidates."
+    },
+    {
+      "id": "content_supply",
+      "name": "Daily high-quality content supply",
+      "score": 18,
+      "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
+      "nextAction": "Run npm run source-queue and fill the largest circle gap first."
     },
     {
       "id": "longform_engine",
@@ -235,10 +235,10 @@
     "Paste X Analytics export into feedback import after posts have data.",
     "Run npm run content-calendar after every daily generation.",
     "Lower per-account daily targets or reduce cooldown hours before scaling.",
-    "Run npm run source-queue and fill the largest circle gap first.",
-    "Run npm run source-pack and import only candidates with a clear buyer, pain, and URL.",
     "Open affiliate search groups for the highest affiliateScore candidates.",
-    "Only move approved real links into config/affiliate-links.json."
+    "Only move approved real links into config/affiliate-links.json.",
+    "Run npm run source-queue and fill the largest circle gap first.",
+    "Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL."
   ],
   "productPrinciples": [
     "Quality gates beat volume targets.",

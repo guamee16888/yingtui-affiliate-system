@@ -1048,13 +1048,17 @@ test("product roadmap identifies non-auth product blockers", () => {
     queues: { items: [] },
     affiliateResearch: { items: [] },
     accountPosts: { items: [] },
-    affiliateLinks: { links: [] }
+    affiliateLinks: { links: [] },
+    sourceImportPack: { summary: { totalRows: 100, rowsNeedingResearch: 100 } },
+    publicDemoReady: true
   });
 
   assert.equal(roadmap.level, "prototype");
   assert.equal(roadmap.dimensions.find((item) => item.id === "account_switching").status, "deferred");
   assert.equal(roadmap.topBlockers.some((item) => item.id === "content_supply"), true);
   assert.equal(roadmap.topBlockers.some((item) => item.id === "content_calendar"), true);
+  assert.match(roadmap.dimensions.find((item) => item.id === "content_supply").evidence.join(" "), /100 source-pack rows/);
+  assert.equal(roadmap.dimensions.find((item) => item.id === "public_product").score, 82);
 });
 
 test("buildDecisionReport recommends review page for strong bookmarks", () => {

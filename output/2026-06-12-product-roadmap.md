@@ -1,8 +1,8 @@
 # Product Roadmap - 2026-06-12
 
 - Objective: Product-grade multi-account X content ops system with review-first publishing.
-- Overall score: 38/100
-- Level: prototype
+- Overall score: 40/100
+- Level: structured-mvp
 - Blockers: 5
 - Deferred: 1
 
@@ -14,12 +14,12 @@
 2. Account-level content calendar — 9/100
    Why it matters: A daily target is not real until it fits account cooldowns and human review time.
    Next: Run npm run content-calendar after every daily generation.
-3. Daily high-quality content supply — 13/100
-   Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
-   Next: Run npm run source-queue and fill the largest circle gap first.
-4. Affiliate monetization readiness — 15/100
+3. Affiliate monetization readiness — 15/100
    Why it matters: Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.
    Next: Open affiliate search groups for the highest affiliateScore candidates.
+4. Daily high-quality content supply — 18/100
+   Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
+   Next: Run npm run source-queue and fill the largest circle gap first.
 5. Thread and SEO review engine — 35/100
    Why it matters: The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.
    Next: Open Promotion review and manually queue the ready items.
@@ -30,10 +30,10 @@
 2. Paste X Analytics export into feedback import after posts have data.
 3. Run npm run content-calendar after every daily generation.
 4. Lower per-account daily targets or reduce cooldown hours before scaling.
-5. Run npm run source-queue and fill the largest circle gap first.
-6. Run npm run source-pack and import only candidates with a clear buyer, pain, and URL.
-7. Open affiliate search groups for the highest affiliateScore candidates.
-8. Only move approved real links into config/affiliate-links.json.
+5. Open affiliate search groups for the highest affiliateScore candidates.
+6. Only move approved real links into config/affiliate-links.json.
+7. Run npm run source-queue and fill the largest circle gap first.
+8. Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL.
 
 ## Dimensions
 
@@ -48,12 +48,12 @@
 
 ### Daily high-quality content supply
 
-- Score: 13/100
+- Score: 18/100
 - Status: blocked
 - Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
-- Evidence: 25/200 planned unique drafts. 25 qualified tools. 73 source candidates needed by the queue.
+- Evidence: 25/200 planned unique drafts. 25 qualified tools. 73 source candidates needed by the queue. 100 source-pack rows generated, 100 still need real candidates.
 - Gaps: Need 175 more unique drafts for the current target. Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles.
-- Next: Run npm run source-queue and fill the largest circle gap first. Run npm run source-pack and import only candidates with a clear buyer, pain, and URL.
+- Next: Run npm run source-queue and fill the largest circle gap first. Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL.
 
 ### Account-level content calendar
 
@@ -111,12 +111,12 @@
 
 ### Public product surface
 
-- Score: 75/100
-- Status: watch
+- Score: 82/100
+- Status: good
 - Why it matters: The public repo and Vercel demo help people understand the product and contact you.
-- Evidence: README has product positioning and contact. Vercel static dashboard is deployable.
-- Gaps: Public demo is static and cannot run local refresh or publish actions. Need demo-mode labels so visitors understand what is local-only.
-- Next: Add a public demo banner explaining local-only actions. Add screenshots/GIFs to README after the UI stabilizes.
+- Evidence: README has product positioning and contact. Vercel static dashboard is deployable. Public demo banner explains local-only actions.
+- Gaps: Need screenshots/GIFs to make the public repo easier to judge quickly.
+- Next: Add screenshots/GIFs to README after the UI stabilizes.
 
 ## Product Principles
 

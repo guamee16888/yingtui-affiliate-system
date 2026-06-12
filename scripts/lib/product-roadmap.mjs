@@ -6,18 +6,20 @@ export function buildProductRoadmap({
   affiliateResearch = { items: [] },
   accountPosts = { items: [] },
   affiliateLinks = { links: [] },
-  contentCalendar = null
+  contentCalendar = null,
+  sourceImportPack = null,
+  publicDemoReady = false
 }) {
   const dimensions = [
     accountSwitchingDimension(latest, accountPosts),
-    contentSupplyDimension(latest),
+    contentSupplyDimension(latest, sourceImportPack),
     contentCalendarDimension(contentCalendar ?? latest?.contentCalendar),
     feedbackLoopDimension(feedback, accountPosts),
     affiliateMonetizationDimension(latest, affiliateResearch, affiliateLinks),
     sourceDiversityDimension(latest),
     qualitySafetyDimension(latest),
     longformEngineDimension(queues, latest),
-    publicProductDimension()
+    publicProductDimension(publicDemoReady)
   ];
   const nonDeferred = dimensions.filter((item) => item.status !== "deferred");
   const overallScore = Math.round(nonDeferred.reduce((sum, item) => sum + item.score, 0) / Math.max(1, nonDeferred.length));
@@ -115,12 +117,14 @@ function accountSwitchingDimension(latest, accountPosts) {
   });
 }
 
-function contentSupplyDimension(latest) {
+function contentSupplyDimension(latest, sourceImportPack) {
   const target = Number(latest?.draftPlan?.summary?.targetPosts ?? latest?.supplyPlan?.targetDrafts ?? 0);
   const planned = Number(latest?.draftPlan?.summary?.plannedPosts ?? 0);
   const qualified = Number(latest?.supplyPlan?.qualifiedTools ?? 0);
   const sourceGap = Number(latest?.sourceQualityQueue?.summary?.totalNeededCandidates ?? 0);
-  const score = percent(planned, target);
+  const importRows = Number(sourceImportPack?.summary?.totalRows ?? 0);
+  const importRowsNeedingResearch = Number(sourceImportPack?.summary?.rowsNeedingResearch ?? 0);
+  const score = Math.min(100, percent(planned, target) + (importRows ? 5 : 0));
 
   return dimension({
     id: "content_supply",
@@ -130,7 +134,8 @@ function contentSupplyDimension(latest) {
     evidence: [
       `${planned}/${target} planned unique drafts.`,
       `${qualified} qualified tools.`,
-      `${sourceGap} source candidates needed by the queue.`
+      `${sourceGap} source candidates needed by the queue.`,
+      importRows ? `${importRows} source-pack rows generated, ${importRowsNeedingResearch} still need real candidates.` : "No source import pack generated yet."
     ],
     gaps: [
       planned < target ? `Need ${target - planned} more unique drafts for the current target.` : "",
@@ -138,7 +143,7 @@ function contentSupplyDimension(latest) {
     ].filter(Boolean),
     nextActions: [
       "Run npm run source-queue and fill the largest circle gap first.",
-      "Run npm run source-pack and import only candidates with a clear buyer, pain, and URL."
+      importRows ? "Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL." : "Run npm run source-pack and import only candidates with a clear buyer, pain, and URL."
     ]
   });
 }
@@ -320,24 +325,27 @@ function longformEngineDimension(queues, latest) {
   });
 }
 
-function publicProductDimension() {
+function publicProductDimension(publicDemoReady) {
   return dimension({
     id: "public_product",
     name: "Public product surface",
-    score: 75,
+    score: publicDemoReady ? 82 : 75,
     whyItMatters: "The public repo and Vercel demo help people understand the product and contact you.",
     evidence: [
       "README has product positioning and contact.",
-      "Vercel static dashboard is deployable."
+      "Vercel static dashboard is deployable.",
+      publicDemoReady ? "Public demo banner explains local-only actions." : "Public demo banner is not detected."
     ],
     gaps: [
-      "Public demo is static and cannot run local refresh or publish actions.",
-      "Need demo-mode labels so visitors understand what is local-only."
-    ],
-    nextActions: [
-      "Add a public demo banner explaining local-only actions.",
-      "Add screenshots/GIFs to README after the UI stabilizes."
-    ]
+      publicDemoReady ? "" : "Need demo-mode labels so visitors understand what is local-only.",
+      "Need screenshots/GIFs to make the public repo easier to judge quickly."
+    ].filter(Boolean),
+    nextActions: publicDemoReady
+      ? ["Add screenshots/GIFs to README after the UI stabilizes."]
+      : [
+        "Add a public demo banner explaining local-only actions.",
+        "Add screenshots/GIFs to README after the UI stabilizes."
+      ]
   });
 }
 

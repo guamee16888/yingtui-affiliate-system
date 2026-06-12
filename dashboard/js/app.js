@@ -825,6 +825,7 @@ function renderScaleReadinessPanel() {
       <div><strong>${esc(report.target?.targetDailyPosts ?? 0)}</strong><span>daily target</span></div>
       <div><strong>${esc(report.capacity?.freshPublishCandidates ?? 0)}</strong><span>fresh candidates</span></div>
       <div><strong>${esc(report.capacity?.plannedPosts ?? 0)}</strong><span>planned drafts</span></div>
+      <div><strong>${esc(report.capacity?.accountMatrixReadyAccounts ?? 0)}/${esc(report.target?.activeAccounts ?? 0)}</strong><span>matrix ready</span></div>
       <div><strong>${esc(report.capacity?.sourceGap ?? 0)}</strong><span>source gap</span></div>
       <div><strong>${esc(report.capacity?.feedbackMeasured ?? 0)}/${esc(report.capacity?.feedbackPending ?? 0)}</strong><span>feedback</span></div>
     </div>

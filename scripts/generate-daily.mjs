@@ -76,8 +76,8 @@ async function main() {
   });
   const outputFile = await writeDailyOutput(model);
   const jsonFiles = await writeDailyJsonOutputs(model);
-  const scaleFiles = await writeScaleOutputs({ model, accountConfig });
   const matrixFiles = await writeAccountMatrixOutputs({ model, accountConfig });
+  const scaleFiles = await writeScaleOutputs({ model, accountConfig, accountContentMatrix: matrixFiles.matrix });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
   if (!feed.usedFallback) {
@@ -101,7 +101,7 @@ async function main() {
   console.log(historyMessage);
 }
 
-async function writeScaleOutputs({ model, accountConfig }) {
+async function writeScaleOutputs({ model, accountConfig, accountContentMatrix = null }) {
   const [contentCalendar, sourceImportPack] = await Promise.all([
     readJson("data/content-calendar/latest.json", model.contentCalendar ?? null),
     readJson("data/source-import-pack/latest.json", null)
@@ -112,7 +112,8 @@ async function writeScaleOutputs({ model, accountConfig }) {
     feedbackOps: model.feedbackOps,
     accountConfig,
     contentCalendar,
-    sourceImportPack
+    sourceImportPack,
+    accountContentMatrix
   });
   const jsonPath = "data/scale-readiness.json";
   const markdownPath = `output/${model.date}-scale-readiness.md`;
@@ -134,7 +135,7 @@ async function writeAccountMatrixOutputs({ model, accountConfig }) {
   const markdownPath = `output/${model.date}-account-content-matrix.md`;
   await writeJsonAtomic(jsonPath, matrix);
   await writeTextAtomic(markdownPath, renderAccountContentMatrixMarkdown(matrix));
-  return { jsonPath, markdownPath };
+  return { jsonPath, markdownPath, matrix };
 }
 
 main().catch((error) => {

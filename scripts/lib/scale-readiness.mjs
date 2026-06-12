@@ -7,6 +7,7 @@ export function buildScaleReadiness({
   accountConfig = { accounts: [] },
   contentCalendar = null,
   sourceImportPack = null,
+  accountContentMatrix = null,
   xStatus = null
 }) {
   const config = normalizeAccountConfig(accountConfig);
@@ -20,7 +21,7 @@ export function buildScaleReadiness({
   const plannedPosts = Number(latest?.draftPlan?.summary?.plannedPosts ?? 0);
   const scheduledPosts = Number(contentCalendar?.summary?.scheduledPosts ?? latest?.contentCalendar?.summary?.scheduledPosts ?? 0);
   const freshPublishCandidates = Number(latest?.freshnessReport?.stats?.topPickFreshPostCandidates ?? latest?.freshnessReport?.publishableTools?.length ?? 0);
-  const topPicks = Number(latest?.summary?.topPicks ?? latest?.tools?.length ?? 0);
+  const topPicks = Number(latest?.summary?.topPicks ?? latest?.tools?.length ?? latest?.picked?.length ?? 0);
   const sourceGap = Number(latest?.sourceQualityQueue?.summary?.totalNeededCandidates ?? latest?.supplyPlan?.totalGap ?? 0);
   const sourcePackRows = Number(sourceImportPack?.summary?.totalRows ?? 0);
   const sourcePackRowsNeedingResearch = Number(sourceImportPack?.summary?.rowsNeedingResearch ?? 0);
@@ -28,6 +29,12 @@ export function buildScaleReadiness({
   const feedbackMeasured = Number(feedbackOps?.summary?.measured ?? 0);
   const feedbackLearningScore = Number(feedbackOps?.summary?.learningScore ?? 0);
   const safeNewPosts = Number(feedbackOps?.debtGate?.maxNewPostsBeforeMetrics ?? feedbackOps?.summary?.maxNewPostsBeforeMetrics ?? 0);
+  const accountMatrixReadyAccounts = Number(accountContentMatrix?.summary?.readyAccounts ?? 0);
+  const accountMatrixCandidateBench = Number(accountContentMatrix?.summary?.matchedCandidates ?? 0);
+  const accountMatrixBenchTarget = Number(accountContentMatrix?.summary?.candidateBenchTarget ?? 0);
+  const accountMatrixStrongCandidates = Number(accountContentMatrix?.summary?.strongCandidates ?? 0);
+  const accountMatrixFreshCandidates = Number(accountContentMatrix?.summary?.freshCandidates ?? 0);
+  const accountMatrixDraftGap = Number(accountContentMatrix?.summary?.draftGap ?? 0);
   const authReady = Boolean(latest?.accountStrategy?.authReady || xStatus?.publishReady);
   const deployMode = latest?.accountStrategy?.mode ?? config.rotationPolicy?.mode ?? "manual_confirm";
   const coverage = {
@@ -55,6 +62,13 @@ export function buildScaleReadiness({
     feedbackPending,
     feedbackMeasured,
     safeNewPosts,
+    accountMatrixReadyAccounts,
+    accountMatrixCandidateBench,
+    accountMatrixBenchTarget,
+    accountMatrixStrongCandidates,
+    accountMatrixFreshCandidates,
+    accountMatrixDraftGap,
+    activeAccounts: activeAccounts.length,
     authReady
   });
 
@@ -83,6 +97,12 @@ export function buildScaleReadiness({
       feedbackPending,
       feedbackMeasured,
       feedbackLearningScore,
+      accountMatrixReadyAccounts,
+      accountMatrixCandidateBench,
+      accountMatrixBenchTarget,
+      accountMatrixStrongCandidates,
+      accountMatrixFreshCandidates,
+      accountMatrixDraftGap,
       authReady
     },
     coverage,
@@ -93,7 +113,8 @@ export function buildScaleReadiness({
       sourcePackRows,
       feedbackPending,
       feedbackMeasured,
-      freshPublishCandidates
+      freshPublishCandidates,
+      accountContentMatrix
     }),
     notes: [
       "This is a scale-readiness report, not a permission to auto-post.",
@@ -114,6 +135,7 @@ export function renderScaleReadinessMarkdown(report) {
 - Safe new posts now: ${report.capacity.safeNewPosts}
 - Fresh publish candidates: ${report.capacity.freshPublishCandidates}
 - Planned / scheduled: ${report.capacity.plannedPosts}/${report.capacity.scheduledPosts}
+- Account matrix: ${report.capacity.accountMatrixReadyAccounts ?? 0}/${report.target.activeAccounts} ready accounts; bench ${report.capacity.accountMatrixCandidateBench ?? 0}/${report.capacity.accountMatrixBenchTarget ?? 0}
 - Source gap: ${report.capacity.sourceGap}
 - Feedback measured / pending: ${report.capacity.feedbackMeasured}/${report.capacity.feedbackPending}
 - Auth ready: ${report.capacity.authReady ? "yes" : "not yet"}
@@ -184,6 +206,18 @@ function scaleBlockers(input) {
     });
   }
 
+  if (input.accountMatrixBenchTarget && input.accountMatrixReadyAccounts < input.activeAccounts) {
+    blockers.push({
+      id: "account_matrix_gap",
+      title: "Account-level content matrix is not ready",
+      severity: "high",
+      detail: `${input.accountMatrixReadyAccounts}/${input.activeAccounts} accounts are ready; candidate bench is ${input.accountMatrixCandidateBench}/${input.accountMatrixBenchTarget}, strong ${input.accountMatrixStrongCandidates}, fresh ${input.accountMatrixFreshCandidates}.`,
+      nextAction: input.accountMatrixDraftGap
+        ? `Run npm run account-matrix, then fill account-level search tasks until the ${input.accountMatrixDraftGap} draft gap shrinks.`
+        : "Use account-matrix search tasks to raise candidate bench and fresh candidates before scaling."
+    });
+  }
+
   if (input.sourceGap > 0) {
     blockers.push({
       id: "source_gap",
@@ -218,6 +252,9 @@ function scaleActionPlan(blockers, context) {
   }
   if (context.sourceGap > 0) actions.push("补来源：优先填 source-pack 里缺口最大的圈子，不要用低质候选硬凑。");
   if (context.freshPublishCandidates < 5) actions.push("刷新 Live Feed，并从 X/newsletter/社区手动导入新鲜候选。");
+  if (context.accountContentMatrix?.summary?.candidateGap > 0) {
+    actions.push(`按账号矩阵补候选：先处理 ${context.accountContentMatrix.priorityAccounts?.[0]?.displayName ?? "缺口最大账号"}，不要用泛内容填满所有号。`);
+  }
   actions.push(`今天最多按 safe gate 发 ${context.safeNewPosts} 条，不要按 20 账号目标硬放量。`);
   actions.push("有 measured winners 后，再把强信号工具推进 thread / SEO review / affiliate research。");
   return unique(actions).slice(0, 6);

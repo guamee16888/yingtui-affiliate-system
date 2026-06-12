@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T19:05:06.521Z",
+  "generatedAt": "2026-06-12T19:11:10.595Z",
   "status": "seed_only",
   "headline": "先拿真实反馈，暂时不要放量。",
   "readinessScore": 12,
@@ -14,7 +14,7 @@
   "capacity": {
     "safeNewPosts": 3,
     "freshPublishCandidates": 3,
-    "topPicks": 0,
+    "topPicks": 18,
     "plannedPosts": 18,
     "scheduledPosts": 16,
     "sourceGap": 80,
@@ -23,6 +23,12 @@
     "feedbackPending": 0,
     "feedbackMeasured": 0,
     "feedbackLearningScore": 0,
+    "accountMatrixReadyAccounts": 0,
+    "accountMatrixCandidateBench": 54,
+    "accountMatrixBenchTarget": 600,
+    "accountMatrixStrongCandidates": 9,
+    "accountMatrixFreshCandidates": 9,
+    "accountMatrixDraftGap": 182,
     "authReady": false
   },
   "coverage": {
@@ -54,6 +60,13 @@
       "nextAction": "Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar."
     },
     {
+      "id": "account_matrix_gap",
+      "title": "Account-level content matrix is not ready",
+      "severity": "high",
+      "detail": "0/20 accounts are ready; candidate bench is 54/600, strong 9, fresh 9.",
+      "nextAction": "Run npm run account-matrix, then fill account-level search tasks until the 182 draft gap shrinks."
+    },
+    {
       "id": "source_gap",
       "title": "Source supply is below target",
       "severity": "medium",
@@ -72,6 +85,7 @@
     "先发 1-3 条 seed posts，全部手动确认并记录 accountId。",
     "补来源：优先填 source-pack 里缺口最大的圈子，不要用低质候选硬凑。",
     "刷新 Live Feed，并从 X/newsletter/社区手动导入新鲜候选。",
+    "按账号矩阵补候选：先处理 Affiliate Builder，不要用泛内容填满所有号。",
     "今天最多按 safe gate 发 3 条，不要按 20 账号目标硬放量。",
     "有 measured winners 后，再把强信号工具推进 thread / SEO review / affiliate research。"
   ],

@@ -7,6 +7,7 @@
 - Safe new posts now: 3
 - Fresh publish candidates: 3
 - Planned / scheduled: 18/16
+- Account matrix: 0/20 ready accounts; bench 54/600
 - Source gap: 80
 - Feedback measured / pending: 0/0
 - Auth ready: not yet
@@ -22,10 +23,13 @@
 3. Draft gap is too large for the target — high
    18/200 unique drafts are planned.
    Next: Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar.
-4. Source supply is below target — medium
+4. Account-level content matrix is not ready — high
+   0/20 accounts are ready; candidate bench is 54/600, strong 9, fresh 9.
+   Next: Run npm run account-matrix, then fill account-level search tasks until the 182 draft gap shrinks.
+5. Source supply is below target — medium
    80 more source candidates are needed for the current account mix.
    Next: Fill the 100 source-pack rows that still need real candidates.
-5. Real multi-account X auth is not connected — deferred
+6. Real multi-account X auth is not connected — deferred
    Account profiles exist, but OAuth binding is intentionally not the current bottleneck.
    Next: Keep auth deferred until feedback and source quality gates are stable.
 
@@ -34,8 +38,9 @@
 1. 先发 1-3 条 seed posts，全部手动确认并记录 accountId。
 2. 补来源：优先填 source-pack 里缺口最大的圈子，不要用低质候选硬凑。
 3. 刷新 Live Feed，并从 X/newsletter/社区手动导入新鲜候选。
-4. 今天最多按 safe gate 发 3 条，不要按 20 账号目标硬放量。
-5. 有 measured winners 后，再把强信号工具推进 thread / SEO review / affiliate research。
+4. 按账号矩阵补候选：先处理 Affiliate Builder，不要用泛内容填满所有号。
+5. 今天最多按 safe gate 发 3 条，不要按 20 账号目标硬放量。
+6. 有 measured winners 后，再把强信号工具推进 thread / SEO review / affiliate research。
 
 ## Notes
 

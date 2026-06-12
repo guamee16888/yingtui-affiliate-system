@@ -1402,14 +1402,30 @@ test("scale readiness blocks volume when feedback and supply are missing", () =>
       ]
     },
     contentCalendar: { summary: { targetPosts: 20, scheduledPosts: 4 } },
-    sourceImportPack: { summary: { totalRows: 100, rowsNeedingResearch: 90 } }
+    sourceImportPack: { summary: { totalRows: 100, rowsNeedingResearch: 90 } },
+    accountContentMatrix: {
+      summary: {
+        readyAccounts: 0,
+        candidateBenchTarget: 60,
+        matchedCandidates: 5,
+        strongCandidates: 2,
+        freshCandidates: 1,
+        draftGap: 16,
+        candidateGap: 55
+      },
+      priorityAccounts: [{ displayName: "A" }]
+    }
   });
 
   assert.equal(report.status, "blocked");
   assert.equal(report.target.targetDailyPosts, 20);
   assert.equal(report.capacity.safeNewPosts, 0);
+  assert.equal(report.capacity.accountMatrixReadyAccounts, 0);
+  assert.equal(report.capacity.accountMatrixCandidateBench, 5);
   assert.equal(report.blockers.some((item) => item.id === "feedback_missing"), true);
+  assert.equal(report.blockers.some((item) => item.id === "account_matrix_gap"), true);
   assert.equal(report.blockers.some((item) => item.id === "source_gap"), true);
+  assert.match(report.actionPlan.join(" "), /账号矩阵/);
   assert.match(report.actionPlan.join(" "), /不要按 20 账号目标硬放量/);
 });
 

@@ -25,7 +25,7 @@ async function parseApiResponse(res, path) {
   return res.json();
 }
 
-const tabNames = ["today", "roadmap", "review", "candidates", "supply", "tools", "copy", "feedback", "learning", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
+const tabNames = ["today", "roadmap", "review", "candidates", "supply", "calendar", "tools", "copy", "feedback", "learning", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
 
 const state = {
   tab: initialTab(),
@@ -41,6 +41,7 @@ const state = {
   decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
   feedbackOps: null,
   learningLoop: null,
+  contentCalendar: null,
   productRoadmap: null,
   xStatus: { configured: false, note: "" },
   settings: null,
@@ -49,6 +50,7 @@ const state = {
   feedbackPreview: null,
   publishTool: null,
   dailyRun: { running: false, message: "" },
+  calendarRun: { running: false, message: "" },
   roadmapRun: { running: false, message: "" },
   filters: { search: "", action: "all", affiliate: "all", state: "all", minScore: 0, sortBy: "score" }
 };
@@ -88,6 +90,7 @@ const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 const writeActionSelector = [
   "[data-run-daily]",
   "[data-run-roadmap]",
+  "[data-run-calendar]",
   "[data-preview-candidates]",
   "[data-preview-feedback]",
   "[data-publish]",
@@ -111,7 +114,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, productRoadmap, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, productRoadmap, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -123,12 +126,13 @@ async function loadAll() {
       api.get("/api/decision-report"),
       api.get("/api/feedback-ops"),
       api.get("/api/learning-loop"),
+      api.get("/api/content-calendar"),
       api.get("/api/product-roadmap"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -142,7 +146,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps, learningLoop, productRoadmap] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps, learningLoop, contentCalendar, productRoadmap] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -153,6 +157,7 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/review-pages.json", { items: [] }),
     fetchJson("/data/feedback-ops.json", null),
     fetchJson("/data/learning-loop.json", { missing: true }),
+    fetchJson("/data/content-calendar/latest.json", { missing: true }),
     fetchJson("/data/product-roadmap.json", { missing: true })
   ]);
   const settings = {
@@ -187,6 +192,7 @@ async function loadStaticFallback(apiError) {
     decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
     feedbackOps: feedbackOps ?? latest?.feedbackOps ?? null,
     learningLoop: learningLoop?.missing ? null : learningLoop,
+    contentCalendar: contentCalendar?.missing ? latest?.contentCalendar ?? null : contentCalendar,
     productRoadmap: productRoadmap?.missing ? null : productRoadmap,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
@@ -231,6 +237,7 @@ function render() {
   renderReadiness();
   renderActiveView();
   updateRunDailyControls();
+  updateCalendarControls();
   updateRoadmapControls();
   updateReadOnlyControls();
 }
@@ -247,6 +254,14 @@ function updateRoadmapControls() {
   $$("[data-run-roadmap]").forEach((button) => {
     button.disabled = isReadOnlyMode() || state.roadmapRun.running;
     button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.roadmapRun.running ? "刷新中..." : "刷新路线图";
+    button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
+  });
+}
+
+function updateCalendarControls() {
+  $$("[data-run-calendar]").forEach((button) => {
+    button.disabled = isReadOnlyMode() || state.calendarRun.running;
+    button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.calendarRun.running ? "刷新中..." : "刷新日历";
     button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
   });
 }
@@ -406,7 +421,7 @@ function renderActiveView() {
   $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === state.tab));
   $$(".view").forEach((view) => view.classList.remove("active"));
   $(`#view-${state.tab}`).classList.add("active");
-  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, candidates: renderCandidates, supply: renderSourceSupply, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, learning: renderLearning, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
+  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, candidates: renderCandidates, supply: renderSourceSupply, calendar: renderCalendar, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, learning: renderLearning, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
   renderers[state.tab]();
 }
 
@@ -475,6 +490,10 @@ function feedbackFor(toolId) {
 
 function activeAccounts() {
   return state.latest?.accountStrategy?.accounts ?? [];
+}
+
+function activeCalendar() {
+  return state.contentCalendar ?? state.latest?.contentCalendar ?? null;
 }
 
 function accountById(accountId) {
@@ -834,7 +853,7 @@ function roadmapScoreKind(score) {
 function roadmapTabForDimension(id) {
   return {
     content_supply: "accounts",
-    content_calendar: "accounts",
+    content_calendar: "calendar",
     feedback_loop: "learning",
     affiliate_monetization: "affiliate",
     source_diversity: "accounts",
@@ -866,6 +885,8 @@ function renderDailyChecklistPanel() {
   const reviewPlan = finalReviewPlan();
   const candidates = reviewPlan.ready;
   const affiliateQueue = latest.affiliateResearchQueue ?? [];
+  const calendar = activeCalendar();
+  const calendarSummary = calendar?.summary ?? {};
   const stale = ageMinutes === null || ageMinutes > 360 || latest.source?.usedFallback;
   const items = [
     {
@@ -879,6 +900,12 @@ function renderDailyChecklistPanel() {
       title: candidates.length ? `审核 ${candidates.length} 条可发候选` : "没有安全发布候选",
       detail: candidates.length ? `发布审核已按反馈 gate 限制到 ${reviewPlan.maxNewPosts} 条，每条手动确认。` : reviewPlan.gate?.headline || "今天先研究 affiliate / 长文，不要硬发旧工具。",
       action: `<button class="button ghost" data-tab-jump="review">打开发布审核</button>`
+    },
+    {
+      done: Number(calendarSummary.scheduledPosts ?? 0) > 0,
+      title: calendarSummary.scheduledPosts ? `日历可审核 ${calendarSummary.scheduledPosts} 条` : "还没有内容日历",
+      detail: calendarSummary.scheduledPosts ? `真实目标不是 200 条，当前先人工审核 ${calendarSummary.scheduledPosts}/${calendarSummary.targetPosts} 条。` : "先运行 npm run content-calendar，把草稿排进账号级审核槽。",
+      action: `<button class="button ghost" data-tab-jump="calendar">打开内容日历</button>`
     },
     {
       done: pending.length === 0,
@@ -1843,6 +1870,129 @@ function renderSourceHealthSnapshot(health) {
       <div class="muted">${esc(source.circle || "unknown")} · ${esc(source.qualifiedCandidates ?? 0)}/${esc(source.totalCandidates ?? 0)} qualified · noise ${esc(source.noiseCandidates ?? 0)}</div>
       <p class="muted">${esc(source.recommendation)}</p>
     </div>`).join("") || empty("暂无来源记录。")}
+  </div>`;
+}
+
+function renderCalendar() {
+  const calendar = activeCalendar();
+  if (!calendar) {
+    $("#view-calendar").innerHTML = `<section class="panel">
+      <h2>内容日历</h2>
+      <p class="muted">还没有内容日历数据。先运行 npm run content-calendar，或刷新 Live Feed 后再生成日历。</p>
+      <div class="row-actions">
+        <button class="button ghost" data-run-calendar>刷新日历</button>
+        <button class="button ghost" data-copy="npm run content-calendar">复制命令</button>
+      </div>
+    </section>`;
+    updateCalendarControls();
+    return;
+  }
+  const slots = flattenCalendarSlots(calendar);
+  const blockedAccounts = (calendar.accountCalendars ?? []).filter((account) => account.status === "target_incompatible");
+  const emptyAccounts = (calendar.accountCalendars ?? []).filter((account) => !account.scheduledPosts).slice(0, 8);
+  const scale = calendar.scalePlan ?? {};
+  $("#view-calendar").innerHTML = `<div class="calendar-workbench">
+    <section class="panel wide-panel calendar-command-center ${scale.status === "ready_to_scale" ? "good" : "warn"}">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Review calendar</p>
+          <h2>今天真实能人工审核 ${esc(calendar.summary?.scheduledPosts ?? 0)} 条</h2>
+          <p class="muted">${esc(scale.headline || calendar.rule || "Every slot still needs manual review before publishing.")}</p>
+        </div>
+        ${pill(scale.status === "ready_to_scale" ? "Ready" : "Not ready to scale", scale.status === "ready_to_scale" ? "good" : "warn")}
+      </div>
+      <div class="pipeline-stats">
+        <div><strong>${esc(calendar.summary?.scheduledPosts ?? 0)}/${esc(calendar.summary?.targetPosts ?? 0)}</strong><span>scheduled</span></div>
+        <div><strong>${esc(calendar.summary?.availableDrafts ?? 0)}</strong><span>drafts</span></div>
+        <div><strong>${esc(calendar.summary?.sameDayCapacity ?? 0)}</strong><span>same-day capacity</span></div>
+        <div><strong>${esc(calendar.summary?.draftGap ?? 0)}</strong><span>draft gap</span></div>
+        <div><strong>${esc(calendar.summary?.capacityGap ?? 0)}</strong><span>capacity gap</span></div>
+        <div><strong>${esc(scale.recommendedTargetPerAccountIfKeepCooldown ?? 0)}/acct</strong><span>realistic target</span></div>
+      </div>
+      <div class="calendar-actions">
+        <button class="button ghost" data-run-calendar>刷新日历</button>
+        <button class="button ghost" data-tab-jump="supply">先补来源</button>
+        <button class="button ghost" data-tab-jump="review">打开发布审核</button>
+        <button class="button ghost" data-copy="npm run draft-plan && npm run content-calendar">复制日历命令</button>
+      </div>
+      ${state.calendarRun.message ? `<p class="muted">${esc(state.calendarRun.message)}</p>` : ""}
+      <div class="list mini-list">${(scale.nextActions ?? []).map((action) => `<div class="list-item">${esc(action)}</div>`).join("")}</div>
+    </section>
+    <section class="panel wide-panel">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Scheduled review queue</p>
+          <h2>按时间审核</h2>
+          <p class="muted">这里不是自动发送队列。每条仍然要复制、确认、标记已发，发完再补 X Analytics。</p>
+        </div>
+        ${pill(`${slots.length} slots`, slots.length ? "good" : "warn")}
+      </div>
+      <div class="calendar-slot-list">${slots.map(renderCalendarSlot).join("") || empty("今天没有可审核 slot。先补候选或降低目标。")}</div>
+    </section>
+    <section class="panel">
+      <h2>账号缺口</h2>
+      <div class="list">${blockedAccounts.slice(0, 10).map(renderCalendarAccountGap).join("") || empty("没有账号容量缺口。")}</div>
+    </section>
+    <section class="panel">
+      <h2>完全没排到的账号</h2>
+      <div class="list">${emptyAccounts.map((account) => `<div class="list-item">
+        <strong>${esc(account.displayName)}</strong>
+        <div class="muted">${esc(account.category)} · draft gap ${esc(account.draftGap)} · capacity gap ${esc(account.capacityGap)}</div>
+      </div>`).join("") || empty("每个账号至少有一个审核 slot。")}</div>
+    </section>
+  </div>`;
+  updateCalendarControls();
+}
+
+function flattenCalendarSlots(calendar) {
+  return (calendar.accountCalendars ?? []).flatMap((account) => (account.slots ?? []).map((slot) => ({
+    ...slot,
+    accountId: account.accountId,
+    accountName: account.displayName,
+    accountCategory: account.category,
+    cooldownHours: account.cooldownHours,
+    targetPosts: account.targetPosts,
+    accountStatus: account.status
+  }))).sort((a, b) => String(a.scheduledLocalTime).localeCompare(String(b.scheduledLocalTime)) || String(a.accountName).localeCompare(String(b.accountName)));
+}
+
+function renderCalendarSlot(slot) {
+  const feedback = state.feedback.entries.find((entry) => entry.toolId === slot.toolId && entry.accountId === slot.accountId && entry.variantType === slot.variantType);
+  const posted = Boolean(feedback?.postedUrl || feedback?.postedAt || feedback?.posted);
+  const metricsReady = feedback ? hasRecordedMetrics(feedback) : false;
+  const copy = slot.copyText || "";
+  return `<article class="calendar-slot-card ${posted ? metricsReady ? "good" : "warn" : ""}">
+    <div class="calendar-time">
+      <strong>${esc(String(slot.scheduledLocalTime ?? "").replace(`${activeCalendar()?.date ?? ""} `, ""))}</strong>
+      <span>${esc(slot.accountName)}</span>
+    </div>
+    <div class="calendar-slot-body">
+      <div class="line-head">
+        <strong>${esc(slot.toolName)}</strong>
+        ${pill(labels[slot.variantType] ?? slot.variantType, "neutral")}
+        ${pill(posted ? metricsReady ? "measured" : "posted no metrics" : "needs review", posted ? metricsReady ? "good" : "warn" : "neutral")}
+      </div>
+      <div class="muted">${esc(slot.accountCategory || "")} · score ${esc(slot.score ?? 0)} · cooldown ${esc(slot.cooldownHours)}h</div>
+      <pre class="copy-text">${esc(copy)}</pre>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
+        <button class="button publish" data-publish="${attr(slot.toolId)}" data-tool="${attr(slot.toolName)}" data-url="${attr(slot.url)}" data-copytext="${attr(copy)}" data-variant="${attr(slot.variantType)}" data-account-id="${attr(slot.accountId)}">发布前确认</button>
+        <button class="button ghost" data-posted="${attr(slot.toolId)}" data-tool="${attr(slot.toolName)}" data-url="${attr(slot.url)}" data-copytext="${attr(copy)}" data-variant="${attr(slot.variantType)}" data-account-id="${attr(slot.accountId)}">标记已发</button>
+        <button class="button ghost" data-feedback="${attr(slot.toolId)}" data-tool="${attr(slot.toolName)}" data-url="${attr(slot.url)}" data-copytext="${attr(copy)}" data-variant="${attr(slot.variantType)}" data-account-id="${attr(slot.accountId)}">录入反馈</button>
+        <a class="button ghost" href="${attr(slot.url)}" target="_blank" rel="noreferrer">打开来源</a>
+      </div>
+    </div>
+  </article>`;
+}
+
+function renderCalendarAccountGap(account) {
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(account.displayName)}</strong>
+      ${pill(account.status, account.status === "ready" ? "good" : "warn")}
+    </div>
+    <div class="muted">${esc(account.scheduledPosts)}/${esc(account.targetPosts)} scheduled · drafts ${esc(account.availableDrafts)} · cooldown ${esc(account.cooldownHours)}h · recommended ${esc(account.recommendedCooldownHours)}h</div>
+    <p class="muted">${esc((account.notes ?? []).join(" "))}</p>
   </div>`;
 }
 
@@ -3237,6 +3387,30 @@ async function runDaily() {
   }
 }
 
+async function runCalendar() {
+  if (guardReadOnlyAction()) {
+    state.calendarRun = { running: false, message: readOnlyActionMessage() };
+    render();
+    return;
+  }
+  if (state.calendarRun.running) return;
+  state.calendarRun = { running: true, message: "正在刷新内容日历..." };
+  render();
+  try {
+    const result = await api.post("/api/content-calendar/run", {});
+    state.calendarRun = {
+      running: false,
+      message: `日历已刷新：${result.scheduledPosts ?? 0}/${result.targetPosts ?? 0} scheduled · draft gap ${result.draftGap ?? 0} · capacity gap ${result.capacityGap ?? 0}`
+    };
+    toast("内容日历已刷新");
+    await loadAll();
+  } catch (error) {
+    state.calendarRun = { running: false, message: `日历刷新失败：${error.message}` };
+    render();
+    toast(error.message);
+  }
+}
+
 async function runRoadmap() {
   if (guardReadOnlyAction()) {
     state.roadmapRun = { running: false, message: readOnlyActionMessage() };
@@ -3307,6 +3481,8 @@ document.addEventListener("click", async (event) => {
       openSearchGroup(button);
     } else if (button.dataset.runDaily !== undefined) {
       await runDaily();
+    } else if (button.dataset.runCalendar !== undefined) {
+      await runCalendar();
     } else if (button.dataset.runRoadmap !== undefined) {
       await runRoadmap();
     } else if (button.dataset.previewCandidates) {

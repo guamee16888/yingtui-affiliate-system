@@ -54,7 +54,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 9. 跑 `npm run source-pack`，拿 100 行 CSV 模板去外部补题。
 10. 如果你从 X、newsletter、微信群或官网看到新工具/话题，先放进「候选收集」，并标好 circle，再点 `刷新 Live Feed` 让它参与评分。
 11. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
-12. 跑 `npm run content-calendar`，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
+12. 跑 `npm run content-calendar` 或打开「内容日历」，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
 13. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
 14. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
 15. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
@@ -90,6 +90,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `发布审核`：发布前最终确认队列。它会同时检查 Fresh today / Fresh 48h 和 `Feedback debt gate`，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，并按分数自动建议转入联盟研究、长推、SEO 测评页或观察队列。
 - `候选收集`：把 Product Hunt 之外的新工具手动放进本地收集箱；active 候选会在下一次 `daily` 或 `刷新 Live Feed` 时参与打分。
 - `来源补给`：把 20×10 的内容缺口拆成圈子任务，集中显示需要补多少候选、哪些账号受影响、搜索入口、CSV 导入模板、质量 checklist 和来源健康度。每天内容不够时先看这里，不要靠低质内容硬凑。
+- `内容日历`：把账号草稿排进本地人工审核槽，显示今天真实能审核多少条、草稿缺口、冷却容量缺口、每个账号的可发时间和文案。这里仍然只是 review calendar，不会自动发送。
 - `工具池`：所有候选工具卡片，适合按分数、affiliate、风险、是否已发筛选。
 - `文案库`：每个工具的 5 种英文文案，适合集中复制、标记已发，或手动确认发布到 X。
 - `反馈录入`：已经标记已发的文案和表现数据。顶部会列出 `待补反馈`，也可以粘贴 CSV 批量导入 X 数据。
@@ -118,6 +119,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 `Draft planner` 会给每个账号分配不重复候选。一个工具最多进入一个账号的计划，所以它会更严格地暴露缺口；这是为了避免 20 个号发同一个工具的变体。
 
 `Content calendar` 会把草稿放进账号级发布时间槽，并检查每日目标和冷却时间是否互相冲突。比如每号 10 条但冷却 6 小时，在一天内天然排不满，系统会显示 capacity gap，而不是假装可以完成。`Scale Reality` 会进一步告诉你：今天实际该审核多少条、按当前冷却每号更现实是几条、如果坚持当前目标需要把冷却降到多少小时。
+
+Dashboard 的 `内容日历` 会把这些 slot 变成可执行的人工审核队列：按时间列出账号、文案、来源、复制按钮、发布前确认和标记已发。它不会批量发布，也不会绕过确认弹窗；发完后仍然要回到反馈页补 X Analytics。
 
 `Source quality queue` 会把缺口翻译成今天该补的来源方向，例如 SaaS pricing、indie launch、crypto wallet tooling。它只给搜索方向和导入模板，不自动抓取不稳定站点。
 

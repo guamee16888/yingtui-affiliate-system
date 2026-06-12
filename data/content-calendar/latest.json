@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-12T13:01:15.426Z",
+  "generatedAt": "2026-06-12T16:12:15.444Z",
   "date": "2026-06-12",
   "mode": "manual_review_calendar",
   "window": {
@@ -12,14 +12,32 @@
   "summary": {
     "accounts": 20,
     "targetPosts": 200,
-    "availableDrafts": 26,
+    "availableDrafts": 25,
     "sameDayCapacity": 46,
-    "scheduledPosts": 18,
-    "draftGap": 174,
+    "scheduledPosts": 17,
+    "draftGap": 175,
     "capacityGap": 154,
     "unscheduledDrafts": 8,
     "readyAccounts": 0,
     "targetIncompatibleAccounts": 20
+  },
+  "scalePlan": {
+    "status": "not_ready_to_scale",
+    "targetPerAccount": 10,
+    "currentScheduledPosts": 17,
+    "theoreticalMaxTodayPosts": 25,
+    "recommendedTargetPerAccountIfKeepCooldown": 2,
+    "recommendedCooldownHoursForTarget": 1.5,
+    "blockers": [
+      "draft_supply",
+      "cooldown_capacity"
+    ],
+    "headline": "Do not aim for 200/day yet. Review about 25 posts today unless you add more qualified drafts and change cooldowns.",
+    "nextActions": [
+      "Add 175 more qualified, non-duplicate drafts before trying to fill the current target.",
+      "Keep current cooldowns and lower the target to about 2/account/day, or reduce cooldown to about 1.5h for the current target.",
+      "Only manually review the 17 scheduled posts until feedback data exists."
+    ]
   },
   "accountCalendars": [
     {
@@ -273,29 +291,16 @@
       "cooldownHours": 12,
       "recommendedCooldownHours": 1.5,
       "sameDayCapacity": 2,
-      "availableDrafts": 1,
-      "scheduledPosts": 1,
-      "draftGap": 9,
+      "availableDrafts": 0,
+      "scheduledPosts": 0,
+      "draftGap": 10,
       "capacityGap": 8,
       "status": "target_incompatible",
-      "slots": [
-        {
-          "slot": 1,
-          "scheduledLocalTime": "2026-06-12 09:00",
-          "status": "needs_manual_review",
-          "toolId": "source_candidate_89469494ceb0",
-          "toolName": "Tether leads $1.4 billion funding round in German robotics company Neura",
-          "url": "https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-          "variantType": "casualPost",
-          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment is part of the stablecoin giant’s expansion into industries outside of c.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-          "score": 26,
-          "reason": "Sales Support AI match score 19; CoinDesk crypto feed; thread candidate."
-        }
-      ],
+      "slots": [],
       "unscheduledDrafts": [],
       "notes": [
         "Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target.",
-        "Need 9 more unique drafts for this account."
+        "Need 10 more unique drafts for this account."
       ]
     },
     {
@@ -704,7 +709,7 @@
   ],
   "warnings": [
     "Current cooldown settings make 154 target slots impossible inside one day.",
-    "Draft supply is short by 174 posts before manual review.",
-    "Calendar scheduled 18/200 target posts."
+    "Draft supply is short by 175 posts before manual review.",
+    "Calendar scheduled 17/200 target posts."
   ]
 }

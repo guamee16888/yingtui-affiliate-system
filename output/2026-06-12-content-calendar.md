@@ -4,17 +4,32 @@
 - Rule: Schedule drafts into review slots. Every slot still requires manual approval before publishing.
 - Window: 09:00-23:00 local
 - Target posts: 200
-- Available drafts: 26
+- Available drafts: 25
 - Same-day capacity: 46
-- Scheduled posts: 18
-- Draft gap: 174
+- Scheduled posts: 17
+- Draft gap: 175
 - Capacity gap: 154
 - Ready accounts: 0/20
 
+## Scale Reality
+
+- Status: not_ready_to_scale
+- Headline: Do not aim for 200/day yet. Review about 25 posts today unless you add more qualified drafts and change cooldowns.
+- Current scheduled posts: 17
+- Theoretical max today: 25
+- Recommended target if keeping current cooldowns: 2/account/day
+- Cooldown needed for current target: about 1.5h
+- Blockers: draft_supply, cooldown_capacity
+
+Next actions:
+1. Add 175 more qualified, non-duplicate drafts before trying to fill the current target.
+2. Keep current cooldowns and lower the target to about 2/account/day, or reduce cooldown to about 1.5h for the current target.
+3. Only manually review the 17 scheduled posts until feedback data exists.
+
 Warnings:
 - Current cooldown settings make 154 target slots impossible inside one day.
-- Draft supply is short by 174 posts before manual review.
-- Calendar scheduled 18/200 target posts.
+- Draft supply is short by 175 posts before manual review.
+- Calendar scheduled 17/200 target posts.
 
 ## AI Tools Lab
 
@@ -123,15 +138,14 @@ No slots scheduled.
 ## Sales Support AI
 
 - Status: target_incompatible
-- Scheduled: 1/10
+- Scheduled: 0/10
 - Cooldown: 12h (recommended for target: 1.5h)
 - Same-day capacity: 2
-- Draft gap: 9
+- Draft gap: 10
 - Capacity gap: 8
-- Notes: Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target. Need 9 more unique drafts for this account.
+- Notes: Target 10/day does not fit cooldown 12h. Use about 1.5h or lower daily target. Need 10 more unique drafts for this account.
 
-1. 2026-06-12 09:00 — Tether leads $1.4 billion funding round in German robotics company Neura — casualPost
-   Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment is part of the stablecoin giant’s expansion into industries outside of c.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura
+No slots scheduled.
 
 ## Career Workflows
 

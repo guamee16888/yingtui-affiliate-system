@@ -56,6 +56,7 @@ const allowedRoots = [
 ];
 
 let dailyRunPromise = null;
+let calendarRunPromise = null;
 
 const mimeTypes = new Map([
   [".html", "text/html; charset=utf-8"],
@@ -126,6 +127,10 @@ async function handleApiGet(pathname) {
   if (pathname === "/api/review-pages") return loadReviewPages();
   if (pathname === "/api/affiliate-research") return loadAffiliateResearch();
   if (pathname === "/api/product-roadmap") return readJson("data/product-roadmap.json", null);
+  if (pathname === "/api/content-calendar") {
+    const latest = await loadLatest();
+    return await readJson("data/content-calendar/latest.json", latest?.contentCalendar ?? null);
+  }
   if (pathname === "/api/settings") {
     const [latest, history, voice, affiliateLinks, feedback, queues, reviews, affiliateResearch, candidateInbox, accountPosts] = await Promise.all([
       loadLatest(),
@@ -235,6 +240,7 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/export/today-plan") return exportTodayPlan();
   if (pathname === "/api/weekly/generate") return generateWeeklyReport();
   if (pathname === "/api/daily/run") return runDailyGeneration();
+  if (pathname === "/api/content-calendar/run") return runContentCalendarGeneration();
   if (pathname === "/api/roadmap/generate") return runRoadmapGeneration();
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
@@ -254,6 +260,25 @@ async function runDailyGeneration() {
     generatedAt: latest?.generatedAt ?? null,
     usedFallback: Boolean(latest?.source?.usedFallback),
     topPicks: latest?.summary?.topPicks ?? 0
+  };
+}
+
+async function runContentCalendarGeneration() {
+  if (calendarRunPromise) throw new Error("Content calendar refresh is already running. Wait for it to finish.");
+  calendarRunPromise = runNodeScript("scripts/content-calendar.mjs", "Content calendar refresh")
+    .finally(() => {
+      calendarRunPromise = null;
+    });
+  const result = await calendarRunPromise;
+  const latest = await loadLatest();
+  const calendar = await readJson("data/content-calendar/latest.json", latest?.contentCalendar ?? null);
+  return {
+    ...result,
+    date: calendar?.date ?? latest?.date ?? null,
+    scheduledPosts: calendar?.summary?.scheduledPosts ?? 0,
+    targetPosts: calendar?.summary?.targetPosts ?? 0,
+    draftGap: calendar?.summary?.draftGap ?? 0,
+    capacityGap: calendar?.summary?.capacityGap ?? 0
   };
 }
 

@@ -1,15 +1,15 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-12T10:07:24.058Z",
+  "generatedAt": "2026-06-12T16:03:59.723Z",
   "date": "2026-06-12",
   "mode": "manual_review",
   "rule": "Each draft uses one unique candidate. No tool is allocated to more than one account in this plan.",
   "summary": {
     "accounts": 20,
     "targetPosts": 200,
-    "plannedPosts": 30,
-    "gap": 170,
-    "uniqueToolsUsed": 30,
+    "plannedPosts": 25,
+    "gap": 175,
+    "uniqueToolsUsed": 25,
     "accountsCovered": 0
   },
   "accountPlans": [
@@ -36,88 +36,9 @@
       "displayName": "SEO Review Lab",
       "category": "SEO review pages",
       "targetPosts": 10,
-      "plannedPosts": 6,
-      "gap": 4,
-      "drafts": [
-        {
-          "toolId": "source_candidate_3bc38adb72d9",
-          "toolName": "Ondo Finance hires former Invesco ETF chief to build onchain investment products",
-          "url": "https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products",
-          "score": 31,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
-          "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/10/ondo-finance-hires-former-invesco-etf-chief-to-build-onchain-investment-products",
-          "reason": "SEO Review Lab match score 28; CoinDesk crypto feed; thread candidate."
-        },
-        {
-          "toolId": "source_candidate_a48e609eca45",
-          "toolName": "The company that makes your TV is taking ads onchain. Arbitrum helped",
-          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
-          "score": 30,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
-          "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
-          "reason": "SEO Review Lab match score 27; CoinDesk crypto feed; thread candidate."
-        },
-        {
-          "toolId": "source_candidate_a61b9a939dae",
-          "toolName": "How memory tools can make AI models worse",
-          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
-          "score": 29,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
-          "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
-          "reason": "SEO Review Lab match score 27; TechCrunch AI feed; thread candidate."
-        },
-        {
-          "toolId": "source_candidate_72bb52a3552a",
-          "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
-          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
-          "score": 26,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
-          "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
-          "reason": "SEO Review Lab match score 25; CoinDesk crypto feed; thread candidate."
-        },
-        {
-          "toolId": "source_candidate_71f97fb23ad5",
-          "toolName": "Deezer’s new tool can identify AI music from Spotify, Apple Music, and others",
-          "url": "https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
-          "score": 25,
-          "sourceName": "TechCrunch AI feed",
-          "circle": "ai_startups",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
-          "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
-          "reason": "SEO Review Lab match score 25; TechCrunch AI feed; thread candidate."
-        },
-        {
-          "toolId": "tag:www.producthunt.com,2005:Post/1169603",
-          "toolName": "LocIn AI",
-          "url": "https://www.producthunt.com/products/locin-ai",
-          "score": 19,
-          "sourceName": "Product Hunt",
-          "circle": "",
-          "candidateType": "product",
-          "followUpAction": "thread candidate",
-          "variantType": "threadOpening",
-          "copyText": "I found LocIn AI on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/locin-ai",
-          "reason": "SEO Review Lab match score 22; Product Hunt; thread candidate."
-        }
-      ]
+      "plannedPosts": 0,
+      "gap": 10,
+      "drafts": []
     },
     {
       "accountId": "productivity_ops",
@@ -146,7 +67,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: unlike humanoid robots designed around a fixed form — think boston dynamics — theker's.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
           "reason": "Build in Public match score 58; TechCrunch AI feed; tweet only."
         }
       ]
@@ -156,8 +77,8 @@
       "displayName": "Creator Stack",
       "category": "creator tools",
       "targetPosts": 10,
-      "plannedPosts": 3,
-      "gap": 7,
+      "plannedPosts": 2,
+      "gap": 8,
       "drafts": [
         {
           "toolId": "tag:www.producthunt.com,2005:Post/1169183",
@@ -173,19 +94,6 @@
           "reason": "Creator Stack match score 65; Product Hunt; tweet only."
         },
         {
-          "toolId": "tag:www.producthunt.com,2005:Post/1167437",
-          "toolName": "BlenderHunt",
-          "url": "https://www.producthunt.com/products/blenderhunt",
-          "score": 25,
-          "sourceName": "Product Hunt",
-          "circle": "",
-          "candidateType": "product",
-          "followUpAction": "tweet only",
-          "variantType": "shortPost",
-          "copyText": "Testing BlenderHunt today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a smaller builder workflow. https://www.producthunt.com/products/blenderhunt",
-          "reason": "Creator Stack match score 64; Product Hunt; tweet only."
-        },
-        {
           "toolId": "source_candidate_fe5a2105b723",
           "toolName": "Pool’s new app turns your screenshots into something useful",
           "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
@@ -195,7 +103,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: pool's new app automatically sorts screenshots into personalized collections, tracks do.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
           "reason": "Creator Stack match score 58; TechCrunch AI feed; tweet only."
         }
       ]
@@ -241,7 +149,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one annoying developer workflow step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: decart is launching oasis 3, a real-time world model that generates photorealistic driv.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/",
           "reason": "Dev Workflows match score 76; TechCrunch AI feed; tweet only."
         },
         {
@@ -254,7 +162,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one annoying developer workflow step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round was led by norwest, with participation from s capital vc, cerca partn.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/jedify-raises-24m-to-help-companies-arm-ai-agents-with-context-on-their-business/",
           "reason": "Dev Workflows match score 26; TechCrunch AI feed; tweet only."
         },
         {
@@ -267,7 +175,7 @@
           "candidateType": "topic",
           "followUpAction": "thread candidate",
           "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one annoying developer workflow step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment comes as blockchains designed for big banks and institutions are having.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
           "reason": "Dev Workflows match score 25; CoinDesk crypto feed; thread candidate."
         }
       ]
@@ -277,23 +185,9 @@
       "displayName": "Sales Support AI",
       "category": "sales and customer support",
       "targetPosts": 10,
-      "plannedPosts": 1,
-      "gap": 9,
-      "drafts": [
-        {
-          "toolId": "source_candidate_89469494ceb0",
-          "toolName": "Tether leads $1.4 billion funding round in German robotics company Neura",
-          "url": "https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-          "score": 26,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "thread candidate",
-          "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/11/tether-leads-usd1-4-billion-funding-round-in-german-robotics-company-neura",
-          "reason": "Sales Support AI match score 19; CoinDesk crypto feed; thread candidate."
-        }
-      ]
+      "plannedPosts": 0,
+      "gap": 10,
+      "drafts": []
     },
     {
       "accountId": "career_workflows",
@@ -331,7 +225,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new round values the physical AI startup that aims to automate heavy engineering an.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
           "reason": "AI Agent Ops match score 21; TechCrunch AI feed; tweet only."
         },
         {
@@ -344,7 +238,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the decision comes as india emerges as the world’s largest gcc market. I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
           "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
         },
         {
@@ -357,7 +251,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the most AI-obsessed firms are spending roughly $7,500 monthly per employee on AI, per.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/",
           "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
         },
         {
@@ -370,7 +264,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new chatbot, called ask doordash, allows users to search the app for what they're l.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/",
           "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
         },
         {
@@ -383,7 +277,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: companies are burning through exorbitant sums of money to keep pace in the AI arms race.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/fresh-off-bond-sale-amazon-borrows-17-5-billion-from-banks-as-ai-spending-continues/",
           "reason": "AI Agent Ops match score 18; TechCrunch AI feed; tweet only."
         }
       ]
@@ -406,7 +300,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one annoying developer workflow step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: AI coding agent startup niteshift has raised a $7 million seed round from a who's who o.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
           "reason": "Indie Launch Radar match score 66; TechCrunch AI feed; tweet only."
         }
       ]
@@ -443,8 +337,8 @@
       "displayName": "Crypto Builder Radar",
       "category": "Crypto builder circle",
       "targetPosts": 10,
-      "plannedPosts": 5,
-      "gap": 5,
+      "plannedPosts": 4,
+      "gap": 6,
       "drafts": [
         {
           "toolId": "source_candidate_be4ee281e2b0",
@@ -456,7 +350,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure",
+          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: digital asset bank sygnum says institutional clients want multiple tokenized cash instr.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/big-banks-are-ditching-private-blockchains-to-build-tokenized-cash-networks-on-public-infrastructure",
           "reason": "Crypto Builder Radar match score 124; CoinDesk crypto feed; tweet only."
         },
         {
@@ -469,34 +363,8 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs",
+          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: global crypto etfs saw significant outflows in may, but diversified exposures showed re.... I would verify the details before posting a stronger take. https://www.coindesk.com/coindesk-indices/2026/06/10/crypto-for-advisors-crypto-etfs",
           "reason": "Crypto Builder Radar match score 123; CoinDesk crypto feed; tweet only."
-        },
-        {
-          "toolId": "source_candidate_107c3da587b6",
-          "toolName": "Bitcoin climbs back into the green as Trump signals an end to the Iran war",
-          "url": "https://www.coindesk.com/markets/2026/06/12/bitcoin-climbs-back-into-the-green-as-trump-signals-an-end-to-the-iran-war",
-          "score": 25,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
-          "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/markets/2026/06/12/bitcoin-climbs-back-into-the-green-as-trump-signals-an-end-to-the-iran-war",
-          "reason": "Crypto Builder Radar match score 123; CoinDesk crypto feed; tweet only."
-        },
-        {
-          "toolId": "source_candidate_9c2bc5a4a712",
-          "toolName": "Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans",
-          "url": "https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans",
-          "score": 21,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
-          "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans",
-          "reason": "Crypto Builder Radar match score 117; CoinDesk crypto feed; tweet only."
         },
         {
           "toolId": "source_candidate_2e53a287e6fd",
@@ -508,8 +376,21 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq",
+          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the firms making that possible say eligible shares can also be converted back into toke.... I would verify the details before posting a stronger take. https://www.coindesk.com/tech/2026/06/10/spacex-stock-is-coming-to-solana-on-the-same-day-it-lists-on-nasdaq",
           "reason": "Crypto Builder Radar match score 64; CoinDesk crypto feed; tweet only."
+        },
+        {
+          "toolId": "source_candidate_9c2bc5a4a712",
+          "toolName": "Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans",
+          "url": "https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans",
+          "score": 21,
+          "sourceName": "CoinDesk crypto feed",
+          "circle": "crypto_builders",
+          "candidateType": "topic",
+          "followUpAction": "tweet only",
+          "variantType": "casualPost",
+          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the approximately $13.1 million acquisition gives metaplanet a regulated securities pla.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/metaplanet-buys-siiibo-securities-to-accelerate-bitcoin-financial-ecosystem-plans",
+          "reason": "Crypto Builder Radar match score 62; CoinDesk crypto feed; tweet only."
         }
       ]
     },
@@ -518,23 +399,9 @@
       "displayName": "Crypto Trading Tools",
       "category": "crypto tooling",
       "targetPosts": 10,
-      "plannedPosts": 1,
-      "gap": 9,
-      "drafts": [
-        {
-          "toolId": "source_candidate_2ca9d88420e2",
-          "toolName": "Citi opens new route into private markets with tokenized share offering",
-          "url": "https://www.coindesk.com/business/2026/06/11/citi-opens-new-route-into-private-markets-with-tokenized-share-offering",
-          "score": 26,
-          "sourceName": "CoinDesk crypto feed",
-          "circle": "crypto_builders",
-          "candidateType": "topic",
-          "followUpAction": "tweet only",
-          "variantType": "casualPost",
-          "copyText": "I saved this from CoinDesk crypto feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://www.coindesk.com/business/2026/06/11/citi-opens-new-route-into-private-markets-with-tokenized-share-offering",
-          "reason": "Crypto Trading Tools match score 19; CoinDesk crypto feed; tweet only."
-        }
-      ]
+      "plannedPosts": 0,
+      "gap": 10,
+      "drafts": []
     },
     {
       "accountId": "founder_tooling",
@@ -567,7 +434,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: cybersecurity researchers are complaining that anthropic's new model fable has guardrai.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
           "reason": "Founder Tooling match score 68; TechCrunch AI feed; tweet only."
         },
         {
@@ -580,7 +447,7 @@
           "candidateType": "topic",
           "followUpAction": "tweet only",
           "variantType": "casualPost",
-          "copyText": "I saved this from TechCrunch AI feed because it points at a real workflow: removing one narrow, repeated manual step. I would watch the comments before turning it into a longer post. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: if founders and other business leaders weren't already envious of dario amodei, who sit.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "reason": "Founder Tooling match score 68; TechCrunch AI feed; tweet only."
         }
       ]
@@ -590,13 +457,79 @@
       "displayName": "Market Map Notes",
       "category": "market mapping",
       "targetPosts": 10,
-      "plannedPosts": 0,
-      "gap": 10,
-      "drafts": []
+      "plannedPosts": 5,
+      "gap": 5,
+      "drafts": [
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "toolName": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 30,
+          "sourceName": "CoinDesk crypto feed",
+          "circle": "crypto_builders",
+          "candidateType": "topic",
+          "followUpAction": "thread candidate",
+          "variantType": "casualPost",
+          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: lg electronics has built a blockchain-based advertising platform with the help of arbitrum. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "reason": "Market Map Notes match score 21; CoinDesk crypto feed; thread candidate."
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "toolName": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 29,
+          "sourceName": "TechCrunch AI feed",
+          "circle": "ai_startups",
+          "candidateType": "topic",
+          "followUpAction": "thread candidate",
+          "variantType": "casualPost",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: new research suggests that AI memory systems can degrade model performance and encourag.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "reason": "Market Map Notes match score 21; TechCrunch AI feed; thread candidate."
+        },
+        {
+          "toolId": "source_candidate_72bb52a3552a",
+          "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "score": 26,
+          "sourceName": "CoinDesk crypto feed",
+          "circle": "crypto_builders",
+          "candidateType": "topic",
+          "followUpAction": "thread candidate",
+          "variantType": "casualPost",
+          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: an 8-a share registration filing, in this case for nasdaq, is usually one of the last s.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "reason": "Market Map Notes match score 19; CoinDesk crypto feed; thread candidate."
+        },
+        {
+          "toolId": "source_candidate_71f97fb23ad5",
+          "toolName": "Deezer’s new tool can identify AI music from Spotify, Apple Music, and others",
+          "url": "https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
+          "score": 25,
+          "sourceName": "TechCrunch AI feed",
+          "circle": "ai_startups",
+          "candidateType": "topic",
+          "followUpAction": "thread candidate",
+          "variantType": "casualPost",
+          "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: deezer introduced a tool that scans playlists from spotify, apple music, and other plat.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
+          "reason": "Market Map Notes match score 19; TechCrunch AI feed; thread candidate."
+        },
+        {
+          "toolId": "tag:www.producthunt.com,2005:Post/1169603",
+          "toolName": "LocIn AI",
+          "url": "https://www.producthunt.com/products/locin-ai",
+          "score": 19,
+          "sourceName": "Product Hunt",
+          "circle": "",
+          "candidateType": "product",
+          "followUpAction": "thread candidate",
+          "variantType": "threadOpening",
+          "copyText": "I found LocIn AI on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/locin-ai",
+          "reason": "Market Map Notes match score 16; Product Hunt; thread candidate."
+        }
+      ]
     }
   ],
   "unallocatedTools": [],
   "warnings": [
-    "Draft supply is short by 170 posts. Add candidates instead of reusing tools across accounts."
+    "Draft supply is short by 175 posts. Add candidates instead of reusing tools across accounts."
   ]
 }

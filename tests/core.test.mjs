@@ -16,6 +16,8 @@ import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPubl
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
+import { buildSourceImportPackRows, buildSourceQualityQueue, buildSupplyPlan, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
+import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 
 test("createToolId is stable", () => {
   const a = createToolId("Test Tool", "https://example.com/product");
@@ -92,6 +94,28 @@ test("candidate inbox item is stable and converts to daily tool source", () => {
   assert.equal(tools[0].sourceType, "inbox");
   assert.equal(tools[0].sourceName, "X");
   assert.equal(tools[0].published, "2026-06-08T00:00:00.000Z");
+});
+
+test("source candidates preserve circle and candidate type", () => {
+  const tools = sourceCandidatesToTools({
+    items: [
+      {
+        id: "source_1",
+        name: "SaaS Pricing Note",
+        url: "https://source.example.com/saas",
+        tagline: "A pricing signal for SaaS founders",
+        description: "A pricing signal for SaaS founders",
+        sourceName: "Source",
+        circle: "saas_founders",
+        candidateType: "topic",
+        status: "active"
+      }
+    ]
+  }, "2026-06-12");
+
+  assert.equal(tools[0].sourceType, "source_feed");
+  assert.equal(tools[0].circle, "saas_founders");
+  assert.equal(tools[0].candidateType, "topic");
 });
 
 test("mergeToolSources keeps Product Hunt tool when inbox has duplicate", () => {
@@ -311,6 +335,120 @@ test("account strategy respects daily post limits when routing", () => {
   assert.equal(strategy.toolRecommendations[0].primary.accountId, "ai");
   assert.equal(strategy.toolRecommendations[1].primary.accountId, "build");
   assert.equal(strategy.accounts.find((account) => account.id === "ai").plannedToolsToday, 1);
+});
+
+test("supply plan reports account-specific shortages", () => {
+  const scored = [
+    {
+      tool: { name: "AI Tool", url: "https://ai.example.com", description: "AI workflow tool", circle: "ai_startups" },
+      followUpAction: "tweet only",
+      score: 22
+    }
+  ];
+  const accountStrategy = {
+    summary: { activeAccounts: 2 },
+    accounts: [
+      { id: "ai", displayName: "AI", category: "AI", keywords: ["AI"], contentPillars: [] },
+      { id: "saas", displayName: "SaaS", category: "SaaS", keywords: ["SaaS"], contentPillars: [] }
+    ]
+  };
+  const plan = buildSupplyPlan({
+    date: "2026-06-12",
+    scored,
+    accountStrategy,
+    contentSourceConfig: {
+      dailyTargets: { accounts: 2, postsPerAccount: 1, minimumQualityScore: 18 },
+      circles: [{ id: "ai_startups", name: "AI", keywords: ["AI"] }],
+      sources: []
+    }
+  });
+
+  assert.equal(plan.status, "short");
+  assert.equal(plan.accountCoverage.find((account) => account.accountId === "ai").gap, 0);
+  assert.equal(plan.accountCoverage.find((account) => account.accountId === "saas").gap, 1);
+});
+
+test("source quality queue turns supply gaps into research tasks", () => {
+  const queue = buildSourceQualityQueue({
+    supplyPlan: {
+      targetPerAccount: 10,
+      accountCoverage: [
+        { accountId: "saas_growth", displayName: "SaaS Growth", category: "SaaS", gap: 8 },
+        { accountId: "crypto_tools", displayName: "Crypto Tools", category: "crypto", gap: 3 }
+      ],
+      circleCoverage: [
+        { circleId: "saas_founders", name: "SaaS founder circle", qualifiedTools: 1 },
+        { circleId: "crypto_builders", name: "Crypto builder circle", qualifiedTools: 5 }
+      ]
+    },
+    contentSourceConfig: {
+      dailyTargets: { accounts: 20, postsPerAccount: 10, minimumQualityScore: 18 },
+      circles: [
+        { id: "saas_founders", name: "SaaS founder circle", keywords: ["SaaS"] },
+        { id: "crypto_builders", name: "Crypto builder circle", keywords: ["crypto"] }
+      ],
+      sources: []
+    }
+  });
+
+  assert.equal(queue.items[0].circleId, "saas_founders");
+  assert.equal(queue.items[0].neededCandidates >= 8, true);
+  assert.equal(queue.items[0].searchQueries.length > 0, true);
+});
+
+test("source import pack creates 100 pre-classified rows", () => {
+  const rows = buildSourceImportPackRows({
+    sourceQualityQueue: {
+      items: [
+        { circleId: "saas_founders", circleName: "SaaS", neededCandidates: 80, searchQueries: ["saas query"] },
+        { circleId: "crypto_builders", circleName: "Crypto", neededCandidates: 20, searchQueries: ["crypto query"] }
+      ]
+    },
+    totalRows: 100,
+    date: "2026-06-12"
+  });
+
+  assert.equal(rows.length, 100);
+  assert.equal(rows.filter((row) => row.circle === "saas_founders").length > rows.filter((row) => row.circle === "crypto_builders").length, true);
+  assert.equal(rows.every((row) => ["product", "topic"].includes(row.candidateType)), true);
+});
+
+test("draft plan allocates each tool only once across accounts", () => {
+  const picked = [
+    {
+      tool: { name: "AI Tool", url: "https://ai.example.com", sourceName: "PH", circle: "ai_startups" },
+      toolId: "tool_ai",
+      score: 30,
+      followUpAction: "tweet only",
+      accountRecommendation: { primary: { accountId: "ai", matchedKeywords: ["AI"], matchedPillars: [] }, alternatives: [{ accountId: "saas", matchedKeywords: ["SaaS"], matchedPillars: [] }] },
+      copyVariants: [{ label: "shortPost", text: "AI copy" }]
+    },
+    {
+      tool: { name: "SaaS Tool", url: "https://saas.example.com", sourceName: "Manual", circle: "saas_founders" },
+      toolId: "tool_saas",
+      score: 28,
+      followUpAction: "thread candidate",
+      accountRecommendation: { primary: { accountId: "saas", matchedKeywords: ["SaaS"], matchedPillars: [] }, alternatives: [] },
+      copyVariants: [{ label: "threadOpening", text: "SaaS thread" }, { label: "shortPost", text: "SaaS copy" }]
+    }
+  ];
+  const plan = buildDraftPlan({
+    date: "2026-06-12",
+    picked,
+    accountStrategy: {
+      accounts: [
+        { id: "ai", displayName: "AI", category: "AI", keywords: ["AI"], contentPillars: [] },
+        { id: "saas", displayName: "SaaS", category: "SaaS", keywords: ["SaaS"], contentPillars: [] }
+      ],
+      toolRecommendations: picked.map((item) => ({ toolId: item.toolId, ...item.accountRecommendation }))
+    },
+    targetPerAccount: 1
+  });
+  const allocatedToolIds = plan.accountPlans.flatMap((account) => account.drafts.map((draft) => draft.toolId));
+
+  assert.equal(new Set(allocatedToolIds).size, allocatedToolIds.length);
+  assert.equal(allocatedToolIds.length, 2);
+  assert.equal(plan.summary.gap, 0);
 });
 
 test("buildDecisionReport recommends review page for strong bookmarks", () => {

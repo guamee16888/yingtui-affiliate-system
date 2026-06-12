@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "date": "2026-06-12",
+  "generatedAt": "2026-06-12T10:06:18.898Z",
+  "queue": {
+    "summary": {
+      "items": 4,
+      "totalNeededCandidates": 66,
+      "topCircle": "Indie hacker circle"
+    },
+    "items": [
+      {
+        "circleId": "indie_hackers",
+        "circleName": "Indie hacker circle",
+        "priorityScore": 39,
+        "neededCandidates": 31,
+        "currentQualifiedTools": 14,
+        "affectedAccounts": [
+          {
+            "accountId": "indie_monetization",
+            "displayName": "Indie Monetization",
+            "gap": 9,
+            "category": "indie monetization"
+          },
+          {
+            "accountId": "affiliate_builder",
+            "displayName": "Affiliate Builder",
+            "gap": 8,
+            "category": "affiliate and side projects"
+          },
+          {
+            "accountId": "build_in_public",
+            "displayName": "Build in Public",
+            "gap": 7,
+            "category": "building and experiments"
+          },
+          {
+            "accountId": "indie_launch_radar",
+            "displayName": "Indie Launch Radar",
+            "gap": 7,
+            "category": "indie hacker circle"
+          }
+        ],
+        "recommendedSources": [
+          {
+            "id": "hn_indie_builders",
+            "name": "HN indie builder search",
+            "url": "https://hnrss.org/newest?q=indie%20SaaS",
+            "enabled": false
+          }
+        ],
+        "searchQueries": [
+          "\"micro SaaS\" launch",
+          "\"indie hacker\" \"revenue\"",
+          "\"build in public\" \"launched\"",
+          "\"solo founder\" \"pricing\"",
+          "\"side project\" \"SaaS\" \"users\""
+        ],
+        "importHint": "Add 31 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL."
+      },
+      {
+        "circleId": "saas_founders",
+        "circleName": "SaaS founder circle",
+        "priorityScore": 24,
+        "neededCandidates": 20,
+        "currentQualifiedTools": 0,
+        "affectedAccounts": [
+          {
+            "accountId": "saas_pricing_lab",
+            "displayName": "SaaS Pricing Lab",
+            "gap": 10,
+            "category": "SaaS founder circle"
+          },
+          {
+            "accountId": "saas_growth_ops",
+            "displayName": "SaaS Growth Ops",
+            "gap": 10,
+            "category": "SaaS growth operations"
+          }
+        ],
+        "recommendedSources": [
+          {
+            "id": "hn_saas_founders",
+            "name": "HN SaaS founder search",
+            "url": "https://hnrss.org/newest?q=SaaS",
+            "enabled": false
+          }
+        ],
+        "searchQueries": [
+          "\"SaaS pricing\" \"case study\"",
+          "\"B2B SaaS\" \"onboarding\"",
+          "\"SaaS founder\" \"churn\"",
+          "\"PLG\" \"activation\" \"SaaS\"",
+          "\"SaaS\" \"pricing page\" \"launch\""
+        ],
+        "importHint": "Add 20 fresh SaaS founder circle candidates with clear buyer, narrow pain, and a real URL."
+      },
+      {
+        "circleId": "crypto_builders",
+        "circleName": "Crypto builder circle",
+        "priorityScore": 11,
+        "neededCandidates": 9,
+        "currentQualifiedTools": 11,
+        "affectedAccounts": [
+          {
+            "accountId": "crypto_trading_tools",
+            "displayName": "Crypto Trading Tools",
+            "gap": 5,
+            "category": "crypto tooling"
+          }
+        ],
+        "recommendedSources": [
+          {
+            "id": "coindesk_crypto",
+            "name": "CoinDesk crypto feed",
+            "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+            "enabled": true
+          },
+          {
+            "id": "hn_crypto_builders",
+            "name": "HN crypto builder search",
+            "url": "https://hnrss.org/newest?q=crypto%20startup",
+            "enabled": false
+          }
+        ],
+        "searchQueries": [
+          "\"crypto wallet\" \"developer\"",
+          "\"onchain\" \"tool\" launch",
+          "\"DeFi\" \"dashboard\"",
+          "\"stablecoin\" \"infrastructure\"",
+          "\"web3\" \"founder\" \"product\""
+        ],
+        "importHint": "Add 9 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
+      },
+      {
+        "circleId": "ai_startups",
+        "circleName": "AI startup circle",
+        "priorityScore": 8,
+        "neededCandidates": 6,
+        "currentQualifiedTools": 23,
+        "affectedAccounts": [
+          {
+            "accountId": "sales_support_ai",
+            "displayName": "Sales Support AI",
+            "gap": 6,
+            "category": "sales and customer support"
+          }
+        ],
+        "recommendedSources": [
+          {
+            "id": "techcrunch_ai",
+            "name": "TechCrunch AI feed",
+            "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+            "enabled": true
+          },
+          {
+            "id": "product_hunt",
+            "name": "Product Hunt live feed",
+            "url": "https://www.producthunt.com/feed",
+            "enabled": false
+          },
+          {
+            "id": "hn_ai_tools",
+            "name": "HN AI tools search",
+            "url": "https://hnrss.org/newest?q=AI%20tools",
+            "enabled": false
+          }
+        ],
+        "searchQueries": [
+          "\"AI startup\" launch new tool",
+          "\"AI agent\" founder workflow",
+          "\"LLM\" \"Product Hunt\" launch",
+          "\"AI automation\" \"pricing\" startup",
+          "\"AI tool\" \"founder\" \"waitlist\""
+        ],
+        "importHint": "Add 6 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL."
+      }
+    ]
+  }
+}

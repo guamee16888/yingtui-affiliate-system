@@ -80,6 +80,9 @@ function normalizeHeader(value) {
     description: "description",
     source: "source",
     sourceurl: "sourceUrl",
+    circle: "circle",
+    candidatetype: "candidateType",
+    type: "candidateType",
     published: "published",
     notes: "notes"
   }[header] ?? header;
@@ -94,6 +97,8 @@ function normalizeCandidate(input, defaults) {
     description: String(input.description || input.tagline || "").trim(),
     source: String(input.source || defaults.source || "paste").trim(),
     sourceUrl: String(input.sourceUrl || defaults.sourceUrl || "").trim(),
+    circle: String(input.circle || defaults.circle || "").trim(),
+    candidateType: String(input.candidateType || defaults.candidateType || "product").trim(),
     published: input.published || defaults.published || new Date().toISOString(),
     notes: String(input.notes || defaults.notes || "").trim(),
     status: "active"

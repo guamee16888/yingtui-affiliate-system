@@ -8,10 +8,10 @@ export const DEFAULT_ACCOUNT_CONFIG = {
   version: 1,
   rotationPolicy: {
     mode: "manual_confirm",
-    maxAccounts: 10,
+    maxAccounts: 20,
     sameToolCooldownDays: 7,
     sameCopyCooldownDays: 30,
-    defaultDailyPostLimit: 2
+    defaultDailyPostLimit: 10
   },
   accounts: []
 };
@@ -146,6 +146,9 @@ function scoreAccountMatch(item, account) {
     item.tool?.name,
     item.tool?.tagline,
     item.tool?.description,
+    item.tool?.circle,
+    item.tool?.candidateType,
+    item.tool?.sourceName,
     item.angle?.audience,
     item.angle?.outcome,
     item.angle?.pain,

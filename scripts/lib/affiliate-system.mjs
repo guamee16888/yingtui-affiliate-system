@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 import { createToolId, normalizeDomain } from "./ids.mjs";
 import { writeJsonAtomic, writeTextAtomic } from "./file-store.mjs";
 import { buildAccountStrategy, DEFAULT_ACCOUNT_CONFIG, normalizeAccountConfig } from "./account-system.mjs";
+import { buildSourceQualityQueue, buildSupplyPlan, DEFAULT_CONTENT_SOURCE_CONFIG } from "./content-source-system.mjs";
+import { buildDraftPlan } from "./draft-planner.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const rootDir = path.resolve(__dirname, "../..");
@@ -72,7 +74,20 @@ const painKeywords = [
   "marketer",
   "freelancer",
   "creator",
-  "deliverability"
+  "deliverability",
+  "founder",
+  "startup",
+  "saas",
+  "b2b",
+  "pricing",
+  "onboarding",
+  "retention",
+  "indie",
+  "launch",
+  "crypto",
+  "wallet",
+  "onchain",
+  "defi"
 ];
 
 const nicheKeywords = [
@@ -95,7 +110,15 @@ const nicheKeywords = [
   "freelancer",
   "creator",
   "publisher",
-  "marketer"
+  "marketer",
+  "founder",
+  "startup",
+  "saas",
+  "b2b",
+  "indie",
+  "crypto",
+  "wallet",
+  "onchain"
 ];
 
 const affiliateKeywords = [
@@ -118,7 +141,14 @@ const affiliateKeywords = [
   "website",
   "subscription",
   "pricing",
-  "teams"
+  "teams",
+  "saas",
+  "b2b",
+  "startup",
+  "founder",
+  "wallet",
+  "analytics",
+  "trading"
 ];
 
 const contentKeywords = [
@@ -135,7 +165,13 @@ const contentKeywords = [
   "workflow",
   "automation",
   "tool",
-  "builder"
+  "builder",
+  "launch",
+  "pricing",
+  "growth",
+  "founder",
+  "onchain",
+  "wallet"
 ];
 
 const broadPenaltyKeywords = [
@@ -190,7 +226,15 @@ const audienceMap = [
   ["support", "support teams"],
   ["customer", "support teams"],
   ["creator", "creators"],
-  ["publisher", "publishers"]
+  ["publisher", "publishers"],
+  ["founder", "founders"],
+  ["startup", "startup operators"],
+  ["saas", "SaaS founders"],
+  ["b2b", "B2B SaaS teams"],
+  ["indie", "indie builders"],
+  ["crypto", "crypto builders"],
+  ["wallet", "wallet teams"],
+  ["onchain", "onchain operators"]
 ];
 
 const outcomeMap = [
@@ -210,13 +254,21 @@ const outcomeMap = [
   ["invoice", "faster invoicing"],
   ["website", "a better site workflow"],
   ["support", "fewer repetitive support tasks"],
-  ["customer", "fewer repetitive support tasks"]
+  ["customer", "fewer repetitive support tasks"],
+  ["founder", "a sharper founder workflow"],
+  ["startup", "a sharper startup workflow"],
+  ["saas", "a more concrete SaaS operating angle"],
+  ["b2b", "a more concrete B2B operating angle"],
+  ["indie", "a smaller builder workflow"],
+  ["crypto", "a clearer crypto builder angle"],
+  ["wallet", "a better wallet workflow"],
+  ["onchain", "a clearer onchain workflow"]
 ];
 
 export function parseArgs(argv) {
   const args = {
     feed: DEFAULT_FEED,
-    limit: 6,
+    limit: 40,
     date: todayInShanghai()
   };
 
@@ -348,6 +400,7 @@ function stripHtml(value = "") {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, "\"")
     .replace(/&#39;/g, "'")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -396,7 +449,9 @@ export function candidateInboxToTools(inbox, date) {
       sourceType: "inbox",
       sourceName: item.source || "Candidate Inbox",
       sourceUrl: item.sourceUrl || "",
-      sourceNote: item.notes || ""
+      sourceNote: item.notes || "",
+      circle: item.circle || "",
+      candidateType: item.candidateType || "product"
     }))
     .filter((tool) => tool.name && tool.url);
 }
@@ -542,7 +597,7 @@ export function findAffiliate(tool, affiliateConfig) {
 }
 
 export function scoreTool(tool, context) {
-  const text = `${tool.name} ${tool.description}`.toLowerCase();
+  const text = `${tool.name} ${tool.description} ${tool.circle ?? ""} ${tool.candidateType ?? ""} ${tool.sourceName ?? ""}`.toLowerCase();
   const angle = buildAngle(tool);
   const affiliate = findAffiliate(tool, context.affiliateConfig);
   const historyInfo = context.historyIndex.get(toolKey(tool));
@@ -643,6 +698,7 @@ function fillTemplate(template, item, voice, link) {
     pain: cleanSlot(item.angle.pain, voice),
     solution: cleanSlot(item.angle.solution, voice),
     outcome: cleanSlot(item.angle.outcome, voice),
+    sourceName: cleanSlot(item.tool.sourceName || "the feed", voice),
     link
   };
 
@@ -696,7 +752,14 @@ function ensureTweet(text, item, voice, link) {
 
 export function makeCopyVariants(item, voice) {
   const link = item.affiliate?.affiliateUrl ?? item.tool.url;
-  const templates = {
+  const isTopic = item.tool.candidateType === "topic";
+  const templates = isTopic ? {
+    shortPost: "Worth watching: {name}. The useful angle is not the headline. It is what this changes for {audience}. {link}",
+    casualPost: "I saved this from {sourceName} because it points at a real workflow: {pain}. I would watch the comments before turning it into a longer post. {link}",
+    contrarianAngle: "Not every good post needs a new tool. Sometimes the better angle is a small market shift: {audience} trying to get {outcome}. {link}",
+    painPointHook: "The question behind this is simple: who is still stuck with {pain}? That is usually a better content angle than repeating the news. {link}",
+    threadOpening: "This is worth a thread if the comments have signal. I would look at the buyer, the workflow, the pricing pressure, and the closest alternatives. {link}"
+  } : {
     shortPost: "Testing {name} today. It looks narrow enough to be useful: {pain}. Worth a quick look if you care about {outcome}. {link}",
     casualPost: "I like AI tools more when the buyer is obvious. {name} seems built for {audience}, not everyone. I'd test setup, pricing, and one real use case first. {link}",
     contrarianAngle: "Hot take: broad AI tools are harder to write about. {name} is smaller, which may be better. Clear buyer, clear pain, easier comparison. {link}",
@@ -733,14 +796,18 @@ export function buildAffiliateStatus(item) {
   };
 }
 
-export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, voice, limit, warnings, sourceBreakdown = null }) {
+export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, voice, limit, warnings, sourceBreakdown = null }) {
   const historyIndex = buildHistoryIndex(history, { beforeDate: date });
   const context = { date, historyIndex, affiliateConfig };
   const scored = tools
     .map((tool) => scoreTool(tool, context))
     .sort((a, b) => b.score - a.score);
-  const basePicked = scored.slice(0, limit);
+  const qualityFloor = Number(contentSourceConfig.dailyTargets?.minimumQualityScore ?? 18);
+  const basePicked = scored
+    .filter((item) => item.followUpAction !== "skip" && item.score >= qualityFloor)
+    .slice(0, limit);
   const accountStrategy = buildAccountStrategy({ date, picked: basePicked, accountConfig });
+  const supplyPlan = buildSupplyPlan({ date, scored, accountStrategy, contentSourceConfig });
   const accountRecommendationByToolId = new Map(accountStrategy.toolRecommendations.map((item) => [item.toolId, item]));
   const picked = basePicked.map((item) => ({
     ...item,
@@ -756,6 +823,8 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
     .slice(0, 10);
   const actionList = buildActionList(picked, affiliateQueue, date);
   const freshnessReport = buildFreshnessReport({ date, scored, picked, usedFallback, feedSource });
+  const sourceQualityQueue = buildSourceQualityQueue({ supplyPlan, contentSourceConfig });
+  const draftPlan = buildDraftPlan({ date, picked, accountStrategy, targetPerAccount: supplyPlan.targetPerAccount });
 
   return {
     date,
@@ -769,6 +838,9 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
     actionList,
     freshnessReport,
     accountStrategy,
+    supplyPlan,
+    sourceQualityQueue,
+    draftPlan,
     historySummary: summarizeHistory(history),
     warnings
   };
@@ -928,12 +1000,24 @@ export function renderDailyMarkdown(model) {
 ## Summary
 
 - Source: ${model.feedSource}${model.usedFallback ? " (fallback sample)" : ""}
-- Source mix: Product Hunt ${model.sourceBreakdown?.productHuntTools ?? model.scored.length}, Candidate Inbox ${model.sourceBreakdown?.candidateInboxTools ?? 0}, merged ${model.sourceBreakdown?.mergedTools ?? model.scored.length}
+- Source mix: Product Hunt ${model.sourceBreakdown?.productHuntTools ?? model.scored.length}, Candidate Inbox ${model.sourceBreakdown?.candidateInboxTools ?? 0}, Source Candidates ${model.sourceBreakdown?.sourceCandidateTools ?? 0}, merged ${model.sourceBreakdown?.mergedTools ?? model.scored.length}
 - Evaluated: ${model.scored.length} tools
 - Picked: ${model.picked.length} tools (${freshCount} fresh, ${seenCount} Seen before)
 - Top score: ${topScore}
 - Rule: drafts are material, not a posting queue. Pick only tools you would defend in public.
 ${warningBlock}
+## Supply Plan
+
+${renderSupplyPlan(model.supplyPlan)}
+
+## Source Quality Queue
+
+${renderSourceQueueSummary(model.sourceQualityQueue)}
+
+## Draft Planner
+
+${renderDraftPlanSummary(model.draftPlan)}
+
 ## Today's Top Picks
 
 ${renderTopPicks(model.picked)}
@@ -979,6 +1063,65 @@ function renderTopPicks(items) {
     const marker = item.seenBefore ? " Seen before." : "";
     return `${index + 1}. ${item.tool.name} — ${item.score} points — ${item.followUpAction}.${marker}`;
   }).join("\n");
+}
+
+function renderSupplyPlan(supplyPlan) {
+  if (!supplyPlan) return "No supply plan available.";
+  const accountShortages = (supplyPlan.accountCoverage ?? [])
+    .filter((account) => account.gap > 0)
+    .slice(0, 8)
+    .map((account) => `- ${account.displayName}: ${account.availableDrafts}/${account.targetPosts} unique candidates, gap ${account.gap}`)
+    .join("\n");
+  const circles = (supplyPlan.circleCoverage ?? [])
+    .map((circle) => `- ${circle.name}: ${circle.qualifiedTools} qualified items, up to ${circle.possibleDrafts} draft variants`)
+    .join("\n");
+
+  return [
+    `- Target: ${supplyPlan.targetAccounts} accounts x ${supplyPlan.targetPerAccount} posts = ${supplyPlan.targetDrafts} drafts/day`,
+    `- Quality floor: score ${supplyPlan.minimumQualityScore}+ and not skip`,
+    `- Qualified unique items: ${supplyPlan.qualifiedTools}`,
+    `- Possible non-identical draft variants: ${supplyPlan.possibleDrafts}`,
+    `- Gap: ${supplyPlan.totalGap}`,
+    `- Status: ${supplyPlan.status}`,
+    `- Note: ${supplyPlan.note}`,
+    "",
+    "Circle coverage:",
+    circles || "- No circle coverage yet.",
+    "",
+    "Account shortages:",
+    accountShortages || "- No account shortage under the current target."
+  ].join("\n");
+}
+
+function renderSourceQueueSummary(queue) {
+  if (!queue?.items?.length) return "No source quality gaps detected.";
+  return [
+    `- Queue items: ${queue.summary.items}`,
+    `- Needed candidates: ${queue.summary.totalNeededCandidates}`,
+    `- Top gap: ${queue.summary.topCircle || "none"}`,
+    "",
+    ...queue.items.slice(0, 5).map((item, index) => {
+      return `${index + 1}. ${item.circleName}: need ${item.neededCandidates}; affected accounts ${item.affectedAccounts.length}; try ${item.searchQueries[0] ?? "manual research"}`;
+    })
+  ].join("\n");
+}
+
+function renderDraftPlanSummary(plan) {
+  if (!plan) return "No draft plan available.";
+  const gaps = (plan.accountPlans ?? [])
+    .filter((account) => account.gap > 0)
+    .slice(0, 8)
+    .map((account) => `- ${account.displayName}: ${account.plannedPosts}/${account.targetPosts}, gap ${account.gap}`)
+    .join("\n");
+  return [
+    `- Rule: ${plan.rule}`,
+    `- Planned posts: ${plan.summary.plannedPosts}/${plan.summary.targetPosts}`,
+    `- Gap: ${plan.summary.gap}`,
+    `- Unique tools used: ${plan.summary.uniqueToolsUsed}`,
+    "",
+    "Account gaps:",
+    gaps || "- No account gaps in this draft plan."
+  ].join("\n");
 }
 
 function renderActionList(actions) {
@@ -1131,6 +1274,7 @@ export function toDailyJson(model) {
       breakdown: model.sourceBreakdown ?? {
         productHuntTools: model.scored.length,
         candidateInboxTools: 0,
+        sourceCandidateTools: 0,
         mergedTools: model.scored.length
       }
     },
@@ -1140,10 +1284,14 @@ export function toDailyJson(model) {
       topPicks: model.picked.length,
       affiliateQueueCount: model.affiliateQueue.length,
       candidateInboxCount: model.sourceBreakdown?.candidateInboxTools ?? 0,
+      sourceCandidateCount: model.sourceBreakdown?.sourceCandidateTools ?? 0,
       seenBeforeCount
     },
     freshnessReport: model.freshnessReport,
     accountStrategy: model.accountStrategy,
+    supplyPlan: model.supplyPlan,
+    sourceQualityQueue: model.sourceQualityQueue,
+    draftPlan: model.draftPlan,
     actionList: model.actionList.map((action) => ({
       type: action.type,
       toolName: action.toolName,
@@ -1179,6 +1327,8 @@ function toToolJson(item) {
     sourceName: item.tool.sourceName ?? "Product Hunt",
     sourceUrl: item.tool.sourceUrl ?? null,
     sourceNote: item.tool.sourceNote ?? null,
+    circle: item.tool.circle ?? "",
+    candidateType: item.tool.candidateType ?? "product",
     score: item.score,
     scoreBreakdown: item.scoreBreakdown,
     reason: item.reason,

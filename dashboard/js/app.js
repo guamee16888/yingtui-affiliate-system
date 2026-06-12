@@ -972,6 +972,8 @@ function renderCandidates() {
         <label>一句话痛点 <input name="tagline" placeholder="What narrow problem does it solve?"></label>
         <label>来源 <input name="source" placeholder="X / newsletter / manual"></label>
         <label>来源链接 <input name="sourceUrl" type="url" placeholder="https://..."></label>
+        <label>圈子 <select name="circle">${circleOptions()}</select></label>
+        <label>类型 <select name="candidateType"><option value="product">product/tool</option><option value="topic">topic/signal</option></select></label>
         <label>发布时间 <input name="published" type="datetime-local" value="${attr(defaultCandidateDateTime())}"></label>
         <label class="wide">描述/备注 <textarea name="description" rows="3" placeholder="Who is it for, what pain, why it might convert?"></textarea></label>
         <label class="wide">内部备注 <textarea name="notes" rows="2" placeholder="Where you found it, why to watch it"></textarea></label>
@@ -983,6 +985,8 @@ function renderCandidates() {
       <p class="muted">支持 CSV 表头：name,url,tagline,source；也支持一行一个：Tool name | https://... | narrow pain。</p>
       <form class="stack-form" id="candidatePasteForm">
         <label>默认来源 <input name="source" placeholder="X / newsletter / manual" value="paste"></label>
+        <label>默认圈子 <select name="circle">${circleOptions()}</select></label>
+        <label>默认类型 <select name="candidateType"><option value="product">product/tool</option><option value="topic">topic/signal</option></select></label>
         <textarea name="text" rows="9" placeholder="Tool A | https://example.com | Fixes one narrow workflow&#10;Tool B | https://example.org | Better reporting for small teams"></textarea>
         <div class="row-actions">
           <button class="button ghost" type="button" data-preview-candidates="candidatePasteForm">预览评分</button>
@@ -1012,17 +1016,27 @@ function renderCandidatePreview() {
     ${preview.errors?.length ? `<p class="muted">跳过：${esc(preview.errors.join(" "))}</p>` : ""}
     <div class="list">${rows.map((item) => `<div class="list-item">
       <div class="line-head"><strong>${esc(item.name)}</strong>${pill(labels[item.followUpAction] ?? item.followUpAction, item.followUpAction === "skip" ? "bad" : "good")}<strong class="mini-score">${esc(item.score)}</strong></div>
-      <div class="muted">${esc(item.sourceName)} · ${esc(item.affiliateStatus)} · ${item.seenBefore ? "Seen before" : "New to history"}</div>
+      <div class="muted">${esc(item.sourceName)} · ${esc(item.circle || "unknown circle")} · ${esc(item.candidateType || "product")} · ${esc(item.affiliateStatus)} · ${item.seenBefore ? "Seen before" : "New to history"}</div>
       <p>${esc(item.reason)}</p>
       <div class="score-bars">${Object.entries(item.scoreBreakdown ?? {}).filter(([key]) => ["painScore","nicheScore","affiliateScore","contentScore","noveltyScore","riskScore"].includes(key)).map(([key, value]) => bar(key, value)).join("")}</div>
     </div>`).join("") || empty("暂无预览结果。")}</div>
   </div>`;
 }
 
+function circleOptions() {
+  return [
+    ["", "auto / unknown"],
+    ["ai_startups", "AI startups"],
+    ["indie_hackers", "Indie hackers"],
+    ["saas_founders", "SaaS founders"],
+    ["crypto_builders", "Crypto builders"]
+  ].map(([value, label]) => `<option value="${attr(value)}">${esc(label)}</option>`).join("");
+}
+
 function renderCandidateItem(item) {
   return `<div class="list-item">
     <div class="line-head"><strong>${esc(item.name)}</strong>${pill(item.status, item.status === "active" ? "good" : "stale")}</div>
-    <div class="muted">${esc(item.source || "manual")} · ${esc(formatCandidatePublished(item.published))}</div>
+    <div class="muted">${esc(item.source || "manual")} · ${esc(item.circle || "unknown circle")} · ${esc(item.candidateType || "product")} · ${esc(formatCandidatePublished(item.published))}</div>
     <p>${esc(item.tagline || item.description || item.notes || "")}</p>
     <div class="row-actions">
       <a class="button ghost" href="${attr(item.url)}" target="_blank" rel="noreferrer">打开</a>
@@ -1228,6 +1242,7 @@ function renderQueueItem(item) {
 
 function renderAccounts() {
   const strategy = state.latest?.accountStrategy;
+  const supplyPlan = state.latest?.supplyPlan;
   if (!strategy) {
     $("#view-accounts").innerHTML = `<section class="panel"><h2>账号策略</h2>${empty("还没有账号策略数据。先运行 npm run daily。")}</section>`;
     return;
@@ -1252,6 +1267,9 @@ function renderAccounts() {
       </div>
       <div class="list">${(strategy.rotationNotes ?? []).map((note) => `<div class="list-item">${esc(note)}</div>`).join("")}</div>
     </section>
+    ${renderSupplyCoverage(supplyPlan)}
+    ${renderDraftPlannerPanel(state.latest?.draftPlan)}
+    ${renderSourceQueuePanel(state.latest?.sourceQualityQueue)}
     <section class="panel">
       <h2>今日工具分配</h2>
       <div class="list">${recommendations.map(renderAccountRecommendation).join("") || empty("暂无分配。")}</div>
@@ -1266,6 +1284,73 @@ function renderAccounts() {
       <div class="account-grid">${accounts.map(renderAccountCard).join("") || empty("暂无账号配置。")}</div>
     </section>
   </div>`;
+}
+
+function renderDraftPlannerPanel(plan) {
+  if (!plan) return "";
+  const gaps = (plan.accountPlans ?? []).filter((account) => account.gap > 0).slice(0, 8);
+  const covered = plan.summary?.accountsCovered ?? 0;
+  return `<section class="panel">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Draft planner</p>
+        <h2>不重复草稿规划</h2>
+        <p class="muted">${esc(plan.rule)}</p>
+      </div>
+      ${pill(`gap ${plan.summary?.gap ?? 0}`, Number(plan.summary?.gap ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(plan.summary?.plannedPosts ?? 0)}/${esc(plan.summary?.targetPosts ?? 0)}</strong><span>planned</span></div>
+      <div><strong>${esc(plan.summary?.uniqueToolsUsed ?? 0)}</strong><span>unique tools</span></div>
+      <div><strong>${esc(covered)}/${esc(plan.summary?.accounts ?? 0)}</strong><span>covered accounts</span></div>
+    </div>
+    <div class="list">${gaps.map((account) => `<div class="list-item"><strong>${esc(account.displayName)}</strong><div class="muted">${esc(account.plannedPosts)}/${esc(account.targetPosts)} unique drafts · gap ${esc(account.gap)}</div></div>`).join("") || empty("所有账号都达到当前目标。")}</div>
+  </section>`;
+}
+
+function renderSourceQueuePanel(queue) {
+  if (!queue?.items?.length) return "";
+  return `<section class="panel">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Source quality queue</p>
+        <h2>今天优先补什么来源</h2>
+        <p class="muted">按账号缺口和圈子缺口生成，不降低质量线。</p>
+      </div>
+      ${pill(`${queue.summary?.totalNeededCandidates ?? 0} needed`, "warn")}
+    </div>
+    <div class="list">${queue.items.slice(0, 6).map((item) => `<div class="list-item">
+      <div class="line-head"><strong>${esc(item.circleName)}</strong>${pill(`need ${item.neededCandidates}`, "warn")}</div>
+      <div class="muted">${esc(item.importHint)}</div>
+      <div class="muted">Query: ${esc(item.searchQueries?.[0] ?? "")}</div>
+    </div>`).join("")}</div>
+  </section>`;
+}
+
+function renderSupplyCoverage(supplyPlan) {
+  if (!supplyPlan) return "";
+  const shortages = (supplyPlan.accountCoverage ?? []).filter((item) => item.gap > 0).slice(0, 10);
+  const circles = supplyPlan.circleCoverage ?? [];
+  return `<section class="panel">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Supply coverage</p>
+        <h2>20 账号内容供给</h2>
+        <p class="muted">${esc(supplyPlan.note)}</p>
+      </div>
+      ${pill(supplyPlan.status === "covered" ? "covered" : `gap ${supplyPlan.totalGap}`, supplyPlan.status === "covered" ? "good" : "warn")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(supplyPlan.targetAccounts)}×${esc(supplyPlan.targetPerAccount)}</strong><span>target</span></div>
+      <div><strong>${esc(supplyPlan.qualifiedTools)}</strong><span>qualified items</span></div>
+      <div><strong>${esc(supplyPlan.possibleDrafts)}</strong><span>copy variants</span></div>
+      <div><strong>${esc(supplyPlan.minimumQualityScore)}+</strong><span>quality floor</span></div>
+    </div>
+    <h3>圈子覆盖</h3>
+    <div class="list">${circles.map((circle) => `<div class="list-item"><strong>${esc(circle.name)}</strong><div class="muted">${esc(circle.qualifiedTools)} qualified · ${esc(circle.possibleDrafts)} variants</div></div>`).join("") || empty("暂无圈子覆盖。")}</div>
+    <h3>账号缺口</h3>
+    <div class="list">${shortages.map((item) => `<div class="list-item"><strong>${esc(item.displayName)}</strong><div class="muted">${esc(item.availableDrafts)}/${esc(item.targetPosts)} unique candidates · gap ${esc(item.gap)}</div></div>`).join("") || empty("当前目标下没有账号缺口。")}</div>
+  </section>`;
 }
 
 function renderAccountRecommendation(item) {

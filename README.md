@@ -1,4 +1,14 @@
-# 英推 Affiliate 选题运营系统
+# AI Affiliate X Ops Dashboard
+
+多账号 X/Twitter 内容运营、AI 选题验证、英文推文生成、Affiliate research、手动确认发布和草稿排程的一体化本地系统。
+
+Built for AI founders, indie hackers, SaaS builders, crypto builders, affiliate marketers, and content operators who need a serious multi-account X content workflow without handing their accounts or data to a third-party SaaS.
+
+**Keywords:** AI Twitter automation, multi-account X content ops, AI tweet planner, affiliate marketing system, Product Hunt radar, SaaS founder content, indie hacker content, crypto builder content, review-first publishing, manual-confirm tweet automation, X growth workflow.
+
+**Contact:** Telegram [@valuator8](https://t.me/valuator8)
+
+## 项目说明
 
 这是一个本地 Affiliate 选题验证工具。它每天从 Product Hunt 找新工具，给工具打分，生成自然英文 X 文案，并把发推反馈、Affiliate 研究、长线程候选、SEO 测评页候选和每周复盘都沉淀到本地 JSON。
 
@@ -32,15 +42,19 @@ output/YYYY-MM-DD-daily-x-pack.md
 1. 跑 `npm run daily`，生成今天的工具评分和英文文案。
 2. 跑 `npm start`，自动找可用端口并打开本地页面。
 3. 先看「今天打开后先看这里」。如果提示数据超过 6 小时，点 `刷新 Live Feed`。
-4. 如果你从 X、newsletter、微信群或官网看到新工具，先放进「候选收集」，再点 `刷新 Live Feed` 让它参与评分。
-5. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
-6. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
-7. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
-8. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
-9. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-10. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-11. 对值得做测评页的工具点「生成测评页大纲」。
-12. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+4. 打开「账号策略」看 `Supply coverage`：如果 20×10 目标缺口很大，先补来源，不要硬发。
+5. 跑 `npm run source-queue`，看今天最缺 AI/Indie/SaaS/Crypto 哪类来源。
+6. 跑 `npm run source-pack`，拿 100 行 CSV 模板去外部补题。
+7. 如果你从 X、newsletter、微信群或官网看到新工具/话题，先放进「候选收集」，并标好 circle，再点 `刷新 Live Feed` 让它参与评分。
+8. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
+9. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
+10. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
+11. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
+12. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+13. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+14. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+15. 对值得做测评页的工具点「生成测评页大纲」。
+16. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -65,7 +79,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `反馈录入`：已经标记已发的文案和表现数据。顶部会列出 `待补反馈`，也可以粘贴 CSV 批量导入 X 数据。
 - `反馈决策`：把录入的反馈转成下一步动作，判断哪些工具该加码、查联盟、做长推、做测评页或先观察。
 - `跟进队列`：你手动加入的 thread、review page、affiliate research、watch、skip。顶部 `Follow-up pipeline` 会显示活跃队列、下一步该处理哪项，以及每项下一步提示。
-- `账号策略`：查看最多 10 个 X 账号画像、今日工具推荐发到哪个账号、每日限制和冷却时间。当前不做授权，只做分类和路由建议。
+- `账号策略`：查看最多 20 个 X 账号画像、今日工具推荐发到哪个账号、每日限制、冷却时间和 20×10 内容供给缺口。当前不做授权，只做分类和路由建议。
 - `联盟研究`：记录真实查到的 programUrl、network、affiliateLink 和状态，并提供 affiliate / partner / referral 一键搜索链接。
 - `测评页候选`：适合做 SEO review page 的工具，并可生成英文大纲。
 - `历史复盘`：历史出现过的工具，避免连续推荐同一个工具。
@@ -76,15 +90,21 @@ output/YYYY-MM-DD-daily-x-pack.md
 
 `Feed diagnostic` 会告诉你这次 Product Hunt feed 里到底有多少 `Today / 48h / 7d` 工具。如果 Top Picks 没有新鲜候选，它会说明是 feed 本身没新货，还是有新工具但评分不够，并列出 `Fresh feed watchlist` 供你手动观察。
 
-`Candidate Inbox` 是补充来源，不会自动发推，也不会自动生成 affiliate link。它只是把你手动发现的工具加入评分池，解决只靠 Product Hunt RSS 时候选不够新鲜的问题。
+`Candidate Inbox` 和 `Source Candidates` 是补充来源，不会自动发推，也不会自动生成 affiliate link。它们只是把 Product Hunt 之外的工具、话题和市场信号加入评分池，解决只靠 Product Hunt RSS 时候选不够新鲜的问题。
+
+`Supply coverage` 会按 `config/content-sources.json` 里的目标计算供给：默认是 20 个账号，每号每天 10 条，质量线为 score 18+ 且不能是 `skip`。如果某个账号或圈子不够，系统会显示缺口，而不是用低质量内容硬凑。
+
+`Draft planner` 会给每个账号分配不重复候选。一个工具最多进入一个账号的计划，所以它会更严格地暴露缺口；这是为了避免 20 个号发同一个工具的变体。
+
+`Source quality queue` 会把缺口翻译成今天该补的来源方向，例如 SaaS pricing、indie launch、crypto wallet tooling。它只给搜索方向和导入模板，不自动抓取不稳定站点。
 
 批量粘贴后可以先点 `预览评分`，系统会按同一套 pain/niche/affiliate/content/novelty/risk 规则给候选打分，但不会保存。确认值得跟进后，再点 `批量导入候选`。
 
-候选收集支持单条录入，也支持批量粘贴。批量粘贴可以用 CSV：
+候选收集支持单条录入，也支持批量粘贴。批量粘贴可以用 CSV，`circle` 可填 `ai_startups`、`indie_hackers`、`saas_founders`、`crypto_builders`，`candidateType` 可填 `product` 或 `topic`：
 
 ```csv
-name,url,tagline,source
-Tool A,https://example.com,Fixes one narrow workflow,X
+name,url,tagline,source,circle,candidateType
+Tool A,https://example.com,Fixes one narrow workflow,X,saas_founders,product
 ```
 
 也可以一行一个：
@@ -100,7 +120,7 @@ Tool B | https://example.org | Better reporting for small teams
 npm run daily
 ```
 
-拉取 Product Hunt，并合并 `data/candidate-inbox.json` 里的 active 候选，生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并更新历史记录。
+拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并更新历史记录。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
 
 ```bash
 npm run daily:top10
@@ -145,10 +165,34 @@ npm run affiliate:research
 查看联盟研究记录：未开始、researching、approved 但未加入配置、rejected/no_program 等。
 
 ```bash
+npm run sources
+```
+
+单独刷新和查看补充内容来源。默认开启 TechCrunch AI 与 CoinDesk crypto 两个 RSS 源，并用 include/exclude 关键词过滤纯新闻噪音。HN、Product Hunt 二次源等不稳定或重复来源默认关闭，你可以在 `config/content-sources.json` 里测试后再打开。
+
+```bash
+npm run source-queue
+```
+
+把当前 `Supply coverage` 缺口转成来源补充任务，输出到 `data/source-quality-queue.json` 和 `output/YYYY-MM-DD-source-quality-queue.md`。
+
+```bash
+npm run source-pack
+```
+
+生成 100 行补来源 CSV 模板，输出到 `output/source-import-pack/YYYY-MM-DD-source-import-template.csv`。模板会按缺口自动分配 circle，但需要你手动填真实 name、url、tagline 后再导入。
+
+```bash
+npm run draft-plan
+```
+
+按账号生成不重复草稿规划，输出到 `data/draft-plans/YYYY-MM-DD.json`、`data/draft-plans/latest.json` 和 `output/YYYY-MM-DD-draft-plan.md`。一个工具只分配给一个账号，不够就显示 gap。
+
+```bash
 npm run accounts
 ```
 
-查看 10 个 X 账号画像、手动轮换规则，以及今天每个工具建议发到哪个账号。这个命令只读配置和 `data/latest.json`，不会授权、不会发推。
+查看 20 个 X 账号画像、手动轮换规则、20×10 供给缺口，以及今天每个工具建议发到哪个账号。这个命令只读配置和 `data/latest.json`，不会授权、不会发推。
 
 按账号绑定 X OAuth token 时使用：
 
@@ -216,12 +260,16 @@ npm audit --audit-level=moderate
 - `data/feedback.json`：发推记录和手动录入的表现数据。
 - `data/queues.json`：thread、review page、affiliate research、watch、skip 队列。
 - `data/account-posts.json`：预留的多账号发帖记录文件，后续授权后用来做账号级去重和冷却。
+- `data/source-candidates.json`：从补充 RSS/Atom 来源刷新来的候选缓存。
+- `data/source-quality-queue.json`：按账号和圈子缺口生成的补来源任务。
+- `data/draft-plans/*.json`：按账号生成的不重复草稿规划。
 - `data/affiliate-research.json`：真实查到的 affiliate program 研究记录。
 - `data/review-pages.json`：已经生成的 SEO review outline 记录。
 - `data/weekly/*.json`：每周复盘结构化数据。
 - `data/backups/YYYY-MM-DD/`：写入重要 JSON 前的本地备份。
 - `config/affiliate-links.json`：你已经拥有的真实 affiliate links。
-- `config/x-accounts.json`：最多 10 个 X 账号画像、分类、关键词、每日限制和冷却时间。这里不存 token。
+- `config/x-accounts.json`：最多 20 个 X 账号画像、分类、关键词、每日限制和冷却时间。这里不存 token。
+- `config/content-sources.json`：AI 创业、独立开发者、SaaS 创始人、Crypto builder 四个圈子的来源、关键词过滤和供给目标。
 - `config/voice.json`：英文文案风格和禁用词。
 
 ## 配置 Affiliate Link

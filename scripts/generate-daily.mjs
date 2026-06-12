@@ -15,21 +15,29 @@ import {
   writeDailyOutput
 } from "./lib/affiliate-system.mjs";
 import { loadCandidateInbox } from "./lib/data-store.mjs";
+import {
+  loadContentSourceConfig,
+  refreshSourceCandidates,
+  sourceCandidatesToTools
+} from "./lib/content-source-system.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const warnings = [];
-  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox] = await Promise.all([
+  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox, contentSourceConfig] = await Promise.all([
     loadVoice(warnings),
     loadAffiliateConfig(warnings),
     loadAccountConfig(warnings),
     loadHistory(warnings),
     fetchFeedWithFallback(args.feed, warnings),
-    loadCandidateInbox()
+    loadCandidateInbox(),
+    loadContentSourceConfig(warnings)
   ]);
+  const sourceRefresh = await refreshSourceCandidates(contentSourceConfig, warnings);
   const productHuntTools = parseProductHuntFeed(feed.xml);
   const inboxTools = candidateInboxToTools(candidateInbox, args.date);
-  const tools = mergeToolSources(productHuntTools, inboxTools);
+  const sourceTools = sourceCandidatesToTools(sourceRefresh.sourceCandidates, args.date);
+  const tools = mergeToolSources(productHuntTools, [...inboxTools, ...sourceTools]);
 
   if (!tools.length) {
     throw new Error("No tools were parsed from the feed, fallback sample, or candidate inbox. Check the inputs.");
@@ -43,12 +51,16 @@ async function main() {
     history,
     affiliateConfig,
     accountConfig,
+    contentSourceConfig,
     voice,
     limit: args.limit,
     warnings,
     sourceBreakdown: {
       productHuntTools: productHuntTools.length,
       candidateInboxTools: inboxTools.length,
+      sourceCandidateTools: sourceTools.length,
+      sourceFetchedTools: sourceRefresh.fetchedCount,
+      enabledExtraSources: sourceRefresh.enabledSources,
       mergedTools: tools.length
     }
   });
@@ -68,7 +80,8 @@ async function main() {
   console.log(`Wrote ${outputFile}`);
   console.log(`Wrote ${jsonFiles.dailyFile}`);
   console.log(`Wrote ${jsonFiles.latestFile}`);
-  console.log(`Merged ${productHuntTools.length} Product Hunt tools and ${inboxTools.length} candidate inbox tools`);
+  console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
+  console.log(`Source refresh fetched ${sourceRefresh.fetchedCount} new items from ${sourceRefresh.enabledSources} enabled extra sources`);
   console.log(historyMessage);
 }
 

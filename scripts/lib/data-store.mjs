@@ -9,10 +9,12 @@ export const DATA_FILES = {
   queues: "data/queues.json",
   accountPosts: "data/account-posts.json",
   candidateInbox: "data/candidate-inbox.json",
+  sourceCandidates: "data/source-candidates.json",
   affiliateResearch: "data/affiliate-research.json",
   reviewPages: "data/review-pages.json",
   affiliateLinks: "config/affiliate-links.json",
   xAccounts: "config/x-accounts.json",
+  contentSources: "config/content-sources.json",
   voice: "config/voice.json"
 };
 
@@ -20,6 +22,7 @@ export const DEFAULT_FEEDBACK = { version: 1, updatedAt: "", entries: [] };
 export const DEFAULT_QUEUES = { version: 1, updatedAt: "", items: [] };
 export const DEFAULT_ACCOUNT_POSTS = { version: 1, updatedAt: "", items: [] };
 export const DEFAULT_CANDIDATE_INBOX = { version: 1, updatedAt: "", items: [] };
+export const DEFAULT_SOURCE_CANDIDATES = { version: 1, updatedAt: "", items: [] };
 export const DEFAULT_AFFILIATE_RESEARCH = { version: 1, updatedAt: "", items: [] };
 export const DEFAULT_REVIEW_PAGES = { version: 1, updatedAt: "", items: [] };
 
@@ -61,6 +64,10 @@ export async function loadXAccountsConfig() {
 
 export async function loadCandidateInbox() {
   return readJson(DATA_FILES.candidateInbox, DEFAULT_CANDIDATE_INBOX);
+}
+
+export async function loadSourceCandidates() {
+  return readJson(DATA_FILES.sourceCandidates, DEFAULT_SOURCE_CANDIDATES);
 }
 
 export async function saveCandidateInbox(inbox) {
@@ -266,6 +273,8 @@ export function buildCandidateItem(input) {
     description: String(input.description || input.tagline || "").trim(),
     source: String(input.source || "manual").trim(),
     sourceUrl: String(input.sourceUrl || "").trim(),
+    circle: String(input.circle || "").trim(),
+    candidateType: String(input.candidateType || "product").trim(),
     published: input.published || now,
     status: input.status || "active",
     notes: String(input.notes || "").trim(),

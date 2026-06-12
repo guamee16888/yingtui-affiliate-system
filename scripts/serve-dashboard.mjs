@@ -460,6 +460,8 @@ async function importCandidatePaste(body) {
   const parsed = parseCandidatePaste(body.text, {
     source: body.source || "paste",
     sourceUrl: body.sourceUrl || "",
+    circle: body.circle || "",
+    candidateType: body.candidateType || "product",
     published: body.published || new Date().toISOString()
   });
   if (!parsed.entries.length) {
@@ -479,6 +481,8 @@ async function previewCandidatePaste(body) {
   const parsed = parseCandidatePaste(body.text, {
     source: body.source || "paste",
     sourceUrl: body.sourceUrl || "",
+    circle: body.circle || "",
+    candidateType: body.candidateType || "product",
     published: body.published || new Date().toISOString()
   });
   if (!parsed.entries.length) {
@@ -515,6 +519,8 @@ function candidatePreviewJson(item) {
     tagline: item.tool.tagline,
     published: item.tool.published ?? null,
     sourceName: item.tool.sourceName ?? "Candidate Inbox",
+    circle: item.tool.circle ?? "",
+    candidateType: item.tool.candidateType ?? "product",
     score: item.score,
     scoreBreakdown: item.scoreBreakdown,
     followUpAction: item.followUpAction,

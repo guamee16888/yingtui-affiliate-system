@@ -1,14 +1,28 @@
 {
   "name": "yingtui-affiliate-system",
   "version": "0.1.0",
+  "description": "Multi-account X content ops dashboard for AI affiliate topic validation, tweet draft planning, and manual-confirm publishing workflows.",
   "private": true,
   "type": "module",
+  "keywords": [
+    "ai-twitter-automation",
+    "multi-account-x",
+    "affiliate-marketing",
+    "tweet-planner",
+    "product-hunt-radar",
+    "saas-content",
+    "crypto-content"
+  ],
   "scripts": {
     "daily": "node scripts/generate-daily.mjs",
     "daily:top10": "node scripts/generate-daily.mjs --limit 10",
     "history": "node scripts/history.mjs",
     "affiliate-queue": "node scripts/affiliate-queue.mjs",
     "affiliate:research": "node scripts/affiliate-research-summary.mjs",
+    "sources": "node scripts/source-candidates.mjs",
+    "source-queue": "node scripts/source-quality-queue.mjs",
+    "source-pack": "node scripts/source-import-pack.mjs",
+    "draft-plan": "node scripts/draft-plan.mjs",
     "accounts": "node scripts/account-summary.mjs",
     "feedback": "node scripts/feedback-summary.mjs",
     "decisions": "node scripts/decision-report.mjs",

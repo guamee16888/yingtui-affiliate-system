@@ -2,10 +2,10 @@
   "version": 1,
   "rotationPolicy": {
     "mode": "manual_confirm",
-    "maxAccounts": 10,
+    "maxAccounts": 20,
     "sameToolCooldownDays": 7,
     "sameCopyCooldownDays": 30,
-    "defaultDailyPostLimit": 2,
+    "defaultDailyPostLimit": 10,
     "notes": "Planning only. OAuth tokens are intentionally not stored here."
   },
   "accounts": [
@@ -18,7 +18,7 @@
       "contentPillars": ["AI tools", "Product Hunt", "tool testing"],
       "keywords": ["AI", "tool", "automation", "workflow", "assistant", "Product Hunt"],
       "preferredActions": ["tweet only", "thread candidate"],
-      "dailyPostLimit": 2,
+      "dailyPostLimit": 10,
       "cooldownHours": 6,
       "active": true
     },
@@ -31,7 +31,7 @@
       "contentPillars": ["affiliate", "side project", "monetization"],
       "keywords": ["affiliate", "partner", "referral", "pricing", "subscription", "SaaS", "paid"],
       "preferredActions": ["affiliate priority", "review page candidate"],
-      "dailyPostLimit": 2,
+      "dailyPostLimit": 10,
       "cooldownHours": 8,
       "active": true
     },
@@ -44,7 +44,7 @@
       "contentPillars": ["SEO", "review pages", "alternatives"],
       "keywords": ["SEO", "alternative", "compare", "pricing", "review", "website", "content"],
       "preferredActions": ["review page candidate", "thread candidate"],
-      "dailyPostLimit": 1,
+      "dailyPostLimit": 10,
       "cooldownHours": 12,
       "active": true
     },
@@ -57,7 +57,7 @@
       "contentPillars": ["productivity", "ops", "workflows"],
       "keywords": ["productivity", "Notion", "spreadsheet", "Excel", "meeting", "workflow", "team"],
       "preferredActions": ["tweet only", "thread candidate"],
-      "dailyPostLimit": 2,
+      "dailyPostLimit": 10,
       "cooldownHours": 6,
       "active": true
     },
@@ -70,7 +70,7 @@
       "contentPillars": ["build in public", "experiments", "product notes"],
       "keywords": ["built", "dashboard", "local", "open source", "GitHub", "Vercel", "experiment"],
       "preferredActions": ["thread candidate", "tweet only"],
-      "dailyPostLimit": 1,
+      "dailyPostLimit": 10,
       "cooldownHours": 12,
       "active": true
     },
@@ -83,7 +83,7 @@
       "contentPillars": ["creator tools", "publishing", "writing"],
       "keywords": ["creator", "publisher", "newsletter", "video", "writing", "content"],
       "preferredActions": ["tweet only", "thread candidate"],
-      "dailyPostLimit": 2,
+      "dailyPostLimit": 10,
       "cooldownHours": 8,
       "active": true
     },
@@ -96,7 +96,7 @@
       "contentPillars": ["Shopify", "ecommerce", "store ops"],
       "keywords": ["Shopify", "ecommerce", "store", "customer", "support", "checkout"],
       "preferredActions": ["affiliate priority", "review page candidate"],
-      "dailyPostLimit": 1,
+      "dailyPostLimit": 10,
       "cooldownHours": 12,
       "active": true
     },
@@ -109,7 +109,7 @@
       "contentPillars": ["developer tools", "API", "automation"],
       "keywords": ["developer", "API", "GitHub", "Chrome", "database", "code", "automation"],
       "preferredActions": ["thread candidate", "review page candidate"],
-      "dailyPostLimit": 2,
+      "dailyPostLimit": 10,
       "cooldownHours": 8,
       "active": true
     },
@@ -122,7 +122,7 @@
       "contentPillars": ["sales", "support", "CRM"],
       "keywords": ["sales", "CRM", "email", "customer", "support", "lead", "pipeline"],
       "preferredActions": ["affiliate priority", "tweet only"],
-      "dailyPostLimit": 1,
+      "dailyPostLimit": 10,
       "cooldownHours": 12,
       "active": true
     },
@@ -135,8 +135,138 @@
       "contentPillars": ["career", "resume", "job search"],
       "keywords": ["resume", "job", "career", "interview", "hiring", "candidate"],
       "preferredActions": ["tweet only", "review page candidate"],
-      "dailyPostLimit": 1,
+      "dailyPostLimit": 10,
       "cooldownHours": 12,
+      "active": true
+    },
+    {
+      "id": "ai_founder_signals",
+      "displayName": "AI Founder Signals",
+      "handle": "",
+      "category": "AI startup circle",
+      "description": "AI startup launches, founder lessons, market timing, and small product wedges.",
+      "contentPillars": ["AI startups", "founder lessons", "market wedges"],
+      "keywords": ["AI", "startup", "founder", "launch", "agent", "LLM", "workflow"],
+      "preferredActions": ["tweet only", "thread candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 6,
+      "active": true
+    },
+    {
+      "id": "ai_agent_ops",
+      "displayName": "AI Agent Ops",
+      "handle": "",
+      "category": "AI agents and automation",
+      "description": "Agent workflows, automation stacks, AI ops, and practical implementation notes.",
+      "contentPillars": ["AI agents", "automation", "ops"],
+      "keywords": ["agent", "agents", "automation", "workflow", "AI ops", "API", "integration"],
+      "preferredActions": ["thread candidate", "review page candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 6,
+      "active": true
+    },
+    {
+      "id": "indie_launch_radar",
+      "displayName": "Indie Launch Radar",
+      "handle": "",
+      "category": "indie hacker circle",
+      "description": "Small launches, solo founder notes, micro SaaS experiments, and launch teardown angles.",
+      "contentPillars": ["indie hackers", "launches", "micro SaaS"],
+      "keywords": ["indie", "solo founder", "micro SaaS", "launch", "build in public", "maker"],
+      "preferredActions": ["tweet only", "thread candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 8,
+      "active": true
+    },
+    {
+      "id": "indie_monetization",
+      "displayName": "Indie Monetization",
+      "handle": "",
+      "category": "indie monetization",
+      "description": "Pricing, affiliate, sponsorship, tiny products, paid distribution, and revenue experiments.",
+      "contentPillars": ["monetization", "pricing", "revenue experiments"],
+      "keywords": ["pricing", "affiliate", "sponsorship", "revenue", "paid", "subscription", "indie"],
+      "preferredActions": ["affiliate priority", "review page candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 8,
+      "active": true
+    },
+    {
+      "id": "saas_pricing_lab",
+      "displayName": "SaaS Pricing Lab",
+      "handle": "",
+      "category": "SaaS founder circle",
+      "description": "SaaS pricing, packaging, trials, checkout, churn, and upgrade path observations.",
+      "contentPillars": ["SaaS pricing", "packaging", "conversion"],
+      "keywords": ["SaaS", "pricing", "packaging", "trial", "checkout", "upgrade", "churn"],
+      "preferredActions": ["thread candidate", "review page candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 8,
+      "active": true
+    },
+    {
+      "id": "saas_growth_ops",
+      "displayName": "SaaS Growth Ops",
+      "handle": "",
+      "category": "SaaS growth operations",
+      "description": "B2B SaaS growth, onboarding, activation, retention, lifecycle, and customer ops.",
+      "contentPillars": ["B2B SaaS", "growth ops", "retention"],
+      "keywords": ["B2B", "SaaS", "onboarding", "activation", "retention", "CRM", "customer"],
+      "preferredActions": ["tweet only", "thread candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 8,
+      "active": true
+    },
+    {
+      "id": "crypto_builder_radar",
+      "displayName": "Crypto Builder Radar",
+      "handle": "",
+      "category": "Crypto builder circle",
+      "description": "Crypto infrastructure, wallets, onchain products, developer tooling, and builder launches.",
+      "contentPillars": ["crypto builders", "onchain tools", "wallets"],
+      "keywords": ["crypto", "web3", "wallet", "onchain", "DeFi", "stablecoin", "token"],
+      "preferredActions": ["tweet only", "thread candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 6,
+      "active": true
+    },
+    {
+      "id": "crypto_trading_tools",
+      "displayName": "Crypto Trading Tools",
+      "handle": "",
+      "category": "crypto tooling",
+      "description": "Trading tools, analytics, alerts, dashboards, wallets, risk checks, and market ops.",
+      "contentPillars": ["trading tools", "analytics", "risk"],
+      "keywords": ["trading", "analytics", "alerts", "dashboard", "wallet", "risk", "market"],
+      "preferredActions": ["affiliate priority", "review page candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 6,
+      "active": true
+    },
+    {
+      "id": "founder_tooling",
+      "displayName": "Founder Tooling",
+      "handle": "",
+      "category": "founder workflows",
+      "description": "Founder workflows across research, sales, support, analytics, fundraising, and operations.",
+      "contentPillars": ["founder tools", "operations", "research"],
+      "keywords": ["founder", "research", "sales", "support", "analytics", "fundraising", "ops"],
+      "preferredActions": ["tweet only", "review page candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 8,
+      "active": true
+    },
+    {
+      "id": "market_map_notes",
+      "displayName": "Market Map Notes",
+      "handle": "",
+      "category": "market mapping",
+      "description": "Market maps, category shifts, alternatives, comparison angles, and product positioning.",
+      "contentPillars": ["market maps", "alternatives", "positioning"],
+      "keywords": ["alternative", "compare", "category", "market", "positioning", "competitor", "pricing"],
+      "preferredActions": ["thread candidate", "review page candidate"],
+      "dailyPostLimit": 10,
+      "cooldownHours": 10,
       "active": true
     }
   ]

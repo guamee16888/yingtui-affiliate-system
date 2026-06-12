@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "dailyTargets": {
+    "accounts": 20,
+    "postsPerAccount": 10,
+    "minimumQualityScore": 18,
+    "note": "This is a planning target. The system reports gaps instead of filling low-quality posts."
+  },
+  "circles": [
+    {
+      "id": "ai_startups",
+      "name": "AI startup circle",
+      "keywords": ["AI", "agent", "workflow", "automation", "founder", "startup", "launch", "LLM"]
+    },
+    {
+      "id": "indie_hackers",
+      "name": "Indie hacker circle",
+      "keywords": ["indie", "builder", "solo founder", "build in public", "micro SaaS", "launch"]
+    },
+    {
+      "id": "saas_founders",
+      "name": "SaaS founder circle",
+      "keywords": ["SaaS", "B2B", "pricing", "growth", "churn", "onboarding", "PLG"]
+    },
+    {
+      "id": "crypto_builders",
+      "name": "Crypto builder circle",
+      "keywords": ["crypto", "web3", "wallet", "onchain", "DeFi", "trading", "token", "stablecoin"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "techcrunch_ai",
+      "name": "TechCrunch AI feed",
+      "circle": "ai_startups",
+      "type": "rss",
+      "candidateType": "topic",
+      "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "enabled": true,
+      "maxItems": 20,
+      "includeKeywords": ["AI", "agent", "startup", "model", "LLM", "automation", "founder", "tool", "product"],
+      "excludeKeywords": ["lawsuit", "fired", "war", "crime"],
+      "qualityHint": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam."
+    },
+    {
+      "id": "coindesk_crypto",
+      "name": "CoinDesk crypto feed",
+      "circle": "crypto_builders",
+      "type": "rss",
+      "candidateType": "topic",
+      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "enabled": true,
+      "maxItems": 20,
+      "includeKeywords": ["onchain", "wallet", "DeFi", "stablecoin", "tokenized", "ETF", "developer", "infrastructure", "exchange", "trading", "Solana", "Ethereum", "Bitcoin"],
+      "excludeKeywords": ["live updates", "performance update", "price prediction", "resistance test", "really bottomed"],
+      "qualityHint": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle."
+    },
+    {
+      "id": "product_hunt",
+      "name": "Product Hunt live feed",
+      "circle": "ai_startups",
+      "type": "atom",
+      "candidateType": "product",
+      "url": "https://www.producthunt.com/feed",
+      "enabled": false,
+      "maxItems": 40,
+      "qualityHint": "New product launches. Already fetched by npm run daily, keep disabled here to avoid duplicates."
+    },
+    {
+      "id": "hn_ai_tools",
+      "name": "HN AI tools search",
+      "circle": "ai_startups",
+      "type": "rss",
+      "candidateType": "topic",
+      "url": "https://hnrss.org/newest?q=AI%20tools",
+      "enabled": false,
+      "maxItems": 20,
+      "qualityHint": "Use only if the item points to a real product, launch, technical writeup, or founder discussion."
+    },
+    {
+      "id": "hn_indie_builders",
+      "name": "HN indie builder search",
+      "circle": "indie_hackers",
+      "type": "rss",
+      "candidateType": "topic",
+      "url": "https://hnrss.org/newest?q=indie%20SaaS",
+      "enabled": false,
+      "maxItems": 20,
+      "qualityHint": "Use for indie founder lessons, launches, pricing notes, and small SaaS experiments."
+    },
+    {
+      "id": "hn_saas_founders",
+      "name": "HN SaaS founder search",
+      "circle": "saas_founders",
+      "type": "rss",
+      "candidateType": "topic",
+      "url": "https://hnrss.org/newest?q=SaaS",
+      "enabled": false,
+      "maxItems": 20,
+      "qualityHint": "Use for SaaS pricing, onboarding, B2B growth, retention, and founder operations topics."
+    },
+    {
+      "id": "hn_crypto_builders",
+      "name": "HN crypto builder search",
+      "circle": "crypto_builders",
+      "type": "rss",
+      "candidateType": "topic",
+      "url": "https://hnrss.org/newest?q=crypto%20startup",
+      "enabled": false,
+      "maxItems": 20,
+      "qualityHint": "Use for crypto infrastructure, wallets, onchain tools, stablecoins, and builder-facing topics."
+    }
+  ]
+}

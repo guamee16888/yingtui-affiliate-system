@@ -9,10 +9,12 @@ const requiredFiles = [
   "data/feedback.json",
   "data/queues.json",
   "data/account-posts.json",
+  "data/source-candidates.json",
   "data/affiliate-research.json",
   "data/review-pages.json",
   "config/affiliate-links.json",
   "config/x-accounts.json",
+  "config/content-sources.json",
   "config/voice.json",
   "dashboard/index.html",
   "dashboard/js/app.js",
@@ -25,6 +27,10 @@ const requiredScripts = [
   "history",
   "affiliate-queue",
   "affiliate:research",
+  "sources",
+  "source-queue",
+  "source-pack",
+  "draft-plan",
   "accounts",
   "feedback",
   "decisions",
@@ -64,6 +70,13 @@ if ((xAccounts.accounts ?? []).length > Number(xAccounts.rotationPolicy?.maxAcco
 
 const accountPosts = await readJson("data/account-posts.json", { items: [] });
 if (!Array.isArray(accountPosts.items)) errors.push("account-posts.json structure is invalid");
+
+const sourceCandidates = await readJson("data/source-candidates.json", { items: [] });
+if (!Array.isArray(sourceCandidates.items)) errors.push("source-candidates.json structure is invalid");
+
+const contentSources = await readJson("config/content-sources.json", { sources: [], circles: [], dailyTargets: {} });
+if (!Array.isArray(contentSources.sources)) errors.push("content-sources config has invalid sources");
+if (!Array.isArray(contentSources.circles) || contentSources.circles.length < 4) errors.push("content-sources config should define the four target circles");
 
 const voice = await readJson("config/voice.json", { style: { avoid: [] } });
 const forbidden = voice.style?.avoid ?? [];

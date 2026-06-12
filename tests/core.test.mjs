@@ -595,6 +595,42 @@ test("mapFeedbackCsv accepts pasted X Analytics table", () => {
   assert.equal(result.entries[0].metrics.profileVisits, 4);
 });
 
+test("mapFeedbackCsv matches feedback id and modern X metric headers", () => {
+  const feedback = {
+    entries: [
+      {
+        id: "feedback_modern",
+        toolId: "tool_modern",
+        toolName: "Modern Tool",
+        toolUrl: "https://modern.example.com",
+        variantType: "painPointHook",
+        accountId: "ai_founder_signals",
+        accountName: "AI Founder Signals",
+        copyText: "A founder workflow note",
+        postedUrl: "https://x.com/user/status/456",
+        postedAt: "2026-06-12T10:00:00.000Z"
+      }
+    ]
+  };
+  const text = [
+    "Feedback ID\tViews\tLikes\tSaves\tReplies\tReposts\tURL clicks\tProfile clicks\tNotes",
+    "feedback_modern\t2,400\t30\t11\t4\t2\t14\t5\tgood first signal"
+  ].join("\n");
+  const result = mapFeedbackCsv(text, { feedback });
+
+  assert.equal(result.errors.length, 0);
+  assert.equal(result.entries[0].id, "feedback_modern");
+  assert.equal(result.entries[0].toolName, "Modern Tool");
+  assert.equal(result.entries[0].accountId, "ai_founder_signals");
+  assert.equal(result.entries[0].postedAt, "2026-06-12T10:00:00.000Z");
+  assert.equal(result.entries[0].metrics.impressions, 2400);
+  assert.equal(result.entries[0].metrics.bookmarks, 11);
+  assert.equal(result.entries[0].metrics.clicks, 14);
+  assert.equal(result.entries[0].metrics.profileVisits, 5);
+  assert.equal(result.entries[0].matchStatus, "matched_feedback");
+  assert.equal(result.entries[0].metricStatus, "metrics_found");
+});
+
 test("daily model ignores same-day history when marking seen-before", () => {
   const tool = {
     name: "Narrow Shopify Tool",

@@ -18,6 +18,8 @@ const FIELD_ALIASES = {
   xaccount: "accountId",
   xaccountid: "accountId",
   accountname: "accountName",
+  feedbackid: "id",
+  feedbackrowid: "id",
   copy: "copyText",
   copytext: "copyText",
   text: "copyText",
@@ -32,12 +34,24 @@ const FIELD_ALIASES = {
   tweetpermalink: "postedUrl",
   posturl: "postedUrl",
   xurl: "postedUrl",
+  permalink: "postedUrl",
+  link: "postedUrl",
+  postedat: "postedAt",
+  postedtime: "postedAt",
+  time: "postedAt",
+  timestamp: "postedAt",
   impressions: "impressions",
   impression: "impressions",
+  views: "impressions",
+  view: "impressions",
+  totalviews: "impressions",
+  totalimpressions: "impressions",
   likes: "likes",
   like: "likes",
   bookmarks: "bookmarks",
   bookmark: "bookmarks",
+  saves: "bookmarks",
+  save: "bookmarks",
   replies: "replies",
   reply: "replies",
   reposts: "reposts",
@@ -130,7 +144,7 @@ export function mapFeedbackCsv(text, { latest = null, feedback = null } = {}) {
     }
 
     entries.push({
-      id: matchedFeedback?.id,
+      id: raw.id || matchedFeedback?.id,
       toolId: raw.toolId || matchedFeedback?.toolId || matchedTool?.toolId,
       toolName,
       toolUrl,
@@ -141,8 +155,11 @@ export function mapFeedbackCsv(text, { latest = null, feedback = null } = {}) {
       copyText,
       posted: true,
       postedUrl: raw.postedUrl || "",
+      postedAt: raw.postedAt || matchedFeedback?.postedAt || "",
       metrics: Object.fromEntries(METRIC_KEYS.map((key) => [key, toNumber(raw[key])])),
-      notes: raw.notes || ""
+      notes: raw.notes || "",
+      matchStatus: matchedFeedback ? "matched_feedback" : matchedTool ? "matched_latest_tool" : "manual_row",
+      metricStatus: METRIC_KEYS.some((key) => toNumber(raw[key]) > 0) ? "metrics_found" : "no_metrics"
     });
   });
 
@@ -198,6 +215,11 @@ function detectDelimiter(input) {
 function findFeedback(raw, feedback) {
   const entries = feedback?.entries ?? [];
   if (!entries.length) return null;
+
+  if (raw.id) {
+    const match = entries.find((entry) => entry.id === raw.id);
+    if (match) return match;
+  }
 
   if (raw.postedUrl) {
     const postedUrl = normalizeUrl(raw.postedUrl);

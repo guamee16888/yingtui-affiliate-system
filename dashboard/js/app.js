@@ -2269,13 +2269,20 @@ function renderAccountRoute(tool) {
 
 function renderFeedback() {
   const rows = [...state.feedback.entries].sort((a, b) => Number(b.engagementScore ?? 0) - Number(a.engagementScore ?? 0));
+  const pending = pendingFeedbackEntries();
+  const pendingCsv = feedbackCsvTemplateForEntries(pending);
   $("#view-feedback").innerHTML = `${renderFeedbackOpsPanel(state.feedbackOps ?? state.latest?.feedbackOps, "full")}
   <div class="grid">
-    <section class="panel"><h2>待补反馈</h2><p class="muted">发完以后，先把这块清零。没有真实反馈，后面的决策报告会变钝。X Analytics 一般等几个小时或第二天再补。</p><div class="list">${pendingFeedbackEntries().map(renderPendingFeedbackItem).join("") || empty("没有待补反馈。")}</div></section>
+    <section class="panel"><h2>待补反馈</h2><p class="muted">发完以后，先把这块清零。没有真实反馈，后面的决策报告会变钝。X Analytics 一般等几个小时或第二天再补。</p>
+      <div class="row-actions">
+        <button class="button ghost" type="button" data-fill-feedback-csv="${attr(pendingCsv)}"${pending.length ? "" : " disabled"}>填入待补模板</button>
+        <button class="button ghost" type="button" data-copy="${attr(pendingCsv)}"${pending.length ? "" : " disabled"}>复制待补模板</button>
+      </div>
+      <div class="list">${pending.map(renderPendingFeedbackItem).join("") || empty("没有待补反馈。")}</div></section>
     <section class="panel"><h2>CSV / X Analytics 粘贴导入</h2>
-      <p class="muted">支持 CSV，也支持从 X Analytics 表格直接复制出来的 tab 分隔数据。推荐先点预览；不会自动保存。</p>
+      <p class="muted">支持 CSV，也支持从 X Analytics 表格直接复制出来的 tab 分隔数据。可以先填入待补模板，再把 views/likes/saves/clicks 等数字补上；推荐先点预览，不会自动保存。</p>
       <form class="stack-form" id="feedbackCsvForm">
-        <textarea name="csv" rows="8" placeholder="toolName,variantType,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes&#10;Mailwarm 2.0,shortPost,https://x.com/you/status/123,1200,18,6,3,1,9,4,first test&#10;&#10;或直接粘贴 X Analytics 表格：&#10;Post text&#9;Tweet permalink&#9;Impressions&#9;Likes&#9;Bookmarks&#9;Replies&#9;Reposts&#9;Link clicks&#10;Your posted copy...&#9;https://x.com/you/status/123&#9;1200&#9;18&#9;6&#9;3&#9;1&#9;9"></textarea>
+        <textarea name="csv" rows="8" placeholder="feedbackId,toolName,variantType,postedUrl,views,likes,saves,replies,reposts,url clicks,profile clicks,notes&#10;feedback_xxx,Mailwarm 2.0,shortPost,https://x.com/you/status/123,1200,18,6,3,1,9,4,first test&#10;&#10;或直接粘贴 X Analytics 表格：&#10;Post text&#9;Tweet permalink&#9;Views&#9;Likes&#9;Saves&#9;Replies&#9;Reposts&#9;URL clicks&#10;Your posted copy...&#9;https://x.com/you/status/123&#9;1200&#9;18&#9;6&#9;3&#9;1&#9;9"></textarea>
         <div class="row-actions">
           <button class="button ghost" type="button" data-preview-feedback="feedbackCsvForm">预览导入</button>
           <button class="button" type="submit">确认导入反馈</button>
@@ -2287,6 +2294,37 @@ function renderFeedback() {
   </div>`;
 }
 
+function feedbackCsvTemplateForEntries(entries) {
+  const headers = ["feedbackId", "toolName", "toolUrl", "variantType", "accountId", "accountName", "postedUrl", "views", "likes", "saves", "replies", "reposts", "url clicks", "profile clicks", "notes"];
+  const rows = (entries ?? []).slice(0, 25).map((entry) => ({
+    feedbackId: entry.id || "",
+    toolName: entry.toolName || "",
+    toolUrl: entry.toolUrl || "",
+    variantType: entry.variantType || "shortPost",
+    accountId: entry.accountId || "",
+    accountName: entry.accountName || accountLabel(entry.accountId),
+    postedUrl: entry.postedUrl || "",
+    views: "",
+    likes: "",
+    saves: "",
+    replies: "",
+    reposts: "",
+    "url clicks": "",
+    "profile clicks": "",
+    notes: entry.notes || ""
+  }));
+  return [
+    headers.join(","),
+    ...rows.map((row) => headers.map((header) => csvCell(row[header] ?? "")).join(","))
+  ].join("\n");
+}
+
+function csvCell(value) {
+  const text = String(value ?? "");
+  if (!/[",\n\r]/.test(text)) return text;
+  return `"${text.replaceAll("\"", "\"\"")}"`;
+}
+
 function renderFeedbackPreview() {
   const preview = state.feedbackPreview;
   if (!preview) return "";
@@ -2296,7 +2334,7 @@ function renderFeedbackPreview() {
     ${preview.errors?.length ? `<p class="muted">跳过：${esc(preview.errors.join(" "))}</p>` : ""}
     <div class="list">${rows.map((entry) => `<div class="list-item">
       <div class="line-head"><strong>${esc(entry.toolName)} · ${esc(labels[entry.variantType] ?? entry.variantType)}</strong><strong class="mini-score">${esc(entry.engagementScore ?? 0)}</strong></div>
-      <div class="muted">账号 ${esc(entry.accountName || accountLabel(entry.accountId))} · impressions ${esc(entry.metrics?.impressions ?? 0)} · likes ${esc(entry.metrics?.likes ?? 0)} · bookmarks ${esc(entry.metrics?.bookmarks ?? 0)} · replies ${esc(entry.metrics?.replies ?? 0)} · clicks ${esc(entry.metrics?.clicks ?? 0)}</div>
+      <div class="muted">账号 ${esc(entry.accountName || accountLabel(entry.accountId))} · ${esc(entry.matchStatus || "matched")} · ${esc(entry.metricStatus || "metrics")} · impressions ${esc(entry.metrics?.impressions ?? 0)} · likes ${esc(entry.metrics?.likes ?? 0)} · bookmarks ${esc(entry.metrics?.bookmarks ?? 0)} · replies ${esc(entry.metrics?.replies ?? 0)} · clicks ${esc(entry.metrics?.clicks ?? 0)}</div>
       <div class="muted">engagement rate ${esc(formatRate(entry.engagementRate))} · click rate ${esc(formatRate(entry.clickRate))}</div>
       ${entry.postedUrl ? `<a class="muted-link" href="${attr(entry.postedUrl)}" target="_blank" rel="noreferrer">打开 X 链接</a>` : ""}
       <p>${esc(entry.copyText || "")}</p>
@@ -3609,6 +3647,15 @@ async function previewFeedbackCsv(formId) {
   toast(`已预览 ${state.feedbackPreview.previews.length} 条反馈`);
 }
 
+function fillFeedbackCsv(csv) {
+  const form = document.getElementById("feedbackCsvForm");
+  const textarea = form?.elements?.csv;
+  if (!textarea) throw new Error("feedback CSV form not found");
+  textarea.value = csv || "";
+  textarea.focus();
+  toast("已填入待补反馈模板");
+}
+
 async function runDaily() {
   if (guardReadOnlyAction()) {
     state.dailyRun = { running: false, message: readOnlyActionMessage() };
@@ -3795,6 +3842,8 @@ document.addEventListener("click", async (event) => {
     } else if (button.dataset.copy) {
       await copyText(button.dataset.copy);
       flashButton(button);
+    } else if (button.dataset.fillFeedbackCsv) {
+      fillFeedbackCsv(button.dataset.fillFeedbackCsv);
     } else if (button.dataset.openSearches) {
       openSearchGroup(button);
     } else if (button.dataset.runDaily !== undefined) {

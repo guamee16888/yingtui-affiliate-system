@@ -512,24 +512,27 @@ likes * 1
 
 打开 Dashboard 的「反馈录入」，把表格或 CSV 粘贴到 `CSV / X Analytics 粘贴导入` 里。
 
+如果已经在 Dashboard 里点过「标记已发」，先点「填入待补模板」。它会自动带上 `feedbackId`、工具名、账号和 X 链接，你只需要把 X Analytics 里的数字补进去，再点「预览导入」。
+
 推荐表头：
 
 ```csv
-toolName,variantType,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes
-Mailwarm 2.0,shortPost,https://x.com/your/status/123,1200,18,6,3,1,9,4,first test
+feedbackId,toolName,variantType,postedUrl,views,likes,saves,replies,reposts,url clicks,profile clicks,notes
+feedback_xxx,Mailwarm 2.0,shortPost,https://x.com/your/status/123,1200,18,6,3,1,9,4,first test
 ```
 
 也可以从 X Analytics 复制表格直接粘贴，系统会识别 tab 分隔和常见表头：
 
 ```text
-Post text	Tweet permalink	Impressions	Likes	Bookmarks	Replies	Reposts	Link clicks	Profile visits
+Post text	Tweet permalink	Views	Likes	Saves	Replies	Reposts	URL clicks	Profile clicks
 Your posted copy...	https://x.com/your/status/123	1200	18	6	3	1	9	4
 ```
 
 说明：
 
 - `toolName` 会优先匹配当天 `data/latest.json` 里的工具。
-- 如果某条推已经在 Dashboard 点过「标记已发」，粘贴 X Analytics 时可以通过 `Tweet permalink` 或 `Post text` 匹配到原记录。
+- 如果某条推已经在 Dashboard 点过「标记已发」，粘贴 X Analytics 时可以通过 `feedbackId`、`Tweet permalink` 或 `Post text` 匹配到原记录。
+- `Views` 会当作 `impressions`，`Saves` 会当作 `bookmarks`，`URL clicks` 会当作 `clicks`，`Profile clicks` 会当作 `profileVisits`。
 - `variantType` 可填 `shortPost`、`casualPost`、`contrarianAngle`、`painPointHook`、`threadOpening`。
 - 如果没有 `copyText`，系统会用匹配工具对应的文案补上。
 - 如果某一行无法匹配 toolName/toolUrl/copyText，会跳过并提示。

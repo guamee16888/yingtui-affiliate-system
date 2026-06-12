@@ -583,8 +583,11 @@ async function previewFeedbackCsv(body) {
         accountId: entry.accountId,
         accountName: entry.accountName,
         postedUrl: entry.postedUrl,
+        postedAt: entry.postedAt,
         copyText: entry.copyText,
         metrics: entry.metrics,
+        matchStatus: entry.matchStatus,
+        metricStatus: entry.metricStatus,
         engagementScore: engagement.engagementScore,
         engagementRate: engagement.engagementRate,
         clickRate: engagement.clickRate

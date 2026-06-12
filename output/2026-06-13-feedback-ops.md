@@ -15,7 +15,7 @@
 ## Today Actions
 
 1. Seed the feedback loop — Start with a tiny manually reviewed batch before scaling. Max new posts before metrics: 3.
-2. 给 2 个账号补第一条测试 — Crypto Builder Radar / AI Founder Signals
+2. 给 2 个账号补第一条测试 — AI Founder Signals / Crypto Builder Radar
 
 ## Feedback Debt Gate
 
@@ -44,10 +44,10 @@ Account debt:
 - Rule: Manual-confirm only. Post a tiny batch, mark each post with accountId, then import X Analytics before scaling.
 - Reason: Run 2 manually reviewed seed tests, then import X Analytics before scaling.
 
-1. Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut — Crypto Builder Radar — shortPost — priority 97
-   Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
-2. Mistral is rumored to be raising €3B at €20 valuation — AI Founder Signals — painPointHook — priority 82
-   The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
+1. Mistral is rumored to be raising €3B at €20B valuation — AI Founder Signals — shortPost — priority 82
+   Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
+2. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows — Crypto Builder Radar — painPointHook — priority 80
+   The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows
 
 After posting:
 1. Click Mark posted or publish through the confirmation dialog so accountId is recorded.

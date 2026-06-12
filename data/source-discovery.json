@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "date": "2026-06-12",
-  "generatedAt": "2026-06-12T13:34:05.843Z",
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T18:07:15.471Z",
   "summary": {
     "circles": 4,
-    "totalNeededCandidates": 73,
+    "totalNeededCandidates": 79,
     "totalSearchLinks": 56,
     "topCircle": "Indie hacker circle"
   },
@@ -12,11 +12,11 @@
     {
       "circleId": "indie_hackers",
       "circleName": "Indie hacker circle",
-      "priorityScore": 41,
-      "neededCandidates": 33,
-      "currentQualifiedTools": 9,
+      "priorityScore": 43,
+      "neededCandidates": 35,
+      "currentQualifiedTools": 5,
       "openingMove": "Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson.",
-      "importHint": "Add 33 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
+      "importHint": "Add 35 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
       "searchLinks": [
         {
           "label": "X live search",
@@ -242,11 +242,11 @@
     {
       "circleId": "crypto_builders",
       "circleName": "Crypto builder circle",
-      "priorityScore": 17,
-      "neededCandidates": 13,
-      "currentQualifiedTools": 7,
+      "priorityScore": 20,
+      "neededCandidates": 16,
+      "currentQualifiedTools": 4,
       "openingMove": "Collect 5 candidates from search links, then import only the ones with a clear audience and URL.",
-      "importHint": "Add 13 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.",
+      "importHint": "Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.",
       "searchLinks": [
         {
           "label": "X live search",
@@ -387,11 +387,11 @@
     {
       "circleId": "ai_startups",
       "circleName": "AI startup circle",
-      "priorityScore": 9,
-      "neededCandidates": 7,
-      "currentQualifiedTools": 21,
+      "priorityScore": 10,
+      "neededCandidates": 8,
+      "currentQualifiedTools": 17,
       "openingMove": "Use this as a watchlist. Add only unusually strong candidates.",
-      "importHint": "Add 7 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL.",
+      "importHint": "Add 8 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL.",
       "searchLinks": [
         {
           "label": "X live search",

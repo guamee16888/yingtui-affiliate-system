@@ -1,6 +1,6 @@
 {
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T17:43:13.752Z",
+  "generatedAt": "2026-06-12T18:06:54.000Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -16,7 +16,7 @@
   "warnings": [],
   "summary": {
     "totalTools": 71,
-    "topPicks": 20,
+    "topPicks": 19,
     "affiliateQueueCount": 0,
     "candidateInboxCount": 0,
     "sourceCandidateCount": 21,
@@ -32,25 +32,12 @@
       "fresh7d": 11,
       "older": 4,
       "unknownPublished": 0,
-      "topPickFreshPostCandidates": 4,
+      "topPickFreshPostCandidates": 3,
       "topPickSeenBefore": 16
     },
     "publishableTools": [
       {
-        "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-        "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "published": "Fri, 12 Jun 2026 15:55:42 +0000",
-        "sourceId": "coindesk_crypto",
-        "sourceType": "source_feed",
-        "sourceName": "CoinDesk crypto feed",
-        "ageDays": 0,
-        "score": 28,
-        "followUpAction": "thread candidate",
-        "seenBefore": false,
-        "inTopPicks": true
-      },
-      {
-        "name": "Mistral is rumored to be raising €3B at €20 valuation",
+        "name": "Mistral is rumored to be raising €3B at €20B valuation",
         "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "published": "Fri, 12 Jun 2026 17:38:11 +0000",
         "sourceId": "techcrunch_ai",
@@ -91,20 +78,7 @@
     ],
     "freshFeedWatchlist": [
       {
-        "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-        "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "published": "Fri, 12 Jun 2026 15:55:42 +0000",
-        "sourceId": "coindesk_crypto",
-        "sourceType": "source_feed",
-        "sourceName": "CoinDesk crypto feed",
-        "ageDays": 0,
-        "score": 28,
-        "followUpAction": "thread candidate",
-        "seenBefore": false,
-        "inTopPicks": true
-      },
-      {
-        "name": "Mistral is rumored to be raising €3B at €20 valuation",
+        "name": "Mistral is rumored to be raising €3B at €20B valuation",
         "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "published": "Fri, 12 Jun 2026 17:38:11 +0000",
         "sourceId": "techcrunch_ai",
@@ -141,35 +115,9 @@
         "followUpAction": "tweet only",
         "seenBefore": false,
         "inTopPicks": true
-      },
-      {
-        "name": "SpaceX, Anthropic, and OpenAI’s hot IPO summer",
-        "url": "https://techcrunch.com/video/spacex-anthropic-and-openais-hot-ipo-summer/",
-        "published": "Fri, 12 Jun 2026 16:23:25 +0000",
-        "sourceId": "techcrunch_ai",
-        "sourceType": "source_feed",
-        "sourceName": "TechCrunch AI feed",
-        "ageDays": 0,
-        "score": 18,
-        "followUpAction": "skip",
-        "seenBefore": false,
-        "inTopPicks": false
       }
     ],
     "newestFeedTools": [
-      {
-        "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-        "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "published": "Fri, 12 Jun 2026 15:55:42 +0000",
-        "sourceId": "coindesk_crypto",
-        "sourceType": "source_feed",
-        "sourceName": "CoinDesk crypto feed",
-        "ageDays": 0,
-        "score": 28,
-        "followUpAction": "thread candidate",
-        "seenBefore": false,
-        "inTopPicks": true
-      },
       {
         "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
         "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
@@ -184,7 +132,7 @@
         "inTopPicks": true
       },
       {
-        "name": "Mistral is rumored to be raising €3B at €20 valuation",
+        "name": "Mistral is rumored to be raising €3B at €20B valuation",
         "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "published": "Fri, 12 Jun 2026 17:38:11 +0000",
         "sourceId": "techcrunch_ai",
@@ -221,6 +169,19 @@
         "followUpAction": "tweet only",
         "seenBefore": false,
         "inTopPicks": true
+      },
+      {
+        "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
+        "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
+        "published": "Fri, 12 Jun 2026 15:55:42 +0000",
+        "sourceId": "coindesk_crypto",
+        "sourceType": "source_feed",
+        "sourceName": "CoinDesk crypto feed",
+        "ageDays": 0,
+        "score": 23,
+        "followUpAction": "skip",
+        "seenBefore": false,
+        "inTopPicks": false
       }
     ],
     "diagnosis": "Top picks include fresh candidates that are suitable for cautious posting.",
@@ -236,7 +197,7 @@
     "summary": {
       "totalAccounts": 20,
       "activeAccounts": 20,
-      "routedTools": 20
+      "routedTools": 19
     },
     "accounts": [
       {
@@ -758,8 +719,8 @@
         "cooldownHours": 6,
         "active": true,
         "authStatus": "planned",
-        "plannedToolsToday": 5,
-        "remainingSlotsToday": 5
+        "plannedToolsToday": 4,
+        "remainingSlotsToday": 6
       },
       {
         "id": "crypto_trading_tools",
@@ -907,54 +868,6 @@
           }
         ],
         "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, founder, workflow; pillar: AI startups."
-      },
-      {
-        "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
-        "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-        "primary": {
-          "accountId": "crypto_builder_radar",
-          "displayName": "Crypto Builder Radar",
-          "handle": "",
-          "category": "Crypto builder circle",
-          "score": 12.2,
-          "dailyPostLimit": 10,
-          "cooldownHours": 6,
-          "matchedKeywords": [
-            "crypto"
-          ],
-          "matchedPillars": [
-            "crypto builders"
-          ]
-        },
-        "alternatives": [
-          {
-            "accountId": "ai_agent_ops",
-            "displayName": "AI Agent Ops",
-            "handle": "",
-            "category": "AI agents and automation",
-            "score": 10.2,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [
-              "workflow"
-            ],
-            "matchedPillars": []
-          },
-          {
-            "accountId": "ai_founder_signals",
-            "displayName": "AI Founder Signals",
-            "handle": "",
-            "category": "AI startup circle",
-            "score": 10.2,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [
-              "workflow"
-            ],
-            "matchedPillars": []
-          }
-        ],
-        "reason": "Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders."
       },
       {
         "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
@@ -1111,8 +1024,8 @@
         "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, launch, agent; pillar: AI startups."
       },
       {
-        "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
-        "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+        "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+        "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
         "primary": {
           "accountId": "ai_founder_signals",
           "displayName": "AI Founder Signals",
@@ -1874,9 +1787,9 @@
     "targetPerAccount": 10,
     "targetDrafts": 200,
     "minimumQualityScore": 18,
-    "qualifiedTools": 20,
-    "possibleDrafts": 100,
-    "totalGap": 100,
+    "qualifiedTools": 19,
+    "possibleDrafts": 95,
+    "totalGap": 105,
     "status": "short",
     "note": "Supply is short for at least one account or circle. Add more source candidates instead of lowering quality just to fill slots.",
     "accountCoverage": [
@@ -1886,7 +1799,7 @@
         "category": "AI tools discovery",
         "targetPosts": 10,
         "availableDrafts": 10,
-        "qualifiedTools": 20,
+        "qualifiedTools": 19,
         "gap": 0,
         "status": "covered"
       },
@@ -1916,7 +1829,7 @@
         "category": "productivity and operations",
         "targetPosts": 10,
         "availableDrafts": 10,
-        "qualifiedTools": 18,
+        "qualifiedTools": 17,
         "gap": 0,
         "status": "covered"
       },
@@ -1986,7 +1899,7 @@
         "category": "AI startup circle",
         "targetPosts": 10,
         "availableDrafts": 10,
-        "qualifiedTools": 20,
+        "qualifiedTools": 19,
         "gap": 0,
         "status": "covered"
       },
@@ -1996,7 +1909,7 @@
         "category": "AI agents and automation",
         "targetPosts": 10,
         "availableDrafts": 10,
-        "qualifiedTools": 17,
+        "qualifiedTools": 16,
         "gap": 0,
         "status": "covered"
       },
@@ -2045,9 +1958,9 @@
         "displayName": "Crypto Builder Radar",
         "category": "Crypto builder circle",
         "targetPosts": 10,
-        "availableDrafts": 5,
-        "qualifiedTools": 5,
-        "gap": 5,
+        "availableDrafts": 4,
+        "qualifiedTools": 4,
+        "gap": 6,
         "status": "short"
       },
       {
@@ -2055,9 +1968,9 @@
         "displayName": "Crypto Trading Tools",
         "category": "crypto tooling",
         "targetPosts": 10,
-        "availableDrafts": 4,
-        "qualifiedTools": 4,
-        "gap": 6,
+        "availableDrafts": 3,
+        "qualifiedTools": 3,
+        "gap": 7,
         "status": "short"
       },
       {
@@ -2091,8 +2004,8 @@
       {
         "circleId": "indie_hackers",
         "name": "Indie hacker circle",
-        "qualifiedTools": 6,
-        "possibleDrafts": 30
+        "qualifiedTools": 5,
+        "possibleDrafts": 25
       },
       {
         "circleId": "saas_founders",
@@ -2103,15 +2016,15 @@
       {
         "circleId": "crypto_builders",
         "name": "Crypto builder circle",
-        "qualifiedTools": 5,
-        "possibleDrafts": 25
+        "qualifiedTools": 4,
+        "possibleDrafts": 20
       }
     ]
   },
   "sourceQualityQueue": {
     "summary": {
       "items": 4,
-      "totalNeededCandidates": 78,
+      "totalNeededCandidates": 79,
       "topCircle": "Indie hacker circle"
     },
     "items": [
@@ -2120,7 +2033,7 @@
         "circleName": "Indie hacker circle",
         "priorityScore": 43,
         "neededCandidates": 35,
-        "currentQualifiedTools": 6,
+        "currentQualifiedTools": 5,
         "affectedAccounts": [
           {
             "accountId": "affiliate_builder",
@@ -2204,20 +2117,20 @@
       {
         "circleId": "crypto_builders",
         "circleName": "Crypto builder circle",
-        "priorityScore": 19,
-        "neededCandidates": 15,
-        "currentQualifiedTools": 5,
+        "priorityScore": 20,
+        "neededCandidates": 16,
+        "currentQualifiedTools": 4,
         "affectedAccounts": [
           {
             "accountId": "crypto_trading_tools",
             "displayName": "Crypto Trading Tools",
-            "gap": 6,
+            "gap": 7,
             "category": "crypto tooling"
           },
           {
             "accountId": "crypto_builder_radar",
             "displayName": "Crypto Builder Radar",
-            "gap": 5,
+            "gap": 6,
             "category": "Crypto builder circle"
           }
         ],
@@ -2242,7 +2155,7 @@
           "\"stablecoin\" \"infrastructure\"",
           "\"web3\" \"founder\" \"product\""
         ],
-        "importHint": "Add 15 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
+        "importHint": "Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
       },
       {
         "circleId": "ai_startups",
@@ -2291,10 +2204,10 @@
   },
   "sourceDiscovery": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T17:43:13.744Z",
+    "generatedAt": "2026-06-12T18:06:53.994Z",
     "summary": {
       "circles": 4,
-      "totalNeededCandidates": 78,
+      "totalNeededCandidates": 79,
       "totalSearchLinks": 56,
       "topCircle": "Indie hacker circle"
     },
@@ -2304,7 +2217,7 @@
         "circleName": "Indie hacker circle",
         "priorityScore": 43,
         "neededCandidates": 35,
-        "currentQualifiedTools": 6,
+        "currentQualifiedTools": 5,
         "openingMove": "Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson.",
         "importHint": "Add 35 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
         "searchLinks": [
@@ -2532,11 +2445,11 @@
       {
         "circleId": "crypto_builders",
         "circleName": "Crypto builder circle",
-        "priorityScore": 19,
-        "neededCandidates": 15,
-        "currentQualifiedTools": 5,
+        "priorityScore": 20,
+        "neededCandidates": 16,
+        "currentQualifiedTools": 4,
         "openingMove": "Collect 5 candidates from search links, then import only the ones with a clear audience and URL.",
-        "importHint": "Add 15 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.",
+        "importHint": "Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.",
         "searchLinks": [
           {
             "label": "X live search",
@@ -2829,7 +2742,7 @@
   },
   "sourceHealth": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T17:43:13.745Z",
+    "generatedAt": "2026-06-12T18:06:53.995Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -2839,31 +2752,10 @@
       "tuneSources": 0,
       "disableCandidates": 0,
       "totalCandidates": 21,
-      "qualifiedCandidates": 18,
-      "noiseCandidates": 0
+      "qualifiedCandidates": 17,
+      "noiseCandidates": 1
     },
     "sources": [
-      {
-        "sourceId": "coindesk_crypto",
-        "name": "CoinDesk crypto feed",
-        "circle": "crypto_builders",
-        "type": "rss",
-        "candidateType": "topic",
-        "enabled": true,
-        "totalCandidates": 6,
-        "activeCandidates": 6,
-        "qualifiedCandidates": 5,
-        "skippedCandidates": 1,
-        "freshCandidates": 6,
-        "noiseCandidates": 0,
-        "qualityRate": 0.83,
-        "freshRate": 1,
-        "noiseRate": 0,
-        "healthScore": 97,
-        "status": "healthy",
-        "recommendation": "Keep. This source is producing usable candidates under current scoring.",
-        "sampleNoise": []
-      },
       {
         "sourceId": "techcrunch_ai",
         "name": "TechCrunch AI feed",
@@ -2883,7 +2775,46 @@
         "healthScore": 97,
         "status": "healthy",
         "recommendation": "Keep. This source is producing usable candidates under current scoring.",
-        "sampleNoise": []
+        "sampleNoise": [],
+        "sampleNoiseDetails": []
+      },
+      {
+        "sourceId": "coindesk_crypto",
+        "name": "CoinDesk crypto feed",
+        "circle": "crypto_builders",
+        "type": "rss",
+        "candidateType": "topic",
+        "enabled": true,
+        "totalCandidates": 6,
+        "activeCandidates": 6,
+        "qualifiedCandidates": 4,
+        "skippedCandidates": 2,
+        "freshCandidates": 6,
+        "noiseCandidates": 1,
+        "qualityRate": 0.67,
+        "freshRate": 1,
+        "noiseRate": 0.17,
+        "healthScore": 86,
+        "status": "healthy",
+        "recommendation": "Keep. This source is producing usable candidates under current scoring.",
+        "sampleNoise": [
+          "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut"
+        ],
+        "sampleNoiseDetails": [
+          {
+            "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
+            "reason": "Crypto source item lacks a crypto or builder-facing angle.",
+            "blockedTerms": [
+              "nasdaq",
+              "ipo",
+              "stock",
+              "spacex",
+              "musk",
+              "soars"
+            ],
+            "matchedTerms": []
+          }
+        ]
       },
       {
         "sourceId": "hn_ai_tools",
@@ -2904,7 +2835,8 @@
         "healthScore": 5,
         "status": "disabled",
         "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-        "sampleNoise": []
+        "sampleNoise": [],
+        "sampleNoiseDetails": []
       },
       {
         "sourceId": "hn_crypto_builders",
@@ -2925,7 +2857,8 @@
         "healthScore": 5,
         "status": "disabled",
         "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-        "sampleNoise": []
+        "sampleNoise": [],
+        "sampleNoiseDetails": []
       },
       {
         "sourceId": "hn_indie_builders",
@@ -2946,7 +2879,8 @@
         "healthScore": 5,
         "status": "disabled",
         "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-        "sampleNoise": []
+        "sampleNoise": [],
+        "sampleNoiseDetails": []
       },
       {
         "sourceId": "hn_saas_founders",
@@ -2967,7 +2901,8 @@
         "healthScore": 5,
         "status": "disabled",
         "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-        "sampleNoise": []
+        "sampleNoise": [],
+        "sampleNoiseDetails": []
       },
       {
         "sourceId": "product_hunt",
@@ -2988,7 +2923,8 @@
         "healthScore": 5,
         "status": "disabled",
         "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-        "sampleNoise": []
+        "sampleNoise": [],
+        "sampleNoiseDetails": []
       }
     ],
     "circles": [
@@ -3038,9 +2974,9 @@
         "enabledSources": 1,
         "healthySources": 1,
         "totalCandidates": 6,
-        "qualifiedCandidates": 5,
+        "qualifiedCandidates": 4,
         "sourceGap": 2,
-        "candidateGap": 15,
+        "candidateGap": 16,
         "status": "short",
         "recommendation": "Add or test 2 more reliable Crypto builder circle sources."
       }
@@ -3057,9 +2993,9 @@
     "summary": {
       "accounts": 20,
       "targetPosts": 200,
-      "plannedPosts": 20,
-      "gap": 180,
-      "uniqueToolsUsed": 20,
+      "plannedPosts": 19,
+      "gap": 181,
+      "uniqueToolsUsed": 19,
       "accountsCovered": 0
     },
     "accountPlans": [
@@ -3267,8 +3203,8 @@
         "gap": 4,
         "drafts": [
           {
-            "toolId": "source_candidate_4286ad13115d",
-            "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+            "toolId": "source_candidate_d2c435b524db",
+            "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
             "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
             "score": 25,
             "sourceName": "TechCrunch AI feed",
@@ -3387,8 +3323,8 @@
         "displayName": "Crypto Builder Radar",
         "category": "Crypto builder circle",
         "targetPosts": 10,
-        "plannedPosts": 4,
-        "gap": 6,
+        "plannedPosts": 3,
+        "gap": 7,
         "drafts": [
           {
             "toolId": "source_candidate_a48e609eca45",
@@ -3415,19 +3351,6 @@
             "variantType": "casualPost",
             "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: bitcoin etf investors have pulled billions this year, but the broader crypto etf market.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
             "reason": "Crypto Builder Radar match score 123; CoinDesk crypto feed; tweet only."
-          },
-          {
-            "toolId": "source_candidate_207bc2cd2436",
-            "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-            "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-            "score": 28,
-            "sourceName": "CoinDesk crypto feed",
-            "circle": "crypto_builders",
-            "candidateType": "topic",
-            "followUpAction": "thread candidate",
-            "variantType": "casualPost",
-            "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-            "reason": "Crypto Builder Radar match score 120; CoinDesk crypto feed; thread candidate."
           },
           {
             "toolId": "source_candidate_72bb52a3552a",
@@ -3515,7 +3438,7 @@
     ],
     "unallocatedTools": [],
     "warnings": [
-      "Draft supply is short by 180 posts. Add candidates instead of reusing tools across accounts."
+      "Draft supply is short by 181 posts. Add candidates instead of reusing tools across accounts."
     ]
   },
   "contentCalendar": {
@@ -3530,12 +3453,12 @@
     "summary": {
       "accounts": 20,
       "targetPosts": 200,
-      "availableDrafts": 20,
+      "availableDrafts": 19,
       "sameDayCapacity": 46,
       "scheduledPosts": 16,
-      "draftGap": 180,
+      "draftGap": 181,
       "capacityGap": 154,
-      "unscheduledDrafts": 4,
+      "unscheduledDrafts": 3,
       "readyAccounts": 0,
       "targetIncompatibleAccounts": 20
     },
@@ -3543,16 +3466,16 @@
       "status": "not_ready_to_scale",
       "targetPerAccount": 10,
       "currentScheduledPosts": 16,
-      "theoreticalMaxTodayPosts": 20,
+      "theoreticalMaxTodayPosts": 19,
       "recommendedTargetPerAccountIfKeepCooldown": 2,
       "recommendedCooldownHoursForTarget": 1.5,
       "blockers": [
         "draft_supply",
         "cooldown_capacity"
       ],
-      "headline": "Do not aim for 200/day yet. Review about 20 posts today unless you add more qualified drafts and change cooldowns.",
+      "headline": "Do not aim for 200/day yet. Review about 19 posts today unless you add more qualified drafts and change cooldowns.",
       "nextActions": [
-        "Add 180 more qualified, non-duplicate drafts before trying to fill the current target.",
+        "Add 181 more qualified, non-duplicate drafts before trying to fill the current target.",
         "Keep current cooldowns and lower the target to about 2/account/day, or reduce cooldown to about 1.5h for the current target.",
         "Only manually review the 16 scheduled posts until feedback data exists."
       ]
@@ -3885,8 +3808,8 @@
             "slot": 1,
             "scheduledLocalTime": "2026-06-13 09:00",
             "status": "needs_manual_review",
-            "toolId": "source_candidate_4286ad13115d",
-            "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+            "toolId": "source_candidate_d2c435b524db",
+            "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
             "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
             "variantType": "casualPost",
             "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
@@ -4031,9 +3954,9 @@
         "cooldownHours": 6,
         "recommendedCooldownHours": 1.5,
         "sameDayCapacity": 3,
-        "availableDrafts": 4,
+        "availableDrafts": 3,
         "scheduledPosts": 3,
-        "draftGap": 6,
+        "draftGap": 7,
         "capacityGap": 7,
         "status": "target_incompatible",
         "slots": [
@@ -4065,26 +3988,19 @@
             "slot": 3,
             "scheduledLocalTime": "2026-06-13 21:00",
             "status": "needs_manual_review",
-            "toolId": "source_candidate_207bc2cd2436",
-            "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-            "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-            "variantType": "casualPost",
-            "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-            "score": 28,
-            "reason": "Crypto Builder Radar match score 120; CoinDesk crypto feed; thread candidate."
-          }
-        ],
-        "unscheduledDrafts": [
-          {
             "toolId": "source_candidate_72bb52a3552a",
             "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+            "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
             "variantType": "casualPost",
-            "reason": "No same-day slot under current cooldown."
+            "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: an 8-a share registration filing, in this case for nasdaq, is usually one of the last s.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+            "score": 22,
+            "reason": "Crypto Builder Radar match score 117; CoinDesk crypto feed; thread candidate."
           }
         ],
+        "unscheduledDrafts": [],
         "notes": [
           "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
-          "Need 6 more unique drafts for this account."
+          "Need 7 more unique drafts for this account."
         ]
       },
       {
@@ -4188,13 +4104,13 @@
     ],
     "warnings": [
       "Current cooldown settings make 154 target slots impossible inside one day.",
-      "Draft supply is short by 180 posts before manual review.",
+      "Draft supply is short by 181 posts before manual review.",
       "Calendar scheduled 16/200 target posts."
     ]
   },
   "feedbackOps": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T17:43:13.749Z",
+    "generatedAt": "2026-06-12T18:06:53.998Z",
     "summary": {
       "posted": 0,
       "measured": 0,
@@ -4236,41 +4152,8 @@
       "reason": "Run 2 manually reviewed seed tests, then import X Analytics before scaling.",
       "items": [
         {
-          "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
-          "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-          "toolUrl": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "score": 28,
-          "priorityScore": 97,
-          "followUpAction": "thread candidate",
-          "sourceName": "CoinDesk crypto feed",
-          "freshnessLabel": "Fresh today",
-          "accountId": "crypto_builder_radar",
-          "accountName": "Crypto Builder Radar",
-          "accountCategory": "Crypto builder circle",
-          "variantType": "shortPost",
-          "copyText": "Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "copyVariants": {
-            "shortPost": "Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-            "casualPost": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-            "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-            "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-            "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut"
-          },
-          "reason": "Fresh CoinDesk crypto feed routed to Crypto Builder Radar; score 28, risk 0.",
-          "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
-          "affiliateStatus": "research_needed",
-          "position": 1,
-          "checklist": [
-            "Account: Crypto Builder Radar",
-            "Variant: shortPost",
-            "Freshness: Fresh today",
-            "Confirm manually before publish.",
-            "Record feedback row immediately after posting."
-          ]
-        },
-        {
-          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
-          "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+          "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
           "toolUrl": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
           "priorityScore": 82,
@@ -4280,10 +4163,10 @@
           "accountId": "ai_founder_signals",
           "accountName": "AI Founder Signals",
           "accountCategory": "AI startup circle",
-          "variantType": "painPointHook",
-          "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "variantType": "shortPost",
+          "copyText": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "copyVariants": {
-            "shortPost": "Worth watching: Mistral is rumored to be raising €3B at €20 valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+            "shortPost": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
             "casualPost": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
             "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
             "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
@@ -4292,9 +4175,42 @@
           "reason": "Fresh TechCrunch AI feed routed to AI Founder Signals; score 25, risk 0.",
           "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
           "affiliateStatus": "research_needed",
-          "position": 2,
+          "position": 1,
           "checklist": [
             "Account: AI Founder Signals",
+            "Variant: shortPost",
+            "Freshness: Fresh today",
+            "Confirm manually before publish.",
+            "Record feedback row immediately after posting."
+          ]
+        },
+        {
+          "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
+          "toolName": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
+          "toolUrl": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "score": 25,
+          "priorityScore": 80,
+          "followUpAction": "tweet only",
+          "sourceName": "CoinDesk crypto feed",
+          "freshnessLabel": "Fresh today",
+          "accountId": "crypto_builder_radar",
+          "accountName": "Crypto Builder Radar",
+          "accountCategory": "Crypto builder circle",
+          "variantType": "painPointHook",
+          "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "copyVariants": {
+            "shortPost": "Worth watching: Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+            "casualPost": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: bitcoin etf investors have pulled billions this year, but the broader crypto etf market.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+            "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for crypto builders? https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+            "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+            "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows"
+          },
+          "reason": "Fresh CoinDesk crypto feed routed to Crypto Builder Radar; score 25, risk 0.",
+          "suggestedAngle": "crypto builders want a clearer crypto builder angle; test whether it solves removing one narrow, repeated manual step.",
+          "affiliateStatus": "research_needed",
+          "position": 2,
+          "checklist": [
+            "Account: Crypto Builder Radar",
             "Variant: painPointHook",
             "Freshness: Fresh today",
             "Confirm manually before publish.",
@@ -4318,7 +4234,7 @@
       {
         "type": "cover_accounts",
         "title": "给 2 个账号补第一条测试",
-        "detail": "Crypto Builder Radar / AI Founder Signals"
+        "detail": "AI Founder Signals / Crypto Builder Radar"
       }
     ],
     "pendingFeedback": [],
@@ -4714,44 +4630,17 @@
   },
   "promotionReview": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T17:43:13.750Z",
+    "generatedAt": "2026-06-12T18:06:53.999Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {
       "totalItems": 12,
-      "readyToQueue": 1,
+      "readyToQueue": 0,
       "alreadyQueued": 0,
       "needsFeedback": 0,
-      "watch": 11
+      "watch": 12
     },
     "items": [
-      {
-        "id": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc:thread",
-        "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
-        "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-        "toolUrl": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "score": 28,
-        "suggestion": "thread candidate",
-        "queueType": "thread",
-        "reviewStatus": "ready_to_queue",
-        "priorityScore": 88,
-        "alreadyQueued": false,
-        "reason": "当前评分和文案角度适合先测试英文长推。",
-        "recommendedAction": "Add to thread queue and expand only the strongest angle.",
-        "evidence": {
-          "affiliateScore": 2,
-          "riskScore": 0,
-          "freshForPosting": true,
-          "historyCount": 1,
-          "hasAffiliateLink": false,
-          "feedbackEntries": 0,
-          "engagementScore": 0,
-          "impressions": 0,
-          "bookmarks": 0,
-          "replies": 0,
-          "clicks": 0
-        }
-      },
       {
         "id": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2:watch",
         "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
@@ -5048,22 +4937,42 @@
           "replies": 0,
           "clicks": 0
         }
+      },
+      {
+        "id": "tool_producthunt_com_kosh-money_ada13da65a:watch",
+        "toolId": "tool_producthunt_com_kosh-money_ada13da65a",
+        "toolName": "KOSH Money",
+        "toolUrl": "https://www.producthunt.com/products/kosh-money",
+        "score": 24,
+        "suggestion": "watch",
+        "queueType": "watch",
+        "reviewStatus": "watch",
+        "priorityScore": 38,
+        "alreadyQueued": false,
+        "reason": "不是 48 小时内的新鲜候选，先观察，不建议花 API credits 发。",
+        "recommendedAction": "Do not promote yet. Collect feedback or wait for a fresher angle.",
+        "evidence": {
+          "affiliateScore": 0,
+          "riskScore": 0,
+          "freshForPosting": false,
+          "historyCount": 2,
+          "hasAffiliateLink": false,
+          "feedbackEntries": 0,
+          "engagementScore": 0,
+          "impressions": 0,
+          "bookmarks": 0,
+          "replies": 0,
+          "clicks": 0
+        }
       }
     ],
-    "nextActions": [
-      "Queue Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut for a thread."
-    ]
+    "nextActions": []
   },
   "actionList": [
     {
       "type": "post",
-      "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-      "reason": "Post one X draft: Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut"
-    },
-    {
-      "type": "post",
-      "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
-      "reason": "Post one X draft: Worth watching: Mistral is rumored to be raising €3B at €20 valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/"
+      "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
+      "reason": "Post one X draft: Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/"
     },
     {
       "type": "post",
@@ -5071,9 +4980,14 @@
       "reason": "Post one X draft: Worth watching: VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market"
     },
     {
+      "type": "post",
+      "toolName": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
+      "reason": "Post one X draft: Worth watching: Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows"
+    },
+    {
       "type": "longform",
-      "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-      "reason": "Save Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut for a thread or SEO review page if the X post gets feedback."
+      "toolName": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+      "reason": "Save The company that makes your TV is taking ads onchain. Arbitrum helped for a thread or SEO review page if the X post gets feedback."
     }
   ],
   "tools": [
@@ -5090,6 +5004,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 29,
@@ -5100,6 +5021,7 @@
         "contentScore": 6,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 29
       },
@@ -5209,129 +5131,6 @@
       }
     },
     {
-      "id": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
-      "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
-      "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-      "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-      "domain": "coindesk.com",
-      "tagline": "The stock was trading above $160 in volatile action after last night's IPO at $135.",
-      "published": "Fri, 12 Jun 2026 15:55:42 +0000",
-      "sourceId": "coindesk_crypto",
-      "sourceType": "source_feed",
-      "sourceName": "CoinDesk crypto feed",
-      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
-      "sourceNote": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
-      "circle": "crypto_builders",
-      "candidateType": "topic",
-      "score": 28,
-      "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 6,
-        "affiliateScore": 2,
-        "contentScore": 7,
-        "noveltyScore": 7,
-        "riskScore": 0,
-        "seenPenalty": 0,
-        "total": 28
-      },
-      "reason": "easy before/after/price/alternative content angle; fresh enough to test now.",
-      "affiliateStatus": "research_needed",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "thread candidate",
-      "accountRecommendation": {
-        "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
-        "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-        "primary": {
-          "accountId": "crypto_builder_radar",
-          "displayName": "Crypto Builder Radar",
-          "handle": "",
-          "category": "Crypto builder circle",
-          "score": 12.2,
-          "dailyPostLimit": 10,
-          "cooldownHours": 6,
-          "matchedKeywords": [
-            "crypto"
-          ],
-          "matchedPillars": [
-            "crypto builders"
-          ]
-        },
-        "alternatives": [
-          {
-            "accountId": "ai_agent_ops",
-            "displayName": "AI Agent Ops",
-            "handle": "",
-            "category": "AI agents and automation",
-            "score": 10.2,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [
-              "workflow"
-            ],
-            "matchedPillars": []
-          },
-          {
-            "accountId": "ai_founder_signals",
-            "displayName": "AI Founder Signals",
-            "handle": "",
-            "category": "AI startup circle",
-            "score": 10.2,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [
-              "workflow"
-            ],
-            "matchedPillars": []
-          }
-        ],
-        "reason": "Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders."
-      },
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
-      "angle": {
-        "audience": "solo operators",
-        "outcome": "a narrower workflow",
-        "pain": "removing one narrow, repeated manual step",
-        "solution": "the stock was trading above $160 in volatile action after last night's ipo at $135"
-      },
-      "copyVariants": {
-        "shortPost": "Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "casualPost": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut"
-      },
-      "copyChecks": {
-        "shortPost": {
-          "ok": true,
-          "length": 191,
-          "issues": "OK (191 chars)"
-        },
-        "casualPost": {
-          "ok": true,
-          "length": 252,
-          "issues": "OK (252 chars)"
-        },
-        "contrarianAngle": {
-          "ok": true,
-          "length": 149,
-          "issues": "OK (149 chars)"
-        },
-        "painPointHook": {
-          "ok": true,
-          "length": 179,
-          "issues": "OK (179 chars)"
-        },
-        "threadOpening": {
-          "ok": true,
-          "length": 170,
-          "issues": "OK (170 chars)"
-        }
-      }
-    },
-    {
       "id": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
       "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
       "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
@@ -5344,6 +5143,17 @@
       "sourceName": "CoinDesk crypto feed",
       "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
       "sourceNote": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Matched crypto/source terms: onchain, blockchain, arbitrum.",
+        "blockedTerms": [],
+        "matchedTerms": [
+          "onchain",
+          "blockchain",
+          "arbitrum"
+        ]
+      },
       "circle": "crypto_builders",
       "candidateType": "topic",
       "score": 26,
@@ -5354,6 +5164,7 @@
         "contentScore": 9,
         "noveltyScore": 7,
         "riskScore": 2,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 26
       },
@@ -5472,6 +5283,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 25,
@@ -5482,6 +5300,7 @@
         "contentScore": 7,
         "noveltyScore": 8,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 25
       },
@@ -5602,6 +5421,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 25,
@@ -5612,6 +5438,7 @@
         "contentScore": 6,
         "noveltyScore": 8,
         "riskScore": 1,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 25
       },
@@ -5723,9 +5550,9 @@
       }
     },
     {
-      "id": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
-      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
-      "name": "Mistral is rumored to be raising €3B at €20 valuation",
+      "id": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+      "name": "Mistral is rumored to be raising €3B at €20B valuation",
       "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
       "domain": "techcrunch.com",
       "tagline": "The funding round would value the company at around €20 billion (about $23.15 billion), nearly double its Series C valuation of €11.7 billion.",
@@ -5735,6 +5562,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 25,
@@ -5745,6 +5579,7 @@
         "contentScore": 4,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -5754,8 +5589,8 @@
       "affiliateNote": null,
       "followUpAction": "tweet only",
       "accountRecommendation": {
-        "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
-        "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+        "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+        "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
         "primary": {
           "accountId": "ai_founder_signals",
           "displayName": "AI Founder Signals",
@@ -5814,7 +5649,7 @@
         "solution": "the funding round would value the company at around €20 billion (about $23.15 billion),..."
       },
       "copyVariants": {
-        "shortPost": "Worth watching: Mistral is rumored to be raising €3B at €20 valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+        "shortPost": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "casualPost": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
@@ -5823,8 +5658,8 @@
       "copyChecks": {
         "shortPost": {
           "ok": true,
-          "length": 188,
-          "issues": "OK (188 chars)"
+          "length": 189,
+          "issues": "OK (189 chars)"
         },
         "casualPost": {
           "ok": true,
@@ -5861,6 +5696,18 @@
       "sourceName": "CoinDesk crypto feed",
       "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
       "sourceNote": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Matched crypto/source terms: crypto, blockchain, etf.",
+        "blockedTerms": [],
+        "matchedTerms": [
+          "crypto",
+          "blockchain",
+          "etf",
+          "bnb"
+        ]
+      },
       "circle": "crypto_builders",
       "candidateType": "topic",
       "score": 25,
@@ -5871,6 +5718,7 @@
         "contentScore": 6,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -5980,6 +5828,17 @@
       "sourceName": "CoinDesk crypto feed",
       "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
       "sourceNote": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Matched crypto/source terms: crypto, bitcoin, etf.",
+        "blockedTerms": [],
+        "matchedTerms": [
+          "crypto",
+          "bitcoin",
+          "etf"
+        ]
+      },
       "circle": "crypto_builders",
       "candidateType": "topic",
       "score": 25,
@@ -5990,6 +5849,7 @@
         "contentScore": 6,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -6099,6 +5959,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 25,
@@ -6109,6 +5976,7 @@
         "contentScore": 5,
         "noveltyScore": 8,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 25
       },
@@ -6229,6 +6097,13 @@
       "sourceName": "Product Hunt",
       "sourceUrl": null,
       "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "",
       "candidateType": "product",
       "score": 24,
@@ -6239,6 +6114,7 @@
         "contentScore": 5,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 24
       },
@@ -6357,6 +6233,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 22,
@@ -6367,6 +6250,7 @@
         "contentScore": 4,
         "noveltyScore": 8,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -6489,6 +6373,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 22,
@@ -6499,6 +6390,7 @@
         "contentScore": 4,
         "noveltyScore": 8,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -6619,6 +6511,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 22,
@@ -6629,6 +6528,7 @@
         "contentScore": 5,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -6749,6 +6649,16 @@
       "sourceName": "CoinDesk crypto feed",
       "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
       "sourceNote": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Matched crypto/source terms: bitcoin, etf.",
+        "blockedTerms": [],
+        "matchedTerms": [
+          "bitcoin",
+          "etf"
+        ]
+      },
       "circle": "crypto_builders",
       "candidateType": "topic",
       "score": 22,
@@ -6759,6 +6669,7 @@
         "contentScore": 7,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -6876,6 +6787,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 21,
@@ -6886,6 +6804,7 @@
         "contentScore": 4,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -7006,6 +6925,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 21,
@@ -7016,6 +6942,7 @@
         "contentScore": 7,
         "noveltyScore": 8,
         "riskScore": 4,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -7137,6 +7064,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 21,
@@ -7147,6 +7081,7 @@
         "contentScore": 4,
         "noveltyScore": 8,
         "riskScore": 3,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -7267,6 +7202,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 21,
@@ -7277,6 +7219,7 @@
         "contentScore": 4,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -7397,6 +7340,13 @@
       "sourceName": "Product Hunt",
       "sourceUrl": null,
       "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "",
       "candidateType": "product",
       "score": 20,
@@ -7407,6 +7357,7 @@
         "contentScore": 5,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 20
       },
@@ -7528,6 +7479,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 20,
@@ -7538,6 +7496,7 @@
         "contentScore": 5,
         "noveltyScore": 7,
         "riskScore": 2,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 20
       },
@@ -7648,6 +7607,65 @@
   ],
   "skippedTools": [
     {
+      "id": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
+      "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
+      "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
+      "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
+      "domain": "coindesk.com",
+      "tagline": "The stock was trading above $160 in volatile action after last night's IPO at $135.",
+      "published": "Fri, 12 Jun 2026 15:55:42 +0000",
+      "sourceId": "coindesk_crypto",
+      "sourceType": "source_feed",
+      "sourceName": "CoinDesk crypto feed",
+      "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "sourceNote": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "sourceQuality": {
+        "status": "noise",
+        "isNoisy": true,
+        "reason": "Crypto source item lacks a crypto or builder-facing angle.",
+        "blockedTerms": [
+          "nasdaq",
+          "ipo",
+          "stock",
+          "spacex",
+          "musk",
+          "soars"
+        ],
+        "matchedTerms": []
+      },
+      "circle": "crypto_builders",
+      "candidateType": "topic",
+      "score": 23,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 6,
+        "affiliateScore": 2,
+        "contentScore": 7,
+        "noveltyScore": 7,
+        "riskScore": 5,
+        "sourceNoisePenalty": 5,
+        "seenPenalty": 0,
+        "total": 23
+      },
+      "reason": "easy before/after/price/alternative content angle; fresh enough to test now. Caution: Crypto source item lacks a crypto or builder-facing angle.; not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "the stock was trading above $160 in volatile action after last night's ipo at $135"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
       "id": "tool_techcrunch_com_spacex-anthropic-and-openai-s-hot-ipo-summer_6faf6694ce",
       "toolId": "tool_techcrunch_com_spacex-anthropic-and-openai-s-hot-ipo-summer_6faf6694ce",
       "name": "SpaceX, Anthropic, and OpenAI’s hot IPO summer",
@@ -7660,6 +7678,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 18,
@@ -7670,6 +7695,7 @@
         "contentScore": 4,
         "noveltyScore": 8,
         "riskScore": 8,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 18
       },
@@ -7704,6 +7730,13 @@
       "sourceName": "TechCrunch AI feed",
       "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
       "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "ai_startups",
       "candidateType": "topic",
       "score": 18,
@@ -7714,6 +7747,7 @@
         "contentScore": 4,
         "noveltyScore": 8,
         "riskScore": 8,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 18
       },
@@ -7748,6 +7782,15 @@
       "sourceName": "CoinDesk crypto feed",
       "sourceUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/",
       "sourceNote": "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Matched crypto/source terms: bitcoin.",
+        "blockedTerms": [],
+        "matchedTerms": [
+          "bitcoin"
+        ]
+      },
       "circle": "crypto_builders",
       "candidateType": "topic",
       "score": 17,
@@ -7758,6 +7801,7 @@
         "contentScore": 6,
         "noveltyScore": 7,
         "riskScore": 4,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 17
       },
@@ -7784,50 +7828,6 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_pond_078dd3c545",
-      "toolId": "tool_producthunt_com_pond_078dd3c545",
-      "name": "Pond",
-      "url": "https://www.producthunt.com/products/pond-5",
-      "domain": "producthunt.com",
-      "tagline": "Fundraising, GTM, and bounties for startups",
-      "published": "2026-06-07T17:28:00-07:00",
-      "sourceId": "",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "circle": "",
-      "candidateType": "product",
-      "score": 16,
-      "scoreBreakdown": {
-        "painScore": 4,
-        "nicheScore": 5,
-        "affiliateScore": 2,
-        "contentScore": 1,
-        "noveltyScore": 4,
-        "riskScore": 0,
-        "seenPenalty": 0,
-        "total": 16
-      },
-      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "startup operators want a sharper startup workflow; test whether it solves removing one narrow, repeated manual step.",
-      "angle": {
-        "audience": "startup operators",
-        "outcome": "a sharper startup workflow",
-        "pain": "removing one narrow, repeated manual step",
-        "solution": "fundraising, gtm, and bounties for startups"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
       "id": "tool_producthunt_com_firma-dev_aaeac09a66",
       "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
       "name": "Firma.dev",
@@ -7840,6 +7840,13 @@
       "sourceName": "Product Hunt",
       "sourceUrl": null,
       "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "",
       "candidateType": "product",
       "score": 16,
@@ -7850,6 +7857,7 @@
         "contentScore": 3,
         "noveltyScore": 4,
         "riskScore": 2,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 16
       },
@@ -7872,49 +7880,53 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_typingmind_ef333ec43f",
-      "toolId": "tool_producthunt_com_typingmind_ef333ec43f",
-      "name": "TypingMind",
-      "url": "https://www.producthunt.com/products/typing-mind",
+      "id": "tool_producthunt_com_pond_078dd3c545",
+      "toolId": "tool_producthunt_com_pond_078dd3c545",
+      "name": "Pond",
+      "url": "https://www.producthunt.com/products/pond-5",
       "domain": "producthunt.com",
-      "tagline": "Pay per use, no subscription, 18 model providers supported",
-      "published": "2026-06-06T01:05:56-07:00",
+      "tagline": "Fundraising, GTM, and bounties for startups",
+      "published": "2026-06-07T17:28:00-07:00",
       "sourceId": "",
       "sourceType": "producthunt",
       "sourceName": "Product Hunt",
       "sourceUrl": null,
       "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "",
       "candidateType": "product",
       "score": 16,
       "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 3,
-        "affiliateScore": 4,
-        "contentScore": 5,
+        "painScore": 4,
+        "nicheScore": 5,
+        "affiliateScore": 2,
+        "contentScore": 1,
         "noveltyScore": 4,
-        "riskScore": 2,
-        "seenPenalty": 4,
+        "riskScore": 0,
+        "sourceNoisePenalty": 0,
+        "seenPenalty": 0,
         "total": 16
       },
-      "reason": "has at least one narrow workflow angle. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.",
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
       "affiliateStatus": "no_fit",
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
       "accountRecommendation": null,
-      "seenBefore": true,
-      "seenBeforeDetails": {
-        "count": 1,
-        "lastSeen": "2026-06-12",
-        "bestScore": 20
-      },
-      "suggestedAngle": "support teams want fewer repetitive support tasks; test whether it solves answering repeat customer questions without adding another queue.",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "startup operators want a sharper startup workflow; test whether it solves removing one narrow, repeated manual step.",
       "angle": {
-        "audience": "support teams",
-        "outcome": "fewer repetitive support tasks",
-        "pain": "answering repeat customer questions without adding another queue",
-        "solution": "pay per use, no subscription, 18 model providers supported"
+        "audience": "startup operators",
+        "outcome": "a sharper startup workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "fundraising, gtm, and bounties for startups"
       },
       "copyVariants": {},
       "copyChecks": {}
@@ -7932,6 +7944,13 @@
       "sourceName": "Product Hunt",
       "sourceUrl": null,
       "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "",
       "candidateType": "product",
       "score": 15,
@@ -7942,6 +7961,7 @@
         "contentScore": 7,
         "noveltyScore": 7,
         "riskScore": 2,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 15
       },
@@ -7968,45 +7988,57 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_slack-data-agent_f160e26ca0",
-      "toolId": "tool_producthunt_com_slack-data-agent_f160e26ca0",
-      "name": "Slack Data Agent",
-      "url": "https://www.producthunt.com/products/basedash",
+      "id": "tool_producthunt_com_nodus-ph-radar-for-product-hunt_f1f78e58b4",
+      "toolId": "tool_producthunt_com_nodus-ph-radar-for-product-hunt_f1f78e58b4",
+      "name": "NODUS PH Radar for Product Hunt",
+      "url": "https://www.producthunt.com/products/nodus-ph-radar-for-product-hunt",
       "domain": "producthunt.com",
-      "tagline": "Ask about your data without leaving Slack",
-      "published": "2026-06-11T21:35:06-07:00",
+      "tagline": "Product Hunt analytics beyond the daily leaderboard",
+      "published": "2026-06-08T14:47:33-07:00",
       "sourceId": "",
       "sourceType": "producthunt",
       "sourceName": "Product Hunt",
       "sourceUrl": null,
       "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
       "circle": "",
       "candidateType": "product",
       "score": 14,
       "scoreBreakdown": {
-        "painScore": 4,
-        "nicheScore": 3,
-        "affiliateScore": 0,
+        "painScore": 6,
+        "nicheScore": 1,
+        "affiliateScore": 4,
         "contentScore": 3,
-        "noveltyScore": 7,
-        "riskScore": 3,
-        "seenPenalty": 0,
+        "noveltyScore": 6,
+        "riskScore": 2,
+        "sourceNoisePenalty": 0,
+        "seenPenalty": 4,
         "total": 14
       },
-      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "reason": "fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.",
       "affiliateStatus": "no_fit",
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
       "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "seenBefore": true,
+      "seenBeforeDetails": {
+        "count": 1,
+        "lastSeen": "2026-06-12",
+        "bestScore": 18
+      },
+      "suggestedAngle": "solo operators want faster reporting; test whether it solves removing one narrow, repeated manual step.",
       "angle": {
         "audience": "solo operators",
-        "outcome": "a narrower workflow",
+        "outcome": "faster reporting",
         "pain": "removing one narrow, repeated manual step",
-        "solution": "ask about your data without leaving slack"
+        "solution": "product hunt analytics beyond the daily leaderboard"
       },
       "copyVariants": {},
       "copyChecks": {}
@@ -8018,6 +8050,6 @@
     "Unique tools seen: 79",
     "Last history date before this run: 2026-06-13",
     "Seen-before tools in today's picks: 16",
-    "Records written by this run: 20"
+    "Records written by this run: 19"
   ]
 }

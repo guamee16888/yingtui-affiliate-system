@@ -286,6 +286,7 @@ function seedPlan({ status, maxTests, items, reason }) {
 function seedCandidate(tool, latest, activeById, variantOrder, postedToolIds) {
   if (!tool?.toolId || postedToolIds.has(tool.toolId)) return null;
   if (tool.seenBefore || tool.followUpAction === "skip") return null;
+  if (tool.sourceQuality?.isNoisy) return null;
   const freshness = seedFreshness(tool, latest?.generatedAt);
   if (freshness.kind !== "fresh") return null;
   if (Number(tool.scoreBreakdown?.riskScore ?? 0) >= 8) return null;

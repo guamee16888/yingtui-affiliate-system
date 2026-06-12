@@ -129,7 +129,7 @@ Dashboard 的 `来源补给` 会把 `Supply coverage`、`Source quality queue`�
 
 `Source discovery` 会把这些缺口变成可点击搜索入口，例如 X live search、Google recent search、HN Algolia、Product Hunt 或 CoinDesk。它只做人工发现入口，不自动导入，避免把低质量噪音直接灌进内容池。
 
-`Source health` 会给每个配置来源打健康分：候选数量、合格率、新鲜度、噪音率、是否需要调参或关闭。它是质量门禁，防止为了补 20×10 目标而把低质量 RSS 噪音灌进内容池。
+`Source health` 会给每个配置来源打健康分：候选数量、合格率、新鲜度、噪音率、是否需要调参或关闭。它是质量门禁，防止为了补 20×10 目标而把低质量 RSS 噪音灌进内容池。每条来源候选还会写入 `sourceQuality`，如果被判定为来源噪音，就会直接进入 `skip`，不会进入发布 seed test、draft plan 或内容日历；数量变少代表系统在拒绝用弱内容凑数。
 
 `Promotion review` 会把候选工具和反馈信号翻译成手动审核清单：该查 affiliate、该做 SEO review page、该扩成长推，还是只观察。它不会自动入队，更不会自动发布；只有你点按钮后才写入本地队列。
 
@@ -222,6 +222,7 @@ npm run source-health
 ```
 
 生成来源健康报告，输出到 `data/source-health.json` 和 `output/YYYY-MM-DD-source-health.md`。它会按来源统计 candidates、qualified、noise、freshness、healthScore，并给出 keep/tune/disable/needs candidates 建议。
+对 CoinDesk 这类宽来源，系统会额外检查是否真的有 crypto/builder/product/tooling 角度；纯 Nasdaq、IPO、股票涨跌、名人热点等泛市场项会被标记为来源噪音。
 
 ```bash
 npm run source-queue

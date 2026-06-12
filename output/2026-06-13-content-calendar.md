@@ -4,31 +4,31 @@
 - Rule: Schedule drafts into review slots. Every slot still requires manual approval before publishing.
 - Window: 09:00-23:00 local
 - Target posts: 200
-- Available drafts: 20
+- Available drafts: 19
 - Same-day capacity: 46
 - Scheduled posts: 16
-- Draft gap: 180
+- Draft gap: 181
 - Capacity gap: 154
 - Ready accounts: 0/20
 
 ## Scale Reality
 
 - Status: not_ready_to_scale
-- Headline: Do not aim for 200/day yet. Review about 20 posts today unless you add more qualified drafts and change cooldowns.
+- Headline: Do not aim for 200/day yet. Review about 19 posts today unless you add more qualified drafts and change cooldowns.
 - Current scheduled posts: 16
-- Theoretical max today: 20
+- Theoretical max today: 19
 - Recommended target if keeping current cooldowns: 2/account/day
 - Cooldown needed for current target: about 1.5h
 - Blockers: draft_supply, cooldown_capacity
 
 Next actions:
-1. Add 180 more qualified, non-duplicate drafts before trying to fill the current target.
+1. Add 181 more qualified, non-duplicate drafts before trying to fill the current target.
 2. Keep current cooldowns and lower the target to about 2/account/day, or reduce cooldown to about 1.5h for the current target.
 3. Only manually review the 16 scheduled posts until feedback data exists.
 
 Warnings:
 - Current cooldown settings make 154 target slots impossible inside one day.
-- Draft supply is short by 180 posts before manual review.
+- Draft supply is short by 181 posts before manual review.
 - Calendar scheduled 16/200 target posts.
 
 ## AI Tools Lab
@@ -182,7 +182,7 @@ No slots scheduled.
 - Capacity gap: 7
 - Notes: Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target. Need 4 more unique drafts for this account.
 
-1. 2026-06-13 09:00 — Mistral is rumored to be raising €3B at €20 valuation — casualPost
+1. 2026-06-13 09:00 — Mistral is rumored to be raising €3B at €20B valuation — casualPost
    Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
 2. 2026-06-13 15:00 — Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world — casualPost
    Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new round values the physical AI startup that aims to automate heavy engineering an.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
@@ -243,16 +243,16 @@ No slots scheduled.
 - Scheduled: 3/10
 - Cooldown: 6h (recommended for target: 1.5h)
 - Same-day capacity: 3
-- Draft gap: 6
+- Draft gap: 7
 - Capacity gap: 7
-- Notes: Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target. Need 6 more unique drafts for this account.
+- Notes: Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target. Need 7 more unique drafts for this account.
 
 1. 2026-06-13 09:00 — The company that makes your TV is taking ads onchain. Arbitrum helped — casualPost
    Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: lg electronics has built a blockchain-based advertising platform with the help of arbitrum. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
 2. 2026-06-13 15:00 — Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows — casualPost
    Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: bitcoin etf investors have pulled billions this year, but the broader crypto etf market.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows
-3. 2026-06-13 21:00 — Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut — casualPost
-   Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
+3. 2026-06-13 21:00 — BlackRock files to list its bitcoin income ETF, with expected debut next week — casualPost
+   Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: an 8-a share registration filing, in this case for nasdaq, is usually one of the last s.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
 
 ## Crypto Trading Tools
 

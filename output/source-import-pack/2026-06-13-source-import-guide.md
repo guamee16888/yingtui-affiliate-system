@@ -11,7 +11,7 @@ Rules:
 Priority gaps:
 - Indie hacker circle: need 35; Add 35 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.
 - SaaS founder circle: need 20; Add 20 fresh SaaS founder circle candidates with clear buyer, narrow pain, and a real URL.
-- Crypto builder circle: need 15; Add 15 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.
+- Crypto builder circle: need 16; Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.
 - AI startup circle: need 8; Add 8 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL.
 
 CSV file:

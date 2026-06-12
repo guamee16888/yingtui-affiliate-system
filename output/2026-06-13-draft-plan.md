@@ -3,13 +3,13 @@
 - Mode: manual_review
 - Rule: Each draft uses one unique candidate. No tool is allocated to more than one account in this plan.
 - Target posts: 200
-- Planned posts: 20
-- Gap: 180
-- Unique tools used: 20
+- Planned posts: 19
+- Gap: 181
+- Unique tools used: 19
 - Accounts covered: 0/20
 
 Warnings:
-- Draft supply is short by 180 posts. Add candidates instead of reusing tools across accounts.
+- Draft supply is short by 181 posts. Add candidates instead of reusing tools across accounts.
 
 ## AI Tools Lab
 
@@ -102,7 +102,7 @@ No drafts allocated. Add more source candidates for this account.
 - Planned: 6/10
 - Gap: 4
 
-1. Mistral is rumored to be raising €3B at €20 valuation — casualPost — score 25
+1. Mistral is rumored to be raising €3B at €20B valuation — casualPost — score 25
    Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
 2. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world — casualPost — score 25
    Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new round values the physical AI startup that aims to automate heavy engineering an.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/
@@ -145,16 +145,14 @@ No drafts allocated. Add more source candidates for this account.
 
 ## Crypto Builder Radar
 
-- Planned: 4/10
-- Gap: 6
+- Planned: 3/10
+- Gap: 7
 
 1. The company that makes your TV is taking ads onchain. Arbitrum helped — casualPost — score 26
    Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: lg electronics has built a blockchain-based advertising platform with the help of arbitrum. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped
 2. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows — casualPost — score 25
    Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: bitcoin etf investors have pulled billions this year, but the broader crypto etf market.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows
-3. Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut — casualPost — score 28
-   Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
-4. BlackRock files to list its bitcoin income ETF, with expected debut next week — casualPost — score 22
+3. BlackRock files to list its bitcoin income ETF, with expected debut next week — casualPost — score 22
    Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: an 8-a share registration filing, in this case for nasdaq, is usually one of the last s.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
 
 ## Crypto Trading Tools

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T17:43:23.961Z",
+  "generatedAt": "2026-06-12T18:07:15.590Z",
   "summary": {
     "posted": 0,
     "measured": 0,
@@ -43,41 +43,8 @@
     "reason": "Run 2 manually reviewed seed tests, then import X Analytics before scaling.",
     "items": [
       {
-        "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
-        "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-        "toolUrl": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "score": 28,
-        "priorityScore": 97,
-        "followUpAction": "thread candidate",
-        "sourceName": "CoinDesk crypto feed",
-        "freshnessLabel": "Fresh today",
-        "accountId": "crypto_builder_radar",
-        "accountName": "Crypto Builder Radar",
-        "accountCategory": "Crypto builder circle",
-        "variantType": "shortPost",
-        "copyText": "Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "copyVariants": {
-          "shortPost": "Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "casualPost": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut"
-        },
-        "reason": "Fresh CoinDesk crypto feed routed to Crypto Builder Radar; score 28, risk 0.",
-        "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
-        "affiliateStatus": "research_needed",
-        "position": 1,
-        "checklist": [
-          "Account: Crypto Builder Radar",
-          "Variant: shortPost",
-          "Freshness: Fresh today",
-          "Confirm manually before publish.",
-          "Record feedback row immediately after posting."
-        ]
-      },
-      {
-        "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
-        "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+        "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+        "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
         "toolUrl": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "score": 25,
         "priorityScore": 82,
@@ -87,10 +54,10 @@
         "accountId": "ai_founder_signals",
         "accountName": "AI Founder Signals",
         "accountCategory": "AI startup circle",
-        "variantType": "painPointHook",
-        "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+        "variantType": "shortPost",
+        "copyText": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "copyVariants": {
-          "shortPost": "Worth watching: Mistral is rumored to be raising €3B at €20 valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "shortPost": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "casualPost": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
@@ -99,9 +66,42 @@
         "reason": "Fresh TechCrunch AI feed routed to AI Founder Signals; score 25, risk 0.",
         "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
         "affiliateStatus": "research_needed",
-        "position": 2,
+        "position": 1,
         "checklist": [
           "Account: AI Founder Signals",
+          "Variant: shortPost",
+          "Freshness: Fresh today",
+          "Confirm manually before publish.",
+          "Record feedback row immediately after posting."
+        ]
+      },
+      {
+        "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
+        "toolName": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
+        "toolUrl": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+        "score": 25,
+        "priorityScore": 80,
+        "followUpAction": "tweet only",
+        "sourceName": "CoinDesk crypto feed",
+        "freshnessLabel": "Fresh today",
+        "accountId": "crypto_builder_radar",
+        "accountName": "Crypto Builder Radar",
+        "accountCategory": "Crypto builder circle",
+        "variantType": "painPointHook",
+        "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+        "copyVariants": {
+          "shortPost": "Worth watching: Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "casualPost": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: bitcoin etf investors have pulled billions this year, but the broader crypto etf market.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for crypto builders? https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows"
+        },
+        "reason": "Fresh CoinDesk crypto feed routed to Crypto Builder Radar; score 25, risk 0.",
+        "suggestedAngle": "crypto builders want a clearer crypto builder angle; test whether it solves removing one narrow, repeated manual step.",
+        "affiliateStatus": "research_needed",
+        "position": 2,
+        "checklist": [
+          "Account: Crypto Builder Radar",
           "Variant: painPointHook",
           "Freshness: Fresh today",
           "Confirm manually before publish.",
@@ -125,7 +125,7 @@
     {
       "type": "cover_accounts",
       "title": "给 2 个账号补第一条测试",
-      "detail": "Crypto Builder Radar / AI Founder Signals"
+      "detail": "AI Founder Signals / Crypto Builder Radar"
     }
   ],
   "pendingFeedback": [],

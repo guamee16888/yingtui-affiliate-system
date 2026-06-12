@@ -605,13 +605,14 @@ export function scoreTool(tool, context) {
   const broadMatches = countMatches(text, broadPenaltyKeywords);
   const hotMatches = countMatches(text, hotSpotKeywords);
   const bigBrandMatches = countMatches(text, bigBrandKeywords);
+  const sourceNoisePenalty = tool.sourceQuality?.isNoisy ? 5 : 0;
 
   const painScore = clamp((painMatches * 2) + (descriptionLength >= 45 ? 2 : 0) + (angle.pain ? 2 : 0));
   const nicheScore = clamp((nicheMatches * 2) + (chooseFromMap(text, audienceMap, "") ? 3 : 0) + (titleWords >= 2 ? 1 : 0));
   const affiliateScore = clamp((affiliateMatches * 2) + (affiliate ? 3 : 0) + (hasMatch(text, ["team", "store", "sales", "customer", "email"]) ? 2 : 0));
   const contentScore = clamp((contentMatches * 2) + (painScore >= 6 ? 2 : 0) + (nicheScore >= 6 ? 2 : 0) + (descriptionLength <= 120 ? 1 : 0));
   const noveltyScore = clamp(publishedNovelty(tool, context.date) + (titleWords >= 2 ? 2 : 0) + (hasMatch(text, ["new", "launch", "2.0", "beta"]) ? 1 : 0));
-  const riskScore = clamp((broadMatches * 2) + hotMatches + (bigBrandMatches * 2) + (nicheScore <= 3 ? 2 : 0) + (painScore <= 3 ? 2 : 0));
+  const riskScore = clamp((broadMatches * 2) + hotMatches + (bigBrandMatches * 2) + (nicheScore <= 3 ? 2 : 0) + (painScore <= 3 ? 2 : 0) + sourceNoisePenalty);
   const seenPenalty = seenBefore ? (historyInfo.lastSeen === context.date ? 6 : 4) : 0;
   const score = painScore + nicheScore + affiliateScore + contentScore + noveltyScore - riskScore - seenPenalty;
 
@@ -622,6 +623,7 @@ export function scoreTool(tool, context) {
     contentScore,
     noveltyScore,
     riskScore,
+    sourceNoisePenalty,
     seenPenalty,
     total: score
   };
@@ -639,13 +641,14 @@ export function scoreTool(tool, context) {
     historyInfo,
     followUpAction,
     recommendedToFollow,
-    reason: buildReason(scoreBreakdown, angle, affiliate, seenBefore, followUpAction)
+    reason: buildReason(scoreBreakdown, angle, affiliate, seenBefore, followUpAction, tool.sourceQuality)
   };
 }
 
 function chooseFollowUpAction(scoreBreakdown, affiliate) {
-  const { total, painScore, nicheScore, affiliateScore, contentScore, riskScore } = scoreBreakdown;
+  const { total, painScore, nicheScore, affiliateScore, contentScore, riskScore, sourceNoisePenalty } = scoreBreakdown;
 
+  if (sourceNoisePenalty > 0) return "skip";
   if (total < 18 || riskScore >= 8) return "skip";
   if (!affiliate && affiliateScore >= 8 && painScore >= 6 && nicheScore >= 5) return "affiliate priority";
   if (contentScore >= 8 && affiliateScore >= 6 && painScore >= 6) return "review page candidate";
@@ -653,7 +656,7 @@ function chooseFollowUpAction(scoreBreakdown, affiliate) {
   return "tweet only";
 }
 
-function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action) {
+function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action, sourceQuality = null) {
   const strengths = [];
   const cautions = [];
 
@@ -665,6 +668,7 @@ function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action) {
   if (affiliate) strengths.push("affiliate link already configured");
 
   if (scoreBreakdown.riskScore >= 6) cautions.push("broad or crowded angle risk");
+  if (sourceQuality?.isNoisy) cautions.push(sourceQuality.reason);
   if (seenBefore) cautions.push("Seen before, so it is downgraded today");
   if (action === "skip") cautions.push("not enough signal for follow-up");
 
@@ -886,7 +890,7 @@ function buildFreshnessReport({ date, scored, picked, usedFallback, feedSource }
 
   const pickedFreshPostCandidates = picked.filter((item) => isFreshPostCandidate(item, date));
   const freshFeedWatchlist = [...buckets.freshToday, ...buckets.fresh48]
-    .filter((item) => !item.seenBefore)
+    .filter((item) => !item.seenBefore && item.followUpAction !== "skip" && !item.tool.sourceQuality?.isNoisy)
     .sort((a, b) => b.score - a.score)
     .slice(0, 5)
     .map((item) => freshnessToolSummary(item, date, picked));
@@ -1474,6 +1478,13 @@ function toToolJson(item) {
     sourceName: item.tool.sourceName ?? "Product Hunt",
     sourceUrl: item.tool.sourceUrl ?? null,
     sourceNote: item.tool.sourceNote ?? null,
+    sourceQuality: item.tool.sourceQuality ?? {
+      status: "ok",
+      isNoisy: false,
+      reason: "Not checked by source quality gate.",
+      blockedTerms: [],
+      matchedTerms: []
+    },
     circle: item.tool.circle ?? "",
     candidateType: item.tool.candidateType ?? "product",
     score: item.score,

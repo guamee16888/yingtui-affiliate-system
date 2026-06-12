@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T17:43:50.363Z",
+  "generatedAt": "2026-06-12T18:07:15.596Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
   "overallScore": 34,
   "level": "prototype",
@@ -39,13 +39,13 @@
       "status": "blocked",
       "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
       "evidence": [
-        "20/200 planned unique drafts.",
-        "20 qualified tools.",
-        "78 source candidates needed by the queue.",
+        "19/200 planned unique drafts.",
+        "19 qualified tools.",
+        "79 source candidates needed by the queue.",
         "100 source-pack rows generated, 100 still need real candidates."
       ],
       "gaps": [
-        "Need 180 more unique drafts for the current target.",
+        "Need 181 more unique drafts for the current target.",
         "Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles."
       ],
       "nextActions": [
@@ -62,7 +62,7 @@
       "evidence": [
         "16/200 posts scheduled into review slots.",
         "154 slots impossible under current cooldown settings.",
-        "180 drafts missing."
+        "181 drafts missing."
       ],
       "gaps": [
         "Current cooldown settings cannot fit the configured daily target.",
@@ -142,7 +142,7 @@
       "whyItMatters": "The system is valuable only if it protects account quality, avoids fake claims, and blocks stale posts.",
       "evidence": [
         "0 generation warnings.",
-        "4 fresh publish candidates.",
+        "3 fresh publish candidates.",
         "Manual-confirm publishing is the default mode."
       ],
       "gaps": [
@@ -156,22 +156,21 @@
     {
       "id": "longform_engine",
       "name": "Thread and SEO review engine",
-      "score": 5,
+      "score": 0,
       "status": "blocked",
       "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
       "evidence": [
         "0 thread queue items.",
         "0 review page queue items.",
         "0 active follow-up items.",
-        "1 promotion review items are ready to queue."
+        "0 promotion review items are ready to queue."
       ],
       "gaps": [
         "No active follow-up queue items.",
-        "Promotion review has ready items that still need manual queue approval.",
         "No review page candidates have been promoted into the queue."
       ],
       "nextActions": [
-        "Open Promotion review and manually queue the ready items.",
+        "Promote posts with bookmarks/replies into thread or review_page queue.",
         "Generate review outlines only after the tool has signal or clear affiliate fit."
       ]
     },
@@ -203,18 +202,18 @@
       "nextAction": "Mark every manual post as posted with accountId."
     },
     {
+      "id": "longform_engine",
+      "name": "Thread and SEO review engine",
+      "score": 0,
+      "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
+      "nextAction": "Promote posts with bookmarks/replies into thread or review_page queue."
+    },
+    {
       "id": "affiliate_monetization",
       "name": "Affiliate monetization readiness",
       "score": 5,
       "whyItMatters": "Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.",
       "nextAction": "Use the Affiliate research workbench and save real program findings."
-    },
-    {
-      "id": "longform_engine",
-      "name": "Thread and SEO review engine",
-      "score": 5,
-      "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
-      "nextAction": "Open Promotion review and manually queue the ready items."
     },
     {
       "id": "content_calendar",
@@ -234,10 +233,10 @@
   "nextSprint": [
     "Mark every manual post as posted with accountId.",
     "Paste X Analytics export into feedback import after posts have data.",
+    "Promote posts with bookmarks/replies into thread or review_page queue.",
+    "Generate review outlines only after the tool has signal or clear affiliate fit.",
     "Use the Affiliate research workbench and save real program findings.",
     "Only move approved real links into config/affiliate-links.json.",
-    "Open Promotion review and manually queue the ready items.",
-    "Generate review outlines only after the tool has signal or clear affiliate fit.",
     "Run npm run content-calendar after every daily generation.",
     "Lower per-account daily targets or reduce cooldown hours before scaling."
   ],

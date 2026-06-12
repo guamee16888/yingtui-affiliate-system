@@ -5,7 +5,7 @@
 - Source: https://www.producthunt.com/feed
 - Source mix: Product Hunt 50, Candidate Inbox 0, Source Candidates 21, merged 71
 - Evaluated: 71 tools
-- Picked: 20 tools (4 fresh, 16 Seen before)
+- Picked: 19 tools (3 fresh, 16 Seen before)
 - Top score: 29
 - Rule: drafts are material, not a posting queue. Pick only tools you would defend in public.
 
@@ -13,17 +13,17 @@
 
 - Target: 20 accounts x 10 posts = 200 drafts/day
 - Quality floor: score 18+ and not skip
-- Qualified unique items: 20
-- Possible non-identical draft variants: 100
-- Gap: 100
+- Qualified unique items: 19
+- Possible non-identical draft variants: 95
+- Gap: 105
 - Status: short
 - Note: Supply is short for at least one account or circle. Add more source candidates instead of lowering quality just to fill slots.
 
 Circle coverage:
 - AI startup circle: 17 qualified items, up to 85 draft variants
-- Indie hacker circle: 6 qualified items, up to 30 draft variants
+- Indie hacker circle: 5 qualified items, up to 25 draft variants
 - SaaS founder circle: 0 qualified items, up to 0 draft variants
-- Crypto builder circle: 5 qualified items, up to 25 draft variants
+- Crypto builder circle: 4 qualified items, up to 20 draft variants
 
 Account shortages:
 - Affiliate Builder: 1/10 unique candidates, gap 9
@@ -38,24 +38,24 @@ Account shortages:
 ## Source Quality Queue
 
 - Queue items: 4
-- Needed candidates: 78
+- Needed candidates: 79
 - Top gap: Indie hacker circle
 
 1. Indie hacker circle: need 35; affected accounts 4; try "micro SaaS" launch
 2. SaaS founder circle: need 20; affected accounts 2; try "SaaS pricing" "case study"
-3. Crypto builder circle: need 15; affected accounts 2; try "crypto wallet" "developer"
+3. Crypto builder circle: need 16; affected accounts 2; try "crypto wallet" "developer"
 4. AI startup circle: need 8; affected accounts 1; try "AI startup" launch new tool
 
 ## Source Discovery
 
-- Needed candidates: 78
+- Needed candidates: 79
 - Search links: 56
 - Top gap: Indie hacker circle
 
 Today source discovery:
 - Indie hacker circle: need 35, Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson. Links: [X live search](https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch)
 - SaaS founder circle: need 20, Collect 5 candidates from search links, then import only the ones with a clear audience and URL. Links: [X live search](https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22)
-- Crypto builder circle: need 15, Collect 5 candidates from search links, then import only the ones with a clear audience and URL. Links: [X live search](https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22)
+- Crypto builder circle: need 16, Collect 5 candidates from search links, then import only the ones with a clear audience and URL. Links: [X live search](https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22)
 - AI startup circle: need 8, Use this as a watchlist. Add only unusually strong candidates. Links: [X live search](https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22AI%20startup%22%20launch%20new%20tool%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22AI%20startup%22%20launch%20new%20tool)
 
 ## Source Health
@@ -64,8 +64,8 @@ Today source discovery:
 - Healthy sources: 2
 - Tune sources: 0
 - Disable candidates: 0
-- Qualified candidates: 18/21
-- Noise candidates: 0
+- Qualified candidates: 17/21
+- Noise candidates: 1
 
 Source actions:
 - Add more AI startup circle sources; current enabled source gap is 2.
@@ -77,9 +77,9 @@ Weak/tune sources:
 ## Draft Planner
 
 - Rule: Each draft uses one unique candidate. No tool is allocated to more than one account in this plan.
-- Planned posts: 20/200
-- Gap: 180
-- Unique tools used: 20
+- Planned posts: 19/200
+- Gap: 181
+- Unique tools used: 19
 
 Account gaps:
 - AI Tools Lab: 0/10, gap 10
@@ -96,7 +96,7 @@ Account gaps:
 - Rule: Schedule drafts into review slots. Every slot still requires manual approval before publishing.
 - Scheduled posts: 16/200
 - Same-day capacity: 46
-- Draft gap: 180
+- Draft gap: 181
 - Capacity gap: 154
 - Ready accounts: 0/20
 
@@ -114,19 +114,19 @@ Target/cooldown conflicts:
 
 - Rule: Promotion review only. Nothing is added to queues until you click the queue button.
 - Total items: 12
-- Ready to queue: 1
+- Ready to queue: 0
 - Already queued: 0
 - Needs feedback: 0
 
 Next actions:
-- Queue Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut for a thread.
+- No promotion action yet.
 
 Top review items:
-- Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut: ready_to_queue -> thread, priority 88
 - Anthropic’s Dario Amodei has just one direct report: watch -> watch, priority 72
 - How memory tools can make AI models worse: watch -> watch, priority 52
 - Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world: watch -> watch, priority 52
 - Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in: watch -> watch, priority 47
+- Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable: watch -> watch, priority 46
 
 ## Feedback Operating Mode
 
@@ -140,15 +140,15 @@ Top review items:
 
 Feedback actions:
 - Seed the feedback loop: Start with a tiny manually reviewed batch before scaling. Max new posts before metrics: 3.
-- 给 2 个账号补第一条测试: Crypto Builder Radar / AI Founder Signals
+- 给 2 个账号补第一条测试: AI Founder Signals / Crypto Builder Radar
 
 ## Today's Top Picks
 
 1. Anthropic’s Dario Amodei has just one direct report — 29 points — tweet only. Seen before.
-2. Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut — 28 points — thread candidate.
-3. The company that makes your TV is taking ads onchain. Arbitrum helped — 26 points — thread candidate. Seen before.
-4. How memory tools can make AI models worse — 25 points — thread candidate. Seen before.
-5. Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in — 25 points — tweet only. Seen before.
+2. The company that makes your TV is taking ads onchain. Arbitrum helped — 26 points — thread candidate. Seen before.
+3. How memory tools can make AI models worse — 25 points — thread candidate. Seen before.
+4. Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in — 25 points — tweet only. Seen before.
+5. Mistral is rumored to be raising €3B at €20B valuation — 25 points — tweet only.
 
 ## Freshness Diagnostic
 
@@ -156,23 +156,21 @@ Feedback actions:
 - Feed fresh 48h: 43
 - Feed fresh 7d: 11
 - Older/unknown: 4
-- Fresh top-pick candidates: 4
+- Fresh top-pick candidates: 3
 - Diagnosis: Top picks include fresh candidates that are suitable for cautious posting.
 - Recommendation: Post only the Fresh today / Fresh 48h candidates, then record feedback.
 
 Fresh feed watchlist:
-1. Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut — 0 days old — score 28 — in top picks
-2. Mistral is rumored to be raising €3B at €20 valuation — 0 days old — score 25 — in top picks
-3. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market — 0 days old — score 25 — in top picks
-4. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows — 0 days old — score 25 — in top picks
-5. SpaceX, Anthropic, and OpenAI’s hot IPO summer — 0 days old — score 18
+1. Mistral is rumored to be raising €3B at €20B valuation — 0 days old — score 25 — in top picks
+2. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market — 0 days old — score 25 — in top picks
+3. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows — 0 days old — score 25 — in top picks
 
 ## Today's Action List
 
-1. post: Post one X draft: Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
-2. post: Post one X draft: Worth watching: Mistral is rumored to be raising €3B at €20 valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
-3. post: Post one X draft: Worth watching: VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market
-4. longform: Save Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut for a thread or SEO review page if the X post gets feedback.
+1. post: Post one X draft: Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
+2. post: Post one X draft: Worth watching: VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market
+3. post: Post one X draft: Worth watching: Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows
+4. longform: Save The company that makes your TV is taking ads onchain. Arbitrum helped for a thread or SEO review page if the X post gets feedback.
 
 ## Account Routing
 
@@ -184,25 +182,24 @@ Fresh feed watchlist:
 
 Recommended routing:
 1. Anthropic’s Dario Amodei has just one direct report → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, founder, workflow; pillar: AI startups.)
-2. Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-3. The company that makes your TV is taking ads onchain. Arbitrum helped → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, onchain; pillar: crypto builders.)
-4. How memory tools can make AI models worse → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-5. Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, launch, agent; pillar: AI startups.)
-6. Mistral is rumored to be raising €3B at €20 valuation → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-7. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-8. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-9. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-10. KOSH Money → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.)
-11. Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-12. Pool’s new app turns your screenshots into something useful → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-13. Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-14. BlackRock files to list its bitcoin income ETF, with expected debut next week → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-15. ‘AI-pilled’ firms spend $7,500 per employee each month on AI → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-16. Deezer’s new tool can identify AI music from Spotify, Apple Music, and others → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-17. DoorDash’s new AI chatbot lets you order with prompts and photos → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-18. Theker just raised $85M to build the factory robot that doesn’t specialize in anything → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
-19. Meet Warren 3.0 → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, Product Hunt; pillar: Product Hunt.)
-20. Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+2. The company that makes your TV is taking ads onchain. Arbitrum helped → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, onchain; pillar: crypto builders.)
+3. How memory tools can make AI models worse → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+4. Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, launch, agent; pillar: AI startups.)
+5. Mistral is rumored to be raising €3B at €20B valuation → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+6. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
+7. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
+8. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+9. KOSH Money → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.)
+10. Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+11. Pool’s new app turns your screenshots into something useful → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+12. Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+13. BlackRock files to list its bitcoin income ETF, with expected debut next week → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
+14. ‘AI-pilled’ firms spend $7,500 per employee each month on AI → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+15. Deezer’s new tool can identify AI music from Spotify, Apple Music, and others → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+16. DoorDash’s new AI chatbot lets you order with prompts and photos → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+17. Theker just raised $85M to build the factory robot that doesn’t specialize in anything → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+18. Meet Warren 3.0 → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, Product Hunt; pillar: Product Hunt.)
+19. Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
 
 ## Tool Cards
 
@@ -239,41 +236,6 @@ Check: OK (179 chars)
 
 **thread opening**
 If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/
-Check: OK (170 chars)
-
-### Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut
-
-- Score breakdown: painScore 6 | nicheScore 6 | affiliateScore 2 | contentScore 7 | noveltyScore 7 | riskScore 0 | seenPenalty 0 | total 28
-- Follow-up action: thread candidate
-- Product Hunt: https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
-- Published: Fri, 12 Jun 2026 15:55:42 +0000
-- Tagline: The stock was trading above $160 in volatile action after last night's IPO at $135.
-- Seen before: no
-- Reason: easy before/after/price/alternative content angle; fresh enough to test now.
-- Recommended account: Crypto Builder Radar — Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.
-- Affiliate status: No affiliate link yet — research needed
-- Suggested angle: solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
-
-#### X Copy Variants
-
-**short post**
-Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
-Check: OK (191 chars)
-
-**casual post**
-Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
-Check: OK (252 chars)
-
-**contrarian angle**
-Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
-Check: OK (149 chars)
-
-**pain-point hook**
-The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
-Check: OK (179 chars)
-
-**thread opening**
-If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut
 Check: OK (170 chars)
 
 ### The company that makes your TV is taking ads onchain. Arbitrum helped
@@ -381,7 +343,7 @@ Check: OK (183 chars)
 If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/
 Check: OK (170 chars)
 
-### Mistral is rumored to be raising €3B at €20 valuation
+### Mistral is rumored to be raising €3B at €20B valuation
 
 - Score breakdown: painScore 6 | nicheScore 6 | affiliateScore 2 | contentScore 4 | noveltyScore 7 | riskScore 0 | seenPenalty 0 | total 25
 - Follow-up action: tweet only
@@ -397,8 +359,8 @@ Check: OK (170 chars)
 #### X Copy Variants
 
 **short post**
-Worth watching: Mistral is rumored to be raising €3B at €20 valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
-Check: OK (188 chars)
+Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
+Check: OK (189 chars)
 
 **casual post**
 Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
@@ -908,14 +870,14 @@ Check: OK (170 chars)
 
 ## Skipped / Low Priority Tools
 
+- Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut: 23 points, skip. Reason: easy before/after/price/alternative content angle; fresh enough to test now. Caution: Crypto source item lacks a crypto or builder-facing angle.; not enough signal for follow-up.
 - SpaceX, Anthropic, and OpenAI’s hot IPO summer: 18 points, skip. Reason: fresh enough to test now. Caution: broad or crowded angle risk; not enough signal for follow-up.
 - It’s hot IPO summer, and the MANGOS are ripe: 18 points, skip. Reason: fresh enough to test now. Caution: broad or crowded angle risk; not enough signal for follow-up.
 - Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans: 17 points, skip. Seen before. Reason: fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
-- Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
-- TypingMind: 16 points, skip. Seen before. Reason: has at least one narrow workflow angle. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
+- Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - LocIn AI: 15 points, skip. Seen before. Reason: easy before/after/price/alternative content angle; fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
-- Slack Data Agent: 14 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
+- NODUS PH Radar for Product Hunt: 14 points, skip. Seen before. Reason: fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
 
 ## Affiliate Research Queue
 
@@ -927,4 +889,4 @@ No high-affiliate-score tools without a configured affiliate link today.
 - Unique tools seen: 79
 - Last history date before this run: 2026-06-13
 - Seen-before tools in today's picks: 16
-- Records written by this run: 20
+- Records written by this run: 19

@@ -1,14 +1,14 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T17:43:42.549Z",
+  "generatedAt": "2026-06-12T18:07:15.585Z",
   "summary": {
     "totalRows": 100,
     "circles": 4,
     "productRows": 65,
     "topicRows": 35,
     "rowsNeedingResearch": 100,
-    "totalNeededCandidates": 78,
+    "totalNeededCandidates": 79,
     "topCircle": "Indie hacker circle",
     "generatedFromQueue": true,
     "csvPath": "output/source-import-pack/2026-06-13-source-import-template.csv",
@@ -20,7 +20,7 @@
       "circleName": "Indie hacker circle",
       "rows": 45,
       "neededCandidates": 35,
-      "currentQualifiedTools": 6,
+      "currentQualifiedTools": 5,
       "affectedAccounts": [
         {
           "accountId": "affiliate_builder",
@@ -52,7 +52,7 @@
     {
       "circleId": "saas_founders",
       "circleName": "SaaS founder circle",
-      "rows": 26,
+      "rows": 25,
       "neededCandidates": 20,
       "currentQualifiedTools": 0,
       "affectedAccounts": [
@@ -74,24 +74,24 @@
     {
       "circleId": "crypto_builders",
       "circleName": "Crypto builder circle",
-      "rows": 19,
-      "neededCandidates": 15,
-      "currentQualifiedTools": 5,
+      "rows": 20,
+      "neededCandidates": 16,
+      "currentQualifiedTools": 4,
       "affectedAccounts": [
         {
           "accountId": "crypto_trading_tools",
           "displayName": "Crypto Trading Tools",
-          "gap": 6,
+          "gap": 7,
           "category": "crypto tooling"
         },
         {
           "accountId": "crypto_builder_radar",
           "displayName": "Crypto Builder Radar",
-          "gap": 5,
+          "gap": 6,
           "category": "Crypto builder circle"
         }
       ],
-      "importHint": "Add 15 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
+      "importHint": "Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
     },
     {
       "circleId": "ai_startups",
@@ -125,7 +125,7 @@
       "circleId": "indie_hackers",
       "circleName": "Indie hacker circle",
       "neededCandidates": 35,
-      "currentQualifiedTools": 6,
+      "currentQualifiedTools": 5,
       "assignedRows": 45,
       "affectedAccounts": [
         {
@@ -160,7 +160,7 @@
       "circleName": "SaaS founder circle",
       "neededCandidates": 20,
       "currentQualifiedTools": 0,
-      "assignedRows": 26,
+      "assignedRows": 25,
       "affectedAccounts": [
         {
           "accountId": "saas_pricing_lab",
@@ -180,24 +180,24 @@
     {
       "circleId": "crypto_builders",
       "circleName": "Crypto builder circle",
-      "neededCandidates": 15,
-      "currentQualifiedTools": 5,
-      "assignedRows": 19,
+      "neededCandidates": 16,
+      "currentQualifiedTools": 4,
+      "assignedRows": 20,
       "affectedAccounts": [
         {
           "accountId": "crypto_trading_tools",
           "displayName": "Crypto Trading Tools",
-          "gap": 6,
+          "gap": 7,
           "category": "crypto tooling"
         },
         {
           "accountId": "crypto_builder_radar",
           "displayName": "Crypto Builder Radar",
-          "gap": 5,
+          "gap": 6,
           "category": "Crypto builder circle"
         }
       ],
-      "importHint": "Add 15 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
+      "importHint": "Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
     },
     {
       "circleId": "ai_startups",
@@ -992,17 +992,6 @@
       "url": "",
       "tagline": "",
       "source": "manual_research",
-      "circle": "saas_founders",
-      "candidateType": "product",
-      "sourceUrl": "",
-      "published": "2026-06-13",
-      "notes": "Find from: \"SaaS pricing\" \"case study\""
-    },
-    {
-      "name": "",
-      "url": "",
-      "tagline": "",
-      "source": "manual_research",
       "circle": "crypto_builders",
       "candidateType": "topic",
       "sourceUrl": "",
@@ -1206,6 +1195,17 @@
       "sourceUrl": "",
       "published": "2026-06-13",
       "notes": "Find from: \"stablecoin\" \"infrastructure\""
+    },
+    {
+      "name": "",
+      "url": "",
+      "tagline": "",
+      "source": "manual_research",
+      "circle": "crypto_builders",
+      "candidateType": "product",
+      "sourceUrl": "",
+      "published": "2026-06-13",
+      "notes": "Find from: \"web3\" \"founder\" \"product\""
     },
     {
       "name": "",

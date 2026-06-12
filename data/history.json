@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T17:43:13.756Z",
+  "updatedAt": "2026-06-12T18:06:54.004Z",
   "tools": [
     {
       "date": "2026-06-06",
@@ -2139,6 +2139,7 @@
         "contentScore": 6,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 29
       },
@@ -2163,6 +2164,7 @@
         "contentScore": 7,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 28
       },
@@ -2187,6 +2189,7 @@
         "contentScore": 9,
         "noveltyScore": 7,
         "riskScore": 2,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 26
       },
@@ -2211,6 +2214,7 @@
         "contentScore": 7,
         "noveltyScore": 8,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 25
       },
@@ -2235,6 +2239,7 @@
         "contentScore": 6,
         "noveltyScore": 8,
         "riskScore": 1,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 25
       },
@@ -2246,8 +2251,8 @@
     },
     {
       "date": "2026-06-13",
-      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
-      "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+      "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
       "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
       "domain": "techcrunch.com",
       "tagline": "The funding round would value the company at around €20 billion (about $23.15 billion), nearly double its Series C valuation of €11.7 billion.",
@@ -2259,6 +2264,7 @@
         "contentScore": 4,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -2283,6 +2289,7 @@
         "contentScore": 6,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -2307,6 +2314,7 @@
         "contentScore": 6,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -2331,6 +2339,7 @@
         "contentScore": 5,
         "noveltyScore": 8,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 25
       },
@@ -2355,6 +2364,7 @@
         "contentScore": 5,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 24
       },
@@ -2379,6 +2389,7 @@
         "contentScore": 4,
         "noveltyScore": 8,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -2403,6 +2414,7 @@
         "contentScore": 4,
         "noveltyScore": 8,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -2427,6 +2439,7 @@
         "contentScore": 5,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -2451,6 +2464,7 @@
         "contentScore": 7,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -2475,6 +2489,7 @@
         "contentScore": 4,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -2499,6 +2514,7 @@
         "contentScore": 7,
         "noveltyScore": 8,
         "riskScore": 4,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -2523,6 +2539,7 @@
         "contentScore": 4,
         "noveltyScore": 8,
         "riskScore": 3,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -2547,6 +2564,7 @@
         "contentScore": 4,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -2571,6 +2589,7 @@
         "contentScore": 5,
         "noveltyScore": 7,
         "riskScore": 0,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 20
       },
@@ -2595,6 +2614,7 @@
         "contentScore": 5,
         "noveltyScore": 7,
         "riskScore": 2,
+        "sourceNoisePenalty": 0,
         "seenPenalty": 4,
         "total": 20
       },

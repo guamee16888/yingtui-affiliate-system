@@ -2208,6 +2208,7 @@ function renderToolCard(tool) {
       ${account ? pill(`账号 ${account.displayName}`, "good") : pill("未分配账号", "warn")}
       ${pill(tool.affiliateLink ? "已有联盟链接" : "需要查联盟", tool.affiliateLink ? "good" : "warn")}
       ${tool.seenBefore ? pill("历史出现过", "warn") : pill("新工具", "good")}
+      ${tool.sourceQuality?.isNoisy ? pill("来源噪音", "bad") : ""}
       ${stats.entries ? pill(`已发 ${stats.entries}`, "good") : ""}
       ${queued.length ? pill(`队列 ${queued.length}`, "warn") : ""}
     </div>
@@ -2611,6 +2612,7 @@ function renderSourceHealthPanel(health) {
       <div class="line-head"><strong>${esc(source.name)}</strong>${pill(`${source.healthScore}/100`, source.status === "tune" ? "warn" : source.status === "disable_candidate" ? "bad" : "neutral")}</div>
       <div class="muted">${esc(source.status)} · ${esc(source.qualifiedCandidates)}/${esc(source.totalCandidates)} qualified · noise ${esc(source.noiseCandidates)} · ${esc(source.circle || "unknown circle")}</div>
       <p>${esc(source.recommendation)}</p>
+      ${(source.sampleNoiseDetails ?? []).length ? `<div class="mini-list">${source.sampleNoiseDetails.map((item) => `<div class="muted">Noise: ${esc(item.name)} — ${esc(item.reason)}</div>`).join("")}</div>` : ""}
     </div>`).join("") || empty("来源健康度暂无明显问题。")}</div>
   </section>`;
 }

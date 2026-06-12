@@ -2,10 +2,10 @@
 
 - Status: needs_supply
 - Target drafts: 200
-- Qualified tools: 20
-- Possible drafts: 100
-- Supply gap: 100
-- Needed candidates: 78
+- Qualified tools: 19
+- Possible drafts: 95
+- Supply gap: 105
+- Needed candidates: 79
 - Top gap: Indie hacker circle
 - Active inbox: 0
 - Active source candidates: 21
@@ -23,7 +23,7 @@
 ### 1. Indie hacker circle
 
 - Needed candidates: 35
-- Current qualified tools: 6
+- Current qualified tools: 5
 - Affected accounts: Affiliate Builder gap 9; Indie Launch Radar gap 9; Indie Monetization gap 9; Build in Public gap 8
 - Opening move: Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson.
 - Source health: 0/1 enabled, 0 qualified, weakest HN indie builder search
@@ -96,11 +96,11 @@ Quality checklist:
 
 ### 3. Crypto builder circle
 
-- Needed candidates: 15
-- Current qualified tools: 5
-- Affected accounts: Crypto Trading Tools gap 6; Crypto Builder Radar gap 5
+- Needed candidates: 16
+- Current qualified tools: 4
+- Affected accounts: Crypto Trading Tools gap 7; Crypto Builder Radar gap 6
 - Opening move: Collect 5 candidates from search links, then import only the ones with a clear audience and URL.
-- Source health: 1/2 enabled, 5 qualified, weakest HN crypto builder search
+- Source health: 1/2 enabled, 4 qualified, weakest HN crypto builder search
 
 Search links:
 - [X live search: "crypto wallet" "developer"](https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live)

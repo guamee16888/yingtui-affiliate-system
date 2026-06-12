@@ -14,9 +14,9 @@ import { buildDecisionReport } from "../scripts/lib/decision-engine.mjs";
 import { buildPromotionReviewQueue, buildPromotionSuggestions } from "../scripts/lib/promotion-engine.mjs";
 import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPublishStatus, getXPublishStatus, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
-import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
+import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources, scoreTool } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
-import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPack, buildSourceImportPackRows, buildSourceQualityQueue, buildSourceSupplyWorkbench, buildSupplyPlan, renderSourceDiscoveryMarkdown, renderSourceSupplyWorkbenchMarkdown, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
+import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPack, buildSourceImportPackRows, buildSourceQualityQueue, buildSourceSupplyWorkbench, buildSupplyPlan, evaluateSourceCandidateQuality, renderSourceDiscoveryMarkdown, renderSourceSupplyWorkbenchMarkdown, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
@@ -384,6 +384,110 @@ test("source candidates preserve circle and candidate type", () => {
   assert.equal(tools[0].candidateType, "topic");
 });
 
+test("source quality flags off-topic crypto feed market stories", () => {
+  const source = {
+    id: "coindesk_crypto",
+    name: "CoinDesk crypto feed",
+    circle: "crypto_builders",
+    candidateType: "topic",
+    excludeKeywords: []
+  };
+  const item = {
+    source: "coindesk_crypto",
+    sourceName: "CoinDesk crypto feed",
+    name: "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
+    url: "https://coindesk.example.com/spacex",
+    description: "Shares rose after the IPO, with Wall Street watching the stock.",
+    circle: "crypto_builders",
+    candidateType: "topic",
+    notes: "Crypto market and builder signal. Use only when there is a product, tooling, infrastructure, or founder angle.",
+    status: "active",
+    published: "2026-06-12T00:00:00.000Z"
+  };
+  const quality = evaluateSourceCandidateQuality(item, source);
+  const tools = sourceCandidatesToTools({ items: [item] }, "2026-06-12", { sources: [source] });
+  const health = buildSourceHealth({
+    date: "2026-06-12",
+    sourceCandidates: { items: [item] },
+    scored: [],
+    contentSourceConfig: {
+      dailyTargets: { minimumQualityScore: 18 },
+      circles: [{ id: "crypto_builders", name: "Crypto", keywords: ["crypto"] }],
+      sources: [{ ...source, url: "https://coindesk.example.com/rss", enabled: true, type: "rss" }]
+    }
+  });
+
+  assert.equal(quality.isNoisy, true);
+  assert.match(quality.reason, /lacks a crypto/i);
+  assert.equal(tools[0].sourceQuality.isNoisy, true);
+  assert.equal(health.sources[0].noiseCandidates, 1);
+  assert.match(health.sources[0].sampleNoiseDetails[0].reason, /lacks a crypto/i);
+});
+
+test("source quality allows crypto ETF items despite market wording", () => {
+  const quality = evaluateSourceCandidateQuality({
+    source: "coindesk_crypto",
+    sourceName: "CoinDesk crypto feed",
+    name: "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+    url: "https://coindesk.example.com/bitcoin-etf",
+    description: "An 8-a share registration filing for Nasdaq is usually one of the last steps before a bitcoin ETF launch.",
+    circle: "crypto_builders",
+    candidateType: "topic",
+    status: "active",
+    published: "2026-06-12T00:00:00.000Z"
+  }, {
+    id: "coindesk_crypto",
+    name: "CoinDesk crypto feed",
+    circle: "crypto_builders",
+    candidateType: "topic",
+    excludeKeywords: []
+  });
+
+  assert.equal(quality.isNoisy, false);
+  assert.equal(quality.matchedTerms.includes("bitcoin"), true);
+  assert.equal(quality.matchedTerms.includes("etf"), true);
+});
+
+test("source noise is a hard skip in daily scoring and seed tests", () => {
+  const sourceQuality = {
+    status: "noise",
+    isNoisy: true,
+    reason: "Crypto source item lacks a crypto or builder-facing angle.",
+    blockedTerms: ["nasdaq"],
+    matchedTerms: []
+  };
+  const scored = scoreTool({
+    name: "SpaceX Nasdaq debut market signal",
+    url: "https://coindesk.example.com/spacex",
+    tagline: "Market signal",
+    description: "Shares rose after the IPO, with Wall Street watching the stock.",
+    published: "2026-06-12T00:00:00.000Z",
+    sourceName: "CoinDesk crypto feed",
+    circle: "crypto_builders",
+    candidateType: "topic",
+    sourceQuality
+  }, {
+    date: "2026-06-12",
+    historyIndex: new Map(),
+    affiliateConfig: { links: [] }
+  });
+  const seedToolItem = {
+    ...seedTool({ id: "noisy_crypto_story", accountId: "crypto" }),
+    sourceQuality
+  };
+  const plan = buildFeedbackSeedTestPlan({
+    latest: { generatedAt: "2026-06-12T12:00:00.000Z", tools: [seedToolItem] },
+    posted: [],
+    accountPosts: { items: [] },
+    activeAccounts: [{ id: "crypto", displayName: "Crypto", active: true }],
+    debtGate: { maxNewPostsBeforeMetrics: 3 }
+  });
+
+  assert.equal(scored.followUpAction, "skip");
+  assert.equal(scored.scoreBreakdown.sourceNoisePenalty, 5);
+  assert.equal(plan.items.length, 0);
+});
+
 test("mergeToolSources keeps Product Hunt tool when inbox has duplicate", () => {
   const ph = { name: "Same Tool", url: "https://same.example.com", sourceType: "producthunt" };
   const inbox = { name: "Same Tool", url: "https://same.example.com?utm=1", sourceType: "inbox" };
@@ -536,10 +640,10 @@ test("daily model reports feed freshness even when top picks are old", () => {
       published: "2026-06-01T00:00:00.000Z"
     },
     {
-      name: "Fresh Weak Tool",
+      name: "Fresh Narrow Shopify Signal",
       url: "https://fresh.example.com",
-      tagline: "A tiny personal helper",
-      description: "A tiny personal helper.",
+      tagline: "Shopify pricing automation for small store teams",
+      description: "Shopify pricing automation for small store teams with a clear workflow and buyer.",
       published: "2026-06-08T00:00:00.000Z"
     }
   ];
@@ -548,7 +652,7 @@ test("daily model reports feed freshness even when top picks are old", () => {
     feedSource: "test",
     usedFallback: false,
     tools,
-    history: { tools: [{ date: "2026-06-07", toolName: "Old Better Tool", url: "https://old.example.com", score: 25 }] },
+    history: { tools: [] },
     affiliateConfig: { links: [] },
     voice: { style: { avoid: [], maxTweetCharacters: 260, allowEmoji: false } },
     limit: 1,
@@ -556,8 +660,60 @@ test("daily model reports feed freshness even when top picks are old", () => {
   });
 
   assert.equal(model.freshnessReport.stats.freshToday, 1);
-  assert.equal(model.freshnessReport.freshFeedWatchlist[0].name, "Fresh Weak Tool");
+  assert.equal(model.freshnessReport.freshFeedWatchlist[0].name, "Fresh Narrow Shopify Signal");
   assert.match(model.freshnessReport.diagnosis, /fresh tools/i);
+});
+
+test("daily model keeps noisy source items out of fresh watchlist", () => {
+  const model = buildDailyModel({
+    date: "2026-06-12",
+    feedSource: "test",
+    usedFallback: false,
+    tools: [
+      {
+        name: "SpaceX Nasdaq debut market signal",
+        url: "https://coindesk.example.com/spacex",
+        tagline: "Market signal",
+        description: "Shares rose after the IPO, with Wall Street watching the stock.",
+        published: "2026-06-12T00:00:00.000Z",
+        sourceName: "CoinDesk crypto feed",
+        circle: "crypto_builders",
+        candidateType: "topic",
+        sourceQuality: {
+          status: "noise",
+          isNoisy: true,
+          reason: "Crypto source item lacks a crypto or builder-facing angle.",
+          blockedTerms: ["nasdaq"],
+          matchedTerms: []
+        }
+      },
+      {
+        name: "Onchain ads platform launch",
+        url: "https://coindesk.example.com/onchain-ads",
+        tagline: "Arbitrum helped a TV maker launch an onchain ads platform.",
+        description: "A blockchain advertising platform for onchain infrastructure teams.",
+        published: "2026-06-12T00:00:00.000Z",
+        sourceName: "CoinDesk crypto feed",
+        circle: "crypto_builders",
+        candidateType: "topic",
+        sourceQuality: {
+          status: "ok",
+          isNoisy: false,
+          reason: "Matched crypto/source terms.",
+          blockedTerms: [],
+          matchedTerms: ["onchain", "blockchain"]
+        }
+      }
+    ],
+    history: { tools: [] },
+    affiliateConfig: { links: [] },
+    voice: { style: { avoid: [], maxTweetCharacters: 260, allowEmoji: false } },
+    limit: 5,
+    warnings: []
+  });
+
+  assert.equal(model.freshnessReport.freshFeedWatchlist.some((item) => item.name.includes("SpaceX")), false);
+  assert.equal(model.freshnessReport.freshFeedWatchlist.some((item) => item.name.includes("Onchain")), true);
 });
 
 test("topic copy reads as market signal, not tool review", () => {

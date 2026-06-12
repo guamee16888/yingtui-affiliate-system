@@ -1,11 +1,11 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T17:43:42.547Z",
+  "generatedAt": "2026-06-12T18:07:04.983Z",
   "queue": {
     "summary": {
       "items": 4,
-      "totalNeededCandidates": 78,
+      "totalNeededCandidates": 79,
       "topCircle": "Indie hacker circle"
     },
     "items": [
@@ -14,7 +14,7 @@
         "circleName": "Indie hacker circle",
         "priorityScore": 43,
         "neededCandidates": 35,
-        "currentQualifiedTools": 6,
+        "currentQualifiedTools": 5,
         "affectedAccounts": [
           {
             "accountId": "affiliate_builder",
@@ -98,20 +98,20 @@
       {
         "circleId": "crypto_builders",
         "circleName": "Crypto builder circle",
-        "priorityScore": 19,
-        "neededCandidates": 15,
-        "currentQualifiedTools": 5,
+        "priorityScore": 20,
+        "neededCandidates": 16,
+        "currentQualifiedTools": 4,
         "affectedAccounts": [
           {
             "accountId": "crypto_trading_tools",
             "displayName": "Crypto Trading Tools",
-            "gap": 6,
+            "gap": 7,
             "category": "crypto tooling"
           },
           {
             "accountId": "crypto_builder_radar",
             "displayName": "Crypto Builder Radar",
-            "gap": 5,
+            "gap": 6,
             "category": "Crypto builder circle"
           }
         ],
@@ -136,7 +136,7 @@
           "\"stablecoin\" \"infrastructure\"",
           "\"web3\" \"founder\" \"product\""
         ],
-        "importHint": "Add 15 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
+        "importHint": "Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
       },
       {
         "circleId": "ai_startups",

@@ -1,13 +1,13 @@
 # Source Quality Queue
 
 - Queue items: 4
-- Needed candidates: 78
+- Needed candidates: 79
 - Top gap: Indie hacker circle
 
 ## 1. Indie hacker circle
 
 - Needed candidates: 35
-- Current qualified tools: 6
+- Current qualified tools: 5
 - Affected accounts: Affiliate Builder gap 9; Indie Launch Radar gap 9; Indie Monetization gap 9; Build in Public gap 8
 - Import hint: Add 35 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.
 
@@ -40,10 +40,10 @@ Recommended configured sources:
 
 ## 3. Crypto builder circle
 
-- Needed candidates: 15
-- Current qualified tools: 5
-- Affected accounts: Crypto Trading Tools gap 6; Crypto Builder Radar gap 5
-- Import hint: Add 15 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.
+- Needed candidates: 16
+- Current qualified tools: 4
+- Affected accounts: Crypto Trading Tools gap 7; Crypto Builder Radar gap 6
+- Import hint: Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.
 
 Search queries:
 - "crypto wallet" "developer"

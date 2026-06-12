@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "date": "2026-06-12",
-  "generatedAt": "2026-06-12T13:21:22.611Z",
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T18:06:53.995Z",
   "minimumQualityScore": 18,
   "summary": {
     "configuredSources": 7,
@@ -11,31 +11,10 @@
     "tuneSources": 0,
     "disableCandidates": 0,
     "totalCandidates": 21,
-    "qualifiedCandidates": 21,
-    "noiseCandidates": 0
+    "qualifiedCandidates": 17,
+    "noiseCandidates": 1
   },
   "sources": [
-    {
-      "sourceId": "coindesk_crypto",
-      "name": "CoinDesk crypto feed",
-      "circle": "crypto_builders",
-      "type": "rss",
-      "candidateType": "topic",
-      "enabled": true,
-      "totalCandidates": 7,
-      "activeCandidates": 7,
-      "qualifiedCandidates": 7,
-      "skippedCandidates": 0,
-      "freshCandidates": 7,
-      "noiseCandidates": 0,
-      "qualityRate": 1,
-      "freshRate": 1,
-      "noiseRate": 0,
-      "healthScore": 100,
-      "status": "healthy",
-      "recommendation": "Keep. This source is producing usable candidates under current scoring.",
-      "sampleNoise": []
-    },
     {
       "sourceId": "techcrunch_ai",
       "name": "TechCrunch AI feed",
@@ -43,19 +22,58 @@
       "type": "rss",
       "candidateType": "topic",
       "enabled": true,
-      "totalCandidates": 14,
-      "activeCandidates": 14,
-      "qualifiedCandidates": 14,
-      "skippedCandidates": 0,
-      "freshCandidates": 14,
+      "totalCandidates": 15,
+      "activeCandidates": 15,
+      "qualifiedCandidates": 13,
+      "skippedCandidates": 2,
+      "freshCandidates": 8,
       "noiseCandidates": 0,
-      "qualityRate": 1,
-      "freshRate": 1,
+      "qualityRate": 0.87,
+      "freshRate": 0.53,
       "noiseRate": 0,
-      "healthScore": 100,
+      "healthScore": 97,
       "status": "healthy",
       "recommendation": "Keep. This source is producing usable candidates under current scoring.",
-      "sampleNoise": []
+      "sampleNoise": [],
+      "sampleNoiseDetails": []
+    },
+    {
+      "sourceId": "coindesk_crypto",
+      "name": "CoinDesk crypto feed",
+      "circle": "crypto_builders",
+      "type": "rss",
+      "candidateType": "topic",
+      "enabled": true,
+      "totalCandidates": 6,
+      "activeCandidates": 6,
+      "qualifiedCandidates": 4,
+      "skippedCandidates": 2,
+      "freshCandidates": 6,
+      "noiseCandidates": 1,
+      "qualityRate": 0.67,
+      "freshRate": 1,
+      "noiseRate": 0.17,
+      "healthScore": 86,
+      "status": "healthy",
+      "recommendation": "Keep. This source is producing usable candidates under current scoring.",
+      "sampleNoise": [
+        "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut"
+      ],
+      "sampleNoiseDetails": [
+        {
+          "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
+          "reason": "Crypto source item lacks a crypto or builder-facing angle.",
+          "blockedTerms": [
+            "nasdaq",
+            "ipo",
+            "stock",
+            "spacex",
+            "musk",
+            "soars"
+          ],
+          "matchedTerms": []
+        }
+      ]
     },
     {
       "sourceId": "hn_ai_tools",
@@ -76,7 +94,8 @@
       "healthScore": 5,
       "status": "disabled",
       "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-      "sampleNoise": []
+      "sampleNoise": [],
+      "sampleNoiseDetails": []
     },
     {
       "sourceId": "hn_crypto_builders",
@@ -97,7 +116,8 @@
       "healthScore": 5,
       "status": "disabled",
       "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-      "sampleNoise": []
+      "sampleNoise": [],
+      "sampleNoiseDetails": []
     },
     {
       "sourceId": "hn_indie_builders",
@@ -118,7 +138,8 @@
       "healthScore": 5,
       "status": "disabled",
       "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-      "sampleNoise": []
+      "sampleNoise": [],
+      "sampleNoiseDetails": []
     },
     {
       "sourceId": "hn_saas_founders",
@@ -139,7 +160,8 @@
       "healthScore": 5,
       "status": "disabled",
       "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-      "sampleNoise": []
+      "sampleNoise": [],
+      "sampleNoiseDetails": []
     },
     {
       "sourceId": "product_hunt",
@@ -160,7 +182,8 @@
       "healthScore": 5,
       "status": "disabled",
       "recommendation": "Disabled in config. Keep off until manual testing proves useful.",
-      "sampleNoise": []
+      "sampleNoise": [],
+      "sampleNoiseDetails": []
     }
   ],
   "circles": [
@@ -170,10 +193,10 @@
       "sources": 3,
       "enabledSources": 1,
       "healthySources": 1,
-      "totalCandidates": 14,
-      "qualifiedCandidates": 14,
+      "totalCandidates": 15,
+      "qualifiedCandidates": 13,
       "sourceGap": 2,
-      "candidateGap": 7,
+      "candidateGap": 8,
       "status": "short",
       "recommendation": "Add or test 2 more reliable AI startup circle sources."
     },
@@ -186,7 +209,7 @@
       "totalCandidates": 0,
       "qualifiedCandidates": 0,
       "sourceGap": 3,
-      "candidateGap": 33,
+      "candidateGap": 35,
       "status": "short",
       "recommendation": "Add or test 3 more reliable Indie hacker circle sources."
     },
@@ -209,16 +232,16 @@
       "sources": 2,
       "enabledSources": 1,
       "healthySources": 1,
-      "totalCandidates": 7,
-      "qualifiedCandidates": 7,
+      "totalCandidates": 6,
+      "qualifiedCandidates": 4,
       "sourceGap": 2,
-      "candidateGap": 13,
+      "candidateGap": 16,
       "status": "short",
       "recommendation": "Add or test 2 more reliable Crypto builder circle sources."
     }
   ],
   "recommendations": [
     "Add more AI startup circle sources; current enabled source gap is 2.",
-    "Fill AI startup circle; source queue still needs 7 candidates."
+    "Fill AI startup circle; source queue still needs 8 candidates."
   ]
 }

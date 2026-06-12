@@ -39,7 +39,7 @@ async function main() {
   const sourceRefresh = await refreshSourceCandidates(contentSourceConfig, warnings);
   const productHuntTools = parseProductHuntFeed(feed.xml);
   const inboxTools = candidateInboxToTools(candidateInbox, args.date);
-  const sourceTools = sourceCandidatesToTools(sourceRefresh.sourceCandidates, args.date);
+  const sourceTools = sourceCandidatesToTools(sourceRefresh.sourceCandidates, args.date, contentSourceConfig);
   const tools = mergeToolSources(productHuntTools, [...inboxTools, ...sourceTools]);
 
   if (!tools.length) {

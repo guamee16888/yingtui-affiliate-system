@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T17:43:24.124Z",
+  "generatedAt": "2026-06-12T18:07:22.932Z",
   "status": "seed_ready",
   "stage": "seed_batch",
   "headline": "Start with three manually reviewed seed posts, then mark each one with accountId.",
@@ -72,32 +72,32 @@
   ],
   "seedTests": [
     {
-      "toolId": "tool_coindesk_com_elon-musk-s-spacex-soars-20-in-blockbuster-nasdaq-debut_db5efcc2cc",
-      "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-      "toolUrl": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-      "accountId": "crypto_builder_radar",
-      "accountName": "Crypto Builder Radar",
-      "variantType": "shortPost",
-      "copyText": "Worth watching: Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-      "priorityScore": 97,
-      "freshnessLabel": "Fresh today",
-      "reason": "Fresh CoinDesk crypto feed routed to Crypto Builder Radar; score 28, risk 0."
-    },
-    {
-      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20-valuation_a93e066dac",
-      "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+      "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
       "toolUrl": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
       "accountId": "ai_founder_signals",
       "accountName": "AI Founder Signals",
-      "variantType": "painPointHook",
-      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+      "variantType": "shortPost",
+      "copyText": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
       "priorityScore": 82,
       "freshnessLabel": "Fresh today",
       "reason": "Fresh TechCrunch AI feed routed to AI Founder Signals; score 25, risk 0."
+    },
+    {
+      "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
+      "toolName": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
+      "toolUrl": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+      "accountId": "crypto_builder_radar",
+      "accountName": "Crypto Builder Radar",
+      "variantType": "painPointHook",
+      "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+      "priorityScore": 80,
+      "freshnessLabel": "Fresh today",
+      "reason": "Fresh CoinDesk crypto feed routed to Crypto Builder Radar; score 25, risk 0."
     }
   ],
   "pendingFeedback": [],
-  "feedbackCsvTemplate": "toolName,toolUrl,variantType,accountId,accountName,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes\nElon Musk's SpaceX soars 20% in blockbuster Nasdaq debut,https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut,shortPost,crypto_builder_radar,Crypto Builder Radar,,,,,,,,,\nMistral is rumored to be raising €3B at €20 valuation,https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/,painPointHook,ai_founder_signals,AI Founder Signals,,,,,,,,,",
+  "feedbackCsvTemplate": "toolName,toolUrl,variantType,accountId,accountName,postedUrl,impressions,likes,bookmarks,replies,reposts,clicks,profileVisits,notes\nMistral is rumored to be raising €3B at €20B valuation,https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/,shortPost,ai_founder_signals,AI Founder Signals,,,,,,,,,\nBloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows,https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows,painPointHook,crypto_builder_radar,Crypto Builder Radar,,,,,,,,,",
   "afterPosting": [
     "Click Mark posted or publish through the confirmation dialog so accountId is recorded.",
     "Wait until X Analytics has impressions.",

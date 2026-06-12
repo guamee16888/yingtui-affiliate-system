@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-12T17:43:23.960Z",
+  "generatedAt": "2026-06-12T18:07:04.987Z",
   "date": "2026-06-13",
   "mode": "manual_review_calendar",
   "window": {
@@ -12,12 +12,12 @@
   "summary": {
     "accounts": 20,
     "targetPosts": 200,
-    "availableDrafts": 20,
+    "availableDrafts": 19,
     "sameDayCapacity": 46,
     "scheduledPosts": 16,
-    "draftGap": 180,
+    "draftGap": 181,
     "capacityGap": 154,
-    "unscheduledDrafts": 4,
+    "unscheduledDrafts": 3,
     "readyAccounts": 0,
     "targetIncompatibleAccounts": 20
   },
@@ -25,16 +25,16 @@
     "status": "not_ready_to_scale",
     "targetPerAccount": 10,
     "currentScheduledPosts": 16,
-    "theoreticalMaxTodayPosts": 20,
+    "theoreticalMaxTodayPosts": 19,
     "recommendedTargetPerAccountIfKeepCooldown": 2,
     "recommendedCooldownHoursForTarget": 1.5,
     "blockers": [
       "draft_supply",
       "cooldown_capacity"
     ],
-    "headline": "Do not aim for 200/day yet. Review about 20 posts today unless you add more qualified drafts and change cooldowns.",
+    "headline": "Do not aim for 200/day yet. Review about 19 posts today unless you add more qualified drafts and change cooldowns.",
     "nextActions": [
-      "Add 180 more qualified, non-duplicate drafts before trying to fill the current target.",
+      "Add 181 more qualified, non-duplicate drafts before trying to fill the current target.",
       "Keep current cooldowns and lower the target to about 2/account/day, or reduce cooldown to about 1.5h for the current target.",
       "Only manually review the 16 scheduled posts until feedback data exists."
     ]
@@ -367,8 +367,8 @@
           "slot": 1,
           "scheduledLocalTime": "2026-06-13 09:00",
           "status": "needs_manual_review",
-          "toolId": "source_candidate_4286ad13115d",
-          "toolName": "Mistral is rumored to be raising €3B at €20 valuation",
+          "toolId": "source_candidate_d2c435b524db",
+          "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "variantType": "casualPost",
           "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the funding round would value the company at around €20 billion (about $23.15 billion),.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
@@ -513,9 +513,9 @@
       "cooldownHours": 6,
       "recommendedCooldownHours": 1.5,
       "sameDayCapacity": 3,
-      "availableDrafts": 4,
+      "availableDrafts": 3,
       "scheduledPosts": 3,
-      "draftGap": 6,
+      "draftGap": 7,
       "capacityGap": 7,
       "status": "target_incompatible",
       "slots": [
@@ -547,26 +547,19 @@
           "slot": 3,
           "scheduledLocalTime": "2026-06-13 21:00",
           "status": "needs_manual_review",
-          "toolId": "source_candidate_207bc2cd2436",
-          "toolName": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-          "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "variantType": "casualPost",
-          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the stock was trading above $160 in volatile action after last night's ipo at $135. I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-          "score": 28,
-          "reason": "Crypto Builder Radar match score 120; CoinDesk crypto feed; thread candidate."
-        }
-      ],
-      "unscheduledDrafts": [
-        {
           "toolId": "source_candidate_72bb52a3552a",
           "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
           "variantType": "casualPost",
-          "reason": "No same-day slot under current cooldown."
+          "copyText": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: an 8-a share registration filing, in this case for nasdaq, is usually one of the last s.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "score": 22,
+          "reason": "Crypto Builder Radar match score 117; CoinDesk crypto feed; thread candidate."
         }
       ],
+      "unscheduledDrafts": [],
       "notes": [
         "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
-        "Need 6 more unique drafts for this account."
+        "Need 7 more unique drafts for this account."
       ]
     },
     {
@@ -670,7 +663,7 @@
   ],
   "warnings": [
     "Current cooldown settings make 154 target slots impossible inside one day.",
-    "Draft supply is short by 180 posts before manual review.",
+    "Draft supply is short by 181 posts before manual review.",
     "Calendar scheduled 16/200 target posts."
   ]
 }

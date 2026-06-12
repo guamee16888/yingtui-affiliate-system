@@ -9,6 +9,7 @@ import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceQualityQueue, b
 import { buildDraftPlan } from "./draft-planner.mjs";
 import { buildContentCalendar } from "./content-calendar.mjs";
 import { buildPromotionReviewQueue } from "./promotion-engine.mjs";
+import { buildFeedbackOps } from "./feedback-ops.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const rootDir = path.resolve(__dirname, "../..");
@@ -802,7 +803,7 @@ export function buildAffiliateStatus(item) {
   };
 }
 
-export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, sourceCandidates = null, feedback = { entries: [] }, queues = { items: [] }, voice, limit, warnings, sourceBreakdown = null }) {
+export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, sourceCandidates = null, feedback = { entries: [] }, accountPosts = { items: [] }, queues = { items: [] }, voice, limit, warnings, sourceBreakdown = null }) {
   const historyIndex = buildHistoryIndex(history, { beforeDate: date });
   const context = { date, historyIndex, affiliateConfig };
   const scored = tools
@@ -834,6 +835,13 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
   const sourceHealth = buildSourceHealth({ date, sourceCandidates: sourceCandidates ?? { items: [] }, scored, contentSourceConfig, sourceQualityQueue });
   const draftPlan = buildDraftPlan({ date, picked, accountStrategy, targetPerAccount: supplyPlan.targetPerAccount });
   const contentCalendar = buildContentCalendar({ date, draftPlan, accountStrategy });
+  const feedbackOps = buildFeedbackOps({
+    date,
+    latest: { tools: picked.map(toToolJson) },
+    feedback,
+    accountPosts,
+    accountConfig
+  });
   const promotionReview = buildPromotionReviewQueue({
     latest: {
       date,
@@ -864,6 +872,7 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
     sourceHealth,
     draftPlan,
     contentCalendar,
+    feedbackOps,
     promotionReview,
     historySummary: summarizeHistory(history),
     warnings
@@ -1059,6 +1068,10 @@ ${renderContentCalendarSummary(model.contentCalendar)}
 
 ${renderPromotionReviewSummary(model.promotionReview)}
 
+## Feedback Operating Mode
+
+${renderFeedbackOpsSummary(model.feedbackOps)}
+
 ## Today's Top Picks
 
 ${renderTopPicks(model.picked)}
@@ -1245,6 +1258,22 @@ function renderPromotionReviewSummary(review) {
   ].join("\n");
 }
 
+function renderFeedbackOpsSummary(ops) {
+  if (!ops) return "No feedback operating report generated.";
+  return [
+    `- Learning score: ${ops.summary.learningScore}/100`,
+    `- Posted rows: ${ops.summary.posted}`,
+    `- Measured rows: ${ops.summary.measured}`,
+    `- Pending feedback: ${ops.summary.pending}`,
+    `- Measured accounts: ${ops.summary.measuredAccounts}/${ops.summary.activeAccounts}`,
+    `- Top account: ${ops.summary.topAccount || "none"}`,
+    `- Top angle: ${ops.summary.topAngle || "none"}`,
+    "",
+    "Feedback actions:",
+    ops.actionList.length ? ops.actionList.map((item) => `- ${item.title}: ${item.detail}`).join("\n") : "- No feedback actions yet."
+  ].join("\n");
+}
+
 function renderActionList(actions) {
   if (!actions.length) return "No clear action today. Better to skip than force weak posts.";
 
@@ -1416,6 +1445,7 @@ export function toDailyJson(model) {
     sourceHealth: model.sourceHealth,
     draftPlan: model.draftPlan,
     contentCalendar: model.contentCalendar,
+    feedbackOps: model.feedbackOps,
     promotionReview: model.promotionReview,
     actionList: model.actionList.map((action) => ({
       type: action.type,
@@ -1448,6 +1478,7 @@ function toToolJson(item) {
     domain: normalizeDomain(item.tool.url),
     tagline: item.tool.tagline,
     published: item.tool.published ?? null,
+    sourceId: item.tool.sourceId ?? "",
     sourceType: item.tool.sourceType ?? "producthunt",
     sourceName: item.tool.sourceName ?? "Product Hunt",
     sourceUrl: item.tool.sourceUrl ?? null,

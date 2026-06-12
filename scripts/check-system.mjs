@@ -37,6 +37,7 @@ const requiredScripts = [
   "roadmap",
   "accounts",
   "feedback",
+  "feedback-ops",
   "decisions",
   "promote",
   "promotion-review",
@@ -70,6 +71,7 @@ if (!latest?.sourceHealth) errors.push("latest.json sourceHealth is missing. Run
 if (!latest?.sourceDiscovery) errors.push("latest.json sourceDiscovery is missing. Run npm run daily.");
 if (!latest?.contentCalendar) errors.push("latest.json contentCalendar is missing. Run npm run daily.");
 if (!latest?.promotionReview) errors.push("latest.json promotionReview is missing. Run npm run daily.");
+if (!latest?.feedbackOps) errors.push("latest.json feedbackOps is missing. Run npm run daily.");
 
 const xAccounts = await readJson("config/x-accounts.json", { accounts: [] });
 if (!Array.isArray(xAccounts.accounts) || xAccounts.accounts.length < 1) errors.push("x-accounts config has no accounts");

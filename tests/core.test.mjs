@@ -20,6 +20,7 @@ import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPackRows,
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
+import { buildFeedbackOps } from "../scripts/lib/feedback-ops.mjs";
 
 test("createToolId is stable", () => {
   const a = createToolId("Test Tool", "https://example.com/product");
@@ -71,6 +72,56 @@ test("account post preserves account and feedback linkage", () => {
   assert.equal(post.feedbackId, "feedback_1");
   assert.equal(post.accountId, "ai_tools_lab");
   assert.equal(post.status, "posted");
+});
+
+test("feedback ops reports pending metrics and account learning", () => {
+  const measured = buildFeedbackEntry({
+    toolId: "tool_1",
+    toolName: "Tool 1",
+    toolUrl: "https://tool1.example.com",
+    variantType: "painPointHook",
+    accountId: "ai_tools_lab",
+    accountName: "AI Tools Lab",
+    copyText: "Measured copy",
+    posted: true,
+    metrics: { impressions: 1000, likes: 20, bookmarks: 5, replies: 2, clicks: 7 }
+  });
+  const pending = buildFeedbackEntry({
+    toolId: "tool_2",
+    toolName: "Tool 2",
+    toolUrl: "https://tool2.example.com",
+    variantType: "shortPost",
+    accountId: "saas_growth_ops",
+    accountName: "SaaS Growth Ops",
+    copyText: "Pending copy",
+    posted: true,
+    metrics: {}
+  });
+  const ops = buildFeedbackOps({
+    date: "2026-06-12",
+    latest: {
+      tools: [
+        { toolId: "tool_1", sourceName: "Product Hunt", sourceType: "producthunt", circle: "ai_startups" },
+        { toolId: "tool_2", sourceName: "Manual", sourceType: "inbox", circle: "saas_founders" }
+      ]
+    },
+    feedback: { entries: [measured, pending] },
+    accountPosts: { items: [] },
+    accountConfig: {
+      accounts: [
+        { id: "ai_tools_lab", displayName: "AI Tools Lab", active: true },
+        { id: "saas_growth_ops", displayName: "SaaS Growth Ops", active: true }
+      ]
+    }
+  });
+
+  assert.equal(ops.summary.posted, 2);
+  assert.equal(ops.summary.measured, 1);
+  assert.equal(ops.summary.pending, 1);
+  assert.equal(ops.pendingFeedback[0].toolName, "Tool 2");
+  assert.equal(ops.accountStats.find((item) => item.accountId === "ai_tools_lab").measured, 1);
+  assert.equal(ops.angleStats[0].variantType, "painPointHook");
+  assert.equal(ops.sourceStats[0].sourceName, "Product Hunt");
 });
 
 test("queue item id is stable for tool and type", () => {

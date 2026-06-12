@@ -14,7 +14,7 @@ import {
   writeDailyJsonOutputs,
   writeDailyOutput
 } from "./lib/affiliate-system.mjs";
-import { loadCandidateInbox, loadFeedback, loadQueues } from "./lib/data-store.mjs";
+import { loadAccountPosts, loadCandidateInbox, loadFeedback, loadQueues } from "./lib/data-store.mjs";
 import {
   loadContentSourceConfig,
   refreshSourceCandidates,
@@ -24,7 +24,7 @@ import {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const warnings = [];
-  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox, contentSourceConfig, feedback, queues] = await Promise.all([
+  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox, contentSourceConfig, feedback, accountPosts, queues] = await Promise.all([
     loadVoice(warnings),
     loadAffiliateConfig(warnings),
     loadAccountConfig(warnings),
@@ -33,6 +33,7 @@ async function main() {
     loadCandidateInbox(),
     loadContentSourceConfig(warnings),
     loadFeedback(),
+    loadAccountPosts(),
     loadQueues()
   ]);
   const sourceRefresh = await refreshSourceCandidates(contentSourceConfig, warnings);
@@ -56,6 +57,7 @@ async function main() {
     contentSourceConfig,
     sourceCandidates: sourceRefresh.sourceCandidates,
     feedback,
+    accountPosts,
     queues,
     voice,
     limit: args.limit,

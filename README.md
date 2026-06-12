@@ -61,9 +61,10 @@ output/YYYY-MM-DD-daily-x-pack.md
 16. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
 17. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
 18. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-19. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-20. 对值得做测评页的工具点「生成测评页大纲」。
-21. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+19. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
+20. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+21. 对值得做测评页的工具点「生成测评页大纲」。
+22. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -250,6 +251,12 @@ npm run feedback
 汇总发推反馈，列出 engagementScore 高的文案、表现好的 angle、值得继续跟进的工具。
 
 ```bash
+npm run feedback-ops
+```
+
+生成反馈运营报告，输出到 `data/feedback-ops.json` 和 `output/YYYY-MM-DD-feedback-ops.md`。它会按账号、文案角度、来源统计真实表现，并列出哪些已发内容还缺 X Analytics 数据。
+
+```bash
 npm run decisions
 ```
 
@@ -305,6 +312,7 @@ npm audit --audit-level=moderate
 - `data/daily/*.json`：每天的结构化快照。
 - `data/history.json`：历史推荐记录，包含 seen before 和降权依据。
 - `data/feedback.json`：发推记录和手动录入的表现数据。
+- `data/feedback-ops.json`：反馈学习闭环报告，包含 pending metrics、账号表现、angle 表现和来源表现。
 - `data/queues.json`：thread、review page、affiliate research、watch、skip 队列。
 - `data/account-posts.json`：预留的多账号发帖记录文件，后续授权后用来做账号级去重和冷却。
 - `data/source-candidates.json`：从补充 RSS/Atom 来源刷新来的候选缓存。
@@ -604,6 +612,7 @@ Copy 按钮不可用：
 
 - 先在「文案库」或「今日行动」点击「标记已发」。
 - 后续再到「反馈录入」填表现数据。
+- 跑 `npm run feedback-ops` 或看 Dashboard 的「反馈学习闭环」，确认 pending 是否清零。
 
 ## 当前限制
 

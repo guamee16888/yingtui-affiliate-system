@@ -34,6 +34,7 @@ import { mapFeedbackCsv } from "./lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "./lib/candidate-parser.mjs";
 import { buildHistoryIndex, candidateInboxToTools, scoreTool } from "./lib/affiliate-system.mjs";
 import { buildDecisionReport } from "./lib/decision-engine.mjs";
+import { buildFeedbackOps } from "./lib/feedback-ops.mjs";
 import { calculateEngagement } from "./lib/scoring.mjs";
 import { getXPublishStatus, publishToX } from "./lib/x-publish.mjs";
 import { loadLocalEnv } from "./lib/env.mjs";
@@ -178,6 +179,21 @@ async function handleApiGet(pathname) {
       loadAffiliateLinks()
     ]);
     return buildDecisionReport({ latest, history, feedback, queues, affiliateLinks });
+  }
+  if (pathname === "/api/feedback-ops") {
+    const [latest, feedback, accountPosts, accountConfig] = await Promise.all([
+      loadLatest(),
+      loadFeedback(),
+      loadAccountPosts(),
+      loadXAccountsConfig()
+    ]);
+    return buildFeedbackOps({
+      date: latest?.date ?? todayString(),
+      latest,
+      feedback,
+      accountPosts,
+      accountConfig
+    });
   }
   if (pathname === "/api/x/status") return xStatusWithAccounts();
   throw new Error(`Unknown API route: ${pathname}`);

@@ -129,6 +129,19 @@ Top review items:
 - BlackRock files to list its bitcoin income ETF, with expected debut next week: ready_to_queue -> thread, priority 72
 - The company that makes your TV is taking ads onchain. Arbitrum helped: ready_to_queue -> thread, priority 70
 
+## Feedback Operating Mode
+
+- Learning score: 0/100
+- Posted rows: 0
+- Measured rows: 0
+- Pending feedback: 0
+- Measured accounts: 0/20
+- Top account: none
+- Top angle: none
+
+Feedback actions:
+- 给 3 个账号补第一条测试: Affiliate Builder / AI Agent Ops / AI Founder Signals
+
 ## Today's Top Picks
 
 1. Decart’s new world model can simulate hours of photorealistic driving — with some caveats — 38 points — tweet only.
@@ -140,9 +153,9 @@ Top review items:
 ## Freshness Diagnostic
 
 - Feed fresh today: 29
-- Feed fresh 48h: 30
+- Feed fresh 48h: 31
 - Feed fresh 7d: 8
-- Older/unknown: 4
+- Older/unknown: 3
 - Fresh top-pick candidates: 24
 - Diagnosis: Top picks include fresh candidates that are suitable for cautious posting.
 - Recommendation: Post only the Fresh today / Fresh 48h candidates, then record feedback.

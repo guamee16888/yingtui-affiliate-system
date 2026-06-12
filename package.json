@@ -29,6 +29,7 @@
     "roadmap": "node scripts/roadmap.mjs",
     "accounts": "node scripts/account-summary.mjs",
     "feedback": "node scripts/feedback-summary.mjs",
+    "feedback-ops": "node scripts/feedback-ops.mjs",
     "decisions": "node scripts/decision-report.mjs",
     "promote": "node scripts/promote.mjs",
     "promotion-review": "node scripts/promotion-review.mjs",

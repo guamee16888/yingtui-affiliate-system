@@ -37,6 +37,7 @@ const state = {
   affiliateResearch: { items: [] },
   reviewPages: { items: [] },
   decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
+  feedbackOps: null,
   xStatus: { configured: false, note: "" },
   settings: null,
   weekly: null,
@@ -98,7 +99,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -108,11 +109,12 @@ async function loadAll() {
       api.get("/api/affiliate-research"),
       api.get("/api/review-pages"),
       api.get("/api/decision-report"),
+      api.get("/api/feedback-ops"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -166,6 +168,7 @@ async function loadStaticFallback(apiError) {
     affiliateResearch,
     reviewPages,
     decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
+    feedbackOps: latest?.feedbackOps ?? null,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
@@ -603,6 +606,7 @@ function renderToday() {
   $("#view-today").innerHTML = `${renderDailyChecklistPanel()}
   ${renderFocusPanel()}
   ${renderFeedbackFollowUpPanel()}
+  ${renderFeedbackOpsPanel(state.feedbackOps ?? state.latest?.feedbackOps, "today")}
   ${renderQueuePipelinePanel("today")}
   <div class="grid">
     <section class="panel"><h2>今天最该做</h2><div class="list">${(state.latest?.actionList ?? []).map(renderAction).join("") || empty("暂无今日行动。")}</div></section>
@@ -698,6 +702,54 @@ function renderPendingFeedbackItem(entry) {
       ${entry.postedUrl ? `<a class="button ghost" href="${attr(entry.postedUrl)}" target="_blank" rel="noreferrer">打开 X</a>` : ""}
     </div>
   </div>`;
+}
+
+function renderFeedbackOpsPanel(ops, scope = "full") {
+  if (!ops) return "";
+  const compact = scope === "today";
+  const actions = (ops.actionList ?? []).slice(0, compact ? 3 : 5);
+  const accounts = (ops.accountStats ?? []).filter((item) => item.posts || item.measured || item.pending).slice(0, compact ? 4 : 8);
+  const angles = (ops.angleStats ?? []).slice(0, compact ? 4 : 8);
+  const sources = (ops.sourceStats ?? []).slice(0, compact ? 3 : 6);
+  return `<section class="panel">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Feedback operating mode</p>
+        <h2>反馈学习闭环</h2>
+        <p class="muted">按账号、文案角度和来源看真实反馈。没补 metrics 时，这里会很诚实地显示学习能力不足。</p>
+      </div>
+      ${pill(`learning ${ops.summary?.learningScore ?? 0}/100`, Number(ops.summary?.learningScore ?? 0) >= 60 ? "good" : "warn")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(ops.summary?.measured ?? 0)}/${esc(ops.summary?.posted ?? 0)}</strong><span>measured</span></div>
+      <div><strong>${esc(ops.summary?.pending ?? 0)}</strong><span>pending</span></div>
+      <div><strong>${esc(ops.summary?.measuredAccounts ?? 0)}/${esc(ops.summary?.activeAccounts ?? 0)}</strong><span>accounts</span></div>
+      <div><strong>${esc((labels[ops.summary?.topAngle] ?? ops.summary?.topAngle) || "none")}</strong><span>top angle</span></div>
+    </div>
+    <div class="grid">
+      <div class="list">
+        <strong>下一步</strong>
+        ${actions.map((item) => `<div class="list-item"><strong>${esc(item.title)}</strong><p>${esc(item.detail)}</p></div>`).join("") || empty("暂无反馈动作。")}
+      </div>
+      <div class="list">
+        <strong>账号表现</strong>
+        ${accounts.map((item) => `<div class="list-item"><strong>${esc(item.displayName)}</strong><div class="muted">measured ${esc(item.measured)}/${esc(item.posts)} · pending ${esc(item.pending)} · score ${esc(item.engagementScore)} · click ${esc(item.clicks)} · top ${esc((labels[item.topVariant] ?? item.topVariant) || "none")}</div></div>`).join("") || empty("暂无账号反馈。")}
+      </div>
+      ${compact ? "" : `<div class="list">
+        <strong>角度表现</strong>
+        ${angles.map((item) => `<div class="list-item"><strong>${esc(labels[item.variantType] ?? item.variantType)}</strong><div class="muted">score ${esc(item.engagementScore)} · avg ${esc(item.averageScore)} · posts ${esc(item.posts)} · clicks ${esc(item.clicks)} · bookmarks ${esc(item.bookmarks)}</div></div>`).join("") || empty("暂无 angle 数据。")}
+      </div>
+      <div class="list">
+        <strong>来源表现</strong>
+        ${sources.map((item) => `<div class="list-item"><strong>${esc(item.sourceName)}</strong><div class="muted">score ${esc(item.engagementScore)} · avg ${esc(item.averageScore)} · posts ${esc(item.posts)} · best ${esc(item.bestTool?.toolName ?? "none")}</div></div>`).join("") || empty("暂无来源反馈。")}
+      </div>`}
+    </div>
+    <div class="row-actions">
+      <button class="button ghost" data-tab-jump="feedback">补反馈</button>
+      <button class="button ghost" data-tab-jump="decisions">看反馈决策</button>
+      <button class="button ghost" data-tab-jump="accounts">看账号策略</button>
+    </div>
+  </section>`;
 }
 
 function activeQueueItems() {
@@ -1151,7 +1203,8 @@ function renderAccountRoute(tool) {
 
 function renderFeedback() {
   const rows = [...state.feedback.entries].sort((a, b) => Number(b.engagementScore ?? 0) - Number(a.engagementScore ?? 0));
-  $("#view-feedback").innerHTML = `<div class="grid">
+  $("#view-feedback").innerHTML = `${renderFeedbackOpsPanel(state.feedbackOps ?? state.latest?.feedbackOps, "full")}
+  <div class="grid">
     <section class="panel"><h2>待补反馈</h2><p class="muted">发完以后，先把这块清零。没有真实反馈，后面的决策报告会变钝。X Analytics 一般等几个小时或第二天再补。</p><div class="list">${pendingFeedbackEntries().map(renderPendingFeedbackItem).join("") || empty("没有待补反馈。")}</div></section>
     <section class="panel"><h2>CSV / X Analytics 粘贴导入</h2>
       <p class="muted">支持 CSV，也支持从 X Analytics 表格直接复制出来的 tab 分隔数据。推荐先点预览；不会自动保存。</p>

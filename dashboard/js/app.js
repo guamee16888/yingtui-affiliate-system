@@ -48,6 +48,7 @@ const state = {
   feedbackPreview: null,
   publishTool: null,
   dailyRun: { running: false, message: "" },
+  roadmapRun: { running: false, message: "" },
   filters: { search: "", action: "all", affiliate: "all", state: "all", minScore: 0, sortBy: "score" }
 };
 
@@ -85,6 +86,7 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 const writeActionSelector = [
   "[data-run-daily]",
+  "[data-run-roadmap]",
   "[data-preview-candidates]",
   "[data-preview-feedback]",
   "[data-publish]",
@@ -225,6 +227,7 @@ function render() {
   renderReadiness();
   renderActiveView();
   updateRunDailyControls();
+  updateRoadmapControls();
   updateReadOnlyControls();
 }
 
@@ -232,6 +235,14 @@ function updateRunDailyControls() {
   $$("[data-run-daily]").forEach((button) => {
     button.disabled = isReadOnlyMode() || state.dailyRun.running;
     button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.dailyRun.running ? "刷新中..." : "刷新 Live Feed";
+    button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
+  });
+}
+
+function updateRoadmapControls() {
+  $$("[data-run-roadmap]").forEach((button) => {
+    button.disabled = isReadOnlyMode() || state.roadmapRun.running;
+    button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.roadmapRun.running ? "刷新中..." : "刷新路线图";
     button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
   });
 }
@@ -657,6 +668,7 @@ function renderRoadmapSnapshotPanel() {
         ${pill("Need roadmap", "warn")}
       </div>
       <div class="row-actions">
+        <button class="button ghost" data-run-roadmap>刷新路线图</button>
         <button class="button ghost" data-copy="npm run roadmap">复制命令</button>
         <button class="button ghost" data-tab-jump="accounts">先看账号策略</button>
       </div>
@@ -681,8 +693,10 @@ function renderRoadmapSnapshotPanel() {
     </div>
     <div class="row-actions">
       <button class="button ghost" data-tab-jump="roadmap">打开产品路线图</button>
+      <button class="button ghost" data-run-roadmap>刷新路线图</button>
       <button class="button ghost" data-copy="npm run roadmap">复制刷新命令</button>
     </div>
+    ${state.roadmapRun.message ? `<p class="muted">${esc(state.roadmapRun.message)}</p>` : ""}
   </section>`;
 }
 
@@ -693,6 +707,7 @@ function renderRoadmap() {
       <h2>产品路线图</h2>
       <p class="muted">还没有 data/product-roadmap.json。先在本机运行 npm run roadmap，再重新读取 Dashboard。</p>
       <div class="row-actions">
+        <button class="button ghost" data-run-roadmap>刷新路线图</button>
         <button class="button ghost" data-copy="npm run roadmap">复制命令</button>
         <button class="button ghost" id="refreshRoadmapButton" type="button">重新读取</button>
       </div>
@@ -747,10 +762,14 @@ function renderRoadmap() {
           <p class="eyebrow">Dimensions</p>
           <h2>产品级维度体检</h2>
         </div>
-        <button class="button ghost" data-copy="npm run roadmap">复制刷新命令</button>
+        <div class="row-actions">
+          <button class="button ghost" data-run-roadmap>刷新路线图</button>
+          <button class="button ghost" data-copy="npm run roadmap">复制刷新命令</button>
+        </div>
       </div>
       <div class="roadmap-grid">${dimensions.map(renderRoadmapDimension).join("")}</div>
     </section>
+    ${state.roadmapRun.message ? `<section class="panel wide-panel"><p class="muted">${esc(state.roadmapRun.message)}</p></section>` : ""}
     <section class="panel wide-panel">
       <h2>产品原则</h2>
       <div class="principle-grid">${(roadmap.productPrinciples ?? []).map((item) => `<div class="principle-card">${esc(item)}</div>`).join("")}</div>
@@ -2847,6 +2866,30 @@ async function runDaily() {
   }
 }
 
+async function runRoadmap() {
+  if (guardReadOnlyAction()) {
+    state.roadmapRun = { running: false, message: readOnlyActionMessage() };
+    render();
+    return;
+  }
+  if (state.roadmapRun.running) return;
+  state.roadmapRun = { running: true, message: "正在刷新产品路线图..." };
+  render();
+  try {
+    const result = await api.post("/api/roadmap/generate", {});
+    state.roadmapRun = {
+      running: false,
+      message: `路线图已刷新：${result.date ?? "unknown"} · ${result.overallScore ?? "-"} / 100 · ${result.blockers ?? 0} 个阻塞点`
+    };
+    toast("产品路线图已刷新");
+    await loadAll();
+  } catch (error) {
+    state.roadmapRun = { running: false, message: `路线图刷新失败：${error.message}` };
+    render();
+    toast(error.message);
+  }
+}
+
 function buildClientTodayPlanMarkdown() {
   const latest = state.latest ?? {};
   const actions = latest.actionList ?? [];
@@ -2893,6 +2936,8 @@ document.addEventListener("click", async (event) => {
       openSearchGroup(button);
     } else if (button.dataset.runDaily !== undefined) {
       await runDaily();
+    } else if (button.dataset.runRoadmap !== undefined) {
+      await runRoadmap();
     } else if (button.dataset.previewCandidates) {
       await previewCandidatePaste(button.dataset.previewCandidates);
     } else if (button.dataset.previewFeedback) {

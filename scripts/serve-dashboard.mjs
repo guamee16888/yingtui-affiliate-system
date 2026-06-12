@@ -216,13 +216,14 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/export/today-plan") return exportTodayPlan();
   if (pathname === "/api/weekly/generate") return generateWeeklyReport();
   if (pathname === "/api/daily/run") return runDailyGeneration();
+  if (pathname === "/api/roadmap/generate") return runRoadmapGeneration();
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
 }
 
 async function runDailyGeneration() {
   if (dailyRunPromise) throw new Error("Daily refresh is already running. Wait for it to finish.");
-  dailyRunPromise = runNodeScript("scripts/generate-daily.mjs")
+  dailyRunPromise = runNodeScript("scripts/generate-daily.mjs", "Daily refresh")
     .finally(() => {
       dailyRunPromise = null;
     });
@@ -234,6 +235,18 @@ async function runDailyGeneration() {
     generatedAt: latest?.generatedAt ?? null,
     usedFallback: Boolean(latest?.source?.usedFallback),
     topPicks: latest?.summary?.topPicks ?? 0
+  };
+}
+
+async function runRoadmapGeneration() {
+  const result = await runNodeScript("scripts/roadmap.mjs", "Roadmap refresh");
+  const roadmap = await readJson("data/product-roadmap.json", null);
+  return {
+    ...result,
+    date: roadmap?.date ?? null,
+    overallScore: roadmap?.overallScore ?? null,
+    level: roadmap?.level ?? null,
+    blockers: roadmap?.summary?.blockers ?? null
   };
 }
 
@@ -253,7 +266,7 @@ async function xStatusWithAccounts() {
   };
 }
 
-function runNodeScript(relativeScriptPath) {
+function runNodeScript(relativeScriptPath, label = "Script") {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [path.join(rootDir, relativeScriptPath)], {
       cwd: rootDir,
@@ -273,7 +286,7 @@ function runNodeScript(relativeScriptPath) {
     child.on("close", (code) => {
       const result = { code, stdout: stdout.trim(), stderr: stderr.trim() };
       if (code === 0) resolve(result);
-      else reject(new Error(`Daily refresh failed (${code}): ${result.stderr || result.stdout || "no output"}`));
+      else reject(new Error(`${label} failed (${code}): ${result.stderr || result.stdout || "no output"}`));
     });
   });
 }

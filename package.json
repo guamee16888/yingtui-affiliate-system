@@ -18,6 +18,8 @@
     "weekly": "node scripts/weekly-report.mjs",
     "check": "node scripts/check-system.mjs",
     "x:auth": "node scripts/x-auth.mjs",
+    "build": "node scripts/build-vercel.mjs",
+    "vercel-build": "node scripts/build-vercel.mjs",
     "start": "node scripts/start-dashboard.mjs",
     "dashboard": "node scripts/dashboard.mjs",
     "test": "node --test"

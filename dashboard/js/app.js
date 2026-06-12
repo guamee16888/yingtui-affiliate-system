@@ -6,6 +6,7 @@ const api = {
     return json.data;
   },
   async post(path, body = {}) {
+    if (isReadOnlyMode()) throw new Error(readOnlyActionMessage());
     const res = await fetch(path, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -71,6 +72,28 @@ const labels = {
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+const writeActionSelector = [
+  "[data-run-daily]",
+  "[data-preview-candidates]",
+  "[data-preview-feedback]",
+  "[data-publish]",
+  "[data-posted]",
+  "[data-feedback]",
+  "[data-edit-feedback]",
+  "[data-queue]",
+  "[data-queue-status]",
+  "[data-candidate-status]",
+  "[data-affiliate]",
+  "[data-aff-status]",
+  "[data-review]",
+  "#weeklyButton",
+  "#affiliateForm button[type='submit']",
+  "#candidateForm button[type='submit']",
+  "#candidatePasteForm button[type='submit']",
+  "#feedbackCsvForm button[type='submit']",
+  "#feedbackForm button[type='submit']",
+  "#publishForm button[type='submit']"
+].join(",");
 
 async function loadAll() {
   try {
@@ -153,6 +176,16 @@ function staticModeMessage(apiError) {
   return `API 暂不可用，当前为静态只读模式：${apiError.message}`;
 }
 
+function isReadOnlyMode() {
+  return Boolean(state.apiWarning) || location.hostname.endsWith("vercel.app");
+}
+
+function readOnlyActionMessage() {
+  return location.hostname.endsWith("vercel.app")
+    ? "线上 Vercel 是只读版。要刷新、保存反馈、生成文件或发布到 X，请回本机运行 npm start。"
+    : "当前 API 不可用，页面处于静态只读模式。请确认本地 npm start 正在运行。";
+}
+
 async function fetchJson(path, fallback = null) {
   const res = await fetch(path);
   if (!res.ok) {
@@ -171,13 +204,30 @@ function render() {
   renderReadiness();
   renderActiveView();
   updateRunDailyControls();
+  updateReadOnlyControls();
 }
 
 function updateRunDailyControls() {
   $$("[data-run-daily]").forEach((button) => {
-    button.disabled = state.dailyRun.running;
-    button.textContent = state.dailyRun.running ? "刷新中..." : "刷新 Live Feed";
+    button.disabled = isReadOnlyMode() || state.dailyRun.running;
+    button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.dailyRun.running ? "刷新中..." : "刷新 Live Feed";
+    button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
   });
+}
+
+function updateReadOnlyControls() {
+  const readOnly = isReadOnlyMode();
+  $$(writeActionSelector).forEach((button) => {
+    button.disabled = readOnly;
+    button.title = readOnly ? readOnlyActionMessage() : "";
+  });
+}
+
+function guardReadOnlyAction(event = null) {
+  if (!isReadOnlyMode()) return false;
+  event?.preventDefault?.();
+  toast(readOnlyActionMessage());
+  return true;
 }
 
 function renderMetrics() {
@@ -1683,6 +1733,7 @@ function updatePublishCount() {
 
 async function submitFeedback(event) {
   event.preventDefault();
+  if (guardReadOnlyAction(event)) return;
   const form = event.currentTarget;
   const payload = Object.fromEntries(new FormData(form).entries());
   payload.metrics = {};
@@ -1699,6 +1750,7 @@ async function submitFeedback(event) {
 
 async function submitPublish(event) {
   event.preventDefault();
+  if (guardReadOnlyAction(event)) return;
   try {
     const form = event.currentTarget;
     const payload = Object.fromEntries(new FormData(form).entries());
@@ -1815,6 +1867,11 @@ async function previewFeedbackCsv(formId) {
 }
 
 async function runDaily() {
+  if (guardReadOnlyAction()) {
+    state.dailyRun = { running: false, message: readOnlyActionMessage() };
+    render();
+    return;
+  }
   if (state.dailyRun.running) return;
   state.dailyRun = { running: true, message: "正在从 Product Hunt live feed 刷新..." };
   render();
@@ -1833,6 +1890,24 @@ async function runDaily() {
   }
 }
 
+function buildClientTodayPlanMarkdown() {
+  const latest = state.latest ?? {};
+  const actions = latest.actionList ?? [];
+  const tools = latest.tools ?? [];
+  const lines = [
+    `# Today Plan — ${latest.date ?? "unknown"}`,
+    "",
+    "## Action List",
+    actions.length ? actions.map((action, index) => `${index + 1}. ${action.type}: ${action.toolName ?? "N/A"} — ${action.reason ?? ""}`).join("\n") : "No action list available.",
+    "",
+    "## Top Picks",
+    tools.slice(0, 5).map((tool, index) => `${index + 1}. ${tool.name} — score ${tool.score ?? "-"} — ${tool.followUpAction ?? ""}`).join("\n") || "No tools available.",
+    "",
+    isReadOnlyMode() ? "Generated in static read-only mode. Run `npm start` locally for refresh, feedback, publishing, and file exports." : "Generated from the local Dashboard."
+  ];
+  return lines.join("\n");
+}
+
 function toast(message) {
   const node = $("#toast");
   node.textContent = message;
@@ -1849,6 +1924,7 @@ document.addEventListener("click", async (event) => {
   const button = event.target.closest("button, a");
   if (!button) return;
   try {
+    if (button.matches(writeActionSelector) && guardReadOnlyAction(event)) return;
     if (button.dataset.tab) {
       switchTab(button.dataset.tab);
     } else if (button.dataset.tabJump) {
@@ -1898,6 +1974,7 @@ document.addEventListener("click", async (event) => {
 
 document.addEventListener("submit", async (event) => {
   if (!["affiliateForm", "feedbackCsvForm", "candidateForm", "candidatePasteForm"].includes(event.target?.id)) return;
+  if (guardReadOnlyAction(event)) return;
   try {
     if (event.target.id === "affiliateForm") await submitAffiliateResearch(event);
     if (event.target.id === "feedbackCsvForm") await submitFeedbackCsv(event);
@@ -1915,15 +1992,30 @@ $("#publishForm").elements.text.addEventListener("input", updatePublishCount);
 $("#cancelPublish").addEventListener("click", () => $("#publishDialog").close());
 $("#refreshButton").addEventListener("click", loadAll);
 $("#copyPlanButton").addEventListener("click", async () => {
-  const result = await api.post("/api/export/today-plan", {});
-  await copyText(result.markdown);
+  try {
+    if (isReadOnlyMode()) {
+      await copyText(buildClientTodayPlanMarkdown());
+      toast("已复制静态今日计划");
+      return;
+    }
+    const result = await api.post("/api/export/today-plan", {});
+    await copyText(result.markdown);
+  } catch (error) {
+    await copyText(buildClientTodayPlanMarkdown());
+    toast(`已复制当前页面计划：${error.message}`);
+  }
 });
 $("#weeklyButton").addEventListener("click", async () => {
-  const result = await api.post("/api/weekly/generate", {});
-  state.tab = "weekly";
-  $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === "weekly"));
-  await loadAll();
-  toast(`周报已生成：${result.filePath}`);
+  if (guardReadOnlyAction()) return;
+  try {
+    const result = await api.post("/api/weekly/generate", {});
+    state.tab = "weekly";
+    $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === "weekly"));
+    await loadAll();
+    toast(`周报已生成：${result.filePath}`);
+  } catch (error) {
+    toast(error.message);
+  }
 });
 $("#themeButton").addEventListener("click", () => {
   const current = document.documentElement.dataset.theme === "dark" ? "light" : "dark";

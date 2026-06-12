@@ -142,7 +142,7 @@ main {
 }
 
 .button:active, .tab:active { transform: translateY(.5px); }
-.button:disabled, .tab:disabled { cursor: progress; opacity: .55; transform: none; }
+.button:disabled, .tab:disabled { cursor: not-allowed; opacity: .55; transform: none; }
 .button { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
 .button:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
 .button.ghost, .tab { background: var(--card); color: var(--text); font-weight: 540; box-shadow: var(--shadow-pop); }

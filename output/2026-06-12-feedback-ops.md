@@ -4,6 +4,8 @@
 - Posted rows: 0
 - Measured rows: 0
 - Pending feedback: 0
+- Feedback gate: Seed the feedback loop
+- Max new posts before metrics: 3
 - Measured accounts: 0/20
 - Top account: none
 - Top angle: none
@@ -11,7 +13,27 @@
 
 ## Today Actions
 
-1. 给 3 个账号补第一条测试 — Affiliate Builder / AI Agent Ops / AI Founder Signals
+1. Seed the feedback loop — Start with a tiny manually reviewed batch before scaling. Max new posts before metrics: 3.
+2. 给 3 个账号补第一条测试 — Affiliate Builder / AI Agent Ops / AI Founder Signals
+
+## Feedback Debt Gate
+
+- Status: seed_test
+- Severity: warn
+- Headline: Start with a tiny manually reviewed batch before scaling.
+- Max new posts before metrics: 3
+- Pending limit: 5
+- Pending rate: 0
+- Measured rate: 0
+- Oldest pending: 0h
+
+Next actions:
+1. Post 3 fresh candidates at most.
+2. Mark each post with accountId immediately.
+3. Wait for X Analytics, then import impressions and engagement.
+
+Account debt:
+- No account debt.
 
 ## Pending Feedback
 

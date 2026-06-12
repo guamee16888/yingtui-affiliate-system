@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T13:47:21.522Z",
+  "generatedAt": "2026-06-12T14:33:05.836Z",
   "summary": {
     "posted": 0,
     "measured": 0,
@@ -10,11 +10,36 @@
     "measuredAccounts": 0,
     "unlinkedPostRecords": 0,
     "learningScore": 0,
+    "feedbackGateStatus": "seed_test",
+    "maxNewPostsBeforeMetrics": 3,
     "topAccount": "",
     "topAngle": "",
     "topSource": ""
   },
+  "debtGate": {
+    "status": "seed_test",
+    "severity": "warn",
+    "title": "Seed the feedback loop",
+    "headline": "Start with a tiny manually reviewed batch before scaling.",
+    "maxNewPostsBeforeMetrics": 3,
+    "pendingLimit": 5,
+    "pendingRate": 0,
+    "measuredRate": 0,
+    "oldestPendingHours": 0,
+    "accountDebt": [],
+    "accountsMissingMeasured": [],
+    "nextActions": [
+      "Post 3 fresh candidates at most.",
+      "Mark each post with accountId immediately.",
+      "Wait for X Analytics, then import impressions and engagement."
+    ]
+  },
   "actionList": [
+    {
+      "type": "feedback_debt_gate",
+      "title": "Seed the feedback loop",
+      "detail": "Start with a tiny manually reviewed batch before scaling. Max new posts before metrics: 3."
+    },
     {
       "type": "cover_accounts",
       "title": "给 3 个账号补第一条测试",

@@ -136,7 +136,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -144,7 +144,8 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/queues.json", { items: [] }),
     fetchJson("/data/candidate-inbox.json", { items: [] }),
     fetchJson("/data/affiliate-research.json", { items: [] }),
-    fetchJson("/data/review-pages.json", { items: [] })
+    fetchJson("/data/review-pages.json", { items: [] }),
+    fetchJson("/data/feedback-ops.json", null)
   ]);
   const settings = {
     latestDate: latest?.date ?? null,
@@ -176,7 +177,7 @@ async function loadStaticFallback(apiError) {
     affiliateResearch,
     reviewPages,
     decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
-    feedbackOps: latest?.feedbackOps ?? null,
+    feedbackOps: feedbackOps ?? latest?.feedbackOps ?? null,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
@@ -735,6 +736,7 @@ function renderFeedbackOpsPanel(ops, scope = "full") {
   const accounts = (ops.accountStats ?? []).filter((item) => item.posts || item.measured || item.pending).slice(0, compact ? 4 : 8);
   const angles = (ops.angleStats ?? []).slice(0, compact ? 4 : 8);
   const sources = (ops.sourceStats ?? []).slice(0, compact ? 3 : 6);
+  const debtGate = ops.debtGate;
   return `<section class="panel">
     <div class="line-head">
       <div>
@@ -744,11 +746,12 @@ function renderFeedbackOpsPanel(ops, scope = "full") {
       </div>
       ${pill(`learning ${ops.summary?.learningScore ?? 0}/100`, Number(ops.summary?.learningScore ?? 0) >= 60 ? "good" : "warn")}
     </div>
+    ${renderFeedbackDebtGateCard(debtGate)}
     <div class="pipeline-stats">
       <div><strong>${esc(ops.summary?.measured ?? 0)}/${esc(ops.summary?.posted ?? 0)}</strong><span>measured</span></div>
       <div><strong>${esc(ops.summary?.pending ?? 0)}</strong><span>pending</span></div>
       <div><strong>${esc(ops.summary?.measuredAccounts ?? 0)}/${esc(ops.summary?.activeAccounts ?? 0)}</strong><span>accounts</span></div>
-      <div><strong>${esc((labels[ops.summary?.topAngle] ?? ops.summary?.topAngle) || "none")}</strong><span>top angle</span></div>
+      <div><strong>${esc(debtGate?.maxNewPostsBeforeMetrics ?? ops.summary?.maxNewPostsBeforeMetrics ?? 0)}</strong><span>safe next posts</span></div>
     </div>
     <div class="grid">
       <div class="list">
@@ -774,6 +777,27 @@ function renderFeedbackOpsPanel(ops, scope = "full") {
       <button class="button ghost" data-tab-jump="accounts">看账号策略</button>
     </div>
   </section>`;
+}
+
+function renderFeedbackDebtGateCard(gate) {
+  if (!gate) return "";
+  const severity = gate.severity === "good" ? "good" : gate.severity === "bad" ? "bad" : "warn";
+  return `<div class="feedback-debt-gate ${severity}">
+    <div class="line-head">
+      <strong>${esc(gate.title)}</strong>
+      ${pill(gate.status, severity)}
+    </div>
+    <p class="muted">${esc(gate.headline)}</p>
+    <div class="pipeline-stats">
+      <div><strong>${esc(gate.maxNewPostsBeforeMetrics ?? 0)}</strong><span>max new posts</span></div>
+      <div><strong>${esc(gate.pendingLimit ?? 0)}</strong><span>pending limit</span></div>
+      <div><strong>${esc(formatRate(gate.measuredRate ?? 0))}</strong><span>measured rate</span></div>
+      <div><strong>${esc(gate.oldestPendingHours ?? 0)}h</strong><span>oldest pending</span></div>
+    </div>
+    <div class="list mini-list">
+      ${(gate.nextActions ?? []).map((item) => `<div class="list-item">${esc(item)}</div>`).join("")}
+    </div>
+  </div>`;
 }
 
 function activeQueueItems() {

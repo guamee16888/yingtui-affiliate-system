@@ -493,6 +493,30 @@ main {
 .feedback-followup.warn { border-left-color: var(--warning); }
 .feedback-followup.good { border-left-color: var(--success); }
 .feedback-followup h2 { margin-bottom: 0; }
+.feedback-debt-gate {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--soft);
+  padding: 13px;
+}
+.feedback-debt-gate.good {
+  border-color: color-mix(in srgb, var(--success) 32%, var(--border));
+  border-left-color: var(--success);
+  background: color-mix(in srgb, var(--success) 7%, var(--card));
+}
+.feedback-debt-gate.warn {
+  border-color: color-mix(in srgb, var(--warning) 36%, var(--border));
+  border-left-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 7%, var(--card));
+}
+.feedback-debt-gate.bad {
+  border-color: color-mix(in srgb, var(--danger) 36%, var(--border));
+  border-left-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 6%, var(--card));
+}
 .queue-pipeline {
   display: grid;
   gap: 14px;

@@ -118,10 +118,42 @@ test("feedback ops reports pending metrics and account learning", () => {
   assert.equal(ops.summary.posted, 2);
   assert.equal(ops.summary.measured, 1);
   assert.equal(ops.summary.pending, 1);
+  assert.equal(ops.debtGate.status, "controlled_test");
+  assert.equal(ops.debtGate.maxNewPostsBeforeMetrics, 3);
   assert.equal(ops.pendingFeedback[0].toolName, "Tool 2");
   assert.equal(ops.accountStats.find((item) => item.accountId === "ai_tools_lab").measured, 1);
   assert.equal(ops.angleStats[0].variantType, "painPointHook");
   assert.equal(ops.sourceStats[0].sourceName, "Product Hunt");
+});
+
+test("feedback debt gate blocks scale when posted rows have no metrics", () => {
+  const pending = buildFeedbackEntry({
+    toolId: "tool_pending",
+    toolName: "Pending Tool",
+    toolUrl: "https://pending.example.com",
+    variantType: "shortPost",
+    accountId: "ai_tools_lab",
+    accountName: "AI Tools Lab",
+    copyText: "Pending copy",
+    posted: true,
+    metrics: {}
+  });
+  const ops = buildFeedbackOps({
+    date: "2026-06-12",
+    latest: { tools: [{ toolId: "tool_pending", sourceName: "Manual" }] },
+    feedback: { entries: [pending] },
+    accountPosts: { items: [] },
+    accountConfig: {
+      accounts: [
+        { id: "ai_tools_lab", displayName: "AI Tools Lab", active: true },
+        { id: "saas_growth_ops", displayName: "SaaS Growth Ops", active: true }
+      ]
+    }
+  });
+
+  assert.equal(ops.debtGate.status, "blocked_no_metrics");
+  assert.equal(ops.debtGate.maxNewPostsBeforeMetrics, 0);
+  assert.equal(ops.actionList[0].type, "feedback_debt_gate");
 });
 
 test("queue item id is stable for tool and type", () => {

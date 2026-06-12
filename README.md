@@ -258,7 +258,7 @@ npm run feedback
 npm run feedback-ops
 ```
 
-生成反馈运营报告，输出到 `data/feedback-ops.json` 和 `output/YYYY-MM-DD-feedback-ops.md`。它会按账号、文案角度、来源统计真实表现，并列出哪些已发内容还缺 X Analytics 数据。
+生成反馈运营报告，输出到 `data/feedback-ops.json` 和 `output/YYYY-MM-DD-feedback-ops.md`。它会按账号、文案角度、来源统计真实表现，并列出哪些已发内容还缺 X Analytics 数据。报告里的 `Feedback debt gate` 会提示当前是否该继续发、最多还能发几条测试内容，还是应该先补反馈。
 
 ```bash
 npm run decisions
@@ -617,6 +617,7 @@ Copy 按钮不可用：
 - 先在「文案库」或「今日行动」点击「标记已发」。
 - 后续再到「反馈录入」填表现数据。
 - 跑 `npm run feedback-ops` 或看 Dashboard 的「反馈学习闭环」，确认 pending 是否清零。
+- 如果 `Feedback debt gate` 显示 `Pause new posts until metrics exist`，先不要扩大发布量，补完 X Analytics 再继续。
 
 ## 当前限制
 

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T18:31:48.546Z",
+  "generatedAt": "2026-06-12T19:05:06.521Z",
   "status": "seed_only",
   "headline": "先拿真实反馈，暂时不要放量。",
   "readinessScore": 12,
@@ -14,10 +14,10 @@
   "capacity": {
     "safeNewPosts": 3,
     "freshPublishCandidates": 3,
-    "topPicks": 19,
-    "plannedPosts": 19,
+    "topPicks": 0,
+    "plannedPosts": 18,
     "scheduledPosts": 16,
-    "sourceGap": 79,
+    "sourceGap": 80,
     "sourcePackRows": 100,
     "sourcePackRowsNeedingResearch": 100,
     "feedbackPending": 0,
@@ -26,7 +26,7 @@
     "authReady": false
   },
   "coverage": {
-    "plannedRate": 0.095,
+    "plannedRate": 0.09,
     "scheduledRate": 0.08,
     "freshRate": 0.3,
     "safeRate": 0.3
@@ -50,14 +50,14 @@
       "id": "draft_gap",
       "title": "Draft gap is too large for the target",
       "severity": "high",
-      "detail": "19/200 unique drafts are planned.",
+      "detail": "18/200 unique drafts are planned.",
       "nextAction": "Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar."
     },
     {
       "id": "source_gap",
       "title": "Source supply is below target",
       "severity": "medium",
-      "detail": "79 more source candidates are needed for the current account mix.",
+      "detail": "80 more source candidates are needed for the current account mix.",
       "nextAction": "Fill the 100 source-pack rows that still need real candidates."
     },
     {

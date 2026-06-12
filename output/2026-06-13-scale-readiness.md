@@ -6,8 +6,8 @@
 - Target: 20 accounts x 10 posts = 200/day
 - Safe new posts now: 3
 - Fresh publish candidates: 3
-- Planned / scheduled: 19/16
-- Source gap: 79
+- Planned / scheduled: 18/16
+- Source gap: 80
 - Feedback measured / pending: 0/0
 - Auth ready: not yet
 
@@ -20,10 +20,10 @@
    3 fresh candidates are available for posting today.
    Next: Refresh Live Feed and import external candidates from the source supply workbench.
 3. Draft gap is too large for the target — high
-   19/200 unique drafts are planned.
+   18/200 unique drafts are planned.
    Next: Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar.
 4. Source supply is below target — medium
-   79 more source candidates are needed for the current account mix.
+   80 more source candidates are needed for the current account mix.
    Next: Fill the 100 source-pack rows that still need real candidates.
 5. Real multi-account X auth is not connected — deferred
    Account profiles exist, but OAuth binding is intentionally not the current bottleneck.

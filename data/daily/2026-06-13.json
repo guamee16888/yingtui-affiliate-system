@@ -1,39 +1,39 @@
 {
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T18:06:54.000Z",
+  "generatedAt": "2026-06-12T19:05:06.516Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
     "breakdown": {
       "productHuntTools": 50,
       "candidateInboxTools": 0,
-      "sourceCandidateTools": 21,
-      "sourceFetchedTools": 21,
+      "sourceCandidateTools": 20,
+      "sourceFetchedTools": 20,
       "enabledExtraSources": 2,
-      "mergedTools": 71
+      "mergedTools": 70
     }
   },
   "warnings": [],
   "summary": {
-    "totalTools": 71,
-    "topPicks": 19,
+    "totalTools": 70,
+    "topPicks": 18,
     "affiliateQueueCount": 0,
     "candidateInboxCount": 0,
-    "sourceCandidateCount": 21,
-    "seenBeforeCount": 16
+    "sourceCandidateCount": 20,
+    "seenBeforeCount": 15
   },
   "freshnessReport": {
     "source": "https://www.producthunt.com/feed",
     "usedFallback": false,
     "stats": {
-      "totalTools": 71,
+      "totalTools": 70,
       "freshToday": 13,
-      "fresh48": 43,
+      "fresh48": 42,
       "fresh7d": 11,
       "older": 4,
       "unknownPublished": 0,
       "topPickFreshPostCandidates": 3,
-      "topPickSeenBefore": 16
+      "topPickSeenBefore": 15
     },
     "publishableTools": [
       {
@@ -197,7 +197,7 @@
     "summary": {
       "totalAccounts": 20,
       "activeAccounts": 20,
-      "routedTools": 19
+      "routedTools": 18
     },
     "accounts": [
       {
@@ -227,8 +227,8 @@
         "cooldownHours": 6,
         "active": true,
         "authStatus": "planned",
-        "plannedToolsToday": 5,
-        "remainingSlotsToday": 5
+        "plannedToolsToday": 4,
+        "remainingSlotsToday": 6
       },
       {
         "id": "affiliate_builder",
@@ -970,60 +970,6 @@
         "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups."
       },
       {
-        "toolId": "tool_techcrunch_com_datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock_4ced8c6eb5",
-        "toolName": "Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in",
-        "primary": {
-          "accountId": "ai_founder_signals",
-          "displayName": "AI Founder Signals",
-          "handle": "",
-          "category": "AI startup circle",
-          "score": 19.7,
-          "dailyPostLimit": 10,
-          "cooldownHours": 6,
-          "matchedKeywords": [
-            "AI",
-            "startup",
-            "launch",
-            "agent",
-            "workflow"
-          ],
-          "matchedPillars": [
-            "AI startups"
-          ]
-        },
-        "alternatives": [
-          {
-            "accountId": "ai_tools_lab",
-            "displayName": "AI Tools Lab",
-            "handle": "",
-            "category": "AI tools discovery",
-            "score": 11.7,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [
-              "AI",
-              "workflow"
-            ],
-            "matchedPillars": []
-          },
-          {
-            "accountId": "indie_launch_radar",
-            "displayName": "Indie Launch Radar",
-            "handle": "",
-            "category": "indie hacker circle",
-            "score": 11.7,
-            "dailyPostLimit": 10,
-            "cooldownHours": 8,
-            "matchedKeywords": [
-              "launch",
-              "maker"
-            ],
-            "matchedPillars": []
-          }
-        ],
-        "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, launch, agent; pillar: AI startups."
-      },
-      {
         "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
         "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
         "primary": {
@@ -1572,36 +1518,36 @@
         "toolId": "tool_techcrunch_com_doordash-s-new-ai-chatbot-lets-you-order-with-prompts-and-photos_0f0611b8fe",
         "toolName": "DoorDash’s new AI chatbot lets you order with prompts and photos",
         "primary": {
-          "accountId": "ai_tools_lab",
-          "displayName": "AI Tools Lab",
+          "accountId": "ai_founder_signals",
+          "displayName": "AI Founder Signals",
           "handle": "",
-          "category": "AI tools discovery",
-          "score": 11.3,
+          "category": "AI startup circle",
+          "score": 15.3,
           "dailyPostLimit": 10,
           "cooldownHours": 6,
           "matchedKeywords": [
             "AI",
+            "startup",
             "workflow"
           ],
-          "matchedPillars": []
+          "matchedPillars": [
+            "AI startups"
+          ]
         },
         "alternatives": [
           {
-            "accountId": "ai_founder_signals",
-            "displayName": "AI Founder Signals",
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
             "handle": "",
-            "category": "AI startup circle",
-            "score": 15.3,
+            "category": "AI tools discovery",
+            "score": 11.3,
             "dailyPostLimit": 10,
             "cooldownHours": 6,
             "matchedKeywords": [
               "AI",
-              "startup",
               "workflow"
             ],
-            "matchedPillars": [
-              "AI startups"
-            ]
+            "matchedPillars": []
           },
           {
             "accountId": "productivity_ops",
@@ -1617,7 +1563,7 @@
             "matchedPillars": []
           }
         ],
-        "reason": "AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow."
+        "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups."
       },
       {
         "toolId": "tool_techcrunch_com_theker-just-raised-85m-to-build-the-factory-robot-that-doesn-t-specialize-in-any_3d469281ec",
@@ -1787,9 +1733,9 @@
     "targetPerAccount": 10,
     "targetDrafts": 200,
     "minimumQualityScore": 18,
-    "qualifiedTools": 19,
-    "possibleDrafts": 95,
-    "totalGap": 105,
+    "qualifiedTools": 18,
+    "possibleDrafts": 90,
+    "totalGap": 110,
     "status": "short",
     "note": "Supply is short for at least one account or circle. Add more source candidates instead of lowering quality just to fill slots.",
     "accountCoverage": [
@@ -1799,7 +1745,7 @@
         "category": "AI tools discovery",
         "targetPosts": 10,
         "availableDrafts": 10,
-        "qualifiedTools": 19,
+        "qualifiedTools": 18,
         "gap": 0,
         "status": "covered"
       },
@@ -1829,7 +1775,7 @@
         "category": "productivity and operations",
         "targetPosts": 10,
         "availableDrafts": 10,
-        "qualifiedTools": 17,
+        "qualifiedTools": 16,
         "gap": 0,
         "status": "covered"
       },
@@ -1899,7 +1845,7 @@
         "category": "AI startup circle",
         "targetPosts": 10,
         "availableDrafts": 10,
-        "qualifiedTools": 19,
+        "qualifiedTools": 18,
         "gap": 0,
         "status": "covered"
       },
@@ -1909,7 +1855,7 @@
         "category": "AI agents and automation",
         "targetPosts": 10,
         "availableDrafts": 10,
-        "qualifiedTools": 16,
+        "qualifiedTools": 15,
         "gap": 0,
         "status": "covered"
       },
@@ -1918,9 +1864,9 @@
         "displayName": "Indie Launch Radar",
         "category": "indie hacker circle",
         "targetPosts": 10,
-        "availableDrafts": 1,
-        "qualifiedTools": 1,
-        "gap": 9,
+        "availableDrafts": 0,
+        "qualifiedTools": 0,
+        "gap": 10,
         "status": "short"
       },
       {
@@ -1998,14 +1944,14 @@
       {
         "circleId": "ai_startups",
         "name": "AI startup circle",
-        "qualifiedTools": 17,
-        "possibleDrafts": 85
+        "qualifiedTools": 16,
+        "possibleDrafts": 80
       },
       {
         "circleId": "indie_hackers",
         "name": "Indie hacker circle",
-        "qualifiedTools": 5,
-        "possibleDrafts": 25
+        "qualifiedTools": 4,
+        "possibleDrafts": 20
       },
       {
         "circleId": "saas_founders",
@@ -2024,28 +1970,28 @@
   "sourceQualityQueue": {
     "summary": {
       "items": 4,
-      "totalNeededCandidates": 79,
+      "totalNeededCandidates": 80,
       "topCircle": "Indie hacker circle"
     },
     "items": [
       {
         "circleId": "indie_hackers",
         "circleName": "Indie hacker circle",
-        "priorityScore": 43,
-        "neededCandidates": 35,
-        "currentQualifiedTools": 5,
+        "priorityScore": 44,
+        "neededCandidates": 36,
+        "currentQualifiedTools": 4,
         "affectedAccounts": [
+          {
+            "accountId": "indie_launch_radar",
+            "displayName": "Indie Launch Radar",
+            "gap": 10,
+            "category": "indie hacker circle"
+          },
           {
             "accountId": "affiliate_builder",
             "displayName": "Affiliate Builder",
             "gap": 9,
             "category": "affiliate and side projects"
-          },
-          {
-            "accountId": "indie_launch_radar",
-            "displayName": "Indie Launch Radar",
-            "gap": 9,
-            "category": "indie hacker circle"
           },
           {
             "accountId": "indie_monetization",
@@ -2075,7 +2021,7 @@
           "\"solo founder\" \"pricing\"",
           "\"side project\" \"SaaS\" \"users\""
         ],
-        "importHint": "Add 35 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL."
+        "importHint": "Add 36 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL."
       },
       {
         "circleId": "saas_founders",
@@ -2162,7 +2108,7 @@
         "circleName": "AI startup circle",
         "priorityScore": 10,
         "neededCandidates": 8,
-        "currentQualifiedTools": 17,
+        "currentQualifiedTools": 16,
         "affectedAccounts": [
           {
             "accountId": "sales_support_ai",
@@ -2204,10 +2150,10 @@
   },
   "sourceDiscovery": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T18:06:53.994Z",
+    "generatedAt": "2026-06-12T19:05:06.509Z",
     "summary": {
       "circles": 4,
-      "totalNeededCandidates": 79,
+      "totalNeededCandidates": 80,
       "totalSearchLinks": 56,
       "topCircle": "Indie hacker circle"
     },
@@ -2215,11 +2161,11 @@
       {
         "circleId": "indie_hackers",
         "circleName": "Indie hacker circle",
-        "priorityScore": 43,
-        "neededCandidates": 35,
-        "currentQualifiedTools": 5,
+        "priorityScore": 44,
+        "neededCandidates": 36,
+        "currentQualifiedTools": 4,
         "openingMove": "Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson.",
-        "importHint": "Add 35 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
+        "importHint": "Add 36 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
         "searchLinks": [
           {
             "label": "X live search",
@@ -2592,7 +2538,7 @@
         "circleName": "AI startup circle",
         "priorityScore": 10,
         "neededCandidates": 8,
-        "currentQualifiedTools": 17,
+        "currentQualifiedTools": 16,
         "openingMove": "Use this as a watchlist. Add only unusually strong candidates.",
         "importHint": "Add 8 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL.",
         "searchLinks": [
@@ -2742,7 +2688,7 @@
   },
   "sourceHealth": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T18:06:53.995Z",
+    "generatedAt": "2026-06-12T19:05:06.510Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -2751,8 +2697,8 @@
       "healthySources": 2,
       "tuneSources": 0,
       "disableCandidates": 0,
-      "totalCandidates": 21,
-      "qualifiedCandidates": 17,
+      "totalCandidates": 20,
+      "qualifiedCandidates": 16,
       "noiseCandidates": 1
     },
     "sources": [
@@ -2763,14 +2709,14 @@
         "type": "rss",
         "candidateType": "topic",
         "enabled": true,
-        "totalCandidates": 15,
-        "activeCandidates": 15,
-        "qualifiedCandidates": 13,
+        "totalCandidates": 14,
+        "activeCandidates": 14,
+        "qualifiedCandidates": 12,
         "skippedCandidates": 2,
         "freshCandidates": 8,
         "noiseCandidates": 0,
-        "qualityRate": 0.87,
-        "freshRate": 0.53,
+        "qualityRate": 0.86,
+        "freshRate": 0.57,
         "noiseRate": 0,
         "healthScore": 97,
         "status": "healthy",
@@ -2934,8 +2880,8 @@
         "sources": 3,
         "enabledSources": 1,
         "healthySources": 1,
-        "totalCandidates": 15,
-        "qualifiedCandidates": 13,
+        "totalCandidates": 14,
+        "qualifiedCandidates": 12,
         "sourceGap": 2,
         "candidateGap": 8,
         "status": "short",
@@ -2950,7 +2896,7 @@
         "totalCandidates": 0,
         "qualifiedCandidates": 0,
         "sourceGap": 3,
-        "candidateGap": 35,
+        "candidateGap": 36,
         "status": "short",
         "recommendation": "Add or test 3 more reliable Indie hacker circle sources."
       },
@@ -2993,9 +2939,9 @@
     "summary": {
       "accounts": 20,
       "targetPosts": 200,
-      "plannedPosts": 19,
-      "gap": 181,
-      "uniqueToolsUsed": 19,
+      "plannedPosts": 18,
+      "gap": 182,
+      "uniqueToolsUsed": 18,
       "accountsCovered": 0
     },
     "accountPlans": [
@@ -3149,23 +3095,9 @@
         "displayName": "Dev Workflows",
         "category": "developer workflows",
         "targetPosts": 10,
-        "plannedPosts": 1,
-        "gap": 9,
-        "drafts": [
-          {
-            "toolId": "source_candidate_e4d4d2cd4d43",
-            "toolName": "Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in",
-            "url": "https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-            "score": 25,
-            "sourceName": "TechCrunch AI feed",
-            "circle": "ai_startups",
-            "candidateType": "topic",
-            "followUpAction": "tweet only",
-            "variantType": "casualPost",
-            "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: AI coding agent startup niteshift has raised a $7 million seed round from a who's who o.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-            "reason": "Dev Workflows match score 19; TechCrunch AI feed; tweet only."
-          }
-        ]
+        "plannedPosts": 0,
+        "gap": 10,
+        "drafts": []
       },
       {
         "accountId": "sales_support_ai",
@@ -3438,7 +3370,7 @@
     ],
     "unallocatedTools": [],
     "warnings": [
-      "Draft supply is short by 181 posts. Add candidates instead of reusing tools across accounts."
+      "Draft supply is short by 182 posts. Add candidates instead of reusing tools across accounts."
     ]
   },
   "contentCalendar": {
@@ -3453,10 +3385,10 @@
     "summary": {
       "accounts": 20,
       "targetPosts": 200,
-      "availableDrafts": 19,
+      "availableDrafts": 18,
       "sameDayCapacity": 46,
-      "scheduledPosts": 16,
-      "draftGap": 181,
+      "scheduledPosts": 15,
+      "draftGap": 182,
       "capacityGap": 154,
       "unscheduledDrafts": 3,
       "readyAccounts": 0,
@@ -3465,19 +3397,19 @@
     "scalePlan": {
       "status": "not_ready_to_scale",
       "targetPerAccount": 10,
-      "currentScheduledPosts": 16,
-      "theoreticalMaxTodayPosts": 19,
+      "currentScheduledPosts": 15,
+      "theoreticalMaxTodayPosts": 18,
       "recommendedTargetPerAccountIfKeepCooldown": 2,
       "recommendedCooldownHoursForTarget": 1.5,
       "blockers": [
         "draft_supply",
         "cooldown_capacity"
       ],
-      "headline": "Do not aim for 200/day yet. Review about 19 posts today unless you add more qualified drafts and change cooldowns.",
+      "headline": "Do not aim for 200/day yet. Review about 18 posts today unless you add more qualified drafts and change cooldowns.",
       "nextActions": [
-        "Add 181 more qualified, non-duplicate drafts before trying to fill the current target.",
+        "Add 182 more qualified, non-duplicate drafts before trying to fill the current target.",
         "Keep current cooldowns and lower the target to about 2/account/day, or reduce cooldown to about 1.5h for the current target.",
-        "Only manually review the 16 scheduled posts until feedback data exists."
+        "Only manually review the 15 scheduled posts until feedback data exists."
       ]
     },
     "accountCalendars": [
@@ -3705,29 +3637,16 @@
         "cooldownHours": 8,
         "recommendedCooldownHours": 1.5,
         "sameDayCapacity": 2,
-        "availableDrafts": 1,
-        "scheduledPosts": 1,
-        "draftGap": 9,
+        "availableDrafts": 0,
+        "scheduledPosts": 0,
+        "draftGap": 10,
         "capacityGap": 8,
         "status": "target_incompatible",
-        "slots": [
-          {
-            "slot": 1,
-            "scheduledLocalTime": "2026-06-13 09:00",
-            "status": "needs_manual_review",
-            "toolId": "source_candidate_e4d4d2cd4d43",
-            "toolName": "Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in",
-            "url": "https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-            "variantType": "casualPost",
-            "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: AI coding agent startup niteshift has raised a $7 million seed round from a who's who o.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-            "score": 25,
-            "reason": "Dev Workflows match score 19; TechCrunch AI feed; tweet only."
-          }
-        ],
+        "slots": [],
         "unscheduledDrafts": [],
         "notes": [
           "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
-          "Need 9 more unique drafts for this account."
+          "Need 10 more unique drafts for this account."
         ]
       },
       {
@@ -4104,13 +4023,13 @@
     ],
     "warnings": [
       "Current cooldown settings make 154 target slots impossible inside one day.",
-      "Draft supply is short by 181 posts before manual review.",
-      "Calendar scheduled 16/200 target posts."
+      "Draft supply is short by 182 posts before manual review.",
+      "Calendar scheduled 15/200 target posts."
     ]
   },
   "feedbackOps": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T18:06:53.998Z",
+    "generatedAt": "2026-06-12T19:05:06.514Z",
     "summary": {
       "posted": 0,
       "measured": 0,
@@ -4630,7 +4549,7 @@
   },
   "promotionReview": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T18:06:53.999Z",
+    "generatedAt": "2026-06-12T19:05:06.515Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {
@@ -4711,33 +4630,6 @@
         "evidence": {
           "affiliateScore": 2,
           "riskScore": 0,
-          "freshForPosting": false,
-          "historyCount": 2,
-          "hasAffiliateLink": false,
-          "feedbackEntries": 0,
-          "engagementScore": 0,
-          "impressions": 0,
-          "bookmarks": 0,
-          "replies": 0,
-          "clicks": 0
-        }
-      },
-      {
-        "id": "tool_techcrunch_com_datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock_4ced8c6eb5:watch",
-        "toolId": "tool_techcrunch_com_datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock_4ced8c6eb5",
-        "toolName": "Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in",
-        "toolUrl": "https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-        "score": 25,
-        "suggestion": "watch",
-        "queueType": "watch",
-        "reviewStatus": "watch",
-        "priorityScore": 47,
-        "alreadyQueued": false,
-        "reason": "不是 48 小时内的新鲜候选，先观察，不建议花 API credits 发。",
-        "recommendedAction": "Do not promote yet. Collect feedback or wait for a fresher angle.",
-        "evidence": {
-          "affiliateScore": 2,
-          "riskScore": 1,
           "freshForPosting": false,
           "historyCount": 2,
           "hasAffiliateLink": false,
@@ -4948,6 +4840,33 @@
         "queueType": "watch",
         "reviewStatus": "watch",
         "priorityScore": 38,
+        "alreadyQueued": false,
+        "reason": "不是 48 小时内的新鲜候选，先观察，不建议花 API credits 发。",
+        "recommendedAction": "Do not promote yet. Collect feedback or wait for a fresher angle.",
+        "evidence": {
+          "affiliateScore": 0,
+          "riskScore": 0,
+          "freshForPosting": false,
+          "historyCount": 2,
+          "hasAffiliateLink": false,
+          "feedbackEntries": 0,
+          "engagementScore": 0,
+          "impressions": 0,
+          "bookmarks": 0,
+          "replies": 0,
+          "clicks": 0
+        }
+      },
+      {
+        "id": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1:watch",
+        "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
+        "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+        "toolUrl": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+        "score": 22,
+        "suggestion": "watch",
+        "queueType": "watch",
+        "reviewStatus": "watch",
+        "priorityScore": 34,
         "alreadyQueued": false,
         "reason": "不是 48 小时内的新鲜候选，先观察，不建议花 API credits 发。",
         "recommendedAction": "Do not promote yet. Collect feedback or wait for a fresher angle.",
@@ -5400,147 +5319,6 @@
           "ok": true,
           "length": 179,
           "issues": "OK (179 chars)"
-        },
-        "threadOpening": {
-          "ok": true,
-          "length": 170,
-          "issues": "OK (170 chars)"
-        }
-      }
-    },
-    {
-      "id": "tool_techcrunch_com_datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock_4ced8c6eb5",
-      "toolId": "tool_techcrunch_com_datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock_4ced8c6eb5",
-      "name": "Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in",
-      "url": "https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-      "domain": "techcrunch.com",
-      "tagline": "AI coding agent startup Niteshift has raised a $7 million seed round from a who's who of angels. It's betting companies will want power over, not lock-in with model makers.",
-      "published": "Wed, 10 Jun 2026 15:00:00 +0000",
-      "sourceId": "techcrunch_ai",
-      "sourceType": "source_feed",
-      "sourceName": "TechCrunch AI feed",
-      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "sourceQuality": {
-        "status": "ok",
-        "isNoisy": false,
-        "reason": "Passed source quality gate.",
-        "blockedTerms": [],
-        "matchedTerms": []
-      },
-      "circle": "ai_startups",
-      "candidateType": "topic",
-      "score": 25,
-      "scoreBreakdown": {
-        "painScore": 8,
-        "nicheScore": 6,
-        "affiliateScore": 2,
-        "contentScore": 6,
-        "noveltyScore": 8,
-        "riskScore": 1,
-        "sourceNoisePenalty": 0,
-        "seenPenalty": 4,
-        "total": 25
-      },
-      "reason": "clear pain: removing one annoying developer workflow step; fresh enough to test now. Caution: Seen before, so it is downgraded today.",
-      "affiliateStatus": "research_needed",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "tweet only",
-      "accountRecommendation": {
-        "toolId": "tool_techcrunch_com_datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock_4ced8c6eb5",
-        "toolName": "Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in",
-        "primary": {
-          "accountId": "ai_founder_signals",
-          "displayName": "AI Founder Signals",
-          "handle": "",
-          "category": "AI startup circle",
-          "score": 19.7,
-          "dailyPostLimit": 10,
-          "cooldownHours": 6,
-          "matchedKeywords": [
-            "AI",
-            "startup",
-            "launch",
-            "agent",
-            "workflow"
-          ],
-          "matchedPillars": [
-            "AI startups"
-          ]
-        },
-        "alternatives": [
-          {
-            "accountId": "ai_tools_lab",
-            "displayName": "AI Tools Lab",
-            "handle": "",
-            "category": "AI tools discovery",
-            "score": 11.7,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [
-              "AI",
-              "workflow"
-            ],
-            "matchedPillars": []
-          },
-          {
-            "accountId": "indie_launch_radar",
-            "displayName": "Indie Launch Radar",
-            "handle": "",
-            "category": "indie hacker circle",
-            "score": 11.7,
-            "dailyPostLimit": 10,
-            "cooldownHours": 8,
-            "matchedKeywords": [
-              "launch",
-              "maker"
-            ],
-            "matchedPillars": []
-          }
-        ],
-        "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, launch, agent; pillar: AI startups."
-      },
-      "seenBefore": true,
-      "seenBeforeDetails": {
-        "count": 1,
-        "lastSeen": "2026-06-12",
-        "bestScore": 29
-      },
-      "suggestedAngle": "startup operators want a sharper startup workflow; test whether it solves removing one annoying developer workflow step.",
-      "angle": {
-        "audience": "startup operators",
-        "outcome": "a sharper startup workflow",
-        "pain": "removing one annoying developer workflow step",
-        "solution": "AI coding agent startup niteshift has raised a $7 million seed round from a who's who o..."
-      },
-      "copyVariants": {
-        "shortPost": "Worth watching: Datadog veterans launch AI coding startup Niteshift on a bet against Big AI lock-in. I would not treat it as a tool review. The useful angle is what it says about startup operators. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-        "casualPost": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: AI coding agent startup niteshift has raised a $7 million seed round from a who's who o.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-        "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for startup operators? https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-        "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one annoying developer workflow step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/",
-        "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/datadog-veterans-launch-ai-coding-startup-niteshift-on-a-bet-against-big-ai-lock-in/"
-      },
-      "copyChecks": {
-        "shortPost": {
-          "ok": true,
-          "length": 221,
-          "issues": "OK (221 chars)"
-        },
-        "casualPost": {
-          "ok": true,
-          "length": 258,
-          "issues": "OK (258 chars)"
-        },
-        "contrarianAngle": {
-          "ok": true,
-          "length": 152,
-          "issues": "OK (152 chars)"
-        },
-        "painPointHook": {
-          "ok": true,
-          "length": 183,
-          "issues": "OK (183 chars)"
         },
         "threadOpening": {
           "ok": true,
@@ -7094,36 +6872,36 @@
         "toolId": "tool_techcrunch_com_doordash-s-new-ai-chatbot-lets-you-order-with-prompts-and-photos_0f0611b8fe",
         "toolName": "DoorDash’s new AI chatbot lets you order with prompts and photos",
         "primary": {
-          "accountId": "ai_tools_lab",
-          "displayName": "AI Tools Lab",
+          "accountId": "ai_founder_signals",
+          "displayName": "AI Founder Signals",
           "handle": "",
-          "category": "AI tools discovery",
-          "score": 11.3,
+          "category": "AI startup circle",
+          "score": 15.3,
           "dailyPostLimit": 10,
           "cooldownHours": 6,
           "matchedKeywords": [
             "AI",
+            "startup",
             "workflow"
           ],
-          "matchedPillars": []
+          "matchedPillars": [
+            "AI startups"
+          ]
         },
         "alternatives": [
           {
-            "accountId": "ai_founder_signals",
-            "displayName": "AI Founder Signals",
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
             "handle": "",
-            "category": "AI startup circle",
-            "score": 15.3,
+            "category": "AI tools discovery",
+            "score": 11.3,
             "dailyPostLimit": 10,
             "cooldownHours": 6,
             "matchedKeywords": [
               "AI",
-              "startup",
               "workflow"
             ],
-            "matchedPillars": [
-              "AI startups"
-            ]
+            "matchedPillars": []
           },
           {
             "accountId": "productivity_ops",
@@ -7139,7 +6917,7 @@
             "matchedPillars": []
           }
         ],
-        "reason": "AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow."
+        "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups."
       },
       "seenBefore": true,
       "seenBeforeDetails": {
@@ -7828,58 +7606,6 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_firma-dev_aaeac09a66",
-      "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
-      "name": "Firma.dev",
-      "url": "https://www.producthunt.com/products/firma-dev",
-      "domain": "producthunt.com",
-      "tagline": "E-signatures API for your app averaging ~3¢ per envelope",
-      "published": "2026-06-08T08:48:32-07:00",
-      "sourceId": "",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "sourceQuality": {
-        "status": "ok",
-        "isNoisy": false,
-        "reason": "Not checked by source quality gate.",
-        "blockedTerms": [],
-        "matchedTerms": []
-      },
-      "circle": "",
-      "candidateType": "product",
-      "score": 16,
-      "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 3,
-        "affiliateScore": 2,
-        "contentScore": 3,
-        "noveltyScore": 4,
-        "riskScore": 2,
-        "sourceNoisePenalty": 0,
-        "seenPenalty": 0,
-        "total": 16
-      },
-      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
-      "angle": {
-        "audience": "developers",
-        "outcome": "less glue code",
-        "pain": "removing one annoying developer workflow step",
-        "solution": "e-signatures API for your app averaging ~3¢ per envelope"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
       "id": "tool_producthunt_com_pond_078dd3c545",
       "toolId": "tool_producthunt_com_pond_078dd3c545",
       "name": "Pond",
@@ -7927,6 +7653,58 @@
         "outcome": "a sharper startup workflow",
         "pain": "removing one narrow, repeated manual step",
         "solution": "fundraising, gtm, and bounties for startups"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_firma-dev_aaeac09a66",
+      "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
+      "name": "Firma.dev",
+      "url": "https://www.producthunt.com/products/firma-dev",
+      "domain": "producthunt.com",
+      "tagline": "E-signatures API for your app averaging ~3¢ per envelope",
+      "published": "2026-06-08T08:48:32-07:00",
+      "sourceId": "",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
+      "circle": "",
+      "candidateType": "product",
+      "score": 16,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 3,
+        "affiliateScore": 2,
+        "contentScore": 3,
+        "noveltyScore": 4,
+        "riskScore": 2,
+        "sourceNoisePenalty": 0,
+        "seenPenalty": 0,
+        "total": 16
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
+      "angle": {
+        "audience": "developers",
+        "outcome": "less glue code",
+        "pain": "removing one annoying developer workflow step",
+        "solution": "e-signatures API for your app averaging ~3¢ per envelope"
       },
       "copyVariants": {},
       "copyChecks": {}
@@ -8049,7 +7827,7 @@
     "History records before this run: 110",
     "Unique tools seen: 79",
     "Last history date before this run: 2026-06-13",
-    "Seen-before tools in today's picks: 16",
-    "Records written by this run: 19"
+    "Seen-before tools in today's picks: 15",
+    "Records written by this run: 18"
   ]
 }

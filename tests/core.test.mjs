@@ -24,6 +24,7 @@ import { buildFeedbackOps, buildFeedbackSeedTestPlan, buildLearningLoop, renderL
 import { affiliateSearchLinks, buildAffiliateResearchWorkbench } from "../scripts/lib/affiliate-research-workbench.mjs";
 import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/affiliate-links.mjs";
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
+import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1410,6 +1411,62 @@ test("scale readiness blocks volume when feedback and supply are missing", () =>
   assert.equal(report.blockers.some((item) => item.id === "feedback_missing"), true);
   assert.equal(report.blockers.some((item) => item.id === "source_gap"), true);
   assert.match(report.actionPlan.join(" "), /不要按 20 账号目标硬放量/);
+});
+
+test("account content matrix exposes account-level candidate and draft gaps", () => {
+  const aiTool = seedTool({ id: "ai_agent_tool", accountId: "ai", score: 30 });
+  const aiSecond = seedTool({ id: "ai_workflow_tool", accountId: "ai", score: 26 });
+  const saasTool = seedTool({ id: "saas_pricing_tool", accountId: "saas", score: 28 });
+  const matrix = buildAccountContentMatrix({
+    date: "2026-06-12",
+    latest: {
+      tools: [aiTool, aiSecond, saasTool],
+      freshnessReport: {
+        publishableTools: [
+          { name: aiTool.name, url: aiTool.url },
+          { name: saasTool.name, url: saasTool.url }
+        ]
+      }
+    },
+    accountConfig: {
+      rotationPolicy: { defaultDailyPostLimit: 2 },
+      accounts: [
+        { id: "ai", displayName: "AI", category: "AI", active: true, dailyPostLimit: 2 },
+        { id: "saas", displayName: "SaaS", category: "SaaS", active: true, dailyPostLimit: 2 }
+      ]
+    },
+    draftPlan: {
+      accountPlans: [
+        { accountId: "ai", plannedPosts: 1, drafts: [{ toolId: aiTool.toolId }] },
+        { accountId: "saas", plannedPosts: 0, drafts: [] }
+      ]
+    },
+    contentCalendar: {
+      accountCalendars: [
+        { accountId: "ai", scheduledPosts: 1, slots: [{}] },
+        { accountId: "saas", scheduledPosts: 0, slots: [] }
+      ]
+    },
+    feedbackOps: {
+      accountStats: [
+        { accountId: "ai", measured: 0, pending: 1 },
+        { accountId: "saas", measured: 0, pending: 0 }
+      ]
+    }
+  });
+  const markdown = renderAccountContentMatrixMarkdown(matrix);
+
+  assert.equal(matrix.summary.activeAccounts, 2);
+  assert.equal(matrix.summary.targetDailyPosts, 4);
+  assert.equal(matrix.summary.candidateBenchTarget, 12);
+  assert.equal(matrix.summary.matchedCandidates, 3);
+  assert.equal(matrix.summary.freshCandidates, 2);
+  assert.equal(matrix.summary.plannedDrafts, 1);
+  assert.equal(matrix.summary.scheduledPosts, 1);
+  assert.equal(matrix.priorityAccounts[0].accountId, "saas");
+  assert.equal(matrix.searchTasks.length > 0, true);
+  assert.equal(matrix.searchTasks.every((task) => task.url.startsWith("https://")), true);
+  assert.match(markdown, /Account Content Matrix/);
 });
 
 test("affiliate research workbench prioritizes candidates and ready snippets", () => {

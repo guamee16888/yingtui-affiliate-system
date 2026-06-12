@@ -22,6 +22,7 @@ import {
   sourceCandidatesToTools
 } from "./lib/content-source-system.mjs";
 import { buildScaleReadiness, renderScaleReadinessMarkdown } from "./lib/scale-readiness.mjs";
+import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "./lib/account-content-matrix.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -76,6 +77,7 @@ async function main() {
   const outputFile = await writeDailyOutput(model);
   const jsonFiles = await writeDailyJsonOutputs(model);
   const scaleFiles = await writeScaleOutputs({ model, accountConfig });
+  const matrixFiles = await writeAccountMatrixOutputs({ model, accountConfig });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
   if (!feed.usedFallback) {
@@ -92,6 +94,8 @@ async function main() {
   console.log(`Wrote ${jsonFiles.latestFile}`);
   console.log(`Wrote ${scaleFiles.jsonPath}`);
   console.log(`Wrote ${scaleFiles.markdownPath}`);
+  console.log(`Wrote ${matrixFiles.jsonPath}`);
+  console.log(`Wrote ${matrixFiles.markdownPath}`);
   console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
   console.log(`Source refresh fetched ${sourceRefresh.fetchedCount} new items from ${sourceRefresh.enabledSources} enabled extra sources`);
   console.log(historyMessage);
@@ -114,6 +118,22 @@ async function writeScaleOutputs({ model, accountConfig }) {
   const markdownPath = `output/${model.date}-scale-readiness.md`;
   await writeJsonAtomic(jsonPath, report);
   await writeTextAtomic(markdownPath, renderScaleReadinessMarkdown(report));
+  return { jsonPath, markdownPath };
+}
+
+async function writeAccountMatrixOutputs({ model, accountConfig }) {
+  const matrix = buildAccountContentMatrix({
+    date: model.date,
+    latest: model,
+    accountConfig,
+    draftPlan: model.draftPlan,
+    contentCalendar: model.contentCalendar,
+    feedbackOps: model.feedbackOps
+  });
+  const jsonPath = "data/account-content-matrix.json";
+  const markdownPath = `output/${model.date}-account-content-matrix.md`;
+  await writeJsonAtomic(jsonPath, matrix);
+  await writeTextAtomic(markdownPath, renderAccountContentMatrixMarkdown(matrix));
   return { jsonPath, markdownPath };
 }
 

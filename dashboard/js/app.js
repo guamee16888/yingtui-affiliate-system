@@ -46,6 +46,7 @@ const state = {
   sourceImportPack: null,
   productRoadmap: null,
   scaleReadiness: null,
+  accountContentMatrix: null,
   xStatus: { configured: false, note: "" },
   settings: null,
   weekly: null,
@@ -124,7 +125,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, accountContentMatrix, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -141,11 +142,12 @@ async function loadAll() {
       api.get("/api/source-import-pack"),
       api.get("/api/product-roadmap"),
       api.get("/api/scale-readiness"),
+      api.get("/api/account-content-matrix"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, accountContentMatrix, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -159,7 +161,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, accountContentMatrix] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -174,7 +176,8 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/content-calendar/latest.json", { missing: true }),
     fetchJson("/data/source-import-pack/latest.json", { missing: true }),
     fetchJson("/data/product-roadmap.json", { missing: true }),
-    fetchJson("/data/scale-readiness.json", { missing: true })
+    fetchJson("/data/scale-readiness.json", { missing: true }),
+    fetchJson("/data/account-content-matrix.json", { missing: true })
   ]);
   const settings = {
     latestDate: latest?.date ?? null,
@@ -213,6 +216,7 @@ async function loadStaticFallback(apiError) {
     sourceImportPack: sourceImportPack?.missing ? null : sourceImportPack,
     productRoadmap: productRoadmap?.missing ? null : productRoadmap,
     scaleReadiness: scaleReadiness?.missing ? null : scaleReadiness,
+    accountContentMatrix: accountContentMatrix?.missing ? null : accountContentMatrix,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
@@ -2539,6 +2543,7 @@ function renderAccounts() {
       <div class="list">${(strategy.rotationNotes ?? []).map((note) => `<div class="list-item">${esc(note)}</div>`).join("")}</div>
     </section>
     ${renderSupplyCoverage(supplyPlan)}
+    ${renderAccountContentMatrixPanel(state.accountContentMatrix)}
     ${renderDraftPlannerPanel(state.latest?.draftPlan)}
     ${renderContentCalendarPanel(state.latest?.contentCalendar)}
     ${renderSourceQueuePanel(state.latest?.sourceQualityQueue)}
@@ -2557,6 +2562,87 @@ function renderAccounts() {
       <h2>账号画像</h2>
       <div class="account-grid">${accounts.map(renderAccountCard).join("") || empty("暂无账号配置。")}</div>
     </section>
+  </div>`;
+}
+
+function renderAccountContentMatrixPanel(matrix) {
+  if (!matrix) {
+    return `<section class="panel warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Account content matrix</p>
+          <h2>还没有账号内容矩阵</h2>
+          <p class="muted">运行 npm run account-matrix，按每个账号的候选池、质量、新鲜度、草稿和排期计算缺口。</p>
+        </div>
+        ${pill("Need matrix", "warn")}
+      </div>
+      <div class="row-actions"><button class="button ghost" data-copy="npm run account-matrix">复制命令</button></div>
+    </section>`;
+  }
+  const summary = matrix.summary ?? {};
+  const radar = matrix.qualityRadar ?? [];
+  const priority = matrix.priorityAccounts ?? [];
+  const tasks = matrix.searchTasks ?? [];
+  return `<section class="panel wide-panel account-content-matrix ${Number(summary.readyAccounts ?? 0) ? "warn" : "bad"}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Account content matrix</p>
+        <h2>账号内容缺口：${esc(summary.readyAccounts ?? 0)}/${esc(summary.activeAccounts ?? 0)} ready</h2>
+        <p class="muted">${esc(matrix.rule || "Build account-level candidate coverage before scaling.")}</p>
+      </div>
+      ${pill(`gap ${summary.draftGap ?? 0} drafts`, Number(summary.draftGap ?? 0) ? "warn" : "good")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.targetDailyPosts ?? 0)}</strong><span>daily target</span></div>
+      <div><strong>${esc(summary.matchedCandidates ?? 0)}/${esc(summary.candidateBenchTarget ?? 0)}</strong><span>candidate bench</span></div>
+      <div><strong>${esc(summary.strongCandidates ?? 0)}</strong><span>strong</span></div>
+      <div><strong>${esc(summary.freshCandidates ?? 0)}</strong><span>fresh</span></div>
+      <div><strong>${esc(summary.plannedDrafts ?? 0)}</strong><span>drafts</span></div>
+      <div><strong>${esc(summary.scheduledPosts ?? 0)}</strong><span>scheduled</span></div>
+    </div>
+    <div class="grid">
+      <div class="list">
+        <strong>质量雷达</strong>
+        ${radar.map(renderMatrixRadarItem).join("") || empty("暂无质量雷达。")}
+      </div>
+      <div class="list">
+        <strong>先补这些账号</strong>
+        ${priority.slice(0, 6).map(renderMatrixAccountItem).join("") || empty("账号内容覆盖已经足够。")}
+      </div>
+    </div>
+    <div class="list mini-list">
+      <strong>搜索任务</strong>
+      ${tasks.slice(0, 6).map((task) => `<div class="list-item">
+        <div class="line-head"><strong>${esc(task.displayName)}</strong>${pill(task.provider, "neutral")}</div>
+        <div class="muted">${esc(task.query)} · add ${esc(task.targetRows)} candidates</div>
+        <div class="row-actions"><a class="button ghost" href="${attr(task.url)}" target="_blank" rel="noreferrer">打开搜索</a></div>
+      </div>`).join("") || empty("暂无账号级搜索任务。")}
+    </div>
+    <div class="row-actions">
+      <button class="button ghost" data-copy="npm run account-matrix">复制刷新命令</button>
+      <button class="button ghost" data-tab-jump="supply">去来源补给</button>
+      <button class="button ghost" data-tab-jump="calendar">看排期</button>
+    </div>
+  </section>`;
+}
+
+function renderMatrixRadarItem(item) {
+  const score = Number(item.score ?? 0);
+  return `<div class="list-item">
+    <div class="line-head"><strong>${esc(item.label)}</strong>${pill(`${score}/100`, score >= 75 ? "good" : score >= 35 ? "warn" : "bad")}</div>
+    <div class="chart-track"><div class="chart-fill accent" style="width:${Math.max(3, score)}%"></div></div>
+    <p class="muted">${esc(item.reason)}</p>
+  </div>`;
+}
+
+function renderMatrixAccountItem(account) {
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(account.displayName)}</strong>
+      ${pill(`${account.readinessScore}/100`, account.readinessScore >= 75 ? "good" : account.readinessScore >= 35 ? "warn" : "bad")}
+    </div>
+    <div class="muted">${esc(account.status)} · matched ${esc(account.matchedCandidates)}/${esc(account.candidateBenchTarget)} · fresh ${esc(account.freshCandidates)} · drafts ${esc(account.plannedDrafts)}/${esc(account.targetPosts)}</div>
+    <p>${esc(account.nextAction)}</p>
   </div>`;
 }
 

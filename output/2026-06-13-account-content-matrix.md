@@ -27,20 +27,28 @@
 
 1. Crypto Builder Radar — 可手动种子测试 — 手动测 2 条
    Crypto Builder Radar has 2 postable drafts. Publish only after final review, then import X Analytics.
+   Refill CSV rows: 9
 2. AI Founder Signals — 缺草稿/排期 — 补 10 条草稿/排期
    AI Founder Signals needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
 3. AI Tools Lab — 缺草稿/排期 — 补 10 条草稿/排期
    AI Tools Lab needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
 4. Productivity Ops — 缺草稿/排期 — 补 10 条草稿/排期
    Productivity Ops needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
 5. Sales Support AI — 缺草稿/排期 — 补 10 条草稿/排期
    Sales Support AI needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
 6. Affiliate Builder — 缺草稿/排期 — 补 10 条草稿/排期
    Affiliate Builder needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
 7. Career Workflows — 缺草稿/排期 — 补 10 条草稿/排期
    Career Workflows needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
 8. Indie Launch Radar — 缺草稿/排期 — 补 10 条草稿/排期
    Indie Launch Radar needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
 
 ## Priority Accounts
 

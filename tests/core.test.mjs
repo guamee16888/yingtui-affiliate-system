@@ -25,7 +25,7 @@ import { buildFeedbackOps, buildFeedbackSeedTestPlan, buildLearningLoop, renderL
 import { affiliateSearchLinks, buildAffiliateResearchWorkbench } from "../scripts/lib/affiliate-research-workbench.mjs";
 import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/affiliate-links.mjs";
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
-import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
+import { accountRefillRowsToCsv, buildAccountContentMatrix, buildAccountRefillTemplate, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
 import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
 import { buildSeedBatchPack, buildSeedImportNextActions, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
 
@@ -1555,11 +1555,44 @@ test("account content matrix exposes account-level candidate and draft gaps", ()
   assert.equal(matrix.inventory.summary.contentBlockedAccounts, 1);
   assert.equal(matrix.inventory.accounts.find((account) => account.accountId === "ai").status, "ready_to_seed");
   assert.equal(matrix.inventory.accounts.find((account) => account.accountId === "saas").status, "needs_drafts");
+  assert.equal(matrix.inventory.accounts.find((account) => account.accountId === "saas").refillTemplate.rows.length, 3);
   assert.equal(matrix.priorityAccounts[0].accountId, "saas");
   assert.equal(matrix.searchTasks.length > 0, true);
   assert.equal(matrix.searchTasks.every((task) => task.url.startsWith("https://")), true);
   assert.match(markdown, /Account Inventory/);
   assert.match(markdown, /Account Content Matrix/);
+});
+
+test("account refill CSV template preserves account routing and skips blank rows", () => {
+  const template = buildAccountRefillTemplate({
+    date: "2026-06-12",
+    refillNeed: 10,
+    firstBottleneck: "drafts",
+    status: "needs_drafts",
+    account: {
+      id: "ai",
+      displayName: "AI Founder Signals",
+      category: "AI startup circle"
+    }
+  });
+  const csv = accountRefillRowsToCsv(template.rows);
+  const blank = parseCandidatePaste(csv);
+  const filledLines = csv.split("\n");
+  const firstRow = filledLines[1].split(",");
+  firstRow[3] = "Demo Monitor";
+  firstRow[4] = "https://demo.example.com";
+  firstRow[5] = "AI founders catch demo bugs before launch";
+  filledLines[1] = firstRow.join(",");
+  const filledCsv = filledLines.join("\n");
+  const filled = parseCandidatePaste(filledCsv);
+
+  assert.equal(template.rows.length, 10);
+  assert.match(csv, /account_refill/);
+  assert.equal(blank.entries.length, 0);
+  assert.equal(filled.entries.length, 1);
+  assert.equal(filled.entries[0].accountId, "ai");
+  assert.equal(filled.entries[0].accountName, "AI Founder Signals");
+  assert.equal(filled.entries[0].circle, "ai_startups");
 });
 
 test("scale ramp plan turns account matrix gaps into launch batches", () => {

@@ -2885,6 +2885,10 @@ function renderInventoryFocusItem(account) {
     <div class="muted">postable ${esc(account.postableToday ?? 0)}/${esc(account.targetPosts ?? 0)} · refill ${esc(account.refillNeed ?? 0)} · score ${esc(account.readinessScore ?? 0)}/100</div>
     <p>${esc(account.actionLabel || "")}</p>
     <p class="muted">${esc(account.actionDetail || "")}</p>
+    <div class="row-actions">
+      ${account.refillTemplate?.rows?.length ? `<button class="button ghost" type="button" data-refill-csv="${attr(account.accountId)}">复制补题 CSV</button>` : ""}
+      <button class="button ghost" type="button" data-tab-jump="candidates">去候选收集</button>
+    </div>
   </div>`;
 }
 
@@ -2899,6 +2903,7 @@ function renderMatrixRadarItem(item) {
 
 function renderMatrixAccountItem(account) {
   const inventory = account.contentInventory ?? {};
+  const hasRefillTemplate = Boolean(accountRefillTemplate(account.accountId)?.rows?.length);
   return `<div class="list-item">
     <div class="line-head">
       <strong>${esc(account.displayName)}</strong>
@@ -2907,6 +2912,7 @@ function renderMatrixAccountItem(account) {
     </div>
     <div class="muted">${esc(account.status)} · postable ${esc(inventory.postableToday ?? 0)} · matched ${esc(account.matchedCandidates)}/${esc(account.candidateBenchTarget)} · fresh ${esc(account.freshCandidates)} · drafts ${esc(account.plannedDrafts)}/${esc(account.targetPosts)}</div>
     <p>${esc(inventory.actionDetail || account.nextAction)}</p>
+    ${hasRefillTemplate ? `<div class="row-actions"><button class="button ghost" type="button" data-refill-csv="${attr(account.accountId)}">复制补题 CSV</button></div>` : ""}
   </div>`;
 }
 
@@ -3843,6 +3849,25 @@ function openSearchGroup(button) {
   toast(`已打开 ${Math.min(urls.length, 6)} 个搜索页`);
 }
 
+function accountRefillCsv(accountId) {
+  const template = accountRefillTemplate(accountId);
+  if (!template?.rows?.length) throw new Error("这个账号还没有补题 CSV 模板。先刷新账号矩阵。");
+  return accountRefillRowsToCsv(template.rows);
+}
+
+function accountRefillTemplate(accountId) {
+  return (state.accountContentMatrix?.inventory?.accounts ?? [])
+    .find((account) => account.accountId === accountId)?.refillTemplate ?? null;
+}
+
+function accountRefillRowsToCsv(rows) {
+  const headers = ["accountId", "accountName", "priority", "name", "url", "tagline", "source", "circle", "candidateType", "sourceUrl", "published", "researchProvider", "researchQuery", "researchUrl", "acceptanceChecklist", "notes"];
+  return [
+    headers.join(","),
+    ...rows.map((row) => headers.map((header) => csvCell(row[header] ?? "")).join(","))
+  ].join("\n");
+}
+
 function legacyCopy(text) {
   const textarea = document.createElement("textarea");
   textarea.value = text;
@@ -4269,6 +4294,9 @@ document.addEventListener("click", async (event) => {
       switchTab(button.dataset.tabJump);
     } else if (button.dataset.copy) {
       await copyText(button.dataset.copy);
+      flashButton(button);
+    } else if (button.dataset.refillCsv) {
+      await copyText(accountRefillCsv(button.dataset.refillCsv));
       flashButton(button);
     } else if (button.dataset.fillFeedbackCsv) {
       fillFeedbackCsv(button.dataset.fillFeedbackCsv);

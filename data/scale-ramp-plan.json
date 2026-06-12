@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T20:12:53.346Z",
+  "generatedAt": "2026-06-12T20:25:26.842Z",
   "mode": "manual_confirm_ramp",
   "rule": "Scale in batches. Do not unlock broad multi-account posting until seed accounts have fresh drafts and measured feedback.",
   "summary": {

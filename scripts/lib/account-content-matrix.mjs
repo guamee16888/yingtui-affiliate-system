@@ -1,6 +1,7 @@
 import { normalizeAccountConfig } from "./account-system.mjs";
 
 const BENCH_MULTIPLIER = 3;
+const REFILL_ROWS_PER_ACCOUNT = 10;
 
 export function buildAccountContentMatrix({
   date,
@@ -19,6 +20,7 @@ export function buildAccountContentMatrix({
   const feedbackByAccount = new Map((feedbackOps?.accountStats ?? latest?.feedbackOps?.accountStats ?? []).map((item) => [item.accountId, item]));
 
   const accountRows = accounts.map((account) => buildAccountRow({
+    date,
     account,
     tools,
     publishableUrls,
@@ -46,7 +48,7 @@ export function buildAccountContentMatrix({
     blockedAccounts: accountRows.filter((row) => row.status !== "ready").length,
     averageReadinessScore: Math.round(rate(sum(accountRows, "readinessScore"), Math.max(1, accountRows.length)))
   };
-  const inventory = buildInventorySummary(accountRows, summary);
+  const inventory = buildInventorySummary(accountRows, summary, date);
 
   return {
     version: 1,
@@ -96,7 +98,8 @@ ${matrix.qualityRadar.map((item) => `- ${item.label}: ${item.score}/100 — ${it
 - Feedback blocked accounts: ${matrix.inventory?.summary?.feedbackBlockedAccounts ?? 0}
 
 ${matrix.inventory?.todayFocus?.length ? matrix.inventory.todayFocus.map((account, index) => `${index + 1}. ${account.displayName} — ${account.statusLabel} — ${account.actionLabel}
-   ${account.actionDetail}`).join("\n") : "No account inventory focus items."}
+   ${account.actionDetail}
+   Refill CSV rows: ${account.refillTemplate?.rows?.length ?? 0}`).join("\n") : "No account inventory focus items."}
 
 ## Priority Accounts
 
@@ -116,7 +119,7 @@ ${matrix.notes.map((note) => `- ${note}`).join("\n")}
 `;
 }
 
-function buildAccountRow({ account, tools, publishableUrls, draftPlan = null, calendar = null, feedback = null }) {
+function buildAccountRow({ date, account, tools, publishableUrls, draftPlan = null, calendar = null, feedback = null }) {
   const targetPosts = Number(account.dailyPostLimit || 10);
   const candidateBenchTarget = targetPosts * BENCH_MULTIPLIER;
   const matches = tools
@@ -217,14 +220,25 @@ function buildAccountRow({ account, tools, publishableUrls, draftPlan = null, ca
   };
 }
 
-function buildInventorySummary(accountRows, summary) {
+function buildInventorySummary(accountRows, summary, date) {
   const rows = accountRows.map((row) => ({
     accountId: row.accountId,
     displayName: row.displayName,
     category: row.category,
     readinessScore: row.readinessScore,
     targetPosts: row.targetPosts,
-    ...row.contentInventory
+    ...row.contentInventory,
+    refillTemplate: buildAccountRefillTemplate({
+      account: {
+        id: row.accountId,
+        displayName: row.displayName,
+        category: row.category
+      },
+      date,
+      refillNeed: row.contentInventory.refillNeed,
+      firstBottleneck: row.contentInventory.firstBottleneck,
+      status: row.contentInventory.status
+    })
   }));
   const inventorySummary = {
     activeAccounts: summary.activeAccounts,
@@ -306,6 +320,94 @@ function buildContentInventory({
     actionPriority: action.priority,
     readinessScore
   };
+}
+
+export function buildAccountRefillTemplate({ account, date, refillNeed = 0, firstBottleneck = "", status = "", rowsPerAccount = REFILL_ROWS_PER_ACCOUNT }) {
+  const rows = buildAccountRefillRows({ account, date, refillNeed, firstBottleneck, status, rowsPerAccount });
+  return {
+    rowsPerAccount,
+    rows
+  };
+}
+
+export function buildAccountRefillRows({ account, date, refillNeed = 0, firstBottleneck = "", status = "", rowsPerAccount = REFILL_ROWS_PER_ACCOUNT }) {
+  const query = searchQueryForAccount({
+    displayName: account.displayName,
+    category: account.category
+  });
+  const circle = circleForAccount(account);
+  const count = Math.max(3, Math.min(rowsPerAccount, Number(refillNeed || rowsPerAccount)));
+  return Array.from({ length: count }, (_, index) => {
+    const research = refillResearchTask({ account, query, index, circle });
+    return {
+      accountId: account.id ?? account.accountId ?? "",
+      accountName: account.displayName ?? "",
+      priority: index < 3 ? "P1" : index < 7 ? "P2" : "P3",
+      name: "",
+      url: "",
+      tagline: "",
+      source: "account_refill",
+      circle,
+      candidateType: index % 3 === 0 ? "topic" : "product",
+      sourceUrl: research.url,
+      published: date || new Date().toISOString().slice(0, 10),
+      researchProvider: research.provider,
+      researchQuery: research.query,
+      researchUrl: research.url,
+      acceptanceChecklist: accountAcceptanceChecklist(circle),
+      notes: [
+        `Account: ${account.displayName ?? account.accountId ?? ""}`,
+        `Status: ${status || "needs_refill"}`,
+        firstBottleneck ? `Bottleneck: ${firstBottleneck}` : "",
+        "Fill only real name/url/tagline rows; leave weak rows blank."
+      ].filter(Boolean).join(" | ")
+    };
+  });
+}
+
+export function accountRefillRowsToCsv(rows) {
+  const headers = ["accountId", "accountName", "priority", "name", "url", "tagline", "source", "circle", "candidateType", "sourceUrl", "published", "researchProvider", "researchQuery", "researchUrl", "acceptanceChecklist", "notes"];
+  return [
+    headers.join(","),
+    ...rows.map((row) => headers.map((header) => csvCell(row[header] ?? "")).join(","))
+  ].join("\n");
+}
+
+function refillResearchTask({ account, query, index, circle }) {
+  const providers = circle === "crypto_builders"
+    ? [
+        { provider: "X live search", url: `https://x.com/search?q=${encodeURIComponent(query)}&src=typed_query&f=live` },
+        { provider: "Google recent search", url: `https://www.google.com/search?q=${encodeURIComponent(`${query} after:2026-01-01`)}` },
+        { provider: "CoinDesk search", url: `https://www.coindesk.com/search?s=${encodeURIComponent(query.replaceAll('"', ""))}` }
+      ]
+    : circle === "ai_startups"
+      ? [
+          { provider: "Product Hunt search", url: `https://www.producthunt.com/search?q=${encodeURIComponent(query.replaceAll('"', ""))}` },
+          { provider: "X live search", url: `https://x.com/search?q=${encodeURIComponent(query)}&src=typed_query&f=live` },
+          { provider: "Google recent search", url: `https://www.google.com/search?q=${encodeURIComponent(`${query} after:2026-01-01`)}` }
+        ]
+      : [
+          { provider: "X live search", url: `https://x.com/search?q=${encodeURIComponent(query)}&src=typed_query&f=live` },
+          { provider: "Google recent search", url: `https://www.google.com/search?q=${encodeURIComponent(`${query} after:2026-01-01`)}` },
+          { provider: "HN Algolia", url: `https://hn.algolia.com/?q=${encodeURIComponent(query.replaceAll('"', ""))}` }
+        ];
+  const selected = providers[index % providers.length];
+  return { ...selected, query };
+}
+
+function circleForAccount(account) {
+  const text = `${account.id ?? account.accountId ?? ""} ${account.displayName ?? ""} ${account.category ?? ""}`.toLowerCase();
+  if (text.includes("crypto")) return "crypto_builders";
+  if (text.includes("saas")) return "saas_founders";
+  if (text.includes("indie") || text.includes("affiliate") || text.includes("creator") || text.includes("build")) return "indie_hackers";
+  return "ai_startups";
+}
+
+function accountAcceptanceChecklist(circle) {
+  if (circle === "crypto_builders") return "real URL | builder/tool angle | not price-only | clear audience | fresh enough";
+  if (circle === "saas_founders") return "real URL | SaaS founder pain | pricing/growth/ops angle | fresh enough";
+  if (circle === "indie_hackers") return "real URL | indie/solo founder angle | concrete build or monetization lesson";
+  return "real URL | AI/startup/tool angle | clear buyer pain | not broad hype";
 }
 
 function inventoryStatus({ postableToday, targetPosts, measuredFeedback, draftGap, scheduleGap, freshGap, qualityGap, candidateGap }) {
@@ -541,4 +643,10 @@ function rate(value, target) {
   const denominator = Number(target || 0);
   if (!denominator) return 0;
   return Number(value || 0) / denominator;
+}
+
+function csvCell(value) {
+  const text = String(value ?? "");
+  if (/[",\n\r]/.test(text)) return `"${text.replace(/"/g, '""')}"`;
+  return text;
 }

@@ -1,8 +1,8 @@
 # Product Roadmap - 2026-06-12
 
 - Objective: Product-grade multi-account X content ops system with review-first publishing.
-- Overall score: 40/100
-- Level: structured-mvp
+- Overall score: 38/100
+- Level: prototype
 - Blockers: 5
 - Deferred: 1
 
@@ -11,12 +11,12 @@
 1. Feedback learning loop — 0/100
    Why it matters: The system cannot learn angles, accounts, or topics until posted content gets metrics back into JSON.
    Next: Mark every manual post as posted with accountId.
-2. Account-level content calendar — 9/100
+2. Affiliate monetization readiness — 5/100
+   Why it matters: Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.
+   Next: Use the Affiliate research workbench and save real program findings.
+3. Account-level content calendar — 9/100
    Why it matters: A daily target is not real until it fits account cooldowns and human review time.
    Next: Run npm run content-calendar after every daily generation.
-3. Affiliate monetization readiness — 15/100
-   Why it matters: Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.
-   Next: Open affiliate search groups for the highest affiliateScore candidates.
 4. Daily high-quality content supply — 18/100
    Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
    Next: Run npm run source-queue and fill the largest circle gap first.
@@ -28,10 +28,10 @@
 
 1. Mark every manual post as posted with accountId.
 2. Paste X Analytics export into feedback import after posts have data.
-3. Run npm run content-calendar after every daily generation.
-4. Lower per-account daily targets or reduce cooldown hours before scaling.
-5. Open affiliate search groups for the highest affiliateScore candidates.
-6. Only move approved real links into config/affiliate-links.json.
+3. Use the Affiliate research workbench and save real program findings.
+4. Only move approved real links into config/affiliate-links.json.
+5. Run npm run content-calendar after every daily generation.
+6. Lower per-account daily targets or reduce cooldown hours before scaling.
 7. Run npm run source-queue and fill the largest circle gap first.
 8. Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL.
 
@@ -75,12 +75,12 @@
 
 ### Affiliate monetization readiness
 
-- Score: 15/100
+- Score: 5/100
 - Status: blocked
 - Why it matters: Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.
-- Evidence: 1 configured affiliate links. 0 affiliate research records. 1 current high-affiliate candidates.
-- Gaps: High-affiliate candidates still need program research.
-- Next: Open affiliate search groups for the highest affiliateScore candidates. Only move approved real links into config/affiliate-links.json.
+- Evidence: 0 configured affiliate links. 0 affiliate research records. 1 current high-affiliate candidates. 1 candidates in affiliate research workbench.
+- Gaps: High-affiliate candidates still need program research. No configured affiliate links detected.
+- Next: Use the Affiliate research workbench and save real program findings. Only move approved real links into config/affiliate-links.json.
 
 ### Source diversity
 

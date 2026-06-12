@@ -1,4 +1,5 @@
 import { calculateEngagement } from "./scoring.mjs";
+import { affiliateLinkMatchesTool } from "./affiliate-links.mjs";
 
 export function buildPromotionSuggestions({ latest, history, feedback, affiliateLinks = { links: [] } }) {
   const tools = latest?.tools ?? [];
@@ -268,11 +269,7 @@ function emptyStats() {
 }
 
 function matchesAffiliateConfig(tool, affiliateLinks) {
-  const haystack = `${tool.name} ${tool.url} ${tool.tagline}`.toLowerCase();
-  return (affiliateLinks.links ?? []).some((link) => {
-    const terms = [link.match, ...(link.keywords ?? []), ...(link.domains ?? [])].filter(Boolean);
-    return terms.some((term) => haystack.includes(String(term).toLowerCase()));
-  });
+  return (affiliateLinks.links ?? []).some((link) => affiliateLinkMatchesTool(tool, link));
 }
 
 function round(value) {

@@ -1,3 +1,5 @@
+import { realAffiliateLinks } from "./affiliate-links.mjs";
+
 export function buildProductRoadmap({
   date,
   latest = null,
@@ -8,6 +10,7 @@ export function buildProductRoadmap({
   affiliateLinks = { links: [] },
   contentCalendar = null,
   sourceImportPack = null,
+  affiliateWorkbench = null,
   publicDemoReady = false
 }) {
   const dimensions = [
@@ -15,7 +18,7 @@ export function buildProductRoadmap({
     contentSupplyDimension(latest, sourceImportPack),
     contentCalendarDimension(contentCalendar ?? latest?.contentCalendar),
     feedbackLoopDimension(feedback, accountPosts),
-    affiliateMonetizationDimension(latest, affiliateResearch, affiliateLinks),
+    affiliateMonetizationDimension(latest, affiliateResearch, affiliateLinks, affiliateWorkbench),
     sourceDiversityDimension(latest),
     qualitySafetyDimension(latest),
     longformEngineDimension(queues, latest),
@@ -204,12 +207,14 @@ function feedbackLoopDimension(feedback, accountPosts) {
   });
 }
 
-function affiliateMonetizationDimension(latest, affiliateResearch, affiliateLinks) {
+function affiliateMonetizationDimension(latest, affiliateResearch, affiliateLinks, affiliateWorkbench) {
   const queueCount = Number(latest?.summary?.affiliateQueueCount ?? latest?.affiliateResearchQueue?.length ?? 0);
-  const links = affiliateLinks.links ?? [];
+  const links = realAffiliateLinks(affiliateLinks);
   const researchItems = affiliateResearch.items ?? [];
   const approved = researchItems.filter((item) => item.status === "approved" || item.affiliateLink).length;
-  const score = Math.min(100, links.length * 15 + approved * 20 + (researchItems.length ? 20 : 0));
+  const workbenchCandidates = Number(affiliateWorkbench?.summary?.candidates ?? 0);
+  const readyToConfigure = Number(affiliateWorkbench?.summary?.readyToConfigure ?? 0);
+  const score = Math.min(100, links.length * 15 + approved * 20 + (researchItems.length ? 20 : 0) + (affiliateWorkbench ? 5 : 0) + readyToConfigure * 15);
 
   return dimension({
     id: "affiliate_monetization",
@@ -219,14 +224,15 @@ function affiliateMonetizationDimension(latest, affiliateResearch, affiliateLink
     evidence: [
       `${links.length} configured affiliate links.`,
       `${researchItems.length} affiliate research records.`,
-      `${queueCount} current high-affiliate candidates.`
+      `${queueCount} current high-affiliate candidates.`,
+      affiliateWorkbench ? `${workbenchCandidates} candidates in affiliate research workbench.` : "Affiliate research workbench has not been generated."
     ],
     gaps: [
       queueCount > 0 ? "High-affiliate candidates still need program research." : "",
       links.length ? "" : "No configured affiliate links detected."
     ].filter(Boolean),
     nextActions: [
-      "Open affiliate search groups for the highest affiliateScore candidates.",
+      affiliateWorkbench ? "Use the Affiliate research workbench and save real program findings." : "Run npm run affiliate:research to generate the research workbench.",
       "Only move approved real links into config/affiliate-links.json."
     ]
   });

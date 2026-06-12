@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "date": "2026-06-12",
+  "generatedAt": "2026-06-12T17:24:45.970Z",
+  "summary": {
+    "candidates": 1,
+    "highPriority": 0,
+    "readyToConfigure": 0,
+    "missingFields": 0,
+    "researching": 0,
+    "noFit": 0,
+    "researchRecords": 0,
+    "configuredLinks": 0,
+    "totalSearchLinks": 6
+  },
+  "rule": "Only use real approved affiliate links. Program pages, homepages, and guessed ref URLs are not affiliate links.",
+  "workflow": [
+    "Open the search group for the highest-priority candidate.",
+    "Confirm whether an official affiliate, partner, referral, or marketplace program exists.",
+    "Record programUrl, network, status, notes, and only a real approved affiliateLink.",
+    "Copy a config snippet only after status is approved and affiliateLink is real."
+  ],
+  "priorityQueue": [
+    {
+      "toolId": "tool_techcrunch_com_decart-s-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-_91de7fe251",
+      "name": "Decart’s new world model can simulate hours of photorealistic driving — with some caveats",
+      "url": "https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/",
+      "tagline": "Decart is launching Oasis 3, a real-time world model that generates photorealistic driving environments for autonomous vehicle testing, now available via API for developers to buil",
+      "affiliateScore": 6,
+      "score": 38,
+      "followUpAction": "tweet only",
+      "reason": "clear pain: removing one annoying developer workflow step; specific buyer: developers; fresh enough to test now.",
+      "source": "daily_queue,latest_tools",
+      "priorityScore": 86,
+      "existingRecordId": "",
+      "status": "not_started",
+      "readiness": {
+        "state": "researching",
+        "kind": "warn",
+        "label": "research needed",
+        "reason": "Confirm official programUrl, network, and application path first.",
+        "missingFields": [
+          "programUrl",
+          "status",
+          "affiliateLink"
+        ]
+      },
+      "nextAction": "Open the search group, then save a research record as searching, applied, approved, no_program, or rejected.",
+      "searchLinks": [
+        {
+          "label": "source article",
+          "url": "https://techcrunch.com/2026/06/10/decarts-new-world-model-can-simulate-hours-of-photorealistic-driving-with-some-caveats/"
+        },
+        {
+          "label": "official affiliate",
+          "url": "https://www.google.com/search?q=%22Decart%E2%80%99s%20new%20world%20model%20can%20simulate%20hours%20of%20photorealistic%20driving%20%E2%80%94%20with%20some%20caveats%22%20affiliate%20program"
+        },
+        {
+          "label": "PartnerStack",
+          "url": "https://www.google.com/search?q=site%3Apartnerstack.com%20%22Decart%E2%80%99s%20new%20world%20model%20can%20simulate%20hours%20of%20photorealistic%20driving%20%E2%80%94%20with%20some%20caveats%22"
+        },
+        {
+          "label": "Impact",
+          "url": "https://www.google.com/search?q=site%3Aimpact.com%20%22Decart%E2%80%99s%20new%20world%20model%20can%20simulate%20hours%20of%20photorealistic%20driving%20%E2%80%94%20with%20some%20caveats%22%20affiliate"
+        },
+        {
+          "label": "Rewardful",
+          "url": "https://www.google.com/search?q=site%3Arewardful.com%20%22Decart%E2%80%99s%20new%20world%20model%20can%20simulate%20hours%20of%20photorealistic%20driving%20%E2%80%94%20with%20some%20caveats%22"
+        },
+        {
+          "label": "Terms",
+          "url": "https://www.google.com/search?q=%22Decart%E2%80%99s%20new%20world%20model%20can%20simulate%20hours%20of%20photorealistic%20driving%20%E2%80%94%20with%20some%20caveats%22%20terms%20affiliate%20referral%20partner"
+        }
+      ]
+    }
+  ],
+  "records": [],
+  "readyConfigSnippets": []
+}

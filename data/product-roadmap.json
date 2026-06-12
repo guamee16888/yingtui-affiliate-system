@@ -1,10 +1,10 @@
 {
   "version": 1,
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T17:02:12.013Z",
+  "generatedAt": "2026-06-12T17:24:51.836Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
-  "overallScore": 40,
-  "level": "structured-mvp",
+  "overallScore": 38,
+  "level": "prototype",
   "summary": {
     "dimensions": 9,
     "blockers": 5,
@@ -95,19 +95,21 @@
     {
       "id": "affiliate_monetization",
       "name": "Affiliate monetization readiness",
-      "score": 15,
+      "score": 5,
       "status": "blocked",
       "whyItMatters": "Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.",
       "evidence": [
-        "1 configured affiliate links.",
+        "0 configured affiliate links.",
         "0 affiliate research records.",
-        "1 current high-affiliate candidates."
+        "1 current high-affiliate candidates.",
+        "1 candidates in affiliate research workbench."
       ],
       "gaps": [
-        "High-affiliate candidates still need program research."
+        "High-affiliate candidates still need program research.",
+        "No configured affiliate links detected."
       ],
       "nextActions": [
-        "Open affiliate search groups for the highest affiliateScore candidates.",
+        "Use the Affiliate research workbench and save real program findings.",
         "Only move approved real links into config/affiliate-links.json."
       ]
     },
@@ -202,18 +204,18 @@
       "nextAction": "Mark every manual post as posted with accountId."
     },
     {
+      "id": "affiliate_monetization",
+      "name": "Affiliate monetization readiness",
+      "score": 5,
+      "whyItMatters": "Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.",
+      "nextAction": "Use the Affiliate research workbench and save real program findings."
+    },
+    {
       "id": "content_calendar",
       "name": "Account-level content calendar",
       "score": 9,
       "whyItMatters": "A daily target is not real until it fits account cooldowns and human review time.",
       "nextAction": "Run npm run content-calendar after every daily generation."
-    },
-    {
-      "id": "affiliate_monetization",
-      "name": "Affiliate monetization readiness",
-      "score": 15,
-      "whyItMatters": "Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.",
-      "nextAction": "Open affiliate search groups for the highest affiliateScore candidates."
     },
     {
       "id": "content_supply",
@@ -233,10 +235,10 @@
   "nextSprint": [
     "Mark every manual post as posted with accountId.",
     "Paste X Analytics export into feedback import after posts have data.",
+    "Use the Affiliate research workbench and save real program findings.",
+    "Only move approved real links into config/affiliate-links.json.",
     "Run npm run content-calendar after every daily generation.",
     "Lower per-account daily targets or reduce cooldown hours before scaling.",
-    "Open affiliate search groups for the highest affiliateScore candidates.",
-    "Only move approved real links into config/affiliate-links.json.",
     "Run npm run source-queue and fill the largest circle gap first.",
     "Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL."
   ],

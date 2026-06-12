@@ -58,6 +58,7 @@ const allowedRoots = [
 let dailyRunPromise = null;
 let calendarRunPromise = null;
 let sourcePackRunPromise = null;
+let affiliateWorkbenchRunPromise = null;
 
 const mimeTypes = new Map([
   [".html", "text/html; charset=utf-8"],
@@ -127,6 +128,7 @@ async function handleApiGet(pathname) {
   if (pathname === "/api/queues") return loadQueues();
   if (pathname === "/api/review-pages") return loadReviewPages();
   if (pathname === "/api/affiliate-research") return loadAffiliateResearch();
+  if (pathname === "/api/affiliate-research-workbench") return readJson("data/affiliate-research-workbench.json", null);
   if (pathname === "/api/product-roadmap") return readJson("data/product-roadmap.json", null);
   if (pathname === "/api/content-calendar") {
     const latest = await loadLatest();
@@ -244,6 +246,7 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/daily/run") return runDailyGeneration();
   if (pathname === "/api/content-calendar/run") return runContentCalendarGeneration();
   if (pathname === "/api/source-import-pack/run") return runSourceImportPackGeneration();
+  if (pathname === "/api/affiliate-research-workbench/run") return runAffiliateResearchWorkbenchGeneration();
   if (pathname === "/api/roadmap/generate") return runRoadmapGeneration();
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
@@ -299,6 +302,23 @@ async function runSourceImportPackGeneration() {
     totalRows: pack?.summary?.totalRows ?? 0,
     topCircle: pack?.summary?.topCircle ?? "",
     csvPath: pack?.summary?.csvPath ?? ""
+  };
+}
+
+async function runAffiliateResearchWorkbenchGeneration() {
+  if (affiliateWorkbenchRunPromise) throw new Error("Affiliate research workbench is already running. Wait for it to finish.");
+  affiliateWorkbenchRunPromise = runNodeScript("scripts/affiliate-research-summary.mjs", "Affiliate research workbench")
+    .finally(() => {
+      affiliateWorkbenchRunPromise = null;
+    });
+  const result = await affiliateWorkbenchRunPromise;
+  const workbench = await readJson("data/affiliate-research-workbench.json", null);
+  return {
+    ...result,
+    date: workbench?.date ?? null,
+    candidates: workbench?.summary?.candidates ?? 0,
+    readyToConfigure: workbench?.summary?.readyToConfigure ?? 0,
+    researching: workbench?.summary?.researching ?? 0
   };
 }
 

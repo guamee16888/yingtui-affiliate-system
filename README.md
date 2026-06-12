@@ -203,7 +203,7 @@ npm run affiliate-queue
 npm run affiliate:research
 ```
 
-查看联盟研究记录：未开始、researching、approved 但未加入配置、rejected/no_program 等。
+生成联盟研究工作台，输出到 `data/affiliate-research-workbench.json` 和 `output/YYYY-MM-DD-affiliate-research-workbench.md`。它会合并今日高 affiliateScore 候选、跟进队列、已有研究记录和真实 affiliate 配置，给出优先级、搜索组、缺字段和可复制配置片段。
 
 ```bash
 npm run sources
@@ -553,11 +553,14 @@ npm start
 
 ## Affiliate Research 搜索
 
-打开「联盟研究」后，每个候选工具旁边会有 3 个搜索按钮：
+打开「联盟研究」后，每个候选工具旁边会有搜索组：
 
-- `affiliate`
-- `partner`
-- `referral`
+- 官网或来源文章
+- official affiliate / partner / referral
+- PartnerStack
+- Impact
+- Rewardful
+- Terms
 
 它们只会打开 Google 搜索，例如：
 
@@ -565,7 +568,11 @@ npm start
 "Tool Name" affiliate program
 ```
 
+如果候选 URL 来自 TechCrunch、CoinDesk、HN 等媒体站，系统会把它标成 source article，不会误用媒体域名去搜 affiliate program。
+
 这个功能只帮你查真实 program，不会自动生成 affiliate link。只有你手动填入真实 `affiliateLink`，系统才会记录到 `data/affiliate-research.json`。
+
+`config/affiliate-links.json` 里的 `example.com/?ref=your-id` 只是格式示例，不会计入真实 affiliate link，也不会让工具被标记为已配置。
 
 「联盟研究」顶部的 `Affiliate readiness` 会把研究记录分成：
 

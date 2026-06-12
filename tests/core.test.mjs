@@ -21,6 +21,8 @@ import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
 import { buildFeedbackOps, buildFeedbackSeedTestPlan, buildLearningLoop, renderLearningLoopMarkdown } from "../scripts/lib/feedback-ops.mjs";
+import { affiliateSearchLinks, buildAffiliateResearchWorkbench } from "../scripts/lib/affiliate-research-workbench.mjs";
+import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/affiliate-links.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1050,6 +1052,7 @@ test("product roadmap identifies non-auth product blockers", () => {
     accountPosts: { items: [] },
     affiliateLinks: { links: [] },
     sourceImportPack: { summary: { totalRows: 100, rowsNeedingResearch: 100 } },
+    affiliateWorkbench: { summary: { candidates: 2, readyToConfigure: 0 } },
     publicDemoReady: true
   });
 
@@ -1058,7 +1061,77 @@ test("product roadmap identifies non-auth product blockers", () => {
   assert.equal(roadmap.topBlockers.some((item) => item.id === "content_supply"), true);
   assert.equal(roadmap.topBlockers.some((item) => item.id === "content_calendar"), true);
   assert.match(roadmap.dimensions.find((item) => item.id === "content_supply").evidence.join(" "), /100 source-pack rows/);
+  assert.match(roadmap.dimensions.find((item) => item.id === "affiliate_monetization").evidence.join(" "), /2 candidates in affiliate research workbench/);
   assert.equal(roadmap.dimensions.find((item) => item.id === "public_product").score, 82);
+});
+
+test("affiliate research workbench prioritizes candidates and ready snippets", () => {
+  const workbench = buildAffiliateResearchWorkbench({
+    date: "2026-06-12",
+    latest: {
+      affiliateResearchQueue: [
+        {
+          name: "Partner Tool",
+          url: "https://partner.example.com",
+          affiliateScore: 8,
+          score: 42,
+          followUpAction: "affiliate priority",
+          reason: "No affiliate link yet — research needed"
+        }
+      ],
+      tools: []
+    },
+    affiliateResearch: {
+      items: [
+        {
+          toolName: "Approved Missing",
+          toolUrl: "https://missing.example.com",
+          status: "approved",
+          programUrl: "https://missing.example.com/partners"
+        },
+        {
+          toolName: "Ready Tool",
+          toolUrl: "https://ready.example.com",
+          status: "approved",
+          programUrl: "https://ready.example.com/partners",
+          affiliateLink: "https://ready.example.com/?ref=real"
+        }
+      ]
+    },
+    affiliateLinks: { links: [] },
+    queues: { items: [] }
+  });
+
+  assert.equal(workbench.summary.candidates, 1);
+  assert.equal(workbench.priorityQueue[0].name, "Partner Tool");
+  assert.equal(workbench.records.find((item) => item.toolName === "Approved Missing").readiness.state, "missing");
+  assert.equal(workbench.readyConfigSnippets.length, 1);
+  assert.match(workbench.readyConfigSnippets[0].snippet, /ready.example.com/);
+  assert.equal(affiliateSearchLinks("Partner Tool", "https://partner.example.com").some((link) => link.label === "PartnerStack"), true);
+  assert.equal(affiliateSearchLinks("News Tool", "https://techcrunch.com/story")[0].label, "source article");
+  assert.equal(affiliateSearchLinks("News Tool", "https://techcrunch.com/story")[1].url.includes("site%3Atechcrunch.com"), false);
+});
+
+test("placeholder affiliate links do not count as configured", () => {
+  const affiliateLinks = {
+    links: [
+      {
+        match: "example-tool",
+        domains: ["example.com"],
+        affiliateUrl: "https://example.com/?ref=your-id",
+        note: "Replace with your real affiliate link."
+      },
+      {
+        match: "Real Tool",
+        domains: ["realtool.com"],
+        affiliateUrl: "https://realtool.com/?ref=actual"
+      }
+    ]
+  };
+
+  assert.equal(realAffiliateLinks(affiliateLinks).length, 1);
+  assert.equal(affiliateLinkMatchesTool({ name: "example-tool", url: "https://example.com" }, affiliateLinks.links[0]), false);
+  assert.equal(affiliateLinkMatchesTool({ name: "Real Tool", url: "https://realtool.com" }, affiliateLinks.links[1]), true);
 });
 
 test("buildDecisionReport recommends review page for strong bookmarks", () => {

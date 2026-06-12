@@ -10,6 +10,7 @@ import { buildDraftPlan } from "./draft-planner.mjs";
 import { buildContentCalendar } from "./content-calendar.mjs";
 import { buildPromotionReviewQueue } from "./promotion-engine.mjs";
 import { buildFeedbackOps } from "./feedback-ops.mjs";
+import { affiliateLinkMatchesTool } from "./affiliate-links.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const rootDir = path.resolve(__dirname, "../..");
@@ -586,17 +587,7 @@ function publishedNovelty(tool, date) {
 }
 
 export function findAffiliate(tool, affiliateConfig) {
-  const haystack = `${tool.name} ${tool.url} ${tool.description}`.toLowerCase();
-
-  return affiliateConfig.links.find((item) => {
-    const terms = [
-      item.match,
-      ...(Array.isArray(item.keywords) ? item.keywords : []),
-      ...(Array.isArray(item.domains) ? item.domains : [])
-    ].filter(Boolean);
-
-    return terms.some((term) => haystack.includes(String(term).toLowerCase()));
-  });
+  return affiliateConfig.links.find((item) => affiliateLinkMatchesTool(tool, item));
 }
 
 export function scoreTool(tool, context) {

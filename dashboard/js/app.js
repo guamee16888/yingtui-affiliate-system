@@ -37,6 +37,7 @@ const state = {
   queues: { items: [] },
   candidateInbox: { items: [] },
   affiliateResearch: { items: [] },
+  affiliateWorkbench: null,
   reviewPages: { items: [] },
   decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
   feedbackOps: null,
@@ -53,6 +54,7 @@ const state = {
   dailyRun: { running: false, message: "" },
   calendarRun: { running: false, message: "" },
   sourcePackRun: { running: false, message: "" },
+  affiliateWorkbenchRun: { running: false, message: "" },
   roadmapRun: { running: false, message: "" },
   filters: { search: "", action: "all", affiliate: "all", state: "all", minScore: 0, sortBy: "score" }
 };
@@ -94,6 +96,7 @@ const writeActionSelector = [
   "[data-run-roadmap]",
   "[data-run-calendar]",
   "[data-run-source-pack]",
+  "[data-run-affiliate-workbench]",
   "[data-preview-candidates]",
   "[data-preview-feedback]",
   "[data-publish]",
@@ -118,7 +121,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -126,6 +129,7 @@ async function loadAll() {
       api.get("/api/queues"),
       api.get("/api/candidate-inbox"),
       api.get("/api/affiliate-research"),
+      api.get("/api/affiliate-research-workbench"),
       api.get("/api/review-pages"),
       api.get("/api/decision-report"),
       api.get("/api/feedback-ops"),
@@ -137,7 +141,7 @@ async function loadAll() {
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -151,7 +155,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -159,6 +163,7 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/queues.json", { items: [] }),
     fetchJson("/data/candidate-inbox.json", { items: [] }),
     fetchJson("/data/affiliate-research.json", { items: [] }),
+    fetchJson("/data/affiliate-research-workbench.json", { missing: true }),
     fetchJson("/data/review-pages.json", { items: [] }),
     fetchJson("/data/feedback-ops.json", null),
     fetchJson("/data/learning-loop.json", { missing: true }),
@@ -194,6 +199,7 @@ async function loadStaticFallback(apiError) {
     queues,
     candidateInbox,
     affiliateResearch,
+    affiliateWorkbench: affiliateWorkbench?.missing ? null : affiliateWorkbench,
     reviewPages,
     decisions: { summary: {}, recommendations: [], winners: [], weakSignals: [], angleScores: [] },
     feedbackOps: feedbackOps ?? latest?.feedbackOps ?? null,
@@ -247,6 +253,7 @@ function render() {
   updateRunDailyControls();
   updateCalendarControls();
   updateSourcePackControls();
+  updateAffiliateWorkbenchControls();
   updateRoadmapControls();
   updateReadOnlyControls();
 }
@@ -294,6 +301,14 @@ function updateSourcePackControls() {
   $$("[data-run-source-pack]").forEach((button) => {
     button.disabled = isReadOnlyMode() || state.sourcePackRun.running;
     button.textContent = isReadOnlyMode() ? "本地才能生成" : state.sourcePackRun.running ? "生成中..." : "生成 100 行补题包";
+    button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
+  });
+}
+
+function updateAffiliateWorkbenchControls() {
+  $$("[data-run-affiliate-workbench]").forEach((button) => {
+    button.disabled = isReadOnlyMode() || state.affiliateWorkbenchRun.running;
+    button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.affiliateWorkbenchRun.running ? "刷新中..." : "刷新联盟工作台";
     button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
   });
 }
@@ -2653,10 +2668,11 @@ function renderAccountBindingCard(account) {
 }
 
 function renderAffiliate() {
-  const latestCandidates = (state.latest?.affiliateResearchQueue ?? []);
-  $("#view-affiliate").innerHTML = `${renderAffiliateReadinessPanel()}
+  const latestCandidates = state.affiliateWorkbench?.priorityQueue ?? (state.latest?.affiliateResearchQueue ?? []);
+  $("#view-affiliate").innerHTML = `${renderAffiliateWorkbench(state.affiliateWorkbench)}
+  ${renderAffiliateReadinessPanel()}
   <div class="grid">
-    <section class="panel"><h2>待查候选</h2><div class="list">${latestCandidates.map((item) => `<div class="list-item"><strong>${esc(item.name)}</strong><div class="muted">affiliateScore ${esc(item.affiliateScore)} · 搜索 "${esc(item.name)} affiliate program"</div><div class="row-actions">${renderSearchLinks(item.name, item.url)}<button class="button ghost" data-affiliate="${attr(item.name)}" data-url="${attr(item.url)}" data-score="${attr(item.affiliateScore)}">加入联盟研究</button></div></div>`).join("") || empty("暂无。")}</div></section>
+    <section class="panel"><h2>待查候选</h2><div class="list">${latestCandidates.map(renderAffiliateCandidate).join("") || empty("暂无。")}</div></section>
     <section class="panel"><h2>手动记录</h2>
       <form class="inline-form" id="affiliateForm">
         <label>工具名 <input name="toolName" required placeholder="Tool name"></label>
@@ -2672,6 +2688,74 @@ function renderAffiliate() {
       </form>
     </section>
     <section class="panel"><h2>研究记录</h2><div class="list">${state.affiliateResearch.items.map(renderAffiliateRecord).join("") || empty("暂无研究记录。")}</div></section>
+  </div>`;
+}
+
+function renderAffiliateWorkbench(workbench) {
+  if (!workbench) {
+    return `<section class="panel affiliate-workbench">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Affiliate research workbench</p>
+          <h2>还没有联盟研究工作台</h2>
+          <p class="muted">先生成工作台，把高 affiliateScore 候选、研究记录、真实配置链接合成一个每日研究清单。</p>
+        </div>
+        ${pill("not generated", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button" data-run-affiliate-workbench>${state.affiliateWorkbenchRun.running ? "刷新中..." : "刷新联盟工作台"}</button>
+        <button class="button ghost" data-copy="npm run affiliate:research">复制命令</button>
+      </div>
+    </section>`;
+  }
+  const summary = workbench.summary ?? {};
+  return `<section class="panel wide-panel affiliate-workbench">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Affiliate research workbench</p>
+        <h2>今天先查 ${esc(summary.candidates ?? 0)} 个联盟机会</h2>
+        <p class="muted">${esc(workbench.rule)} 生成 ${esc(formatDateTime(workbench.generatedAt))}</p>
+      </div>
+      ${pill(summary.readyToConfigure ? `${summary.readyToConfigure} ready` : "research mode", summary.readyToConfigure ? "good" : "warn")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.candidates ?? 0)}</strong><span>candidates</span></div>
+      <div><strong>${esc(summary.highPriority ?? 0)}</strong><span>high priority</span></div>
+      <div><strong>${esc(summary.readyToConfigure ?? 0)}</strong><span>ready config</span></div>
+      <div><strong>${esc(summary.missingFields ?? 0)}</strong><span>missing fields</span></div>
+      <div><strong>${esc(summary.researching ?? 0)}</strong><span>records researching</span></div>
+      <div><strong>${esc(summary.configuredLinks ?? 0)}</strong><span>configured links</span></div>
+    </div>
+    <div class="affiliate-workflow">${(workbench.workflow ?? []).map((item, index) => `<div><span>${esc(index + 1)}</span><p>${esc(item)}</p></div>`).join("")}</div>
+    <div class="row-actions">
+      <button class="button" data-run-affiliate-workbench>${state.affiliateWorkbenchRun.running ? "刷新中..." : "刷新联盟工作台"}</button>
+      <button class="button ghost" data-copy="npm run affiliate:research">复制命令</button>
+      <button class="button ghost" data-tab-jump="queues">打开跟进队列</button>
+    </div>
+    ${state.affiliateWorkbenchRun.message ? `<p class="muted">${esc(state.affiliateWorkbenchRun.message)}</p>` : ""}
+    ${workbench.readyConfigSnippets?.length ? `<div class="list">${workbench.readyConfigSnippets.map((item) => `<div class="list-item">
+      <strong>${esc(item.toolName)}</strong>
+      <pre class="copy-text">${esc(item.snippet)}</pre>
+      <button class="button ghost" data-copy="${attr(item.snippet)}">复制配置片段</button>
+    </div>`).join("")}</div>` : ""}
+  </section>`;
+}
+
+function renderAffiliateCandidate(item) {
+  const links = item.searchLinks ?? affiliateSearchLinks(item.name, item.url);
+  const readiness = item.readiness ?? { label: "research needed", kind: "warn" };
+  return `<div class="list-item affiliate-candidate">
+    <div class="line-head">
+      <strong>${esc(item.name)}</strong>
+      ${pill(readiness.label, readiness.kind)}
+      <strong class="mini-score">${esc(item.priorityScore ?? item.affiliateScore ?? 0)}</strong>
+    </div>
+    <div class="muted">affiliateScore ${esc(item.affiliateScore ?? 0)} · score ${esc(item.score ?? 0)} · ${esc(item.source ?? "daily")}</div>
+    <p class="muted">${esc(item.nextAction || item.reason || "Research official affiliate program.")}</p>
+    <div class="row-actions">
+      ${renderSearchLinks(item.name, item.url, links)}
+      <button class="button ghost" data-affiliate="${attr(item.name)}" data-url="${attr(item.url)}" data-score="${attr(item.affiliateScore ?? 0)}">${item.existingRecordId ? "更新研究记录" : "加入联盟研究"}</button>
+    </div>
   </div>`;
 }
 
@@ -2824,8 +2908,8 @@ function renderSettings() {
   </div></section><section class="panel"><h2>禁用词</h2><p class="muted">${esc((state.settings?.forbiddenWords ?? []).join(", ") || "暂无")}</p></section><section class="panel"><h2>Affiliate Links</h2><div class="list">${(state.settings?.affiliateLinks ?? []).map((link) => `<div class="list-item"><strong>${esc(link.name ?? link.match ?? "unnamed")}</strong><div class="muted">${esc(link.affiliateUrl ?? "")}</div></div>`).join("") || empty("还没有配置 affiliate link。")}</div></section></div>`;
 }
 
-function renderSearchLinks(toolName, toolUrl = "") {
-  const links = affiliateSearchLinks(toolName, toolUrl);
+function renderSearchLinks(toolName, toolUrl = "", providedLinks = null) {
+  const links = providedLinks ?? affiliateSearchLinks(toolName, toolUrl);
   return `<div class="affiliate-search-group">
     <button class="button ghost" type="button" data-open-searches="${attr(JSON.stringify(links.map((item) => item.url)))}">一键打开搜索组</button>
     ${links.map((item) => `<a class="button ghost" href="${attr(item.url)}" target="_blank" rel="noreferrer">${esc(item.label)}</a>`).join("")}
@@ -2834,16 +2918,22 @@ function renderSearchLinks(toolName, toolUrl = "") {
 
 function affiliateSearchLinks(toolName, toolUrl = "") {
   const domain = safeHost(toolUrl);
+  const productDomain = domain && !isEditorialDomain(domain);
   const quoted = `"${toolName}"`;
   const google = (query) => `https://www.google.com/search?q=${encodeURIComponent(query)}`;
   const links = [];
-  if (toolUrl) links.push({ label: "官网", url: toolUrl });
-  links.push({ label: "official affiliate", url: google(domain ? `site:${domain} affiliate OR partner OR referral` : `${quoted} affiliate program`) });
+  if (toolUrl) links.push({ label: productDomain ? "官网" : "来源文章", url: toolUrl });
+  links.push({ label: "official affiliate", url: google(productDomain ? `site:${domain} affiliate OR partner OR referral` : `${quoted} affiliate program`) });
   links.push({ label: "PartnerStack", url: google(`site:partnerstack.com ${quoted}`) });
   links.push({ label: "Impact", url: google(`site:impact.com ${quoted} affiliate`) });
   links.push({ label: "Rewardful", url: google(`site:rewardful.com ${quoted}`) });
   links.push({ label: "Terms", url: google(`${quoted} terms affiliate referral partner`) });
   return links;
+}
+
+function isEditorialDomain(domain) {
+  return ["techcrunch.com", "coindesk.com", "news.ycombinator.com", "hnrss.org", "producthunt.com", "medium.com", "substack.com"]
+    .some((item) => domain === item || domain.endsWith(`.${item}`));
 }
 
 function renderWeeklySummaryCards() {
@@ -3570,6 +3660,30 @@ async function runSourcePack() {
   }
 }
 
+async function runAffiliateWorkbench() {
+  if (guardReadOnlyAction()) {
+    state.affiliateWorkbenchRun = { running: false, message: readOnlyActionMessage() };
+    render();
+    return;
+  }
+  if (state.affiliateWorkbenchRun.running) return;
+  state.affiliateWorkbenchRun = { running: true, message: "正在刷新联盟研究工作台..." };
+  render();
+  try {
+    const result = await api.post("/api/affiliate-research-workbench/run", {});
+    state.affiliateWorkbenchRun = {
+      running: false,
+      message: `联盟工作台已刷新：${result.candidates ?? 0} candidates · ${result.readyToConfigure ?? 0} ready · ${result.researching ?? 0} records researching`
+    };
+    toast("联盟研究工作台已刷新");
+    await loadAll();
+  } catch (error) {
+    state.affiliateWorkbenchRun = { running: false, message: `联盟工作台刷新失败：${error.message}` };
+    render();
+    toast(error.message);
+  }
+}
+
 async function runRoadmap() {
   if (guardReadOnlyAction()) {
     state.roadmapRun = { running: false, message: readOnlyActionMessage() };
@@ -3644,6 +3758,8 @@ document.addEventListener("click", async (event) => {
       await runCalendar();
     } else if (button.dataset.runSourcePack !== undefined) {
       await runSourcePack();
+    } else if (button.dataset.runAffiliateWorkbench !== undefined) {
+      await runAffiliateWorkbench();
     } else if (button.dataset.runRoadmap !== undefined) {
       await runRoadmap();
     } else if (button.dataset.previewCandidates) {

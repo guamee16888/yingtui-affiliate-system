@@ -4,7 +4,7 @@ import { buildProductRoadmap, renderProductRoadmapMarkdown } from "./lib/product
 const latest = await readJson("data/latest.json", null);
 if (!latest) throw new Error("latest.json missing. Run npm run daily first.");
 
-const [feedback, queues, affiliateResearch, accountPosts, affiliateLinks, contentCalendar, sourceImportPack, dashboardHtml, dashboardApp] = await Promise.all([
+const [feedback, queues, affiliateResearch, accountPosts, affiliateLinks, contentCalendar, sourceImportPack, affiliateWorkbench, dashboardHtml, dashboardApp] = await Promise.all([
   readJson("data/feedback.json", { entries: [] }),
   readJson("data/queues.json", { items: [] }),
   readJson("data/affiliate-research.json", { items: [] }),
@@ -12,6 +12,7 @@ const [feedback, queues, affiliateResearch, accountPosts, affiliateLinks, conten
   readJson("config/affiliate-links.json", { links: [] }),
   readJson("data/content-calendar/latest.json", latest.contentCalendar ?? null),
   readJson("data/source-import-pack/latest.json", null),
+  readJson("data/affiliate-research-workbench.json", null),
   readText("dashboard/index.html", ""),
   readText("dashboard/js/app.js", "")
 ]);
@@ -26,6 +27,7 @@ const roadmap = buildProductRoadmap({
   affiliateLinks,
   contentCalendar,
   sourceImportPack,
+  affiliateWorkbench,
   publicDemoReady
 });
 const jsonPath = "data/product-roadmap.json";

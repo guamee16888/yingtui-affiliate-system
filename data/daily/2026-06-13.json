@@ -1,6 +1,6 @@
 {
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T20:05:50.418Z",
+  "generatedAt": "2026-06-12T20:11:34.872Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -2150,7 +2150,7 @@
   },
   "sourceDiscovery": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T20:05:50.410Z",
+    "generatedAt": "2026-06-12T20:11:34.864Z",
     "summary": {
       "circles": 4,
       "totalNeededCandidates": 80,
@@ -2688,7 +2688,7 @@
   },
   "sourceHealth": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T20:05:50.411Z",
+    "generatedAt": "2026-06-12T20:11:34.865Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -4029,7 +4029,7 @@
   },
   "feedbackOps": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T20:05:50.415Z",
+    "generatedAt": "2026-06-12T20:11:34.870Z",
     "summary": {
       "posted": 0,
       "measured": 0,
@@ -4549,7 +4549,7 @@
   },
   "promotionReview": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T20:05:50.416Z",
+    "generatedAt": "2026-06-12T20:11:34.870Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {

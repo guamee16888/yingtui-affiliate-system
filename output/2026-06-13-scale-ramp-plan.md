@@ -3,7 +3,7 @@
 - Mode: manual_confirm_ramp
 - Safe test posts now: 3
 - Ready accounts: 0/20
-- Planned drafts: 18/200
+- Planned drafts: 19/200
 - Accounts with measured feedback: 0
 
 ## Start First

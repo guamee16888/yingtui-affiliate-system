@@ -46,6 +46,7 @@ export function buildAccountContentMatrix({
     blockedAccounts: accountRows.filter((row) => row.status !== "ready").length,
     averageReadinessScore: Math.round(rate(sum(accountRows, "readinessScore"), Math.max(1, accountRows.length)))
   };
+  const inventory = buildInventorySummary(accountRows, summary);
 
   return {
     version: 1,
@@ -53,6 +54,7 @@ export function buildAccountContentMatrix({
     generatedAt: new Date().toISOString(),
     rule: `Target one account with ${BENCH_MULTIPLIER}x candidate bench before trying to fill its daily post limit.`,
     summary,
+    inventory,
     qualityRadar: buildQualityRadar(summary),
     accountRows,
     priorityAccounts: accountRows
@@ -84,6 +86,17 @@ export function renderAccountContentMatrixMarkdown(matrix) {
 ## Quality Radar
 
 ${matrix.qualityRadar.map((item) => `- ${item.label}: ${item.score}/100 — ${item.reason}`).join("\n")}
+
+## Account Inventory
+
+- Postable today: ${matrix.inventory?.summary?.postableToday ?? 0}/${matrix.summary.targetDailyPosts}
+- Seed testable accounts: ${matrix.inventory?.summary?.seedTestableAccounts ?? 0}
+- Ready to scale accounts: ${matrix.inventory?.summary?.readyToScaleAccounts ?? 0}
+- Content blocked accounts: ${matrix.inventory?.summary?.contentBlockedAccounts ?? 0}
+- Feedback blocked accounts: ${matrix.inventory?.summary?.feedbackBlockedAccounts ?? 0}
+
+${matrix.inventory?.todayFocus?.length ? matrix.inventory.todayFocus.map((account, index) => `${index + 1}. ${account.displayName} — ${account.statusLabel} — ${account.actionLabel}
+   ${account.actionDetail}`).join("\n") : "No account inventory focus items."}
 
 ## Priority Accounts
 
@@ -136,6 +149,24 @@ function buildAccountRow({ account, tools, publishableUrls, draftPlan = null, ca
     + radar.schedule * 0.15
     + radar.feedback * 0.05
   );
+  const contentInventory = buildContentInventory({
+    account,
+    targetPosts,
+    candidateBenchTarget,
+    matchedCandidates: matches.length,
+    strongCandidates: strong.length,
+    freshCandidates: fresh.length,
+    plannedDrafts,
+    scheduledPosts,
+    measuredFeedback,
+    pendingFeedback,
+    candidateGap,
+    qualityGap,
+    freshGap,
+    draftGap,
+    scheduleGap,
+    readinessScore
+  });
   const blockers = [
     candidateGap ? "candidate_bench" : "",
     qualityGap ? "quality" : "",
@@ -168,6 +199,7 @@ function buildAccountRow({ account, tools, publishableUrls, draftPlan = null, ca
     totalGap: candidateGap + qualityGap + freshGap + draftGap + scheduleGap,
     readinessScore,
     status: accountStatus({ candidateGap, qualityGap, freshGap, draftGap, scheduleGap, readinessScore }),
+    contentInventory,
     blockers,
     radar,
     topMatchedTools: matches
@@ -183,6 +215,186 @@ function buildAccountRow({ account, tools, publishableUrls, draftPlan = null, ca
       })),
     nextAction: nextAction({ candidateGap, qualityGap, freshGap, draftGap, scheduleGap, account })
   };
+}
+
+function buildInventorySummary(accountRows, summary) {
+  const rows = accountRows.map((row) => ({
+    accountId: row.accountId,
+    displayName: row.displayName,
+    category: row.category,
+    readinessScore: row.readinessScore,
+    targetPosts: row.targetPosts,
+    ...row.contentInventory
+  }));
+  const inventorySummary = {
+    activeAccounts: summary.activeAccounts,
+    targetDailyPosts: summary.targetDailyPosts,
+    postableToday: rows.reduce((total, row) => total + Number(row.postableToday || 0), 0),
+    seedTestableAccounts: rows.filter((row) => row.status === "ready_to_seed").length,
+    readyToScaleAccounts: rows.filter((row) => row.status === "ready_to_scale").length,
+    needsDraftsAccounts: rows.filter((row) => row.status === "needs_drafts").length,
+    needsFreshAccounts: rows.filter((row) => row.status === "needs_fresh").length,
+    needsQualityAccounts: rows.filter((row) => row.status === "needs_quality").length,
+    needsCandidatesAccounts: rows.filter((row) => row.status === "needs_candidates").length,
+    contentBlockedAccounts: rows.filter((row) => row.contentBlocked).length,
+    feedbackBlockedAccounts: rows.filter((row) => row.feedbackBlocked).length,
+    totalRefillNeed: rows.reduce((total, row) => total + Number(row.refillNeed || 0), 0)
+  };
+  return {
+    summary: inventorySummary,
+    todayFocus: rows
+      .filter((row) => row.status !== "ready_to_scale")
+      .sort((a, b) => inventoryPriority(b) - inventoryPriority(a) || a.displayName.localeCompare(b.displayName))
+      .slice(0, 8),
+    accounts: rows
+  };
+}
+
+function buildContentInventory({
+  account,
+  targetPosts,
+  candidateBenchTarget,
+  matchedCandidates,
+  strongCandidates,
+  freshCandidates,
+  plannedDrafts,
+  scheduledPosts,
+  measuredFeedback,
+  pendingFeedback,
+  candidateGap,
+  qualityGap,
+  freshGap,
+  draftGap,
+  scheduleGap,
+  readinessScore
+}) {
+  const postableToday = Math.min(targetPosts, strongCandidates, freshCandidates, plannedDrafts, scheduledPosts);
+  const seedTestCapacity = Math.min(3, postableToday);
+  const refillNeed = Math.max(
+    draftGap,
+    scheduleGap,
+    freshGap,
+    qualityGap,
+    Math.ceil(candidateGap / BENCH_MULTIPLIER)
+  );
+  const bottlenecks = [
+    draftGap ? bottleneck("drafts", "Draft gap", draftGap, `Write ${draftGap} more unique drafts for this account.`) : null,
+    scheduleGap ? bottleneck("schedule", "Schedule gap", scheduleGap, `Add ${scheduleGap} manual review slots before publishing.`) : null,
+    freshGap ? bottleneck("freshness", "Fresh candidate gap", freshGap, `Find ${freshGap} fresh items that fit this account.`) : null,
+    qualityGap ? bottleneck("quality", "Quality gap", qualityGap, `Replace broad or weak items with stronger account-specific angles.`) : null,
+    candidateGap ? bottleneck("candidate_bench", "Candidate bench gap", candidateGap, `Build toward ${candidateBenchTarget} matched candidates before scale.`) : null,
+    !measuredFeedback ? bottleneck("feedback", "Feedback missing", Math.max(1, pendingFeedback), pendingFeedback ? "Import metrics for posted items." : "Post a tiny test, then import X Analytics.") : null
+  ].filter(Boolean);
+  const status = inventoryStatus({ postableToday, targetPosts, measuredFeedback, draftGap, scheduleGap, freshGap, qualityGap, candidateGap });
+  const action = inventoryAction({ status, account, seedTestCapacity, refillNeed, draftGap, scheduleGap, freshGap, qualityGap, candidateGap, pendingFeedback });
+  return {
+    status,
+    statusLabel: inventoryStatusLabel(status),
+    postableToday,
+    seedTestCapacity,
+    targetPosts,
+    candidateBenchCoverage: percent(matchedCandidates, candidateBenchTarget),
+    contentCoverage: percent(Math.min(strongCandidates, freshCandidates, plannedDrafts, scheduledPosts), targetPosts),
+    feedbackCoverage: measuredFeedback ? 100 : pendingFeedback ? 35 : 0,
+    refillNeed,
+    contentBlocked: status !== "ready_to_seed" && status !== "ready_to_scale" && status !== "needs_feedback",
+    feedbackBlocked: !measuredFeedback,
+    firstBottleneck: bottlenecks[0]?.id ?? "",
+    bottlenecks,
+    actionLabel: action.label,
+    actionDetail: action.detail,
+    actionPriority: action.priority,
+    readinessScore
+  };
+}
+
+function inventoryStatus({ postableToday, targetPosts, measuredFeedback, draftGap, scheduleGap, freshGap, qualityGap, candidateGap }) {
+  if (postableToday >= targetPosts && measuredFeedback) return "ready_to_scale";
+  if (postableToday > 0) return "ready_to_seed";
+  if (draftGap || scheduleGap) return "needs_drafts";
+  if (freshGap) return "needs_fresh";
+  if (qualityGap) return "needs_quality";
+  if (candidateGap) return "needs_candidates";
+  if (!measuredFeedback) return "needs_feedback";
+  return "hold";
+}
+
+function inventoryAction({ status, account, seedTestCapacity, refillNeed, draftGap, scheduleGap, freshGap, qualityGap, candidateGap, pendingFeedback }) {
+  if (status === "ready_to_scale") {
+    return {
+      label: "可小规模排期",
+      detail: `${account.displayName} has enough drafts, fresh candidates, and measured feedback for manual scheduling.`,
+      priority: 60
+    };
+  }
+  if (status === "ready_to_seed") {
+    return {
+      label: `手动测 ${seedTestCapacity} 条`,
+      detail: `${account.displayName} has ${seedTestCapacity} postable draft${seedTestCapacity === 1 ? "" : "s"}. Publish only after final review, then import X Analytics.`,
+      priority: 100 + seedTestCapacity
+    };
+  }
+  if (status === "needs_feedback") {
+    return {
+      label: "先补反馈",
+      detail: pendingFeedback ? `${account.displayName} has posted items without metrics. Paste X Analytics before adding volume.` : `${account.displayName} needs a tiny manual test before scale decisions.`,
+      priority: 80
+    };
+  }
+  if (status === "needs_drafts") {
+    return {
+      label: `补 ${Math.max(draftGap, scheduleGap)} 条草稿/排期`,
+      detail: `${account.displayName} needs unique copy and review slots before it can post today.`,
+      priority: 70 + Math.max(draftGap, scheduleGap)
+    };
+  }
+  if (status === "needs_fresh") {
+    return {
+      label: `补 ${freshGap} 个 fresh 候选`,
+      detail: `${account.displayName} needs fresher source items before spending API credits.`,
+      priority: 65 + freshGap
+    };
+  }
+  if (status === "needs_quality") {
+    return {
+      label: `替换 ${qualityGap} 个弱候选`,
+      detail: `${account.displayName} has candidates, but not enough clear pain / low-risk angles.`,
+      priority: 55 + qualityGap
+    };
+  }
+  if (status === "needs_candidates") {
+    return {
+      label: `补 ${Math.ceil(candidateGap / BENCH_MULTIPLIER)} 个候选`,
+      detail: `${account.displayName} needs a deeper candidate bench before draft planning.`,
+      priority: 50 + refillNeed
+    };
+  }
+  return {
+    label: "暂缓",
+    detail: `${account.displayName} is not a good posting target today.`,
+    priority: 1
+  };
+}
+
+function bottleneck(id, label, missing, detail) {
+  return { id, label, missing, detail };
+}
+
+function inventoryStatusLabel(status) {
+  return {
+    ready_to_scale: "可小规模排期",
+    ready_to_seed: "可手动种子测试",
+    needs_drafts: "缺草稿/排期",
+    needs_fresh: "缺新鲜候选",
+    needs_quality: "缺高质量候选",
+    needs_candidates: "缺候选池",
+    needs_feedback: "缺反馈数据",
+    hold: "暂缓"
+  }[status] ?? status;
+}
+
+function inventoryPriority(row) {
+  return Number(row.actionPriority || 0) + Number(row.refillNeed || 0) * 0.1 + Number(row.readinessScore || 0) * 0.01;
 }
 
 function buildQualityRadar(summary) {

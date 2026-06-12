@@ -2804,6 +2804,8 @@ function renderAccountContentMatrixPanel(matrix) {
     </section>`;
   }
   const summary = matrix.summary ?? {};
+  const inventory = matrix.inventory ?? {};
+  const inventorySummary = inventory.summary ?? {};
   const radar = matrix.qualityRadar ?? [];
   const priority = matrix.priorityAccounts ?? [];
   const tasks = matrix.searchTasks ?? [];
@@ -2818,12 +2820,17 @@ function renderAccountContentMatrixPanel(matrix) {
     </div>
     <div class="pipeline-stats">
       <div><strong>${esc(summary.targetDailyPosts ?? 0)}</strong><span>daily target</span></div>
+      <div><strong>${esc(inventorySummary.postableToday ?? 0)}</strong><span>postable today</span></div>
+      <div><strong>${esc(inventorySummary.seedTestableAccounts ?? 0)}</strong><span>seed accounts</span></div>
+      <div><strong>${esc(inventorySummary.contentBlockedAccounts ?? 0)}</strong><span>content blocked</span></div>
+      <div><strong>${esc(inventorySummary.feedbackBlockedAccounts ?? 0)}</strong><span>feedback blocked</span></div>
       <div><strong>${esc(summary.matchedCandidates ?? 0)}/${esc(summary.candidateBenchTarget ?? 0)}</strong><span>candidate bench</span></div>
       <div><strong>${esc(summary.strongCandidates ?? 0)}</strong><span>strong</span></div>
       <div><strong>${esc(summary.freshCandidates ?? 0)}</strong><span>fresh</span></div>
       <div><strong>${esc(summary.plannedDrafts ?? 0)}</strong><span>drafts</span></div>
       <div><strong>${esc(summary.scheduledPosts ?? 0)}</strong><span>scheduled</span></div>
     </div>
+    ${renderInventoryCommandCenter(inventory)}
     <div class="grid">
       <div class="list">
         <strong>质量雷达</strong>
@@ -2850,6 +2857,37 @@ function renderAccountContentMatrixPanel(matrix) {
   </section>`;
 }
 
+function renderInventoryCommandCenter(inventory) {
+  const focus = inventory?.todayFocus ?? [];
+  if (!focus.length) return "";
+  return `<div class="inventory-command-center">
+    <div class="line-head">
+      <strong>今天先看这些账号</strong>
+      ${pill(`${focus.length} focus`, "warn")}
+    </div>
+    <div class="inventory-grid">
+      ${focus.slice(0, 5).map(renderInventoryFocusItem).join("")}
+    </div>
+  </div>`;
+}
+
+function renderInventoryFocusItem(account) {
+  const tone = account.status === "ready_to_seed" || account.status === "ready_to_scale"
+    ? "good"
+    : account.status === "needs_feedback"
+      ? "warn"
+      : "bad";
+  return `<div class="inventory-card ${attr(account.status)}">
+    <div class="line-head">
+      <strong>${esc(account.displayName)}</strong>
+      ${pill(account.statusLabel || account.status, tone)}
+    </div>
+    <div class="muted">postable ${esc(account.postableToday ?? 0)}/${esc(account.targetPosts ?? 0)} · refill ${esc(account.refillNeed ?? 0)} · score ${esc(account.readinessScore ?? 0)}/100</div>
+    <p>${esc(account.actionLabel || "")}</p>
+    <p class="muted">${esc(account.actionDetail || "")}</p>
+  </div>`;
+}
+
 function renderMatrixRadarItem(item) {
   const score = Number(item.score ?? 0);
   return `<div class="list-item">
@@ -2860,13 +2898,15 @@ function renderMatrixRadarItem(item) {
 }
 
 function renderMatrixAccountItem(account) {
+  const inventory = account.contentInventory ?? {};
   return `<div class="list-item">
     <div class="line-head">
       <strong>${esc(account.displayName)}</strong>
       ${pill(`${account.readinessScore}/100`, account.readinessScore >= 75 ? "good" : account.readinessScore >= 35 ? "warn" : "bad")}
+      ${inventory.statusLabel ? pill(inventory.statusLabel, inventory.status === "ready_to_seed" ? "good" : "warn") : ""}
     </div>
-    <div class="muted">${esc(account.status)} · matched ${esc(account.matchedCandidates)}/${esc(account.candidateBenchTarget)} · fresh ${esc(account.freshCandidates)} · drafts ${esc(account.plannedDrafts)}/${esc(account.targetPosts)}</div>
-    <p>${esc(account.nextAction)}</p>
+    <div class="muted">${esc(account.status)} · postable ${esc(inventory.postableToday ?? 0)} · matched ${esc(account.matchedCandidates)}/${esc(account.candidateBenchTarget)} · fresh ${esc(account.freshCandidates)} · drafts ${esc(account.plannedDrafts)}/${esc(account.targetPosts)}</div>
+    <p>${esc(inventory.actionDetail || account.nextAction)}</p>
   </div>`;
 }
 

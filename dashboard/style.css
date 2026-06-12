@@ -661,6 +661,44 @@ main {
 .scale-reality .mini-list .list-item {
   background: color-mix(in srgb, var(--warning) 5%, var(--card));
 }
+.inventory-command-center {
+  display: grid;
+  gap: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent) 5%, var(--card));
+  padding: 13px;
+}
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+.inventory-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  padding: 12px;
+  display: grid;
+  gap: 7px;
+}
+.inventory-card.ready_to_seed,
+.inventory-card.ready_to_scale {
+  border-color: color-mix(in srgb, var(--success) 38%, var(--border));
+}
+.inventory-card.needs_feedback,
+.inventory-card.needs_drafts,
+.inventory-card.needs_fresh {
+  border-color: color-mix(in srgb, var(--warning) 38%, var(--border));
+}
+.inventory-card.needs_quality,
+.inventory-card.needs_candidates {
+  border-color: color-mix(in srgb, var(--danger) 32%, var(--border));
+}
+.inventory-card p {
+  margin: 0;
+}
 .pipeline-next {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);

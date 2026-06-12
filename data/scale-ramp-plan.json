@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T20:05:50.426Z",
+  "generatedAt": "2026-06-12T20:12:53.346Z",
   "mode": "manual_confirm_ramp",
   "rule": "Scale in batches. Do not unlock broad multi-account posting until seed accounts have fresh drafts and measured feedback.",
   "summary": {
@@ -11,7 +11,7 @@
     "holdAccounts": 12,
     "safeTestPosts": 3,
     "targetDailyPosts": 200,
-    "plannedDrafts": 18,
+    "plannedDrafts": 19,
     "measuredFeedbackAccounts": 0,
     "readyAccounts": 0,
     "blockers": [
@@ -91,11 +91,11 @@
       "accountIds": [
         "build_in_public",
         "crypto_trading_tools",
+        "dev_workflows",
         "ecommerce_ops",
         "sales_support_ai",
         "affiliate_builder",
         "career_workflows",
-        "dev_workflows",
         "indie_launch_radar",
         "indie_monetization",
         "market_map_notes",
@@ -155,7 +155,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -163,7 +163,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -171,7 +171,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -229,7 +229,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -237,7 +237,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -245,7 +245,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_d2c435b524db",
+          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -303,7 +303,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -311,7 +311,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_100f88b5fc51",
+          "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
           "score": 25,
@@ -319,7 +319,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_5ef63cd5b2a5",
+          "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
           "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
           "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
           "score": 25,
@@ -379,7 +379,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -387,7 +387,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -395,7 +395,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_72bb52a3552a",
+          "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
           "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
           "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
           "score": 22,
@@ -453,7 +453,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "tag:www.producthunt.com,2005:Post/1169183",
+          "toolId": "tool_producthunt_com_kosh-money_ada13da65a",
           "name": "KOSH Money",
           "url": "https://www.producthunt.com/products/kosh-money",
           "score": 24,
@@ -461,7 +461,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_fe5a2105b723",
+          "toolId": "tool_techcrunch_com_pool-s-new-app-turns-your-screenshots-into-something-useful_04aa1696a9",
           "name": "Pool’s new app turns your screenshots into something useful",
           "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
           "score": 22,
@@ -519,7 +519,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -527,7 +527,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_cb3f98bdaef6",
+          "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
           "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
           "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
           "score": 22,
@@ -585,7 +585,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_d2c435b524db",
+          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -593,7 +593,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_6a173043e187",
+          "toolId": "tool_techcrunch_com_jeff-bezos-s-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-t_7c1dae0df3",
           "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
           "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
           "score": 25,
@@ -601,7 +601,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_53600397a606",
+          "toolId": "tool_techcrunch_com_opendoor-s-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing_bec68a71aa",
           "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
           "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
           "score": 22,
@@ -710,7 +710,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_e06dd10fbd37",
+          "toolId": "tool_techcrunch_com_theker-just-raised-85m-to-build-the-factory-robot-that-doesn-t-specialize-in-any_3d469281ec",
           "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
           "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
           "score": 21,
@@ -763,6 +763,55 @@
           "provider": "Google recent search",
           "query": "\"crypto\" \"builder\" \"tool\"",
           "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 9
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "category": "developer workflows",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Dev Workflows.",
+      "searchTasks": [
+        {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "provider": "X live search",
+          "query": "\"developer workflows\" \"tool\"",
+          "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "provider": "Google recent search",
+          "query": "\"developer workflows\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
           "targetRows": 9
         }
       ],
@@ -866,7 +915,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "tag:www.producthunt.com,2005:Post/1169266",
+          "toolId": "tool_producthunt_com_meet-warren-3-0_572792bb13",
           "name": "Meet Warren 3.0",
           "url": "https://www.producthunt.com/products/underpay",
           "score": 20,
@@ -968,55 +1017,6 @@
           "provider": "Google recent search",
           "query": "\"career and job search\" \"tool\"",
           "url": "https://www.google.com/search?q=%22career%20and%20job%20search%22%20%22tool%22%20after%3A2026-01-01",
-          "targetRows": 10
-        }
-      ],
-      "topMatchedTools": []
-    },
-    {
-      "accountId": "dev_workflows",
-      "displayName": "Dev Workflows",
-      "category": "developer workflows",
-      "launchStage": "research_only",
-      "readinessScore": 0,
-      "targetPosts": 10,
-      "plannedDrafts": 0,
-      "matchedCandidates": 0,
-      "strongCandidates": 0,
-      "freshCandidates": 0,
-      "scheduledPosts": 0,
-      "measuredFeedback": 0,
-      "missing": {
-        "candidateBench": 30,
-        "strong": 10,
-        "fresh": 10,
-        "drafts": 10,
-        "feedback": 1
-      },
-      "blockers": [
-        "candidate_bench",
-        "quality",
-        "freshness",
-        "drafts",
-        "schedule",
-        "feedback"
-      ],
-      "nextAction": "Add 10 unique drafts before using Dev Workflows.",
-      "searchTasks": [
-        {
-          "accountId": "dev_workflows",
-          "displayName": "Dev Workflows",
-          "provider": "X live search",
-          "query": "\"developer workflows\" \"tool\"",
-          "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
-          "targetRows": 10
-        },
-        {
-          "accountId": "dev_workflows",
-          "displayName": "Dev Workflows",
-          "provider": "Google recent search",
-          "query": "\"developer workflows\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
           "targetRows": 10
         }
       ],
@@ -1318,7 +1318,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -1326,7 +1326,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -1334,7 +1334,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -1392,7 +1392,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -1400,7 +1400,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -1408,7 +1408,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_d2c435b524db",
+          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -1466,7 +1466,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -1474,7 +1474,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_100f88b5fc51",
+          "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
           "score": 25,
@@ -1482,7 +1482,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_5ef63cd5b2a5",
+          "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
           "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
           "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
           "score": 25,
@@ -1540,7 +1540,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -1548,7 +1548,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -1556,7 +1556,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_72bb52a3552a",
+          "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
           "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
           "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
           "score": 22,
@@ -1614,7 +1614,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "tag:www.producthunt.com,2005:Post/1169183",
+          "toolId": "tool_producthunt_com_kosh-money_ada13da65a",
           "name": "KOSH Money",
           "url": "https://www.producthunt.com/products/kosh-money",
           "score": 24,
@@ -1622,7 +1622,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_fe5a2105b723",
+          "toolId": "tool_techcrunch_com_pool-s-new-app-turns-your-screenshots-into-something-useful_04aa1696a9",
           "name": "Pool’s new app turns your screenshots into something useful",
           "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
           "score": 22,
@@ -1680,7 +1680,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -1688,7 +1688,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_cb3f98bdaef6",
+          "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
           "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
           "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
           "score": 22,
@@ -1746,7 +1746,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_d2c435b524db",
+          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -1754,7 +1754,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_6a173043e187",
+          "toolId": "tool_techcrunch_com_jeff-bezos-s-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-t_7c1dae0df3",
           "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
           "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
           "score": 25,
@@ -1762,7 +1762,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_53600397a606",
+          "toolId": "tool_techcrunch_com_opendoor-s-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing_bec68a71aa",
           "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
           "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
           "score": 22,
@@ -1869,7 +1869,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_e06dd10fbd37",
+          "toolId": "tool_techcrunch_com_theker-just-raised-85m-to-build-the-factory-robot-that-doesn-t-specialize-in-any_3d469281ec",
           "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
           "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
           "score": 21,
@@ -1922,6 +1922,55 @@
           "provider": "Google recent search",
           "query": "\"crypto\" \"builder\" \"tool\"",
           "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 9
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "category": "developer workflows",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Dev Workflows.",
+      "searchTasks": [
+        {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "provider": "X live search",
+          "query": "\"developer workflows\" \"tool\"",
+          "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "provider": "Google recent search",
+          "query": "\"developer workflows\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
           "targetRows": 9
         }
       ],
@@ -2025,7 +2074,7 @@
       ],
       "topMatchedTools": [
         {
-          "toolId": "tag:www.producthunt.com,2005:Post/1169266",
+          "toolId": "tool_producthunt_com_meet-warren-3-0_572792bb13",
           "name": "Meet Warren 3.0",
           "url": "https://www.producthunt.com/products/underpay",
           "score": 20,
@@ -2127,55 +2176,6 @@
           "provider": "Google recent search",
           "query": "\"career and job search\" \"tool\"",
           "url": "https://www.google.com/search?q=%22career%20and%20job%20search%22%20%22tool%22%20after%3A2026-01-01",
-          "targetRows": 10
-        }
-      ],
-      "topMatchedTools": []
-    },
-    {
-      "accountId": "dev_workflows",
-      "displayName": "Dev Workflows",
-      "category": "developer workflows",
-      "launchStage": "research_only",
-      "readinessScore": 0,
-      "targetPosts": 10,
-      "plannedDrafts": 0,
-      "matchedCandidates": 0,
-      "strongCandidates": 0,
-      "freshCandidates": 0,
-      "scheduledPosts": 0,
-      "measuredFeedback": 0,
-      "missing": {
-        "candidateBench": 30,
-        "strong": 10,
-        "fresh": 10,
-        "drafts": 10,
-        "feedback": 1
-      },
-      "blockers": [
-        "candidate_bench",
-        "quality",
-        "freshness",
-        "drafts",
-        "schedule",
-        "feedback"
-      ],
-      "nextAction": "Add 10 unique drafts before using Dev Workflows.",
-      "searchTasks": [
-        {
-          "accountId": "dev_workflows",
-          "displayName": "Dev Workflows",
-          "provider": "X live search",
-          "query": "\"developer workflows\" \"tool\"",
-          "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
-          "targetRows": 10
-        },
-        {
-          "accountId": "dev_workflows",
-          "displayName": "Dev Workflows",
-          "provider": "Google recent search",
-          "query": "\"developer workflows\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
           "targetRows": 10
         }
       ],

@@ -1550,9 +1550,15 @@ test("account content matrix exposes account-level candidate and draft gaps", ()
   assert.equal(matrix.summary.freshCandidates, 2);
   assert.equal(matrix.summary.plannedDrafts, 1);
   assert.equal(matrix.summary.scheduledPosts, 1);
+  assert.equal(matrix.inventory.summary.postableToday, 1);
+  assert.equal(matrix.inventory.summary.seedTestableAccounts, 1);
+  assert.equal(matrix.inventory.summary.contentBlockedAccounts, 1);
+  assert.equal(matrix.inventory.accounts.find((account) => account.accountId === "ai").status, "ready_to_seed");
+  assert.equal(matrix.inventory.accounts.find((account) => account.accountId === "saas").status, "needs_drafts");
   assert.equal(matrix.priorityAccounts[0].accountId, "saas");
   assert.equal(matrix.searchTasks.length > 0, true);
   assert.equal(matrix.searchTasks.every((task) => task.url.startsWith("https://")), true);
+  assert.match(markdown, /Account Inventory/);
   assert.match(markdown, /Account Content Matrix/);
 });
 

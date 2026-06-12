@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T20:05:50.423Z",
+  "generatedAt": "2026-06-12T20:12:53.194Z",
   "rule": "Target one account with 3x candidate bench before trying to fill its daily post limit.",
   "summary": {
     "activeAccounts": 20,
@@ -11,15 +11,1687 @@
     "matchedCandidates": 54,
     "strongCandidates": 9,
     "freshCandidates": 9,
-    "plannedDrafts": 18,
-    "scheduledPosts": 15,
+    "plannedDrafts": 19,
+    "scheduledPosts": 16,
     "candidateGap": 546,
     "freshGap": 191,
-    "draftGap": 182,
-    "scheduleGap": 185,
+    "draftGap": 181,
+    "scheduleGap": 184,
     "readyAccounts": 0,
     "blockedAccounts": 20,
     "averageReadinessScore": 7
+  },
+  "inventory": {
+    "summary": {
+      "activeAccounts": 20,
+      "targetDailyPosts": 200,
+      "postableToday": 2,
+      "seedTestableAccounts": 1,
+      "readyToScaleAccounts": 0,
+      "needsDraftsAccounts": 19,
+      "needsFreshAccounts": 0,
+      "needsQualityAccounts": 0,
+      "needsCandidatesAccounts": 0,
+      "contentBlockedAccounts": 19,
+      "feedbackBlockedAccounts": 20,
+      "totalRefillNeed": 199
+    },
+    "todayFocus": [
+      {
+        "accountId": "crypto_builder_radar",
+        "displayName": "Crypto Builder Radar",
+        "category": "Crypto builder circle",
+        "readinessScore": 21,
+        "targetPosts": 10,
+        "status": "ready_to_seed",
+        "statusLabel": "可手动种子测试",
+        "postableToday": 2,
+        "seedTestCapacity": 2,
+        "candidateBenchCoverage": 13,
+        "contentCoverage": 20,
+        "feedbackCoverage": 0,
+        "refillNeed": 9,
+        "contentBlocked": false,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 7,
+            "detail": "Write 7 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 7,
+            "detail": "Add 7 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 8,
+            "detail": "Find 8 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 8,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 26,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "手动测 2 条",
+        "actionDetail": "Crypto Builder Radar has 2 postable drafts. Publish only after final review, then import X Analytics.",
+        "actionPriority": 102
+      },
+      {
+        "accountId": "ai_founder_signals",
+        "displayName": "AI Founder Signals",
+        "category": "AI startup circle",
+        "readinessScore": 24,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 60,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 7,
+            "detail": "Find 7 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 7,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 12,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "ai_tools_lab",
+        "displayName": "AI Tools Lab",
+        "category": "AI tools discovery",
+        "readinessScore": 23,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 53,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 7,
+            "detail": "Find 7 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 7,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 14,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "productivity_ops",
+        "displayName": "Productivity Ops",
+        "category": "productivity and operations",
+        "readinessScore": 8,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 20,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 9,
+            "detail": "Find 9 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 9,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 24,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "sales_support_ai",
+        "displayName": "Sales Support AI",
+        "category": "sales and customer support",
+        "readinessScore": 1,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 3,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 29,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Sales Support AI needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "affiliate_builder",
+        "displayName": "Affiliate Builder",
+        "category": "affiliate and side projects",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Affiliate Builder needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "career_workflows",
+        "displayName": "Career Workflows",
+        "category": "career and job search",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Career Workflows needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "indie_launch_radar",
+        "displayName": "Indie Launch Radar",
+        "category": "indie hacker circle",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Indie Launch Radar needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      }
+    ],
+    "accounts": [
+      {
+        "accountId": "ai_tools_lab",
+        "displayName": "AI Tools Lab",
+        "category": "AI tools discovery",
+        "readinessScore": 23,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 53,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 7,
+            "detail": "Find 7 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 7,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 14,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "affiliate_builder",
+        "displayName": "Affiliate Builder",
+        "category": "affiliate and side projects",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Affiliate Builder needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "seo_review_lab",
+        "displayName": "SEO Review Lab",
+        "category": "SEO review pages",
+        "readinessScore": 7,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 8,
+            "detail": "Write 8 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 8,
+            "detail": "Add 8 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 8 条草稿/排期",
+        "actionDetail": "SEO Review Lab needs unique copy and review slots before it can post today.",
+        "actionPriority": 78
+      },
+      {
+        "accountId": "productivity_ops",
+        "displayName": "Productivity Ops",
+        "category": "productivity and operations",
+        "readinessScore": 8,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 20,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 9,
+            "detail": "Find 9 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 9,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 24,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "build_in_public",
+        "displayName": "Build in Public",
+        "category": "building and experiments",
+        "readinessScore": 4,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 3,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 29,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Build in Public needs unique copy and review slots before it can post today.",
+        "actionPriority": 79
+      },
+      {
+        "accountId": "creator_stack",
+        "displayName": "Creator Stack",
+        "category": "creator tools",
+        "readinessScore": 8,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 7,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 8,
+            "detail": "Write 8 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 8,
+            "detail": "Add 8 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 28,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 8 条草稿/排期",
+        "actionDetail": "Creator Stack needs unique copy and review slots before it can post today.",
+        "actionPriority": 78
+      },
+      {
+        "accountId": "ecommerce_ops",
+        "displayName": "Ecommerce Ops",
+        "category": "ecommerce and Shopify",
+        "readinessScore": 4,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Ecommerce Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 79
+      },
+      {
+        "accountId": "dev_workflows",
+        "displayName": "Dev Workflows",
+        "category": "developer workflows",
+        "readinessScore": 4,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Dev Workflows needs unique copy and review slots before it can post today.",
+        "actionPriority": 79
+      },
+      {
+        "accountId": "sales_support_ai",
+        "displayName": "Sales Support AI",
+        "category": "sales and customer support",
+        "readinessScore": 1,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 3,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 29,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Sales Support AI needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "career_workflows",
+        "displayName": "Career Workflows",
+        "category": "career and job search",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Career Workflows needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "ai_founder_signals",
+        "displayName": "AI Founder Signals",
+        "category": "AI startup circle",
+        "readinessScore": 24,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 60,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 7,
+            "detail": "Find 7 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 7,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 12,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "ai_agent_ops",
+        "displayName": "AI Agent Ops",
+        "category": "AI agents and automation",
+        "readinessScore": 19,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 13,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 4,
+            "detail": "Write 4 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 7,
+            "detail": "Add 7 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 26,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 7 条草稿/排期",
+        "actionDetail": "AI Agent Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 77
+      },
+      {
+        "accountId": "indie_launch_radar",
+        "displayName": "Indie Launch Radar",
+        "category": "indie hacker circle",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Indie Launch Radar needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "indie_monetization",
+        "displayName": "Indie Monetization",
+        "category": "indie monetization",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Indie Monetization needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "saas_pricing_lab",
+        "displayName": "SaaS Pricing Lab",
+        "category": "SaaS founder circle",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "SaaS Pricing Lab needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "saas_growth_ops",
+        "displayName": "SaaS Growth Ops",
+        "category": "SaaS growth operations",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "SaaS Growth Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      },
+      {
+        "accountId": "crypto_builder_radar",
+        "displayName": "Crypto Builder Radar",
+        "category": "Crypto builder circle",
+        "readinessScore": 21,
+        "targetPosts": 10,
+        "status": "ready_to_seed",
+        "statusLabel": "可手动种子测试",
+        "postableToday": 2,
+        "seedTestCapacity": 2,
+        "candidateBenchCoverage": 13,
+        "contentCoverage": 20,
+        "feedbackCoverage": 0,
+        "refillNeed": 9,
+        "contentBlocked": false,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 7,
+            "detail": "Write 7 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 7,
+            "detail": "Add 7 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 8,
+            "detail": "Find 8 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 8,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 26,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "手动测 2 条",
+        "actionDetail": "Crypto Builder Radar has 2 postable drafts. Publish only after final review, then import X Analytics.",
+        "actionPriority": 102
+      },
+      {
+        "accountId": "crypto_trading_tools",
+        "displayName": "Crypto Trading Tools",
+        "category": "crypto tooling",
+        "readinessScore": 4,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Crypto Trading Tools needs unique copy and review slots before it can post today.",
+        "actionPriority": 79
+      },
+      {
+        "accountId": "founder_tooling",
+        "displayName": "Founder Tooling",
+        "category": "founder workflows",
+        "readinessScore": 8,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 7,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 8,
+            "detail": "Write 8 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 8,
+            "detail": "Add 8 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 28,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 8 条草稿/排期",
+        "actionDetail": "Founder Tooling needs unique copy and review slots before it can post today.",
+        "actionPriority": 78
+      },
+      {
+        "accountId": "market_map_notes",
+        "displayName": "Market Map Notes",
+        "category": "market mapping",
+        "readinessScore": 0,
+        "targetPosts": 10,
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Market Map Notes needs unique copy and review slots before it can post today.",
+        "actionPriority": 80
+      }
+    ]
   },
   "qualityRadar": [
     {
@@ -43,14 +1715,14 @@
     {
       "id": "drafts",
       "label": "Drafts",
-      "score": 9,
-      "reason": "18/200 unique drafts are planned."
+      "score": 10,
+      "reason": "19/200 unique drafts are planned."
     },
     {
       "id": "schedule",
       "label": "Schedule",
       "score": 8,
-      "reason": "15/200 posts are in manual review slots."
+      "reason": "16/200 posts are in manual review slots."
     }
   ],
   "accountRows": [
@@ -77,6 +1749,62 @@
       "totalGap": 48,
       "readinessScore": 23,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 53,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 7,
+            "detail": "Find 7 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 7,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 14,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 23
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -95,7 +1823,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -103,7 +1831,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -111,7 +1839,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_d2c435b524db",
+          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -119,7 +1847,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_100f88b5fc51",
+          "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
           "score": 25,
@@ -127,7 +1855,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_5ef63cd5b2a5",
+          "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
           "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
           "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
           "score": 25,
@@ -160,6 +1888,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Affiliate Builder needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -202,6 +1986,62 @@
       "totalGap": 66,
       "readinessScore": 7,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 8,
+            "detail": "Write 8 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 8,
+            "detail": "Add 8 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 8 条草稿/排期",
+        "actionDetail": "SEO Review Lab needs unique copy and review slots before it can post today.",
+        "actionPriority": 78,
+        "readinessScore": 7
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -244,6 +2084,62 @@
       "totalGap": 62,
       "readinessScore": 8,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 20,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 9,
+            "detail": "Find 9 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 9,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 24,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 8
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -262,7 +2158,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_d2c435b524db",
+          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -270,7 +2166,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_6a173043e187",
+          "toolId": "tool_techcrunch_com_jeff-bezos-s-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-t_7c1dae0df3",
           "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
           "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
           "score": 25,
@@ -278,7 +2174,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_53600397a606",
+          "toolId": "tool_techcrunch_com_opendoor-s-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing_bec68a71aa",
           "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
           "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
           "score": 22,
@@ -286,7 +2182,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_c05d69f1b723",
+          "toolId": "tool_techcrunch_com_ai-pilled-firms-spend-7-500-per-employee-each-month-on-ai_ffbd5f22a8",
           "name": "‘AI-pilled’ firms spend $7,500 per employee each month on AI",
           "url": "https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/",
           "score": 21,
@@ -294,7 +2190,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_de4683c919b4",
+          "toolId": "tool_techcrunch_com_doordash-s-new-ai-chatbot-lets-you-order-with-prompts-and-photos_0f0611b8fe",
           "name": "DoorDash’s new AI chatbot lets you order with prompts and photos",
           "url": "https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/",
           "score": 21,
@@ -327,6 +2223,62 @@
       "totalGap": 67,
       "readinessScore": 4,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 3,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 29,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Build in Public needs unique copy and review slots before it can post today.",
+        "actionPriority": 79,
+        "readinessScore": 4
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -345,7 +2297,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_e06dd10fbd37",
+          "toolId": "tool_techcrunch_com_theker-just-raised-85m-to-build-the-factory-robot-that-doesn-t-specialize-in-any_3d469281ec",
           "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
           "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
           "score": 21,
@@ -378,6 +2330,62 @@
       "totalGap": 64,
       "readinessScore": 8,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 7,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 8,
+            "detail": "Write 8 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 8,
+            "detail": "Add 8 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 28,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 8 条草稿/排期",
+        "actionDetail": "Creator Stack needs unique copy and review slots before it can post today.",
+        "actionPriority": 78,
+        "readinessScore": 8
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -396,7 +2404,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tag:www.producthunt.com,2005:Post/1169183",
+          "toolId": "tool_producthunt_com_kosh-money_ada13da65a",
           "name": "KOSH Money",
           "url": "https://www.producthunt.com/products/kosh-money",
           "score": 24,
@@ -404,7 +2412,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_fe5a2105b723",
+          "toolId": "tool_techcrunch_com_pool-s-new-app-turns-your-screenshots-into-something-useful_04aa1696a9",
           "name": "Pool’s new app turns your screenshots into something useful",
           "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
           "score": 22,
@@ -437,6 +2445,62 @@
       "totalGap": 68,
       "readinessScore": 4,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Ecommerce Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 79,
+        "readinessScore": 4
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -467,18 +2531,74 @@
       "alternateMatches": 0,
       "strongCandidates": 0,
       "freshCandidates": 0,
-      "plannedDrafts": 0,
-      "scheduledPosts": 0,
+      "plannedDrafts": 1,
+      "scheduledPosts": 1,
       "measuredFeedback": 0,
       "pendingFeedback": 0,
       "candidateGap": 30,
       "qualityGap": 10,
       "freshGap": 10,
-      "draftGap": 10,
-      "scheduleGap": 10,
-      "totalGap": 70,
-      "readinessScore": 0,
+      "draftGap": 9,
+      "scheduleGap": 9,
+      "totalGap": 68,
+      "readinessScore": 4,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Dev Workflows needs unique copy and review slots before it can post today.",
+        "actionPriority": 79,
+        "readinessScore": 4
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -491,12 +2611,12 @@
         "bench": 0,
         "quality": 0,
         "freshness": 0,
-        "draft": 0,
-        "schedule": 0,
+        "draft": 10,
+        "schedule": 10,
         "feedback": 0
       },
       "topMatchedTools": [],
-      "nextAction": "Add 10 unique drafts for Dev Workflows; do not reuse the same tool across accounts."
+      "nextAction": "Add 9 unique drafts for Dev Workflows; do not reuse the same tool across accounts."
     },
     {
       "accountId": "sales_support_ai",
@@ -521,6 +2641,62 @@
       "totalGap": 69,
       "readinessScore": 1,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 3,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 29,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Sales Support AI needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 1
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -539,7 +2715,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tag:www.producthunt.com,2005:Post/1169266",
+          "toolId": "tool_producthunt_com_meet-warren-3-0_572792bb13",
           "name": "Meet Warren 3.0",
           "url": "https://www.producthunt.com/products/underpay",
           "score": 20,
@@ -572,6 +2748,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Career Workflows needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -614,6 +2846,62 @@
       "totalGap": 46,
       "readinessScore": 24,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 60,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 7,
+            "detail": "Find 7 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 7,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 12,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 24
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -632,7 +2920,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -640,7 +2928,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -648,7 +2936,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -656,7 +2944,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_d2c435b524db",
+          "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
@@ -664,7 +2952,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_100f88b5fc51",
+          "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
           "score": 25,
@@ -697,6 +2985,62 @@
       "totalGap": 57,
       "readinessScore": 19,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 13,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 4,
+            "detail": "Write 4 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 7,
+            "detail": "Add 7 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 26,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 7 条草稿/排期",
+        "actionDetail": "AI Agent Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 77,
+        "readinessScore": 19
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -715,7 +3059,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -723,7 +3067,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_a61b9a939dae",
+          "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
           "name": "How memory tools can make AI models worse",
           "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
           "score": 25,
@@ -731,7 +3075,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_72bb52a3552a",
+          "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
           "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
           "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
           "score": 22,
@@ -739,7 +3083,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_71f97fb23ad5",
+          "toolId": "tool_techcrunch_com_deezer-s-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others_c675f477fd",
           "name": "Deezer’s new tool can identify AI music from Spotify, Apple Music, and others",
           "url": "https://techcrunch.com/2026/06/11/deezers-new-tool-can-identify-ai-music-from-spotify-apple-music-and-others/",
           "score": 21,
@@ -772,6 +3116,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Indie Launch Radar needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -814,6 +3214,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Indie Monetization needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -856,6 +3312,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "SaaS Pricing Lab needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -898,6 +3410,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "SaaS Growth Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -940,6 +3508,62 @@
       "totalGap": 56,
       "readinessScore": 21,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "ready_to_seed",
+        "statusLabel": "可手动种子测试",
+        "postableToday": 2,
+        "seedTestCapacity": 2,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 13,
+        "contentCoverage": 20,
+        "feedbackCoverage": 0,
+        "refillNeed": 9,
+        "contentBlocked": false,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 7,
+            "detail": "Write 7 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 7,
+            "detail": "Add 7 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 8,
+            "detail": "Find 8 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 8,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 26,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "手动测 2 条",
+        "actionDetail": "Crypto Builder Radar has 2 postable drafts. Publish only after final review, then import X Analytics.",
+        "actionPriority": 102,
+        "readinessScore": 21
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -958,7 +3582,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_a48e609eca45",
+          "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
           "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
           "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
           "score": 26,
@@ -966,7 +3590,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_100f88b5fc51",
+          "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
           "score": 25,
@@ -974,7 +3598,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_5ef63cd5b2a5",
+          "toolId": "tool_coindesk_com_bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows_1364e79776",
           "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
           "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
           "score": 25,
@@ -982,7 +3606,7 @@
           "match": "primary"
         },
         {
-          "toolId": "source_candidate_72bb52a3552a",
+          "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
           "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
           "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
           "score": 22,
@@ -1015,6 +3639,62 @@
       "totalGap": 68,
       "readinessScore": 4,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Crypto Trading Tools needs unique copy and review slots before it can post today.",
+        "actionPriority": 79,
+        "readinessScore": 4
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1057,6 +3737,62 @@
       "totalGap": 64,
       "readinessScore": 8,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 7,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 8,
+            "detail": "Write 8 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 8,
+            "detail": "Add 8 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 28,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 8 条草稿/排期",
+        "actionDetail": "Founder Tooling needs unique copy and review slots before it can post today.",
+        "actionPriority": 78,
+        "readinessScore": 8
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1075,7 +3811,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_576b374effa3",
+          "toolId": "tool_techcrunch_com_anthropic-s-dario-amodei-has-just-one-direct-report_7eec6198c2",
           "name": "Anthropic’s Dario Amodei has just one direct report",
           "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
           "score": 29,
@@ -1083,7 +3819,7 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_cb3f98bdaef6",
+          "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
           "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
           "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
           "score": 22,
@@ -1116,6 +3852,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Market Map Notes needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1160,6 +3952,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Affiliate Builder needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1202,6 +4050,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Career Workflows needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1220,48 +4124,6 @@
       },
       "topMatchedTools": [],
       "nextAction": "Add 10 unique drafts for Career Workflows; do not reuse the same tool across accounts."
-    },
-    {
-      "accountId": "dev_workflows",
-      "displayName": "Dev Workflows",
-      "category": "developer workflows",
-      "targetPosts": 10,
-      "candidateBenchTarget": 30,
-      "matchedCandidates": 0,
-      "primaryMatches": 0,
-      "alternateMatches": 0,
-      "strongCandidates": 0,
-      "freshCandidates": 0,
-      "plannedDrafts": 0,
-      "scheduledPosts": 0,
-      "measuredFeedback": 0,
-      "pendingFeedback": 0,
-      "candidateGap": 30,
-      "qualityGap": 10,
-      "freshGap": 10,
-      "draftGap": 10,
-      "scheduleGap": 10,
-      "totalGap": 70,
-      "readinessScore": 0,
-      "status": "draft_short",
-      "blockers": [
-        "candidate_bench",
-        "quality",
-        "freshness",
-        "drafts",
-        "schedule",
-        "feedback"
-      ],
-      "radar": {
-        "bench": 0,
-        "quality": 0,
-        "freshness": 0,
-        "draft": 0,
-        "schedule": 0,
-        "feedback": 0
-      },
-      "topMatchedTools": [],
-      "nextAction": "Add 10 unique drafts for Dev Workflows; do not reuse the same tool across accounts."
     },
     {
       "accountId": "indie_launch_radar",
@@ -1286,6 +4148,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Indie Launch Radar needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1328,6 +4246,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Indie Monetization needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1370,6 +4344,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Market Map Notes needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1412,6 +4442,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "SaaS Growth Ops needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1454,6 +4540,62 @@
       "totalGap": 70,
       "readinessScore": 0,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "SaaS Pricing Lab needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 0
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1496,6 +4638,62 @@
       "totalGap": 69,
       "readinessScore": 1,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 3,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 10,
+            "detail": "Write 10 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 10,
+            "detail": "Add 10 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 29,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 10 条草稿/排期",
+        "actionDetail": "Sales Support AI needs unique copy and review slots before it can post today.",
+        "actionPriority": 80,
+        "readinessScore": 1
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1514,7 +4712,7 @@
       },
       "topMatchedTools": [
         {
-          "toolId": "tag:www.producthunt.com,2005:Post/1169266",
+          "toolId": "tool_producthunt_com_meet-warren-3-0_572792bb13",
           "name": "Meet Warren 3.0",
           "url": "https://www.producthunt.com/products/underpay",
           "score": 20,
@@ -1547,6 +4745,62 @@
       "totalGap": 68,
       "readinessScore": 4,
       "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Crypto Trading Tools needs unique copy and review slots before it can post today.",
+        "actionPriority": 79,
+        "readinessScore": 4
+      },
       "blockers": [
         "candidate_bench",
         "quality",
@@ -1565,6 +4819,104 @@
       },
       "topMatchedTools": [],
       "nextAction": "Add 9 unique drafts for Crypto Trading Tools; do not reuse the same tool across accounts."
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "category": "developer workflows",
+      "targetPosts": 10,
+      "candidateBenchTarget": 30,
+      "matchedCandidates": 0,
+      "primaryMatches": 0,
+      "alternateMatches": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "plannedDrafts": 1,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "pendingFeedback": 0,
+      "candidateGap": 30,
+      "qualityGap": 10,
+      "freshGap": 10,
+      "draftGap": 9,
+      "scheduleGap": 9,
+      "totalGap": 68,
+      "readinessScore": 4,
+      "status": "draft_short",
+      "contentInventory": {
+        "status": "needs_drafts",
+        "statusLabel": "缺草稿/排期",
+        "postableToday": 0,
+        "seedTestCapacity": 0,
+        "targetPosts": 10,
+        "candidateBenchCoverage": 0,
+        "contentCoverage": 0,
+        "feedbackCoverage": 0,
+        "refillNeed": 10,
+        "contentBlocked": true,
+        "feedbackBlocked": true,
+        "firstBottleneck": "drafts",
+        "bottlenecks": [
+          {
+            "id": "drafts",
+            "label": "Draft gap",
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
+          },
+          {
+            "id": "schedule",
+            "label": "Schedule gap",
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
+          },
+          {
+            "id": "freshness",
+            "label": "Fresh candidate gap",
+            "missing": 10,
+            "detail": "Find 10 fresh items that fit this account."
+          },
+          {
+            "id": "quality",
+            "label": "Quality gap",
+            "missing": 10,
+            "detail": "Replace broad or weak items with stronger account-specific angles."
+          },
+          {
+            "id": "candidate_bench",
+            "label": "Candidate bench gap",
+            "missing": 30,
+            "detail": "Build toward 30 matched candidates before scale."
+          },
+          {
+            "id": "feedback",
+            "label": "Feedback missing",
+            "missing": 1,
+            "detail": "Post a tiny test, then import X Analytics."
+          }
+        ],
+        "actionLabel": "补 9 条草稿/排期",
+        "actionDetail": "Dev Workflows needs unique copy and review slots before it can post today.",
+        "actionPriority": 79,
+        "readinessScore": 4
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "radar": {
+        "bench": 0,
+        "quality": 0,
+        "freshness": 0,
+        "draft": 10,
+        "schedule": 10,
+        "feedback": 0
+      },
+      "topMatchedTools": [],
+      "nextAction": "Add 9 unique drafts for Dev Workflows; do not reuse the same tool across accounts."
     }
   ],
   "searchTasks": [
@@ -1598,22 +4950,6 @@
       "provider": "Google recent search",
       "query": "\"career and job search\" \"tool\"",
       "url": "https://www.google.com/search?q=%22career%20and%20job%20search%22%20%22tool%22%20after%3A2026-01-01",
-      "targetRows": 10
-    },
-    {
-      "accountId": "dev_workflows",
-      "displayName": "Dev Workflows",
-      "provider": "X live search",
-      "query": "\"developer workflows\" \"tool\"",
-      "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
-      "targetRows": 10
-    },
-    {
-      "accountId": "dev_workflows",
-      "displayName": "Dev Workflows",
-      "provider": "Google recent search",
-      "query": "\"developer workflows\" \"tool\"",
-      "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
       "targetRows": 10
     },
     {
@@ -1726,6 +5062,22 @@
       "provider": "Google recent search",
       "query": "\"crypto\" \"builder\" \"tool\"",
       "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
+      "targetRows": 9
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "provider": "X live search",
+      "query": "\"developer workflows\" \"tool\"",
+      "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+      "targetRows": 10
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "provider": "Google recent search",
+      "query": "\"developer workflows\" \"tool\"",
+      "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
       "targetRows": 9
     }
   ],

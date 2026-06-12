@@ -37,7 +37,7 @@ export function buildContentOpsPlan({
     dailyTargetCap
   ));
   const accountTasks = buildAccountTasks(accountRefillWorkbench);
-  const circleTasks = buildCircleTasks(latest, sourceImportPack);
+  const circleTasks = buildCircleTasks(latest, sourceImportPack, date);
   const status = planStatus({ feedbackPending, feedbackMeasured, recommendedPostLimit, sourceGap, accountTasks });
 
   return {
@@ -138,15 +138,19 @@ function buildAccountTasks(workbench) {
     });
 }
 
-function buildCircleTasks(latest, sourceImportPack) {
+function buildCircleTasks(latest, sourceImportPack, date) {
   const importRowsByCircle = new Map((sourceImportPack?.rowsByCircle ?? []).map((item) => [item.circleId, item]));
+  const discoveryByCircle = new Map((latest?.sourceDiscovery?.circles ?? []).map((item) => [item.circleId, item]));
   return (latest?.sourceQualityQueue?.items ?? [])
     .slice()
     .sort((a, b) => Number(b.neededCandidates ?? 0) - Number(a.neededCandidates ?? 0))
     .slice(0, DEFAULT_MAX_CIRCLE_TASKS)
     .map((item) => {
       const packCircle = importRowsByCircle.get(item.circleId);
+      const discovery = discoveryByCircle.get(item.circleId) ?? {};
       const rowsToCollect = Math.max(1, Math.min(25, Number(item.neededCandidates ?? packCircle?.neededCandidates ?? 0) || 5));
+      const searchLinks = (discovery.searchLinks ?? []).slice(0, 6);
+      const searchUrls = searchLinks.map((link) => link.url).filter(Boolean);
       return {
         circleId: item.circleId,
         circleName: item.circleName || item.circleId,
@@ -156,9 +160,47 @@ function buildCircleTasks(latest, sourceImportPack) {
         affectedAccounts: item.affectedAccounts ?? [],
         searchQueries: item.searchQueries ?? [],
         recommendedSources: item.recommendedSources ?? [],
+        searchLinks,
+        searchUrls,
+        csv: circleCsvTemplate({ ...item, rowsToCollect, searchLinks }, date),
         reason: item.importHint || `Add ${rowsToCollect} real candidates for this circle.`
       };
     });
+}
+
+function circleCsvTemplate(circle, date) {
+  const headers = ["name", "url", "tagline", "source", "circle", "candidateType", "sourceUrl", "published", "notes"];
+  const rowsToCollect = Math.max(1, Number(circle.rowsToCollect ?? 5));
+  const circleId = circle.circleId || "";
+  const searchLinks = circle.searchLinks ?? [];
+  const queries = circle.searchQueries?.length ? circle.searchQueries : searchLinks.map((link) => link.query).filter(Boolean);
+  const published = date || new Date().toISOString().slice(0, 10);
+  const rows = Array.from({ length: rowsToCollect }, (_, index) => {
+    const link = searchLinks[index % Math.max(1, searchLinks.length)] ?? {};
+    const query = queries[index % Math.max(1, queries.length)] || "manual research";
+    const candidateType = index % 3 === 0 ? "topic" : "product";
+    return {
+      name: "",
+      url: "",
+      tagline: "",
+      source: `${circleId || "manual"}_research`,
+      circle: circleId,
+      candidateType,
+      sourceUrl: link.url || "",
+      published,
+      notes: `Fill a real ${circle.circleName || circleId} candidate from ${query}. Clear audience, narrow pain, real URL.`
+    };
+  });
+  return [
+    headers.join(","),
+    ...rows.map((row) => headers.map((header) => csvCell(row[header] ?? "")).join(","))
+  ].join("\n");
+}
+
+function csvCell(value) {
+  const text = String(value ?? "");
+  if (!/[",\n\r]/.test(text)) return text;
+  return `"${text.replaceAll("\"", "\"\"")}"`;
 }
 
 function buildChecklist({ feedbackPending, feedbackMeasured, recommendedPostLimit, accountTasks, circleTasks, sourceGap }) {

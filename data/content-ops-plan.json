@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T21:57:06.281Z",
+  "generatedAt": "2026-06-12T22:07:02.253Z",
   "status": "seed_then_measure",
   "headline": "今天最多手动测 2 条，发完补反馈。",
   "summary": {
@@ -278,6 +278,53 @@
           "enabled": false
         }
       ],
+      "searchLinks": [
+        {
+          "label": "X live search",
+          "url": "https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live",
+          "query": "\"micro SaaS\" launch",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Google recent search",
+          "url": "https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01",
+          "query": "\"micro SaaS\" launch",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "HN Algolia",
+          "url": "https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch",
+          "query": "\"micro SaaS\" launch",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "X live search",
+          "url": "https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live",
+          "query": "\"indie hacker\" \"revenue\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Google recent search",
+          "url": "https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01",
+          "query": "\"indie hacker\" \"revenue\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "HN Algolia",
+          "url": "https://hn.algolia.com/?q=%22indie%20hacker%22%20%22revenue%22",
+          "query": "\"indie hacker\" \"revenue\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch",
+        "https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22indie%20hacker%22%20%22revenue%22"
+      ],
+      "csv": "name,url,tagline,source,circle,candidateType,sourceUrl,published,notes\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"micro SaaS\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"indie hacker\"\" \"\"revenue\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"build in public\"\" \"\"launched\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"solo founder\"\" \"\"pricing\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"side project\"\" \"\"SaaS\"\" \"\"users\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://hn.algolia.com/?q=%22indie%20hacker%22%20%22revenue%22,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"micro SaaS\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"indie hacker\"\" \"\"revenue\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"build in public\"\" \"\"launched\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"solo founder\"\" \"\"pricing\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"side project\"\" \"\"SaaS\"\" \"\"users\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"micro SaaS\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://hn.algolia.com/?q=%22indie%20hacker%22%20%22revenue%22,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"indie hacker\"\" \"\"revenue\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"build in public\"\" \"\"launched\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"solo founder\"\" \"\"pricing\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"side project\"\" \"\"SaaS\"\" \"\"users\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"micro SaaS\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"indie hacker\"\" \"\"revenue\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://hn.algolia.com/?q=%22indie%20hacker%22%20%22revenue%22,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"build in public\"\" \"\"launched\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"solo founder\"\" \"\"pricing\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"side project\"\" \"\"SaaS\"\" \"\"users\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"micro SaaS\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"indie hacker\"\" \"\"revenue\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"build in public\"\" \"\"launched\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,product,https://hn.algolia.com/?q=%22indie%20hacker%22%20%22revenue%22,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"solo founder\"\" \"\"pricing\"\". Clear audience, narrow pain, real URL.\"\n,,,indie_hackers_research,indie_hackers,topic,https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live,2026-06-13,\"Fill a real Indie hacker circle candidate from \"\"side project\"\" \"\"SaaS\"\" \"\"users\"\". Clear audience, narrow pain, real URL.\"",
       "reason": "Add 34 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL."
     },
     {
@@ -315,6 +362,53 @@
           "enabled": false
         }
       ],
+      "searchLinks": [
+        {
+          "label": "X live search",
+          "url": "https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live",
+          "query": "\"SaaS pricing\" \"case study\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Google recent search",
+          "url": "https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01",
+          "query": "\"SaaS pricing\" \"case study\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "HN Algolia",
+          "url": "https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22",
+          "query": "\"SaaS pricing\" \"case study\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "X live search",
+          "url": "https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live",
+          "query": "\"B2B SaaS\" \"onboarding\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Google recent search",
+          "url": "https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01",
+          "query": "\"B2B SaaS\" \"onboarding\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "HN Algolia",
+          "url": "https://hn.algolia.com/?q=%22B2B%20SaaS%22%20%22onboarding%22",
+          "query": "\"B2B SaaS\" \"onboarding\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22",
+        "https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22B2B%20SaaS%22%20%22onboarding%22"
+      ],
+      "csv": "name,url,tagline,source,circle,candidateType,sourceUrl,published,notes\n,,,saas_founders_research,saas_founders,topic,https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS pricing\"\" \"\"case study\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"B2B SaaS\"\" \"\"onboarding\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS founder\"\" \"\"churn\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,topic,https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"PLG\"\" \"\"activation\"\" \"\"SaaS\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS\"\" \"\"pricing page\"\" \"\"launch\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://hn.algolia.com/?q=%22B2B%20SaaS%22%20%22onboarding%22,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS pricing\"\" \"\"case study\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,topic,https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"B2B SaaS\"\" \"\"onboarding\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS founder\"\" \"\"churn\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"PLG\"\" \"\"activation\"\" \"\"SaaS\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,topic,https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS\"\" \"\"pricing page\"\" \"\"launch\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS pricing\"\" \"\"case study\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://hn.algolia.com/?q=%22B2B%20SaaS%22%20%22onboarding%22,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"B2B SaaS\"\" \"\"onboarding\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,topic,https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS founder\"\" \"\"churn\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"PLG\"\" \"\"activation\"\" \"\"SaaS\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS\"\" \"\"pricing page\"\" \"\"launch\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,topic,https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS pricing\"\" \"\"case study\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"B2B SaaS\"\" \"\"onboarding\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://hn.algolia.com/?q=%22B2B%20SaaS%22%20%22onboarding%22,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS founder\"\" \"\"churn\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,topic,https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"PLG\"\" \"\"activation\"\" \"\"SaaS\"\". Clear audience, narrow pain, real URL.\"\n,,,saas_founders_research,saas_founders,product,https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01,2026-06-13,\"Fill a real SaaS founder circle candidate from \"\"SaaS\"\" \"\"pricing page\"\" \"\"launch\"\". Clear audience, narrow pain, real URL.\"",
       "reason": "Add 20 fresh SaaS founder circle candidates with clear buyer, narrow pain, and a real URL."
     },
     {
@@ -358,6 +452,53 @@
           "enabled": false
         }
       ],
+      "searchLinks": [
+        {
+          "label": "X live search",
+          "url": "https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live",
+          "query": "\"crypto wallet\" \"developer\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Google recent search",
+          "url": "https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01",
+          "query": "\"crypto wallet\" \"developer\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "HN Algolia",
+          "url": "https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22",
+          "query": "\"crypto wallet\" \"developer\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "CoinDesk search",
+          "url": "https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22",
+          "query": "\"crypto wallet\" \"developer\"",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "X live search",
+          "url": "https://x.com/search?q=%22onchain%22%20%22tool%22%20launch&src=typed_query&f=live",
+          "query": "\"onchain\" \"tool\" launch",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Google recent search",
+          "url": "https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01",
+          "query": "\"onchain\" \"tool\" launch",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22",
+        "https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22",
+        "https://x.com/search?q=%22onchain%22%20%22tool%22%20launch&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01"
+      ],
+      "csv": "name,url,tagline,source,circle,candidateType,sourceUrl,published,notes\n,,,crypto_builders_research,crypto_builders,topic,https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"crypto wallet\"\" \"\"developer\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"onchain\"\" \"\"tool\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"DeFi\"\" \"\"dashboard\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,topic,https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"stablecoin\"\" \"\"infrastructure\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://x.com/search?q=%22onchain%22%20%22tool%22%20launch&src=typed_query&f=live,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"web3\"\" \"\"founder\"\" \"\"product\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"crypto wallet\"\" \"\"developer\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,topic,https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"onchain\"\" \"\"tool\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"DeFi\"\" \"\"dashboard\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"stablecoin\"\" \"\"infrastructure\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,topic,https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"web3\"\" \"\"founder\"\" \"\"product\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://x.com/search?q=%22onchain%22%20%22tool%22%20launch&src=typed_query&f=live,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"crypto wallet\"\" \"\"developer\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"onchain\"\" \"\"tool\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,topic,https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"DeFi\"\" \"\"dashboard\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"stablecoin\"\" \"\"infrastructure\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,product,https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"web3\"\" \"\"founder\"\" \"\"product\"\". Clear audience, narrow pain, real URL.\"\n,,,crypto_builders_research,crypto_builders,topic,https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22,2026-06-13,\"Fill a real Crypto builder circle candidate from \"\"crypto wallet\"\" \"\"developer\"\". Clear audience, narrow pain, real URL.\"",
       "reason": "Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL."
     },
     {
@@ -401,6 +542,53 @@
           "enabled": false
         }
       ],
+      "searchLinks": [
+        {
+          "label": "X live search",
+          "url": "https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live",
+          "query": "\"AI startup\" launch new tool",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Google recent search",
+          "url": "https://www.google.com/search?q=%22AI%20startup%22%20launch%20new%20tool%20after%3A2026-01-01",
+          "query": "\"AI startup\" launch new tool",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "HN Algolia",
+          "url": "https://hn.algolia.com/?q=%22AI%20startup%22%20launch%20new%20tool",
+          "query": "\"AI startup\" launch new tool",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Product Hunt search",
+          "url": "https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool",
+          "query": "\"AI startup\" launch new tool",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "X live search",
+          "url": "https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live",
+          "query": "\"AI agent\" founder workflow",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        },
+        {
+          "label": "Google recent search",
+          "url": "https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01",
+          "query": "\"AI agent\" founder workflow",
+          "why": "Use this link for manual discovery. Import only candidates that pass the checklist."
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22AI%20startup%22%20launch%20new%20tool%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22AI%20startup%22%20launch%20new%20tool",
+        "https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool",
+        "https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01"
+      ],
+      "csv": "name,url,tagline,source,circle,candidateType,sourceUrl,published,notes\n,,,ai_startups_research,ai_startups,topic,https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live,2026-06-13,\"Fill a real AI startup circle candidate from \"\"AI startup\"\" launch new tool. Clear audience, narrow pain, real URL.\"\n,,,ai_startups_research,ai_startups,product,https://www.google.com/search?q=%22AI%20startup%22%20launch%20new%20tool%20after%3A2026-01-01,2026-06-13,\"Fill a real AI startup circle candidate from \"\"AI agent\"\" founder workflow. Clear audience, narrow pain, real URL.\"\n,,,ai_startups_research,ai_startups,product,https://hn.algolia.com/?q=%22AI%20startup%22%20launch%20new%20tool,2026-06-13,\"Fill a real AI startup circle candidate from \"\"LLM\"\" \"\"Product Hunt\"\" launch. Clear audience, narrow pain, real URL.\"\n,,,ai_startups_research,ai_startups,topic,https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool,2026-06-13,\"Fill a real AI startup circle candidate from \"\"AI automation\"\" \"\"pricing\"\" startup. Clear audience, narrow pain, real URL.\"\n,,,ai_startups_research,ai_startups,product,https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live,2026-06-13,\"Fill a real AI startup circle candidate from \"\"AI tool\"\" \"\"founder\"\" \"\"waitlist\"\". Clear audience, narrow pain, real URL.\"\n,,,ai_startups_research,ai_startups,product,https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01,2026-06-13,\"Fill a real AI startup circle candidate from \"\"AI startup\"\" launch new tool. Clear audience, narrow pain, real URL.\"\n,,,ai_startups_research,ai_startups,topic,https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live,2026-06-13,\"Fill a real AI startup circle candidate from \"\"AI agent\"\" founder workflow. Clear audience, narrow pain, real URL.\"\n,,,ai_startups_research,ai_startups,product,https://www.google.com/search?q=%22AI%20startup%22%20launch%20new%20tool%20after%3A2026-01-01,2026-06-13,\"Fill a real AI startup circle candidate from \"\"LLM\"\" \"\"Product Hunt\"\" launch. Clear audience, narrow pain, real URL.\"",
       "reason": "Add 8 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL."
     }
   ],

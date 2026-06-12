@@ -1899,6 +1899,17 @@ test("content ops plan caps publishing and points to refill tasks", () => {
   const plan = buildContentOpsPlan({
     date: "2026-06-13",
     latest: {
+      sourceDiscovery: {
+        circles: [
+          {
+            circleId: "indie_hackers",
+            circleName: "Indie hacker circle",
+            searchLinks: [
+              { label: "X live search", query: "\"micro SaaS\" launch", url: "https://x.com/search?q=micro%20saas" }
+            ]
+          }
+        ]
+      },
       sourceQualityQueue: {
         summary: { totalNeededCandidates: 42 },
         items: [
@@ -1947,6 +1958,9 @@ test("content ops plan caps publishing and points to refill tasks", () => {
   assert.equal(plan.status, "seed_then_measure");
   assert.equal(plan.accountTasks[0].rowsToCollect, 9);
   assert.equal(plan.circleTasks[0].circleId, "indie_hackers");
+  assert.equal(plan.circleTasks[0].searchUrls[0], "https://x.com/search?q=micro%20saas");
+  assert.match(plan.circleTasks[0].csv, /name,url,tagline,source,circle,candidateType/);
+  assert.match(plan.circleTasks[0].csv, /indie_hackers_research/);
   assert.match(plan.checklist[0].title, /seed posts/);
 });
 

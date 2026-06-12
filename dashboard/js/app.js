@@ -862,6 +862,11 @@ function renderContentOpsPlanPanel() {
           <div class="line-head"><strong>${esc(topCircle.circleName)}</strong>${pill(`need ${topCircle.neededCandidates ?? 0}`, "warn")}</div>
           <p class="muted">${esc(topCircle.reason || "先补缺口最大的圈层。")}</p>
           <div class="pill-row">${(topCircle.searchQueries ?? []).slice(0, 4).map((query) => pill(query, "neutral")).join("")}</div>
+          <div class="row-actions">
+            ${topCircle.searchUrls?.length ? `<button class="button ghost" data-open-searches="${attr(JSON.stringify(topCircle.searchUrls))}">打开圈层搜索组</button>` : ""}
+            ${topCircle.csv ? `<button class="button ghost" data-ops-circle-fill="${attr(topCircle.circleId)}">填入圈层候选</button>` : ""}
+            ${topCircle.csv ? `<button class="button ghost" data-copy="${attr(topCircle.csv)}">复制圈层 CSV</button>` : ""}
+          </div>
         </div>` : ""}
       </div>
     </div>
@@ -2165,13 +2170,14 @@ function renderQualityGateDetail(gate) {
 }
 
 function circleOptions() {
+  const selected = state.pendingCandidatePaste?.circleId || "";
   return [
     ["", "auto / unknown"],
     ["ai_startups", "AI startups"],
     ["indie_hackers", "Indie hackers"],
     ["saas_founders", "SaaS founders"],
     ["crypto_builders", "Crypto builders"]
-  ].map(([value, label]) => `<option value="${attr(value)}">${esc(label)}</option>`).join("");
+  ].map(([value, label]) => `<option value="${attr(value)}"${value === selected ? " selected" : ""}>${esc(label)}</option>`).join("");
 }
 
 function renderCandidateItem(item) {
@@ -4226,6 +4232,23 @@ function fillCandidatePasteFromAccount(accountId) {
   toast("已填入候选收集");
 }
 
+function fillCandidatePasteFromCircle(circleId) {
+  const circle = (state.contentOpsPlan?.circleTasks ?? [])
+    .find((item) => item.circleId === circleId);
+  if (!circle?.csv) throw new Error("这个圈层还没有补题 CSV。先运行 npm run content-ops-plan。");
+  state.pendingCandidatePaste = {
+    circleId,
+    source: `${circleId || "manual"}_research`,
+    text: circle.csv,
+    label: `${circle.circleName || circleId} 圈层补题 CSV 已填入`,
+    detail: `目标先找 ${circle.rowsToCollect ?? 0} 条真实候选；空 name/url 会被跳过。`
+  };
+  state.candidatePreview = null;
+  state.candidateImportResult = null;
+  switchTab("candidates");
+  toast("已填入圈层候选收集");
+}
+
 function accountRefillTemplate(accountId) {
   return (state.accountContentMatrix?.inventory?.accounts ?? [])
     .find((account) => account.accountId === accountId)?.refillTemplate ?? null;
@@ -4742,6 +4765,8 @@ document.addEventListener("click", async (event) => {
       flashButton(button);
     } else if (button.dataset.refillFill) {
       fillCandidatePasteFromAccount(button.dataset.refillFill);
+    } else if (button.dataset.opsCircleFill) {
+      fillCandidatePasteFromCircle(button.dataset.opsCircleFill);
     } else if (button.dataset.fillFeedbackCsv) {
       fillFeedbackCsv(button.dataset.fillFeedbackCsv);
     } else if (button.dataset.openSearches) {

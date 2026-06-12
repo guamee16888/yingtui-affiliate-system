@@ -5,7 +5,7 @@
 - Target: 200/day
 - Recommended posts now: 2
 - Safe new posts: 3
-- Fresh publish candidates: 3
+- Fresh publish candidates: 4
 - Postable today: 2
 - Feedback measured / pending: 0/0
 - Source gap: 78

@@ -1,14 +1,14 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T22:46:43.394Z",
+  "generatedAt": "2026-06-12T23:01:41.460Z",
   "status": "seed_then_measure",
   "headline": "今天最多手动测 2 条，发完补反馈。",
   "summary": {
     "targetDailyPosts": 200,
     "recommendedPostLimit": 2,
     "safeNewPosts": 3,
-    "freshPublishCandidates": 3,
+    "freshPublishCandidates": 4,
     "postableToday": 2,
     "feedbackMeasured": 0,
     "feedbackPending": 0,

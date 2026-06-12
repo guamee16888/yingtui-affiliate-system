@@ -1,6 +1,6 @@
 {
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T22:46:43.369Z",
+  "generatedAt": "2026-06-12T23:01:41.439Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -8,34 +8,49 @@
       "productHuntTools": 50,
       "candidateInboxTools": 0,
       "sourceCandidateTools": 20,
-      "sourceFetchedTools": 20,
+      "sourceFetchedTools": 14,
       "enabledExtraSources": 2,
       "mergedTools": 70
     }
   },
-  "warnings": [],
+  "warnings": [
+    "Source CoinDesk crypto feed unavailable: The operation was aborted due to timeout"
+  ],
   "summary": {
     "totalTools": 70,
     "topPicks": 19,
     "affiliateQueueCount": 0,
     "candidateInboxCount": 0,
     "sourceCandidateCount": 20,
-    "seenBeforeCount": 16
+    "seenBeforeCount": 15
   },
   "freshnessReport": {
     "source": "https://www.producthunt.com/feed",
     "usedFallback": false,
     "stats": {
       "totalTools": 70,
-      "freshToday": 13,
-      "fresh48": 42,
+      "freshToday": 14,
+      "fresh48": 41,
       "fresh7d": 12,
       "older": 3,
       "unknownPublished": 0,
-      "topPickFreshPostCandidates": 3,
-      "topPickSeenBefore": 16
+      "topPickFreshPostCandidates": 4,
+      "topPickSeenBefore": 15
     },
     "publishableTools": [
+      {
+        "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+        "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+        "published": "Fri, 12 Jun 2026 23:00:54 +0000",
+        "sourceId": "techcrunch_ai",
+        "sourceType": "source_feed",
+        "sourceName": "TechCrunch AI feed",
+        "ageDays": 0,
+        "score": 25,
+        "followUpAction": "tweet only",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
       {
         "name": "Mistral is rumored to be raising €3B at €20B valuation",
         "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
@@ -77,6 +92,19 @@
       }
     ],
     "freshFeedWatchlist": [
+      {
+        "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+        "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+        "published": "Fri, 12 Jun 2026 23:00:54 +0000",
+        "sourceId": "techcrunch_ai",
+        "sourceType": "source_feed",
+        "sourceName": "TechCrunch AI feed",
+        "ageDays": 0,
+        "score": 25,
+        "followUpAction": "tweet only",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
       {
         "name": "Mistral is rumored to be raising €3B at €20B valuation",
         "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
@@ -132,6 +160,19 @@
         "inTopPicks": true
       },
       {
+        "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+        "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+        "published": "Fri, 12 Jun 2026 23:00:54 +0000",
+        "sourceId": "techcrunch_ai",
+        "sourceType": "source_feed",
+        "sourceName": "TechCrunch AI feed",
+        "ageDays": 0,
+        "score": 25,
+        "followUpAction": "tweet only",
+        "seenBefore": false,
+        "inTopPicks": true
+      },
+      {
         "name": "Mistral is rumored to be raising €3B at €20B valuation",
         "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
         "published": "Fri, 12 Jun 2026 17:38:11 +0000",
@@ -169,19 +210,6 @@
         "followUpAction": "tweet only",
         "seenBefore": false,
         "inTopPicks": true
-      },
-      {
-        "name": "Elon Musk's SpaceX soars 20% in blockbuster Nasdaq debut",
-        "url": "https://www.coindesk.com/markets/2026/06/12/spacex-opens-at-usdtk-in-blockbuster-nasdaq-debut",
-        "published": "Fri, 12 Jun 2026 15:55:42 +0000",
-        "sourceId": "coindesk_crypto",
-        "sourceType": "source_feed",
-        "sourceName": "CoinDesk crypto feed",
-        "ageDays": 0,
-        "score": 23,
-        "followUpAction": "skip",
-        "seenBefore": false,
-        "inTopPicks": false
       }
     ],
     "diagnosis": "Top picks include fresh candidates that are suitable for cautious posting.",
@@ -970,6 +998,57 @@
         "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups."
       },
       {
+        "toolId": "tool_techcrunch_com_meta-s-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-insid_03a000d08d",
+        "toolName": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+        "primary": {
+          "accountId": "ai_founder_signals",
+          "displayName": "AI Founder Signals",
+          "handle": "",
+          "category": "AI startup circle",
+          "score": 15.2,
+          "dailyPostLimit": 10,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "AI",
+            "startup",
+            "workflow"
+          ],
+          "matchedPillars": [
+            "AI startups"
+          ]
+        },
+        "alternatives": [
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 11.2,
+            "dailyPostLimit": 10,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "AI",
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 9.2,
+            "dailyPostLimit": 10,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups."
+      },
+      {
         "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
         "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
         "primary": {
@@ -1207,59 +1286,6 @@
           }
         ],
         "reason": "AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt."
-      },
-      {
-        "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
-        "toolName": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-        "primary": {
-          "accountId": "ai_founder_signals",
-          "displayName": "AI Founder Signals",
-          "handle": "",
-          "category": "AI startup circle",
-          "score": 14.7,
-          "dailyPostLimit": 10,
-          "cooldownHours": 6,
-          "matchedKeywords": [
-            "AI",
-            "startup",
-            "workflow"
-          ],
-          "matchedPillars": [
-            "AI startups"
-          ]
-        },
-        "alternatives": [
-          {
-            "accountId": "ai_tools_lab",
-            "displayName": "AI Tools Lab",
-            "handle": "",
-            "category": "AI tools discovery",
-            "score": 10.7,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [
-              "AI",
-              "workflow"
-            ],
-            "matchedPillars": []
-          },
-          {
-            "accountId": "founder_tooling",
-            "displayName": "Founder Tooling",
-            "handle": "",
-            "category": "founder workflows",
-            "score": 10.7,
-            "dailyPostLimit": 10,
-            "cooldownHours": 8,
-            "matchedKeywords": [
-              "research"
-            ],
-            "matchedPillars": [
-              "research"
-            ]
-          }
-        ],
-        "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups."
       },
       {
         "toolId": "tool_techcrunch_com_pool-s-new-app-turns-your-screenshots-into-something-useful_04aa1696a9",
@@ -1973,9 +1999,9 @@
         "displayName": "Founder Tooling",
         "category": "founder workflows",
         "targetPosts": 10,
-        "availableDrafts": 4,
-        "qualifiedTools": 4,
-        "gap": 6,
+        "availableDrafts": 3,
+        "qualifiedTools": 3,
+        "gap": 7,
         "status": "short"
       },
       {
@@ -2199,7 +2225,7 @@
   },
   "sourceDiscovery": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T22:46:43.361Z",
+    "generatedAt": "2026-06-12T23:01:41.431Z",
     "summary": {
       "circles": 4,
       "totalNeededCandidates": 78,
@@ -2737,7 +2763,7 @@
   },
   "sourceHealth": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T22:46:43.363Z",
+    "generatedAt": "2026-06-12T23:01:41.433Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -2762,12 +2788,12 @@
         "activeCandidates": 14,
         "qualifiedCandidates": 12,
         "skippedCandidates": 2,
-        "freshCandidates": 8,
+        "freshCandidates": 9,
         "noiseCandidates": 0,
         "qualityRate": 0.86,
-        "freshRate": 0.57,
+        "freshRate": 0.64,
         "noiseRate": 0,
-        "healthScore": 97,
+        "healthScore": 99,
         "status": "healthy",
         "recommendation": "Keep. This source is producing usable candidates under current scoring.",
         "sampleNoise": [],
@@ -3193,9 +3219,22 @@
         "displayName": "AI Agent Ops",
         "category": "AI agents and automation",
         "targetPosts": 10,
-        "plannedPosts": 6,
-        "gap": 4,
+        "plannedPosts": 7,
+        "gap": 3,
         "drafts": [
+          {
+            "toolId": "source_candidate_95872756be52",
+            "toolName": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+            "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+            "score": 25,
+            "sourceName": "TechCrunch AI feed",
+            "circle": "ai_startups",
+            "candidateType": "topic",
+            "followUpAction": "tweet only",
+            "variantType": "casualPost",
+            "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: a new report suggests the unit, which employs 6,500 people, is on the verge of revolt. I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+            "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
+          },
           {
             "toolId": "source_candidate_d2c435b524db",
             "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
@@ -3389,22 +3428,9 @@
         "displayName": "Founder Tooling",
         "category": "founder workflows",
         "targetPosts": 10,
-        "plannedPosts": 2,
-        "gap": 8,
+        "plannedPosts": 1,
+        "gap": 9,
         "drafts": [
-          {
-            "toolId": "source_candidate_cb3f98bdaef6",
-            "toolName": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-            "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-            "score": 22,
-            "sourceName": "TechCrunch AI feed",
-            "circle": "ai_startups",
-            "candidateType": "topic",
-            "followUpAction": "tweet only",
-            "variantType": "casualPost",
-            "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: cybersecurity researchers are complaining that anthropic's new model fable has guardrai.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-            "reason": "Founder Tooling match score 66; TechCrunch AI feed; tweet only."
-          },
           {
             "toolId": "source_candidate_576b374effa3",
             "toolName": "Anthropic’s Dario Amodei has just one direct report",
@@ -3449,17 +3475,17 @@
       "targetPosts": 200,
       "availableDrafts": 19,
       "sameDayCapacity": 46,
-      "scheduledPosts": 15,
+      "scheduledPosts": 14,
       "draftGap": 181,
       "capacityGap": 154,
-      "unscheduledDrafts": 4,
+      "unscheduledDrafts": 5,
       "readyAccounts": 0,
       "targetIncompatibleAccounts": 20
     },
     "scalePlan": {
       "status": "not_ready_to_scale",
       "targetPerAccount": 10,
-      "currentScheduledPosts": 15,
+      "currentScheduledPosts": 14,
       "theoreticalMaxTodayPosts": 19,
       "recommendedTargetPerAccountIfKeepCooldown": 2,
       "recommendedCooldownHoursForTarget": 1.5,
@@ -3471,7 +3497,7 @@
       "nextActions": [
         "Add 181 more qualified, non-duplicate drafts before trying to fill the current target.",
         "Keep current cooldowns and lower the target to about 2/account/day, or reduce cooldown to about 1.5h for the current target.",
-        "Only manually review the 15 scheduled posts until feedback data exists."
+        "Only manually review the 14 scheduled posts until feedback data exists."
       ]
     },
     "accountCalendars": [
@@ -3786,15 +3812,27 @@
         "cooldownHours": 6,
         "recommendedCooldownHours": 1.5,
         "sameDayCapacity": 3,
-        "availableDrafts": 6,
+        "availableDrafts": 7,
         "scheduledPosts": 3,
-        "draftGap": 4,
+        "draftGap": 3,
         "capacityGap": 7,
         "status": "target_incompatible",
         "slots": [
           {
             "slot": 1,
             "scheduledLocalTime": "2026-06-13 09:00",
+            "status": "needs_manual_review",
+            "toolId": "source_candidate_95872756be52",
+            "toolName": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+            "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+            "variantType": "casualPost",
+            "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: a new report suggests the unit, which employs 6,500 people, is on the verge of revolt. I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+            "score": 25,
+            "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
+          },
+          {
+            "slot": 2,
+            "scheduledLocalTime": "2026-06-13 15:00",
             "status": "needs_manual_review",
             "toolId": "source_candidate_d2c435b524db",
             "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
@@ -3805,8 +3843,8 @@
             "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
           },
           {
-            "slot": 2,
-            "scheduledLocalTime": "2026-06-13 15:00",
+            "slot": 3,
+            "scheduledLocalTime": "2026-06-13 21:00",
             "status": "needs_manual_review",
             "toolId": "source_candidate_6a173043e187",
             "toolName": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
@@ -3815,21 +3853,15 @@
             "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the new round values the physical AI startup that aims to automate heavy engineering an.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
             "score": 25,
             "reason": "AI Agent Ops match score 19; TechCrunch AI feed; tweet only."
-          },
-          {
-            "slot": 3,
-            "scheduledLocalTime": "2026-06-13 21:00",
-            "status": "needs_manual_review",
-            "toolId": "source_candidate_53600397a606",
-            "toolName": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
-            "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
-            "variantType": "casualPost",
-            "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: the decision comes as india emerges as the world’s largest gcc market. I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
-            "score": 22,
-            "reason": "AI Agent Ops match score 17; TechCrunch AI feed; tweet only."
           }
         ],
         "unscheduledDrafts": [
+          {
+            "toolId": "source_candidate_53600397a606",
+            "toolName": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
+            "variantType": "casualPost",
+            "reason": "No same-day slot under current cooldown."
+          },
           {
             "toolId": "source_candidate_c05d69f1b723",
             "toolName": "‘AI-pilled’ firms spend $7,500 per employee each month on AI",
@@ -3851,7 +3883,7 @@
         ],
         "notes": [
           "Target 10/day does not fit cooldown 6h. Use about 1.5h or lower daily target.",
-          "Need 4 more unique drafts for this account."
+          "Need 3 more unique drafts for this account."
         ]
       },
       {
@@ -4032,27 +4064,15 @@
         "cooldownHours": 8,
         "recommendedCooldownHours": 1.5,
         "sameDayCapacity": 2,
-        "availableDrafts": 2,
-        "scheduledPosts": 2,
-        "draftGap": 8,
+        "availableDrafts": 1,
+        "scheduledPosts": 1,
+        "draftGap": 9,
         "capacityGap": 8,
         "status": "target_incompatible",
         "slots": [
           {
             "slot": 1,
             "scheduledLocalTime": "2026-06-13 09:00",
-            "status": "needs_manual_review",
-            "toolId": "source_candidate_cb3f98bdaef6",
-            "toolName": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-            "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-            "variantType": "casualPost",
-            "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: cybersecurity researchers are complaining that anthropic's new model fable has guardrai.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-            "score": 22,
-            "reason": "Founder Tooling match score 66; TechCrunch AI feed; tweet only."
-          },
-          {
-            "slot": 2,
-            "scheduledLocalTime": "2026-06-13 17:00",
             "status": "needs_manual_review",
             "toolId": "source_candidate_576b374effa3",
             "toolName": "Anthropic’s Dario Amodei has just one direct report",
@@ -4066,7 +4086,7 @@
         "unscheduledDrafts": [],
         "notes": [
           "Target 10/day does not fit cooldown 8h. Use about 1.5h or lower daily target.",
-          "Need 8 more unique drafts for this account."
+          "Need 9 more unique drafts for this account."
         ]
       },
       {
@@ -4093,12 +4113,12 @@
     "warnings": [
       "Current cooldown settings make 154 target slots impossible inside one day.",
       "Draft supply is short by 181 posts before manual review.",
-      "Calendar scheduled 15/200 target posts."
+      "Calendar scheduled 14/200 target posts."
     ]
   },
   "feedbackOps": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T22:46:43.366Z",
+    "generatedAt": "2026-06-12T23:01:41.437Z",
     "summary": {
       "posted": 0,
       "measured": 0,
@@ -4684,7 +4704,7 @@
   },
   "promotionReview": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T22:46:43.367Z",
+    "generatedAt": "2026-06-12T23:01:41.437Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {
@@ -4759,33 +4779,6 @@
         "queueType": "watch",
         "reviewStatus": "watch",
         "priorityScore": 52,
-        "alreadyQueued": false,
-        "reason": "不是 48 小时内的新鲜候选，先观察，不建议花 API credits 发。",
-        "recommendedAction": "Do not promote yet. Collect feedback or wait for a fresher angle.",
-        "evidence": {
-          "affiliateScore": 2,
-          "riskScore": 0,
-          "freshForPosting": false,
-          "historyCount": 2,
-          "hasAffiliateLink": false,
-          "feedbackEntries": 0,
-          "engagementScore": 0,
-          "impressions": 0,
-          "bookmarks": 0,
-          "replies": 0,
-          "clicks": 0
-        }
-      },
-      {
-        "id": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088:watch",
-        "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
-        "toolName": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-        "toolUrl": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-        "score": 22,
-        "suggestion": "watch",
-        "queueType": "watch",
-        "reviewStatus": "watch",
-        "priorityScore": 46,
         "alreadyQueued": false,
         "reason": "不是 48 小时内的新鲜候选，先观察，不建议花 API credits 发。",
         "recommendedAction": "Do not promote yet. Collect feedback or wait for a fresher angle.",
@@ -5018,11 +5011,43 @@
           "replies": 0,
           "clicks": 0
         }
+      },
+      {
+        "id": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a:watch",
+        "toolId": "tool_coindesk_com_the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped_88df63527a",
+        "toolName": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+        "toolUrl": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+        "score": 26,
+        "suggestion": "watch",
+        "queueType": "watch",
+        "reviewStatus": "watch",
+        "priorityScore": 32,
+        "alreadyQueued": false,
+        "reason": "不是 48 小时内的新鲜候选，先观察，不建议花 API credits 发。",
+        "recommendedAction": "Do not promote yet. Collect feedback or wait for a fresher angle.",
+        "evidence": {
+          "affiliateScore": 0,
+          "riskScore": 2,
+          "freshForPosting": false,
+          "historyCount": 2,
+          "hasAffiliateLink": false,
+          "feedbackEntries": 0,
+          "engagementScore": 0,
+          "impressions": 0,
+          "bookmarks": 0,
+          "replies": 0,
+          "clicks": 0
+        }
       }
     ],
     "nextActions": []
   },
   "actionList": [
+    {
+      "type": "post",
+      "toolName": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+      "reason": "Post one X draft: Worth watching: Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/"
+    },
     {
       "type": "post",
       "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
@@ -5032,11 +5057,6 @@
       "type": "post",
       "toolName": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
       "reason": "Post one X draft: Worth watching: VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market"
-    },
-    {
-      "type": "post",
-      "toolName": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
-      "reason": "Post one X draft: Worth watching: Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows"
     },
     {
       "type": "longform",
@@ -5456,6 +5476,144 @@
           "ok": true,
           "length": 258,
           "issues": "OK (258 chars)"
+        },
+        "contrarianAngle": {
+          "ok": true,
+          "length": 149,
+          "issues": "OK (149 chars)"
+        },
+        "painPointHook": {
+          "ok": true,
+          "length": 179,
+          "issues": "OK (179 chars)"
+        },
+        "threadOpening": {
+          "ok": true,
+          "length": 170,
+          "issues": "OK (170 chars)"
+        }
+      }
+    },
+    {
+      "id": "tool_techcrunch_com_meta-s-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-insid_03a000d08d",
+      "toolId": "tool_techcrunch_com_meta-s-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-insid_03a000d08d",
+      "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+      "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+      "domain": "techcrunch.com",
+      "tagline": "A new report suggests the unit, which employs 6,500 people, is on the verge of revolt.",
+      "published": "Fri, 12 Jun 2026 23:00:54 +0000",
+      "sourceId": "techcrunch_ai",
+      "sourceType": "source_feed",
+      "sourceName": "TechCrunch AI feed",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Passed source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
+      "score": 25,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 6,
+        "affiliateScore": 2,
+        "contentScore": 5,
+        "noveltyScore": 8,
+        "learningScore": 0,
+        "riskScore": 2,
+        "sourceNoisePenalty": 0,
+        "seenPenalty": 0,
+        "total": 25
+      },
+      "reason": "fresh enough to test now.",
+      "affiliateStatus": "research_needed",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "tweet only",
+      "accountRecommendation": {
+        "toolId": "tool_techcrunch_com_meta-s-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-insid_03a000d08d",
+        "toolName": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+        "primary": {
+          "accountId": "ai_founder_signals",
+          "displayName": "AI Founder Signals",
+          "handle": "",
+          "category": "AI startup circle",
+          "score": 15.2,
+          "dailyPostLimit": 10,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "AI",
+            "startup",
+            "workflow"
+          ],
+          "matchedPillars": [
+            "AI startups"
+          ]
+        },
+        "alternatives": [
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 11.2,
+            "dailyPostLimit": 10,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "AI",
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 9.2,
+            "dailyPostLimit": 10,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups."
+      },
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "a new report suggests the unit, which employs 6,500 people, is on the verge of revolt"
+      },
+      "copyVariants": {
+        "shortPost": "Worth watching: Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+        "casualPost": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: a new report suggests the unit, which employs 6,500 people, is on the verge of revolt. I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+        "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+        "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+        "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/"
+      },
+      "copyChecks": {
+        "shortPost": {
+          "ok": true,
+          "length": 220,
+          "issues": "OK (220 chars)"
+        },
+        "casualPost": {
+          "ok": true,
+          "length": 253,
+          "issues": "OK (253 chars)"
         },
         "contrarianAngle": {
           "ok": true,
@@ -6162,150 +6320,6 @@
           "ok": true,
           "length": 189,
           "issues": "OK (189 chars)"
-        }
-      }
-    },
-    {
-      "id": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
-      "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
-      "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-      "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-      "domain": "techcrunch.com",
-      "tagline": "Cybersecurity researchers are complaining that Anthropic's new model Fable has guardrails that are too strict for any cybersecurity work.",
-      "published": "Wed, 10 Jun 2026 15:41:22 +0000",
-      "sourceId": "techcrunch_ai",
-      "sourceType": "source_feed",
-      "sourceName": "TechCrunch AI feed",
-      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "sourceNote": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "sourceQuality": {
-        "status": "ok",
-        "isNoisy": false,
-        "reason": "Passed source quality gate.",
-        "blockedTerms": [],
-        "matchedTerms": []
-      },
-      "circle": "ai_startups",
-      "candidateType": "topic",
-      "accountId": "",
-      "accountName": "",
-      "seedId": "",
-      "score": 22,
-      "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 6,
-        "affiliateScore": 2,
-        "contentScore": 4,
-        "noveltyScore": 8,
-        "learningScore": 0,
-        "riskScore": 0,
-        "sourceNoisePenalty": 0,
-        "seenPenalty": 4,
-        "total": 22
-      },
-      "reason": "fresh enough to test now. Caution: Seen before, so it is downgraded today.",
-      "affiliateStatus": "research_needed",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "tweet only",
-      "accountRecommendation": {
-        "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
-        "toolName": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-        "primary": {
-          "accountId": "ai_founder_signals",
-          "displayName": "AI Founder Signals",
-          "handle": "",
-          "category": "AI startup circle",
-          "score": 14.7,
-          "dailyPostLimit": 10,
-          "cooldownHours": 6,
-          "matchedKeywords": [
-            "AI",
-            "startup",
-            "workflow"
-          ],
-          "matchedPillars": [
-            "AI startups"
-          ]
-        },
-        "alternatives": [
-          {
-            "accountId": "ai_tools_lab",
-            "displayName": "AI Tools Lab",
-            "handle": "",
-            "category": "AI tools discovery",
-            "score": 10.7,
-            "dailyPostLimit": 10,
-            "cooldownHours": 6,
-            "matchedKeywords": [
-              "AI",
-              "workflow"
-            ],
-            "matchedPillars": []
-          },
-          {
-            "accountId": "founder_tooling",
-            "displayName": "Founder Tooling",
-            "handle": "",
-            "category": "founder workflows",
-            "score": 10.7,
-            "dailyPostLimit": 10,
-            "cooldownHours": 8,
-            "matchedKeywords": [
-              "research"
-            ],
-            "matchedPillars": [
-              "research"
-            ]
-          }
-        ],
-        "reason": "AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups."
-      },
-      "seenBefore": true,
-      "seenBeforeDetails": {
-        "count": 1,
-        "lastSeen": "2026-06-12",
-        "bestScore": 26
-      },
-      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
-      "angle": {
-        "audience": "solo operators",
-        "outcome": "a narrower workflow",
-        "pain": "removing one narrow, repeated manual step",
-        "solution": "cybersecurity researchers are complaining that anthropic's new model fable has guardrai..."
-      },
-      "copyVariants": {
-        "shortPost": "Worth watching: Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-        "casualPost": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: cybersecurity researchers are complaining that anthropic's new model fable has guardrai.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-        "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-        "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-        "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/"
-      },
-      "copyChecks": {
-        "shortPost": {
-          "ok": true,
-          "length": 215,
-          "issues": "OK (215 chars)"
-        },
-        "casualPost": {
-          "ok": true,
-          "length": 258,
-          "issues": "OK (258 chars)"
-        },
-        "contrarianAngle": {
-          "ok": true,
-          "length": 149,
-          "issues": "OK (149 chars)"
-        },
-        "painPointHook": {
-          "ok": true,
-          "length": 179,
-          "issues": "OK (179 chars)"
-        },
-        "threadOpening": {
-          "ok": true,
-          "length": 170,
-          "issues": "OK (170 chars)"
         }
       }
     },
@@ -7969,62 +7983,6 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_firma-dev_aaeac09a66",
-      "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
-      "name": "Firma.dev",
-      "url": "https://www.producthunt.com/products/firma-dev",
-      "domain": "producthunt.com",
-      "tagline": "E-signatures API for your app averaging ~3¢ per envelope",
-      "published": "2026-06-08T08:48:32-07:00",
-      "sourceId": "",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "sourceQuality": {
-        "status": "ok",
-        "isNoisy": false,
-        "reason": "Not checked by source quality gate.",
-        "blockedTerms": [],
-        "matchedTerms": []
-      },
-      "circle": "",
-      "candidateType": "product",
-      "accountId": "",
-      "accountName": "",
-      "seedId": "",
-      "score": 16,
-      "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 3,
-        "affiliateScore": 2,
-        "contentScore": 3,
-        "noveltyScore": 4,
-        "learningScore": 0,
-        "riskScore": 2,
-        "sourceNoisePenalty": 0,
-        "seenPenalty": 0,
-        "total": 16
-      },
-      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
-      "angle": {
-        "audience": "developers",
-        "outcome": "less glue code",
-        "pain": "removing one annoying developer workflow step",
-        "solution": "e-signatures API for your app averaging ~3¢ per envelope"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
       "id": "tool_producthunt_com_pond_078dd3c545",
       "toolId": "tool_producthunt_com_pond_078dd3c545",
       "name": "Pond",
@@ -8076,6 +8034,62 @@
         "outcome": "a sharper startup workflow",
         "pain": "removing one narrow, repeated manual step",
         "solution": "fundraising, gtm, and bounties for startups"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_firma-dev_aaeac09a66",
+      "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
+      "name": "Firma.dev",
+      "url": "https://www.producthunt.com/products/firma-dev",
+      "domain": "producthunt.com",
+      "tagline": "E-signatures API for your app averaging ~3¢ per envelope",
+      "published": "2026-06-08T08:48:32-07:00",
+      "sourceId": "",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
+      "circle": "",
+      "candidateType": "product",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
+      "score": 16,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 3,
+        "affiliateScore": 2,
+        "contentScore": 3,
+        "noveltyScore": 4,
+        "learningScore": 0,
+        "riskScore": 2,
+        "sourceNoisePenalty": 0,
+        "seenPenalty": 0,
+        "total": 16
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
+      "angle": {
+        "audience": "developers",
+        "outcome": "less glue code",
+        "pain": "removing one annoying developer workflow step",
+        "solution": "e-signatures API for your app averaging ~3¢ per envelope"
       },
       "copyVariants": {},
       "copyChecks": {}
@@ -8202,7 +8216,7 @@
     "History records before this run: 111",
     "Unique tools seen: 79",
     "Last history date before this run: 2026-06-13",
-    "Seen-before tools in today's picks: 16",
+    "Seen-before tools in today's picks: 15",
     "Records written by this run: 19"
   ]
 }

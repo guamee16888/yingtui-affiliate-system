@@ -1,7 +1,7 @@
 # Product Roadmap - 2026-06-13
 
 - Objective: Product-grade multi-account X content ops system with review-first publishing.
-- Overall score: 28/100
+- Overall score: 27/100
 - Level: prototype
 - Blockers: 5
 - Deferred: 1
@@ -28,7 +28,7 @@ After the supply and feedback loop work, convert winners into affiliate research
 
 Keep the dashboard credible, demo-friendly, and safer to operate as the data gets better.
 
-- Quality and safety gates: 85/100. Gap: No major gap detected. Next: Keep Fresh today/Fresh 48h as the paid publish gate.
+- Quality and safety gates: 75/100. Gap: Resolve generation warnings before publishing. Next: Keep Fresh today/Fresh 48h as the paid publish gate.
 - Public product surface: 82/100. Gap: Need screenshots/GIFs to make the public repo easier to judge quickly. Next: Add screenshots/GIFs to README after the UI stabilizes.
 
 ### Deferred: Account switching stays safety-gated
@@ -124,11 +124,11 @@ Do not prioritize real multi-account OAuth until content quality, feedback, cool
 
 ### Quality and safety gates
 
-- Score: 85/100
-- Status: good
+- Score: 75/100
+- Status: watch
 - Why it matters: The system is valuable only if it protects account quality, avoids fake claims, and blocks stale posts.
-- Evidence: 0 generation warnings. 3 fresh publish candidates. Manual-confirm publishing is the default mode.
-- Gaps: No major gap detected.
+- Evidence: 1 generation warnings. 4 fresh publish candidates. Manual-confirm publishing is the default mode.
+- Gaps: Resolve generation warnings before publishing.
 - Next: Keep Fresh today/Fresh 48h as the paid publish gate. Add fact-check notes for topic/news-style candidates before scaling.
 
 ### Thread and SEO review engine

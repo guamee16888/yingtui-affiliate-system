@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T22:46:43.390Z",
+  "generatedAt": "2026-06-12T23:01:41.457Z",
   "mode": "manual_confirm_ramp",
   "rule": "Scale in batches. Do not unlock broad multi-account posting until seed accounts have fresh drafts and measured feedback.",
   "summary": {
@@ -26,7 +26,7 @@
         "id": "fresh_candidates",
         "title": "Not enough fresh publish candidates",
         "severity": "high",
-        "detail": "3 fresh candidates are available for posting today.",
+        "detail": "4 fresh candidates are available for posting today.",
         "nextAction": "Refresh Live Feed and import external candidates from the source supply workbench."
       },
       {
@@ -40,7 +40,7 @@
         "id": "account_matrix_gap",
         "title": "Account-level content matrix is not ready",
         "severity": "high",
-        "detail": "0/20 accounts are ready; candidate bench is 57/600, strong 9, fresh 9.",
+        "detail": "0/20 accounts are ready; candidate bench is 57/600, strong 12, fresh 12.",
         "nextAction": "Run npm run account-matrix, then fill account-level search tasks until the 181 draft gap shrinks."
       },
       {
@@ -67,7 +67,7 @@
       "accountIds": [
         "ai_founder_signals",
         "ai_tools_lab",
-        "crypto_builder_radar"
+        "ai_agent_ops"
       ],
       "exitCriteria": "Post up to 3 manually reviewed tweets, then import X Analytics feedback."
     },
@@ -76,11 +76,11 @@
       "label": "Phase 2 next batch",
       "accountCount": 5,
       "accountIds": [
-        "ai_agent_ops",
-        "creator_stack",
-        "founder_tooling",
+        "crypto_builder_radar",
         "productivity_ops",
-        "seo_review_lab"
+        "creator_stack",
+        "seo_review_lab",
+        "build_in_public"
       ],
       "exitCriteria": "Each account needs 10 drafts, 10 fresh candidates, and at least one feedback row."
     },
@@ -89,7 +89,7 @@
       "label": "Phase 3 hold / research only",
       "accountCount": 12,
       "accountIds": [
-        "build_in_public",
+        "founder_tooling",
         "crypto_trading_tools",
         "ecommerce_ops",
         "sales_support_ai",
@@ -111,18 +111,18 @@
       "displayName": "AI Founder Signals",
       "category": "AI startup circle",
       "launchStage": "seed_this_week",
-      "readinessScore": 25,
+      "readinessScore": 29,
       "targetPosts": 10,
       "plannedDrafts": 0,
       "matchedCandidates": 19,
-      "strongCandidates": 3,
-      "freshCandidates": 3,
+      "strongCandidates": 4,
+      "freshCandidates": 4,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
         "candidateBench": 11,
-        "strong": 7,
-        "fresh": 7,
+        "strong": 6,
+        "fresh": 6,
         "drafts": 10,
         "feedback": 1
       },
@@ -185,18 +185,18 @@
       "displayName": "AI Tools Lab",
       "category": "AI tools discovery",
       "launchStage": "seed_this_week",
-      "readinessScore": 23,
+      "readinessScore": 27,
       "targetPosts": 10,
       "plannedDrafts": 0,
       "matchedCandidates": 17,
-      "strongCandidates": 3,
-      "freshCandidates": 3,
+      "strongCandidates": 4,
+      "freshCandidates": 4,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
         "candidateBench": 13,
-        "strong": 7,
-        "fresh": 7,
+        "strong": 6,
+        "fresh": 6,
         "drafts": 10,
         "feedback": 1
       },
@@ -245,15 +245,91 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_d2c435b524db",
-          "name": "Mistral is rumored to be raising €3B at €20B valuation",
-          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "toolId": "source_candidate_95872756be52",
+          "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+          "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
           "score": 25,
           "followUpAction": "tweet only",
           "match": "alternative"
         }
       ]
     },
+    {
+      "accountId": "ai_agent_ops",
+      "displayName": "AI Agent Ops",
+      "category": "AI agents and automation",
+      "launchStage": "seed_this_week",
+      "readinessScore": 21,
+      "targetPosts": 10,
+      "plannedDrafts": 7,
+      "matchedCandidates": 4,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 3,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 26,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 3,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 3 unique drafts before using AI Agent Ops.",
+      "searchTasks": [
+        {
+          "accountId": "ai_agent_ops",
+          "displayName": "AI Agent Ops",
+          "provider": "X live search",
+          "query": "AI Agent Ops AI agents and automation tools founder workflow",
+          "url": "https://x.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ai_agent_ops",
+          "displayName": "AI Agent Ops",
+          "provider": "Google recent search",
+          "query": "AI Agent Ops AI agents and automation tools founder workflow",
+          "url": "https://www.google.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "name": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_72bb52a3552a",
+          "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "score": 22,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        }
+      ]
+    }
+  ],
+  "nextAccounts": [
     {
       "accountId": "crypto_builder_radar",
       "displayName": "Crypto Builder Radar",
@@ -327,27 +403,25 @@
           "match": "primary"
         }
       ]
-    }
-  ],
-  "nextAccounts": [
+    },
     {
-      "accountId": "ai_agent_ops",
-      "displayName": "AI Agent Ops",
-      "category": "AI agents and automation",
+      "accountId": "productivity_ops",
+      "displayName": "Productivity Ops",
+      "category": "productivity and operations",
       "launchStage": "seed_this_week",
-      "readinessScore": 19,
+      "readinessScore": 13,
       "targetPosts": 10,
-      "plannedDrafts": 6,
-      "matchedCandidates": 4,
-      "strongCandidates": 0,
-      "freshCandidates": 0,
-      "scheduledPosts": 3,
+      "plannedDrafts": 0,
+      "matchedCandidates": 7,
+      "strongCandidates": 2,
+      "freshCandidates": 2,
+      "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
-        "candidateBench": 26,
-        "strong": 10,
-        "fresh": 10,
-        "drafts": 4,
+        "candidateBench": 23,
+        "strong": 8,
+        "fresh": 8,
+        "drafts": 10,
         "feedback": 1
       },
       "blockers": [
@@ -358,48 +432,48 @@
         "schedule",
         "feedback"
       ],
-      "nextAction": "Add 4 unique drafts before using AI Agent Ops.",
+      "nextAction": "Add 10 unique drafts before using Productivity Ops.",
       "searchTasks": [
         {
-          "accountId": "ai_agent_ops",
-          "displayName": "AI Agent Ops",
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
           "provider": "X live search",
-          "query": "AI Agent Ops AI agents and automation tools founder workflow",
-          "url": "https://x.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow&src=typed_query&f=live",
+          "query": "Productivity Ops productivity and operations tools founder workflow",
+          "url": "https://x.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow&src=typed_query&f=live",
           "targetRows": 10
         },
         {
-          "accountId": "ai_agent_ops",
-          "displayName": "AI Agent Ops",
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
           "provider": "Google recent search",
-          "query": "AI Agent Ops AI agents and automation tools founder workflow",
-          "url": "https://www.google.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "query": "Productivity Ops productivity and operations tools founder workflow",
+          "url": "https://www.google.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow%20after%3A2026-01-01",
           "targetRows": 10
         }
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_a48e609eca45",
-          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
-          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
-          "score": 26,
-          "followUpAction": "thread candidate",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_a61b9a939dae",
-          "name": "How memory tools can make AI models worse",
-          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "toolId": "source_candidate_95872756be52",
+          "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+          "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
           "score": 25,
-          "followUpAction": "thread candidate",
+          "followUpAction": "tweet only",
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_72bb52a3552a",
-          "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
-          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
-          "score": 22,
-          "followUpAction": "thread candidate",
+          "toolId": "source_candidate_d2c435b524db",
+          "name": "Mistral is rumored to be raising €3B at €20B valuation",
+          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_6a173043e187",
+          "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
+          "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
+          "score": 25,
+          "followUpAction": "tweet only",
           "match": "alternative"
         }
       ]
@@ -479,146 +553,6 @@
       ]
     },
     {
-      "accountId": "founder_tooling",
-      "displayName": "Founder Tooling",
-      "category": "founder workflows",
-      "launchStage": "seed_this_week",
-      "readinessScore": 8,
-      "targetPosts": 10,
-      "plannedDrafts": 2,
-      "matchedCandidates": 2,
-      "strongCandidates": 0,
-      "freshCandidates": 0,
-      "scheduledPosts": 2,
-      "measuredFeedback": 0,
-      "missing": {
-        "candidateBench": 28,
-        "strong": 10,
-        "fresh": 10,
-        "drafts": 8,
-        "feedback": 1
-      },
-      "blockers": [
-        "candidate_bench",
-        "quality",
-        "freshness",
-        "drafts",
-        "schedule",
-        "feedback"
-      ],
-      "nextAction": "Add 8 unique drafts before using Founder Tooling.",
-      "searchTasks": [
-        {
-          "accountId": "founder_tooling",
-          "displayName": "Founder Tooling",
-          "provider": "X live search",
-          "query": "Founder Tooling founder workflows tools founder workflow",
-          "url": "https://x.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow&src=typed_query&f=live",
-          "targetRows": 10
-        },
-        {
-          "accountId": "founder_tooling",
-          "displayName": "Founder Tooling",
-          "provider": "Google recent search",
-          "query": "Founder Tooling founder workflows tools founder workflow",
-          "url": "https://www.google.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow%20after%3A2026-01-01",
-          "targetRows": 10
-        }
-      ],
-      "topMatchedTools": [
-        {
-          "toolId": "source_candidate_576b374effa3",
-          "name": "Anthropic’s Dario Amodei has just one direct report",
-          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
-          "score": 29,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_cb3f98bdaef6",
-          "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-          "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-          "score": 22,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        }
-      ]
-    },
-    {
-      "accountId": "productivity_ops",
-      "displayName": "Productivity Ops",
-      "category": "productivity and operations",
-      "launchStage": "seed_this_week",
-      "readinessScore": 8,
-      "targetPosts": 10,
-      "plannedDrafts": 0,
-      "matchedCandidates": 6,
-      "strongCandidates": 1,
-      "freshCandidates": 1,
-      "scheduledPosts": 0,
-      "measuredFeedback": 0,
-      "missing": {
-        "candidateBench": 24,
-        "strong": 9,
-        "fresh": 9,
-        "drafts": 10,
-        "feedback": 1
-      },
-      "blockers": [
-        "candidate_bench",
-        "quality",
-        "freshness",
-        "drafts",
-        "schedule",
-        "feedback"
-      ],
-      "nextAction": "Add 10 unique drafts before using Productivity Ops.",
-      "searchTasks": [
-        {
-          "accountId": "productivity_ops",
-          "displayName": "Productivity Ops",
-          "provider": "X live search",
-          "query": "Productivity Ops productivity and operations tools founder workflow",
-          "url": "https://x.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow&src=typed_query&f=live",
-          "targetRows": 10
-        },
-        {
-          "accountId": "productivity_ops",
-          "displayName": "Productivity Ops",
-          "provider": "Google recent search",
-          "query": "Productivity Ops productivity and operations tools founder workflow",
-          "url": "https://www.google.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow%20after%3A2026-01-01",
-          "targetRows": 10
-        }
-      ],
-      "topMatchedTools": [
-        {
-          "toolId": "source_candidate_d2c435b524db",
-          "name": "Mistral is rumored to be raising €3B at €20B valuation",
-          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
-          "score": 25,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_6a173043e187",
-          "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
-          "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
-          "score": 25,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_53600397a606",
-          "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
-          "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
-          "score": 22,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        }
-      ]
-    },
-    {
       "accountId": "seo_review_lab",
       "displayName": "SEO Review Lab",
       "category": "SEO review pages",
@@ -666,9 +600,7 @@
         }
       ],
       "topMatchedTools": []
-    }
-  ],
-  "holdAccounts": [
+    },
     {
       "accountId": "build_in_public",
       "displayName": "Build in Public",
@@ -722,6 +654,66 @@
           "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
           "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
           "score": 21,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    }
+  ],
+  "holdAccounts": [
+    {
+      "accountId": "founder_tooling",
+      "displayName": "Founder Tooling",
+      "category": "founder workflows",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 1,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 29,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Founder Tooling.",
+      "searchTasks": [
+        {
+          "accountId": "founder_tooling",
+          "displayName": "Founder Tooling",
+          "provider": "X live search",
+          "query": "Founder Tooling founder workflows tools founder workflow",
+          "url": "https://x.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "founder_tooling",
+          "displayName": "Founder Tooling",
+          "provider": "Google recent search",
+          "query": "Founder Tooling founder workflows tools founder workflow",
+          "url": "https://www.google.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_576b374effa3",
+          "name": "Anthropic’s Dario Amodei has just one direct report",
+          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
           "followUpAction": "tweet only",
           "match": "alternative"
         }
@@ -1282,18 +1274,18 @@
       "displayName": "AI Founder Signals",
       "category": "AI startup circle",
       "launchStage": "seed_this_week",
-      "readinessScore": 25,
+      "readinessScore": 29,
       "targetPosts": 10,
       "plannedDrafts": 0,
       "matchedCandidates": 19,
-      "strongCandidates": 3,
-      "freshCandidates": 3,
+      "strongCandidates": 4,
+      "freshCandidates": 4,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
         "candidateBench": 11,
-        "strong": 7,
-        "fresh": 7,
+        "strong": 6,
+        "fresh": 6,
         "drafts": 10,
         "feedback": 1
       },
@@ -1356,18 +1348,18 @@
       "displayName": "AI Tools Lab",
       "category": "AI tools discovery",
       "launchStage": "seed_this_week",
-      "readinessScore": 23,
+      "readinessScore": 27,
       "targetPosts": 10,
       "plannedDrafts": 0,
       "matchedCandidates": 17,
-      "strongCandidates": 3,
-      "freshCandidates": 3,
+      "strongCandidates": 4,
+      "freshCandidates": 4,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
         "candidateBench": 13,
-        "strong": 7,
-        "fresh": 7,
+        "strong": 6,
+        "fresh": 6,
         "drafts": 10,
         "feedback": 1
       },
@@ -1416,11 +1408,85 @@
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_d2c435b524db",
-          "name": "Mistral is rumored to be raising €3B at €20B valuation",
-          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "toolId": "source_candidate_95872756be52",
+          "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+          "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
           "score": 25,
           "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "ai_agent_ops",
+      "displayName": "AI Agent Ops",
+      "category": "AI agents and automation",
+      "launchStage": "seed_this_week",
+      "readinessScore": 21,
+      "targetPosts": 10,
+      "plannedDrafts": 7,
+      "matchedCandidates": 4,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 3,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 26,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 3,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 3 unique drafts before using AI Agent Ops.",
+      "searchTasks": [
+        {
+          "accountId": "ai_agent_ops",
+          "displayName": "AI Agent Ops",
+          "provider": "X live search",
+          "query": "AI Agent Ops AI agents and automation tools founder workflow",
+          "url": "https://x.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ai_agent_ops",
+          "displayName": "AI Agent Ops",
+          "provider": "Google recent search",
+          "query": "AI Agent Ops AI agents and automation tools founder workflow",
+          "url": "https://www.google.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "name": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_72bb52a3552a",
+          "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "score": 22,
+          "followUpAction": "thread candidate",
           "match": "alternative"
         }
       ]
@@ -1500,23 +1566,23 @@
       ]
     },
     {
-      "accountId": "ai_agent_ops",
-      "displayName": "AI Agent Ops",
-      "category": "AI agents and automation",
+      "accountId": "productivity_ops",
+      "displayName": "Productivity Ops",
+      "category": "productivity and operations",
       "launchStage": "seed_this_week",
-      "readinessScore": 19,
+      "readinessScore": 13,
       "targetPosts": 10,
-      "plannedDrafts": 6,
-      "matchedCandidates": 4,
-      "strongCandidates": 0,
-      "freshCandidates": 0,
-      "scheduledPosts": 3,
+      "plannedDrafts": 0,
+      "matchedCandidates": 7,
+      "strongCandidates": 2,
+      "freshCandidates": 2,
+      "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
-        "candidateBench": 26,
-        "strong": 10,
-        "fresh": 10,
-        "drafts": 4,
+        "candidateBench": 23,
+        "strong": 8,
+        "fresh": 8,
+        "drafts": 10,
         "feedback": 1
       },
       "blockers": [
@@ -1527,48 +1593,48 @@
         "schedule",
         "feedback"
       ],
-      "nextAction": "Add 4 unique drafts before using AI Agent Ops.",
+      "nextAction": "Add 10 unique drafts before using Productivity Ops.",
       "searchTasks": [
         {
-          "accountId": "ai_agent_ops",
-          "displayName": "AI Agent Ops",
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
           "provider": "X live search",
-          "query": "AI Agent Ops AI agents and automation tools founder workflow",
-          "url": "https://x.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow&src=typed_query&f=live",
+          "query": "Productivity Ops productivity and operations tools founder workflow",
+          "url": "https://x.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow&src=typed_query&f=live",
           "targetRows": 10
         },
         {
-          "accountId": "ai_agent_ops",
-          "displayName": "AI Agent Ops",
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
           "provider": "Google recent search",
-          "query": "AI Agent Ops AI agents and automation tools founder workflow",
-          "url": "https://www.google.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "query": "Productivity Ops productivity and operations tools founder workflow",
+          "url": "https://www.google.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow%20after%3A2026-01-01",
           "targetRows": 10
         }
       ],
       "topMatchedTools": [
         {
-          "toolId": "source_candidate_a48e609eca45",
-          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
-          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
-          "score": 26,
-          "followUpAction": "thread candidate",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_a61b9a939dae",
-          "name": "How memory tools can make AI models worse",
-          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "toolId": "source_candidate_95872756be52",
+          "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+          "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
           "score": 25,
-          "followUpAction": "thread candidate",
+          "followUpAction": "tweet only",
           "match": "alternative"
         },
         {
-          "toolId": "source_candidate_72bb52a3552a",
-          "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
-          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
-          "score": 22,
-          "followUpAction": "thread candidate",
+          "toolId": "source_candidate_d2c435b524db",
+          "name": "Mistral is rumored to be raising €3B at €20B valuation",
+          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_6a173043e187",
+          "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
+          "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
+          "score": 25,
+          "followUpAction": "tweet only",
           "match": "alternative"
         }
       ]
@@ -1642,146 +1708,6 @@
           "name": "BlenderHunt",
           "url": "https://www.producthunt.com/products/blenderhunt",
           "score": 20,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        }
-      ]
-    },
-    {
-      "accountId": "founder_tooling",
-      "displayName": "Founder Tooling",
-      "category": "founder workflows",
-      "launchStage": "seed_this_week",
-      "readinessScore": 8,
-      "targetPosts": 10,
-      "plannedDrafts": 2,
-      "matchedCandidates": 2,
-      "strongCandidates": 0,
-      "freshCandidates": 0,
-      "scheduledPosts": 2,
-      "measuredFeedback": 0,
-      "missing": {
-        "candidateBench": 28,
-        "strong": 10,
-        "fresh": 10,
-        "drafts": 8,
-        "feedback": 1
-      },
-      "blockers": [
-        "candidate_bench",
-        "quality",
-        "freshness",
-        "drafts",
-        "schedule",
-        "feedback"
-      ],
-      "nextAction": "Add 8 unique drafts before using Founder Tooling.",
-      "searchTasks": [
-        {
-          "accountId": "founder_tooling",
-          "displayName": "Founder Tooling",
-          "provider": "X live search",
-          "query": "Founder Tooling founder workflows tools founder workflow",
-          "url": "https://x.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow&src=typed_query&f=live",
-          "targetRows": 10
-        },
-        {
-          "accountId": "founder_tooling",
-          "displayName": "Founder Tooling",
-          "provider": "Google recent search",
-          "query": "Founder Tooling founder workflows tools founder workflow",
-          "url": "https://www.google.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow%20after%3A2026-01-01",
-          "targetRows": 10
-        }
-      ],
-      "topMatchedTools": [
-        {
-          "toolId": "source_candidate_576b374effa3",
-          "name": "Anthropic’s Dario Amodei has just one direct report",
-          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
-          "score": 29,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_cb3f98bdaef6",
-          "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-          "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-          "score": 22,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        }
-      ]
-    },
-    {
-      "accountId": "productivity_ops",
-      "displayName": "Productivity Ops",
-      "category": "productivity and operations",
-      "launchStage": "seed_this_week",
-      "readinessScore": 8,
-      "targetPosts": 10,
-      "plannedDrafts": 0,
-      "matchedCandidates": 6,
-      "strongCandidates": 1,
-      "freshCandidates": 1,
-      "scheduledPosts": 0,
-      "measuredFeedback": 0,
-      "missing": {
-        "candidateBench": 24,
-        "strong": 9,
-        "fresh": 9,
-        "drafts": 10,
-        "feedback": 1
-      },
-      "blockers": [
-        "candidate_bench",
-        "quality",
-        "freshness",
-        "drafts",
-        "schedule",
-        "feedback"
-      ],
-      "nextAction": "Add 10 unique drafts before using Productivity Ops.",
-      "searchTasks": [
-        {
-          "accountId": "productivity_ops",
-          "displayName": "Productivity Ops",
-          "provider": "X live search",
-          "query": "Productivity Ops productivity and operations tools founder workflow",
-          "url": "https://x.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow&src=typed_query&f=live",
-          "targetRows": 10
-        },
-        {
-          "accountId": "productivity_ops",
-          "displayName": "Productivity Ops",
-          "provider": "Google recent search",
-          "query": "Productivity Ops productivity and operations tools founder workflow",
-          "url": "https://www.google.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow%20after%3A2026-01-01",
-          "targetRows": 10
-        }
-      ],
-      "topMatchedTools": [
-        {
-          "toolId": "source_candidate_d2c435b524db",
-          "name": "Mistral is rumored to be raising €3B at €20B valuation",
-          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
-          "score": 25,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_6a173043e187",
-          "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
-          "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
-          "score": 25,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_53600397a606",
-          "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
-          "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
-          "score": 22,
           "followUpAction": "tweet only",
           "match": "alternative"
         }
@@ -1889,6 +1815,64 @@
           "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
           "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
           "score": 21,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "founder_tooling",
+      "displayName": "Founder Tooling",
+      "category": "founder workflows",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 1,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 29,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Founder Tooling.",
+      "searchTasks": [
+        {
+          "accountId": "founder_tooling",
+          "displayName": "Founder Tooling",
+          "provider": "X live search",
+          "query": "Founder Tooling founder workflows tools founder workflow",
+          "url": "https://x.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "founder_tooling",
+          "displayName": "Founder Tooling",
+          "provider": "Google recent search",
+          "query": "Founder Tooling founder workflows tools founder workflow",
+          "url": "https://www.google.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_576b374effa3",
+          "name": "Anthropic’s Dario Amodei has just one direct report",
+          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
           "followUpAction": "tweet only",
           "match": "alternative"
         }

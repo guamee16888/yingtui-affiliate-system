@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T22:46:43.381Z",
+  "generatedAt": "2026-06-12T23:01:41.452Z",
   "status": "needs_refill",
   "rule": "Fill only real name/url/tagline rows. Blank rows are skipped by candidate import; do not invent candidates to hit volume.",
   "summary": {
@@ -112,7 +112,7 @@
       "actionLabel": "补 10 条草稿/排期",
       "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 25,
+      "readinessScore": 29,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -133,13 +133,13 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 7,
-          "detail": "Find 7 fresh items that fit this account."
+          "missing": 6,
+          "detail": "Find 6 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 7,
+          "missing": 6,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
@@ -191,7 +191,7 @@
       "actionLabel": "补 10 条草稿/排期",
       "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 23,
+      "readinessScore": 27,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -212,13 +212,13 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 7,
-          "detail": "Find 7 fresh items that fit this account."
+          "missing": 6,
+          "detail": "Find 6 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 7,
+          "missing": 6,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
@@ -270,7 +270,7 @@
       "actionLabel": "补 10 条草稿/排期",
       "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 8,
+      "readinessScore": 13,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -291,19 +291,19 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 9,
-          "detail": "Find 9 fresh items that fit this account."
+          "missing": 8,
+          "detail": "Find 8 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 9,
+          "missing": 8,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 24,
+          "missing": 23,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -509,7 +509,7 @@
       "actionLabel": "补 10 条草稿/排期",
       "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 25,
+      "readinessScore": 29,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -530,13 +530,13 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 7,
-          "detail": "Find 7 fresh items that fit this account."
+          "missing": 6,
+          "detail": "Find 6 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 7,
+          "missing": 6,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
@@ -588,7 +588,7 @@
       "actionLabel": "补 10 条草稿/排期",
       "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 23,
+      "readinessScore": 27,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -609,13 +609,13 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 7,
-          "detail": "Find 7 fresh items that fit this account."
+          "missing": 6,
+          "detail": "Find 6 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 7,
+          "missing": 6,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
@@ -667,7 +667,7 @@
       "actionLabel": "补 10 条草稿/排期",
       "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 8,
+      "readinessScore": 13,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -688,19 +688,19 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 9,
-          "detail": "Find 9 fresh items that fit this account."
+          "missing": 8,
+          "detail": "Find 8 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 9,
+          "missing": 8,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 24,
+          "missing": 23,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -1686,6 +1686,85 @@
       "csvRows": 10
     },
     {
+      "accountId": "founder_tooling",
+      "displayName": "Founder Tooling",
+      "category": "founder workflows",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "actionLabel": "补 9 条草稿/排期",
+      "actionDetail": "Founder Tooling needs unique copy and review slots before it can post today.",
+      "actionPriority": 79,
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "postableToday": 0,
+      "refillNeed": 10,
+      "firstBottleneck": "drafts",
+      "bottlenecks": [
+        {
+          "id": "drafts",
+          "label": "Draft gap",
+          "missing": 9,
+          "detail": "Write 9 more unique drafts for this account."
+        },
+        {
+          "id": "schedule",
+          "label": "Schedule gap",
+          "missing": 9,
+          "detail": "Add 9 manual review slots before publishing."
+        },
+        {
+          "id": "freshness",
+          "label": "Fresh candidate gap",
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
+        },
+        {
+          "id": "quality",
+          "label": "Quality gap",
+          "missing": 10,
+          "detail": "Replace broad or weak items with stronger account-specific angles."
+        },
+        {
+          "id": "candidate_bench",
+          "label": "Candidate bench gap",
+          "missing": 29,
+          "detail": "Build toward 30 matched candidates before scale."
+        },
+        {
+          "id": "feedback",
+          "label": "Feedback missing",
+          "missing": 1,
+          "detail": "Post a tiny test, then import X Analytics."
+        }
+      ],
+      "contentBlocked": true,
+      "feedbackBlocked": true,
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "query": "\"founder workflows\" \"tool\"",
+          "url": "https://www.producthunt.com/search?q=founder%20workflows%20tool"
+        },
+        {
+          "provider": "X live search",
+          "query": "\"founder workflows\" \"tool\"",
+          "url": "https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"founder workflows\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=founder%20workflows%20tool",
+        "https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10
+    },
+    {
       "accountId": "creator_stack",
       "displayName": "Creator Stack",
       "category": "creator tools",
@@ -1762,85 +1841,6 @@
         "https://hn.algolia.com/?q=creator%20tools%20tool"
       ],
       "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
-      "csvRows": 10
-    },
-    {
-      "accountId": "founder_tooling",
-      "displayName": "Founder Tooling",
-      "category": "founder workflows",
-      "status": "needs_drafts",
-      "statusLabel": "缺草稿/排期",
-      "actionLabel": "补 8 条草稿/排期",
-      "actionDetail": "Founder Tooling needs unique copy and review slots before it can post today.",
-      "actionPriority": 78,
-      "readinessScore": 8,
-      "targetPosts": 10,
-      "postableToday": 0,
-      "refillNeed": 10,
-      "firstBottleneck": "drafts",
-      "bottlenecks": [
-        {
-          "id": "drafts",
-          "label": "Draft gap",
-          "missing": 8,
-          "detail": "Write 8 more unique drafts for this account."
-        },
-        {
-          "id": "schedule",
-          "label": "Schedule gap",
-          "missing": 8,
-          "detail": "Add 8 manual review slots before publishing."
-        },
-        {
-          "id": "freshness",
-          "label": "Fresh candidate gap",
-          "missing": 10,
-          "detail": "Find 10 fresh items that fit this account."
-        },
-        {
-          "id": "quality",
-          "label": "Quality gap",
-          "missing": 10,
-          "detail": "Replace broad or weak items with stronger account-specific angles."
-        },
-        {
-          "id": "candidate_bench",
-          "label": "Candidate bench gap",
-          "missing": 28,
-          "detail": "Build toward 30 matched candidates before scale."
-        },
-        {
-          "id": "feedback",
-          "label": "Feedback missing",
-          "missing": 1,
-          "detail": "Post a tiny test, then import X Analytics."
-        }
-      ],
-      "contentBlocked": true,
-      "feedbackBlocked": true,
-      "searchLinks": [
-        {
-          "provider": "Product Hunt search",
-          "query": "\"founder workflows\" \"tool\"",
-          "url": "https://www.producthunt.com/search?q=founder%20workflows%20tool"
-        },
-        {
-          "provider": "X live search",
-          "query": "\"founder workflows\" \"tool\"",
-          "url": "https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live"
-        },
-        {
-          "provider": "Google recent search",
-          "query": "\"founder workflows\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01"
-        }
-      ],
-      "searchUrls": [
-        "https://www.producthunt.com/search?q=founder%20workflows%20tool",
-        "https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01"
-      ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
       "csvRows": 10
     },
     {
@@ -1931,7 +1931,7 @@
       "actionLabel": "补 7 条草稿/排期",
       "actionDetail": "AI Agent Ops needs unique copy and review slots before it can post today.",
       "actionPriority": 77,
-      "readinessScore": 19,
+      "readinessScore": 21,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -1940,8 +1940,8 @@
         {
           "id": "drafts",
           "label": "Draft gap",
-          "missing": 4,
-          "detail": "Write 4 more unique drafts for this account."
+          "missing": 3,
+          "detail": "Write 3 more unique drafts for this account."
         },
         {
           "id": "schedule",

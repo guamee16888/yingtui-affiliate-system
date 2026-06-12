@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T22:46:43.396Z",
+  "generatedAt": "2026-06-12T23:01:41.462Z",
   "mode": "manual_conflict_radar",
   "rule": "Use this as a publish-safety gate before account switching. It does not authorize or auto-post.",
   "policy": {

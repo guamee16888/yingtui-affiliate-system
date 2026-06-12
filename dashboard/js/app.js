@@ -44,6 +44,7 @@ const state = {
   learningLoop: null,
   contentCalendar: null,
   sourceImportPack: null,
+  supplyGapFiller: null,
   productRoadmap: null,
   scaleReadiness: null,
   scaleRampPlan: null,
@@ -140,7 +141,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -155,6 +156,7 @@ async function loadAll() {
       api.get("/api/learning-loop"),
       api.get("/api/content-calendar"),
       api.get("/api/source-import-pack"),
+      api.get("/api/supply-gap-filler"),
       api.get("/api/product-roadmap"),
       api.get("/api/scale-readiness"),
       api.get("/api/scale-ramp-plan"),
@@ -167,7 +169,7 @@ async function loadAll() {
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -181,7 +183,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -195,6 +197,7 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/learning-loop.json", { missing: true }),
     fetchJson("/data/content-calendar/latest.json", { missing: true }),
     fetchJson("/data/source-import-pack/latest.json", { missing: true }),
+    fetchJson("/data/supply-gap-filler.json", { missing: true }),
     fetchJson("/data/product-roadmap.json", { missing: true }),
     fetchJson("/data/scale-readiness.json", { missing: true }),
     fetchJson("/data/scale-ramp-plan.json", { missing: true }),
@@ -239,6 +242,7 @@ async function loadStaticFallback(apiError) {
     learningLoop: learningLoop?.missing ? null : learningLoop,
     contentCalendar: contentCalendar?.missing ? latest?.contentCalendar ?? null : contentCalendar,
     sourceImportPack: sourceImportPack?.missing ? null : sourceImportPack,
+    supplyGapFiller: supplyGapFiller?.missing ? null : supplyGapFiller,
     productRoadmap: productRoadmap?.missing ? null : productRoadmap,
     scaleReadiness: scaleReadiness?.missing ? null : scaleReadiness,
     scaleRampPlan: scaleRampPlan?.missing ? null : scaleRampPlan,
@@ -798,6 +802,7 @@ function renderToday() {
   $("#view-today").innerHTML = `${renderRoadmapSnapshotPanel()}
   ${renderScaleReadinessPanel()}
   ${renderContentOpsPlanPanel()}
+  ${renderSupplyGapFillerPanel("today")}
   ${renderDailyChecklistPanel()}
   ${renderFeedbackDebtCommandBar("today")}
   ${renderLearningStarterPanel("today")}
@@ -888,6 +893,99 @@ function renderContentOpsPlanPanel() {
       <button class="button ghost" data-copy="npm run content-ops-plan">复制刷新命令</button>
     </div>
   </section>`;
+}
+
+function renderSupplyGapFillerPanel(context = "today") {
+  const plan = state.supplyGapFiller;
+  if (!plan) {
+    return `<section class="panel warn supply-gap-panel">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Supply gap filler</p>
+          <h2>还没有补题调度表</h2>
+          <p class="muted">运行 npm run supply-gap，或下一次 npm run daily 自动生成。它会把圈层缺口和账号缺口合并成今天要补的批次。</p>
+        </div>
+        ${pill("Need supply gap", "warn")}
+      </div>
+      <div class="row-actions">
+        <button class="button ghost" data-copy="npm run supply-gap">复制命令</button>
+        <button class="button ghost" data-tab-jump="supply">打开来源补给</button>
+      </div>
+    </section>`;
+  }
+  const summary = plan.summary ?? {};
+  const topBatches = plan.todayBatches ?? [];
+  const accountBatches = plan.accountBatches ?? [];
+  const statusKind = plan.status === "covered" ? "good" : "warn";
+  const compact = context === "supply" ? "" : " compact-supply-gap";
+  return `<section class="panel wide-panel supply-gap-panel ${statusKind}${compact}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Supply gap filler</p>
+        <h2>${esc(plan.headline || "今天先补内容供给")}</h2>
+        <p class="muted">把 20 个账号的内容缺口压成可执行批次：打开搜索组，填真实 CSV，预览评分，再刷新 daily。</p>
+      </div>
+      ${pill(plan.status || "watch", statusKind)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.targetDailyPosts ?? 0)}</strong><span>target posts</span></div>
+      <div><strong>${esc(summary.postableToday ?? 0)}</strong><span>postable today</span></div>
+      <div><strong>${esc(summary.totalRefillNeed ?? 0)}</strong><span>refill need</span></div>
+      <div><strong>${esc(summary.totalNeededCandidates ?? 0)}</strong><span>needed candidates</span></div>
+      <div><strong>${esc(summary.rowsToCollect ?? 0)}</strong><span>collect now</span></div>
+      <div><strong>${esc(summary.focusCircles ?? 0)}/${esc(summary.focusAccounts ?? 0)}</strong><span>circle/account</span></div>
+    </div>
+    <div class="supply-gap-layout">
+      <div class="supply-gap-column">
+        <strong>今天先补的圈层</strong>
+        <div class="list mini-list">${topBatches.slice(0, context === "supply" ? 4 : 3).map(renderSupplyGapCircleBatch).join("") || empty("暂无圈层补题批次。")}</div>
+      </div>
+      <div class="supply-gap-column">
+        <strong>账号级补题</strong>
+        <div class="list mini-list">${accountBatches.slice(0, 3).map(renderSupplyGapAccountBatch).join("") || empty("暂无账号补题批次。")}</div>
+      </div>
+    </div>
+    <div class="row-actions">
+      <button class="button ghost" data-tab-jump="candidates">打开候选收集</button>
+      <button class="button ghost" data-tab-jump="supply">打开来源补给</button>
+      <button class="button ghost" data-copy="npm run supply-gap">复制刷新命令</button>
+    </div>
+  </section>`;
+}
+
+function renderSupplyGapCircleBatch(batch) {
+  const urls = batch.searchUrls ?? [];
+  const accounts = batch.affectedAccounts ?? [];
+  return `<div class="list-item supply-gap-batch">
+    <div class="line-head">
+      <strong>${esc(batch.circleName)}</strong>
+      ${pill(`collect ${batch.targetCandidates ?? 0}`, "warn")}
+    </div>
+    <p class="muted">${esc(batch.reason || batch.nextAction || "")}</p>
+    <div class="pill-row">${accounts.slice(0, 4).map((account) => pill(`${account.displayName} gap ${account.gap}`, "warn")).join("") || pill("no account gap", "neutral")}</div>
+    <div class="row-actions">
+      ${urls.length ? `<button class="button ghost" data-open-searches="${attr(JSON.stringify(urls))}">打开搜索组</button>` : ""}
+      ${batch.csv ? `<button class="button ghost" data-supply-batch-fill="${attr(batch.batchId)}">填入候选收集</button>` : ""}
+      ${batch.csv ? `<button class="button ghost" data-copy="${attr(batch.csv)}">复制 CSV</button>` : ""}
+    </div>
+  </div>`;
+}
+
+function renderSupplyGapAccountBatch(batch) {
+  const urls = batch.searchUrls ?? [];
+  return `<div class="list-item supply-gap-batch">
+    <div class="line-head">
+      <strong>${esc(batch.displayName)}</strong>
+      ${pill(`need ${batch.refillNeed ?? 0}`, Number(batch.refillNeed ?? 0) ? "warn" : "good")}
+    </div>
+    <p class="muted">${esc(batch.reason || batch.nextAction || "")}</p>
+    <div class="pill-row">${pill(batch.statusLabel || batch.status || "account", "neutral")}${batch.firstBottleneck ? pill(batch.firstBottleneck, "warn") : ""}</div>
+    <div class="row-actions">
+      ${urls.length ? `<button class="button ghost" data-open-searches="${attr(JSON.stringify(urls))}">打开搜索组</button>` : ""}
+      <button class="button ghost" data-refill-fill="${attr(batch.accountId)}">填入候选收集</button>
+      <button class="button ghost" data-refill-csv="${attr(batch.accountId)}">复制账号 CSV</button>
+    </div>
+  </div>`;
 }
 
 function renderRoadmapSnapshotPanel() {
@@ -2541,6 +2639,7 @@ function renderSourceSupply() {
       </div>
       ${state.sourcePackRun.message ? `<p class="muted">${esc(state.sourcePackRun.message)}</p>` : ""}
     </section>
+    ${renderSupplyGapFillerPanel("supply")}
     ${renderSourceImportPack(pack)}
     <section class="panel wide-panel">
       <h2>今天先补这几个圈子</h2>
@@ -4549,6 +4648,23 @@ function fillCandidatePasteFromCircle(circleId) {
   toast("已填入圈层候选收集");
 }
 
+function fillCandidatePasteFromSupplyBatch(batchId) {
+  const batch = (state.supplyGapFiller?.todayBatches ?? [])
+    .find((item) => item.batchId === batchId);
+  if (!batch?.csv) throw new Error("这个补题批次还没有 CSV。先运行 npm run supply-gap。");
+  state.pendingCandidatePaste = {
+    circleId: batch.circleId,
+    source: `${batch.circleId || "manual"}_research`,
+    text: batch.csv,
+    label: `${batch.circleName || batch.circleId} 补题批次已填入`,
+    detail: `先找 ${batch.targetCandidates ?? 0} 条真实候选；空 name/url/tagline 会被跳过。`
+  };
+  state.candidatePreview = null;
+  state.candidateImportResult = null;
+  switchTab("candidates");
+  toast("已填入补题批次");
+}
+
 function accountRefillTemplate(accountId) {
   return (state.accountContentMatrix?.inventory?.accounts ?? [])
     .find((account) => account.accountId === accountId)?.refillTemplate ?? null;
@@ -5068,6 +5184,8 @@ document.addEventListener("click", async (event) => {
       fillCandidatePasteFromAccount(button.dataset.refillFill);
     } else if (button.dataset.opsCircleFill) {
       fillCandidatePasteFromCircle(button.dataset.opsCircleFill);
+    } else if (button.dataset.supplyBatchFill) {
+      fillCandidatePasteFromSupplyBatch(button.dataset.supplyBatchFill);
     } else if (button.dataset.fillFeedbackCsv) {
       fillFeedbackCsv(button.dataset.fillFeedbackCsv);
     } else if (button.dataset.openSearches) {

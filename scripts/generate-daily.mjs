@@ -17,6 +17,7 @@ import {
 import { loadAccountPosts, loadAffiliateResearch, loadCandidateInbox, loadFeedback, loadQueues } from "./lib/data-store.mjs";
 import { readJson, readText, writeJsonAtomic, writeTextAtomic } from "./lib/file-store.mjs";
 import {
+  buildSourceImportPack,
   loadContentSourceConfig,
   refreshSourceCandidates,
   sourceCandidatesToTools
@@ -29,6 +30,7 @@ import { buildAccountRefillWorkbench, renderAccountRefillWorkbenchMarkdown } fro
 import { buildProductRoadmap, renderProductRoadmapMarkdown } from "./lib/product-roadmap.mjs";
 import { buildContentOpsPlan, renderContentOpsPlanMarkdown } from "./lib/content-ops-plan.mjs";
 import { buildAccountConflictRadar, renderAccountConflictRadarMarkdown } from "./lib/account-conflict-radar.mjs";
+import { buildSupplyGapFiller, renderSupplyGapFillerMarkdown } from "./lib/supply-gap-filler.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -90,6 +92,7 @@ async function main() {
   const seedPackFiles = await writeSeedBatchOutputs({ model, scaleRampPlan: rampFiles.plan });
   const opsPlanFiles = await writeContentOpsPlanOutputs({ model, scaleReadiness: scaleFiles.report, accountRefillWorkbench: refillFiles.workbench });
   const conflictFiles = await writeAccountConflictRadarOutputs({ model, accountConfig, accountPosts, feedback });
+  const supplyGapFiles = await writeSupplyGapFillerOutputs({ model, accountRefillWorkbench: refillFiles.workbench, accountContentMatrix: matrixFiles.matrix, contentSourceConfig });
   const roadmapFiles = await writeProductRoadmapOutputs({ model, feedback, queues, affiliateResearch, accountPosts, affiliateConfig });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
@@ -120,6 +123,8 @@ async function main() {
   console.log(`Wrote ${opsPlanFiles.markdownPath}`);
   console.log(`Wrote ${conflictFiles.jsonPath}`);
   console.log(`Wrote ${conflictFiles.markdownPath}`);
+  console.log(`Wrote ${supplyGapFiles.jsonPath}`);
+  console.log(`Wrote ${supplyGapFiles.markdownPath}`);
   console.log(`Wrote ${roadmapFiles.jsonPath}`);
   console.log(`Wrote ${roadmapFiles.markdownPath}`);
   console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
@@ -140,6 +145,33 @@ async function writeAccountConflictRadarOutputs({ model, accountConfig, accountP
   await writeJsonAtomic(jsonPath, radar);
   await writeTextAtomic(markdownPath, renderAccountConflictRadarMarkdown(radar));
   return { jsonPath, markdownPath, radar };
+}
+
+async function writeSupplyGapFillerOutputs({ model, accountRefillWorkbench, accountContentMatrix, contentSourceConfig }) {
+  const savedSourceImportPack = await readJson("data/source-import-pack/latest.json", null);
+  const sourceImportPack = savedSourceImportPack?.date === model.date
+    ? savedSourceImportPack
+    : buildSourceImportPack({
+      date: model.date,
+      sourceQualityQueue: model.sourceQualityQueue,
+      contentSourceConfig,
+      totalRows: 100,
+      csvPath: `output/source-import-pack/${model.date}-source-import-template.csv`,
+      guidePath: `output/source-import-pack/${model.date}-source-import-guide.md`
+    });
+  const plan = buildSupplyGapFiller({
+    date: model.date,
+    latest: model,
+    sourceImportPack,
+    accountRefillWorkbench,
+    accountContentMatrix,
+    contentSourceConfig
+  });
+  const jsonPath = "data/supply-gap-filler.json";
+  const markdownPath = `output/${model.date}-supply-gap-filler.md`;
+  await writeJsonAtomic(jsonPath, plan);
+  await writeTextAtomic(markdownPath, renderSupplyGapFillerMarkdown(plan));
+  return { jsonPath, markdownPath, plan };
 }
 
 async function writeContentOpsPlanOutputs({ model, scaleReadiness, accountRefillWorkbench }) {

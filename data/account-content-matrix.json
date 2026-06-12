@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T22:46:43.377Z",
+  "generatedAt": "2026-06-12T23:01:41.446Z",
   "rule": "Target one account with 3x candidate bench before trying to fill its daily post limit.",
   "summary": {
     "activeAccounts": 20,
@@ -9,14 +9,14 @@
     "targetDailyPosts": 200,
     "candidateBenchTarget": 600,
     "matchedCandidates": 57,
-    "strongCandidates": 9,
-    "freshCandidates": 9,
+    "strongCandidates": 12,
+    "freshCandidates": 12,
     "plannedDrafts": 19,
-    "scheduledPosts": 15,
+    "scheduledPosts": 14,
     "candidateGap": 543,
-    "freshGap": 191,
+    "freshGap": 188,
     "draftGap": 181,
-    "scheduleGap": 185,
+    "scheduleGap": 186,
     "readyAccounts": 0,
     "blockedAccounts": 20,
     "averageReadinessScore": 7
@@ -267,7 +267,7 @@
         "accountId": "ai_founder_signals",
         "displayName": "AI Founder Signals",
         "category": "AI startup circle",
-        "readinessScore": 25,
+        "readinessScore": 29,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
@@ -296,13 +296,13 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 7,
-            "detail": "Find 7 fresh items that fit this account."
+            "missing": 6,
+            "detail": "Find 6 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 7,
+            "missing": 6,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
@@ -511,7 +511,7 @@
         "accountId": "ai_tools_lab",
         "displayName": "AI Tools Lab",
         "category": "AI tools discovery",
-        "readinessScore": 23,
+        "readinessScore": 27,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
@@ -540,13 +540,13 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 7,
-            "detail": "Find 7 fresh items that fit this account."
+            "missing": 6,
+            "detail": "Find 6 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 7,
+            "missing": 6,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
@@ -755,13 +755,13 @@
         "accountId": "productivity_ops",
         "displayName": "Productivity Ops",
         "category": "productivity and operations",
-        "readinessScore": 8,
+        "readinessScore": 13,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
         "postableToday": 0,
         "seedTestCapacity": 0,
-        "candidateBenchCoverage": 20,
+        "candidateBenchCoverage": 23,
         "contentCoverage": 0,
         "feedbackCoverage": 0,
         "refillNeed": 10,
@@ -784,19 +784,19 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 9,
-            "detail": "Find 9 fresh items that fit this account."
+            "missing": 8,
+            "detail": "Find 8 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 9,
+            "missing": 8,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
             "id": "candidate_bench",
             "label": "Candidate bench gap",
-            "missing": 24,
+            "missing": 23,
             "detail": "Build toward 30 matched candidates before scale."
           },
           {
@@ -1977,7 +1977,7 @@
         "accountId": "ai_tools_lab",
         "displayName": "AI Tools Lab",
         "category": "AI tools discovery",
-        "readinessScore": 23,
+        "readinessScore": 27,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
@@ -2006,13 +2006,13 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 7,
-            "detail": "Find 7 fresh items that fit this account."
+            "missing": 6,
+            "detail": "Find 6 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 7,
+            "missing": 6,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
@@ -2709,13 +2709,13 @@
         "accountId": "productivity_ops",
         "displayName": "Productivity Ops",
         "category": "productivity and operations",
-        "readinessScore": 8,
+        "readinessScore": 13,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
         "postableToday": 0,
         "seedTestCapacity": 0,
-        "candidateBenchCoverage": 20,
+        "candidateBenchCoverage": 23,
         "contentCoverage": 0,
         "feedbackCoverage": 0,
         "refillNeed": 10,
@@ -2738,19 +2738,19 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 9,
-            "detail": "Find 9 fresh items that fit this account."
+            "missing": 8,
+            "detail": "Find 8 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 9,
+            "missing": 8,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
             "id": "candidate_bench",
             "label": "Candidate bench gap",
-            "missing": 24,
+            "missing": 23,
             "detail": "Build toward 30 matched candidates before scale."
           },
           {
@@ -4417,7 +4417,7 @@
         "accountId": "ai_founder_signals",
         "displayName": "AI Founder Signals",
         "category": "AI startup circle",
-        "readinessScore": 25,
+        "readinessScore": 29,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
@@ -4446,13 +4446,13 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 7,
-            "detail": "Find 7 fresh items that fit this account."
+            "missing": 6,
+            "detail": "Find 6 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 7,
+            "missing": 6,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
@@ -4661,7 +4661,7 @@
         "accountId": "ai_agent_ops",
         "displayName": "AI Agent Ops",
         "category": "AI agents and automation",
-        "readinessScore": 19,
+        "readinessScore": 21,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
@@ -4678,8 +4678,8 @@
           {
             "id": "drafts",
             "label": "Draft gap",
-            "missing": 4,
-            "detail": "Write 4 more unique drafts for this account."
+            "missing": 3,
+            "detail": "Write 3 more unique drafts for this account."
           },
           {
             "id": "schedule",
@@ -6351,13 +6351,13 @@
         "accountId": "founder_tooling",
         "displayName": "Founder Tooling",
         "category": "founder workflows",
-        "readinessScore": 8,
+        "readinessScore": 4,
         "targetPosts": 10,
         "status": "needs_drafts",
         "statusLabel": "缺草稿/排期",
         "postableToday": 0,
         "seedTestCapacity": 0,
-        "candidateBenchCoverage": 7,
+        "candidateBenchCoverage": 3,
         "contentCoverage": 0,
         "feedbackCoverage": 0,
         "refillNeed": 10,
@@ -6368,14 +6368,14 @@
           {
             "id": "drafts",
             "label": "Draft gap",
-            "missing": 8,
-            "detail": "Write 8 more unique drafts for this account."
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
           },
           {
             "id": "schedule",
             "label": "Schedule gap",
-            "missing": 8,
-            "detail": "Add 8 manual review slots before publishing."
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
           },
           {
             "id": "freshness",
@@ -6392,7 +6392,7 @@
           {
             "id": "candidate_bench",
             "label": "Candidate bench gap",
-            "missing": 28,
+            "missing": 29,
             "detail": "Build toward 30 matched candidates before scale."
           },
           {
@@ -6402,9 +6402,9 @@
             "detail": "Post a tiny test, then import X Analytics."
           }
         ],
-        "actionLabel": "补 8 条草稿/排期",
+        "actionLabel": "补 9 条草稿/排期",
         "actionDetail": "Founder Tooling needs unique copy and review slots before it can post today.",
-        "actionPriority": 78,
+        "actionPriority": 79,
         "refillTemplate": {
           "rowsPerAccount": 10,
           "rows": [
@@ -6847,14 +6847,14 @@
     {
       "id": "quality",
       "label": "Quality",
-      "score": 5,
-      "reason": "9/200 strong candidates clear the quality floor."
+      "score": 6,
+      "reason": "12/200 strong candidates clear the quality floor."
     },
     {
       "id": "freshness",
       "label": "Freshness",
-      "score": 5,
-      "reason": "9/200 candidates are fresh enough to post."
+      "score": 6,
+      "reason": "12/200 candidates are fresh enough to post."
     },
     {
       "id": "drafts",
@@ -6865,8 +6865,8 @@
     {
       "id": "schedule",
       "label": "Schedule",
-      "score": 8,
-      "reason": "15/200 posts are in manual review slots."
+      "score": 7,
+      "reason": "14/200 posts are in manual review slots."
     }
   ],
   "accountRows": [
@@ -6879,19 +6879,19 @@
       "matchedCandidates": 17,
       "primaryMatches": 5,
       "alternateMatches": 12,
-      "strongCandidates": 3,
-      "freshCandidates": 3,
+      "strongCandidates": 4,
+      "freshCandidates": 4,
       "plannedDrafts": 0,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "pendingFeedback": 0,
       "candidateGap": 13,
-      "qualityGap": 7,
-      "freshGap": 7,
+      "qualityGap": 6,
+      "freshGap": 6,
       "draftGap": 10,
       "scheduleGap": 10,
-      "totalGap": 47,
-      "readinessScore": 23,
+      "totalGap": 45,
+      "readinessScore": 27,
       "status": "draft_short",
       "contentInventory": {
         "status": "needs_drafts",
@@ -6922,13 +6922,13 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 7,
-            "detail": "Find 7 fresh items that fit this account."
+            "missing": 6,
+            "detail": "Find 6 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 7,
+            "missing": 6,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
@@ -6947,7 +6947,7 @@
         "actionLabel": "补 10 条草稿/排期",
         "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
         "actionPriority": 80,
-        "readinessScore": 23
+        "readinessScore": 27
       },
       "blockers": [
         "candidate_bench",
@@ -6959,8 +6959,8 @@
       ],
       "radar": {
         "bench": 57,
-        "quality": 30,
-        "freshness": 30,
+        "quality": 40,
+        "freshness": 40,
         "draft": 0,
         "schedule": 0,
         "feedback": 0
@@ -6983,6 +6983,14 @@
           "match": "alternative"
         },
         {
+          "toolId": "source_candidate_95872756be52",
+          "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+          "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
           "toolId": "source_candidate_d2c435b524db",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
@@ -6994,14 +7002,6 @@
           "toolId": "source_candidate_100f88b5fc51",
           "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
           "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
-          "score": 25,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_5ef63cd5b2a5",
-          "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
-          "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
           "score": 25,
           "followUpAction": "tweet only",
           "match": "alternative"
@@ -7211,22 +7211,22 @@
       "category": "productivity and operations",
       "targetPosts": 10,
       "candidateBenchTarget": 30,
-      "matchedCandidates": 6,
+      "matchedCandidates": 7,
       "primaryMatches": 0,
-      "alternateMatches": 6,
-      "strongCandidates": 1,
-      "freshCandidates": 1,
+      "alternateMatches": 7,
+      "strongCandidates": 2,
+      "freshCandidates": 2,
       "plannedDrafts": 0,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "pendingFeedback": 0,
-      "candidateGap": 24,
-      "qualityGap": 9,
-      "freshGap": 9,
+      "candidateGap": 23,
+      "qualityGap": 8,
+      "freshGap": 8,
       "draftGap": 10,
       "scheduleGap": 10,
-      "totalGap": 62,
-      "readinessScore": 8,
+      "totalGap": 59,
+      "readinessScore": 13,
       "status": "draft_short",
       "contentInventory": {
         "status": "needs_drafts",
@@ -7234,7 +7234,7 @@
         "postableToday": 0,
         "seedTestCapacity": 0,
         "targetPosts": 10,
-        "candidateBenchCoverage": 20,
+        "candidateBenchCoverage": 23,
         "contentCoverage": 0,
         "feedbackCoverage": 0,
         "refillNeed": 10,
@@ -7257,19 +7257,19 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 9,
-            "detail": "Find 9 fresh items that fit this account."
+            "missing": 8,
+            "detail": "Find 8 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 9,
+            "missing": 8,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
             "id": "candidate_bench",
             "label": "Candidate bench gap",
-            "missing": 24,
+            "missing": 23,
             "detail": "Build toward 30 matched candidates before scale."
           },
           {
@@ -7282,7 +7282,7 @@
         "actionLabel": "补 10 条草稿/排期",
         "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
         "actionPriority": 80,
-        "readinessScore": 8
+        "readinessScore": 13
       },
       "blockers": [
         "candidate_bench",
@@ -7293,14 +7293,22 @@
         "feedback"
       ],
       "radar": {
-        "bench": 20,
-        "quality": 10,
-        "freshness": 10,
+        "bench": 23,
+        "quality": 20,
+        "freshness": 20,
         "draft": 0,
         "schedule": 0,
         "feedback": 0
       },
       "topMatchedTools": [
+        {
+          "toolId": "source_candidate_95872756be52",
+          "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+          "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
         {
           "toolId": "source_candidate_d2c435b524db",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
@@ -7329,14 +7337,6 @@
           "toolId": "source_candidate_c05d69f1b723",
           "name": "‘AI-pilled’ firms spend $7,500 per employee each month on AI",
           "url": "https://techcrunch.com/2026/06/10/ai-pilled-firms-spend-7500-per-employee-each-month-on-ai/",
-          "score": 21,
-          "followUpAction": "tweet only",
-          "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_de4683c919b4",
-          "name": "DoorDash’s new AI chatbot lets you order with prompts and photos",
-          "url": "https://techcrunch.com/2026/06/11/doordashs-new-ai-chatbot-lets-you-order-with-prompts-and-photos/",
           "score": 21,
           "followUpAction": "tweet only",
           "match": "alternative"
@@ -7984,19 +7984,19 @@
       "matchedCandidates": 19,
       "primaryMatches": 10,
       "alternateMatches": 9,
-      "strongCandidates": 3,
-      "freshCandidates": 3,
+      "strongCandidates": 4,
+      "freshCandidates": 4,
       "plannedDrafts": 0,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "pendingFeedback": 0,
       "candidateGap": 11,
-      "qualityGap": 7,
-      "freshGap": 7,
+      "qualityGap": 6,
+      "freshGap": 6,
       "draftGap": 10,
       "scheduleGap": 10,
-      "totalGap": 45,
-      "readinessScore": 25,
+      "totalGap": 43,
+      "readinessScore": 29,
       "status": "draft_short",
       "contentInventory": {
         "status": "needs_drafts",
@@ -8027,13 +8027,13 @@
           {
             "id": "freshness",
             "label": "Fresh candidate gap",
-            "missing": 7,
-            "detail": "Find 7 fresh items that fit this account."
+            "missing": 6,
+            "detail": "Find 6 fresh items that fit this account."
           },
           {
             "id": "quality",
             "label": "Quality gap",
-            "missing": 7,
+            "missing": 6,
             "detail": "Replace broad or weak items with stronger account-specific angles."
           },
           {
@@ -8052,7 +8052,7 @@
         "actionLabel": "补 10 条草稿/排期",
         "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
         "actionPriority": 80,
-        "readinessScore": 25
+        "readinessScore": 29
       },
       "blockers": [
         "candidate_bench",
@@ -8064,8 +8064,8 @@
       ],
       "radar": {
         "bench": 63,
-        "quality": 30,
-        "freshness": 30,
+        "quality": 40,
+        "freshness": 40,
         "draft": 0,
         "schedule": 0,
         "feedback": 0
@@ -8096,20 +8096,20 @@
           "match": "primary"
         },
         {
+          "toolId": "source_candidate_95872756be52",
+          "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+          "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "primary"
+        },
+        {
           "toolId": "source_candidate_d2c435b524db",
           "name": "Mistral is rumored to be raising €3B at €20B valuation",
           "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
           "score": 25,
           "followUpAction": "tweet only",
           "match": "primary"
-        },
-        {
-          "toolId": "source_candidate_100f88b5fc51",
-          "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
-          "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
-          "score": 25,
-          "followUpAction": "tweet only",
-          "match": "alternative"
         }
       ],
       "nextAction": "Add 10 unique drafts for AI Founder Signals; do not reuse the same tool across accounts."
@@ -8125,17 +8125,17 @@
       "alternateMatches": 4,
       "strongCandidates": 0,
       "freshCandidates": 0,
-      "plannedDrafts": 6,
+      "plannedDrafts": 7,
       "scheduledPosts": 3,
       "measuredFeedback": 0,
       "pendingFeedback": 0,
       "candidateGap": 26,
       "qualityGap": 10,
       "freshGap": 10,
-      "draftGap": 4,
+      "draftGap": 3,
       "scheduleGap": 7,
-      "totalGap": 57,
-      "readinessScore": 19,
+      "totalGap": 56,
+      "readinessScore": 21,
       "status": "draft_short",
       "contentInventory": {
         "status": "needs_drafts",
@@ -8154,8 +8154,8 @@
           {
             "id": "drafts",
             "label": "Draft gap",
-            "missing": 4,
-            "detail": "Write 4 more unique drafts for this account."
+            "missing": 3,
+            "detail": "Write 3 more unique drafts for this account."
           },
           {
             "id": "schedule",
@@ -8191,7 +8191,7 @@
         "actionLabel": "补 7 条草稿/排期",
         "actionDetail": "AI Agent Ops needs unique copy and review slots before it can post today.",
         "actionPriority": 77,
-        "readinessScore": 19
+        "readinessScore": 21
       },
       "blockers": [
         "candidate_bench",
@@ -8205,7 +8205,7 @@
         "bench": 13,
         "quality": 0,
         "freshness": 0,
-        "draft": 60,
+        "draft": 70,
         "schedule": 30,
         "feedback": 0
       },
@@ -8243,7 +8243,7 @@
           "match": "alternative"
         }
       ],
-      "nextAction": "Add 4 unique drafts for AI Agent Ops; do not reuse the same tool across accounts."
+      "nextAction": "Add 3 unique drafts for AI Agent Ops; do not reuse the same tool across accounts."
     },
     {
       "accountId": "indie_launch_radar",
@@ -8872,22 +8872,22 @@
       "category": "founder workflows",
       "targetPosts": 10,
       "candidateBenchTarget": 30,
-      "matchedCandidates": 2,
+      "matchedCandidates": 1,
       "primaryMatches": 0,
-      "alternateMatches": 2,
+      "alternateMatches": 1,
       "strongCandidates": 0,
       "freshCandidates": 0,
-      "plannedDrafts": 2,
-      "scheduledPosts": 2,
+      "plannedDrafts": 1,
+      "scheduledPosts": 1,
       "measuredFeedback": 0,
       "pendingFeedback": 0,
-      "candidateGap": 28,
+      "candidateGap": 29,
       "qualityGap": 10,
       "freshGap": 10,
-      "draftGap": 8,
-      "scheduleGap": 8,
-      "totalGap": 64,
-      "readinessScore": 8,
+      "draftGap": 9,
+      "scheduleGap": 9,
+      "totalGap": 67,
+      "readinessScore": 4,
       "status": "draft_short",
       "contentInventory": {
         "status": "needs_drafts",
@@ -8895,7 +8895,7 @@
         "postableToday": 0,
         "seedTestCapacity": 0,
         "targetPosts": 10,
-        "candidateBenchCoverage": 7,
+        "candidateBenchCoverage": 3,
         "contentCoverage": 0,
         "feedbackCoverage": 0,
         "refillNeed": 10,
@@ -8906,14 +8906,14 @@
           {
             "id": "drafts",
             "label": "Draft gap",
-            "missing": 8,
-            "detail": "Write 8 more unique drafts for this account."
+            "missing": 9,
+            "detail": "Write 9 more unique drafts for this account."
           },
           {
             "id": "schedule",
             "label": "Schedule gap",
-            "missing": 8,
-            "detail": "Add 8 manual review slots before publishing."
+            "missing": 9,
+            "detail": "Add 9 manual review slots before publishing."
           },
           {
             "id": "freshness",
@@ -8930,7 +8930,7 @@
           {
             "id": "candidate_bench",
             "label": "Candidate bench gap",
-            "missing": 28,
+            "missing": 29,
             "detail": "Build toward 30 matched candidates before scale."
           },
           {
@@ -8940,10 +8940,10 @@
             "detail": "Post a tiny test, then import X Analytics."
           }
         ],
-        "actionLabel": "补 8 条草稿/排期",
+        "actionLabel": "补 9 条草稿/排期",
         "actionDetail": "Founder Tooling needs unique copy and review slots before it can post today.",
-        "actionPriority": 78,
-        "readinessScore": 8
+        "actionPriority": 79,
+        "readinessScore": 4
       },
       "blockers": [
         "candidate_bench",
@@ -8954,11 +8954,11 @@
         "feedback"
       ],
       "radar": {
-        "bench": 7,
+        "bench": 3,
         "quality": 0,
         "freshness": 0,
-        "draft": 20,
-        "schedule": 20,
+        "draft": 10,
+        "schedule": 10,
         "feedback": 0
       },
       "topMatchedTools": [
@@ -8969,17 +8969,9 @@
           "score": 29,
           "followUpAction": "tweet only",
           "match": "alternative"
-        },
-        {
-          "toolId": "source_candidate_cb3f98bdaef6",
-          "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-          "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-          "score": 22,
-          "followUpAction": "tweet only",
-          "match": "alternative"
         }
       ],
-      "nextAction": "Add 8 unique drafts for Founder Tooling; do not reuse the same tool across accounts."
+      "nextAction": "Add 9 unique drafts for Founder Tooling; do not reuse the same tool across accounts."
     },
     {
       "accountId": "market_map_notes",

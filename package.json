@@ -25,6 +25,7 @@
     "source-queue": "node scripts/source-quality-queue.mjs",
     "source-workbench": "node scripts/source-supply-workbench.mjs",
     "source-pack": "node scripts/source-import-pack.mjs",
+    "supply-gap": "node scripts/supply-gap-filler.mjs",
     "draft-plan": "node scripts/draft-plan.mjs",
     "content-calendar": "node scripts/content-calendar.mjs",
     "account-matrix": "node scripts/account-content-matrix.mjs",

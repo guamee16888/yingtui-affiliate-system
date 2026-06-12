@@ -1,0 +1,1305 @@
+{
+  "version": 1,
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T23:01:41.463Z",
+  "status": "needs_supply",
+  "headline": "Start with Indie hacker circle; source queue still needs 79 candidates.",
+  "summary": {
+    "targetDailyPosts": 200,
+    "postableToday": 2,
+    "totalRefillNeed": 199,
+    "totalNeededCandidates": 79,
+    "rowsToCollect": 38,
+    "focusCircles": 4,
+    "focusAccounts": 5,
+    "sourceRows": 100,
+    "rowsNeedingResearch": 100,
+    "contentBlockedAccounts": 19,
+    "feedbackBlockedAccounts": 20
+  },
+  "actionList": [
+    {
+      "type": "collect_circle",
+      "title": "补 Indie hacker circle",
+      "detail": "先找 10 条真实候选，影响 4 个账号。",
+      "batchId": "circle:indie_hackers"
+    },
+    {
+      "type": "collect_account",
+      "title": "补 Crypto Builder Radar",
+      "detail": "账号还缺 9 条，先用搜索组补 9 条。",
+      "batchId": "account:crypto_builder_radar"
+    },
+    {
+      "type": "import_candidates",
+      "title": "导入候选后重新跑 daily",
+      "detail": "粘贴 CSV 先预览评分，只导入可导入项，再刷新每日包。"
+    },
+    {
+      "type": "review_publish",
+      "title": "发布前走最终审核",
+      "detail": "2 条理论可发，但仍要检查账号、重复、freshness 和反馈债。"
+    }
+  ],
+  "todayBatches": [
+    {
+      "batchId": "circle:indie_hackers",
+      "type": "circle",
+      "date": "2026-06-13",
+      "circleId": "indie_hackers",
+      "circleName": "Indie hacker circle",
+      "targetCandidates": 10,
+      "neededCandidates": 35,
+      "currentQualifiedTools": 5,
+      "assignedRows": 45,
+      "affectedAccounts": [
+        {
+          "accountId": "affiliate_builder",
+          "displayName": "Affiliate Builder",
+          "gap": 9,
+          "category": "affiliate and side projects"
+        },
+        {
+          "accountId": "indie_launch_radar",
+          "displayName": "Indie Launch Radar",
+          "gap": 9,
+          "category": "indie hacker circle"
+        },
+        {
+          "accountId": "indie_monetization",
+          "displayName": "Indie Monetization",
+          "gap": 9,
+          "category": "indie monetization"
+        },
+        {
+          "accountId": "build_in_public",
+          "displayName": "Build in Public",
+          "gap": 8,
+          "category": "building and experiments"
+        }
+      ],
+      "searchLinks": [
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"micro SaaS\" launch",
+          "url": "https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"indie hacker\" \"revenue\"",
+          "url": "https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "label": "HN Algolia",
+          "query": "\"build in public\" \"launched\"",
+          "url": "https://hn.algolia.com/?q=%22build%20in%20public%22%20%22launched%22"
+        },
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"solo founder\" \"pricing\"",
+          "url": "https://x.com/search?q=%22solo%20founder%22%20%22pricing%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"side project\" \"SaaS\" \"users\"",
+          "url": "https://www.google.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "label": "HN Algolia",
+          "query": "\"micro SaaS\" launch",
+          "url": "https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch"
+        },
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"indie hacker\" \"revenue\"",
+          "url": "https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"build in public\" \"launched\"",
+          "url": "https://www.google.com/search?q=%22build%20in%20public%22%20%22launched%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22build%20in%20public%22%20%22launched%22",
+        "https://x.com/search?q=%22solo%20founder%22%20%22pricing%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch",
+        "https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22build%20in%20public%22%20%22launched%22%20after%3A2026-01-01"
+      ],
+      "csv": "researchId,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\n2026-06-13-indie_hackers-001,P0,,,,manual_research,indie_hackers,topic,https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live,2026-06-13,X live search,\"\"\"micro SaaS\"\" launch\",https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"micro SaaS\"\" launch | Open: X live search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-002,P0,,,,manual_research,indie_hackers,product,https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"indie hacker\"\" \"\"revenue\"\"\",https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"indie hacker\"\" \"\"revenue\"\" | Open: Google recent search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-003,P0,,,,manual_research,indie_hackers,product,https://hn.algolia.com/?q=%22build%20in%20public%22%20%22launched%22,2026-06-13,HN Algolia,\"\"\"build in public\"\" \"\"launched\"\"\",https://hn.algolia.com/?q=%22build%20in%20public%22%20%22launched%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"build in public\"\" \"\"launched\"\" | Open: HN Algolia | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-004,P0,,,,manual_research,indie_hackers,topic,https://x.com/search?q=%22solo%20founder%22%20%22pricing%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"solo founder\"\" \"\"pricing\"\"\",https://x.com/search?q=%22solo%20founder%22%20%22pricing%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"solo founder\"\" \"\"pricing\"\" | Open: X live search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-005,P0,,,,manual_research,indie_hackers,product,https://www.google.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"side project\"\" \"\"SaaS\"\" \"\"users\"\"\",https://www.google.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"side project\"\" \"\"SaaS\"\" \"\"users\"\" | Open: Google recent search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-006,P0,,,,manual_research,indie_hackers,product,https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch,2026-06-13,HN Algolia,\"\"\"micro SaaS\"\" launch\",https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"micro SaaS\"\" launch | Open: HN Algolia | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-007,P0,,,,manual_research,indie_hackers,topic,https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"indie hacker\"\" \"\"revenue\"\"\",https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"indie hacker\"\" \"\"revenue\"\" | Open: X live search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-008,P0,,,,manual_research,indie_hackers,product,https://www.google.com/search?q=%22build%20in%20public%22%20%22launched%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"build in public\"\" \"\"launched\"\"\",https://www.google.com/search?q=%22build%20in%20public%22%20%22launched%22%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"build in public\"\" \"\"launched\"\" | Open: Google recent search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-009,P0,,,,manual_research,indie_hackers,product,https://hn.algolia.com/?q=%22solo%20founder%22%20%22pricing%22,2026-06-13,HN Algolia,\"\"\"solo founder\"\" \"\"pricing\"\"\",https://hn.algolia.com/?q=%22solo%20founder%22%20%22pricing%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"solo founder\"\" \"\"pricing\"\" | Open: HN Algolia | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"\n2026-06-13-indie_hackers-010,P0,,,,manual_research,indie_hackers,topic,https://x.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"side project\"\" \"\"SaaS\"\" \"\"users\"\"\",https://x.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle,\"Find from: \"\"side project\"\" \"\"SaaS\"\" \"\"users\"\" | Open: X live search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle\"",
+      "csvRows": 10,
+      "qualityChecklist": [
+        "real URL",
+        "clear audience",
+        "one narrow pain",
+        "fresh enough or evergreen",
+        "solo founder or revenue angle"
+      ],
+      "nextAction": "Collect 10 real Indie hacker circle candidates, then import only filled rows.",
+      "reason": "Add 35 fresh Indie hacker circle candidates with clear buyer, narrow pain, and a real URL.",
+      "rows": [
+        {
+          "researchId": "2026-06-13-indie_hackers-001",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"micro SaaS\" launch",
+          "researchUrl": "https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"micro SaaS\" launch | Open: X live search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-002",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "product",
+          "sourceUrl": "https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"indie hacker\" \"revenue\"",
+          "researchUrl": "https://www.google.com/search?q=%22indie%20hacker%22%20%22revenue%22%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"indie hacker\" \"revenue\" | Open: Google recent search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-003",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "product",
+          "sourceUrl": "https://hn.algolia.com/?q=%22build%20in%20public%22%20%22launched%22",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"build in public\" \"launched\"",
+          "researchUrl": "https://hn.algolia.com/?q=%22build%20in%20public%22%20%22launched%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"build in public\" \"launched\" | Open: HN Algolia | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-004",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22solo%20founder%22%20%22pricing%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"solo founder\" \"pricing\"",
+          "researchUrl": "https://x.com/search?q=%22solo%20founder%22%20%22pricing%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"solo founder\" \"pricing\" | Open: X live search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-005",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "product",
+          "sourceUrl": "https://www.google.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"side project\" \"SaaS\" \"users\"",
+          "researchUrl": "https://www.google.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"side project\" \"SaaS\" \"users\" | Open: Google recent search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-006",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "product",
+          "sourceUrl": "https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"micro SaaS\" launch",
+          "researchUrl": "https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"micro SaaS\" launch | Open: HN Algolia | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-007",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"indie hacker\" \"revenue\"",
+          "researchUrl": "https://x.com/search?q=%22indie%20hacker%22%20%22revenue%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"indie hacker\" \"revenue\" | Open: X live search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-008",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "product",
+          "sourceUrl": "https://www.google.com/search?q=%22build%20in%20public%22%20%22launched%22%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"build in public\" \"launched\"",
+          "researchUrl": "https://www.google.com/search?q=%22build%20in%20public%22%20%22launched%22%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"build in public\" \"launched\" | Open: Google recent search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-009",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "product",
+          "sourceUrl": "https://hn.algolia.com/?q=%22solo%20founder%22%20%22pricing%22",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"solo founder\" \"pricing\"",
+          "researchUrl": "https://hn.algolia.com/?q=%22solo%20founder%22%20%22pricing%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"solo founder\" \"pricing\" | Open: HN Algolia | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        },
+        {
+          "researchId": "2026-06-13-indie_hackers-010",
+          "priority": "P0",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "indie_hackers",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"side project\" \"SaaS\" \"users\"",
+          "researchUrl": "https://x.com/search?q=%22side%20project%22%20%22SaaS%22%20%22users%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | solo founder or revenue angle",
+          "notes": "Find from: \"side project\" \"SaaS\" \"users\" | Open: X live search | Priority: P0 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; solo founder or revenue angle"
+        }
+      ]
+    },
+    {
+      "batchId": "circle:saas_founders",
+      "type": "circle",
+      "date": "2026-06-13",
+      "circleId": "saas_founders",
+      "circleName": "SaaS founder circle",
+      "targetCandidates": 10,
+      "neededCandidates": 20,
+      "currentQualifiedTools": 0,
+      "assignedRows": 25,
+      "affectedAccounts": [
+        {
+          "accountId": "saas_pricing_lab",
+          "displayName": "SaaS Pricing Lab",
+          "gap": 10,
+          "category": "SaaS founder circle"
+        },
+        {
+          "accountId": "saas_growth_ops",
+          "displayName": "SaaS Growth Ops",
+          "gap": 10,
+          "category": "SaaS growth operations"
+        }
+      ],
+      "searchLinks": [
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"SaaS pricing\" \"case study\"",
+          "url": "https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"B2B SaaS\" \"onboarding\"",
+          "url": "https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "label": "HN Algolia",
+          "query": "\"SaaS founder\" \"churn\"",
+          "url": "https://hn.algolia.com/?q=%22SaaS%20founder%22%20%22churn%22"
+        },
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"PLG\" \"activation\" \"SaaS\"",
+          "url": "https://x.com/search?q=%22PLG%22%20%22activation%22%20%22SaaS%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"SaaS\" \"pricing page\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "label": "HN Algolia",
+          "query": "\"SaaS pricing\" \"case study\"",
+          "url": "https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22"
+        },
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"B2B SaaS\" \"onboarding\"",
+          "url": "https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"SaaS founder\" \"churn\"",
+          "url": "https://www.google.com/search?q=%22SaaS%20founder%22%20%22churn%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22SaaS%20founder%22%20%22churn%22",
+        "https://x.com/search?q=%22PLG%22%20%22activation%22%20%22SaaS%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22",
+        "https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22SaaS%20founder%22%20%22churn%22%20after%3A2026-01-01"
+      ],
+      "csv": "researchId,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\n2026-06-13-saas_founders-001,P1,,,,manual_research,saas_founders,topic,https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"SaaS pricing\"\" \"\"case study\"\"\",https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"SaaS pricing\"\" \"\"case study\"\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-002,P1,,,,manual_research,saas_founders,product,https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"B2B SaaS\"\" \"\"onboarding\"\"\",https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"B2B SaaS\"\" \"\"onboarding\"\" | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-003,P1,,,,manual_research,saas_founders,product,https://hn.algolia.com/?q=%22SaaS%20founder%22%20%22churn%22,2026-06-13,HN Algolia,\"\"\"SaaS founder\"\" \"\"churn\"\"\",https://hn.algolia.com/?q=%22SaaS%20founder%22%20%22churn%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"SaaS founder\"\" \"\"churn\"\" | Open: HN Algolia | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-004,P1,,,,manual_research,saas_founders,topic,https://x.com/search?q=%22PLG%22%20%22activation%22%20%22SaaS%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"PLG\"\" \"\"activation\"\" \"\"SaaS\"\"\",https://x.com/search?q=%22PLG%22%20%22activation%22%20%22SaaS%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"PLG\"\" \"\"activation\"\" \"\"SaaS\"\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-005,P1,,,,manual_research,saas_founders,product,https://www.google.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"SaaS\"\" \"\"pricing page\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"SaaS\"\" \"\"pricing page\"\" \"\"launch\"\" | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-006,P1,,,,manual_research,saas_founders,product,https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22,2026-06-13,HN Algolia,\"\"\"SaaS pricing\"\" \"\"case study\"\"\",https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"SaaS pricing\"\" \"\"case study\"\" | Open: HN Algolia | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-007,P1,,,,manual_research,saas_founders,topic,https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"B2B SaaS\"\" \"\"onboarding\"\"\",https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"B2B SaaS\"\" \"\"onboarding\"\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-008,P1,,,,manual_research,saas_founders,product,https://www.google.com/search?q=%22SaaS%20founder%22%20%22churn%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"SaaS founder\"\" \"\"churn\"\"\",https://www.google.com/search?q=%22SaaS%20founder%22%20%22churn%22%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"SaaS founder\"\" \"\"churn\"\" | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-009,P2,,,,manual_research,saas_founders,product,https://hn.algolia.com/?q=%22PLG%22%20%22activation%22%20%22SaaS%22,2026-06-13,HN Algolia,\"\"\"PLG\"\" \"\"activation\"\" \"\"SaaS\"\"\",https://hn.algolia.com/?q=%22PLG%22%20%22activation%22%20%22SaaS%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"PLG\"\" \"\"activation\"\" \"\"SaaS\"\" | Open: HN Algolia | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"\n2026-06-13-saas_founders-010,P2,,,,manual_research,saas_founders,topic,https://x.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"SaaS\"\" \"\"pricing page\"\" \"\"launch\"\"\",https://x.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson,\"Find from: \"\"SaaS\"\" \"\"pricing page\"\" \"\"launch\"\" | Open: X live search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson\"",
+      "csvRows": 10,
+      "qualityChecklist": [
+        "real URL",
+        "clear audience",
+        "one narrow pain",
+        "fresh enough or evergreen",
+        "SaaS operator lesson"
+      ],
+      "nextAction": "Collect 10 real SaaS founder circle candidates, then import only filled rows.",
+      "reason": "Add 20 fresh SaaS founder circle candidates with clear buyer, narrow pain, and a real URL.",
+      "rows": [
+        {
+          "researchId": "2026-06-13-saas_founders-001",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"SaaS pricing\" \"case study\"",
+          "researchUrl": "https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"SaaS pricing\" \"case study\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-002",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "product",
+          "sourceUrl": "https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"B2B SaaS\" \"onboarding\"",
+          "researchUrl": "https://www.google.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"B2B SaaS\" \"onboarding\" | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-003",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "product",
+          "sourceUrl": "https://hn.algolia.com/?q=%22SaaS%20founder%22%20%22churn%22",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"SaaS founder\" \"churn\"",
+          "researchUrl": "https://hn.algolia.com/?q=%22SaaS%20founder%22%20%22churn%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"SaaS founder\" \"churn\" | Open: HN Algolia | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-004",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22PLG%22%20%22activation%22%20%22SaaS%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"PLG\" \"activation\" \"SaaS\"",
+          "researchUrl": "https://x.com/search?q=%22PLG%22%20%22activation%22%20%22SaaS%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"PLG\" \"activation\" \"SaaS\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-005",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "product",
+          "sourceUrl": "https://www.google.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"SaaS\" \"pricing page\" \"launch\"",
+          "researchUrl": "https://www.google.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"SaaS\" \"pricing page\" \"launch\" | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-006",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "product",
+          "sourceUrl": "https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"SaaS pricing\" \"case study\"",
+          "researchUrl": "https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"SaaS pricing\" \"case study\" | Open: HN Algolia | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-007",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"B2B SaaS\" \"onboarding\"",
+          "researchUrl": "https://x.com/search?q=%22B2B%20SaaS%22%20%22onboarding%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"B2B SaaS\" \"onboarding\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-008",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "product",
+          "sourceUrl": "https://www.google.com/search?q=%22SaaS%20founder%22%20%22churn%22%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"SaaS founder\" \"churn\"",
+          "researchUrl": "https://www.google.com/search?q=%22SaaS%20founder%22%20%22churn%22%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"SaaS founder\" \"churn\" | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-009",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "product",
+          "sourceUrl": "https://hn.algolia.com/?q=%22PLG%22%20%22activation%22%20%22SaaS%22",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"PLG\" \"activation\" \"SaaS\"",
+          "researchUrl": "https://hn.algolia.com/?q=%22PLG%22%20%22activation%22%20%22SaaS%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"PLG\" \"activation\" \"SaaS\" | Open: HN Algolia | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        },
+        {
+          "researchId": "2026-06-13-saas_founders-010",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "saas_founders",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"SaaS\" \"pricing page\" \"launch\"",
+          "researchUrl": "https://x.com/search?q=%22SaaS%22%20%22pricing%20page%22%20%22launch%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | SaaS operator lesson",
+          "notes": "Find from: \"SaaS\" \"pricing page\" \"launch\" | Open: X live search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; SaaS operator lesson"
+        }
+      ]
+    },
+    {
+      "batchId": "circle:crypto_builders",
+      "type": "circle",
+      "date": "2026-06-13",
+      "circleId": "crypto_builders",
+      "circleName": "Crypto builder circle",
+      "targetCandidates": 10,
+      "neededCandidates": 16,
+      "currentQualifiedTools": 4,
+      "assignedRows": 20,
+      "affectedAccounts": [
+        {
+          "accountId": "crypto_trading_tools",
+          "displayName": "Crypto Trading Tools",
+          "gap": 7,
+          "category": "crypto tooling"
+        },
+        {
+          "accountId": "crypto_builder_radar",
+          "displayName": "Crypto Builder Radar",
+          "gap": 6,
+          "category": "Crypto builder circle"
+        }
+      ],
+      "searchLinks": [
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"crypto wallet\" \"developer\"",
+          "url": "https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "CoinDesk search",
+          "label": "CoinDesk search",
+          "query": "\"onchain\" \"tool\" launch",
+          "url": "https://www.coindesk.com/search?s=%22onchain%22%20%22tool%22%20launch"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"DeFi\" \"dashboard\"",
+          "url": "https://www.google.com/search?q=%22DeFi%22%20%22dashboard%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "label": "HN Algolia",
+          "query": "\"stablecoin\" \"infrastructure\"",
+          "url": "https://hn.algolia.com/?q=%22stablecoin%22%20%22infrastructure%22"
+        },
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"web3\" \"founder\" \"product\"",
+          "url": "https://x.com/search?q=%22web3%22%20%22founder%22%20%22product%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "CoinDesk search",
+          "label": "CoinDesk search",
+          "query": "\"crypto wallet\" \"developer\"",
+          "url": "https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"onchain\" \"tool\" launch",
+          "url": "https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "label": "HN Algolia",
+          "query": "\"DeFi\" \"dashboard\"",
+          "url": "https://hn.algolia.com/?q=%22DeFi%22%20%22dashboard%22"
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live",
+        "https://www.coindesk.com/search?s=%22onchain%22%20%22tool%22%20launch",
+        "https://www.google.com/search?q=%22DeFi%22%20%22dashboard%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22stablecoin%22%20%22infrastructure%22",
+        "https://x.com/search?q=%22web3%22%20%22founder%22%20%22product%22&src=typed_query&f=live",
+        "https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22",
+        "https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22DeFi%22%20%22dashboard%22"
+      ],
+      "csv": "researchId,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\n2026-06-13-crypto_builders-001,P1,,,,manual_research,crypto_builders,topic,https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto wallet\"\" \"\"developer\"\"\",https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"crypto wallet\"\" \"\"developer\"\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-002,P1,,,,manual_research,crypto_builders,product,https://www.coindesk.com/search?s=%22onchain%22%20%22tool%22%20launch,2026-06-13,CoinDesk search,\"\"\"onchain\"\" \"\"tool\"\" launch\",https://www.coindesk.com/search?s=%22onchain%22%20%22tool%22%20launch,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"onchain\"\" \"\"tool\"\" launch | Open: CoinDesk search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-003,P1,,,,manual_research,crypto_builders,product,https://www.google.com/search?q=%22DeFi%22%20%22dashboard%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"DeFi\"\" \"\"dashboard\"\"\",https://www.google.com/search?q=%22DeFi%22%20%22dashboard%22%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"DeFi\"\" \"\"dashboard\"\" | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-004,P1,,,,manual_research,crypto_builders,topic,https://hn.algolia.com/?q=%22stablecoin%22%20%22infrastructure%22,2026-06-13,HN Algolia,\"\"\"stablecoin\"\" \"\"infrastructure\"\"\",https://hn.algolia.com/?q=%22stablecoin%22%20%22infrastructure%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"stablecoin\"\" \"\"infrastructure\"\" | Open: HN Algolia | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-005,P1,,,,manual_research,crypto_builders,product,https://x.com/search?q=%22web3%22%20%22founder%22%20%22product%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"web3\"\" \"\"founder\"\" \"\"product\"\"\",https://x.com/search?q=%22web3%22%20%22founder%22%20%22product%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"web3\"\" \"\"founder\"\" \"\"product\"\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-006,P1,,,,manual_research,crypto_builders,product,https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22,2026-06-13,CoinDesk search,\"\"\"crypto wallet\"\" \"\"developer\"\"\",https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"crypto wallet\"\" \"\"developer\"\" | Open: CoinDesk search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-007,P1,,,,manual_research,crypto_builders,topic,https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"onchain\"\" \"\"tool\"\" launch\",https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"onchain\"\" \"\"tool\"\" launch | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-008,P1,,,,manual_research,crypto_builders,product,https://hn.algolia.com/?q=%22DeFi%22%20%22dashboard%22,2026-06-13,HN Algolia,\"\"\"DeFi\"\" \"\"dashboard\"\"\",https://hn.algolia.com/?q=%22DeFi%22%20%22dashboard%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"DeFi\"\" \"\"dashboard\"\" | Open: HN Algolia | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-009,P2,,,,manual_research,crypto_builders,product,https://x.com/search?q=%22stablecoin%22%20%22infrastructure%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"stablecoin\"\" \"\"infrastructure\"\"\",https://x.com/search?q=%22stablecoin%22%20%22infrastructure%22&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"stablecoin\"\" \"\"infrastructure\"\" | Open: X live search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"\n2026-06-13-crypto_builders-010,P2,,,,manual_research,crypto_builders,topic,https://www.coindesk.com/search?s=%22web3%22%20%22founder%22%20%22product%22,2026-06-13,CoinDesk search,\"\"\"web3\"\" \"\"founder\"\" \"\"product\"\"\",https://www.coindesk.com/search?s=%22web3%22%20%22founder%22%20%22product%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama,\"Find from: \"\"web3\"\" \"\"founder\"\" \"\"product\"\" | Open: CoinDesk search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama\"",
+      "csvRows": 10,
+      "qualityChecklist": [
+        "real URL",
+        "clear audience",
+        "one narrow pain",
+        "fresh enough or evergreen",
+        "builder or infrastructure angle",
+        "not pure price drama"
+      ],
+      "nextAction": "Collect 10 real Crypto builder circle candidates, then import only filled rows.",
+      "reason": "Add 16 fresh Crypto builder circle candidates with clear buyer, narrow pain, and a real URL.",
+      "rows": [
+        {
+          "researchId": "2026-06-13-crypto_builders-001",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "topic",
+          "sourceUrl": "https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"crypto wallet\" \"developer\"",
+          "researchUrl": "https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"crypto wallet\" \"developer\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-002",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "product",
+          "sourceUrl": "https://www.coindesk.com/search?s=%22onchain%22%20%22tool%22%20launch",
+          "published": "2026-06-13",
+          "researchProvider": "CoinDesk search",
+          "researchQuery": "\"onchain\" \"tool\" launch",
+          "researchUrl": "https://www.coindesk.com/search?s=%22onchain%22%20%22tool%22%20launch",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"onchain\" \"tool\" launch | Open: CoinDesk search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-003",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "product",
+          "sourceUrl": "https://www.google.com/search?q=%22DeFi%22%20%22dashboard%22%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"DeFi\" \"dashboard\"",
+          "researchUrl": "https://www.google.com/search?q=%22DeFi%22%20%22dashboard%22%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"DeFi\" \"dashboard\" | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-004",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "topic",
+          "sourceUrl": "https://hn.algolia.com/?q=%22stablecoin%22%20%22infrastructure%22",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"stablecoin\" \"infrastructure\"",
+          "researchUrl": "https://hn.algolia.com/?q=%22stablecoin%22%20%22infrastructure%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"stablecoin\" \"infrastructure\" | Open: HN Algolia | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-005",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "product",
+          "sourceUrl": "https://x.com/search?q=%22web3%22%20%22founder%22%20%22product%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"web3\" \"founder\" \"product\"",
+          "researchUrl": "https://x.com/search?q=%22web3%22%20%22founder%22%20%22product%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"web3\" \"founder\" \"product\" | Open: X live search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-006",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "product",
+          "sourceUrl": "https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22",
+          "published": "2026-06-13",
+          "researchProvider": "CoinDesk search",
+          "researchQuery": "\"crypto wallet\" \"developer\"",
+          "researchUrl": "https://www.coindesk.com/search?s=%22crypto%20wallet%22%20%22developer%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"crypto wallet\" \"developer\" | Open: CoinDesk search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-007",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "topic",
+          "sourceUrl": "https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"onchain\" \"tool\" launch",
+          "researchUrl": "https://www.google.com/search?q=%22onchain%22%20%22tool%22%20launch%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"onchain\" \"tool\" launch | Open: Google recent search | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-008",
+          "priority": "P1",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "product",
+          "sourceUrl": "https://hn.algolia.com/?q=%22DeFi%22%20%22dashboard%22",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"DeFi\" \"dashboard\"",
+          "researchUrl": "https://hn.algolia.com/?q=%22DeFi%22%20%22dashboard%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"DeFi\" \"dashboard\" | Open: HN Algolia | Priority: P1 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-009",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "product",
+          "sourceUrl": "https://x.com/search?q=%22stablecoin%22%20%22infrastructure%22&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"stablecoin\" \"infrastructure\"",
+          "researchUrl": "https://x.com/search?q=%22stablecoin%22%20%22infrastructure%22&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"stablecoin\" \"infrastructure\" | Open: X live search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        },
+        {
+          "researchId": "2026-06-13-crypto_builders-010",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "crypto_builders",
+          "candidateType": "topic",
+          "sourceUrl": "https://www.coindesk.com/search?s=%22web3%22%20%22founder%22%20%22product%22",
+          "published": "2026-06-13",
+          "researchProvider": "CoinDesk search",
+          "researchQuery": "\"web3\" \"founder\" \"product\"",
+          "researchUrl": "https://www.coindesk.com/search?s=%22web3%22%20%22founder%22%20%22product%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | builder or infrastructure angle | not pure price drama",
+          "notes": "Find from: \"web3\" \"founder\" \"product\" | Open: CoinDesk search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; builder or infrastructure angle; not pure price drama"
+        }
+      ]
+    },
+    {
+      "batchId": "circle:ai_startups",
+      "type": "circle",
+      "date": "2026-06-13",
+      "circleId": "ai_startups",
+      "circleName": "AI startup circle",
+      "targetCandidates": 8,
+      "neededCandidates": 8,
+      "currentQualifiedTools": 17,
+      "assignedRows": 10,
+      "affectedAccounts": [
+        {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "gap": 8,
+          "category": "sales and customer support"
+        }
+      ],
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "label": "Product Hunt search",
+          "query": "\"AI startup\" launch new tool",
+          "url": "https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool"
+        },
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"AI agent\" founder workflow",
+          "url": "https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"LLM\" \"Product Hunt\" launch",
+          "url": "https://www.google.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "label": "HN Algolia",
+          "query": "\"AI automation\" \"pricing\" startup",
+          "url": "https://hn.algolia.com/?q=%22AI%20automation%22%20%22pricing%22%20startup"
+        },
+        {
+          "provider": "Product Hunt search",
+          "label": "Product Hunt search",
+          "query": "\"AI tool\" \"founder\" \"waitlist\"",
+          "url": "https://www.producthunt.com/search?q=%22AI%20tool%22%20%22founder%22%20%22waitlist%22"
+        },
+        {
+          "provider": "X live search",
+          "label": "X live search",
+          "query": "\"AI startup\" launch new tool",
+          "url": "https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "label": "Google recent search",
+          "query": "\"AI agent\" founder workflow",
+          "url": "https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "label": "HN Algolia",
+          "query": "\"LLM\" \"Product Hunt\" launch",
+          "url": "https://hn.algolia.com/?q=%22LLM%22%20%22Product%20Hunt%22%20launch"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool",
+        "https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22AI%20automation%22%20%22pricing%22%20startup",
+        "https://www.producthunt.com/search?q=%22AI%20tool%22%20%22founder%22%20%22waitlist%22",
+        "https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=%22LLM%22%20%22Product%20Hunt%22%20launch"
+      ],
+      "csv": "researchId,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\n2026-06-13-ai_startups-001,P2,,,,manual_research,ai_startups,topic,https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool,2026-06-13,Product Hunt search,\"\"\"AI startup\"\" launch new tool\",https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool,real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal,\"Find from: \"\"AI startup\"\" launch new tool | Open: Product Hunt search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal\"\n2026-06-13-ai_startups-002,P2,,,,manual_research,ai_startups,product,https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI agent\"\" founder workflow\",https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal,\"Find from: \"\"AI agent\"\" founder workflow | Open: X live search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal\"\n2026-06-13-ai_startups-003,P2,,,,manual_research,ai_startups,product,https://www.google.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"LLM\"\" \"\"Product Hunt\"\" launch\",https://www.google.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal,\"Find from: \"\"LLM\"\" \"\"Product Hunt\"\" launch | Open: Google recent search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal\"\n2026-06-13-ai_startups-004,P2,,,,manual_research,ai_startups,topic,https://hn.algolia.com/?q=%22AI%20automation%22%20%22pricing%22%20startup,2026-06-13,HN Algolia,\"\"\"AI automation\"\" \"\"pricing\"\" startup\",https://hn.algolia.com/?q=%22AI%20automation%22%20%22pricing%22%20startup,real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal,\"Find from: \"\"AI automation\"\" \"\"pricing\"\" startup | Open: HN Algolia | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal\"\n2026-06-13-ai_startups-005,P2,,,,manual_research,ai_startups,product,https://www.producthunt.com/search?q=%22AI%20tool%22%20%22founder%22%20%22waitlist%22,2026-06-13,Product Hunt search,\"\"\"AI tool\"\" \"\"founder\"\" \"\"waitlist\"\"\",https://www.producthunt.com/search?q=%22AI%20tool%22%20%22founder%22%20%22waitlist%22,real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal,\"Find from: \"\"AI tool\"\" \"\"founder\"\" \"\"waitlist\"\" | Open: Product Hunt search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal\"\n2026-06-13-ai_startups-006,P2,,,,manual_research,ai_startups,product,https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI startup\"\" launch new tool\",https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live,real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal,\"Find from: \"\"AI startup\"\" launch new tool | Open: X live search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal\"\n2026-06-13-ai_startups-007,P2,,,,manual_research,ai_startups,topic,https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI agent\"\" founder workflow\",https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01,real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal,\"Find from: \"\"AI agent\"\" founder workflow | Open: Google recent search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal\"\n2026-06-13-ai_startups-008,P2,,,,manual_research,ai_startups,product,https://hn.algolia.com/?q=%22LLM%22%20%22Product%20Hunt%22%20launch,2026-06-13,HN Algolia,\"\"\"LLM\"\" \"\"Product Hunt\"\" launch\",https://hn.algolia.com/?q=%22LLM%22%20%22Product%20Hunt%22%20launch,real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal,\"Find from: \"\"LLM\"\" \"\"Product Hunt\"\" launch | Open: HN Algolia | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal\"",
+      "csvRows": 8,
+      "qualityChecklist": [
+        "real URL",
+        "clear audience",
+        "one narrow pain",
+        "fresh enough or evergreen",
+        "AI product or founder signal"
+      ],
+      "nextAction": "Collect 8 real AI startup circle candidates, then import only filled rows.",
+      "reason": "Add 8 fresh AI startup circle candidates with clear buyer, narrow pain, and a real URL.",
+      "rows": [
+        {
+          "researchId": "2026-06-13-ai_startups-001",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "ai_startups",
+          "candidateType": "topic",
+          "sourceUrl": "https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool",
+          "published": "2026-06-13",
+          "researchProvider": "Product Hunt search",
+          "researchQuery": "\"AI startup\" launch new tool",
+          "researchUrl": "https://www.producthunt.com/search?q=%22AI%20startup%22%20launch%20new%20tool",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal",
+          "notes": "Find from: \"AI startup\" launch new tool | Open: Product Hunt search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal"
+        },
+        {
+          "researchId": "2026-06-13-ai_startups-002",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "ai_startups",
+          "candidateType": "product",
+          "sourceUrl": "https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"AI agent\" founder workflow",
+          "researchUrl": "https://x.com/search?q=%22AI%20agent%22%20founder%20workflow&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal",
+          "notes": "Find from: \"AI agent\" founder workflow | Open: X live search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal"
+        },
+        {
+          "researchId": "2026-06-13-ai_startups-003",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "ai_startups",
+          "candidateType": "product",
+          "sourceUrl": "https://www.google.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"LLM\" \"Product Hunt\" launch",
+          "researchUrl": "https://www.google.com/search?q=%22LLM%22%20%22Product%20Hunt%22%20launch%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal",
+          "notes": "Find from: \"LLM\" \"Product Hunt\" launch | Open: Google recent search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal"
+        },
+        {
+          "researchId": "2026-06-13-ai_startups-004",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "ai_startups",
+          "candidateType": "topic",
+          "sourceUrl": "https://hn.algolia.com/?q=%22AI%20automation%22%20%22pricing%22%20startup",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"AI automation\" \"pricing\" startup",
+          "researchUrl": "https://hn.algolia.com/?q=%22AI%20automation%22%20%22pricing%22%20startup",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal",
+          "notes": "Find from: \"AI automation\" \"pricing\" startup | Open: HN Algolia | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal"
+        },
+        {
+          "researchId": "2026-06-13-ai_startups-005",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "ai_startups",
+          "candidateType": "product",
+          "sourceUrl": "https://www.producthunt.com/search?q=%22AI%20tool%22%20%22founder%22%20%22waitlist%22",
+          "published": "2026-06-13",
+          "researchProvider": "Product Hunt search",
+          "researchQuery": "\"AI tool\" \"founder\" \"waitlist\"",
+          "researchUrl": "https://www.producthunt.com/search?q=%22AI%20tool%22%20%22founder%22%20%22waitlist%22",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal",
+          "notes": "Find from: \"AI tool\" \"founder\" \"waitlist\" | Open: Product Hunt search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal"
+        },
+        {
+          "researchId": "2026-06-13-ai_startups-006",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "ai_startups",
+          "candidateType": "product",
+          "sourceUrl": "https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live",
+          "published": "2026-06-13",
+          "researchProvider": "X live search",
+          "researchQuery": "\"AI startup\" launch new tool",
+          "researchUrl": "https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal",
+          "notes": "Find from: \"AI startup\" launch new tool | Open: X live search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal"
+        },
+        {
+          "researchId": "2026-06-13-ai_startups-007",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "ai_startups",
+          "candidateType": "topic",
+          "sourceUrl": "https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01",
+          "published": "2026-06-13",
+          "researchProvider": "Google recent search",
+          "researchQuery": "\"AI agent\" founder workflow",
+          "researchUrl": "https://www.google.com/search?q=%22AI%20agent%22%20founder%20workflow%20after%3A2026-01-01",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal",
+          "notes": "Find from: \"AI agent\" founder workflow | Open: Google recent search | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal"
+        },
+        {
+          "researchId": "2026-06-13-ai_startups-008",
+          "priority": "P2",
+          "name": "",
+          "url": "",
+          "tagline": "",
+          "source": "manual_research",
+          "circle": "ai_startups",
+          "candidateType": "product",
+          "sourceUrl": "https://hn.algolia.com/?q=%22LLM%22%20%22Product%20Hunt%22%20launch",
+          "published": "2026-06-13",
+          "researchProvider": "HN Algolia",
+          "researchQuery": "\"LLM\" \"Product Hunt\" launch",
+          "researchUrl": "https://hn.algolia.com/?q=%22LLM%22%20%22Product%20Hunt%22%20launch",
+          "acceptanceChecklist": "real URL | clear audience | one narrow pain | fresh enough or evergreen | AI product or founder signal",
+          "notes": "Find from: \"LLM\" \"Product Hunt\" launch | Open: HN Algolia | Priority: P2 | Accept only if: real URL; clear audience; one narrow pain; fresh enough or evergreen; AI product or founder signal"
+        }
+      ]
+    }
+  ],
+  "accountBatches": [
+    {
+      "batchId": "account:crypto_builder_radar",
+      "type": "account",
+      "accountId": "crypto_builder_radar",
+      "displayName": "Crypto Builder Radar",
+      "category": "Crypto builder circle",
+      "status": "ready_to_seed",
+      "statusLabel": "可手动种子测试",
+      "firstBottleneck": "drafts",
+      "targetCandidates": 9,
+      "refillNeed": 9,
+      "postableToday": 2,
+      "targetPosts": 10,
+      "searchLinks": [
+        {
+          "provider": "X live search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "CoinDesk search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://www.coindesk.com/search?s=crypto%20builder%20tool"
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
+        "https://www.coindesk.com/search?s=crypto%20builder%20tool"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 9,
+      "nextAction": "Fill 9 real candidates for Crypto Builder Radar.",
+      "reason": "Crypto Builder Radar has 2 postable drafts. Publish only after final review, then import X Analytics."
+    },
+    {
+      "batchId": "account:ai_founder_signals",
+      "type": "account",
+      "accountId": "ai_founder_signals",
+      "displayName": "AI Founder Signals",
+      "category": "AI startup circle",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "firstBottleneck": "drafts",
+      "targetCandidates": 10,
+      "refillNeed": 10,
+      "postableToday": 0,
+      "targetPosts": 10,
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://www.producthunt.com/search?q=AI%20workflow%20launch"
+        },
+        {
+          "provider": "X live search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=AI%20workflow%20launch",
+        "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nai_founder_signals,AI Founder Signals,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_founder_signals,AI Founder Signals,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Founder Signals | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10,
+      "nextAction": "Fill 10 real candidates for AI Founder Signals.",
+      "reason": "AI Founder Signals needs unique copy and review slots before it can post today."
+    },
+    {
+      "batchId": "account:ai_tools_lab",
+      "type": "account",
+      "accountId": "ai_tools_lab",
+      "displayName": "AI Tools Lab",
+      "category": "AI tools discovery",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "firstBottleneck": "drafts",
+      "targetCandidates": 10,
+      "refillNeed": 10,
+      "postableToday": 0,
+      "targetPosts": 10,
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://www.producthunt.com/search?q=AI%20workflow%20launch"
+        },
+        {
+          "provider": "X live search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=AI%20workflow%20launch",
+        "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10,
+      "nextAction": "Fill 10 real candidates for AI Tools Lab.",
+      "reason": "AI Tools Lab needs unique copy and review slots before it can post today."
+    },
+    {
+      "batchId": "account:productivity_ops",
+      "type": "account",
+      "accountId": "productivity_ops",
+      "displayName": "Productivity Ops",
+      "category": "productivity and operations",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "firstBottleneck": "drafts",
+      "targetCandidates": 10,
+      "refillNeed": 10,
+      "postableToday": 0,
+      "targetPosts": 10,
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "query": "\"productivity and operations\" \"tool\"",
+          "url": "https://www.producthunt.com/search?q=productivity%20and%20operations%20tool"
+        },
+        {
+          "provider": "X live search",
+          "query": "\"productivity and operations\" \"tool\"",
+          "url": "https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"productivity and operations\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=productivity%20and%20operations%20tool",
+        "https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10,
+      "nextAction": "Fill 10 real candidates for Productivity Ops.",
+      "reason": "Productivity Ops needs unique copy and review slots before it can post today."
+    },
+    {
+      "batchId": "account:sales_support_ai",
+      "type": "account",
+      "accountId": "sales_support_ai",
+      "displayName": "Sales Support AI",
+      "category": "sales and customer support",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "firstBottleneck": "drafts",
+      "targetCandidates": 10,
+      "refillNeed": 10,
+      "postableToday": 0,
+      "targetPosts": 10,
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "query": "\"sales and customer support\" \"tool\"",
+          "url": "https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool"
+        },
+        {
+          "provider": "X live search",
+          "query": "\"sales and customer support\" \"tool\"",
+          "url": "https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"sales and customer support\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool",
+        "https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nsales_support_ai,Sales Support AI,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,2026-06-13,Product Hunt search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,2026-06-13,Product Hunt search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,2026-06-13,Product Hunt search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,2026-06-13,Product Hunt search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10,
+      "nextAction": "Fill 10 real candidates for Sales Support AI.",
+      "reason": "Sales Support AI needs unique copy and review slots before it can post today."
+    }
+  ],
+  "guardrails": [
+    "Fill only real candidates with name, url, and tagline.",
+    "Leave weak or duplicate rows blank; blank rows are ignored by import.",
+    "Use this to refill supply, not to authorize automatic publishing.",
+    "After importing candidates, rerun daily before choosing posts."
+  ],
+  "commands": [
+    "npm run supply-gap",
+    "npm run source-pack",
+    "npm run daily",
+    "npm start"
+  ]
+}

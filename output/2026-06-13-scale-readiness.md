@@ -1,12 +1,12 @@
 # Scale Readiness - 2026-06-13
 
 - Status: seed_only
-- Score: 12/100
+- Score: 13/100
 - Headline: 先拿真实反馈，暂时不要放量。
 - Target: 20 accounts x 10 posts = 200/day
 - Realistic today: 3/200 (gap 197; bottleneck feedback gate)
 - Safe new posts now: 3
-- Fresh publish candidates: 3
+- Fresh publish candidates: 4
 - Planned / scheduled: 19/16
 - Account matrix: 0/20 ready accounts; bench 57/600
 - Source gap: 78
@@ -19,13 +19,13 @@
    The system has not seen real impressions or engagement, so scaling would be blind.
    Next: Post at most the seed batch and import metrics before increasing volume.
 2. Not enough fresh publish candidates — high
-   3 fresh candidates are available for posting today.
+   4 fresh candidates are available for posting today.
    Next: Refresh Live Feed and import external candidates from the source supply workbench.
 3. Draft gap is too large for the target — high
    19/200 unique drafts are planned.
    Next: Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar.
 4. Account-level content matrix is not ready — high
-   0/20 accounts are ready; candidate bench is 57/600, strong 9, fresh 9.
+   0/20 accounts are ready; candidate bench is 57/600, strong 12, fresh 12.
    Next: Run npm run account-matrix, then fill account-level search tasks until the 181 draft gap shrinks.
 5. Source supply is below target — medium
    78 more source candidates are needed for the current account mix.

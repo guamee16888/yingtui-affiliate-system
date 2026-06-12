@@ -32,6 +32,7 @@ import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
 import { buildSeedBatchPack, buildSeedImportNextActions, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
 import { buildContentOpsPlan } from "../scripts/lib/content-ops-plan.mjs";
 import { buildAccountConflictRadar } from "../scripts/lib/account-conflict-radar.mjs";
+import { buildSupplyGapFiller, renderSupplyGapFillerMarkdown } from "../scripts/lib/supply-gap-filler.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1489,6 +1490,80 @@ test("source import pack summarizes rows for dashboard", () => {
   assert.equal(pack.collectionPlan.firstBatch.length > 0, true);
   assert.match(pack.collectionPlan.rule, /Fill name/);
   assert.equal(pack.priorityGaps.length, 2);
+});
+
+test("supply gap filler turns source and account gaps into manual refill batches", () => {
+  const sourceImportPack = buildSourceImportPack({
+    date: "2026-06-12",
+    sourceQualityQueue: {
+      summary: { totalNeededCandidates: 25, topCircle: "SaaS" },
+      items: [
+        {
+          circleId: "saas_founders",
+          circleName: "SaaS founder circle",
+          neededCandidates: 20,
+          currentQualifiedTools: 1,
+          affectedAccounts: [{ accountId: "saas", displayName: "SaaS Pricing Lab", gap: 9 }],
+          searchQueries: ["saas query"],
+          importHint: "Add SaaS candidates"
+        },
+        {
+          circleId: "indie_hackers",
+          circleName: "Indie hacker circle",
+          neededCandidates: 5,
+          currentQualifiedTools: 3,
+          affectedAccounts: [],
+          searchQueries: ["indie query"],
+          importHint: "Add indie candidates"
+        }
+      ]
+    },
+    totalRows: 30
+  });
+  const plan = buildSupplyGapFiller({
+    date: "2026-06-12",
+    latest: {
+      date: "2026-06-12",
+      sourceQualityQueue: {
+        summary: { totalNeededCandidates: 25 },
+        items: []
+      }
+    },
+    sourceImportPack,
+    accountRefillWorkbench: {
+      summary: { targetDailyPosts: 20, postableToday: 1, totalRefillNeed: 8, contentBlockedAccounts: 1, feedbackBlockedAccounts: 2 },
+      focusAccounts: [
+        {
+          accountId: "saas",
+          displayName: "SaaS Pricing Lab",
+          status: "needs_drafts",
+          statusLabel: "缺草稿",
+          refillNeed: 8,
+          postableToday: 0,
+          targetPosts: 10,
+          searchLinks: [{ provider: "Google", query: "saas", url: "https://www.google.com/search?q=saas" }],
+          searchUrls: ["https://www.google.com/search?q=saas"],
+          csv: "accountId,accountName,priority,name,url,tagline\nsaas,SaaS Pricing Lab,P1,,,,",
+          csvRows: 1
+        }
+      ]
+    }
+  });
+  const markdown = renderSupplyGapFillerMarkdown(plan);
+  const parsedBlankBatch = parseCandidatePaste(plan.todayBatches[0].csv);
+
+  assert.equal(plan.status, "needs_supply");
+  assert.equal(plan.summary.totalNeededCandidates, 25);
+  assert.equal(plan.summary.totalRefillNeed, 8);
+  assert.equal(plan.todayBatches[0].circleId, "saas_founders");
+  assert.equal(plan.todayBatches[0].affectedAccounts[0].accountId, "saas");
+  assert.equal(plan.todayBatches[0].searchUrls.every((url) => url.startsWith("https://")), true);
+  assert.equal(plan.todayBatches[0].rows.every((row) => !row.name && !row.url && !row.tagline), true);
+  assert.equal(parsedBlankBatch.entries.length, 0);
+  assert.equal(plan.accountBatches[0].accountId, "saas");
+  assert.match(plan.todayBatches[0].csv, /researchId,priority,name,url,tagline/);
+  assert.match(markdown, /Supply Gap Filler/);
+  assert.match(markdown, /Fill only real/);
 });
 
 test("source supply workbench merges gaps, discovery, and health", () => {

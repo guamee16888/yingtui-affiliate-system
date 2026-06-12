@@ -1,9 +1,9 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T22:46:43.398Z",
+  "generatedAt": "2026-06-12T23:01:41.466Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
-  "overallScore": 28,
+  "overallScore": 27,
   "level": "prototype",
   "summary": {
     "dimensions": 9,
@@ -138,16 +138,16 @@
     {
       "id": "quality_safety",
       "name": "Quality and safety gates",
-      "score": 85,
-      "status": "good",
+      "score": 75,
+      "status": "watch",
       "whyItMatters": "The system is valuable only if it protects account quality, avoids fake claims, and blocks stale posts.",
       "evidence": [
-        "0 generation warnings.",
-        "3 fresh publish candidates.",
+        "1 generation warnings.",
+        "4 fresh publish candidates.",
         "Manual-confirm publishing is the default mode."
       ],
       "gaps": [
-        "No major gap detected."
+        "Resolve generation warnings before publishing."
       ],
       "nextActions": [
         "Keep Fresh today/Fresh 48h as the paid publish gate.",
@@ -266,9 +266,9 @@
         {
           "id": "quality_safety",
           "name": "Quality and safety gates",
-          "score": 85,
-          "status": "good",
-          "gap": "No major gap detected.",
+          "score": 75,
+          "status": "watch",
+          "gap": "Resolve generation warnings before publishing.",
           "nextAction": "Keep Fresh today/Fresh 48h as the paid publish gate."
         },
         {

@@ -5,9 +5,13 @@
 - Source: https://www.producthunt.com/feed
 - Source mix: Product Hunt 50, Candidate Inbox 0, Source Candidates 20, merged 70
 - Evaluated: 70 tools
-- Picked: 19 tools (3 fresh, 16 Seen before)
+- Picked: 19 tools (4 fresh, 15 Seen before)
 - Top score: 29
 - Rule: drafts are material, not a posting queue. Pick only tools you would defend in public.
+
+## Warnings
+
+- Source CoinDesk crypto feed unavailable: The operation was aborted due to timeout
 
 ## Supply Plan
 
@@ -94,7 +98,7 @@ Account gaps:
 ## Content Calendar
 
 - Rule: Schedule drafts into review slots. Every slot still requires manual approval before publishing.
-- Scheduled posts: 15/200
+- Scheduled posts: 14/200
 - Same-day capacity: 46
 - Draft gap: 181
 - Capacity gap: 154
@@ -125,8 +129,8 @@ Top review items:
 - Anthropic’s Dario Amodei has just one direct report: watch -> watch, priority 72
 - How memory tools can make AI models worse: watch -> watch, priority 52
 - Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world: watch -> watch, priority 52
-- Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable: watch -> watch, priority 46
 - Pool’s new app turns your screenshots into something useful: watch -> watch, priority 46
+- Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing: watch -> watch, priority 46
 
 ## Feedback Operating Mode
 
@@ -167,29 +171,30 @@ Top sources:
 1. Anthropic’s Dario Amodei has just one direct report — 29 points — tweet only. Seen before.
 2. The company that makes your TV is taking ads onchain. Arbitrum helped — 26 points — thread candidate. Seen before.
 3. How memory tools can make AI models worse — 25 points — thread candidate. Seen before.
-4. Mistral is rumored to be raising €3B at €20B valuation — 25 points — tweet only.
-5. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market — 25 points — tweet only.
+4. Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it — 25 points — tweet only.
+5. Mistral is rumored to be raising €3B at €20B valuation — 25 points — tweet only.
 
 ## Freshness Diagnostic
 
-- Feed fresh today: 13
-- Feed fresh 48h: 42
+- Feed fresh today: 14
+- Feed fresh 48h: 41
 - Feed fresh 7d: 12
 - Older/unknown: 3
-- Fresh top-pick candidates: 3
+- Fresh top-pick candidates: 4
 - Diagnosis: Top picks include fresh candidates that are suitable for cautious posting.
 - Recommendation: Post only the Fresh today / Fresh 48h candidates, then record feedback.
 
 Fresh feed watchlist:
-1. Mistral is rumored to be raising €3B at €20B valuation — 0 days old — score 25 — in top picks
-2. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market — 0 days old — score 25 — in top picks
-3. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows — 0 days old — score 25 — in top picks
+1. Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it — 0 days old — score 25 — in top picks
+2. Mistral is rumored to be raising €3B at €20B valuation — 0 days old — score 25 — in top picks
+3. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market — 0 days old — score 25 — in top picks
+4. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows — 0 days old — score 25 — in top picks
 
 ## Today's Action List
 
-1. post: Post one X draft: Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
-2. post: Post one X draft: Worth watching: VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market
-3. post: Post one X draft: Worth watching: Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows
+1. post: Post one X draft: Worth watching: Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/
+2. post: Post one X draft: Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/
+3. post: Post one X draft: Worth watching: VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market. I would not treat it as a tool review. The useful angle is what it says about crypto builders. https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market
 4. longform: Save The company that makes your TV is taking ads onchain. Arbitrum helped for a thread or SEO review page if the X post gets feedback.
 
 ## Account Routing
@@ -204,12 +209,12 @@ Recommended routing:
 1. Anthropic’s Dario Amodei has just one direct report → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, founder, workflow; pillar: AI startups.)
 2. The company that makes your TV is taking ads onchain. Arbitrum helped → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto, onchain; pillar: crypto builders.)
 3. How memory tools can make AI models worse → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-4. Mistral is rumored to be raising €3B at €20B valuation → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-5. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-6. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
-7. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
-8. KOSH Money → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.)
-9. Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+4. Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+5. Mistral is rumored to be raising €3B at €20B valuation → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+6. VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
+7. Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
+8. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
+9. KOSH Money → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.)
 10. Pool’s new app turns your screenshots into something useful → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
 11. Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
 12. BlackRock files to list its bitcoin income ETF, with expected debut next week → Crypto Builder Radar (Crypto Builder Radar: matches tweet only / thread candidate; keywords: crypto; pillar: crypto builders.)
@@ -326,6 +331,41 @@ Check: OK (179 chars)
 
 **thread opening**
 If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/
+Check: OK (170 chars)
+
+### Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it
+
+- Score breakdown: painScore 6 | nicheScore 6 | affiliateScore 2 | contentScore 5 | noveltyScore 8 | riskScore -2 | seenPenalty 0 | total 25
+- Follow-up action: tweet only
+- Product Hunt: https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/
+- Published: Fri, 12 Jun 2026 23:00:54 +0000
+- Tagline: A new report suggests the unit, which employs 6,500 people, is on the verge of revolt.
+- Seen before: no
+- Reason: fresh enough to test now.
+- Recommended account: AI Founder Signals — AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.
+- Affiliate status: No affiliate link yet — research needed
+- Suggested angle: solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
+
+#### X Copy Variants
+
+**short post**
+Worth watching: Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/
+Check: OK (220 chars)
+
+**casual post**
+Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: a new report suggests the unit, which employs 6,500 people, is on the verge of revolt. I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/
+Check: OK (253 chars)
+
+**contrarian angle**
+Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/
+Check: OK (149 chars)
+
+**pain-point hook**
+The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/
+Check: OK (179 chars)
+
+**thread opening**
+If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/
 Check: OK (170 chars)
 
 ### Mistral is rumored to be raising €3B at €20B valuation
@@ -502,41 +542,6 @@ Check: OK (174 chars)
 **thread opening**
 I found KOSH Money on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/kosh-money
 Check: OK (189 chars)
-
-### Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable
-
-- Score breakdown: painScore 6 | nicheScore 6 | affiliateScore 2 | contentScore 4 | noveltyScore 8 | riskScore 0 | seenPenalty -4 | total 22
-- Follow-up action: tweet only
-- Product Hunt: https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-- Published: Wed, 10 Jun 2026 15:41:22 +0000
-- Tagline: Cybersecurity researchers are complaining that Anthropic's new model Fable has guardrails that are too strict for any cybersecurity work.
-- Seen before: yes (1 prior record, last 2026-06-12)
-- Reason: fresh enough to test now. Caution: Seen before, so it is downgraded today.
-- Recommended account: AI Founder Signals — AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.
-- Affiliate status: No affiliate link yet — research needed
-- Suggested angle: solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
-
-#### X Copy Variants
-
-**short post**
-Worth watching: Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (215 chars)
-
-**casual post**
-Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: cybersecurity researchers are complaining that anthropic's new model fable has guardrai.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (258 chars)
-
-**contrarian angle**
-Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (149 chars)
-
-**pain-point hook**
-The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (179 chars)
-
-**thread opening**
-If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/
-Check: OK (170 chars)
 
 ### Pool’s new app turns your screenshots into something useful
 
@@ -894,8 +899,8 @@ Check: OK (170 chars)
 - SpaceX, Anthropic, and OpenAI’s hot IPO summer: 18 points, skip. Reason: fresh enough to test now. Caution: broad or crowded angle risk; not enough signal for follow-up.
 - It’s hot IPO summer, and the MANGOS are ripe: 18 points, skip. Reason: fresh enough to test now. Caution: broad or crowded angle risk; not enough signal for follow-up.
 - Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans: 17 points, skip. Seen before. Reason: fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
-- Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
+- Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - LocIn AI: 15 points, skip. Seen before. Reason: easy before/after/price/alternative content angle; fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
 - Slack Data Agent: 14 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 
@@ -908,5 +913,5 @@ No high-affiliate-score tools without a configured affiliate link today.
 - History records before this run: 111
 - Unique tools seen: 79
 - Last history date before this run: 2026-06-13
-- Seen-before tools in today's picks: 16
+- Seen-before tools in today's picks: 15
 - Records written by this run: 19

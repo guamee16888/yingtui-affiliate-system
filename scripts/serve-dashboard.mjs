@@ -142,6 +142,7 @@ async function handleApiGet(pathname) {
   if (pathname === "/api/account-content-matrix") return readJson("data/account-content-matrix.json", null);
   if (pathname === "/api/account-refill-workbench") return readJson("data/account-refill-workbench.json", null);
   if (pathname === "/api/account-conflict-radar") return readJson("data/account-conflict-radar.json", null);
+  if (pathname === "/api/supply-gap-filler") return readJson("data/supply-gap-filler.json", null);
   if (pathname === "/api/content-calendar") {
     const latest = await loadLatest();
     return await readJson("data/content-calendar/latest.json", latest?.contentCalendar ?? null);

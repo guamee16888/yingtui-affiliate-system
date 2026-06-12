@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T22:46:43.323Z",
+  "updatedAt": "2026-06-12T23:01:41.384Z",
   "items": [
     {
       "id": "source_candidate_3515b779c597",
@@ -17,8 +17,8 @@
       "published": "Wed, 10 Jun 2026 20:19:31 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_c05d69f1b723",
@@ -35,8 +35,8 @@
       "published": "Wed, 10 Jun 2026 17:07:35 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_a61b9a939dae",
@@ -53,26 +53,8 @@
       "published": "Wed, 10 Jun 2026 16:11:08 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
-    },
-    {
-      "id": "source_candidate_cb3f98bdaef6",
-      "toolId": "tool_techcrunch_com_cybersecurity-researchers-aren-t-happy-about-the-guardrails-on-anthropic-s-fable_fc3ef8f088",
-      "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
-      "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
-      "tagline": "Cybersecurity researchers are complaining that Anthropic's new model Fable has guardrails that are too strict for any cybersecurity work.",
-      "description": "Cybersecurity researchers are complaining that Anthropic's new model Fable has guardrails that are too strict for any cybersecurity work.",
-      "source": "techcrunch_ai",
-      "sourceName": "TechCrunch AI feed",
-      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "circle": "ai_startups",
-      "candidateType": "topic",
-      "published": "Wed, 10 Jun 2026 15:41:22 +0000",
-      "status": "active",
-      "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_71f97fb23ad5",
@@ -89,8 +71,8 @@
       "published": "Thu, 11 Jun 2026 16:36:20 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_fe5a2105b723",
@@ -107,8 +89,8 @@
       "published": "Thu, 11 Jun 2026 15:30:00 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_de4683c919b4",
@@ -125,8 +107,8 @@
       "published": "Thu, 11 Jun 2026 14:23:43 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_53600397a606",
@@ -143,8 +125,8 @@
       "published": "Thu, 11 Jun 2026 04:02:19 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_576b374effa3",
@@ -161,8 +143,26 @@
       "published": "Thu, 11 Jun 2026 03:53:06 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.713Z",
-      "updatedAt": "2026-06-12T22:46:42.713Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
+    },
+    {
+      "id": "source_candidate_95872756be52",
+      "toolId": "tool_techcrunch_com_meta-s-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-insid_03a000d08d",
+      "name": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+      "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/",
+      "tagline": "A new report suggests the unit, which employs 6,500 people, is on the verge of revolt.",
+      "description": "A new report suggests the unit, which employs 6,500 people, is on the verge of revolt.",
+      "source": "techcrunch_ai",
+      "sourceName": "TechCrunch AI feed",
+      "sourceUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "published": "Fri, 12 Jun 2026 23:00:54 +0000",
+      "status": "active",
+      "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_d2c435b524db",
@@ -179,8 +179,8 @@
       "published": "Fri, 12 Jun 2026 17:38:11 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.712Z",
-      "updatedAt": "2026-06-12T22:46:42.712Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_ec6adfbaa4dd",
@@ -197,8 +197,8 @@
       "published": "Fri, 12 Jun 2026 16:23:25 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.712Z",
-      "updatedAt": "2026-06-12T22:46:42.712Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_100f88b5fc51",
@@ -251,8 +251,8 @@
       "published": "Fri, 12 Jun 2026 15:50:52 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.712Z",
-      "updatedAt": "2026-06-12T22:46:42.712Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_5ef63cd5b2a5",
@@ -341,8 +341,8 @@
       "published": "Fri, 12 Jun 2026 01:48:07 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.712Z",
-      "updatedAt": "2026-06-12T22:46:42.712Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     },
     {
       "id": "source_candidate_6a173043e187",
@@ -359,8 +359,8 @@
       "published": "Fri, 12 Jun 2026 01:04:38 +0000",
       "status": "active",
       "notes": "AI startup, funding, product, and market signal. Rewrite as observation, not news spam.",
-      "createdAt": "2026-06-12T22:46:42.712Z",
-      "updatedAt": "2026-06-12T22:46:42.712Z"
+      "createdAt": "2026-06-12T23:01:31.379Z",
+      "updatedAt": "2026-06-12T23:01:31.379Z"
     }
   ]
 }

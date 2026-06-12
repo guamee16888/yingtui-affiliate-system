@@ -1,10 +1,10 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T22:46:43.387Z",
+  "generatedAt": "2026-06-12T23:01:41.455Z",
   "status": "seed_only",
   "headline": "先拿真实反馈，暂时不要放量。",
-  "readinessScore": 12,
+  "readinessScore": 13,
   "target": {
     "activeAccounts": 20,
     "targetPostsPerAccount": 10,
@@ -13,7 +13,7 @@
   },
   "capacity": {
     "safeNewPosts": 3,
-    "freshPublishCandidates": 3,
+    "freshPublishCandidates": 4,
     "topPicks": 19,
     "plannedPosts": 19,
     "scheduledPosts": 16,
@@ -26,8 +26,8 @@
     "accountMatrixReadyAccounts": 0,
     "accountMatrixCandidateBench": 57,
     "accountMatrixBenchTarget": 600,
-    "accountMatrixStrongCandidates": 9,
-    "accountMatrixFreshCandidates": 9,
+    "accountMatrixStrongCandidates": 12,
+    "accountMatrixFreshCandidates": 12,
     "accountMatrixDraftGap": 181,
     "realisticDailyPosts": 3,
     "gapToTarget": 197,
@@ -56,7 +56,7 @@
       {
         "id": "fresh_candidates",
         "label": "fresh candidates",
-        "value": 3
+        "value": 4
       },
       {
         "id": "planned_drafts",
@@ -78,7 +78,7 @@
   "coverage": {
     "plannedRate": 0.095,
     "scheduledRate": 0.08,
-    "freshRate": 0.3,
+    "freshRate": 0.4,
     "safeRate": 0.3
   },
   "blockers": [
@@ -93,7 +93,7 @@
       "id": "fresh_candidates",
       "title": "Not enough fresh publish candidates",
       "severity": "high",
-      "detail": "3 fresh candidates are available for posting today.",
+      "detail": "4 fresh candidates are available for posting today.",
       "nextAction": "Refresh Live Feed and import external candidates from the source supply workbench."
     },
     {
@@ -107,7 +107,7 @@
       "id": "account_matrix_gap",
       "title": "Account-level content matrix is not ready",
       "severity": "high",
-      "detail": "0/20 accounts are ready; candidate bench is 57/600, strong 9, fresh 9.",
+      "detail": "0/20 accounts are ready; candidate bench is 57/600, strong 12, fresh 12.",
       "nextAction": "Run npm run account-matrix, then fill account-level search tasks until the 181 draft gap shrinks."
     },
     {

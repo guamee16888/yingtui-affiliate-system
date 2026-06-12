@@ -134,7 +134,15 @@ export function buildFeedbackEntry(input) {
 
 export async function upsertFeedback(input) {
   const feedback = await loadFeedback();
-  const entry = buildFeedbackEntry(input);
+  const existing = input.id ? feedback.entries.find((item) => item.id === input.id) : null;
+  const entry = buildFeedbackEntry(existing
+    ? {
+        ...existing,
+        ...input,
+        createdAt: existing.createdAt || input.createdAt,
+        postedAt: input.postedAt || existing.postedAt
+      }
+    : input);
   const entries = feedback.entries.filter((item) => item.id !== entry.id);
   entries.push(entry);
   const next = { ...feedback, entries };

@@ -125,7 +125,8 @@
 
     <dialog id="feedbackDialog">
       <form method="dialog" class="modal-form" id="feedbackForm">
-        <h2>录入发推反馈</h2>
+        <h2 id="feedbackDialogTitle">录入发推反馈</h2>
+        <p class="muted" id="feedbackDialogHelp">保存后会进入反馈记录，用来训练账号、角度和来源判断。</p>
         <input type="hidden" name="id">
         <input type="hidden" name="toolId">
         <input type="hidden" name="toolName">
@@ -133,6 +134,8 @@
         <input type="hidden" name="sourceDate">
         <input type="hidden" name="variantType">
         <input type="hidden" name="copyText">
+        <input type="hidden" name="postedAt">
+        <div class="feedback-reminder" id="feedbackReminder"></div>
         <label>发布账号 <select name="accountId" id="feedbackAccountSelect" required></select></label>
         <label>Post URL <input name="postedUrl" type="url" placeholder="https://x.com/..."></label>
         <div class="form-grid">

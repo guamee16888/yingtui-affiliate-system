@@ -4201,8 +4201,10 @@ async function markPosted(button) {
     variantType: button.dataset.variant,
     accountId: button.dataset.accountId || recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.posted)),
     copyText: button.dataset.copytext,
+    postedAt: new Date().toISOString(),
     posted: true,
-    metrics: {}
+    metrics: {},
+    _mode: "markPosted"
   });
 }
 
@@ -4222,13 +4224,48 @@ function openFeedback(button, existing = null) {
   const selectedAccountId = data.accountId || recommendedAccountId((state.latest?.tools ?? []).find((item) => item.toolId === data.toolId));
   data.accountId = selectedAccountId;
   $("#feedbackAccountSelect").innerHTML = accountSelectOptions(selectedAccountId);
-  for (const key of ["id","toolId","toolName","toolUrl","sourceDate","variantType","accountId","copyText","postedUrl","notes"]) {
+  updateFeedbackDialogMode(data);
+  for (const key of ["id","toolId","toolName","toolUrl","sourceDate","variantType","accountId","copyText","postedUrl","postedAt","notes"]) {
     if (form.elements[key]) form.elements[key].value = data[key] ?? "";
   }
   for (const key of ["impressions","likes","bookmarks","replies","reposts","clicks","profileVisits"]) {
     form.elements[key].value = data.metrics?.[key] ?? 0;
   }
   $("#feedbackDialog").showModal();
+}
+
+function updateFeedbackDialogMode(data) {
+  const hasMetrics = hasRecordedMetrics(data);
+  const mode = data._mode || (data.id && !hasMetrics ? "pendingMetrics" : "feedback");
+  const copy = feedbackDialogCopy(mode);
+  $("#feedbackDialogTitle").textContent = copy.title;
+  $("#feedbackDialogHelp").textContent = copy.help;
+  $("#feedbackReminder").innerHTML = `<strong>${esc(copy.reminderTitle)}</strong><span>${esc(copy.reminder)}</span>`;
+}
+
+function feedbackDialogCopy(mode) {
+  if (mode === "markPosted") {
+    return {
+      title: "标记已发",
+      help: "确认这条已经从对应账号发出。保存后它会进入待补反馈，等 X Analytics 有数据再回来补指标。",
+      reminderTitle: "发后记录",
+      reminder: "账号必须准确；Post URL 建议现在就填，之后导入 Analytics 会更稳。"
+    };
+  }
+  if (mode === "pendingMetrics") {
+    return {
+      title: "补 X Analytics",
+      help: "这条已经发过，但还没有表现数据。把 views、likes、bookmarks、clicks 等补上后，系统才会学习。",
+      reminderTitle: "待补反馈",
+      reminder: "先补真实数据，再继续放量发布。不要用估算数字。"
+    };
+  }
+  return {
+    title: "录入发推反馈",
+    help: "保存真实发布结果，用来训练账号、角度和来源判断。",
+    reminderTitle: "真实反馈",
+    reminder: "只录入已经发出的内容和真实 X Analytics，不要补假数据。"
+  };
 }
 
 function openPublish(button) {
@@ -4269,6 +4306,11 @@ async function submitFeedback(event) {
   for (const key of ["impressions","likes","bookmarks","replies","reposts","clicks","profileVisits"]) {
     payload.metrics[key] = Number(payload[key] || 0);
     delete payload[key];
+  }
+  if (!payload.postedAt) payload.postedAt = new Date().toISOString();
+  if (!String(payload.postedUrl || "").trim() && !hasRecordedMetrics({ metrics: payload.metrics })) {
+    const ok = window.confirm("这条会保存为待补反馈，但没有 Post URL。之后只能靠 feedbackId 或文案匹配 X Analytics。确定保存吗？");
+    if (!ok) return;
   }
   payload.posted = true;
   await api.post("/api/feedback/upsert", payload);

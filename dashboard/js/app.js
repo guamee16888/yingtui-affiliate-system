@@ -1792,36 +1792,103 @@ function renderFinalReviewQueue() {
 function renderSeedPublishQueue() {
   const loop = state.learningLoop;
   const seedTests = loop?.seedTests ?? state.feedbackOps?.seedTestPlan?.items ?? [];
-  const pending = loop?.pendingFeedback ?? state.feedbackOps?.pendingFeedback ?? [];
+  const pending = pendingFeedbackEntries();
+  const queueItems = seedPublishQueueItems(seedTests);
+  const readyCount = queueItems.filter((item) => item.status === "ready").length;
+  const pendingCount = queueItems.filter((item) => item.status === "pending_metrics").length;
+  const measuredCount = queueItems.filter((item) => item.status === "measured").length;
   const safeNewPosts = loop?.summary?.safeNewPosts ?? state.feedbackOps?.debtGate?.maxNewPostsBeforeMetrics ?? 0;
   const severity = pending.length ? "warn" : seedTests.length ? "good" : "warn";
   return `<section class="panel seed-publish-queue ${severity}">
     <div class="line-head">
       <div>
         <p class="eyebrow">Seed publish queue</p>
-        <h2>今天先测这 ${esc(Math.min(seedTests.length, safeNewPosts || seedTests.length))} 条</h2>
+        <h2>${pendingCount ? `先补这 ${pendingCount} 条反馈` : `今天先测这 ${esc(Math.min(readyCount, safeNewPosts || readyCount))} 条`}</h2>
         <p class="muted">这不是批量发布。每条都要手动确认，发完立刻标记已发，等 X Analytics 出来后回填 metrics。</p>
       </div>
       ${pill(pending.length ? `${pending.length} pending metrics` : `${safeNewPosts} safe posts`, severity)}
     </div>
     <div class="pipeline-stats">
-      <div><strong>${esc(seedTests.length)}</strong><span>seed candidates</span></div>
+      <div><strong>${esc(readyCount)}</strong><span>ready seeds</span></div>
       <div><strong>${esc(safeNewPosts)}</strong><span>safe gate</span></div>
-      <div><strong>${esc(loop?.summary?.measured ?? state.feedbackOps?.summary?.measured ?? 0)}</strong><span>measured</span></div>
-      <div><strong>${esc(pending.length)}</strong><span>pending metrics</span></div>
+      <div><strong>${esc(pendingCount)}</strong><span>need metrics</span></div>
+      <div><strong>${esc(measuredCount)}</strong><span>measured here</span></div>
     </div>
     ${pending.length ? `<div class="safety-note">还有 ${esc(pending.length)} 条已发内容没补数据。先补 X Analytics，再扩大测试量。</div>` : ""}
-    <div class="final-review-grid">${seedTests.slice(0, 3).map(renderSeedPublishCard).join("") || empty("暂无 seed 发布候选。先刷新 Live Feed 或补来源。")}</div>
+    <div class="final-review-grid">${queueItems.slice(0, 6).map(renderSeedPublishCard).join("") || empty("暂无 seed 发布候选。先刷新 Live Feed 或补来源。")}</div>
     <div class="row-actions">
       <button class="button ghost" data-tab-jump="learning">打开反馈启动台</button>
       <button class="button ghost" data-tab-jump="feedback">补 X Analytics</button>
-      <button class="button ghost" data-copy="${attr(loop?.feedbackCsvTemplate || "先运行 npm run learning-loop")}">复制反馈 CSV 模板</button>
+      <button class="button ghost" data-fill-feedback-csv="${attr(feedbackCsvTemplateForEntries(pending))}"${pending.length ? "" : " disabled"}>填入待补模板</button>
     </div>
   </section>`;
 }
 
+function seedPublishQueueItems(seedTests) {
+  const items = [];
+  const seen = new Set();
+  for (const entry of pendingFeedbackEntries().slice(0, 3)) {
+    items.push(seedPublishFeedbackItem(entry, "pending_metrics"));
+    seen.add(seedQueueKey(entry));
+  }
+  for (const seed of seedTests.slice(0, 3)) {
+    const entry = feedbackEntryForSeed(seed);
+    if (entry && seen.has(seedQueueKey(entry))) continue;
+    const item = entry
+      ? seedPublishFeedbackItem(entry, hasRecordedMetrics(entry) ? "measured" : "pending_metrics")
+      : { ...seed, status: "ready" };
+    items.push(item);
+    seen.add(seedQueueKey(item));
+  }
+  for (const entry of measuredFeedbackEntries().slice(0, 2)) {
+    if (seen.has(seedQueueKey(entry))) continue;
+    items.push(seedPublishFeedbackItem(entry, "measured"));
+    seen.add(seedQueueKey(entry));
+  }
+  return items;
+}
+
+function seedPublishFeedbackItem(entry, status) {
+  return {
+    toolId: entry.toolId,
+    toolName: entry.toolName,
+    toolUrl: entry.toolUrl,
+    accountId: entry.accountId,
+    accountName: entry.accountName,
+    variantType: entry.variantType,
+    copyText: entry.copyText,
+    freshnessLabel: status === "measured" ? "Measured" : "Need metrics",
+    reason: status === "measured"
+      ? "This seed has measured feedback. Use it to guide tomorrow's account and angle choices."
+      : "This was already posted. Fill real X Analytics before adding more volume.",
+    feedbackEntry: entry,
+    feedbackCsv: feedbackCsvTemplateForEntries([entry]),
+    status
+  };
+}
+
+function seedQueueKey(item) {
+  return [item.feedbackEntry?.id || item.id || "", item.toolId || "", item.accountId || "", item.variantType || ""].join(":");
+}
+
+function feedbackEntryForSeed(seed) {
+  return (state.feedback.entries ?? []).find((entry) => entry.posted !== false
+    && entry.toolId === seed.toolId
+    && (!seed.accountId || entry.accountId === seed.accountId)
+    && (!seed.variantType || entry.variantType === seed.variantType));
+}
+
+function measuredFeedbackEntries() {
+  return [...(state.feedback.entries ?? [])]
+    .filter((entry) => entry.posted !== false && hasRecordedMetrics(entry))
+    .sort((a, b) => String(b.updatedAt || b.postedAt || b.createdAt || "").localeCompare(String(a.updatedAt || a.postedAt || a.createdAt || "")));
+}
+
 function renderSeedPublishCard(item, index) {
   const copy = item.copyText || "";
+  const status = item.status || "ready";
+  const statusKind = status === "measured" ? "good" : status === "pending_metrics" ? "warn" : "neutral";
+  const statusLabel = status === "measured" ? "已测" : status === "pending_metrics" ? "待补反馈" : "未发";
   const checklist = (item.checklist ?? [])
     .slice(0, 4)
     .map((check) => typeof check === "string"
@@ -1834,16 +1901,18 @@ function renderSeedPublishCard(item, index) {
         <strong>${esc(`${index + 1}. ${item.toolName}`)}</strong>
         <div class="muted">${esc(item.accountName || item.accountId || "No account")} · ${esc(labels[item.variantType] ?? item.variantType)} · score ${esc(item.score ?? "-")}</div>
       </div>
+      ${pill(statusLabel, statusKind)}
       ${pill(item.freshnessLabel || "Seed", "good")}
     </div>
     <p>${esc(item.reason || "Small manual seed test. Post, mark posted, then import X Analytics.")}</p>
     <pre class="copy-text">${esc(copy)}</pre>
     ${checklist ? `<div class="mini-checks">${checklist}</div>` : ""}
     <div class="row-actions">
-      <button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">发布前确认</button>
+      ${status === "ready" ? `<button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">发布前确认</button>` : ""}
       <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
-      <button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">标记已发</button>
-      <button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">补反馈</button>
+      ${status === "ready" ? `<button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">标记已发</button>` : ""}
+      ${status === "pending_metrics" ? `<button class="button ghost" data-fill-feedback-csv="${attr(item.feedbackCsv)}">填入这条反馈模板</button>` : ""}
+      ${item.feedbackEntry?.id ? `<button class="button ghost" data-edit-feedback="${attr(item.feedbackEntry.id)}">${status === "measured" ? "查看反馈" : "编辑反馈"}</button>` : `<button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">补反馈</button>`}
     </div>
   </article>`;
 }
@@ -4608,6 +4677,7 @@ async function previewFeedbackCsv(formId) {
 }
 
 function fillFeedbackCsv(csv) {
+  if (state.tab !== "feedback") switchTab("feedback");
   const form = document.getElementById("feedbackCsvForm");
   const textarea = form?.elements?.csv;
   if (!textarea) throw new Error("feedback CSV form not found");

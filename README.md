@@ -116,6 +116,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 
 `反馈种子测试` 会在反馈闭环里挑最多 3 条新鲜、未发过、低风险、已有账号路由的候选，作为第一批手动测试。它只给建议和按钮：复制、发布前确认、标记已发、录入反馈；不会批量发布，也不会绕过确认弹窗。发完以后必须回填 X Analytics，否则 Feedback debt gate 会阻止继续放大。
 
+`Seed publish queue` 会把这些 seed test 放到「发布审核」顶部，并标成 `未发`、`待补反馈` 或 `已测`。如果某条已经发出但还没补 metrics，它会提供 `填入这条反馈模板`，直接跳到「反馈录入」并填好对应 CSV 行，避免你在多账号场景下漏补数据。
+
 `反馈启动台` 是更直接的执行页：如果还没有真实反馈，它会先给最多 3 条 seed tests；如果已经标记已发但没填 metrics，它会显示 `blocked_until_metrics` 并要求先补 X Analytics。这个页的目标是防止你在还没学到任何表现数据之前，就把 20 个账号一起放大。
 
 `明天策略学习信号` 会把真实 X Analytics 转成 Top account、Top angle、Top source 和明天动作。没有 measured feedback 时它只会提示先做 seed test；有少量真实反馈后，系统会给匹配的账号/来源候选小幅 `learningScore` 加权，但不会覆盖 Fresh、质量、冷却和手动确认这些硬门槛。

@@ -16,7 +16,7 @@ import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPubl
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources, scoreTool } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
-import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPack, buildSourceImportPackRows, buildSourceQualityQueue, buildSourceSupplyWorkbench, buildSupplyPlan, evaluateSourceCandidateQuality, renderSourceDiscoveryMarkdown, renderSourceSupplyWorkbenchMarkdown, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
+import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPack, buildSourceImportPackRows, buildSourceQualityQueue, buildSourceSupplyWorkbench, buildSupplyPlan, evaluateSourceCandidateQuality, renderSourceDiscoveryMarkdown, renderSourceSupplyWorkbenchMarkdown, sourceCandidatesToTools, sourceImportRowsToCsv } from "../scripts/lib/content-source-system.mjs";
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
@@ -505,6 +505,50 @@ test("parseCandidatePaste handles CSV candidate rows", () => {
   assert.equal(parsed.entries[0].name, "Tool");
   assert.equal(parsed.entries[0].url, "https://tool.example.com");
   assert.equal(parsed.entries[0].source, "X");
+});
+
+test("parseCandidatePaste skips source-pack template rows until name and url are filled", () => {
+  const csv = sourceImportRowsToCsv([
+    {
+      researchId: "2026-06-13-ai_startups-001",
+      priority: "P1",
+      name: "",
+      url: "",
+      tagline: "",
+      source: "manual_research",
+      circle: "ai_startups",
+      candidateType: "product",
+      sourceUrl: "https://www.google.com/search?q=ai+startup",
+      published: "2026-06-13",
+      researchProvider: "Google recent search",
+      researchQuery: "ai startup",
+      researchUrl: "https://www.google.com/search?q=ai+startup",
+      acceptanceChecklist: "real URL | clear audience",
+      notes: "Open search and fill only strong rows."
+    },
+    {
+      researchId: "2026-06-13-ai_startups-002",
+      priority: "P1",
+      name: "Agent Ops",
+      url: "https://agentops.example.com",
+      tagline: "AI ops workflow for small teams",
+      source: "manual_research",
+      circle: "ai_startups",
+      candidateType: "product",
+      sourceUrl: "https://www.google.com/search?q=ai+ops",
+      published: "2026-06-13",
+      researchProvider: "Google recent search",
+      researchQuery: "ai ops",
+      researchUrl: "https://www.google.com/search?q=ai+ops",
+      acceptanceChecklist: "real URL | clear audience",
+      notes: "Filled row."
+    }
+  ]);
+  const parsed = parseCandidatePaste(csv);
+
+  assert.equal(parsed.errors.length, 0);
+  assert.equal(parsed.entries.length, 1);
+  assert.equal(parsed.entries[0].name, "Agent Ops");
 });
 
 test("parseCandidatePaste handles one candidate per line", () => {
@@ -1104,6 +1148,24 @@ test("source import pack creates 100 pre-classified rows", () => {
   assert.equal(rows.length, 100);
   assert.equal(rows.filter((row) => row.circle === "saas_founders").length > rows.filter((row) => row.circle === "crypto_builders").length, true);
   assert.equal(rows.every((row) => ["product", "topic"].includes(row.candidateType)), true);
+  assert.equal(rows.every((row) => row.researchId), true);
+  assert.equal(rows.every((row) => row.researchUrl?.startsWith("https://")), true);
+  assert.equal(rows.every((row) => row.sourceUrl === row.researchUrl), true);
+  assert.equal(rows.every((row) => row.acceptanceChecklist?.includes("real URL")), true);
+  assert.equal(rows.some((row) => row.priority === "P0"), true);
+
+  const csv = sourceImportRowsToCsv([
+    {
+      ...rows[0],
+      name: "Example SaaS Tool",
+      url: "https://example-saas.test",
+      tagline: "Fixes one narrow SaaS workflow"
+    }
+  ]);
+  assert.match(csv.split("\n")[0], /researchUrl/);
+  const parsed = parseCandidatePaste(csv);
+  assert.equal(parsed.entries.length, 1);
+  assert.equal(parsed.entries[0].sourceUrl.startsWith("https://"), true);
 });
 
 test("source import pack summarizes rows for dashboard", () => {
@@ -1124,8 +1186,12 @@ test("source import pack summarizes rows for dashboard", () => {
   assert.equal(pack.summary.totalRows, 100);
   assert.equal(pack.summary.topCircle, "SaaS");
   assert.equal(pack.summary.csvPath.endsWith(".csv"), true);
+  assert.equal(pack.summary.rowsWithResearchUrl, 100);
   assert.equal(pack.rowsByCircle[0].circleId, "saas_founders");
   assert.equal(pack.rowsByCandidateType.some((item) => item.candidateType === "product"), true);
+  assert.equal(pack.rowsByResearchProvider.length > 0, true);
+  assert.equal(pack.collectionPlan.firstBatch.length > 0, true);
+  assert.match(pack.collectionPlan.rule, /Fill name/);
   assert.equal(pack.priorityGaps.length, 2);
 });
 

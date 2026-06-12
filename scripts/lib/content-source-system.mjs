@@ -576,16 +576,29 @@ export function buildSourceImportPackRows({ sourceQualityQueue = null, contentSo
 
   for (const item of weighted) {
     for (let index = 0; index < item.rows; index += 1) {
+      const query = item.searchQueries[index % item.searchQueries.length] ?? item.circleName;
+      const research = sourceResearchTask({
+        item,
+        query,
+        index,
+        date
+      });
       rows.push({
+        researchId: research.researchId,
+        priority: research.priority,
         name: "",
         url: "",
         tagline: "",
         source: "manual_research",
         circle: item.circleId,
         candidateType: index % 3 === 0 ? "topic" : "product",
-        sourceUrl: "",
+        sourceUrl: research.researchUrl,
         published: date,
-        notes: `Find from: ${item.searchQueries[index % item.searchQueries.length] ?? item.circleName}`
+        researchProvider: research.researchProvider,
+        researchQuery: query,
+        researchUrl: research.researchUrl,
+        acceptanceChecklist: research.acceptanceChecklist,
+        notes: research.notes
       });
     }
   }
@@ -605,6 +618,8 @@ export function buildSourceImportPack({
   const rows = buildSourceImportPackRows({ sourceQualityQueue, contentSourceConfig: config, totalRows, date });
   const rowsByCircle = summarizeRowsByCircle(rows, sourceQualityQueue, config);
   const rowsByCandidateType = summarizeRows(rows, "candidateType");
+  const rowsByResearchProvider = summarizeRows(rows, "researchProvider");
+  const collectionPlan = buildSourceCollectionPlan(rowsByCircle, rowsByResearchProvider);
   const priorityGaps = (sourceQualityQueue?.items ?? []).map((item) => ({
     circleId: item.circleId,
     circleName: item.circleName,
@@ -625,6 +640,7 @@ export function buildSourceImportPack({
       productRows: rows.filter((row) => row.candidateType === "product").length,
       topicRows: rows.filter((row) => row.candidateType === "topic").length,
       rowsNeedingResearch: rows.filter((row) => !row.name || !row.url || !row.tagline).length,
+      rowsWithResearchUrl: rows.filter((row) => row.researchUrl).length,
       totalNeededCandidates: Number(sourceQualityQueue?.summary?.totalNeededCandidates ?? priorityGaps.reduce((sum, item) => sum + item.neededCandidates, 0)),
       topCircle: sourceQualityQueue?.summary?.topCircle || rowsByCircle[0]?.circleName || "",
       generatedFromQueue: Boolean(sourceQualityQueue?.items?.length),
@@ -633,17 +649,91 @@ export function buildSourceImportPack({
     },
     rowsByCircle,
     rowsByCandidateType,
+    rowsByResearchProvider,
+    collectionPlan,
     priorityGaps,
     rows
   };
 }
 
 export function sourceImportRowsToCsv(rows) {
-  const headers = ["name", "url", "tagline", "source", "circle", "candidateType", "sourceUrl", "published", "notes"];
+  const headers = ["researchId", "priority", "name", "url", "tagline", "source", "circle", "candidateType", "sourceUrl", "published", "researchProvider", "researchQuery", "researchUrl", "acceptanceChecklist", "notes"];
   return [
     headers.join(","),
     ...rows.map((row) => headers.map((header) => csvCell(row[header] ?? "")).join(","))
   ].join("\n");
+}
+
+function sourceResearchTask({ item, query, index, date }) {
+  const links = discoveryLinksForQuery(query, item.circleId);
+  const preferred = preferredResearchLink(links, item.circleId, index);
+  const priority = sourceResearchPriority(item, index);
+  return {
+    researchId: [date || "today", item.circleId, String(index + 1).padStart(3, "0")].join("-"),
+    priority,
+    researchProvider: preferred.label,
+    researchUrl: preferred.url,
+    acceptanceChecklist: sourceResearchChecklist(item.circleId).join(" | "),
+    notes: [
+      `Find from: ${query}`,
+      `Open: ${preferred.label}`,
+      `Priority: ${priority}`,
+      `Accept only if: ${sourceResearchChecklist(item.circleId).join("; ")}`
+    ].join(" | ")
+  };
+}
+
+function preferredResearchLink(links, circleId, index) {
+  const preferredLabels = circleId === "crypto_builders"
+    ? ["X live search", "CoinDesk search", "Google recent search", "HN Algolia"]
+    : circleId === "ai_startups"
+      ? ["Product Hunt search", "X live search", "Google recent search", "HN Algolia"]
+      : ["X live search", "Google recent search", "HN Algolia"];
+  const ordered = preferredLabels
+    .map((label) => links.find((link) => link.label === label))
+    .filter(Boolean);
+  const fallback = links.filter((link) => !ordered.some((item) => item.label === link.label));
+  const candidates = [...ordered, ...fallback];
+  return candidates[index % Math.max(1, candidates.length)] ?? { label: "Manual search", url: `https://www.google.com/search?q=${encodeURIComponent(links[0]?.query ?? "")}` };
+}
+
+function sourceResearchPriority(item, index) {
+  const needed = Number(item.neededCandidates || 0);
+  if (needed >= 25 && index < 10) return "P0";
+  if (needed >= 10 && index < 8) return "P1";
+  return "P2";
+}
+
+function sourceResearchChecklist(circleId) {
+  const common = [
+    "real URL",
+    "clear audience",
+    "one narrow pain",
+    "fresh enough or evergreen"
+  ];
+  if (circleId === "crypto_builders") return [...common, "builder or infrastructure angle", "not pure price drama"];
+  if (circleId === "indie_hackers") return [...common, "solo founder or revenue angle"];
+  if (circleId === "saas_founders") return [...common, "SaaS operator lesson"];
+  if (circleId === "ai_startups") return [...common, "AI product or founder signal"];
+  return common;
+}
+
+function buildSourceCollectionPlan(rowsByCircle, rowsByResearchProvider) {
+  const topCircle = rowsByCircle[0];
+  const topProvider = rowsByResearchProvider[0];
+  const firstBatch = rowsByCircle.slice(0, 3).map((item) => ({
+    circleId: item.circleId,
+    circleName: item.circleName,
+    targetRows: Math.min(10, item.rows),
+    neededCandidates: item.neededCandidates,
+    instruction: `Collect ${Math.min(10, item.rows)} real candidates for ${item.circleName}, then import only the rows with name/url/tagline filled.`
+  }));
+  return {
+    headline: topCircle ? `Start with ${topCircle.circleName}; it has ${topCircle.rows} assigned research rows.` : "No source collection gap detected.",
+    firstBatch,
+    preferredProvider: topProvider?.researchProvider ?? "",
+    rule: "Fill name, url, and tagline. Leave weak or duplicate rows blank."
+  };
 }
 
 function summarizeRowsByCircle(rows, sourceQualityQueue, config) {

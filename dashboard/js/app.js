@@ -1902,6 +1902,8 @@ function renderSourceImportPack(pack) {
   const summary = pack.summary ?? {};
   const rowsByCircle = pack.rowsByCircle ?? [];
   const rowsByType = pack.rowsByCandidateType ?? [];
+  const rowsByProvider = pack.rowsByResearchProvider ?? [];
+  const collectionPlan = pack.collectionPlan;
   const rows = pack.rows ?? [];
   const csvHref = summary.csvPath ? `/${summary.csvPath}` : "";
   const guideHref = summary.guidePath ? `/${summary.guidePath}` : "";
@@ -1932,15 +1934,27 @@ function renderSourceImportPack(pack) {
       <div class="source-pack-column">
         <strong>候选类型</strong>
         <div class="pill-row">${rowsByType.map((item) => pill(`${item.candidateType}: ${item.rows}`, "neutral")).join("")}</div>
+        <strong>搜索入口分配</strong>
+        <div class="pill-row">${rowsByProvider.slice(0, 5).map((item) => pill(`${item.researchProvider}: ${item.rows}`, "neutral")).join("") || pill("no provider split", "warn")}</div>
         <div class="source-pack-preview">
           ${rows.slice(0, 6).map((row, index) => `<div class="source-pack-row">
             <span>${esc(index + 1)}</span>
             <strong>${esc(row.circle)}</strong>
-            <small>${esc(row.candidateType)} · ${esc(row.notes)}</small>
+            <small>${esc(row.priority || "P2")} · ${esc(row.researchProvider || "manual")} · ${esc(row.researchQuery || row.notes)}</small>
+            ${row.researchUrl ? `<a class="muted-link" href="${attr(row.researchUrl)}" target="_blank" rel="noreferrer">打开搜索</a>` : ""}
           </div>`).join("")}
         </div>
       </div>
     </div>
+    ${collectionPlan ? `<div class="source-pack-import">
+      <div>
+        <strong>第一批先补这里</strong>
+        <p class="muted">${esc(collectionPlan.headline || "")}</p>
+      </div>
+      <div class="list mini-list">
+        ${(collectionPlan.firstBatch ?? []).map((item) => `<div class="list-item"><strong>${esc(item.circleName)}</strong><p>${esc(item.instruction)}</p></div>`).join("")}
+      </div>
+    </div>` : ""}
     <div class="row-actions">
       <button class="button" data-run-source-pack>${state.sourcePackRun.running ? "生成中..." : "重新生成补题包"}</button>
       ${csvHref ? `<a class="button ghost" href="${attr(csvHref)}" target="_blank" rel="noreferrer">打开 CSV</a>` : ""}

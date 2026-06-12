@@ -30,6 +30,7 @@ function parseCandidateCsv(text, defaults) {
     headers.forEach((header, cellIndex) => {
       record[header] = row[cellIndex] ?? "";
     });
+    if (!String(record.name ?? "").trim() && !String(record.url ?? "").trim()) return;
     const candidate = normalizeCandidate(record, defaults);
     if (candidate.name && candidate.url) entries.push(candidate);
     else errors.push(`Row ${index + 2}: name and url are required.`);

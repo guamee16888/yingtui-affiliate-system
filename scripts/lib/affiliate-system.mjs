@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createToolId, normalizeDomain } from "./ids.mjs";
 import { writeJsonAtomic, writeTextAtomic } from "./file-store.mjs";
+import { buildAccountStrategy, DEFAULT_ACCOUNT_CONFIG, normalizeAccountConfig } from "./account-system.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const rootDir = path.resolve(__dirname, "../..");
@@ -272,6 +273,11 @@ export async function loadAffiliateConfig(warnings) {
   return {
     links: Array.isArray(config.links) ? config.links : []
   };
+}
+
+export async function loadAccountConfig(warnings) {
+  const config = await loadJsonConfig("config/x-accounts.json", DEFAULT_ACCOUNT_CONFIG, warnings);
+  return normalizeAccountConfig(config);
 }
 
 export async function loadHistory(warnings = []) {
@@ -727,14 +733,18 @@ export function buildAffiliateStatus(item) {
   };
 }
 
-export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, voice, limit, warnings, sourceBreakdown = null }) {
+export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, voice, limit, warnings, sourceBreakdown = null }) {
   const historyIndex = buildHistoryIndex(history, { beforeDate: date });
   const context = { date, historyIndex, affiliateConfig };
   const scored = tools
     .map((tool) => scoreTool(tool, context))
     .sort((a, b) => b.score - a.score);
-  const picked = scored.slice(0, limit).map((item) => ({
+  const basePicked = scored.slice(0, limit);
+  const accountStrategy = buildAccountStrategy({ date, picked: basePicked, accountConfig });
+  const accountRecommendationByToolId = new Map(accountStrategy.toolRecommendations.map((item) => [item.toolId, item]));
+  const picked = basePicked.map((item) => ({
     ...item,
+    accountRecommendation: accountRecommendationByToolId.get(createToolId(item.tool.name, item.tool.url)) ?? null,
     copyVariants: makeCopyVariants(item, voice)
   }));
   const pickedKeys = new Set(picked.map((item) => toolKey(item.tool)));
@@ -758,6 +768,7 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
     affiliateQueue,
     actionList,
     freshnessReport,
+    accountStrategy,
     historySummary: summarizeHistory(history),
     warnings
   };
@@ -935,6 +946,10 @@ ${renderFreshnessDiagnostic(model.freshnessReport)}
 
 ${renderActionList(model.actionList)}
 
+## Account Routing
+
+${renderAccountRouting(model.accountStrategy)}
+
 ## Tool Cards
 
 ${model.picked.map(renderToolCard).join("\n\n")}
@@ -995,6 +1010,20 @@ function renderFreshnessDiagnostic(report) {
   ].join("\n") + watchlist;
 }
 
+function renderAccountRouting(strategy) {
+  if (!strategy?.accounts?.length) return "No account profiles configured yet.";
+  const recommendations = strategy.toolRecommendations?.length
+    ? `\n\nRecommended routing:\n${strategy.toolRecommendations.map((item, index) => `${index + 1}. ${item.toolName} → ${item.primary?.displayName ?? "No account"} (${item.reason})`).join("\n")}`
+    : "";
+  return [
+    `- Mode: ${strategy.mode}`,
+    `- Active accounts: ${strategy.summary.activeAccounts}/${strategy.summary.totalAccounts}`,
+    `- Auth ready: ${strategy.authReady ? "yes" : "no — planning only"}`,
+    `- Same-tool cooldown: ${strategy.sameToolCooldownDays} days`,
+    `- Same-copy cooldown: ${strategy.sameCopyCooldownDays} days`
+  ].join("\n") + recommendations;
+}
+
 function renderScoreBreakdown(scoreBreakdown) {
   return [
     `painScore ${scoreBreakdown.painScore}`,
@@ -1026,6 +1055,7 @@ function renderToolCard(item) {
 - Tagline: ${item.tool.tagline || "none"}
 - ${seenLine}
 - Reason: ${item.reason}
+- Recommended account: ${item.accountRecommendation?.primary?.displayName ?? "No account profile"}${item.accountRecommendation?.reason ? ` — ${item.accountRecommendation.reason}` : ""}
 - Affiliate status: ${affiliateStatus.text}
 - Suggested angle: ${item.angle.audience} want ${item.angle.outcome}; test whether it solves ${item.angle.pain}.
 
@@ -1113,6 +1143,7 @@ export function toDailyJson(model) {
       seenBeforeCount
     },
     freshnessReport: model.freshnessReport,
+    accountStrategy: model.accountStrategy,
     actionList: model.actionList.map((action) => ({
       type: action.type,
       toolName: action.toolName,
@@ -1155,6 +1186,7 @@ function toToolJson(item) {
     affiliateLink: item.affiliate?.affiliateUrl ?? null,
     affiliateNote: item.affiliate?.note ?? null,
     followUpAction: item.followUpAction,
+    accountRecommendation: item.accountRecommendation ?? null,
     seenBefore: item.seenBefore,
     seenBeforeDetails: item.historyInfo ? {
       count: item.historyInfo.count,

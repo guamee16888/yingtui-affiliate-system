@@ -8,9 +8,11 @@ const requiredFiles = [
   "data/history.json",
   "data/feedback.json",
   "data/queues.json",
+  "data/account-posts.json",
   "data/affiliate-research.json",
   "data/review-pages.json",
   "config/affiliate-links.json",
+  "config/x-accounts.json",
   "config/voice.json",
   "dashboard/index.html",
   "dashboard/js/app.js",
@@ -23,6 +25,7 @@ const requiredScripts = [
   "history",
   "affiliate-queue",
   "affiliate:research",
+  "accounts",
   "feedback",
   "decisions",
   "promote",
@@ -51,6 +54,13 @@ for (const script of requiredScripts) {
 
 const latest = await readJson("data/latest.json", null);
 if (!latest?.date || !Array.isArray(latest.tools)) errors.push("latest.json structure is invalid");
+if (!latest?.accountStrategy) errors.push("latest.json accountStrategy is missing. Run npm run daily.");
+
+const xAccounts = await readJson("config/x-accounts.json", { accounts: [] });
+if (!Array.isArray(xAccounts.accounts) || xAccounts.accounts.length < 1) errors.push("x-accounts config has no accounts");
+if ((xAccounts.accounts ?? []).length > Number(xAccounts.rotationPolicy?.maxAccounts ?? 10)) {
+  errors.push("x-accounts config exceeds maxAccounts");
+}
 
 const voice = await readJson("config/voice.json", { style: { avoid: [] } });
 const forbidden = voice.style?.avoid ?? [];

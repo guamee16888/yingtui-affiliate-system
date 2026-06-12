@@ -2,6 +2,7 @@ import {
   buildDailyModel,
   candidateInboxToTools,
   fetchFeedWithFallback,
+  loadAccountConfig,
   loadAffiliateConfig,
   loadHistory,
   loadVoice,
@@ -18,9 +19,10 @@ import { loadCandidateInbox } from "./lib/data-store.mjs";
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const warnings = [];
-  const [voice, affiliateConfig, history, feed, candidateInbox] = await Promise.all([
+  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox] = await Promise.all([
     loadVoice(warnings),
     loadAffiliateConfig(warnings),
+    loadAccountConfig(warnings),
     loadHistory(warnings),
     fetchFeedWithFallback(args.feed, warnings),
     loadCandidateInbox()
@@ -40,6 +42,7 @@ async function main() {
     tools,
     history,
     affiliateConfig,
+    accountConfig,
     voice,
     limit: args.limit,
     warnings,

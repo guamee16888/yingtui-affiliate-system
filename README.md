@@ -34,12 +34,13 @@ output/YYYY-MM-DD-daily-x-pack.md
 3. 先看「今天打开后先看这里」。如果提示数据超过 6 小时，点 `刷新 Live Feed`。
 4. 如果你从 X、newsletter、微信群或官网看到新工具，先放进「候选收集」，再点 `刷新 Live Feed` 让它参与评分。
 5. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
-6. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
-7. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
-8. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-9. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-10. 对值得做测评页的工具点「生成测评页大纲」。
-11. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+6. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
+7. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
+8. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+9. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+10. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+11. 对值得做测评页的工具点「生成测评页大纲」。
+12. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -64,6 +65,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `反馈录入`：已经标记已发的文案和表现数据。顶部会列出 `待补反馈`，也可以粘贴 CSV 批量导入 X 数据。
 - `反馈决策`：把录入的反馈转成下一步动作，判断哪些工具该加码、查联盟、做长推、做测评页或先观察。
 - `跟进队列`：你手动加入的 thread、review page、affiliate research、watch、skip。顶部 `Follow-up pipeline` 会显示活跃队列、下一步该处理哪项，以及每项下一步提示。
+- `账号策略`：查看最多 10 个 X 账号画像、今日工具推荐发到哪个账号、每日限制和冷却时间。当前不做授权，只做分类和路由建议。
 - `联盟研究`：记录真实查到的 programUrl、network、affiliateLink 和状态，并提供 affiliate / partner / referral 一键搜索链接。
 - `测评页候选`：适合做 SEO review page 的工具，并可生成英文大纲。
 - `历史复盘`：历史出现过的工具，避免连续推荐同一个工具。
@@ -143,6 +145,12 @@ npm run affiliate:research
 查看联盟研究记录：未开始、researching、approved 但未加入配置、rejected/no_program 等。
 
 ```bash
+npm run accounts
+```
+
+查看 10 个 X 账号画像、手动轮换规则，以及今天每个工具建议发到哪个账号。这个命令只读配置和 `data/latest.json`，不会授权、不会发推。
+
+```bash
 npm run feedback
 ```
 
@@ -199,11 +207,13 @@ npm audit --audit-level=moderate
 - `data/history.json`：历史推荐记录，包含 seen before 和降权依据。
 - `data/feedback.json`：发推记录和手动录入的表现数据。
 - `data/queues.json`：thread、review page、affiliate research、watch、skip 队列。
+- `data/account-posts.json`：预留的多账号发帖记录文件，后续授权后用来做账号级去重和冷却。
 - `data/affiliate-research.json`：真实查到的 affiliate program 研究记录。
 - `data/review-pages.json`：已经生成的 SEO review outline 记录。
 - `data/weekly/*.json`：每周复盘结构化数据。
 - `data/backups/YYYY-MM-DD/`：写入重要 JSON 前的本地备份。
 - `config/affiliate-links.json`：你已经拥有的真实 affiliate links。
+- `config/x-accounts.json`：最多 10 个 X 账号画像、分类、关键词、每日限制和冷却时间。这里不存 token。
 - `config/voice.json`：英文文案风格和禁用词。
 
 ## 配置 Affiliate Link
@@ -488,6 +498,7 @@ Copy 按钮不可用：
 ## 当前限制
 
 - 不自动发推；只支持你逐条确认后发布到 X。
+- 多账号目前只做账号画像和内容路由建议，还没有接多账号 OAuth。
 - 不自动抓 X 数据，需要你手动录入。
 - 不自动申请 affiliate program。
 - 不自动把 affiliateLink 写进配置。

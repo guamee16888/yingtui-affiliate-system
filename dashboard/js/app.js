@@ -369,7 +369,7 @@ function renderFeedDiagnostic(report) {
 function renderActiveView() {
   $$(".view").forEach((view) => view.classList.remove("active"));
   $(`#view-${state.tab}`).classList.add("active");
-  const renderers = { today: renderToday, review: renderFinalReviewQueue, candidates: renderCandidates, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
+  const renderers = { today: renderToday, review: renderFinalReviewQueue, candidates: renderCandidates, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
   renderers[state.tab]();
 }
 
@@ -765,6 +765,7 @@ function renderFinalReviewCard(item, index) {
       ${pill(item.freshness.label, item.freshness.kind)}
     </div>
     <p>${esc(tool.reason)}</p>
+    ${renderAccountRoute(tool)}
     <div class="copy-qa">
       <span>${esc(item.qa.length)} chars</span>
       <span>${esc(item.qa.forbidden.length ? `禁用词 ${item.qa.forbidden.join(", ")}` : "无禁用词")}</span>
@@ -901,16 +902,19 @@ function renderToolCard(tool) {
   const stats = feedbackFor(tool.toolId);
   const queued = state.queues.items.filter((item) => item.toolId === tool.toolId);
   const freshness = freshnessBadge(tool);
+  const account = tool.accountRecommendation?.primary;
   return `<article class="tool-card">
     <div class="card-head"><div><div class="title-row"><h2>${esc(tool.name)}</h2>${pill(freshness.label, freshness.kind)}</div><p class="muted">${esc(tool.tagline || "")}</p></div><strong class="score">${esc(tool.score)}</strong></div>
     <div class="pill-row">
       ${pill(labels[tool.followUpAction] ?? tool.followUpAction, "good")}
+      ${account ? pill(`账号 ${account.displayName}`, "good") : pill("未分配账号", "warn")}
       ${pill(tool.affiliateLink ? "已有联盟链接" : "需要查联盟", tool.affiliateLink ? "good" : "warn")}
       ${tool.seenBefore ? pill("历史出现过", "warn") : pill("新工具", "good")}
       ${stats.entries ? pill(`已发 ${stats.entries}`, "good") : ""}
       ${queued.length ? pill(`队列 ${queued.length}`, "warn") : ""}
     </div>
     <p>${esc(tool.reason)}</p>
+    ${renderAccountRoute(tool)}
     <p class="muted">反馈：score ${stats.engagementScore} · like ${stats.likes} · bookmark ${stats.bookmarks} · reply ${stats.replies} · click ${stats.clicks}</p>
     <div class="score-bars">${Object.entries(tool.scoreBreakdown).filter(([key]) => ["painScore","nicheScore","affiliateScore","contentScore","noveltyScore","riskScore"].includes(key)).map(([key, value]) => bar(key, value)).join("")}</div>
     <div class="copy-block">${Object.entries(tool.copyVariants ?? {}).slice(0, 2).map(([variant, text]) => renderCopyBlock(tool, variant, text)).join("")}</div>
@@ -926,12 +930,15 @@ function renderToolCard(tool) {
 function renderCopyBlock(tool, variant, text) {
   const freshness = freshnessBadge(tool);
   const qa = copyQuality(text);
+  const account = tool.accountRecommendation?.primary;
   return `<div class="copy-block">
     <div class="line-head">
       <strong>${esc(tool.name)} · ${esc(labels[variant] ?? variant)}</strong>
       ${pill(freshness.label, freshness.kind)}
       ${pill(qa.label, qa.kind)}
+      ${account ? pill(account.displayName, "good") : ""}
     </div>
+    ${renderAccountRoute(tool)}
     <div class="copy-qa">
       <span>${esc(qa.length)} chars</span>
       <span>${esc(qa.forbidden.length ? `禁用词 ${qa.forbidden.join(", ")}` : "无禁用词")}</span>
@@ -946,6 +953,18 @@ function renderCopyBlock(tool, variant, text) {
       <button class="button ghost" data-queue="thread" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入长推</button>
       <button class="button ghost" data-queue="review_page" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入测评页</button>
     </div>
+  </div>`;
+}
+
+function renderAccountRoute(tool) {
+  const route = tool.accountRecommendation;
+  const primary = route?.primary;
+  if (!primary) return `<p class="muted">推荐账号：未配置。先到「账号策略」检查账号分类。</p>`;
+  const alternatives = (route.alternatives ?? []).map((item) => item.displayName).join(" / ");
+  return `<div class="account-route">
+    <strong>推荐账号：${esc(primary.displayName)}</strong>
+    <span>${esc(primary.category)} · match ${esc(primary.score)} · limit ${esc(primary.dailyPostLimit)}/day · cooldown ${esc(primary.cooldownHours)}h</span>
+    <span>${esc(route.reason || "")}${alternatives ? ` 备选：${esc(alternatives)}` : ""}</span>
   </div>`;
 }
 
@@ -1038,6 +1057,70 @@ function renderQueueItem(item) {
     <div class="queue-next">${esc(queueNextStep(item))}</div>
     <div class="row-actions">${["new","researching","drafted","published","skipped","archived"].map((status) => `<button class="button ghost" data-queue-status="${attr(item.id)}" data-status="${status}">${status}</button>`).join("")}</div>
   </div>`;
+}
+
+function renderAccounts() {
+  const strategy = state.latest?.accountStrategy;
+  if (!strategy) {
+    $("#view-accounts").innerHTML = `<section class="panel"><h2>账号策略</h2>${empty("还没有账号策略数据。先运行 npm run daily。")}</section>`;
+    return;
+  }
+  const accounts = strategy.accounts ?? [];
+  const recommendations = strategy.toolRecommendations ?? [];
+  $("#view-accounts").innerHTML = `<div class="grid">
+    <section class="panel">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Account routing</p>
+          <h2>账号策略 v1</h2>
+          <p class="muted">现在只做内容分配，不做授权、不自动轮发。以后授权时，把 token 绑定到这些 accountId 即可。</p>
+        </div>
+        ${pill(strategy.authReady ? "Auth ready" : "Planning only", strategy.authReady ? "good" : "warn")}
+      </div>
+      <div class="pipeline-stats">
+        <div><strong>${esc(strategy.summary?.activeAccounts ?? 0)}</strong><span>active</span></div>
+        <div><strong>${esc(strategy.summary?.totalAccounts ?? 0)}</strong><span>total</span></div>
+        <div><strong>${esc(strategy.summary?.routedTools ?? 0)}</strong><span>routed tools</span></div>
+        <div><strong>${esc(strategy.sameToolCooldownDays ?? 7)}d</strong><span>same tool cooldown</span></div>
+      </div>
+      <div class="list">${(strategy.rotationNotes ?? []).map((note) => `<div class="list-item">${esc(note)}</div>`).join("")}</div>
+    </section>
+    <section class="panel">
+      <h2>今日工具分配</h2>
+      <div class="list">${recommendations.map(renderAccountRecommendation).join("") || empty("暂无分配。")}</div>
+    </section>
+    <section class="panel wide-panel">
+      <h2>账号画像</h2>
+      <div class="account-grid">${accounts.map(renderAccountCard).join("") || empty("暂无账号配置。")}</div>
+    </section>
+  </div>`;
+}
+
+function renderAccountRecommendation(item) {
+  const primary = item.primary;
+  const alternatives = (item.alternatives ?? []).map((alt) => alt.displayName).join(" / ");
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(item.toolName)}</strong>
+      ${primary ? pill(primary.displayName, "good") : pill("No account", "warn")}
+    </div>
+    <div class="muted">${esc(item.reason ?? "")}</div>
+    ${alternatives ? `<div class="muted">备选：${esc(alternatives)}</div>` : ""}
+  </div>`;
+}
+
+function renderAccountCard(account) {
+  return `<article class="account-card">
+    <div class="line-head">
+      <strong>${esc(account.displayName)}</strong>
+      ${pill(account.active ? "active" : "paused", account.active ? "good" : "warn")}
+    </div>
+    <div class="muted">${esc(account.category)} · ${esc(account.id)}</div>
+    <p>${esc(account.description)}</p>
+    <div class="pill-row">${(account.contentPillars ?? []).map((item) => pill(item, "good")).join("")}</div>
+    <div class="muted">limit ${esc(account.dailyPostLimit)}/day · planned ${esc(account.plannedToolsToday ?? 0)} · remaining ${esc(account.remainingSlotsToday ?? 0)} · cooldown ${esc(account.cooldownHours)}h</div>
+    <div class="muted">keywords: ${esc((account.keywords ?? []).slice(0, 8).join(", "))}</div>
+  </article>`;
 }
 
 function renderAffiliate() {

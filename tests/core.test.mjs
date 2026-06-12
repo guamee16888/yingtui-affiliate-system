@@ -15,6 +15,7 @@ import { buildPromotionSuggestions } from "../scripts/lib/promotion-engine.mjs";
 import { buildXPostPayload, getXPublishStatus, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
+import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
 
 test("createToolId is stable", () => {
   const a = createToolId("Test Tool", "https://example.com/product");
@@ -235,6 +236,62 @@ test("daily model reports feed freshness even when top picks are old", () => {
   assert.equal(model.freshnessReport.stats.freshToday, 1);
   assert.equal(model.freshnessReport.freshFeedWatchlist[0].name, "Fresh Weak Tool");
   assert.match(model.freshnessReport.diagnosis, /fresh tools/i);
+});
+
+test("account strategy recommends matching account profile", () => {
+  const item = {
+    tool: {
+      name: "Shopify Helper",
+      url: "https://shopify.example.com",
+      tagline: "Support automation for Shopify stores",
+      description: "Support automation for Shopify stores"
+    },
+    angle: { audience: "ecommerce operators", outcome: "cleaner store operations", pain: "support cleanup" },
+    followUpAction: "affiliate priority",
+    scoreBreakdown: { contentScore: 7, affiliateScore: 8 }
+  };
+  const accountConfig = {
+    rotationPolicy: { maxAccounts: 10, defaultDailyPostLimit: 2 },
+    accounts: [
+      { id: "general", displayName: "General AI", keywords: ["AI"], preferredActions: ["tweet only"], active: true },
+      { id: "ecom", displayName: "Ecommerce Ops", keywords: ["Shopify", "ecommerce", "support"], preferredActions: ["affiliate priority"], active: true }
+    ]
+  };
+  const recommendation = recommendAccountForItem(item, accountConfig);
+  const strategy = buildAccountStrategy({ date: "2026-06-12", picked: [item], accountConfig });
+
+  assert.equal(recommendation.primary.accountId, "ecom");
+  assert.equal(strategy.summary.activeAccounts, 2);
+  assert.equal(strategy.summary.routedTools, 1);
+});
+
+test("account strategy respects daily post limits when routing", () => {
+  const picked = [
+    {
+      tool: { name: "AI Helper One", url: "https://one.example.com", tagline: "AI workflow helper" },
+      angle: { audience: "builders", outcome: "cleaner workflows", pain: "manual work" },
+      followUpAction: "tweet only",
+      scoreBreakdown: { contentScore: 8, affiliateScore: 3 }
+    },
+    {
+      tool: { name: "AI Helper Two", url: "https://two.example.com", tagline: "AI workflow helper" },
+      angle: { audience: "builders", outcome: "cleaner workflows", pain: "manual work" },
+      followUpAction: "tweet only",
+      scoreBreakdown: { contentScore: 8, affiliateScore: 3 }
+    }
+  ];
+  const accountConfig = {
+    rotationPolicy: { maxAccounts: 10, defaultDailyPostLimit: 2 },
+    accounts: [
+      { id: "ai", displayName: "AI Tools", keywords: ["AI", "workflow"], preferredActions: ["tweet only"], dailyPostLimit: 1, active: true },
+      { id: "build", displayName: "Build Notes", keywords: ["workflow"], preferredActions: ["tweet only"], dailyPostLimit: 2, active: true }
+    ]
+  };
+  const strategy = buildAccountStrategy({ date: "2026-06-12", picked, accountConfig });
+
+  assert.equal(strategy.toolRecommendations[0].primary.accountId, "ai");
+  assert.equal(strategy.toolRecommendations[1].primary.accountId, "build");
+  assert.equal(strategy.accounts.find((account) => account.id === "ai").plannedToolsToday, 1);
 });
 
 test("buildDecisionReport recommends review page for strong bookmarks", () => {

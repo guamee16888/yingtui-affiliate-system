@@ -9,6 +9,7 @@
     "history": "node scripts/history.mjs",
     "affiliate-queue": "node scripts/affiliate-queue.mjs",
     "affiliate:research": "node scripts/affiliate-research-summary.mjs",
+    "accounts": "node scripts/account-summary.mjs",
     "feedback": "node scripts/feedback-summary.mjs",
     "decisions": "node scripts/decision-report.mjs",
     "promote": "node scripts/promote.mjs",

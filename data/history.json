@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T00:45:14.068Z",
+  "updatedAt": "2026-06-12T05:27:31.318Z",
   "tools": [
     {
       "date": "2026-06-06",
@@ -955,6 +955,30 @@
       "url": "https://www.producthunt.com/products/invo-ride",
       "domain": "producthunt.com",
       "tagline": "Book autonomous eVTOL flights over photoreal San Francisco",
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "seenBefore": false,
+      "followUpAction": "skip",
+      "recommendedToFollow": false,
+      "affiliateMatched": false,
+      "affiliateStatus": "No affiliate link yet — research needed"
+    },
+    {
+      "date": "2026-06-12",
+      "toolId": "tool_producthunt_com_asmi-ai_96d89052c8",
+      "toolName": "Asmi AI",
+      "url": "https://www.producthunt.com/products/asmi-ai",
+      "domain": "producthunt.com",
+      "tagline": "AI that handles your personal chores in the real world",
       "score": 11,
       "scoreBreakdown": {
         "painScore": 4,

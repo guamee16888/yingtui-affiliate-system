@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "rotationPolicy": {
+    "mode": "manual_confirm",
+    "maxAccounts": 10,
+    "sameToolCooldownDays": 7,
+    "sameCopyCooldownDays": 30,
+    "defaultDailyPostLimit": 2,
+    "notes": "Planning only. OAuth tokens are intentionally not stored here."
+  },
+  "accounts": [
+    {
+      "id": "ai_tools_lab",
+      "displayName": "AI Tools Lab",
+      "handle": "",
+      "category": "AI tools discovery",
+      "description": "General AI tools, product discovery, practical tool testing.",
+      "contentPillars": ["AI tools", "Product Hunt", "tool testing"],
+      "keywords": ["AI", "tool", "automation", "workflow", "assistant", "Product Hunt"],
+      "preferredActions": ["tweet only", "thread candidate"],
+      "dailyPostLimit": 2,
+      "cooldownHours": 6,
+      "active": true
+    },
+    {
+      "id": "affiliate_builder",
+      "displayName": "Affiliate Builder",
+      "handle": "",
+      "category": "affiliate and side projects",
+      "description": "Affiliate research, side income experiments, partner programs.",
+      "contentPillars": ["affiliate", "side project", "monetization"],
+      "keywords": ["affiliate", "partner", "referral", "pricing", "subscription", "SaaS", "paid"],
+      "preferredActions": ["affiliate priority", "review page candidate"],
+      "dailyPostLimit": 2,
+      "cooldownHours": 8,
+      "active": true
+    },
+    {
+      "id": "seo_review_lab",
+      "displayName": "SEO Review Lab",
+      "handle": "",
+      "category": "SEO review pages",
+      "description": "Comparison posts, review pages, alternatives, pricing angles.",
+      "contentPillars": ["SEO", "review pages", "alternatives"],
+      "keywords": ["SEO", "alternative", "compare", "pricing", "review", "website", "content"],
+      "preferredActions": ["review page candidate", "thread candidate"],
+      "dailyPostLimit": 1,
+      "cooldownHours": 12,
+      "active": true
+    },
+    {
+      "id": "productivity_ops",
+      "displayName": "Productivity Ops",
+      "handle": "",
+      "category": "productivity and operations",
+      "description": "Workflow cleanup, Notion, spreadsheets, meetings, team operations.",
+      "contentPillars": ["productivity", "ops", "workflows"],
+      "keywords": ["productivity", "Notion", "spreadsheet", "Excel", "meeting", "workflow", "team"],
+      "preferredActions": ["tweet only", "thread candidate"],
+      "dailyPostLimit": 2,
+      "cooldownHours": 6,
+      "active": true
+    },
+    {
+      "id": "build_in_public",
+      "displayName": "Build in Public",
+      "handle": "",
+      "category": "building and experiments",
+      "description": "What I built, experiments, dashboard improvements, product notes.",
+      "contentPillars": ["build in public", "experiments", "product notes"],
+      "keywords": ["built", "dashboard", "local", "open source", "GitHub", "Vercel", "experiment"],
+      "preferredActions": ["thread candidate", "tweet only"],
+      "dailyPostLimit": 1,
+      "cooldownHours": 12,
+      "active": true
+    },
+    {
+      "id": "creator_stack",
+      "displayName": "Creator Stack",
+      "handle": "",
+      "category": "creator tools",
+      "description": "Tools for creators, publishers, newsletters, video, writing.",
+      "contentPillars": ["creator tools", "publishing", "writing"],
+      "keywords": ["creator", "publisher", "newsletter", "video", "writing", "content"],
+      "preferredActions": ["tweet only", "thread candidate"],
+      "dailyPostLimit": 2,
+      "cooldownHours": 8,
+      "active": true
+    },
+    {
+      "id": "ecommerce_ops",
+      "displayName": "Ecommerce Ops",
+      "handle": "",
+      "category": "ecommerce and Shopify",
+      "description": "Shopify, ecommerce operations, store tooling, customer workflows.",
+      "contentPillars": ["Shopify", "ecommerce", "store ops"],
+      "keywords": ["Shopify", "ecommerce", "store", "customer", "support", "checkout"],
+      "preferredActions": ["affiliate priority", "review page candidate"],
+      "dailyPostLimit": 1,
+      "cooldownHours": 12,
+      "active": true
+    },
+    {
+      "id": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "handle": "",
+      "category": "developer workflows",
+      "description": "Developer tools, APIs, GitHub, Chrome, automation for builders.",
+      "contentPillars": ["developer tools", "API", "automation"],
+      "keywords": ["developer", "API", "GitHub", "Chrome", "database", "code", "automation"],
+      "preferredActions": ["thread candidate", "review page candidate"],
+      "dailyPostLimit": 2,
+      "cooldownHours": 8,
+      "active": true
+    },
+    {
+      "id": "sales_support_ai",
+      "displayName": "Sales Support AI",
+      "handle": "",
+      "category": "sales and customer support",
+      "description": "Sales, CRM, email, customer support, support automation.",
+      "contentPillars": ["sales", "support", "CRM"],
+      "keywords": ["sales", "CRM", "email", "customer", "support", "lead", "pipeline"],
+      "preferredActions": ["affiliate priority", "tweet only"],
+      "dailyPostLimit": 1,
+      "cooldownHours": 12,
+      "active": true
+    },
+    {
+      "id": "career_workflows",
+      "displayName": "Career Workflows",
+      "handle": "",
+      "category": "career and job search",
+      "description": "Resume, job search, interview prep, career workflow tools.",
+      "contentPillars": ["career", "resume", "job search"],
+      "keywords": ["resume", "job", "career", "interview", "hiring", "candidate"],
+      "preferredActions": ["tweet only", "review page candidate"],
+      "dailyPostLimit": 1,
+      "cooldownHours": 12,
+      "active": true
+    }
+  ]
+}

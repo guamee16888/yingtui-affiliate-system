@@ -1,6 +1,6 @@
 {
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T00:45:14.062Z",
+  "generatedAt": "2026-06-12T05:27:31.315Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -95,12 +95,12 @@
         "inTopPicks": true
       },
       {
-        "name": "INVO Ride",
-        "url": "https://www.producthunt.com/products/invo-ride",
-        "published": "2026-06-09T23:21:29-07:00",
+        "name": "Asmi AI",
+        "url": "https://www.producthunt.com/products/asmi-ai",
+        "published": "2026-06-09T07:42:15-07:00",
         "sourceType": "producthunt",
         "sourceName": "Product Hunt",
-        "ageDays": 1,
+        "ageDays": 2,
         "score": 11,
         "followUpAction": "skip",
         "seenBefore": false,
@@ -145,21 +145,21 @@
         "inTopPicks": true
       },
       {
-        "name": "INVO Ride",
-        "url": "https://www.producthunt.com/products/invo-ride",
-        "published": "2026-06-09T23:21:29-07:00",
+        "name": "Tabstack Structured Extraction",
+        "url": "https://www.producthunt.com/products/tabstack",
+        "published": "2026-06-09T23:04:01-07:00",
         "sourceType": "producthunt",
         "sourceName": "Product Hunt",
         "ageDays": 1,
         "score": 11,
         "followUpAction": "skip",
         "seenBefore": false,
-        "inTopPicks": true
+        "inTopPicks": false
       },
       {
-        "name": "Tabstack Structured Extraction",
-        "url": "https://www.producthunt.com/products/tabstack",
-        "published": "2026-06-09T23:04:01-07:00",
+        "name": "INVO Ride",
+        "url": "https://www.producthunt.com/products/invo-ride",
+        "published": "2026-06-09T23:21:29-07:00",
         "sourceType": "producthunt",
         "sourceName": "Product Hunt",
         "ageDays": 1,
@@ -171,6 +171,613 @@
     ],
     "diagnosis": "Top picks include fresh candidates that are suitable for cautious posting.",
     "recommendation": "Post only the Fresh today / Fresh 48h candidates, then record feedback."
+  },
+  "accountStrategy": {
+    "date": "2026-06-12",
+    "mode": "manual_confirm",
+    "maxAccounts": 10,
+    "sameToolCooldownDays": 7,
+    "sameCopyCooldownDays": 30,
+    "authReady": false,
+    "summary": {
+      "totalAccounts": 10,
+      "activeAccounts": 10,
+      "routedTools": 6
+    },
+    "accounts": [
+      {
+        "id": "ai_tools_lab",
+        "displayName": "AI Tools Lab",
+        "handle": "",
+        "category": "AI tools discovery",
+        "description": "General AI tools, product discovery, practical tool testing.",
+        "contentPillars": [
+          "AI tools",
+          "Product Hunt",
+          "tool testing"
+        ],
+        "keywords": [
+          "AI",
+          "tool",
+          "automation",
+          "workflow",
+          "assistant",
+          "Product Hunt"
+        ],
+        "preferredActions": [
+          "tweet only",
+          "thread candidate"
+        ],
+        "dailyPostLimit": 2,
+        "cooldownHours": 6,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 2,
+        "remainingSlotsToday": 0
+      },
+      {
+        "id": "affiliate_builder",
+        "displayName": "Affiliate Builder",
+        "handle": "",
+        "category": "affiliate and side projects",
+        "description": "Affiliate research, side income experiments, partner programs.",
+        "contentPillars": [
+          "affiliate",
+          "side project",
+          "monetization"
+        ],
+        "keywords": [
+          "affiliate",
+          "partner",
+          "referral",
+          "pricing",
+          "subscription",
+          "SaaS",
+          "paid"
+        ],
+        "preferredActions": [
+          "affiliate priority",
+          "review page candidate"
+        ],
+        "dailyPostLimit": 2,
+        "cooldownHours": 8,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 0,
+        "remainingSlotsToday": 2
+      },
+      {
+        "id": "seo_review_lab",
+        "displayName": "SEO Review Lab",
+        "handle": "",
+        "category": "SEO review pages",
+        "description": "Comparison posts, review pages, alternatives, pricing angles.",
+        "contentPillars": [
+          "SEO",
+          "review pages",
+          "alternatives"
+        ],
+        "keywords": [
+          "SEO",
+          "alternative",
+          "compare",
+          "pricing",
+          "review",
+          "website",
+          "content"
+        ],
+        "preferredActions": [
+          "review page candidate",
+          "thread candidate"
+        ],
+        "dailyPostLimit": 1,
+        "cooldownHours": 12,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 0,
+        "remainingSlotsToday": 1
+      },
+      {
+        "id": "productivity_ops",
+        "displayName": "Productivity Ops",
+        "handle": "",
+        "category": "productivity and operations",
+        "description": "Workflow cleanup, Notion, spreadsheets, meetings, team operations.",
+        "contentPillars": [
+          "productivity",
+          "ops",
+          "workflows"
+        ],
+        "keywords": [
+          "productivity",
+          "Notion",
+          "spreadsheet",
+          "Excel",
+          "meeting",
+          "workflow",
+          "team"
+        ],
+        "preferredActions": [
+          "tweet only",
+          "thread candidate"
+        ],
+        "dailyPostLimit": 2,
+        "cooldownHours": 6,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 2,
+        "remainingSlotsToday": 0
+      },
+      {
+        "id": "build_in_public",
+        "displayName": "Build in Public",
+        "handle": "",
+        "category": "building and experiments",
+        "description": "What I built, experiments, dashboard improvements, product notes.",
+        "contentPillars": [
+          "build in public",
+          "experiments",
+          "product notes"
+        ],
+        "keywords": [
+          "built",
+          "dashboard",
+          "local",
+          "open source",
+          "GitHub",
+          "Vercel",
+          "experiment"
+        ],
+        "preferredActions": [
+          "thread candidate",
+          "tweet only"
+        ],
+        "dailyPostLimit": 1,
+        "cooldownHours": 12,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 0,
+        "remainingSlotsToday": 1
+      },
+      {
+        "id": "creator_stack",
+        "displayName": "Creator Stack",
+        "handle": "",
+        "category": "creator tools",
+        "description": "Tools for creators, publishers, newsletters, video, writing.",
+        "contentPillars": [
+          "creator tools",
+          "publishing",
+          "writing"
+        ],
+        "keywords": [
+          "creator",
+          "publisher",
+          "newsletter",
+          "video",
+          "writing",
+          "content"
+        ],
+        "preferredActions": [
+          "tweet only",
+          "thread candidate"
+        ],
+        "dailyPostLimit": 2,
+        "cooldownHours": 8,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 0,
+        "remainingSlotsToday": 2
+      },
+      {
+        "id": "ecommerce_ops",
+        "displayName": "Ecommerce Ops",
+        "handle": "",
+        "category": "ecommerce and Shopify",
+        "description": "Shopify, ecommerce operations, store tooling, customer workflows.",
+        "contentPillars": [
+          "Shopify",
+          "ecommerce",
+          "store ops"
+        ],
+        "keywords": [
+          "Shopify",
+          "ecommerce",
+          "store",
+          "customer",
+          "support",
+          "checkout"
+        ],
+        "preferredActions": [
+          "affiliate priority",
+          "review page candidate"
+        ],
+        "dailyPostLimit": 1,
+        "cooldownHours": 12,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 0,
+        "remainingSlotsToday": 1
+      },
+      {
+        "id": "dev_workflows",
+        "displayName": "Dev Workflows",
+        "handle": "",
+        "category": "developer workflows",
+        "description": "Developer tools, APIs, GitHub, Chrome, automation for builders.",
+        "contentPillars": [
+          "developer tools",
+          "API",
+          "automation"
+        ],
+        "keywords": [
+          "developer",
+          "API",
+          "GitHub",
+          "Chrome",
+          "database",
+          "code",
+          "automation"
+        ],
+        "preferredActions": [
+          "thread candidate",
+          "review page candidate"
+        ],
+        "dailyPostLimit": 2,
+        "cooldownHours": 8,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 1,
+        "remainingSlotsToday": 1
+      },
+      {
+        "id": "sales_support_ai",
+        "displayName": "Sales Support AI",
+        "handle": "",
+        "category": "sales and customer support",
+        "description": "Sales, CRM, email, customer support, support automation.",
+        "contentPillars": [
+          "sales",
+          "support",
+          "CRM"
+        ],
+        "keywords": [
+          "sales",
+          "CRM",
+          "email",
+          "customer",
+          "support",
+          "lead",
+          "pipeline"
+        ],
+        "preferredActions": [
+          "affiliate priority",
+          "tweet only"
+        ],
+        "dailyPostLimit": 1,
+        "cooldownHours": 12,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 1,
+        "remainingSlotsToday": 0
+      },
+      {
+        "id": "career_workflows",
+        "displayName": "Career Workflows",
+        "handle": "",
+        "category": "career and job search",
+        "description": "Resume, job search, interview prep, career workflow tools.",
+        "contentPillars": [
+          "career",
+          "resume",
+          "job search"
+        ],
+        "keywords": [
+          "resume",
+          "job",
+          "career",
+          "interview",
+          "hiring",
+          "candidate"
+        ],
+        "preferredActions": [
+          "tweet only",
+          "review page candidate"
+        ],
+        "dailyPostLimit": 1,
+        "cooldownHours": 12,
+        "active": true,
+        "authStatus": "planned",
+        "plannedToolsToday": 0,
+        "remainingSlotsToday": 1
+      }
+    ],
+    "toolRecommendations": [
+      {
+        "toolId": "tool_producthunt_com_typingmind_ef333ec43f",
+        "toolName": "TypingMind",
+        "primary": {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "handle": "",
+          "category": "sales and customer support",
+          "score": 13.8,
+          "dailyPostLimit": 1,
+          "cooldownHours": 12,
+          "matchedKeywords": [
+            "customer",
+            "support"
+          ],
+          "matchedPillars": [
+            "support"
+          ]
+        },
+        "alternatives": [
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 9.8,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "team"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 7.8,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "Sales Support AI: matches affiliate priority / tweet only; keywords: customer, support; pillar: support."
+      },
+      {
+        "toolId": "tool_producthunt_com_blenderhunt_2832a6e62d",
+        "toolName": "BlenderHunt",
+        "primary": {
+          "accountId": "ai_tools_lab",
+          "displayName": "AI Tools Lab",
+          "handle": "",
+          "category": "AI tools discovery",
+          "score": 7.5,
+          "dailyPostLimit": 2,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "workflow"
+          ],
+          "matchedPillars": []
+        },
+        "alternatives": [
+          {
+            "accountId": "creator_stack",
+            "displayName": "Creator Stack",
+            "handle": "",
+            "category": "creator tools",
+            "score": 7.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 8,
+            "matchedKeywords": [
+              "creator"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 7.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "AI Tools Lab: matches tweet only / thread candidate; keywords: workflow."
+      },
+      {
+        "toolId": "tool_producthunt_com_endpointme_d5b57e210c",
+        "toolName": "EndpointMe",
+        "primary": {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "handle": "",
+          "category": "developer workflows",
+          "score": 10.2,
+          "dailyPostLimit": 2,
+          "cooldownHours": 8,
+          "matchedKeywords": [
+            "developer",
+            "API",
+            "code"
+          ],
+          "matchedPillars": [
+            "API"
+          ]
+        },
+        "alternatives": [
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 4.2,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 4.2,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "Dev Workflows: keywords: developer, API, code; pillar: API."
+      },
+      {
+        "toolId": "tool_producthunt_com_fluido_106ce85e03",
+        "toolName": "Fluido",
+        "primary": {
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
+          "handle": "",
+          "category": "productivity and operations",
+          "score": 5.5,
+          "dailyPostLimit": 2,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "workflow",
+            "team"
+          ],
+          "matchedPillars": []
+        },
+        "alternatives": [
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 3.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "affiliate_builder",
+            "displayName": "Affiliate Builder",
+            "handle": "",
+            "category": "affiliate and side projects",
+            "score": 1.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 8,
+            "matchedKeywords": [],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "Productivity Ops: keywords: workflow, team."
+      },
+      {
+        "toolId": "tool_producthunt_com_airbrush-studio_e2dac8bb83",
+        "toolName": "Airbrush Studio",
+        "primary": {
+          "accountId": "ai_tools_lab",
+          "displayName": "AI Tools Lab",
+          "handle": "",
+          "category": "AI tools discovery",
+          "score": 4.5,
+          "dailyPostLimit": 2,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "AI",
+            "workflow"
+          ],
+          "matchedPillars": []
+        },
+        "alternatives": [
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 2.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "affiliate_builder",
+            "displayName": "Affiliate Builder",
+            "handle": "",
+            "category": "affiliate and side projects",
+            "score": 0.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 8,
+            "matchedKeywords": [],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "AI Tools Lab: keywords: AI, workflow."
+      },
+      {
+        "toolId": "tool_producthunt_com_asmi-ai_96d89052c8",
+        "toolName": "Asmi AI",
+        "primary": {
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
+          "handle": "",
+          "category": "productivity and operations",
+          "score": 2.5,
+          "dailyPostLimit": 2,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "workflow"
+          ],
+          "matchedPillars": []
+        },
+        "alternatives": [
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 4.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "AI",
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "affiliate_builder",
+            "displayName": "Affiliate Builder",
+            "handle": "",
+            "category": "affiliate and side projects",
+            "score": 0.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 8,
+            "matchedKeywords": [],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "Productivity Ops: keywords: workflow."
+      }
+    ],
+    "rotationNotes": [
+      "Planning only: no OAuth token is stored in account config.",
+      "Use the recommended account as a publishing hint, not an automatic posting rule.",
+      "Avoid posting the same tool across accounts for 7 days.",
+      "Avoid reusing the same copy across accounts for 30 days."
+    ]
   },
   "actionList": [
     {
@@ -208,6 +815,53 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "tweet only",
+      "accountRecommendation": {
+        "toolId": "tool_producthunt_com_typingmind_ef333ec43f",
+        "toolName": "TypingMind",
+        "primary": {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "handle": "",
+          "category": "sales and customer support",
+          "score": 13.8,
+          "dailyPostLimit": 1,
+          "cooldownHours": 12,
+          "matchedKeywords": [
+            "customer",
+            "support"
+          ],
+          "matchedPillars": [
+            "support"
+          ]
+        },
+        "alternatives": [
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 9.8,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "team"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 7.8,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "Sales Support AI: matches affiliate priority / tweet only; keywords: customer, support; pillar: support."
+      },
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "support teams want fewer repetitive support tasks; test whether it solves answering repeat customer questions without adding another queue.",
@@ -280,6 +934,52 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "tweet only",
+      "accountRecommendation": {
+        "toolId": "tool_producthunt_com_blenderhunt_2832a6e62d",
+        "toolName": "BlenderHunt",
+        "primary": {
+          "accountId": "ai_tools_lab",
+          "displayName": "AI Tools Lab",
+          "handle": "",
+          "category": "AI tools discovery",
+          "score": 7.5,
+          "dailyPostLimit": 2,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "workflow"
+          ],
+          "matchedPillars": []
+        },
+        "alternatives": [
+          {
+            "accountId": "creator_stack",
+            "displayName": "Creator Stack",
+            "handle": "",
+            "category": "creator tools",
+            "score": 7.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 8,
+            "matchedKeywords": [
+              "creator"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 7.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "AI Tools Lab: matches tweet only / thread candidate; keywords: workflow."
+      },
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "creators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -352,6 +1052,56 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": {
+        "toolId": "tool_producthunt_com_endpointme_d5b57e210c",
+        "toolName": "EndpointMe",
+        "primary": {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "handle": "",
+          "category": "developer workflows",
+          "score": 10.2,
+          "dailyPostLimit": 2,
+          "cooldownHours": 8,
+          "matchedKeywords": [
+            "developer",
+            "API",
+            "code"
+          ],
+          "matchedPillars": [
+            "API"
+          ]
+        },
+        "alternatives": [
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 4.2,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 4.2,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "Dev Workflows: keywords: developer, API, code; pillar: API."
+      },
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
@@ -424,6 +1174,51 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": {
+        "toolId": "tool_producthunt_com_fluido_106ce85e03",
+        "toolName": "Fluido",
+        "primary": {
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
+          "handle": "",
+          "category": "productivity and operations",
+          "score": 5.5,
+          "dailyPostLimit": 2,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "workflow",
+            "team"
+          ],
+          "matchedPillars": []
+        },
+        "alternatives": [
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 3.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "affiliate_builder",
+            "displayName": "Affiliate Builder",
+            "handle": "",
+            "category": "affiliate and side projects",
+            "score": 1.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 8,
+            "matchedKeywords": [],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "Productivity Ops: keywords: workflow, team."
+      },
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "design teams want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -496,6 +1291,51 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": {
+        "toolId": "tool_producthunt_com_airbrush-studio_e2dac8bb83",
+        "toolName": "Airbrush Studio",
+        "primary": {
+          "accountId": "ai_tools_lab",
+          "displayName": "AI Tools Lab",
+          "handle": "",
+          "category": "AI tools discovery",
+          "score": 4.5,
+          "dailyPostLimit": 2,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "AI",
+            "workflow"
+          ],
+          "matchedPillars": []
+        },
+        "alternatives": [
+          {
+            "accountId": "productivity_ops",
+            "displayName": "Productivity Ops",
+            "handle": "",
+            "category": "productivity and operations",
+            "score": 2.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "affiliate_builder",
+            "displayName": "Affiliate Builder",
+            "handle": "",
+            "category": "affiliate and side projects",
+            "score": 0.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 8,
+            "matchedKeywords": [],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "AI Tools Lab: keywords: AI, workflow."
+      },
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -541,13 +1381,13 @@
       }
     },
     {
-      "id": "tool_producthunt_com_invo-ride_e989cf3f83",
-      "toolId": "tool_producthunt_com_invo-ride_e989cf3f83",
-      "name": "INVO Ride",
-      "url": "https://www.producthunt.com/products/invo-ride",
+      "id": "tool_producthunt_com_asmi-ai_96d89052c8",
+      "toolId": "tool_producthunt_com_asmi-ai_96d89052c8",
+      "name": "Asmi AI",
+      "url": "https://www.producthunt.com/products/asmi-ai",
       "domain": "producthunt.com",
-      "tagline": "Book autonomous eVTOL flights over photoreal San Francisco",
-      "published": "2026-06-09T23:21:29-07:00",
+      "tagline": "AI that handles your personal chores in the real world",
+      "published": "2026-06-09T07:42:15-07:00",
       "sourceType": "producthunt",
       "sourceName": "Product Hunt",
       "sourceUrl": null,
@@ -568,6 +1408,51 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": {
+        "toolId": "tool_producthunt_com_asmi-ai_96d89052c8",
+        "toolName": "Asmi AI",
+        "primary": {
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
+          "handle": "",
+          "category": "productivity and operations",
+          "score": 2.5,
+          "dailyPostLimit": 2,
+          "cooldownHours": 6,
+          "matchedKeywords": [
+            "workflow"
+          ],
+          "matchedPillars": []
+        },
+        "alternatives": [
+          {
+            "accountId": "ai_tools_lab",
+            "displayName": "AI Tools Lab",
+            "handle": "",
+            "category": "AI tools discovery",
+            "score": 4.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 6,
+            "matchedKeywords": [
+              "AI",
+              "workflow"
+            ],
+            "matchedPillars": []
+          },
+          {
+            "accountId": "affiliate_builder",
+            "displayName": "Affiliate Builder",
+            "handle": "",
+            "category": "affiliate and side projects",
+            "score": 0.5,
+            "dailyPostLimit": 2,
+            "cooldownHours": 8,
+            "matchedKeywords": [],
+            "matchedPillars": []
+          }
+        ],
+        "reason": "Productivity Ops: keywords: workflow."
+      },
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -575,40 +1460,40 @@
         "audience": "solo operators",
         "outcome": "a narrower workflow",
         "pain": "removing one narrow, repeated manual step",
-        "solution": "book autonomous evtol flights over photoreal san francisco"
+        "solution": "AI that handles your personal chores in the real world"
       },
       "copyVariants": {
-        "shortPost": "Testing INVO Ride today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/invo-ride",
-        "casualPost": "I like AI tools more when the buyer is obvious. INVO Ride seems built for solo operators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/invo-ride",
-        "contrarianAngle": "Hot take: broad AI tools are harder to write about. INVO Ride is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/invo-ride",
-        "painPointHook": "People actually search for ways to fix removing one narrow, repeated manual step. That's why INVO Ride is more interesting than another vague launch. https://www.producthunt.com/products/invo-ride",
-        "threadOpening": "I found INVO Ride on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/invo-ride"
+        "shortPost": "Testing Asmi AI today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/asmi-ai",
+        "casualPost": "I like AI tools more when the buyer is obvious. Asmi AI seems built for solo operators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/asmi-ai",
+        "contrarianAngle": "Hot take: broad AI tools are harder to write about. Asmi AI is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/asmi-ai",
+        "painPointHook": "People actually search for ways to fix removing one narrow, repeated manual step. That's why Asmi AI is more interesting than another vague launch. https://www.producthunt.com/products/asmi-ai",
+        "threadOpening": "I found Asmi AI on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/asmi-ai"
       },
       "copyChecks": {
         "shortPost": {
           "ok": true,
-          "length": 186,
-          "issues": "OK (186 chars)"
+          "length": 184,
+          "issues": "OK (184 chars)"
         },
         "casualPost": {
           "ok": true,
-          "length": 181,
-          "issues": "OK (181 chars)"
+          "length": 179,
+          "issues": "OK (179 chars)"
         },
         "contrarianAngle": {
           "ok": true,
-          "length": 162,
-          "issues": "OK (162 chars)"
+          "length": 160,
+          "issues": "OK (160 chars)"
         },
         "painPointHook": {
           "ok": true,
-          "length": 173,
-          "issues": "OK (173 chars)"
+          "length": 171,
+          "issues": "OK (171 chars)"
         },
         "threadOpening": {
           "ok": true,
-          "length": 188,
-          "issues": "OK (188 chars)"
+          "length": 186,
+          "issues": "OK (186 chars)"
         }
       }
     }
@@ -642,6 +1527,7 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": null,
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
@@ -682,6 +1568,7 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": null,
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "design teams want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -722,6 +1609,7 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": null,
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -730,46 +1618,6 @@
         "outcome": "a narrower workflow",
         "pain": "removing one narrow, repeated manual step",
         "solution": "AI-powered photo editor for pro results w/o manual editing"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
-      "id": "tool_producthunt_com_invo-ride_e989cf3f83",
-      "toolId": "tool_producthunt_com_invo-ride_e989cf3f83",
-      "name": "INVO Ride",
-      "url": "https://www.producthunt.com/products/invo-ride",
-      "domain": "producthunt.com",
-      "tagline": "Book autonomous eVTOL flights over photoreal San Francisco",
-      "published": "2026-06-09T23:21:29-07:00",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "score": 11,
-      "scoreBreakdown": {
-        "painScore": 4,
-        "nicheScore": 1,
-        "affiliateScore": 0,
-        "contentScore": 1,
-        "noveltyScore": 7,
-        "riskScore": 2,
-        "seenPenalty": 0,
-        "total": 11
-      },
-      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
-      "angle": {
-        "audience": "solo operators",
-        "outcome": "a narrower workflow",
-        "pain": "removing one narrow, repeated manual step",
-        "solution": "book autonomous evtol flights over photoreal san francisco"
       },
       "copyVariants": {},
       "copyChecks": {}
@@ -802,6 +1650,7 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": null,
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -842,6 +1691,7 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": null,
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -850,6 +1700,47 @@
         "outcome": "a narrower workflow",
         "pain": "removing one narrow, repeated manual step",
         "solution": "extract web data into structured json, no scraper required"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_invo-ride_e989cf3f83",
+      "toolId": "tool_producthunt_com_invo-ride_e989cf3f83",
+      "name": "INVO Ride",
+      "url": "https://www.producthunt.com/products/invo-ride",
+      "domain": "producthunt.com",
+      "tagline": "Book autonomous eVTOL flights over photoreal San Francisco",
+      "published": "2026-06-09T23:21:29-07:00",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "score": 11,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 1,
+        "affiliateScore": 0,
+        "contentScore": 1,
+        "noveltyScore": 7,
+        "riskScore": 2,
+        "seenPenalty": 0,
+        "total": 11
+      },
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "solo operators",
+        "outcome": "a narrower workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "book autonomous evtol flights over photoreal san francisco"
       },
       "copyVariants": {},
       "copyChecks": {}
@@ -882,6 +1773,7 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": null,
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -922,6 +1814,7 @@
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
+      "accountRecommendation": null,
       "seenBefore": false,
       "seenBeforeDetails": null,
       "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
@@ -937,9 +1830,9 @@
   ],
   "affiliateResearchQueue": [],
   "historicalNotes": [
-    "History records before this run: 36",
-    "Unique tools seen: 21",
-    "Last history date before this run: 2026-06-08",
+    "History records before this run: 42",
+    "Unique tools seen: 27",
+    "Last history date before this run: 2026-06-12",
     "Seen-before tools in today's picks: 0",
     "Records written by this run: 6"
   ]

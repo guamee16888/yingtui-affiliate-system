@@ -32,11 +32,27 @@ Fresh feed watchlist:
 2. EndpointMe — 1 day old — score 17 — in top picks
 3. Fluido — 2 days old — score 17 — in top picks
 4. Airbrush Studio — 1 day old — score 11 — in top picks
-5. INVO Ride — 1 day old — score 11 — in top picks
+5. Asmi AI — 2 days old — score 11 — in top picks
 
 ## Today's Action List
 
 1. post: Post one X draft: Testing BlenderHunt today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/blenderhunt
+
+## Account Routing
+
+- Mode: manual_confirm
+- Active accounts: 10/10
+- Auth ready: no — planning only
+- Same-tool cooldown: 7 days
+- Same-copy cooldown: 30 days
+
+Recommended routing:
+1. TypingMind → Sales Support AI (Sales Support AI: matches affiliate priority / tweet only; keywords: customer, support; pillar: support.)
+2. BlenderHunt → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow.)
+3. EndpointMe → Dev Workflows (Dev Workflows: keywords: developer, API, code; pillar: API.)
+4. Fluido → Productivity Ops (Productivity Ops: keywords: workflow, team.)
+5. Airbrush Studio → AI Tools Lab (AI Tools Lab: keywords: AI, workflow.)
+6. Asmi AI → Productivity Ops (Productivity Ops: keywords: workflow.)
 
 ## Tool Cards
 
@@ -49,6 +65,7 @@ Fresh feed watchlist:
 - Tagline: Pay per use, no subscription, 18 model providers supported
 - Seen before: no
 - Reason: has at least one narrow workflow angle.
+- Recommended account: Sales Support AI — Sales Support AI: matches affiliate priority / tweet only; keywords: customer, support; pillar: support.
 - Affiliate status: No affiliate link yet — research needed
 - Suggested angle: support teams want fewer repetitive support tasks; test whether it solves answering repeat customer questions without adding another queue.
 
@@ -83,6 +100,7 @@ Check: OK (189 chars)
 - Tagline: The indie marketplace for Blender artists and creators
 - Seen before: no
 - Reason: has at least one narrow workflow angle.
+- Recommended account: AI Tools Lab — AI Tools Lab: matches tweet only / thread candidate; keywords: workflow.
 - Affiliate status: No affiliate link yet — research needed
 - Suggested angle: creators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
 
@@ -117,6 +135,7 @@ Check: OK (190 chars)
 - Tagline: Your identity as a live, queryable API endpoint
 - Seen before: no
 - Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
+- Recommended account: Dev Workflows — Dev Workflows: keywords: developer, API, code; pillar: API.
 - Affiliate status: No affiliate link yet — research needed
 - Suggested angle: developers want less glue code; test whether it solves removing one annoying developer workflow step.
 
@@ -151,6 +170,7 @@ Check: OK (189 chars)
 - Tagline: Turn any Figma shape into liquid metal in one click
 - Seen before: no
 - Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
+- Recommended account: Productivity Ops — Productivity Ops: keywords: workflow, team.
 - Affiliate status: No affiliate link yet — research needed
 - Suggested angle: design teams want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
 
@@ -185,6 +205,7 @@ Check: OK (185 chars)
 - Tagline: AI-powered photo editor for pro results w/o manual editing
 - Seen before: no
 - Reason: fresh enough to test now. Caution: not enough signal for follow-up.
+- Recommended account: AI Tools Lab — AI Tools Lab: keywords: AI, workflow.
 - Affiliate status: No affiliate link yet — research needed
 - Suggested angle: solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
 
@@ -210,48 +231,49 @@ Check: OK (179 chars)
 I found Airbrush Studio on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/airbrush-studio
 Check: OK (194 chars)
 
-### INVO Ride
+### Asmi AI
 
 - Score breakdown: painScore 4 | nicheScore 1 | affiliateScore 0 | contentScore 1 | noveltyScore 7 | riskScore -2 | seenPenalty 0 | total 11
 - Follow-up action: skip
-- Product Hunt: https://www.producthunt.com/products/invo-ride
-- Published: 2026-06-09T23:21:29-07:00
-- Tagline: Book autonomous eVTOL flights over photoreal San Francisco
+- Product Hunt: https://www.producthunt.com/products/asmi-ai
+- Published: 2026-06-09T07:42:15-07:00
+- Tagline: AI that handles your personal chores in the real world
 - Seen before: no
 - Reason: fresh enough to test now. Caution: not enough signal for follow-up.
+- Recommended account: Productivity Ops — Productivity Ops: keywords: workflow.
 - Affiliate status: No affiliate link yet — research needed
 - Suggested angle: solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.
 
 #### X Copy Variants
 
 **short post**
-Testing INVO Ride today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/invo-ride
-Check: OK (186 chars)
+Testing Asmi AI today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/asmi-ai
+Check: OK (184 chars)
 
 **casual post**
-I like AI tools more when the buyer is obvious. INVO Ride seems built for solo operators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/invo-ride
-Check: OK (181 chars)
+I like AI tools more when the buyer is obvious. Asmi AI seems built for solo operators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/asmi-ai
+Check: OK (179 chars)
 
 **contrarian angle**
-Hot take: broad AI tools are harder to write about. INVO Ride is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/invo-ride
-Check: OK (162 chars)
+Hot take: broad AI tools are harder to write about. Asmi AI is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/asmi-ai
+Check: OK (160 chars)
 
 **pain-point hook**
-People actually search for ways to fix removing one narrow, repeated manual step. That's why INVO Ride is more interesting than another vague launch. https://www.producthunt.com/products/invo-ride
-Check: OK (173 chars)
+People actually search for ways to fix removing one narrow, repeated manual step. That's why Asmi AI is more interesting than another vague launch. https://www.producthunt.com/products/asmi-ai
+Check: OK (171 chars)
 
 **thread opening**
-I found INVO Ride on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/invo-ride
-Check: OK (188 chars)
+I found Asmi AI on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/asmi-ai
+Check: OK (186 chars)
 
 ## Skipped / Low Priority Tools
 
 - EndpointMe: 17 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Fluido: 17 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Airbrush Studio: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
-- INVO Ride: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - Asmi AI: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - Tabstack Structured Extraction: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
+- INVO Ride: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - Gemini 3.5 Live Translate: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 - Hero Studio Photos: 11 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 
@@ -261,8 +283,8 @@ No high-affiliate-score tools without a configured affiliate link today.
 
 ## Historical Notes
 
-- History records before this run: 36
-- Unique tools seen: 21
-- Last history date before this run: 2026-06-08
+- History records before this run: 42
+- Unique tools seen: 27
+- Last history date before this run: 2026-06-12
 - Seen-before tools in today's picks: 0
 - Records written by this run: 6

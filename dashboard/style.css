@@ -654,6 +654,27 @@ input:focus, select:focus, textarea:focus {
 .fill { height: 100%; border-radius: var(--radius-pill); background: var(--blue); }
 .fill.risk { background: var(--danger); }
 .copy-block { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; background: var(--soft); display: grid; gap: 9px; }
+.account-route {
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent) 5%, var(--card));
+  padding: 10px 11px;
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.account-route strong { color: var(--ink); font-size: 13px; }
+.account-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.account-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--soft);
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+.account-card p { margin: 0; color: var(--muted); }
 .copy-qa {
   display: flex;
   gap: 7px;
@@ -824,7 +845,7 @@ dialog::backdrop { background: rgba(10, 18, 14, .42); backdrop-filter: blur(3px)
 .toast.show { opacity: 1; transform: translateY(0); }
 
 @media (max-width: 1100px) {
-  .metrics, .filters, .grid, .three-grid, .readiness-stats, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metrics, .filters, .grid, .three-grid, .readiness-stats, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards, .account-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .weekly-layout { grid-template-columns: 1fr; }
 }
 
@@ -832,7 +853,7 @@ dialog::backdrop { background: rgba(10, 18, 14, .42); backdrop-filter: blur(3px)
   .topbar { position: static; flex-direction: column; align-items: stretch; padding-left: 16px; padding-right: 16px; }
   .top-actions { justify-content: flex-start; max-width: none; }
   main { width: calc(100vw - 24px); padding-top: 16px; }
-  .metrics, .filters, .grid, .three-grid, .form-grid, .inline-form, .readiness-stats, .readiness-guardrails, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards { grid-template-columns: 1fr; }
+  .metrics, .filters, .grid, .three-grid, .form-grid, .inline-form, .readiness-stats, .readiness-guardrails, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards, .account-grid { grid-template-columns: 1fr; }
   .readiness-head, .focus-head { flex-direction: column; }
   .focus-task { min-height: 0; }
   .trend-chart { grid-template-columns: repeat(4, minmax(0, 1fr)); }

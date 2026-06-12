@@ -1765,7 +1765,8 @@ function renderFinalReviewQueue() {
   const latest = state.latest ?? {};
   const ageMinutes = dataAgeMinutes(latest.generatedAt);
   const blocked = latest.source?.usedFallback || (ageMinutes !== null && ageMinutes > 360);
-  $("#view-review").innerHTML = `<section class="panel final-review ${blocked ? "warn" : "good"}">
+  $("#view-review").innerHTML = `${renderSeedPublishQueue()}
+  <section class="panel final-review ${blocked ? "warn" : "good"}">
     <div class="line-head">
       <div>
         <p class="eyebrow">Final publish review</p>
@@ -1786,6 +1787,65 @@ function renderFinalReviewQueue() {
     </div>
     <div class="final-review-grid hold-grid">${plan.hold.map(renderFinalHoldCard).join("")}</div>` : ""}
   </section>`;
+}
+
+function renderSeedPublishQueue() {
+  const loop = state.learningLoop;
+  const seedTests = loop?.seedTests ?? state.feedbackOps?.seedTestPlan?.items ?? [];
+  const pending = loop?.pendingFeedback ?? state.feedbackOps?.pendingFeedback ?? [];
+  const safeNewPosts = loop?.summary?.safeNewPosts ?? state.feedbackOps?.debtGate?.maxNewPostsBeforeMetrics ?? 0;
+  const severity = pending.length ? "warn" : seedTests.length ? "good" : "warn";
+  return `<section class="panel seed-publish-queue ${severity}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Seed publish queue</p>
+        <h2>今天先测这 ${esc(Math.min(seedTests.length, safeNewPosts || seedTests.length))} 条</h2>
+        <p class="muted">这不是批量发布。每条都要手动确认，发完立刻标记已发，等 X Analytics 出来后回填 metrics。</p>
+      </div>
+      ${pill(pending.length ? `${pending.length} pending metrics` : `${safeNewPosts} safe posts`, severity)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(seedTests.length)}</strong><span>seed candidates</span></div>
+      <div><strong>${esc(safeNewPosts)}</strong><span>safe gate</span></div>
+      <div><strong>${esc(loop?.summary?.measured ?? state.feedbackOps?.summary?.measured ?? 0)}</strong><span>measured</span></div>
+      <div><strong>${esc(pending.length)}</strong><span>pending metrics</span></div>
+    </div>
+    ${pending.length ? `<div class="safety-note">还有 ${esc(pending.length)} 条已发内容没补数据。先补 X Analytics，再扩大测试量。</div>` : ""}
+    <div class="final-review-grid">${seedTests.slice(0, 3).map(renderSeedPublishCard).join("") || empty("暂无 seed 发布候选。先刷新 Live Feed 或补来源。")}</div>
+    <div class="row-actions">
+      <button class="button ghost" data-tab-jump="learning">打开反馈启动台</button>
+      <button class="button ghost" data-tab-jump="feedback">补 X Analytics</button>
+      <button class="button ghost" data-copy="${attr(loop?.feedbackCsvTemplate || "先运行 npm run learning-loop")}">复制反馈 CSV 模板</button>
+    </div>
+  </section>`;
+}
+
+function renderSeedPublishCard(item, index) {
+  const copy = item.copyText || "";
+  const checklist = (item.checklist ?? [])
+    .slice(0, 4)
+    .map((check) => typeof check === "string"
+      ? `<span class="ok">${esc(check)}</span>`
+      : `<span class="${check.ok ? "ok" : "warn"}">${esc(check.label)}: ${esc(check.value)}</span>`)
+    .join("");
+  return `<article class="final-card seed-publish-card">
+    <div class="line-head">
+      <div>
+        <strong>${esc(`${index + 1}. ${item.toolName}`)}</strong>
+        <div class="muted">${esc(item.accountName || item.accountId || "No account")} · ${esc(labels[item.variantType] ?? item.variantType)} · score ${esc(item.score ?? "-")}</div>
+      </div>
+      ${pill(item.freshnessLabel || "Seed", "good")}
+    </div>
+    <p>${esc(item.reason || "Small manual seed test. Post, mark posted, then import X Analytics.")}</p>
+    <pre class="copy-text">${esc(copy)}</pre>
+    ${checklist ? `<div class="mini-checks">${checklist}</div>` : ""}
+    <div class="row-actions">
+      <button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">发布前确认</button>
+      <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
+      <button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">标记已发</button>
+      <button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">补反馈</button>
+    </div>
+  </article>`;
 }
 
 function finalReviewCandidates() {
@@ -1872,6 +1932,7 @@ function finalReviewPriority(tool, qa) {
 function renderFinalReviewCard(item, index) {
   const tool = item.tool;
   const checks = item.readiness.checks.slice(0, 4);
+  const accountId = recommendedAccountId(tool);
   return `<article class="final-card ${item.readiness.kind}">
     <div class="line-head">
       <div>
@@ -1892,10 +1953,10 @@ function renderFinalReviewCard(item, index) {
     ${item.readiness.blockReasons.length ? `<p class="muted">阻断：${esc(item.readiness.blockReasons.join(" "))}</p>` : ""}
     ${item.readiness.overrideReasons.length ? `<p class="muted">需确认：${esc(item.readiness.overrideReasons.join(" "))}</p>` : ""}
     <div class="row-actions">
-      <button class="button publish" data-publish="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost">打开发布确认</button>
+      <button class="button publish" data-publish="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost" data-account-id="${attr(accountId)}">打开发布确认</button>
       <button class="button ghost" data-copy="${attr(item.text)}">复制文案</button>
-      <button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost">标记已发</button>
-      <button class="button ghost" data-feedback="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost">录入反馈</button>
+      <button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost" data-account-id="${attr(accountId)}">标记已发</button>
+      <button class="button ghost" data-feedback="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost" data-account-id="${attr(accountId)}">录入反馈</button>
     </div>
   </article>`;
 }

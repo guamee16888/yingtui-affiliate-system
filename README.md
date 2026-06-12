@@ -50,22 +50,23 @@ output/YYYY-MM-DD-daily-x-pack.md
 5. 跑 `npm run source-health`，先看哪些来源健康、哪些来源噪音大，需要调参或关闭。
 6. 跑 `npm run source-queue`，看今天最缺 AI/Indie/SaaS/Crypto 哪类来源。
 7. 跑 `npm run source-discovery`，打开按圈子生成的 X/Google/HN/Product Hunt/CoinDesk 搜索入口。
-8. 跑 `npm run source-pack`，拿 100 行 CSV 模板去外部补题。
-9. 如果你从 X、newsletter、微信群或官网看到新工具/话题，先放进「候选收集」，并标好 circle，再点 `刷新 Live Feed` 让它参与评分。
-10. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
-11. 跑 `npm run content-calendar`，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
-12. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
-13. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
-14. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
-15. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
-16. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
-17. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
-18. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
-19. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-20. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
-21. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-22. 对值得做测评页的工具点「生成测评页大纲」。
-23. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+8. 跑 `npm run source-workbench`，把供给缺口、搜索入口、CSV 模板和来源健康度生成一份总报告。
+9. 跑 `npm run source-pack`，拿 100 行 CSV 模板去外部补题。
+10. 如果你从 X、newsletter、微信群或官网看到新工具/话题，先放进「候选收集」，并标好 circle，再点 `刷新 Live Feed` 让它参与评分。
+11. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
+12. 跑 `npm run content-calendar`，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
+13. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
+14. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
+15. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
+16. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
+17. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
+18. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
+19. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+20. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+21. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
+22. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+23. 对值得做测评页的工具点「生成测评页大纲」。
+24. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -219,6 +220,12 @@ npm run source-queue
 ```
 
 把当前 `Supply coverage` 缺口转成来源补充任务，输出到 `data/source-quality-queue.json` 和 `output/YYYY-MM-DD-source-quality-queue.md`。
+
+```bash
+npm run source-workbench
+```
+
+生成来源补给总报告，输出到 `data/source-supply-workbench.json` 和 `output/YYYY-MM-DD-source-supply-workbench.md`。它把 supply gap、source queue、discovery links、source health 和 CSV 导入模板合成一份可执行清单。
 
 ```bash
 npm run source-pack

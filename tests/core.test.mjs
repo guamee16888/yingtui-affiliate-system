@@ -16,7 +16,7 @@ import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPubl
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
-import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPackRows, buildSourceQualityQueue, buildSupplyPlan, renderSourceDiscoveryMarkdown, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
+import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPackRows, buildSourceQualityQueue, buildSourceSupplyWorkbench, buildSupplyPlan, renderSourceDiscoveryMarkdown, renderSourceSupplyWorkbenchMarkdown, sourceCandidatesToTools } from "../scripts/lib/content-source-system.mjs";
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
@@ -744,6 +744,82 @@ test("source import pack creates 100 pre-classified rows", () => {
   assert.equal(rows.length, 100);
   assert.equal(rows.filter((row) => row.circle === "saas_founders").length > rows.filter((row) => row.circle === "crypto_builders").length, true);
   assert.equal(rows.every((row) => ["product", "topic"].includes(row.candidateType)), true);
+});
+
+test("source supply workbench merges gaps, discovery, and health", () => {
+  const queue = {
+    summary: { items: 1, totalNeededCandidates: 12, topCircle: "SaaS founder circle" },
+    items: [
+      {
+        circleId: "saas_founders",
+        circleName: "SaaS founder circle",
+        priorityScore: 20,
+        neededCandidates: 12,
+        currentQualifiedTools: 2,
+        affectedAccounts: [{ accountId: "saas_growth", displayName: "SaaS Growth", gap: 8 }],
+        searchQueries: ["\"SaaS pricing\" \"case study\""],
+        importHint: "Add SaaS candidates"
+      }
+    ]
+  };
+  const discovery = buildSourceDiscoveryPack({
+    date: "2026-06-12",
+    sourceQualityQueue: queue,
+    contentSourceConfig: {
+      circles: [{ id: "saas_founders", name: "SaaS founder circle", keywords: ["SaaS"] }],
+      sources: []
+    }
+  });
+  const health = buildSourceHealth({
+    date: "2026-06-12",
+    sourceCandidates: {
+      items: [{
+        source: "clean_saas",
+        toolId: "tool_clean_1",
+        name: "SaaS onboarding teardown",
+        url: "https://clean.example.com/1",
+        description: "A SaaS onboarding workflow case study",
+        circle: "saas_founders",
+        candidateType: "topic",
+        status: "active",
+        published: "2026-06-12T00:00:00.000Z"
+      }]
+    },
+    scored: [{ toolId: "tool_clean_1", score: 28, followUpAction: "thread candidate" }],
+    contentSourceConfig: {
+      dailyTargets: { minimumQualityScore: 18 },
+      circles: [{ id: "saas_founders", name: "SaaS founder circle", keywords: ["SaaS"] }],
+      sources: [{
+        id: "clean_saas",
+        name: "Clean SaaS",
+        circle: "saas_founders",
+        type: "rss",
+        candidateType: "topic",
+        url: "https://clean.example.com/rss",
+        enabled: true,
+        includeKeywords: ["SaaS"],
+        excludeKeywords: []
+      }]
+    },
+    sourceQualityQueue: queue
+  });
+  const workbench = buildSourceSupplyWorkbench({
+    date: "2026-06-12",
+    supplyPlan: { targetDrafts: 20, qualifiedTools: 2, possibleDrafts: 10, totalGap: 10, targetAccounts: 2, targetPerAccount: 10 },
+    sourceQualityQueue: queue,
+    sourceDiscovery: discovery,
+    sourceHealth: health,
+    candidateInbox: { items: [{ status: "active" }] },
+    sourceCandidates: { items: [{ status: "active" }] }
+  });
+  const markdown = renderSourceSupplyWorkbenchMarkdown(workbench);
+
+  assert.equal(workbench.status, "needs_supply");
+  assert.equal(workbench.summary.totalNeededCandidates, 12);
+  assert.equal(workbench.summary.activeInboxCount, 1);
+  assert.equal(workbench.circles[0].searchLinks.some((link) => link.label === "X live search"), true);
+  assert.match(workbench.circles[0].importTemplate, /name,url,tagline/);
+  assert.match(markdown, /Source Supply Workbench/);
 });
 
 test("draft plan allocates each tool only once across accounts", () => {

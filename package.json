@@ -23,6 +23,7 @@
     "source-discovery": "node scripts/source-discovery.mjs",
     "source-health": "node scripts/source-health.mjs",
     "source-queue": "node scripts/source-quality-queue.mjs",
+    "source-workbench": "node scripts/source-supply-workbench.mjs",
     "source-pack": "node scripts/source-import-pack.mjs",
     "draft-plan": "node scripts/draft-plan.mjs",
     "content-calendar": "node scripts/content-calendar.mjs",

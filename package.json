@@ -28,6 +28,7 @@
     "draft-plan": "node scripts/draft-plan.mjs",
     "content-calendar": "node scripts/content-calendar.mjs",
     "account-matrix": "node scripts/account-content-matrix.mjs",
+    "scale-ramp": "node scripts/scale-ramp-plan.mjs",
     "roadmap": "node scripts/roadmap.mjs",
     "accounts": "node scripts/account-summary.mjs",
     "feedback": "node scripts/feedback-summary.mjs",

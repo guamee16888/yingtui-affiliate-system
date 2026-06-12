@@ -1,0 +1,2437 @@
+{
+  "version": 1,
+  "date": "2026-06-13",
+  "generatedAt": "2026-06-12T19:38:26.999Z",
+  "mode": "manual_confirm_ramp",
+  "rule": "Scale in batches. Do not unlock broad multi-account posting until seed accounts have fresh drafts and measured feedback.",
+  "summary": {
+    "activeAccounts": 20,
+    "recommendedStartAccounts": 3,
+    "nextBatchAccounts": 5,
+    "holdAccounts": 12,
+    "safeTestPosts": 3,
+    "targetDailyPosts": 200,
+    "plannedDrafts": 18,
+    "measuredFeedbackAccounts": 0,
+    "readyAccounts": 0,
+    "blockers": [
+      {
+        "id": "feedback_seed",
+        "title": "No measured feedback yet",
+        "severity": "high",
+        "detail": "The system has not seen real impressions or engagement, so scaling would be blind.",
+        "nextAction": "Post at most the seed batch and import metrics before increasing volume."
+      },
+      {
+        "id": "fresh_candidates",
+        "title": "Not enough fresh publish candidates",
+        "severity": "high",
+        "detail": "3 fresh candidates are available for posting today.",
+        "nextAction": "Refresh Live Feed and import external candidates from the source supply workbench."
+      },
+      {
+        "id": "draft_gap",
+        "title": "Draft gap is too large for the target",
+        "severity": "high",
+        "detail": "18/200 unique drafts are planned.",
+        "nextAction": "Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar."
+      },
+      {
+        "id": "account_matrix_gap",
+        "title": "Account-level content matrix is not ready",
+        "severity": "high",
+        "detail": "0/20 accounts are ready; candidate bench is 54/600, strong 9, fresh 9.",
+        "nextAction": "Run npm run account-matrix, then fill account-level search tasks until the 182 draft gap shrinks."
+      },
+      {
+        "id": "source_gap",
+        "title": "Source supply is below target",
+        "severity": "medium",
+        "detail": "80 more source candidates are needed for the current account mix.",
+        "nextAction": "Fill the 100 source-pack rows that still need real candidates."
+      },
+      {
+        "id": "auth_deferred",
+        "title": "Real multi-account X auth is not connected",
+        "severity": "deferred",
+        "detail": "Account profiles exist, but OAuth binding is intentionally not the current bottleneck.",
+        "nextAction": "Keep auth deferred until feedback and source quality gates are stable."
+      }
+    ]
+  },
+  "stages": [
+    {
+      "id": "seed_batch",
+      "label": "Phase 1 seed batch",
+      "accountCount": 3,
+      "accountIds": [
+        "ai_founder_signals",
+        "ai_tools_lab",
+        "crypto_builder_radar"
+      ],
+      "exitCriteria": "Post up to 3 manually reviewed tweets, then import X Analytics feedback."
+    },
+    {
+      "id": "next_batch",
+      "label": "Phase 2 next batch",
+      "accountCount": 5,
+      "accountIds": [
+        "ai_agent_ops",
+        "creator_stack",
+        "founder_tooling",
+        "productivity_ops",
+        "seo_review_lab"
+      ],
+      "exitCriteria": "Each account needs 10 drafts, 10 fresh candidates, and at least one feedback row."
+    },
+    {
+      "id": "hold",
+      "label": "Phase 3 hold / research only",
+      "accountCount": 12,
+      "accountIds": [
+        "build_in_public",
+        "crypto_trading_tools",
+        "ecommerce_ops",
+        "sales_support_ai",
+        "affiliate_builder",
+        "career_workflows",
+        "dev_workflows",
+        "indie_launch_radar",
+        "indie_monetization",
+        "market_map_notes",
+        "saas_growth_ops",
+        "saas_pricing_lab"
+      ],
+      "exitCriteria": "Do not post until the account has a 3x candidate bench and unique drafts."
+    }
+  ],
+  "startAccounts": [
+    {
+      "accountId": "ai_founder_signals",
+      "displayName": "AI Founder Signals",
+      "category": "AI startup circle",
+      "launchStage": "seed_this_week",
+      "readinessScore": 24,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 18,
+      "strongCandidates": 3,
+      "freshCandidates": 3,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 12,
+        "strong": 7,
+        "fresh": 7,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using AI Founder Signals.",
+      "searchTasks": [
+        {
+          "accountId": "ai_founder_signals",
+          "displayName": "AI Founder Signals",
+          "provider": "X live search",
+          "query": "AI Founder Signals AI startup circle tools founder workflow",
+          "url": "https://x.com/search?q=AI%20Founder%20Signals%20AI%20startup%20circle%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ai_founder_signals",
+          "displayName": "AI Founder Signals",
+          "provider": "Google recent search",
+          "query": "AI Founder Signals AI startup circle tools founder workflow",
+          "url": "https://www.google.com/search?q=AI%20Founder%20Signals%20AI%20startup%20circle%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_576b374effa3",
+          "name": "Anthropic’s Dario Amodei has just one direct report",
+          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
+          "followUpAction": "tweet only",
+          "match": "primary"
+        },
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "name": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
+          "followUpAction": "thread candidate",
+          "match": "primary"
+        }
+      ]
+    },
+    {
+      "accountId": "ai_tools_lab",
+      "displayName": "AI Tools Lab",
+      "category": "AI tools discovery",
+      "launchStage": "seed_this_week",
+      "readinessScore": 23,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 16,
+      "strongCandidates": 3,
+      "freshCandidates": 3,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 14,
+        "strong": 7,
+        "fresh": 7,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using AI Tools Lab.",
+      "searchTasks": [
+        {
+          "accountId": "ai_tools_lab",
+          "displayName": "AI Tools Lab",
+          "provider": "X live search",
+          "query": "AI Tools Lab AI tools discovery tools founder workflow",
+          "url": "https://x.com/search?q=AI%20Tools%20Lab%20AI%20tools%20discovery%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ai_tools_lab",
+          "displayName": "AI Tools Lab",
+          "provider": "Google recent search",
+          "query": "AI Tools Lab AI tools discovery tools founder workflow",
+          "url": "https://www.google.com/search?q=AI%20Tools%20Lab%20AI%20tools%20discovery%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_576b374effa3",
+          "name": "Anthropic’s Dario Amodei has just one direct report",
+          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "name": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_d2c435b524db",
+          "name": "Mistral is rumored to be raising €3B at €20B valuation",
+          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "crypto_builder_radar",
+      "displayName": "Crypto Builder Radar",
+      "category": "Crypto builder circle",
+      "launchStage": "seed_this_week",
+      "readinessScore": 21,
+      "targetPosts": 10,
+      "plannedDrafts": 3,
+      "matchedCandidates": 4,
+      "strongCandidates": 2,
+      "freshCandidates": 2,
+      "scheduledPosts": 3,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 26,
+        "strong": 8,
+        "fresh": 8,
+        "drafts": 7,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 7 unique drafts before using Crypto Builder Radar.",
+      "searchTasks": [
+        {
+          "accountId": "crypto_builder_radar",
+          "displayName": "Crypto Builder Radar",
+          "provider": "X live search",
+          "query": "Crypto Builder Radar Crypto builder circle tools founder workflow",
+          "url": "https://x.com/search?q=Crypto%20Builder%20Radar%20Crypto%20builder%20circle%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 9
+        },
+        {
+          "accountId": "crypto_builder_radar",
+          "displayName": "Crypto Builder Radar",
+          "provider": "Google recent search",
+          "query": "Crypto Builder Radar Crypto builder circle tools founder workflow",
+          "url": "https://www.google.com/search?q=Crypto%20Builder%20Radar%20Crypto%20builder%20circle%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 9
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
+          "followUpAction": "thread candidate",
+          "match": "primary"
+        },
+        {
+          "toolId": "source_candidate_100f88b5fc51",
+          "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
+          "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "primary"
+        },
+        {
+          "toolId": "source_candidate_5ef63cd5b2a5",
+          "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
+          "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "primary"
+        }
+      ]
+    }
+  ],
+  "nextAccounts": [
+    {
+      "accountId": "ai_agent_ops",
+      "displayName": "AI Agent Ops",
+      "category": "AI agents and automation",
+      "launchStage": "seed_this_week",
+      "readinessScore": 19,
+      "targetPosts": 10,
+      "plannedDrafts": 6,
+      "matchedCandidates": 4,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 3,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 26,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 4,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 4 unique drafts before using AI Agent Ops.",
+      "searchTasks": [
+        {
+          "accountId": "ai_agent_ops",
+          "displayName": "AI Agent Ops",
+          "provider": "X live search",
+          "query": "AI Agent Ops AI agents and automation tools founder workflow",
+          "url": "https://x.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ai_agent_ops",
+          "displayName": "AI Agent Ops",
+          "provider": "Google recent search",
+          "query": "AI Agent Ops AI agents and automation tools founder workflow",
+          "url": "https://www.google.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "name": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_72bb52a3552a",
+          "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "score": 22,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "creator_stack",
+      "displayName": "Creator Stack",
+      "category": "creator tools",
+      "launchStage": "seed_this_week",
+      "readinessScore": 8,
+      "targetPosts": 10,
+      "plannedDrafts": 2,
+      "matchedCandidates": 2,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 2,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 28,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 8,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 8 unique drafts before using Creator Stack.",
+      "searchTasks": [
+        {
+          "accountId": "creator_stack",
+          "displayName": "Creator Stack",
+          "provider": "X live search",
+          "query": "Creator Stack creator tools tools founder workflow",
+          "url": "https://x.com/search?q=Creator%20Stack%20creator%20tools%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "creator_stack",
+          "displayName": "Creator Stack",
+          "provider": "Google recent search",
+          "query": "Creator Stack creator tools tools founder workflow",
+          "url": "https://www.google.com/search?q=Creator%20Stack%20creator%20tools%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "tag:www.producthunt.com,2005:Post/1169183",
+          "name": "KOSH Money",
+          "url": "https://www.producthunt.com/products/kosh-money",
+          "score": 24,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_fe5a2105b723",
+          "name": "Pool’s new app turns your screenshots into something useful",
+          "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
+          "score": 22,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "founder_tooling",
+      "displayName": "Founder Tooling",
+      "category": "founder workflows",
+      "launchStage": "seed_this_week",
+      "readinessScore": 8,
+      "targetPosts": 10,
+      "plannedDrafts": 2,
+      "matchedCandidates": 2,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 2,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 28,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 8,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 8 unique drafts before using Founder Tooling.",
+      "searchTasks": [
+        {
+          "accountId": "founder_tooling",
+          "displayName": "Founder Tooling",
+          "provider": "X live search",
+          "query": "Founder Tooling founder workflows tools founder workflow",
+          "url": "https://x.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "founder_tooling",
+          "displayName": "Founder Tooling",
+          "provider": "Google recent search",
+          "query": "Founder Tooling founder workflows tools founder workflow",
+          "url": "https://www.google.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_576b374effa3",
+          "name": "Anthropic’s Dario Amodei has just one direct report",
+          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_cb3f98bdaef6",
+          "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
+          "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
+          "score": 22,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "productivity_ops",
+      "displayName": "Productivity Ops",
+      "category": "productivity and operations",
+      "launchStage": "seed_this_week",
+      "readinessScore": 8,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 6,
+      "strongCandidates": 1,
+      "freshCandidates": 1,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 24,
+        "strong": 9,
+        "fresh": 9,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Productivity Ops.",
+      "searchTasks": [
+        {
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
+          "provider": "X live search",
+          "query": "Productivity Ops productivity and operations tools founder workflow",
+          "url": "https://x.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
+          "provider": "Google recent search",
+          "query": "Productivity Ops productivity and operations tools founder workflow",
+          "url": "https://www.google.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_d2c435b524db",
+          "name": "Mistral is rumored to be raising €3B at €20B valuation",
+          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_6a173043e187",
+          "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
+          "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_53600397a606",
+          "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
+          "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
+          "score": 22,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "seo_review_lab",
+      "displayName": "SEO Review Lab",
+      "category": "SEO review pages",
+      "launchStage": "seed_this_week",
+      "readinessScore": 7,
+      "targetPosts": 10,
+      "plannedDrafts": 2,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 2,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 8,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 8 unique drafts before using SEO Review Lab.",
+      "searchTasks": [
+        {
+          "accountId": "seo_review_lab",
+          "displayName": "SEO Review Lab",
+          "provider": "X live search",
+          "query": "SEO Review Lab SEO review pages tools founder workflow",
+          "url": "https://x.com/search?q=SEO%20Review%20Lab%20SEO%20review%20pages%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "seo_review_lab",
+          "displayName": "SEO Review Lab",
+          "provider": "Google recent search",
+          "query": "SEO Review Lab SEO review pages tools founder workflow",
+          "url": "https://www.google.com/search?q=SEO%20Review%20Lab%20SEO%20review%20pages%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    }
+  ],
+  "holdAccounts": [
+    {
+      "accountId": "build_in_public",
+      "displayName": "Build in Public",
+      "category": "building and experiments",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 1,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 29,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Build in Public.",
+      "searchTasks": [
+        {
+          "accountId": "build_in_public",
+          "displayName": "Build in Public",
+          "provider": "X live search",
+          "query": "Build in Public building and experiments tools founder workflow",
+          "url": "https://x.com/search?q=Build%20in%20Public%20building%20and%20experiments%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "build_in_public",
+          "displayName": "Build in Public",
+          "provider": "Google recent search",
+          "query": "Build in Public building and experiments tools founder workflow",
+          "url": "https://www.google.com/search?q=Build%20in%20Public%20building%20and%20experiments%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_e06dd10fbd37",
+          "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
+          "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+          "score": 21,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "crypto_trading_tools",
+      "displayName": "Crypto Trading Tools",
+      "category": "crypto tooling",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Crypto Trading Tools.",
+      "searchTasks": [
+        {
+          "accountId": "crypto_trading_tools",
+          "displayName": "Crypto Trading Tools",
+          "provider": "X live search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "crypto_trading_tools",
+          "displayName": "Crypto Trading Tools",
+          "provider": "Google recent search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 9
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "ecommerce_ops",
+      "displayName": "Ecommerce Ops",
+      "category": "ecommerce and Shopify",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Ecommerce Ops.",
+      "searchTasks": [
+        {
+          "accountId": "ecommerce_ops",
+          "displayName": "Ecommerce Ops",
+          "provider": "X live search",
+          "query": "Ecommerce Ops ecommerce and Shopify tools founder workflow",
+          "url": "https://x.com/search?q=Ecommerce%20Ops%20ecommerce%20and%20Shopify%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ecommerce_ops",
+          "displayName": "Ecommerce Ops",
+          "provider": "Google recent search",
+          "query": "Ecommerce Ops ecommerce and Shopify tools founder workflow",
+          "url": "https://www.google.com/search?q=Ecommerce%20Ops%20ecommerce%20and%20Shopify%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "sales_support_ai",
+      "displayName": "Sales Support AI",
+      "category": "sales and customer support",
+      "launchStage": "seed_this_week",
+      "readinessScore": 1,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 1,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 29,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Sales Support AI.",
+      "searchTasks": [
+        {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "provider": "X live search",
+          "query": "\"sales and customer support\" \"tool\"",
+          "url": "https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "provider": "Google recent search",
+          "query": "\"sales and customer support\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "tag:www.producthunt.com,2005:Post/1169266",
+          "name": "Meet Warren 3.0",
+          "url": "https://www.producthunt.com/products/underpay",
+          "score": 20,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "affiliate_builder",
+      "displayName": "Affiliate Builder",
+      "category": "affiliate and side projects",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Affiliate Builder.",
+      "searchTasks": [
+        {
+          "accountId": "affiliate_builder",
+          "displayName": "Affiliate Builder",
+          "provider": "X live search",
+          "query": "\"affiliate\" \"partner program\" \"SaaS\"",
+          "url": "https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "affiliate_builder",
+          "displayName": "Affiliate Builder",
+          "provider": "Google recent search",
+          "query": "\"affiliate\" \"partner program\" \"SaaS\"",
+          "url": "https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "career_workflows",
+      "displayName": "Career Workflows",
+      "category": "career and job search",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Career Workflows.",
+      "searchTasks": [
+        {
+          "accountId": "career_workflows",
+          "displayName": "Career Workflows",
+          "provider": "X live search",
+          "query": "\"career and job search\" \"tool\"",
+          "url": "https://x.com/search?q=%22career%20and%20job%20search%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "career_workflows",
+          "displayName": "Career Workflows",
+          "provider": "Google recent search",
+          "query": "\"career and job search\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22career%20and%20job%20search%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "category": "developer workflows",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Dev Workflows.",
+      "searchTasks": [
+        {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "provider": "X live search",
+          "query": "\"developer workflows\" \"tool\"",
+          "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "provider": "Google recent search",
+          "query": "\"developer workflows\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "indie_launch_radar",
+      "displayName": "Indie Launch Radar",
+      "category": "indie hacker circle",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Indie Launch Radar.",
+      "searchTasks": [
+        {
+          "accountId": "indie_launch_radar",
+          "displayName": "Indie Launch Radar",
+          "provider": "X live search",
+          "query": "\"indie hacker\" \"launch\"",
+          "url": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "indie_launch_radar",
+          "displayName": "Indie Launch Radar",
+          "provider": "Google recent search",
+          "query": "\"indie hacker\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "indie_monetization",
+      "displayName": "Indie Monetization",
+      "category": "indie monetization",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Indie Monetization.",
+      "searchTasks": [
+        {
+          "accountId": "indie_monetization",
+          "displayName": "Indie Monetization",
+          "provider": "X live search",
+          "query": "\"indie hacker\" \"launch\"",
+          "url": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "indie_monetization",
+          "displayName": "Indie Monetization",
+          "provider": "Google recent search",
+          "query": "\"indie hacker\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "market_map_notes",
+      "displayName": "Market Map Notes",
+      "category": "market mapping",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Market Map Notes.",
+      "searchTasks": [
+        {
+          "accountId": "market_map_notes",
+          "displayName": "Market Map Notes",
+          "provider": "X live search",
+          "query": "\"market mapping\" \"tool\"",
+          "url": "https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "market_map_notes",
+          "displayName": "Market Map Notes",
+          "provider": "Google recent search",
+          "query": "\"market mapping\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "saas_growth_ops",
+      "displayName": "SaaS Growth Ops",
+      "category": "SaaS growth operations",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using SaaS Growth Ops.",
+      "searchTasks": [
+        {
+          "accountId": "saas_growth_ops",
+          "displayName": "SaaS Growth Ops",
+          "provider": "X live search",
+          "query": "\"SaaS\" \"pricing\" \"founder\"",
+          "url": "https://x.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "saas_growth_ops",
+          "displayName": "SaaS Growth Ops",
+          "provider": "Google recent search",
+          "query": "\"SaaS\" \"pricing\" \"founder\"",
+          "url": "https://www.google.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "saas_pricing_lab",
+      "displayName": "SaaS Pricing Lab",
+      "category": "SaaS founder circle",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using SaaS Pricing Lab.",
+      "searchTasks": [
+        {
+          "accountId": "saas_pricing_lab",
+          "displayName": "SaaS Pricing Lab",
+          "provider": "X live search",
+          "query": "\"SaaS\" \"pricing\" \"founder\"",
+          "url": "https://x.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "saas_pricing_lab",
+          "displayName": "SaaS Pricing Lab",
+          "provider": "Google recent search",
+          "query": "\"SaaS\" \"pricing\" \"founder\"",
+          "url": "https://www.google.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    }
+  ],
+  "accountLaunchPlan": [
+    {
+      "accountId": "ai_founder_signals",
+      "displayName": "AI Founder Signals",
+      "category": "AI startup circle",
+      "launchStage": "seed_this_week",
+      "readinessScore": 24,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 18,
+      "strongCandidates": 3,
+      "freshCandidates": 3,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 12,
+        "strong": 7,
+        "fresh": 7,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using AI Founder Signals.",
+      "searchTasks": [
+        {
+          "accountId": "ai_founder_signals",
+          "displayName": "AI Founder Signals",
+          "provider": "X live search",
+          "query": "AI Founder Signals AI startup circle tools founder workflow",
+          "url": "https://x.com/search?q=AI%20Founder%20Signals%20AI%20startup%20circle%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ai_founder_signals",
+          "displayName": "AI Founder Signals",
+          "provider": "Google recent search",
+          "query": "AI Founder Signals AI startup circle tools founder workflow",
+          "url": "https://www.google.com/search?q=AI%20Founder%20Signals%20AI%20startup%20circle%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_576b374effa3",
+          "name": "Anthropic’s Dario Amodei has just one direct report",
+          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
+          "followUpAction": "tweet only",
+          "match": "primary"
+        },
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "name": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
+          "followUpAction": "thread candidate",
+          "match": "primary"
+        }
+      ]
+    },
+    {
+      "accountId": "ai_tools_lab",
+      "displayName": "AI Tools Lab",
+      "category": "AI tools discovery",
+      "launchStage": "seed_this_week",
+      "readinessScore": 23,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 16,
+      "strongCandidates": 3,
+      "freshCandidates": 3,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 14,
+        "strong": 7,
+        "fresh": 7,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using AI Tools Lab.",
+      "searchTasks": [
+        {
+          "accountId": "ai_tools_lab",
+          "displayName": "AI Tools Lab",
+          "provider": "X live search",
+          "query": "AI Tools Lab AI tools discovery tools founder workflow",
+          "url": "https://x.com/search?q=AI%20Tools%20Lab%20AI%20tools%20discovery%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ai_tools_lab",
+          "displayName": "AI Tools Lab",
+          "provider": "Google recent search",
+          "query": "AI Tools Lab AI tools discovery tools founder workflow",
+          "url": "https://www.google.com/search?q=AI%20Tools%20Lab%20AI%20tools%20discovery%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_576b374effa3",
+          "name": "Anthropic’s Dario Amodei has just one direct report",
+          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "name": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_d2c435b524db",
+          "name": "Mistral is rumored to be raising €3B at €20B valuation",
+          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "crypto_builder_radar",
+      "displayName": "Crypto Builder Radar",
+      "category": "Crypto builder circle",
+      "launchStage": "seed_this_week",
+      "readinessScore": 21,
+      "targetPosts": 10,
+      "plannedDrafts": 3,
+      "matchedCandidates": 4,
+      "strongCandidates": 2,
+      "freshCandidates": 2,
+      "scheduledPosts": 3,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 26,
+        "strong": 8,
+        "fresh": 8,
+        "drafts": 7,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 7 unique drafts before using Crypto Builder Radar.",
+      "searchTasks": [
+        {
+          "accountId": "crypto_builder_radar",
+          "displayName": "Crypto Builder Radar",
+          "provider": "X live search",
+          "query": "Crypto Builder Radar Crypto builder circle tools founder workflow",
+          "url": "https://x.com/search?q=Crypto%20Builder%20Radar%20Crypto%20builder%20circle%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 9
+        },
+        {
+          "accountId": "crypto_builder_radar",
+          "displayName": "Crypto Builder Radar",
+          "provider": "Google recent search",
+          "query": "Crypto Builder Radar Crypto builder circle tools founder workflow",
+          "url": "https://www.google.com/search?q=Crypto%20Builder%20Radar%20Crypto%20builder%20circle%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 9
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
+          "followUpAction": "thread candidate",
+          "match": "primary"
+        },
+        {
+          "toolId": "source_candidate_100f88b5fc51",
+          "name": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
+          "url": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "primary"
+        },
+        {
+          "toolId": "source_candidate_5ef63cd5b2a5",
+          "name": "Bloomberg Analyst: Most Bitcoin ETF Investors Have Stayed Put Despite Outflows",
+          "url": "https://www.coindesk.com/markets/2026/06/08/bloomberg-analyst-most-bitcoin-etf-investors-have-stayed-put-despite-outflows",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "primary"
+        }
+      ]
+    },
+    {
+      "accountId": "ai_agent_ops",
+      "displayName": "AI Agent Ops",
+      "category": "AI agents and automation",
+      "launchStage": "seed_this_week",
+      "readinessScore": 19,
+      "targetPosts": 10,
+      "plannedDrafts": 6,
+      "matchedCandidates": 4,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 3,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 26,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 4,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 4 unique drafts before using AI Agent Ops.",
+      "searchTasks": [
+        {
+          "accountId": "ai_agent_ops",
+          "displayName": "AI Agent Ops",
+          "provider": "X live search",
+          "query": "AI Agent Ops AI agents and automation tools founder workflow",
+          "url": "https://x.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ai_agent_ops",
+          "displayName": "AI Agent Ops",
+          "provider": "Google recent search",
+          "query": "AI Agent Ops AI agents and automation tools founder workflow",
+          "url": "https://www.google.com/search?q=AI%20Agent%20Ops%20AI%20agents%20and%20automation%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_a48e609eca45",
+          "name": "The company that makes your TV is taking ads onchain. Arbitrum helped",
+          "url": "https://www.coindesk.com/markets/2026/06/12/the-company-that-makes-your-tv-is-taking-ads-onchain-arbitrum-helped",
+          "score": 26,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_a61b9a939dae",
+          "name": "How memory tools can make AI models worse",
+          "url": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+          "score": 25,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_72bb52a3552a",
+          "name": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+          "url": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "score": 22,
+          "followUpAction": "thread candidate",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "creator_stack",
+      "displayName": "Creator Stack",
+      "category": "creator tools",
+      "launchStage": "seed_this_week",
+      "readinessScore": 8,
+      "targetPosts": 10,
+      "plannedDrafts": 2,
+      "matchedCandidates": 2,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 2,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 28,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 8,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 8 unique drafts before using Creator Stack.",
+      "searchTasks": [
+        {
+          "accountId": "creator_stack",
+          "displayName": "Creator Stack",
+          "provider": "X live search",
+          "query": "Creator Stack creator tools tools founder workflow",
+          "url": "https://x.com/search?q=Creator%20Stack%20creator%20tools%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "creator_stack",
+          "displayName": "Creator Stack",
+          "provider": "Google recent search",
+          "query": "Creator Stack creator tools tools founder workflow",
+          "url": "https://www.google.com/search?q=Creator%20Stack%20creator%20tools%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "tag:www.producthunt.com,2005:Post/1169183",
+          "name": "KOSH Money",
+          "url": "https://www.producthunt.com/products/kosh-money",
+          "score": 24,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_fe5a2105b723",
+          "name": "Pool’s new app turns your screenshots into something useful",
+          "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
+          "score": 22,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "founder_tooling",
+      "displayName": "Founder Tooling",
+      "category": "founder workflows",
+      "launchStage": "seed_this_week",
+      "readinessScore": 8,
+      "targetPosts": 10,
+      "plannedDrafts": 2,
+      "matchedCandidates": 2,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 2,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 28,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 8,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 8 unique drafts before using Founder Tooling.",
+      "searchTasks": [
+        {
+          "accountId": "founder_tooling",
+          "displayName": "Founder Tooling",
+          "provider": "X live search",
+          "query": "Founder Tooling founder workflows tools founder workflow",
+          "url": "https://x.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "founder_tooling",
+          "displayName": "Founder Tooling",
+          "provider": "Google recent search",
+          "query": "Founder Tooling founder workflows tools founder workflow",
+          "url": "https://www.google.com/search?q=Founder%20Tooling%20founder%20workflows%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_576b374effa3",
+          "name": "Anthropic’s Dario Amodei has just one direct report",
+          "url": "https://techcrunch.com/2026/06/10/anthropics-dario-amodei-has-just-one-direct-report/",
+          "score": 29,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_cb3f98bdaef6",
+          "name": "Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable",
+          "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
+          "score": 22,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "productivity_ops",
+      "displayName": "Productivity Ops",
+      "category": "productivity and operations",
+      "launchStage": "seed_this_week",
+      "readinessScore": 8,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 6,
+      "strongCandidates": 1,
+      "freshCandidates": 1,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 24,
+        "strong": 9,
+        "fresh": 9,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Productivity Ops.",
+      "searchTasks": [
+        {
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
+          "provider": "X live search",
+          "query": "Productivity Ops productivity and operations tools founder workflow",
+          "url": "https://x.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "productivity_ops",
+          "displayName": "Productivity Ops",
+          "provider": "Google recent search",
+          "query": "Productivity Ops productivity and operations tools founder workflow",
+          "url": "https://www.google.com/search?q=Productivity%20Ops%20productivity%20and%20operations%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_d2c435b524db",
+          "name": "Mistral is rumored to be raising €3B at €20B valuation",
+          "url": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_6a173043e187",
+          "name": "Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world",
+          "url": "https://techcrunch.com/2026/06/11/jeff-bezoss-prometheus-raises-12b-to-build-an-artificial-general-engineer-for-the-physical-world/",
+          "score": 25,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "source_candidate_53600397a606",
+          "name": "Opendoor’s India exit is fueling a bigger conversation about AI and outsourcing",
+          "url": "https://techcrunch.com/2026/06/10/opendoors-india-exit-is-fueling-a-bigger-conversation-about-ai-and-outsourcing/",
+          "score": 22,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "seo_review_lab",
+      "displayName": "SEO Review Lab",
+      "category": "SEO review pages",
+      "launchStage": "seed_this_week",
+      "readinessScore": 7,
+      "targetPosts": 10,
+      "plannedDrafts": 2,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 2,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 8,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 8 unique drafts before using SEO Review Lab.",
+      "searchTasks": [
+        {
+          "accountId": "seo_review_lab",
+          "displayName": "SEO Review Lab",
+          "provider": "X live search",
+          "query": "SEO Review Lab SEO review pages tools founder workflow",
+          "url": "https://x.com/search?q=SEO%20Review%20Lab%20SEO%20review%20pages%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "seo_review_lab",
+          "displayName": "SEO Review Lab",
+          "provider": "Google recent search",
+          "query": "SEO Review Lab SEO review pages tools founder workflow",
+          "url": "https://www.google.com/search?q=SEO%20Review%20Lab%20SEO%20review%20pages%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "build_in_public",
+      "displayName": "Build in Public",
+      "category": "building and experiments",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 1,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 29,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Build in Public.",
+      "searchTasks": [
+        {
+          "accountId": "build_in_public",
+          "displayName": "Build in Public",
+          "provider": "X live search",
+          "query": "Build in Public building and experiments tools founder workflow",
+          "url": "https://x.com/search?q=Build%20in%20Public%20building%20and%20experiments%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "build_in_public",
+          "displayName": "Build in Public",
+          "provider": "Google recent search",
+          "query": "Build in Public building and experiments tools founder workflow",
+          "url": "https://www.google.com/search?q=Build%20in%20Public%20building%20and%20experiments%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "source_candidate_e06dd10fbd37",
+          "name": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
+          "url": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+          "score": 21,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "crypto_trading_tools",
+      "displayName": "Crypto Trading Tools",
+      "category": "crypto tooling",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Crypto Trading Tools.",
+      "searchTasks": [
+        {
+          "accountId": "crypto_trading_tools",
+          "displayName": "Crypto Trading Tools",
+          "provider": "X live search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "crypto_trading_tools",
+          "displayName": "Crypto Trading Tools",
+          "provider": "Google recent search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 9
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "ecommerce_ops",
+      "displayName": "Ecommerce Ops",
+      "category": "ecommerce and Shopify",
+      "launchStage": "seed_this_week",
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "plannedDrafts": 1,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 1,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 9,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 9 unique drafts before using Ecommerce Ops.",
+      "searchTasks": [
+        {
+          "accountId": "ecommerce_ops",
+          "displayName": "Ecommerce Ops",
+          "provider": "X live search",
+          "query": "Ecommerce Ops ecommerce and Shopify tools founder workflow",
+          "url": "https://x.com/search?q=Ecommerce%20Ops%20ecommerce%20and%20Shopify%20tools%20founder%20workflow&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "ecommerce_ops",
+          "displayName": "Ecommerce Ops",
+          "provider": "Google recent search",
+          "query": "Ecommerce Ops ecommerce and Shopify tools founder workflow",
+          "url": "https://www.google.com/search?q=Ecommerce%20Ops%20ecommerce%20and%20Shopify%20tools%20founder%20workflow%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "sales_support_ai",
+      "displayName": "Sales Support AI",
+      "category": "sales and customer support",
+      "launchStage": "seed_this_week",
+      "readinessScore": 1,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 1,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 29,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Sales Support AI.",
+      "searchTasks": [
+        {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "provider": "X live search",
+          "query": "\"sales and customer support\" \"tool\"",
+          "url": "https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "sales_support_ai",
+          "displayName": "Sales Support AI",
+          "provider": "Google recent search",
+          "query": "\"sales and customer support\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": [
+        {
+          "toolId": "tag:www.producthunt.com,2005:Post/1169266",
+          "name": "Meet Warren 3.0",
+          "url": "https://www.producthunt.com/products/underpay",
+          "score": 20,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        }
+      ]
+    },
+    {
+      "accountId": "affiliate_builder",
+      "displayName": "Affiliate Builder",
+      "category": "affiliate and side projects",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Affiliate Builder.",
+      "searchTasks": [
+        {
+          "accountId": "affiliate_builder",
+          "displayName": "Affiliate Builder",
+          "provider": "X live search",
+          "query": "\"affiliate\" \"partner program\" \"SaaS\"",
+          "url": "https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "affiliate_builder",
+          "displayName": "Affiliate Builder",
+          "provider": "Google recent search",
+          "query": "\"affiliate\" \"partner program\" \"SaaS\"",
+          "url": "https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "career_workflows",
+      "displayName": "Career Workflows",
+      "category": "career and job search",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Career Workflows.",
+      "searchTasks": [
+        {
+          "accountId": "career_workflows",
+          "displayName": "Career Workflows",
+          "provider": "X live search",
+          "query": "\"career and job search\" \"tool\"",
+          "url": "https://x.com/search?q=%22career%20and%20job%20search%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "career_workflows",
+          "displayName": "Career Workflows",
+          "provider": "Google recent search",
+          "query": "\"career and job search\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22career%20and%20job%20search%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "dev_workflows",
+      "displayName": "Dev Workflows",
+      "category": "developer workflows",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Dev Workflows.",
+      "searchTasks": [
+        {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "provider": "X live search",
+          "query": "\"developer workflows\" \"tool\"",
+          "url": "https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "dev_workflows",
+          "displayName": "Dev Workflows",
+          "provider": "Google recent search",
+          "query": "\"developer workflows\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "indie_launch_radar",
+      "displayName": "Indie Launch Radar",
+      "category": "indie hacker circle",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Indie Launch Radar.",
+      "searchTasks": [
+        {
+          "accountId": "indie_launch_radar",
+          "displayName": "Indie Launch Radar",
+          "provider": "X live search",
+          "query": "\"indie hacker\" \"launch\"",
+          "url": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "indie_launch_radar",
+          "displayName": "Indie Launch Radar",
+          "provider": "Google recent search",
+          "query": "\"indie hacker\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "indie_monetization",
+      "displayName": "Indie Monetization",
+      "category": "indie monetization",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Indie Monetization.",
+      "searchTasks": [
+        {
+          "accountId": "indie_monetization",
+          "displayName": "Indie Monetization",
+          "provider": "X live search",
+          "query": "\"indie hacker\" \"launch\"",
+          "url": "https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "indie_monetization",
+          "displayName": "Indie Monetization",
+          "provider": "Google recent search",
+          "query": "\"indie hacker\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "market_map_notes",
+      "displayName": "Market Map Notes",
+      "category": "market mapping",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using Market Map Notes.",
+      "searchTasks": [
+        {
+          "accountId": "market_map_notes",
+          "displayName": "Market Map Notes",
+          "provider": "X live search",
+          "query": "\"market mapping\" \"tool\"",
+          "url": "https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "market_map_notes",
+          "displayName": "Market Map Notes",
+          "provider": "Google recent search",
+          "query": "\"market mapping\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "saas_growth_ops",
+      "displayName": "SaaS Growth Ops",
+      "category": "SaaS growth operations",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using SaaS Growth Ops.",
+      "searchTasks": [
+        {
+          "accountId": "saas_growth_ops",
+          "displayName": "SaaS Growth Ops",
+          "provider": "X live search",
+          "query": "\"SaaS\" \"pricing\" \"founder\"",
+          "url": "https://x.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "saas_growth_ops",
+          "displayName": "SaaS Growth Ops",
+          "provider": "Google recent search",
+          "query": "\"SaaS\" \"pricing\" \"founder\"",
+          "url": "https://www.google.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    },
+    {
+      "accountId": "saas_pricing_lab",
+      "displayName": "SaaS Pricing Lab",
+      "category": "SaaS founder circle",
+      "launchStage": "research_only",
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "plannedDrafts": 0,
+      "matchedCandidates": 0,
+      "strongCandidates": 0,
+      "freshCandidates": 0,
+      "scheduledPosts": 0,
+      "measuredFeedback": 0,
+      "missing": {
+        "candidateBench": 30,
+        "strong": 10,
+        "fresh": 10,
+        "drafts": 10,
+        "feedback": 1
+      },
+      "blockers": [
+        "candidate_bench",
+        "quality",
+        "freshness",
+        "drafts",
+        "schedule",
+        "feedback"
+      ],
+      "nextAction": "Add 10 unique drafts before using SaaS Pricing Lab.",
+      "searchTasks": [
+        {
+          "accountId": "saas_pricing_lab",
+          "displayName": "SaaS Pricing Lab",
+          "provider": "X live search",
+          "query": "\"SaaS\" \"pricing\" \"founder\"",
+          "url": "https://x.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22&src=typed_query&f=live",
+          "targetRows": 10
+        },
+        {
+          "accountId": "saas_pricing_lab",
+          "displayName": "SaaS Pricing Lab",
+          "provider": "Google recent search",
+          "query": "\"SaaS\" \"pricing\" \"founder\"",
+          "url": "https://www.google.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22%20after%3A2026-01-01",
+          "targetRows": 10
+        }
+      ],
+      "topMatchedTools": []
+    }
+  ],
+  "operatingRules": [
+    "Start with the first 3 accounts, not all accounts.",
+    "Cap new posts at 3 total until at least one account has measured feedback.",
+    "Every post still needs manual review and confirmation.",
+    "Do not reuse the same tool across accounts during the same cooldown window.",
+    "If an account has fewer than 3 fresh drafts, use it for research only."
+  ]
+}

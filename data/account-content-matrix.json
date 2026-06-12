@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T19:18:40.516Z",
+  "generatedAt": "2026-06-12T19:37:42.271Z",
   "rule": "Target one account with 3x candidate bench before trying to fill its daily post limit.",
   "summary": {
     "activeAccounts": 20,

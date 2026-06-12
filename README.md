@@ -57,20 +57,21 @@ output/YYYY-MM-DD-daily-x-pack.md
 11. 跑 `npm run draft-plan`，看每个账号今天能拿到哪些不重复候选。
 12. 跑 `npm run content-calendar` 或打开「内容日历」，确认 20 个账号的目标能不能被冷却时间和当天草稿真实容纳。
 13. 跑 `npm run account-matrix` 或打开「账号策略」里的 `Account content matrix`，看每个账号缺候选、缺新鲜内容、缺草稿还是缺排期。
-14. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
-15. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
-16. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
-17. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
-18. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
-19. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
-20. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
-21. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-22. 跑 `npm run learning-loop` 或看「反馈启动台」，确认今天最多还能安全新发几条、哪几条是 seed test、哪些已发内容必须先补 X Analytics。
-23. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
-24. 跑 `npm run scale` 或看「今日行动」里的放量准备度，确认今天卡在反馈、来源、排期还是授权。
-25. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-26. 对值得做测评页的工具点「生成测评页大纲」。
-27. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+14. 跑 `npm run scale-ramp` 或看「账号策略」里的 `Scale ramp plan`，先确定今天只启动哪 3 个种子账号、最多安全测试几条。
+15. 跑 `npm run roadmap`，看除了 X 账号切换以外，产品级还卡在哪里。
+16. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
+17. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
+18. 先看「今日行动」顶部的 `今天只做这 3 件事`，按顺序处理发布、联盟研究、长文/测评页。
+19. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
+20. 如果 Focus 面板给出新鲜发布候选，复制文案或点「发布到 X」手动确认发布。
+21. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+22. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+23. 跑 `npm run learning-loop` 或看「反馈启动台」，确认今天最多还能安全新发几条、哪几条是 seed test、哪些已发内容必须先补 X Analytics。
+24. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
+25. 跑 `npm run scale` 或看「今日行动」里的放量准备度，确认今天卡在反馈、来源、排期还是授权。
+26. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+27. 对值得做测评页的工具点「生成测评页大纲」。
+28. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -164,7 +165,7 @@ Tool B | https://example.org | Better reporting for small teams
 npm run daily
 ```
 
-拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并同步刷新 `data/scale-readiness.json` 与 `data/account-content-matrix.json`。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
+拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并同步刷新 `data/scale-readiness.json`、`data/account-content-matrix.json` 与 `data/scale-ramp-plan.json`。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
 
 ```bash
 npm run daily:top10
@@ -262,6 +263,12 @@ npm run account-matrix
 ```
 
 生成账号内容矩阵，输出到 `data/account-content-matrix.json` 和 `output/YYYY-MM-DD-account-content-matrix.md`。它会按账号计算候选池、强候选、新鲜候选、草稿、排期和反馈缺口，并给出账号级搜索任务。
+
+```bash
+npm run scale-ramp
+```
+
+生成规模爬坡计划，输出到 `data/scale-ramp-plan.json` 和 `output/YYYY-MM-DD-scale-ramp-plan.md`。它会把账号拆成种子测试、下一批、暂缓研究，并给出今天安全测试发帖上限、阶段退出条件和每个账号下一步。
 
 ```bash
 npm run roadmap
@@ -376,6 +383,7 @@ npm audit --audit-level=moderate
 - `data/draft-plans/*.json`：按账号生成的不重复草稿规划。
 - `data/content-calendar/*.json`：按账号冷却时间生成的本地发布审核日历。
 - `data/account-content-matrix.json`：账号级内容供给矩阵，回答每个账号离日发目标还缺多少候选、新鲜内容、草稿和排期。
+- `data/scale-ramp-plan.json`：规模爬坡计划，回答先启动哪几个账号、今天安全测试几条、哪些账号暂时只补来源。
 - `data/product-roadmap.json`：产品级 readiness/roadmap 报告。
 - `data/scale-readiness.json`：放量准备度报告，回答今天是否适合从小批量测试扩大到多账号发布。
 - `data/promotion-review.json`：值得手动审核加入队列的 promotion 清单。

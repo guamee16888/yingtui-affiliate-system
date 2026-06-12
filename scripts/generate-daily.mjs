@@ -23,6 +23,7 @@ import {
 } from "./lib/content-source-system.mjs";
 import { buildScaleReadiness, renderScaleReadinessMarkdown } from "./lib/scale-readiness.mjs";
 import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "./lib/account-content-matrix.mjs";
+import { buildScaleRampPlan, renderScaleRampPlanMarkdown } from "./lib/scale-ramp-plan.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -78,6 +79,7 @@ async function main() {
   const jsonFiles = await writeDailyJsonOutputs(model);
   const matrixFiles = await writeAccountMatrixOutputs({ model, accountConfig });
   const scaleFiles = await writeScaleOutputs({ model, accountConfig, accountContentMatrix: matrixFiles.matrix });
+  const rampFiles = await writeScaleRampOutputs({ model, accountContentMatrix: matrixFiles.matrix, scaleReadiness: scaleFiles.report });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
   if (!feed.usedFallback) {
@@ -96,6 +98,8 @@ async function main() {
   console.log(`Wrote ${scaleFiles.markdownPath}`);
   console.log(`Wrote ${matrixFiles.jsonPath}`);
   console.log(`Wrote ${matrixFiles.markdownPath}`);
+  console.log(`Wrote ${rampFiles.jsonPath}`);
+  console.log(`Wrote ${rampFiles.markdownPath}`);
   console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
   console.log(`Source refresh fetched ${sourceRefresh.fetchedCount} new items from ${sourceRefresh.enabledSources} enabled extra sources`);
   console.log(historyMessage);
@@ -119,7 +123,7 @@ async function writeScaleOutputs({ model, accountConfig, accountContentMatrix = 
   const markdownPath = `output/${model.date}-scale-readiness.md`;
   await writeJsonAtomic(jsonPath, report);
   await writeTextAtomic(markdownPath, renderScaleReadinessMarkdown(report));
-  return { jsonPath, markdownPath };
+  return { jsonPath, markdownPath, report };
 }
 
 async function writeAccountMatrixOutputs({ model, accountConfig }) {
@@ -136,6 +140,19 @@ async function writeAccountMatrixOutputs({ model, accountConfig }) {
   await writeJsonAtomic(jsonPath, matrix);
   await writeTextAtomic(markdownPath, renderAccountContentMatrixMarkdown(matrix));
   return { jsonPath, markdownPath, matrix };
+}
+
+async function writeScaleRampOutputs({ model, accountContentMatrix, scaleReadiness }) {
+  const plan = buildScaleRampPlan({
+    date: model.date,
+    accountContentMatrix,
+    scaleReadiness
+  });
+  const jsonPath = "data/scale-ramp-plan.json";
+  const markdownPath = `output/${model.date}-scale-ramp-plan.md`;
+  await writeJsonAtomic(jsonPath, plan);
+  await writeTextAtomic(markdownPath, renderScaleRampPlanMarkdown(plan));
+  return { jsonPath, markdownPath, plan };
 }
 
 main().catch((error) => {

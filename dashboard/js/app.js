@@ -46,6 +46,7 @@ const state = {
   sourceImportPack: null,
   productRoadmap: null,
   scaleReadiness: null,
+  scaleRampPlan: null,
   accountContentMatrix: null,
   xStatus: { configured: false, note: "" },
   settings: null,
@@ -131,7 +132,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, accountContentMatrix, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, accountContentMatrix, xStatus, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -148,12 +149,13 @@ async function loadAll() {
       api.get("/api/source-import-pack"),
       api.get("/api/product-roadmap"),
       api.get("/api/scale-readiness"),
+      api.get("/api/scale-ramp-plan"),
       api.get("/api/account-content-matrix"),
       api.get("/api/x/status"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, accountContentMatrix, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, accountContentMatrix, xStatus, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -167,7 +169,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, accountContentMatrix] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, productRoadmap, scaleReadiness, scaleRampPlan, accountContentMatrix] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -183,6 +185,7 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/source-import-pack/latest.json", { missing: true }),
     fetchJson("/data/product-roadmap.json", { missing: true }),
     fetchJson("/data/scale-readiness.json", { missing: true }),
+    fetchJson("/data/scale-ramp-plan.json", { missing: true }),
     fetchJson("/data/account-content-matrix.json", { missing: true })
   ]);
   const settings = {
@@ -222,6 +225,7 @@ async function loadStaticFallback(apiError) {
     sourceImportPack: sourceImportPack?.missing ? null : sourceImportPack,
     productRoadmap: productRoadmap?.missing ? null : productRoadmap,
     scaleReadiness: scaleReadiness?.missing ? null : scaleReadiness,
+    scaleRampPlan: scaleRampPlan?.missing ? null : scaleRampPlan,
     accountContentMatrix: accountContentMatrix?.missing ? null : accountContentMatrix,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
@@ -2569,6 +2573,7 @@ function renderAccounts() {
       <div class="list">${(strategy.rotationNotes ?? []).map((note) => `<div class="list-item">${esc(note)}</div>`).join("")}</div>
     </section>
     ${renderSupplyCoverage(supplyPlan)}
+    ${renderScaleRampPlanPanel(state.scaleRampPlan)}
     ${renderAccountContentMatrixPanel(state.accountContentMatrix)}
     ${renderDraftPlannerPanel(state.latest?.draftPlan)}
     ${renderContentCalendarPanel(state.latest?.contentCalendar)}
@@ -2588,6 +2593,78 @@ function renderAccounts() {
       <h2>账号画像</h2>
       <div class="account-grid">${accounts.map(renderAccountCard).join("") || empty("暂无账号配置。")}</div>
     </section>
+  </div>`;
+}
+
+function renderScaleRampPlanPanel(plan) {
+  if (!plan) {
+    return `<section class="panel warn">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Scale ramp plan</p>
+          <h2>还没有规模爬坡计划</h2>
+          <p class="muted">运行 npm run scale-ramp，把 20 个账号拆成先测试、下一批、暂缓研究。</p>
+        </div>
+        ${pill("Need ramp", "warn")}
+      </div>
+      <div class="row-actions"><button class="button ghost" data-copy="npm run scale-ramp">复制命令</button></div>
+    </section>`;
+  }
+  const summary = plan.summary ?? {};
+  const stages = plan.stages ?? [];
+  const startAccounts = plan.startAccounts ?? [];
+  const nextAccounts = plan.nextAccounts ?? [];
+  return `<section class="panel wide-panel scale-ramp-plan">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Scale ramp plan</p>
+        <h2>先跑 ${esc(summary.recommendedStartAccounts ?? 0)} 个账号，不要一次上 20 个</h2>
+        <p class="muted">${esc(plan.rule || "Scale in batches with manual confirmation.")}</p>
+      </div>
+      ${pill(`safe test ${summary.safeTestPosts ?? 0}`, Number(summary.safeTestPosts ?? 0) ? "warn" : "bad")}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(summary.safeTestPosts ?? 0)}</strong><span>safe test posts</span></div>
+      <div><strong>${esc(summary.plannedDrafts ?? 0)}/${esc(summary.targetDailyPosts ?? 0)}</strong><span>draft supply</span></div>
+      <div><strong>${esc(summary.readyAccounts ?? 0)}/${esc(summary.activeAccounts ?? 0)}</strong><span>ready accounts</span></div>
+      <div><strong>${esc(summary.measuredFeedbackAccounts ?? 0)}</strong><span>feedback accounts</span></div>
+    </div>
+    <div class="grid">
+      <div class="list">
+        <strong>种子测试账号</strong>
+        ${startAccounts.map(renderRampAccountItem).join("") || empty("没有账号达到种子测试条件。")}
+      </div>
+      <div class="list">
+        <strong>下一批</strong>
+        ${nextAccounts.slice(0, 5).map(renderRampAccountItem).join("") || empty("暂无下一批。")}
+      </div>
+    </div>
+    <div class="list mini-list">
+      <strong>阶段门槛</strong>
+      ${stages.map((stage) => `<div class="list-item">
+        <div class="line-head"><strong>${esc(stage.label)}</strong>${pill(`${stage.accountCount} accounts`, "neutral")}</div>
+        <p class="muted">${esc(stage.exitCriteria)}</p>
+      </div>`).join("")}
+    </div>
+    <div class="row-actions">
+      <button class="button ghost" data-copy="npm run scale-ramp">复制刷新命令</button>
+      <button class="button ghost" data-tab-jump="feedback">补反馈</button>
+      <button class="button ghost" data-tab-jump="candidates">导入候选</button>
+    </div>
+  </section>`;
+}
+
+function renderRampAccountItem(account) {
+  const missing = account.missing ?? {};
+  return `<div class="list-item">
+    <div class="line-head"><strong>${esc(account.displayName)}</strong>${pill(account.launchStage, account.launchStage === "start_today" ? "good" : account.launchStage === "seed_this_week" ? "warn" : "bad")}${pill(`${account.readinessScore}/100`, Number(account.readinessScore ?? 0) >= 60 ? "good" : Number(account.readinessScore ?? 0) >= 20 ? "warn" : "bad")}</div>
+    <div class="muted">drafts ${esc(account.plannedDrafts)}/${esc(account.targetPosts)} · fresh ${esc(account.freshCandidates)} · strong ${esc(account.strongCandidates)} · matched ${esc(account.matchedCandidates)}</div>
+    <p class="muted">${esc(account.nextAction)}</p>
+    <div class="pill-row">
+      ${pill(`draft gap ${missing.drafts ?? 0}`, Number(missing.drafts ?? 0) ? "warn" : "good")}
+      ${pill(`fresh gap ${missing.fresh ?? 0}`, Number(missing.fresh ?? 0) ? "warn" : "good")}
+      ${pill(`feedback ${missing.feedback ?? 0}`, Number(missing.feedback ?? 0) ? "warn" : "good")}
+    </div>
   </div>`;
 }
 

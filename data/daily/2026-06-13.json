@@ -1,6 +1,6 @@
 {
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T19:18:40.511Z",
+  "generatedAt": "2026-06-12T19:37:42.265Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -2150,7 +2150,7 @@
   },
   "sourceDiscovery": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:18:40.502Z",
+    "generatedAt": "2026-06-12T19:37:42.256Z",
     "summary": {
       "circles": 4,
       "totalNeededCandidates": 80,
@@ -2688,7 +2688,7 @@
   },
   "sourceHealth": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:18:40.504Z",
+    "generatedAt": "2026-06-12T19:37:42.258Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -4029,7 +4029,7 @@
   },
   "feedbackOps": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:18:40.508Z",
+    "generatedAt": "2026-06-12T19:37:42.262Z",
     "summary": {
       "posted": 0,
       "measured": 0,
@@ -4549,7 +4549,7 @@
   },
   "promotionReview": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:18:40.509Z",
+    "generatedAt": "2026-06-12T19:37:42.262Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {
@@ -7606,58 +7606,6 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_pond_078dd3c545",
-      "toolId": "tool_producthunt_com_pond_078dd3c545",
-      "name": "Pond",
-      "url": "https://www.producthunt.com/products/pond-5",
-      "domain": "producthunt.com",
-      "tagline": "Fundraising, GTM, and bounties for startups",
-      "published": "2026-06-07T17:28:00-07:00",
-      "sourceId": "",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "sourceQuality": {
-        "status": "ok",
-        "isNoisy": false,
-        "reason": "Not checked by source quality gate.",
-        "blockedTerms": [],
-        "matchedTerms": []
-      },
-      "circle": "",
-      "candidateType": "product",
-      "score": 16,
-      "scoreBreakdown": {
-        "painScore": 4,
-        "nicheScore": 5,
-        "affiliateScore": 2,
-        "contentScore": 1,
-        "noveltyScore": 4,
-        "riskScore": 0,
-        "sourceNoisePenalty": 0,
-        "seenPenalty": 0,
-        "total": 16
-      },
-      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "startup operators want a sharper startup workflow; test whether it solves removing one narrow, repeated manual step.",
-      "angle": {
-        "audience": "startup operators",
-        "outcome": "a sharper startup workflow",
-        "pain": "removing one narrow, repeated manual step",
-        "solution": "fundraising, gtm, and bounties for startups"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
       "id": "tool_producthunt_com_firma-dev_aaeac09a66",
       "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
       "name": "Firma.dev",
@@ -7705,6 +7653,58 @@
         "outcome": "less glue code",
         "pain": "removing one annoying developer workflow step",
         "solution": "e-signatures API for your app averaging ~3¢ per envelope"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
+      "id": "tool_producthunt_com_pond_078dd3c545",
+      "toolId": "tool_producthunt_com_pond_078dd3c545",
+      "name": "Pond",
+      "url": "https://www.producthunt.com/products/pond-5",
+      "domain": "producthunt.com",
+      "tagline": "Fundraising, GTM, and bounties for startups",
+      "published": "2026-06-07T17:28:00-07:00",
+      "sourceId": "",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
+      "circle": "",
+      "candidateType": "product",
+      "score": 16,
+      "scoreBreakdown": {
+        "painScore": 4,
+        "nicheScore": 5,
+        "affiliateScore": 2,
+        "contentScore": 1,
+        "noveltyScore": 4,
+        "riskScore": 0,
+        "sourceNoisePenalty": 0,
+        "seenPenalty": 0,
+        "total": 16
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "startup operators want a sharper startup workflow; test whether it solves removing one narrow, repeated manual step.",
+      "angle": {
+        "audience": "startup operators",
+        "outcome": "a sharper startup workflow",
+        "pain": "removing one narrow, repeated manual step",
+        "solution": "fundraising, gtm, and bounties for startups"
       },
       "copyVariants": {},
       "copyChecks": {}
@@ -7766,13 +7766,13 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_nodus-ph-radar-for-product-hunt_f1f78e58b4",
-      "toolId": "tool_producthunt_com_nodus-ph-radar-for-product-hunt_f1f78e58b4",
-      "name": "NODUS PH Radar for Product Hunt",
-      "url": "https://www.producthunt.com/products/nodus-ph-radar-for-product-hunt",
+      "id": "tool_producthunt_com_slack-data-agent_f160e26ca0",
+      "toolId": "tool_producthunt_com_slack-data-agent_f160e26ca0",
+      "name": "Slack Data Agent",
+      "url": "https://www.producthunt.com/products/basedash",
       "domain": "producthunt.com",
-      "tagline": "Product Hunt analytics beyond the daily leaderboard",
-      "published": "2026-06-08T14:47:33-07:00",
+      "tagline": "Ask about your data without leaving Slack",
+      "published": "2026-06-11T21:35:06-07:00",
       "sourceId": "",
       "sourceType": "producthunt",
       "sourceName": "Product Hunt",
@@ -7789,34 +7789,30 @@
       "candidateType": "product",
       "score": 14,
       "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 1,
-        "affiliateScore": 4,
+        "painScore": 4,
+        "nicheScore": 3,
+        "affiliateScore": 0,
         "contentScore": 3,
-        "noveltyScore": 6,
-        "riskScore": 2,
+        "noveltyScore": 7,
+        "riskScore": 3,
         "sourceNoisePenalty": 0,
-        "seenPenalty": 4,
+        "seenPenalty": 0,
         "total": 14
       },
-      "reason": "fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.",
+      "reason": "fresh enough to test now. Caution: not enough signal for follow-up.",
       "affiliateStatus": "no_fit",
       "affiliateLink": null,
       "affiliateNote": null,
       "followUpAction": "skip",
       "accountRecommendation": null,
-      "seenBefore": true,
-      "seenBeforeDetails": {
-        "count": 1,
-        "lastSeen": "2026-06-12",
-        "bestScore": 18
-      },
-      "suggestedAngle": "solo operators want faster reporting; test whether it solves removing one narrow, repeated manual step.",
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
       "angle": {
         "audience": "solo operators",
-        "outcome": "faster reporting",
+        "outcome": "a narrower workflow",
         "pain": "removing one narrow, repeated manual step",
-        "solution": "product hunt analytics beyond the daily leaderboard"
+        "solution": "ask about your data without leaving slack"
       },
       "copyVariants": {},
       "copyChecks": {}

@@ -26,6 +26,7 @@ import { affiliateSearchLinks, buildAffiliateResearchWorkbench } from "../script
 import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/affiliate-links.mjs";
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
 import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
+import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1538,6 +1539,33 @@ test("account content matrix exposes account-level candidate and draft gaps", ()
   assert.equal(matrix.searchTasks.length > 0, true);
   assert.equal(matrix.searchTasks.every((task) => task.url.startsWith("https://")), true);
   assert.match(markdown, /Account Content Matrix/);
+});
+
+test("scale ramp plan turns account matrix gaps into launch batches", () => {
+  const plan = buildScaleRampPlan({
+    date: "2026-06-12",
+    accountContentMatrix: {
+      summary: { activeAccounts: 4, targetDailyPosts: 40, plannedDrafts: 7, readyAccounts: 0 },
+      accountRows: [
+        { accountId: "ai", displayName: "AI", category: "AI", targetPosts: 10, candidateBenchTarget: 30, matchedCandidates: 12, strongCandidates: 4, freshCandidates: 4, plannedDrafts: 4, scheduledPosts: 2, measuredFeedback: 0, readinessScore: 35, status: "draft_short", blockers: ["drafts"] },
+        { accountId: "saas", displayName: "SaaS", category: "SaaS", targetPosts: 10, candidateBenchTarget: 30, matchedCandidates: 8, strongCandidates: 2, freshCandidates: 2, plannedDrafts: 3, scheduledPosts: 1, measuredFeedback: 0, readinessScore: 25, status: "draft_short", blockers: ["freshness"] },
+        { accountId: "crypto", displayName: "Crypto", category: "Crypto", targetPosts: 10, candidateBenchTarget: 30, matchedCandidates: 0, strongCandidates: 0, freshCandidates: 0, plannedDrafts: 0, scheduledPosts: 0, measuredFeedback: 0, readinessScore: 0, status: "draft_short", blockers: ["candidate_bench"] },
+        { accountId: "indie", displayName: "Indie", category: "Indie", targetPosts: 10, candidateBenchTarget: 30, matchedCandidates: 3, strongCandidates: 1, freshCandidates: 1, plannedDrafts: 0, scheduledPosts: 0, measuredFeedback: 0, readinessScore: 10, status: "draft_short", blockers: ["drafts"] }
+      ],
+      searchTasks: [
+        { accountId: "ai", provider: "X live search", query: "ai tools", url: "https://x.com/search?q=ai", targetRows: 3 }
+      ]
+    },
+    scaleReadiness: { blockers: [{ id: "feedback_missing" }] }
+  });
+
+  assert.equal(plan.summary.safeTestPosts, 3);
+  assert.equal(plan.startAccounts.length, 3);
+  assert.equal(plan.startAccounts[0].accountId, "ai");
+  assert.equal(plan.startAccounts[0].searchTasks.length, 1);
+  assert.equal(plan.nextAccounts.length, 1);
+  assert.equal(plan.holdAccounts.length, 0);
+  assert.equal(plan.operatingRules.some((rule) => rule.includes("manual review")), true);
 });
 
 test("affiliate research workbench prioritizes candidates and ready snippets", () => {

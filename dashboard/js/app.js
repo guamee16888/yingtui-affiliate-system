@@ -897,6 +897,7 @@ function renderRoadmap() {
   const dimensions = roadmap.dimensions ?? [];
   const blockers = roadmap.topBlockers ?? [];
   const nextSprint = roadmap.nextSprint ?? [];
+  const gapRadar = roadmap.gapRadar ?? null;
   $("#view-roadmap").innerHTML = `<div class="roadmap-layout">
     <section class="panel roadmap-hero">
       <div>
@@ -915,6 +916,7 @@ function renderRoadmap() {
         <div><strong>${esc(roadmap.summary?.nextSprintItems ?? nextSprint.length)}</strong><span>sprint</span></div>
       </div>
     </section>
+    ${gapRadar ? renderGapRadarPanel(gapRadar) : ""}
     <section class="panel">
       <div class="line-head">
         <div>
@@ -954,6 +956,45 @@ function renderRoadmap() {
       <div class="principle-grid">${(roadmap.productPrinciples ?? []).map((item) => `<div class="principle-card">${esc(item)}</div>`).join("")}</div>
     </section>
   </div>`;
+}
+
+function renderGapRadarPanel(gapRadar) {
+  const groups = [gapRadar.now, gapRadar.next, gapRadar.later, gapRadar.deferred].filter(Boolean);
+  return `<section class="panel wide-panel roadmap-gap-radar">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Gap radar</p>
+        <h2>除了账号切换，还差这些</h2>
+        <p class="muted">${esc(gapRadar.headline || "")}</p>
+      </div>
+      ${pill("Goal active", "good")}
+    </div>
+    <div class="radar-grid">
+      ${groups.map(renderRadarGroup).join("")}
+    </div>
+  </section>`;
+}
+
+function renderRadarGroup(group) {
+  const tone = group.label === "Now" ? "bad" : group.label === "Next" ? "warn" : group.label === "Deferred" ? "neutral" : "good";
+  return `<article class="radar-card ${attr((group.label || "").toLowerCase())}">
+    <div class="line-head">
+      <strong>${esc(group.label)} · ${esc(group.title)}</strong>
+      ${pill(group.items?.length ? `${group.items.length} items` : "clear", group.items?.length ? tone : "good")}
+    </div>
+    <p class="muted">${esc(group.description || "")}</p>
+    <div class="mini-list">
+      ${(group.items ?? []).map((item) => `<div class="list-item">
+        <div class="line-head"><strong>${esc(item.name)}</strong>${pill(`${item.score}/100`, item.status === "good" ? "good" : item.status === "deferred" ? "neutral" : item.status === "blocked" ? "bad" : "warn")}</div>
+        <p>${esc(item.gap)}</p>
+        <div class="queue-next">${esc(item.nextAction)}</div>
+        <div class="row-actions">
+          ${roadmapTabForDimension(item.id) ? `<button class="button ghost" data-tab-jump="${attr(roadmapTabForDimension(item.id))}">打开相关页面</button>` : ""}
+          <button class="button ghost" data-copy="${attr(roadmapCommandForDimension(item.id))}">复制命令</button>
+        </div>
+      </div>`).join("") || empty("暂无当前缺口。")}
+    </div>
+  </article>`;
 }
 
 function renderRoadmapBlocker(item) {

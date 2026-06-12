@@ -905,6 +905,23 @@ input:focus, select:focus, textarea:focus {
   color: var(--muted);
   font-size: 13px;
 }
+.roadmap-gap-radar { grid-column: 1 / -1; }
+.radar-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.radar-card {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 13px;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.radar-card.now { border-left-color: var(--danger); }
+.radar-card.next { border-left-color: var(--warning); }
+.radar-card.later { border-left-color: var(--success); }
+.radar-card.deferred { border-left-color: var(--faint); }
+.radar-card .mini-list { display: grid; gap: 8px; }
 .tool-card, .queue-card { padding: 17px; display: grid; gap: 12px; transition: border-color .15s ease, box-shadow .15s ease; }
 .tool-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-soft); }
 .card-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: start; }
@@ -1153,7 +1170,8 @@ dialog::backdrop { background: rgba(10, 18, 14, .42); backdrop-filter: blur(3px)
   .metrics, .filters, .grid, .three-grid, .roadmap-grid, .principle-grid, .readiness-stats, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards, .account-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .affiliate-workflow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .roadmap-layout { grid-template-columns: 1fr; }
-  .roadmap-blocker-strip { grid-template-columns: 1fr; }
+  .roadmap-blocker-strip,
+  .radar-grid { grid-template-columns: 1fr; }
   .weekly-layout { grid-template-columns: 1fr; }
 }
 

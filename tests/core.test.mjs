@@ -1445,6 +1445,11 @@ test("product roadmap identifies non-auth product blockers", () => {
   });
 
   assert.equal(roadmap.level, "prototype");
+  assert.match(roadmap.gapRadar.headline, /not X account switching/);
+  assert.equal(roadmap.summary.nonAuthBlockers > 0, true);
+  assert.equal(roadmap.gapRadar.now.items.some((item) => item.id === "content_supply"), true);
+  assert.equal(roadmap.gapRadar.now.items.some((item) => item.id === "feedback_loop"), true);
+  assert.equal(roadmap.gapRadar.deferred.items.some((item) => item.id === "account_switching"), true);
   assert.equal(roadmap.dimensions.find((item) => item.id === "account_switching").status, "deferred");
   assert.equal(roadmap.topBlockers.some((item) => item.id === "content_supply"), true);
   assert.equal(roadmap.topBlockers.some((item) => item.id === "content_calendar"), true);

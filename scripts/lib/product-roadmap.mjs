@@ -30,6 +30,7 @@ export function buildProductRoadmap({
     .filter((item) => item.score < 70)
     .sort((a, b) => a.score - b.score)
     .slice(0, 5);
+  const gapRadar = buildGapRadar(dimensions, blockers, overallScore);
 
   return {
     date,
@@ -40,10 +41,12 @@ export function buildProductRoadmap({
     summary: {
       dimensions: dimensions.length,
       blockers: blockers.length,
+      nonAuthBlockers: gapRadar.now.items.length + gapRadar.next.items.length,
       deferred: dimensions.filter((item) => item.status === "deferred").length,
       nextSprintItems: blockers.length
     },
     dimensions,
+    gapRadar,
     topBlockers: blockers.map((item) => ({
       id: item.id,
       name: item.name,
@@ -73,6 +76,10 @@ export function renderProductRoadmapMarkdown(roadmap) {
 - Blockers: ${roadmap.summary.blockers}
 - Deferred: ${roadmap.summary.deferred}
 
+## Gap Radar
+
+${roadmap.gapRadar ? renderGapRadar(roadmap.gapRadar) : "No gap radar available."}
+
 ## Top Blockers
 
 ${roadmap.topBlockers.length ? roadmap.topBlockers.map((item, index) => `${index + 1}. ${item.name} — ${item.score}/100
@@ -91,6 +98,86 @@ ${roadmap.dimensions.map(renderDimension).join("\n\n")}
 
 ${roadmap.productPrinciples.map((item) => `- ${item}`).join("\n")}
 `;
+}
+
+function buildGapRadar(dimensions, blockers, overallScore) {
+  const byId = new Map(dimensions.map((item) => [item.id, item]));
+  const blockerIds = new Set(blockers.map((item) => item.id));
+  const nowIds = ["feedback_loop", "content_supply", "content_calendar"]
+    .filter((id) => blockerIds.has(id));
+  const nextIds = ["affiliate_monetization", "longform_engine", "source_diversity"]
+    .filter((id) => {
+      const item = byId.get(id);
+      return item && item.score < 80 && !nowIds.includes(id);
+    });
+  const laterIds = ["quality_safety", "public_product"]
+    .filter((id) => {
+      const item = byId.get(id);
+      return item && item.score < 95;
+    });
+  const deferredIds = dimensions
+    .filter((item) => item.status === "deferred")
+    .map((item) => item.id);
+
+  return {
+    headline: radarHeadline(overallScore, nowIds.length),
+    now: radarGroup({
+      label: "Now",
+      title: "Make the daily engine real",
+      description: "Fix the pieces that decide whether 20 accounts can get enough unique, measured, reviewable posts.",
+      items: nowIds.map((id) => radarItem(byId.get(id)))
+    }),
+    next: radarGroup({
+      label: "Next",
+      title: "Turn winners into compounding assets",
+      description: "After the supply and feedback loop work, convert winners into affiliate research, threads, and review pages.",
+      items: nextIds.map((id) => radarItem(byId.get(id)))
+    }),
+    later: radarGroup({
+      label: "Later",
+      title: "Polish the public product surface",
+      description: "Keep the dashboard credible, demo-friendly, and safer to operate as the data gets better.",
+      items: laterIds.map((id) => radarItem(byId.get(id)))
+    }),
+    deferred: radarGroup({
+      label: "Deferred",
+      title: "Account switching stays safety-gated",
+      description: "Do not prioritize real multi-account OAuth until content quality, feedback, cooldowns, and same-tool safeguards are working.",
+      items: deferredIds.map((id) => radarItem(byId.get(id)))
+    })
+  };
+}
+
+function radarGroup({ label, title, description, items }) {
+  return { label, title, description, items: items.filter(Boolean) };
+}
+
+function radarItem(item) {
+  if (!item) return null;
+  return {
+    id: item.id,
+    name: item.name,
+    score: item.score,
+    status: item.status,
+    gap: item.gaps?.[0] ?? "No major gap detected.",
+    nextAction: item.nextActions?.[0] ?? "Run npm run roadmap."
+  };
+}
+
+function radarHeadline(overallScore, nowCount) {
+  if (overallScore >= 70) return "The product is operator-ready; keep improving feedback, monetization, and public proof.";
+  if (nowCount) return "The next unlock is not X account switching; it is enough fresh supply plus measured feedback.";
+  return "Core safety is in place; use the next sprint to improve monetization and long-form follow-up.";
+}
+
+function renderGapRadar(gapRadar) {
+  return [gapRadar.now, gapRadar.next, gapRadar.later, gapRadar.deferred]
+    .map((group) => `### ${group.label}: ${group.title}
+
+${group.description}
+
+${group.items.length ? group.items.map((item) => `- ${item.name}: ${item.score}/100. Gap: ${item.gap} Next: ${item.nextAction}`).join("\n") : "- No active items."}`)
+    .join("\n\n");
 }
 
 function accountSwitchingDimension(latest, accountPosts) {

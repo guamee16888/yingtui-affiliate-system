@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T14:33:05.836Z",
+  "generatedAt": "2026-06-12T15:12:49.651Z",
   "summary": {
     "posted": 0,
     "measured": 0,
@@ -10,6 +10,7 @@
     "measuredAccounts": 0,
     "unlinkedPostRecords": 0,
     "learningScore": 0,
+    "seedTests": 3,
     "feedbackGateStatus": "seed_test",
     "maxNewPostsBeforeMetrics": 3,
     "topAccount": "",
@@ -32,6 +33,120 @@
       "Post 3 fresh candidates at most.",
       "Mark each post with accountId immediately.",
       "Wait for X Analytics, then import impressions and engagement."
+    ]
+  },
+  "seedTestPlan": {
+    "status": "ready",
+    "maxTests": 3,
+    "plannedTests": 3,
+    "rule": "Manual-confirm only. Post a tiny batch, mark each post with accountId, then import X Analytics before scaling.",
+    "reason": "Run 3 manually reviewed seed tests, then import X Analytics before scaling.",
+    "items": [
+      {
+        "toolId": "tool_coindesk_com_canton-network-developer-raises-355-million-to-bring-wall-street-onchain_390caf00dc",
+        "toolName": "Canton Network developer raises $355 million to bring Wall Street onchain",
+        "toolUrl": "https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+        "score": 37,
+        "priorityScore": 118,
+        "followUpAction": "thread candidate",
+        "sourceName": "CoinDesk crypto feed",
+        "freshnessLabel": "Fresh today",
+        "accountId": "ai_founder_signals",
+        "accountName": "AI Founder Signals",
+        "accountCategory": "AI startup circle",
+        "variantType": "shortPost",
+        "copyText": "Worth watching: Canton Network developer raises $355 million to bring Wall Street onchain. I would not treat it as a tool review. The useful angle is what it says about developers. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+        "copyVariants": {
+          "shortPost": "Worth watching: Canton Network developer raises $355 million to bring Wall Street onchain. I would not treat it as a tool review. The useful angle is what it says about developers. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+          "casualPost": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: the investment comes as blockchains designed for big banks and institutions are having.... I would verify the details before posting a stronger take. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+          "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for developers? https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+          "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one annoying developer workflow step. Worth watching before turning it into a thread. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain",
+          "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain"
+        },
+        "reason": "Fresh CoinDesk crypto feed routed to AI Founder Signals; score 37, risk 0.",
+        "suggestedAngle": "developers want less workflow friction; test whether it solves removing one annoying developer workflow step.",
+        "affiliateStatus": "research_needed",
+        "position": 1,
+        "checklist": [
+          "Account: AI Founder Signals",
+          "Variant: shortPost",
+          "Freshness: Fresh today",
+          "Confirm manually before publish.",
+          "Record feedback row immediately after posting."
+        ]
+      },
+      {
+        "toolId": "tool_coindesk_com_blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week_6cfc2df1d1",
+        "toolName": "BlackRock files to list its bitcoin income ETF, with expected debut next week",
+        "toolUrl": "https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+        "score": 26,
+        "priorityScore": 85,
+        "followUpAction": "thread candidate",
+        "sourceName": "CoinDesk crypto feed",
+        "freshnessLabel": "Fresh today",
+        "accountId": "ai_agent_ops",
+        "accountName": "AI Agent Ops",
+        "accountCategory": "AI agents and automation",
+        "variantType": "painPointHook",
+        "copyText": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+        "copyVariants": {
+          "shortPost": "Worth watching: BlackRock files to list its bitcoin income ETF, with expected debut next week. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "casualPost": "Saving this from CoinDesk crypto feed. Not a recommendation, more of a market signal: an 8-a share registration filing, in this case for nasdaq, is usually one of the last s.... I would verify the details before posting a stronger take. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week",
+          "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week"
+        },
+        "reason": "Fresh CoinDesk crypto feed routed to AI Agent Ops; score 26, risk 0.",
+        "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+        "affiliateStatus": "research_needed",
+        "position": 2,
+        "checklist": [
+          "Account: AI Agent Ops",
+          "Variant: painPointHook",
+          "Freshness: Fresh today",
+          "Confirm manually before publish.",
+          "Record feedback row immediately after posting."
+        ]
+      },
+      {
+        "toolId": "tool_techcrunch_com_theker-just-raised-85m-to-build-the-factory-robot-that-doesn-t-specialize-in-any_3d469281ec",
+        "toolName": "Theker just raised $85M to build the factory robot that doesn’t specialize in anything",
+        "toolUrl": "https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+        "score": 25,
+        "priorityScore": 82,
+        "followUpAction": "tweet only",
+        "sourceName": "TechCrunch AI feed",
+        "freshnessLabel": "Fresh today",
+        "accountId": "ai_tools_lab",
+        "accountName": "AI Tools Lab",
+        "accountCategory": "AI tools discovery",
+        "variantType": "casualPost",
+        "copyText": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: unlike humanoid robots designed around a fixed form — think boston dynamics — theker's.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+        "copyVariants": {
+          "shortPost": "Worth watching: Theker just raised $85M to build the factory robot that doesn’t specialize in anything. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+          "casualPost": "Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: unlike humanoid robots designed around a fixed form — think boston dynamics — theker's.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+          "contrarianAngle": "Most people will repeat the headline. The better post is probably the second-order question: what changes for solo operators? https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+          "painPointHook": "The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/",
+          "threadOpening": "If I turned this into a thread, I would keep it sober: who is affected, what changed, what is still uncertain, and whether builders can act on it. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/"
+        },
+        "reason": "Fresh TechCrunch AI feed routed to AI Tools Lab; score 25, risk 0.",
+        "suggestedAngle": "solo operators want a narrower workflow; test whether it solves removing one narrow, repeated manual step.",
+        "affiliateStatus": "research_needed",
+        "position": 3,
+        "checklist": [
+          "Account: AI Tools Lab",
+          "Variant: casualPost",
+          "Freshness: Fresh today",
+          "Confirm manually before publish.",
+          "Record feedback row immediately after posting."
+        ]
+      }
+    ],
+    "afterPosting": [
+      "Click Mark posted or publish through the confirmation dialog so accountId is recorded.",
+      "Wait until X Analytics has impressions.",
+      "Paste the analytics table into Feedback import.",
+      "Do not scale beyond the gate until measured feedback exists."
     ]
   },
   "actionList": [

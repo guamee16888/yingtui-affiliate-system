@@ -101,6 +101,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 
 如果顶部「发布前信心」显示 `先别花 credits`，今日行动会优先提示 `先别付费发布`，并把旧候选转成观察、联盟研究或长文候选，而不是硬推荐你发推。顶部的发布守门员会同时显示三件事：数据年龄、数据来源、API 发布规则。只有 6 小时内的 live feed，并且候选是 `Fresh today` / `Fresh 48h`，才值得考虑花 API credits 发。
 
+`反馈种子测试` 会在反馈闭环里挑最多 3 条新鲜、未发过、低风险、已有账号路由的候选，作为第一批手动测试。它只给建议和按钮：复制、发布前确认、标记已发、录入反馈；不会批量发布，也不会绕过确认弹窗。发完以后必须回填 X Analytics，否则 Feedback debt gate 会阻止继续放大。
+
 `Feed diagnostic` 会告诉你这次 Product Hunt feed 里到底有多少 `Today / 48h / 7d` 工具。如果 Top Picks 没有新鲜候选，它会说明是 feed 本身没新货，还是有新工具但评分不够，并列出 `Fresh feed watchlist` 供你手动观察。
 
 `Candidate Inbox` 和 `Source Candidates` 是补充来源，不会自动发推，也不会自动生成 affiliate link。它们只是把 Product Hunt 之外的工具、话题和市场信号加入评分池，解决只靠 Product Hunt RSS 时候选不够新鲜的问题。
@@ -263,7 +265,7 @@ npm run feedback
 npm run feedback-ops
 ```
 
-生成反馈运营报告，输出到 `data/feedback-ops.json` 和 `output/YYYY-MM-DD-feedback-ops.md`。它会按账号、文案角度、来源统计真实表现，并列出哪些已发内容还缺 X Analytics 数据。报告里的 `Feedback debt gate` 会提示当前是否该继续发、最多还能发几条测试内容，还是应该先补反馈。
+生成反馈运营报告，输出到 `data/feedback-ops.json` 和 `output/YYYY-MM-DD-feedback-ops.md`。它会按账号、文案角度、来源统计真实表现，并列出哪些已发内容还缺 X Analytics 数据。报告里的 `Feedback debt gate` 会提示当前是否该继续发、最多还能发几条测试内容，还是应该先补反馈；`Seed Test Plan` 会列出最多 3 条适合启动反馈学习的小批量手动测试。
 
 ```bash
 npm run decisions

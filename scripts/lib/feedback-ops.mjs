@@ -14,6 +14,7 @@ export function buildFeedbackOps({ date, latest = null, feedback = { entries: []
   const angleStats = buildVariantStats(posted, measured);
   const sourceStats = buildSourceStats(posted, measured, toolById);
   const debtGate = buildFeedbackDebtGate({ posted, measured, pending, activeAccounts, accountStats });
+  const seedTestPlan = buildFeedbackSeedTestPlan({ latest, posted, accountPosts, activeAccounts, debtGate });
   const measuredAccounts = accountStats.filter((item) => item.measured > 0).length;
   const measuredRate = posted.length ? measured.length / posted.length : 0;
   const accountLearningRate = activeAccounts.length ? measuredAccounts / activeAccounts.length : 0;
@@ -30,6 +31,7 @@ export function buildFeedbackOps({ date, latest = null, feedback = { entries: []
       measuredAccounts,
       unlinkedPostRecords: unlinkedPosts.length,
       learningScore,
+      seedTests: seedTestPlan.items.length,
       feedbackGateStatus: debtGate.status,
       maxNewPostsBeforeMetrics: debtGate.maxNewPostsBeforeMetrics,
       topAccount: accountStats.find((item) => item.measured > 0)?.displayName ?? "",
@@ -37,6 +39,7 @@ export function buildFeedbackOps({ date, latest = null, feedback = { entries: []
       topSource: sourceStats.find((item) => item.measured > 0)?.sourceName ?? ""
     },
     debtGate,
+    seedTestPlan,
     actionList: feedbackOpsActions({ pending, unlinkedPosts, accountStats, angleStats, sourceStats, activeAccounts, debtGate }),
     pendingFeedback: pending
       .sort((a, b) => pendingAgeHours(b) - pendingAgeHours(a))
@@ -62,6 +65,7 @@ export function renderFeedbackOpsMarkdown(ops) {
 - Posted rows: ${ops.summary.posted}
 - Measured rows: ${ops.summary.measured}
 - Pending feedback: ${ops.summary.pending}
+- Seed test candidates: ${ops.summary.seedTests ?? 0}
 - Feedback gate: ${ops.debtGate?.title ?? ops.summary.feedbackGateStatus ?? "unknown"}
 - Max new posts before metrics: ${ops.debtGate?.maxNewPostsBeforeMetrics ?? ops.summary.maxNewPostsBeforeMetrics ?? 0}
 - Measured accounts: ${ops.summary.measuredAccounts}/${ops.summary.activeAccounts}
@@ -76,6 +80,10 @@ ${ops.actionList.length ? ops.actionList.map((item, index) => `${index + 1}. ${i
 ## Feedback Debt Gate
 
 ${renderFeedbackDebtGateMarkdown(ops.debtGate)}
+
+## Seed Test Plan
+
+${renderSeedTestPlanMarkdown(ops.seedTestPlan)}
 
 ## Pending Feedback
 
@@ -97,6 +105,170 @@ ${ops.sourceStats.slice(0, 8).map((item) => `- ${item.sourceName}: measured ${it
 
 ${ops.notes.map((item) => `- ${item}`).join("\n")}
 `;
+}
+
+export function buildFeedbackSeedTestPlan({ latest = null, posted = [], accountPosts = { items: [] }, activeAccounts = [], debtGate = null }) {
+  const maxTests = Math.max(0, Math.min(3, Number(debtGate?.maxNewPostsBeforeMetrics ?? 3)));
+  const postedToolIds = new Set([
+    ...posted.map((entry) => entry.toolId).filter(Boolean),
+    ...(accountPosts.items ?? []).map((post) => post.toolId).filter(Boolean)
+  ]);
+  const activeById = new Map(activeAccounts.map((account) => [account.id, account]));
+  const usedAccounts = new Set();
+  const variantOrder = ["shortPost", "painPointHook", "casualPost", "threadOpening", "contrarianAngle"];
+
+  if (!maxTests) {
+    return seedPlan({
+      status: "blocked",
+      maxTests,
+      items: [],
+      reason: debtGate?.headline || "Feedback gate does not allow new posts yet."
+    });
+  }
+
+  const candidates = (latest?.tools ?? [])
+    .map((tool) => seedCandidate(tool, latest, activeById, variantOrder, postedToolIds))
+    .filter(Boolean)
+    .sort((a, b) => b.priorityScore - a.priorityScore || a.toolName.localeCompare(b.toolName));
+  const items = [];
+
+  for (const candidate of candidates) {
+    if (items.length >= maxTests) break;
+    if (candidate.accountId && usedAccounts.has(candidate.accountId) && activeAccounts.length >= maxTests) continue;
+    candidate.position = items.length + 1;
+    const preferredVariant = variantOrder[items.length % variantOrder.length];
+    candidate.variantType = candidate.copyVariants[preferredVariant] ? preferredVariant : candidate.variantType;
+    candidate.copyText = candidate.copyVariants[candidate.variantType] || candidate.copyText;
+    candidate.checklist = seedChecklist(candidate);
+    items.push(candidate);
+    if (candidate.accountId) usedAccounts.add(candidate.accountId);
+  }
+
+  if (!items.length) {
+    return seedPlan({
+      status: "no_candidates",
+      maxTests,
+      items,
+      reason: "No fresh, unposted, low-risk candidates with account routing and copy were available."
+    });
+  }
+
+  return seedPlan({
+    status: "ready",
+    maxTests,
+    items,
+    reason: `Run ${items.length} manually reviewed seed test${items.length === 1 ? "" : "s"}, then import X Analytics before scaling.`
+  });
+}
+
+function seedPlan({ status, maxTests, items, reason }) {
+  return {
+    status,
+    maxTests,
+    plannedTests: items.length,
+    rule: "Manual-confirm only. Post a tiny batch, mark each post with accountId, then import X Analytics before scaling.",
+    reason,
+    items,
+    afterPosting: [
+      "Click Mark posted or publish through the confirmation dialog so accountId is recorded.",
+      "Wait until X Analytics has impressions.",
+      "Paste the analytics table into Feedback import.",
+      "Do not scale beyond the gate until measured feedback exists."
+    ]
+  };
+}
+
+function seedCandidate(tool, latest, activeById, variantOrder, postedToolIds) {
+  if (!tool?.toolId || postedToolIds.has(tool.toolId)) return null;
+  if (tool.seenBefore || tool.followUpAction === "skip") return null;
+  const freshness = seedFreshness(tool, latest?.generatedAt);
+  if (freshness.kind !== "fresh") return null;
+  if (Number(tool.scoreBreakdown?.riskScore ?? 0) >= 8) return null;
+  const accountId = tool.accountRecommendation?.primary?.accountId ?? "";
+  const account = activeById.get(accountId);
+  if (!account) return null;
+  const copyVariants = normalizeCopyVariants(tool.copyVariants);
+  const variantType = variantOrder.find((variant) => copyVariants[variant]) ?? Object.keys(copyVariants)[0] ?? "";
+  const copyText = copyVariants[variantType] ?? "";
+  if (!copyText) return null;
+  const affiliateScore = Number(tool.scoreBreakdown?.affiliateScore ?? 0);
+  const contentScore = Number(tool.scoreBreakdown?.contentScore ?? 0);
+  const riskScore = Number(tool.scoreBreakdown?.riskScore ?? 0);
+  const priorityScore = Number(tool.score ?? 0) * 2
+    + affiliateScore * 4
+    + contentScore * 3
+    + (freshness.label === "Fresh today" ? 12 : 6)
+    - riskScore * 5;
+
+  return {
+    toolId: tool.toolId,
+    toolName: tool.name,
+    toolUrl: tool.url,
+    score: Number(tool.score ?? 0),
+    priorityScore: Math.round(priorityScore),
+    followUpAction: tool.followUpAction,
+    sourceName: tool.sourceName ?? "",
+    freshnessLabel: freshness.label,
+    accountId: account.id,
+    accountName: account.displayName,
+    accountCategory: account.category,
+    variantType,
+    copyText,
+    copyVariants,
+    reason: `Fresh ${tool.sourceName || "candidate"} routed to ${account.displayName}; score ${tool.score}, risk ${riskScore}.`,
+    suggestedAngle: tool.suggestedAngle || "",
+    affiliateStatus: tool.affiliateStatus || "research_needed"
+  };
+}
+
+function seedFreshness(tool, generatedAt) {
+  const ageHours = productAgeHours(tool.published, generatedAt);
+  if (ageHours !== null && ageHours <= 24) return { kind: "fresh", label: "Fresh today" };
+  if (ageHours !== null && ageHours <= 48) return { kind: "fresh", label: "Fresh 48h" };
+  return { kind: "stale", label: "Older but useful" };
+}
+
+function productAgeHours(published, generatedAt) {
+  const date = new Date(published);
+  const reference = generatedAt ? new Date(generatedAt) : new Date();
+  if (Number.isNaN(date.getTime()) || Number.isNaN(reference.getTime())) return null;
+  return Math.max(0, (reference.getTime() - date.getTime()) / 3600000);
+}
+
+function normalizeCopyVariants(copyVariants) {
+  if (Array.isArray(copyVariants)) {
+    return copyVariants.reduce((variants, variant) => {
+      if (variant?.label && variant?.text) variants[variant.label] = variant.text;
+      return variants;
+    }, {});
+  }
+  return copyVariants ?? {};
+}
+
+function seedChecklist(candidate) {
+  return [
+    `Account: ${candidate.accountName}`,
+    `Variant: ${candidate.variantType}`,
+    `Freshness: ${candidate.freshnessLabel}`,
+    "Confirm manually before publish.",
+    "Record feedback row immediately after posting."
+  ];
+}
+
+function renderSeedTestPlanMarkdown(plan) {
+  if (!plan) return "No seed test plan available.";
+  const header = [
+    `- Status: ${plan.status}`,
+    `- Max tests: ${plan.maxTests}`,
+    `- Planned tests: ${plan.plannedTests}`,
+    `- Rule: ${plan.rule}`,
+    `- Reason: ${plan.reason}`
+  ].join("\n");
+  const items = plan.items.length
+    ? plan.items.map((item, index) => `${index + 1}. ${item.toolName} — ${item.accountName} — ${item.variantType} — priority ${item.priorityScore}
+   ${item.copyText}`).join("\n")
+    : "No seed tests.";
+  return `${header}\n\n${items}\n\nAfter posting:\n${plan.afterPosting.map((item, index) => `${index + 1}. ${item}`).join("\n")}`;
 }
 
 function buildAccountStats(accounts, posted, measured, pending) {

@@ -963,6 +963,7 @@ function renderFeedbackOpsPanel(ops, scope = "full") {
       ${pill(`learning ${ops.summary?.learningScore ?? 0}/100`, Number(ops.summary?.learningScore ?? 0) >= 60 ? "good" : "warn")}
     </div>
     ${renderFeedbackDebtGateCard(debtGate)}
+    ${renderSeedTestPanel(ops.seedTestPlan, compact ? "compact" : "full")}
     <div class="pipeline-stats">
       <div><strong>${esc(ops.summary?.measured ?? 0)}/${esc(ops.summary?.posted ?? 0)}</strong><span>measured</span></div>
       <div><strong>${esc(ops.summary?.pending ?? 0)}</strong><span>pending</span></div>
@@ -993,6 +994,53 @@ function renderFeedbackOpsPanel(ops, scope = "full") {
       <button class="button ghost" data-tab-jump="accounts">看账号策略</button>
     </div>
   </section>`;
+}
+
+function renderSeedTestPanel(plan, scope = "full") {
+  if (!plan) return "";
+  const compact = scope === "compact";
+  const severity = plan.status === "ready" ? "good" : plan.status === "blocked" ? "bad" : "warn";
+  const items = (plan.items ?? []).slice(0, compact ? 3 : 5);
+  return `<div class="seed-test-panel ${severity}">
+    <div class="line-head">
+      <div>
+        <strong>反馈种子测试</strong>
+        <p class="muted">${esc(plan.reason)}</p>
+      </div>
+      ${pill(`${plan.plannedTests ?? 0}/${plan.maxTests ?? 0} tests`, severity)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(plan.plannedTests ?? 0)}</strong><span>planned</span></div>
+      <div><strong>${esc(plan.maxTests ?? 0)}</strong><span>gate max</span></div>
+      <div><strong>${esc(plan.status)}</strong><span>status</span></div>
+      <div><strong>manual</strong><span>mode</span></div>
+    </div>
+    <div class="list">${items.map(renderSeedTestItem).join("") || empty("暂无可测候选。先刷新 Live Feed 或补来源。")}</div>
+    ${compact ? "" : `<div class="list mini-list">
+      ${(plan.afterPosting ?? []).map((item) => `<div class="list-item">${esc(item)}</div>`).join("")}
+    </div>`}
+  </div>`;
+}
+
+function renderSeedTestItem(item) {
+  const copy = item.copyText || "";
+  return `<div class="list-item seed-test-item">
+    <div class="line-head">
+      <strong>${esc(item.position ? `${item.position}. ` : "")}${esc(item.toolName)}</strong>
+      ${pill(item.freshnessLabel, "fresh")}
+      ${pill(item.accountName, "good")}
+      ${pill(labels[item.variantType] ?? item.variantType, "neutral")}
+    </div>
+    <div class="muted">priority ${esc(item.priorityScore)} · score ${esc(item.score)} · ${esc(labels[item.followUpAction] ?? item.followUpAction)} · ${esc(item.sourceName)}</div>
+    <p>${esc(item.reason)}</p>
+    <pre class="copy-text">${esc(copy)}</pre>
+    <div class="row-actions">
+      <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
+      <button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}">发布前确认</button>
+      <button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}">标记已发</button>
+      <button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}">录入反馈</button>
+    </div>
+  </div>`;
 }
 
 function renderFeedbackDebtGateCard(gate) {

@@ -580,6 +580,34 @@ main {
   border-left-color: var(--danger);
   background: color-mix(in srgb, var(--danger) 6%, var(--card));
 }
+.seed-test-panel {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--soft);
+  padding: 13px;
+}
+.seed-test-panel.good {
+  border-color: color-mix(in srgb, var(--success) 32%, var(--border));
+  border-left-color: var(--success);
+  background: color-mix(in srgb, var(--success) 7%, var(--card));
+}
+.seed-test-panel.warn {
+  border-color: color-mix(in srgb, var(--warning) 36%, var(--border));
+  border-left-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 7%, var(--card));
+}
+.seed-test-panel.bad {
+  border-color: color-mix(in srgb, var(--danger) 36%, var(--border));
+  border-left-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 6%, var(--card));
+}
+.seed-test-item .copy-text {
+  max-height: 150px;
+  overflow: auto;
+}
 .queue-pipeline {
   display: grid;
   gap: 14px;
@@ -1340,6 +1368,7 @@ main {
 [data-theme="dark"] .roadmap-card,
 [data-theme="dark"] .roadmap-blocker-strip article,
 [data-theme="dark"] .principle-card,
+[data-theme="dark"] .seed-test-panel,
 [data-theme="dark"] .copy-block,
 [data-theme="dark"] .copy-text {
   background: #1b221e;

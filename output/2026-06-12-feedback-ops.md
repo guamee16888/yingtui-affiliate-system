@@ -4,6 +4,7 @@
 - Posted rows: 0
 - Measured rows: 0
 - Pending feedback: 0
+- Seed test candidates: 3
 - Feedback gate: Seed the feedback loop
 - Max new posts before metrics: 3
 - Measured accounts: 0/20
@@ -34,6 +35,27 @@ Next actions:
 
 Account debt:
 - No account debt.
+
+## Seed Test Plan
+
+- Status: ready
+- Max tests: 3
+- Planned tests: 3
+- Rule: Manual-confirm only. Post a tiny batch, mark each post with accountId, then import X Analytics before scaling.
+- Reason: Run 3 manually reviewed seed tests, then import X Analytics before scaling.
+
+1. Canton Network developer raises $355 million to bring Wall Street onchain — AI Founder Signals — shortPost — priority 118
+   Worth watching: Canton Network developer raises $355 million to bring Wall Street onchain. I would not treat it as a tool review. The useful angle is what it says about developers. https://www.coindesk.com/business/2026/06/11/canton-network-developer-raises-usd355-million-to-bring-wall-street-onchain
+2. BlackRock files to list its bitcoin income ETF, with expected debut next week — AI Agent Ops — painPointHook — priority 85
+   The hook here is not the news itself. It is the pain underneath: removing one narrow, repeated manual step. Worth watching before turning it into a thread. https://www.coindesk.com/markets/2026/06/12/blackrock-files-to-list-its-bitcoin-income-etf-with-expected-debut-next-week
+3. Theker just raised $85M to build the factory robot that doesn’t specialize in anything — AI Tools Lab — casualPost — priority 82
+   Saving this from TechCrunch AI feed. Not a recommendation, more of a market signal: unlike humanoid robots designed around a fixed form — think boston dynamics — theker's.... I would verify the details before posting a stronger take. https://techcrunch.com/2026/06/11/theker-just-raised-85m-to-build-the-factory-robot-that-doesnt-specialize-in-anything/
+
+After posting:
+1. Click Mark posted or publish through the confirmation dialog so accountId is recorded.
+2. Wait until X Analytics has impressions.
+3. Paste the analytics table into Feedback import.
+4. Do not scale beyond the gate until measured feedback exists.
 
 ## Pending Feedback
 

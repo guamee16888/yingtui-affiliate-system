@@ -20,7 +20,31 @@ import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPackRows,
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
-import { buildFeedbackOps } from "../scripts/lib/feedback-ops.mjs";
+import { buildFeedbackOps, buildFeedbackSeedTestPlan } from "../scripts/lib/feedback-ops.mjs";
+
+function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
+  return {
+    toolId: id,
+    name: id.replace(/_/g, " "),
+    url: `https://${id}.example.com`,
+    published,
+    sourceName: "Seed Source",
+    score,
+    seenBefore: false,
+    followUpAction: "tweet only",
+    scoreBreakdown: { affiliateScore: 4, contentScore: 7, riskScore: 2 },
+    accountRecommendation: {
+      primary: { accountId, displayName: accountId, score: 10 },
+      alternatives: []
+    },
+    copyVariants: {
+      shortPost: `${id} short post`,
+      painPointHook: `${id} pain hook`,
+      casualPost: `${id} casual post`,
+      threadOpening: `${id} thread opening`
+    }
+  };
+}
 
 test("createToolId is stable", () => {
   const a = createToolId("Test Tool", "https://example.com/product");
@@ -154,6 +178,50 @@ test("feedback debt gate blocks scale when posted rows have no metrics", () => {
   assert.equal(ops.debtGate.status, "blocked_no_metrics");
   assert.equal(ops.debtGate.maxNewPostsBeforeMetrics, 0);
   assert.equal(ops.actionList[0].type, "feedback_debt_gate");
+});
+
+test("feedback seed plan picks a tiny fresh manual test batch", () => {
+  const accountConfig = {
+    accounts: [
+      { id: "ai", displayName: "AI Tools", category: "ai", active: true },
+      { id: "saas", displayName: "SaaS Notes", category: "saas", active: true },
+      { id: "crypto", displayName: "Crypto Builders", category: "crypto", active: true }
+    ]
+  };
+  const latest = {
+    generatedAt: "2026-06-12T12:00:00.000Z",
+    tools: [
+      seedTool({ id: "tool_ai", accountId: "ai", score: 32, published: "2026-06-12T06:00:00.000Z" }),
+      seedTool({ id: "tool_saas", accountId: "saas", score: 30, published: "2026-06-12T05:00:00.000Z" }),
+      seedTool({ id: "tool_crypto", accountId: "crypto", score: 29, published: "2026-06-11T16:00:00.000Z" }),
+      seedTool({ id: "tool_old", accountId: "ai", score: 50, published: "2026-06-09T00:00:00.000Z" })
+    ]
+  };
+  const ops = buildFeedbackOps({
+    date: "2026-06-12",
+    latest,
+    feedback: { entries: [] },
+    accountPosts: { items: [] },
+    accountConfig
+  });
+
+  assert.equal(ops.seedTestPlan.status, "ready");
+  assert.equal(ops.seedTestPlan.items.length, 3);
+  assert.deepEqual(ops.seedTestPlan.items.map((item) => item.accountId), ["ai", "saas", "crypto"]);
+  assert.deepEqual(ops.seedTestPlan.items.map((item) => item.variantType), ["shortPost", "painPointHook", "casualPost"]);
+  assert.equal(ops.seedTestPlan.items.some((item) => item.toolId === "tool_old"), false);
+});
+
+test("feedback seed plan stops when gate blocks new posts", () => {
+  const plan = buildFeedbackSeedTestPlan({
+    latest: { tools: [seedTool({ id: "tool_ai", accountId: "ai" })] },
+    activeAccounts: [{ id: "ai", displayName: "AI Tools", active: true }],
+    debtGate: { maxNewPostsBeforeMetrics: 0, headline: "Fill metrics first." }
+  });
+
+  assert.equal(plan.status, "blocked");
+  assert.equal(plan.items.length, 0);
+  assert.match(plan.reason, /Fill metrics first/);
 });
 
 test("queue item id is stable for tool and type", () => {

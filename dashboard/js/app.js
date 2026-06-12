@@ -1095,6 +1095,7 @@ function renderFinalReviewCard(item, index) {
 
 function renderFinalHoldCard(item, index) {
   const tool = item.tool;
+  const route = holdQueueRoute(tool);
   return `<article class="final-card hold">
     <div class="line-head">
       <div>
@@ -1106,13 +1107,58 @@ function renderFinalHoldCard(item, index) {
     <p>${esc(item.holdReason)}</p>
     <p class="muted">${esc(tool.reason)}</p>
     ${renderAccountRoute(tool)}
+    <div class="hold-route">
+      <span>${esc(route.title)}</span>
+      <strong>${esc(labels[route.type] ?? route.type)}</strong>
+    </div>
     <pre class="copy-text">${esc(item.text)}</pre>
     <div class="row-actions">
       <button class="button ghost" data-copy="${attr(item.text)}">复制观察</button>
       <button class="button ghost" data-tab-jump="feedback">先补反馈</button>
-      <button class="button ghost" data-queue="${attr(tool.followUpAction === "thread candidate" ? "thread" : "watch")}" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入观察</button>
+      <button class="button ghost" data-queue="${attr(route.type)}" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-priority="${attr(route.priorityScore)}" data-reason="${attr(route.reason)}">${esc(route.cta)}</button>
     </div>
   </article>`;
+}
+
+function holdQueueRoute(tool) {
+  const affiliateScore = Number(tool.scoreBreakdown?.affiliateScore ?? 0);
+  const contentScore = Number(tool.scoreBreakdown?.contentScore ?? 0);
+  const riskScore = Number(tool.scoreBreakdown?.riskScore ?? 0);
+  const basePriority = Number(tool.score ?? 0) * 2 + affiliateScore * 6 + contentScore * 3 - riskScore * 4;
+  if (affiliateScore >= 8 && tool.affiliateStatus !== "matched") {
+    return {
+      type: "affiliate_research",
+      cta: "加入联盟研究",
+      title: "Hold 后先查真实联盟项目",
+      priorityScore: basePriority + 18,
+      reason: "Held by feedback gate; high affiliate score, research official affiliate program first."
+    };
+  }
+  if (tool.followUpAction === "review page candidate") {
+    return {
+      type: "review_page",
+      cta: "加入测评页队列",
+      title: "Hold 后转 SEO 测评页候选",
+      priorityScore: basePriority + 14,
+      reason: "Held by feedback gate; strong review page fit."
+    };
+  }
+  if (tool.followUpAction === "thread candidate") {
+    return {
+      type: "thread",
+      cta: "加入长推队列",
+      title: "Hold 后转长推候选",
+      priorityScore: basePriority + 12,
+      reason: "Held by feedback gate; strong thread candidate."
+    };
+  }
+  return {
+    type: "watch",
+    cta: "加入观察",
+    title: "Hold 后先观察，不急着发",
+    priorityScore: basePriority - 10,
+    reason: "Held by feedback gate; keep as watch until feedback metrics improve."
+  };
 }
 
 function focusStatusText(tasks) {

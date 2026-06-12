@@ -478,6 +478,22 @@ main {
 .hold-grid {
   opacity: 0.92;
 }
+.hold-route {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--warning) 34%, var(--border));
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--warning) 7%, var(--card));
+  padding: 10px 11px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.hold-route strong {
+  color: var(--ink);
+  white-space: nowrap;
+}
 .mini-checks {
   display: flex;
   gap: 7px;

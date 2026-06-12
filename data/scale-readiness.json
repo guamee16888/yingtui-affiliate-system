@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T21:18:51.079Z",
+  "generatedAt": "2026-06-12T22:14:47.185Z",
   "status": "seed_only",
   "headline": "先拿真实反馈，暂时不要放量。",
   "readinessScore": 12,
@@ -29,7 +29,51 @@
     "accountMatrixStrongCandidates": 9,
     "accountMatrixFreshCandidates": 9,
     "accountMatrixDraftGap": 181,
+    "realisticDailyPosts": 3,
+    "gapToTarget": 197,
+    "scaleBottleneck": {
+      "id": "feedback_gate",
+      "label": "feedback gate",
+      "value": 3
+    },
     "authReady": false
+  },
+  "scaleReality": {
+    "targetDailyPosts": 200,
+    "realisticDailyPosts": 3,
+    "gapToTarget": 197,
+    "bottleneck": {
+      "id": "feedback_gate",
+      "label": "feedback gate",
+      "value": 3
+    },
+    "limits": [
+      {
+        "id": "feedback_gate",
+        "label": "feedback gate",
+        "value": 3
+      },
+      {
+        "id": "fresh_candidates",
+        "label": "fresh candidates",
+        "value": 3
+      },
+      {
+        "id": "planned_drafts",
+        "label": "planned drafts",
+        "value": 19
+      },
+      {
+        "id": "calendar_slots",
+        "label": "calendar slots",
+        "value": 16
+      }
+    ],
+    "candidateBench": {
+      "current": 57,
+      "target": 600,
+      "gap": 543
+    }
   },
   "coverage": {
     "plannedRate": 0.095,

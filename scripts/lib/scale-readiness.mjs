@@ -37,6 +37,15 @@ export function buildScaleReadiness({
   const accountMatrixDraftGap = Number(accountContentMatrix?.summary?.draftGap ?? 0);
   const authReady = Boolean(latest?.accountStrategy?.authReady || xStatus?.publishReady);
   const deployMode = latest?.accountStrategy?.mode ?? config.rotationPolicy?.mode ?? "manual_confirm";
+  const scaleReality = buildScaleReality({
+    targetDailyPosts,
+    safeNewPosts,
+    freshPublishCandidates,
+    plannedPosts,
+    scheduledPosts,
+    accountMatrixCandidateBench,
+    accountMatrixBenchTarget
+  });
   const coverage = {
     plannedRate: rate(plannedPosts, targetDailyPosts),
     scheduledRate: rate(scheduledPosts, targetDailyPosts),
@@ -103,8 +112,12 @@ export function buildScaleReadiness({
       accountMatrixStrongCandidates,
       accountMatrixFreshCandidates,
       accountMatrixDraftGap,
+      realisticDailyPosts: scaleReality.realisticDailyPosts,
+      gapToTarget: scaleReality.gapToTarget,
+      scaleBottleneck: scaleReality.bottleneck,
       authReady
     },
+    scaleReality,
     coverage,
     blockers,
     actionPlan: scaleActionPlan(blockers, {
@@ -132,6 +145,7 @@ export function renderScaleReadinessMarkdown(report) {
 - Score: ${report.readinessScore}/100
 - Headline: ${report.headline}
 - Target: ${report.target.activeAccounts} accounts x ${report.target.targetPostsPerAccount} posts = ${report.target.targetDailyPosts}/day
+- Realistic today: ${report.scaleReality?.realisticDailyPosts ?? report.capacity.safeNewPosts}/${report.target.targetDailyPosts} (gap ${report.scaleReality?.gapToTarget ?? 0}; bottleneck ${report.scaleReality?.bottleneck?.label ?? "unknown"})
 - Safe new posts now: ${report.capacity.safeNewPosts}
 - Fresh publish candidates: ${report.capacity.freshPublishCandidates}
 - Planned / scheduled: ${report.capacity.plannedPosts}/${report.capacity.scheduledPosts}
@@ -154,6 +168,43 @@ ${report.actionPlan.map((item, index) => `${index + 1}. ${item}`).join("\n")}
 
 ${report.notes.map((item) => `- ${item}`).join("\n")}
 `;
+}
+
+function buildScaleReality({
+  targetDailyPosts,
+  safeNewPosts,
+  freshPublishCandidates,
+  plannedPosts,
+  scheduledPosts,
+  accountMatrixCandidateBench,
+  accountMatrixBenchTarget
+}) {
+  const reviewablePosts = scheduledPosts || plannedPosts;
+  const limits = [
+    { id: "feedback_gate", label: "feedback gate", value: safeNewPosts },
+    { id: "fresh_candidates", label: "fresh candidates", value: freshPublishCandidates },
+    { id: "planned_drafts", label: "planned drafts", value: plannedPosts },
+    { id: "calendar_slots", label: "calendar slots", value: reviewablePosts }
+  ].map((item) => ({
+    ...item,
+    value: Math.max(0, Math.min(targetDailyPosts, Number(item.value ?? 0)))
+  }));
+  const bottleneck = limits
+    .slice()
+    .sort((a, b) => a.value - b.value || a.id.localeCompare(b.id))[0] ?? null;
+  const realisticDailyPosts = bottleneck?.value ?? 0;
+  return {
+    targetDailyPosts,
+    realisticDailyPosts,
+    gapToTarget: Math.max(0, targetDailyPosts - realisticDailyPosts),
+    bottleneck,
+    limits,
+    candidateBench: {
+      current: accountMatrixCandidateBench,
+      target: accountMatrixBenchTarget,
+      gap: Math.max(0, accountMatrixBenchTarget - accountMatrixCandidateBench)
+    }
+  };
 }
 
 function scaleBlockers(input) {

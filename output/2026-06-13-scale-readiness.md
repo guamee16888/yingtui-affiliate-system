@@ -4,6 +4,7 @@
 - Score: 12/100
 - Headline: 先拿真实反馈，暂时不要放量。
 - Target: 20 accounts x 10 posts = 200/day
+- Realistic today: 3/200 (gap 197; bottleneck feedback gate)
 - Safe new posts now: 3
 - Fresh publish candidates: 3
 - Planned / scheduled: 19/16

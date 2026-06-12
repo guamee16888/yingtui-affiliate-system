@@ -944,6 +944,8 @@ function renderScaleReadinessPanel() {
   }
   const severity = report.status === "blocked" ? "bad" : report.status === "ready_for_controlled_scale" ? "good" : "warn";
   const blockers = (report.blockers ?? []).slice(0, 4);
+  const reality = report.scaleReality ?? {};
+  const bottleneck = reality.bottleneck?.label || report.capacity?.scaleBottleneck?.label || "unknown";
   return `<section class="panel scale-readiness ${severity}">
     <div class="line-head">
       <div>
@@ -956,12 +958,15 @@ function renderScaleReadinessPanel() {
     <div class="pipeline-stats">
       <div><strong>${esc(report.target?.activeAccounts ?? 0)}</strong><span>accounts</span></div>
       <div><strong>${esc(report.target?.targetDailyPosts ?? 0)}</strong><span>daily target</span></div>
+      <div><strong>${esc(reality.realisticDailyPosts ?? report.capacity?.realisticDailyPosts ?? 0)}</strong><span>realistic today</span></div>
+      <div><strong>${esc(reality.gapToTarget ?? report.capacity?.gapToTarget ?? 0)}</strong><span>target gap</span></div>
       <div><strong>${esc(report.capacity?.freshPublishCandidates ?? 0)}</strong><span>fresh candidates</span></div>
       <div><strong>${esc(report.capacity?.plannedPosts ?? 0)}</strong><span>planned drafts</span></div>
       <div><strong>${esc(report.capacity?.accountMatrixReadyAccounts ?? 0)}/${esc(report.target?.activeAccounts ?? 0)}</strong><span>matrix ready</span></div>
       <div><strong>${esc(report.capacity?.sourceGap ?? 0)}</strong><span>source gap</span></div>
       <div><strong>${esc(report.capacity?.feedbackMeasured ?? 0)}/${esc(report.capacity?.feedbackPending ?? 0)}</strong><span>feedback</span></div>
     </div>
+    <p class="muted">现实上限由 ${esc(bottleneck)} 卡住；先把这个瓶颈补上，再谈账号切换或放量。</p>
     <div class="grid">
       <div class="list">
         <strong>当前阻塞</strong>

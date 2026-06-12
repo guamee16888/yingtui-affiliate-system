@@ -1620,6 +1620,9 @@ test("scale readiness blocks volume when feedback and supply are missing", () =>
   assert.equal(report.status, "blocked");
   assert.equal(report.target.targetDailyPosts, 20);
   assert.equal(report.capacity.safeNewPosts, 0);
+  assert.equal(report.scaleReality.realisticDailyPosts, 0);
+  assert.equal(report.scaleReality.gapToTarget, 20);
+  assert.equal(report.scaleReality.bottleneck.id, "feedback_gate");
   assert.equal(report.capacity.accountMatrixReadyAccounts, 0);
   assert.equal(report.capacity.accountMatrixCandidateBench, 5);
   assert.equal(report.blockers.some((item) => item.id === "feedback_missing"), true);

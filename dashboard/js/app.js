@@ -239,6 +239,7 @@ function render() {
   $("#dataStatus").textContent = state.apiWarning || `数据日期 ${state.latest?.date ?? "无"} · 本地 JSON · 不自动发推`;
   $("#markdownLink").href = state.latest?.date ? `/output/${state.latest.date}-daily-x-pack.md` : "/output/";
   $("#jsonLink").href = "/data/latest.json";
+  renderModeBanner();
   updateRunDailyControls();
   renderMetrics();
   renderReadiness();
@@ -248,6 +249,21 @@ function render() {
   updateSourcePackControls();
   updateRoadmapControls();
   updateReadOnlyControls();
+}
+
+function renderModeBanner() {
+  const banner = $("#modeBanner");
+  const publicDemo = location.hostname.endsWith("vercel.app");
+  banner.hidden = !publicDemo;
+  if (!publicDemo) {
+    banner.innerHTML = "";
+    return;
+  }
+  banner.innerHTML = `<div>
+    <strong>公开只读 Demo</strong>
+    <p>这里展示的是已生成的数据和产品界面。刷新 Live Feed、导入候选、保存反馈、发布到 X 都必须在本机运行 <code>npm start</code> 后手动确认。</p>
+  </div>
+  <a class="button ghost" href="https://github.com/guamee16888/yingtui-affiliate-system" target="_blank" rel="noreferrer">查看 GitHub</a>`;
 }
 
 function updateRunDailyControls() {

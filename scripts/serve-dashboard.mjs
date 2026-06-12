@@ -59,6 +59,7 @@ let dailyRunPromise = null;
 let calendarRunPromise = null;
 let sourcePackRunPromise = null;
 let affiliateWorkbenchRunPromise = null;
+let learningLoopRunPromise = null;
 
 const mimeTypes = new Map([
   [".html", "text/html; charset=utf-8"],
@@ -247,6 +248,7 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/content-calendar/run") return runContentCalendarGeneration();
   if (pathname === "/api/source-import-pack/run") return runSourceImportPackGeneration();
   if (pathname === "/api/affiliate-research-workbench/run") return runAffiliateResearchWorkbenchGeneration();
+  if (pathname === "/api/learning-loop/run") return runLearningLoopGeneration();
   if (pathname === "/api/roadmap/generate") return runRoadmapGeneration();
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
@@ -319,6 +321,28 @@ async function runAffiliateResearchWorkbenchGeneration() {
     candidates: workbench?.summary?.candidates ?? 0,
     readyToConfigure: workbench?.summary?.readyToConfigure ?? 0,
     researching: workbench?.summary?.researching ?? 0
+  };
+}
+
+async function runLearningLoopGeneration() {
+  if (learningLoopRunPromise) throw new Error("Learning loop refresh is already running. Wait for it to finish.");
+  learningLoopRunPromise = (async () => {
+    await runNodeScript("scripts/feedback-ops.mjs", "Feedback ops refresh");
+    return runNodeScript("scripts/learning-loop.mjs", "Learning loop refresh");
+  })().finally(() => {
+    learningLoopRunPromise = null;
+  });
+  const result = await learningLoopRunPromise;
+  const loop = await readJson("data/learning-loop.json", null);
+  return {
+    ...result,
+    date: loop?.date ?? null,
+    status: loop?.status ?? "unknown",
+    stage: loop?.stage ?? "unknown",
+    posted: loop?.summary?.posted ?? 0,
+    measured: loop?.summary?.measured ?? 0,
+    pending: loop?.summary?.pending ?? 0,
+    safeNewPosts: loop?.summary?.safeNewPosts ?? 0
   };
 }
 

@@ -55,6 +55,7 @@ const state = {
   calendarRun: { running: false, message: "" },
   sourcePackRun: { running: false, message: "" },
   affiliateWorkbenchRun: { running: false, message: "" },
+  learningRun: { running: false, message: "" },
   roadmapRun: { running: false, message: "" },
   filters: { search: "", action: "all", affiliate: "all", state: "all", minScore: 0, sortBy: "score" }
 };
@@ -97,6 +98,7 @@ const writeActionSelector = [
   "[data-run-calendar]",
   "[data-run-source-pack]",
   "[data-run-affiliate-workbench]",
+  "[data-run-learning-loop]",
   "[data-preview-candidates]",
   "[data-preview-feedback]",
   "[data-publish]",
@@ -254,6 +256,7 @@ function render() {
   updateCalendarControls();
   updateSourcePackControls();
   updateAffiliateWorkbenchControls();
+  updateLearningControls();
   updateRoadmapControls();
   updateReadOnlyControls();
 }
@@ -309,6 +312,14 @@ function updateAffiliateWorkbenchControls() {
   $$("[data-run-affiliate-workbench]").forEach((button) => {
     button.disabled = isReadOnlyMode() || state.affiliateWorkbenchRun.running;
     button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.affiliateWorkbenchRun.running ? "刷新中..." : "刷新联盟工作台";
+    button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
+  });
+}
+
+function updateLearningControls() {
+  $$("[data-run-learning-loop]").forEach((button) => {
+    button.disabled = isReadOnlyMode() || state.learningRun.running;
+    button.textContent = isReadOnlyMode() ? "本地才能刷新" : state.learningRun.running ? "刷新中..." : "刷新学习报告";
     button.title = isReadOnlyMode() ? readOnlyActionMessage() : "";
   });
 }
@@ -1027,9 +1038,11 @@ function renderLearningStarterPanel(scope = "full") {
         ${pill("Missing", "warn")}
       </div>
       <div class="row-actions">
+        <button class="button" data-run-learning-loop>${state.learningRun.running ? "刷新中..." : "刷新学习报告"}</button>
         <button class="button ghost" data-copy="npm run learning-loop">复制命令</button>
         <button class="button ghost" data-tab-jump="feedback">打开反馈录入</button>
       </div>
+      ${state.learningRun.message ? `<p class="muted">${esc(state.learningRun.message)}</p>` : ""}
     </section>`;
   }
   const seedTests = loop.seedTests ?? [];
@@ -1051,6 +1064,12 @@ function renderLearningStarterPanel(scope = "full") {
       <div><strong>${esc(loop.summary?.pending ?? 0)}</strong><span>pending</span></div>
       <div><strong>${esc(loop.summary?.safeNewPosts ?? 0)}</strong><span>safe new posts</span></div>
     </div>
+    <div class="row-actions">
+      <button class="button" data-run-learning-loop>${state.learningRun.running ? "刷新中..." : "刷新学习报告"}</button>
+      <button class="button ghost" data-copy="${attr("npm run feedback-ops\nnpm run learning-loop")}">复制刷新命令</button>
+      <button class="button ghost" data-tab-jump="feedback">打开反馈录入</button>
+    </div>
+    ${state.learningRun.message ? `<p class="muted">${esc(state.learningRun.message)}</p>` : ""}
     ${renderLearningWorkflow(loop.workflow ?? [])}
     <div class="grid">
       <div class="list">
@@ -3684,6 +3703,30 @@ async function runAffiliateWorkbench() {
   }
 }
 
+async function runLearningLoop() {
+  if (guardReadOnlyAction()) {
+    state.learningRun = { running: false, message: readOnlyActionMessage() };
+    render();
+    return;
+  }
+  if (state.learningRun.running) return;
+  state.learningRun = { running: true, message: "正在刷新反馈学习报告..." };
+  render();
+  try {
+    const result = await api.post("/api/learning-loop/run", {});
+    state.learningRun = {
+      running: false,
+      message: `学习报告已刷新：${result.measured ?? 0}/${result.posted ?? 0} measured · ${result.pending ?? 0} pending · safe ${result.safeNewPosts ?? 0}`
+    };
+    toast("反馈学习报告已刷新");
+    await loadAll();
+  } catch (error) {
+    state.learningRun = { running: false, message: `学习报告刷新失败：${error.message}` };
+    render();
+    toast(error.message);
+  }
+}
+
 async function runRoadmap() {
   if (guardReadOnlyAction()) {
     state.roadmapRun = { running: false, message: readOnlyActionMessage() };
@@ -3760,6 +3803,8 @@ document.addEventListener("click", async (event) => {
       await runSourcePack();
     } else if (button.dataset.runAffiliateWorkbench !== undefined) {
       await runAffiliateWorkbench();
+    } else if (button.dataset.runLearningLoop !== undefined) {
+      await runLearningLoop();
     } else if (button.dataset.runRoadmap !== undefined) {
       await runRoadmap();
     } else if (button.dataset.previewCandidates) {

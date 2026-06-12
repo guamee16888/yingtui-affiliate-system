@@ -291,6 +291,8 @@ npm run learning-loop
 
 生成反馈学习启动台数据，输出到 `data/learning-loop.json` 和 `output/YYYY-MM-DD-learning-loop.md`。它会把 `feedback-ops` 的结果压成一个执行清单：当前学习阶段、最多还能安全新发几条、先发哪几条 seed posts、哪些已发内容缺 metrics，以及可复制到反馈录入页的 CSV 模板。
 
+在本地 Dashboard 的「反馈启动台」也可以点 `刷新学习报告`，它会先刷新 `feedback-ops`，再刷新 `learning-loop`。Vercel 公开 Demo 仍然只读，不能写本地 JSON。
+
 ```bash
 npm run decisions
 ```

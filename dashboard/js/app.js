@@ -25,8 +25,10 @@ async function parseApiResponse(res, path) {
   return res.json();
 }
 
+const tabNames = ["today", "review", "candidates", "tools", "copy", "feedback", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
+
 const state = {
-  tab: "today",
+  tab: initialTab(),
   apiWarning: "",
   latest: null,
   history: { tools: [] },
@@ -381,6 +383,7 @@ function renderFeedDiagnostic(report) {
 }
 
 function renderActiveView() {
+  $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === state.tab));
   $$(".view").forEach((view) => view.classList.remove("active"));
   $(`#view-${state.tab}`).classList.add("active");
   const renderers = { today: renderToday, review: renderFinalReviewQueue, candidates: renderCandidates, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
@@ -389,8 +392,23 @@ function renderActiveView() {
 
 function switchTab(tabName) {
   state.tab = tabName;
-  $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === tabName));
+  syncTabUrl(tabName);
   renderActiveView();
+}
+
+function initialTab() {
+  const queryTab = new URLSearchParams(window.location.search).get("tab");
+  const hashTab = window.location.hash.replace(/^#/, "");
+  const tabName = queryTab || hashTab;
+  return tabNames.includes(tabName) ? tabName : "today";
+}
+
+function syncTabUrl(tabName) {
+  if (!tabNames.includes(tabName)) return;
+  const url = new URL(window.location.href);
+  url.searchParams.set("tab", tabName);
+  url.hash = "";
+  window.history.replaceState(null, "", url);
 }
 
 function filteredTools() {
@@ -1394,6 +1412,7 @@ function renderContentCalendarPanel(calendar) {
   const conflicts = (calendar.accountCalendars ?? [])
     .filter((account) => account.status === "target_incompatible")
     .slice(0, 8);
+  const scalePlan = calendar.scalePlan ?? fallbackScalePlan(calendar);
   return `<section class="panel">
     <div class="line-head">
       <div>
@@ -1409,11 +1428,61 @@ function renderContentCalendarPanel(calendar) {
       <div><strong>${esc(calendar.summary?.draftGap ?? 0)}</strong><span>draft gap</span></div>
       <div><strong>${esc(calendar.summary?.readyAccounts ?? 0)}/${esc(calendar.summary?.accounts ?? 0)}</strong><span>ready accounts</span></div>
     </div>
+    ${renderScaleReality(scalePlan)}
     <div class="list">${conflicts.map((account) => `<div class="list-item">
       <strong>${esc(account.displayName)}</strong>
       <div class="muted">${esc(account.sameDayCapacity)}/${esc(account.targetPosts)} slots · cooldown ${esc(account.cooldownHours)}h · target needs about ${esc(account.recommendedCooldownHours)}h</div>
     </div>`).join("") || empty("当前冷却时间能容纳目标发布槽。")}</div>
   </section>`;
+}
+
+function renderScaleReality(scalePlan) {
+  if (!scalePlan) return "";
+  return `<div class="scale-reality">
+    <div class="line-head">
+      <strong>规模可行性</strong>
+      ${pill(scalePlan.status === "ready_to_scale" ? "ready" : "not ready", scalePlan.status === "ready_to_scale" ? "good" : "warn")}
+    </div>
+    <p class="muted">${esc(scalePlan.headline)}</p>
+    <div class="pipeline-stats">
+      <div><strong>${esc(scalePlan.currentScheduledPosts ?? 0)}</strong><span>today review</span></div>
+      <div><strong>${esc(scalePlan.theoreticalMaxTodayPosts ?? 0)}</strong><span>max today</span></div>
+      <div><strong>${esc(scalePlan.recommendedTargetPerAccountIfKeepCooldown ?? 0)}/acct</strong><span>keep cooldown</span></div>
+      <div><strong>${esc(scalePlan.recommendedCooldownHoursForTarget ?? 0)}h</strong><span>target cooldown</span></div>
+    </div>
+    <div class="list mini-list">${(scalePlan.nextActions ?? []).map((action) => `<div class="list-item">${esc(action)}</div>`).join("")}</div>
+  </div>`;
+}
+
+function fallbackScalePlan(calendar) {
+  const summary = calendar.summary ?? {};
+  const accounts = Math.max(1, Number(summary.accounts ?? 0));
+  const targetPosts = Number(summary.targetPosts ?? 0);
+  const availableDrafts = Number(summary.availableDrafts ?? 0);
+  const sameDayCapacity = Number(summary.sameDayCapacity ?? 0);
+  const currentScheduledPosts = Number(summary.scheduledPosts ?? 0);
+  const theoreticalMaxTodayPosts = Math.min(targetPosts, availableDrafts, sameDayCapacity);
+  const recommendedTargetPerAccountIfKeepCooldown = Math.floor(sameDayCapacity / accounts);
+  const recommendedCooldownHoursForTarget = maxNumber((calendar.accountCalendars ?? []).map((account) => account.recommendedCooldownHours));
+  const blockers = [
+    Number(summary.draftGap ?? 0) > 0 ? "draft_supply" : "",
+    Number(summary.capacityGap ?? 0) > 0 ? "cooldown_capacity" : ""
+  ].filter(Boolean);
+  return {
+    status: blockers.length ? "not_ready_to_scale" : "ready_to_scale",
+    currentScheduledPosts,
+    theoreticalMaxTodayPosts,
+    recommendedTargetPerAccountIfKeepCooldown,
+    recommendedCooldownHoursForTarget,
+    headline: blockers.length
+      ? `先别按 ${targetPosts}/day 放大。今天更现实的是审核约 ${theoreticalMaxTodayPosts} 条。`
+      : "当前目标匹配草稿数量和发布时间槽。",
+    nextActions: [
+      Number(summary.draftGap ?? 0) > 0 ? `先补 ${summary.draftGap} 条合格、不重复候选。` : "",
+      Number(summary.capacityGap ?? 0) > 0 ? `保持当前冷却时，目标约 ${recommendedTargetPerAccountIfKeepCooldown}/account/day；若坚持当前目标，冷却约 ${recommendedCooldownHoursForTarget}h。` : "",
+      `先人工审核 ${currentScheduledPosts} 条已排期内容。`
+    ].filter(Boolean)
+  };
 }
 
 function renderDraftPlannerPanel(plan) {
@@ -2134,6 +2203,11 @@ function formatRate(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return "0%";
   return `${(number * 100).toFixed(1)}%`;
+}
+
+function maxNumber(values) {
+  const numbers = values.map((value) => Number(value)).filter(Number.isFinite);
+  return numbers.length ? Math.max(...numbers) : 0;
 }
 
 function formatDateTime(value) {

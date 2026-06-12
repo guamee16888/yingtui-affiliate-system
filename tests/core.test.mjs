@@ -712,6 +712,11 @@ test("content calendar exposes cooldown target conflicts", () => {
   assert.equal(calendar.summary.sameDayCapacity, 3);
   assert.equal(calendar.summary.capacityGap, 7);
   assert.equal(calendar.accountCalendars[0].status, "target_incompatible");
+  assert.equal(calendar.scalePlan.status, "not_ready_to_scale");
+  assert.equal(calendar.scalePlan.theoreticalMaxTodayPosts, 3);
+  assert.equal(calendar.scalePlan.recommendedTargetPerAccountIfKeepCooldown, 3);
+  assert.equal(calendar.scalePlan.recommendedCooldownHoursForTarget, 1.5);
+  assert.equal(calendar.scalePlan.blockers.includes("cooldown_capacity"), true);
 });
 
 test("product roadmap identifies non-auth product blockers", () => {

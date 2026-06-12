@@ -14,6 +14,18 @@ export function buildContentCalendar({ date, draftPlan = null, accountStrategy =
   const sameDayCapacity = calendarAccounts.reduce((sum, account) => sum + account.sameDayCapacity, 0);
   const draftGap = calendarAccounts.reduce((sum, account) => sum + account.draftGap, 0);
   const capacityGap = calendarAccounts.reduce((sum, account) => sum + account.capacityGap, 0);
+  const summary = {
+    accounts: calendarAccounts.length,
+    targetPosts,
+    availableDrafts,
+    sameDayCapacity,
+    scheduledPosts,
+    draftGap,
+    capacityGap,
+    unscheduledDrafts: calendarAccounts.reduce((sum, account) => sum + account.unscheduledDrafts.length, 0),
+    readyAccounts: calendarAccounts.filter((account) => account.status === "ready").length,
+    targetIncompatibleAccounts: calendarAccounts.filter((account) => account.status === "target_incompatible").length
+  };
 
   return {
     date,
@@ -24,18 +36,8 @@ export function buildContentCalendar({ date, draftPlan = null, accountStrategy =
       timezone: "local"
     },
     rule: "Schedule drafts into review slots. Every slot still requires manual approval before publishing.",
-    summary: {
-      accounts: calendarAccounts.length,
-      targetPosts,
-      availableDrafts,
-      sameDayCapacity,
-      scheduledPosts,
-      draftGap,
-      capacityGap,
-      unscheduledDrafts: calendarAccounts.reduce((sum, account) => sum + account.unscheduledDrafts.length, 0),
-      readyAccounts: calendarAccounts.filter((account) => account.status === "ready").length,
-      targetIncompatibleAccounts: calendarAccounts.filter((account) => account.status === "target_incompatible").length
-    },
+    summary,
+    scalePlan: buildScalePlan(calendarAccounts, summary),
     accountCalendars: calendarAccounts,
     warnings: buildCalendarWarnings(calendarAccounts, targetPosts, scheduledPosts, capacityGap, draftGap)
   };
@@ -57,8 +59,67 @@ export function renderContentCalendarMarkdown(calendar) {
 - Capacity gap: ${calendar.summary.capacityGap}
 - Ready accounts: ${calendar.summary.readyAccounts}/${calendar.summary.accounts}
 
+${renderScalePlan(calendar.scalePlan)}
+
 ${calendar.warnings.length ? `Warnings:\n${calendar.warnings.map((warning) => `- ${warning}`).join("\n")}\n\n` : ""}${calendar.accountCalendars.map(renderAccountCalendar).join("\n\n")}
 `;
+}
+
+function buildScalePlan(accounts, summary) {
+  const accountCount = Math.max(1, Number(summary.accounts ?? accounts.length ?? 0));
+  const targetPerAccount = Math.round(Number(summary.targetPosts ?? 0) / accountCount);
+  const maxPerAccountUnderCurrentCooldown = Math.floor(Number(summary.sameDayCapacity ?? 0) / accountCount);
+  const theoreticalMaxTodayPosts = Math.min(
+    Number(summary.targetPosts ?? 0),
+    Number(summary.availableDrafts ?? 0),
+    Number(summary.sameDayCapacity ?? 0)
+  );
+  const recommendedCooldownHoursForTarget = maxNumber(accounts.map((account) => account.recommendedCooldownHours));
+  const blockers = [
+    Number(summary.draftGap ?? 0) > 0 ? "draft_supply" : "",
+    Number(summary.capacityGap ?? 0) > 0 ? "cooldown_capacity" : ""
+  ].filter(Boolean);
+
+  return {
+    status: blockers.length ? "not_ready_to_scale" : "ready_to_scale",
+    targetPerAccount,
+    currentScheduledPosts: Number(summary.scheduledPosts ?? 0),
+    theoreticalMaxTodayPosts,
+    recommendedTargetPerAccountIfKeepCooldown: maxPerAccountUnderCurrentCooldown,
+    recommendedCooldownHoursForTarget,
+    blockers,
+    headline: scaleHeadline({ blockers, theoreticalMaxTodayPosts, targetPosts: Number(summary.targetPosts ?? 0) }),
+    nextActions: scaleNextActions({ blockers, summary, maxPerAccountUnderCurrentCooldown, recommendedCooldownHoursForTarget })
+  };
+}
+
+function renderScalePlan(scalePlan) {
+  if (!scalePlan) return "";
+  return `## Scale Reality
+
+- Status: ${scalePlan.status}
+- Headline: ${scalePlan.headline}
+- Current scheduled posts: ${scalePlan.currentScheduledPosts}
+- Theoretical max today: ${scalePlan.theoreticalMaxTodayPosts}
+- Recommended target if keeping current cooldowns: ${scalePlan.recommendedTargetPerAccountIfKeepCooldown}/account/day
+- Cooldown needed for current target: about ${scalePlan.recommendedCooldownHoursForTarget}h
+- Blockers: ${scalePlan.blockers.length ? scalePlan.blockers.join(", ") : "none"}
+
+Next actions:
+${scalePlan.nextActions.map((action, index) => `${index + 1}. ${action}`).join("\n")}`;
+}
+
+function scaleHeadline({ blockers, theoreticalMaxTodayPosts, targetPosts }) {
+  if (!blockers.length) return "Current target fits the available drafts and review slots.";
+  return `Do not aim for ${targetPosts}/day yet. Review about ${theoreticalMaxTodayPosts} posts today unless you add more qualified drafts and change cooldowns.`;
+}
+
+function scaleNextActions({ blockers, summary, maxPerAccountUnderCurrentCooldown, recommendedCooldownHoursForTarget }) {
+  const actions = [];
+  if (blockers.includes("draft_supply")) actions.push(`Add ${summary.draftGap} more qualified, non-duplicate drafts before trying to fill the current target.`);
+  if (blockers.includes("cooldown_capacity")) actions.push(`Keep current cooldowns and lower the target to about ${maxPerAccountUnderCurrentCooldown}/account/day, or reduce cooldown to about ${recommendedCooldownHoursForTarget}h for the current target.`);
+  actions.push(`Only manually review the ${summary.scheduledPosts} scheduled posts until feedback data exists.`);
+  return actions;
 }
 
 function buildAccountCalendar({ date, plan, account, startHour, endHour }) {
@@ -121,6 +182,11 @@ function recommendedCooldown({ startHour, endHour, targetPosts }) {
   if (targetPosts <= 1) return 0;
   const windowHours = Math.max(0, endHour - startHour);
   return Math.floor((windowHours / (targetPosts - 1)) * 10) / 10;
+}
+
+function maxNumber(values) {
+  const numbers = values.map((value) => Number(value)).filter(Number.isFinite);
+  return numbers.length ? Math.max(...numbers) : 0;
 }
 
 function accountStatus({ targetPosts, scheduledPosts, draftGap, capacityGap }) {

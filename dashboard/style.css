@@ -527,6 +527,21 @@ main {
   font-size: 12px;
   font-weight: 540;
 }
+.scale-reality {
+  display: grid;
+  gap: 12px;
+  border: 1px solid color-mix(in srgb, var(--warning) 32%, var(--border));
+  border-left: 3px solid var(--warning);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--warning) 7%, var(--card));
+  padding: 13px;
+}
+.scale-reality .mini-list {
+  gap: 8px;
+}
+.scale-reality .mini-list .list-item {
+  background: color-mix(in srgb, var(--warning) 5%, var(--card));
+}
 .pipeline-next {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);

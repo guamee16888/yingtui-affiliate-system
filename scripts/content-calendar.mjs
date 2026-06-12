@@ -4,7 +4,7 @@ import { buildContentCalendar, renderContentCalendarMarkdown } from "./lib/conte
 const latest = await readJson("data/latest.json", null);
 if (!latest) throw new Error("latest.json missing. Run npm run daily first.");
 
-const calendar = latest.contentCalendar ?? buildContentCalendar({
+const calendar = latest.contentCalendar?.scalePlan ? latest.contentCalendar : buildContentCalendar({
   date: latest.date,
   draftPlan: latest.draftPlan,
   accountStrategy: latest.accountStrategy

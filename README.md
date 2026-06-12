@@ -6,6 +6,10 @@ Built for AI founders, indie hackers, SaaS builders, crypto builders, affiliate 
 
 **Keywords:** AI Twitter automation, multi-account X content ops, AI tweet planner, affiliate marketing system, Product Hunt radar, SaaS founder content, indie hacker content, crypto builder content, review-first publishing, manual-confirm tweet automation, X growth workflow.
 
+**Live Demo:** [yingtui-affiliate-system.vercel.app](https://yingtui-affiliate-system.vercel.app)
+
+**GitHub:** [guamee16888/yingtui-affiliate-system](https://github.com/guamee16888/yingtui-affiliate-system)
+
 **Contact:** Telegram [@valuator8](https://t.me/valuator8)
 
 ## 项目说明

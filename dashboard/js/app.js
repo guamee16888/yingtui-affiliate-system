@@ -1,7 +1,7 @@
 const api = {
   async get(path) {
     const res = await fetch(path);
-    const json = await res.json();
+    const json = await parseApiResponse(res, path);
     if (!json.ok) throw new Error(json.error || "API error");
     return json.data;
   },
@@ -11,11 +11,18 @@ const api = {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(body)
     });
-    const json = await res.json();
+    const json = await parseApiResponse(res, path);
     if (!json.ok) throw new Error(json.error || "API error");
     return json.data;
   }
 };
+
+async function parseApiResponse(res, path) {
+  const contentType = res.headers.get("content-type") || "";
+  if (!res.ok) throw new Error(`${path} unavailable (${res.status})`);
+  if (!contentType.includes("application/json")) throw new Error(`${path} returned a static page`);
+  return res.json();
+}
 
 const state = {
   tab: "today",
@@ -134,9 +141,16 @@ async function loadStaticFallback(apiError) {
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
-    apiWarning: `API 暂不可用，当前为静态只读模式：${apiError.message}`
+    apiWarning: staticModeMessage(apiError)
   });
   render();
+}
+
+function staticModeMessage(apiError) {
+  if (location.hostname.endsWith("vercel.app")) {
+    return "Vercel 静态只读模式：可以查看数据，不能刷新、写入反馈或发布到 X。本地操作请运行 npm start。";
+  }
+  return `API 暂不可用，当前为静态只读模式：${apiError.message}`;
 }
 
 async function fetchJson(path, fallback = null) {

@@ -98,6 +98,72 @@ export function buildSeedImportReadiness({ seedBatchPack = null, previews = [] }
   };
 }
 
+export function buildSeedImportNextActions({ imported = 0, skipped = 0, errors = [], importMode = "recommended", seedImportReadiness = null } = {}) {
+  const readiness = seedImportReadiness ?? { summary: {}, accounts: [] };
+  const readyAccounts = (readiness.accounts ?? []).filter((account) => account.status === "ready_to_seed");
+  const reviewAccounts = (readiness.accounts ?? []).filter((account) => account.status === "needs_review");
+  const notReadyAccounts = (readiness.accounts ?? []).filter((account) => account.status === "not_ready");
+  const hasSeedRows = Number(readiness.summary?.parsed ?? 0) > 0
+    || (readiness.accounts ?? []).some((account) => Number(account.parsed ?? 0) > 0);
+  const actions = [];
+
+  if (imported > 0) {
+    actions.push({
+      type: "refresh_daily",
+      label: "刷新 Live Feed",
+      tone: "good",
+      detail: `${imported} candidates imported. Refresh daily scoring so they enter account matching, final review, and copy planning.`
+    });
+  }
+
+  if (hasSeedRows && readyAccounts.length) {
+    actions.push({
+      type: "open_final_review",
+      label: "打开发布审核",
+      tone: "good",
+      detail: `${readyAccounts.length} seed account${readyAccounts.length === 1 ? "" : "s"} now have enough importable candidates for a small manual test. Refresh first, then review the 3 safest posts.`
+    });
+  }
+
+  if (hasSeedRows && reviewAccounts.length) {
+    actions.push({
+      type: "review_seed_rows",
+      label: "复核边界候选",
+      tone: "warn",
+      detail: `${reviewAccounts.map((account) => account.displayName).slice(0, 3).join(", ")} still need manual review rows fixed or replaced.`
+    });
+  }
+
+  if (hasSeedRows && notReadyAccounts.length) {
+    actions.push({
+      type: "continue_seed_pack",
+      label: "继续补 Seed CSV",
+      tone: "warn",
+      detail: `${notReadyAccounts.map((account) => `${account.displayName} -${account.remaining}`).slice(0, 3).join(", ")} need more importable candidates before scale testing.`
+    });
+  }
+
+  if (imported === 0) {
+    actions.push({
+      type: "fix_candidates",
+      label: "修正候选质量",
+      tone: "bad",
+      detail: `No candidates were imported in ${importMode} mode. Add real URLs, narrower buyer pain, and fresher source detail before importing again.`
+    });
+  }
+
+  if (Number(skipped) > 0 || errors.length) {
+    actions.push({
+      type: "check_skipped_rows",
+      label: "检查跳过行",
+      tone: Number(imported) > 0 ? "neutral" : "warn",
+      detail: `${skipped} skipped by scoring/duplicate rules${errors.length ? `, ${errors.length} parser errors` : ""}. Keep skips out unless they are clearly useful.`
+    });
+  }
+
+  return actions.slice(0, 5);
+}
+
 export function renderSeedBatchPackMarkdown(pack) {
   if (!pack) return "# Seed Batch Pack\n\nNo seed batch pack available. Run npm run seed-pack.\n";
   return `# Seed Batch Pack - ${pack.date}

@@ -34,7 +34,7 @@ import { mapFeedbackCsv } from "./lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "./lib/candidate-parser.mjs";
 import { evaluateCandidateQualityGate } from "./lib/candidate-quality-gate.mjs";
 import { buildHistoryIndex, candidateInboxToTools, scoreTool } from "./lib/affiliate-system.mjs";
-import { buildSeedImportReadiness } from "./lib/seed-batch-pack.mjs";
+import { buildSeedImportNextActions, buildSeedImportReadiness } from "./lib/seed-batch-pack.mjs";
 import { buildDecisionReport } from "./lib/decision-engine.mjs";
 import { buildFeedbackOps, buildLearningLoop } from "./lib/feedback-ops.mjs";
 import { calculateEngagement } from "./lib/scoring.mjs";
@@ -618,7 +618,15 @@ async function importCandidatePaste(body) {
     importMode,
     entries,
     errors: plan.errors,
-    summary: plan.summary
+    summary: plan.summary,
+    seedImportReadiness: plan.seedImportReadiness,
+    nextActions: buildSeedImportNextActions({
+      imported: entries.length,
+      skipped: plan.previews.length - entries.length,
+      errors: plan.errors,
+      importMode,
+      seedImportReadiness: plan.seedImportReadiness
+    })
   };
 }
 

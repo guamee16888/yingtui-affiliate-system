@@ -935,12 +935,14 @@ input:focus, select:focus, textarea:focus {
   font-weight: 540;
 }
 .preview-box { margin-top: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--soft); padding: 13px; display: grid; gap: 10px; }
+.import-result-box { border-color: color-mix(in srgb, var(--accent) 28%, var(--border)); background: color-mix(in srgb, var(--accent) 5%, var(--card)); }
+.import-action-item { border-color: color-mix(in srgb, var(--border-strong) 70%, var(--border)); }
 .seed-import-readiness { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); padding: 11px; display: grid; gap: 10px; }
 .seed-readiness-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
 .seed-readiness-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; display: grid; gap: 6px; background: var(--soft); }
-.seed-readiness-card.ready_to_seed { border-color: color-mix(in srgb, var(--good) 45%, var(--border)); }
-.seed-readiness-card.needs_review { border-color: color-mix(in srgb, var(--warn) 45%, var(--border)); }
-.seed-readiness-card.not_ready { border-color: color-mix(in srgb, var(--bad) 45%, var(--border)); }
+.seed-readiness-card.ready_to_seed { border-color: color-mix(in srgb, var(--success) 45%, var(--border)); }
+.seed-readiness-card.needs_review { border-color: color-mix(in srgb, var(--warning) 45%, var(--border)); }
+.seed-readiness-card.not_ready { border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); }
 .seed-readiness-card p { margin: 0; }
 .quality-gate-detail { border-left: 3px solid var(--border-strong); padding-left: 10px; display: grid; gap: 5px; }
 .quality-gate-detail p { margin: 0; }

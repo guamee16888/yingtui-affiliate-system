@@ -27,7 +27,7 @@ import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/aff
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
 import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
 import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
-import { buildSeedBatchPack, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
+import { buildSeedBatchPack, buildSeedImportNextActions, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -1646,6 +1646,48 @@ test("seed import readiness shows account launch signal from preview rows", () =
   assert.equal(readiness.summary.review, 1);
   assert.equal(readiness.accounts[0].status, "ready_to_seed");
   assert.equal(readiness.accounts[1].status, "needs_review");
+});
+
+test("seed import next actions guide the manual follow-up", () => {
+  const actions = buildSeedImportNextActions({
+    imported: 3,
+    skipped: 1,
+    importMode: "recommended",
+    seedImportReadiness: {
+      summary: { parsed: 4 },
+      accounts: [
+        { displayName: "AI Tools", status: "ready_to_seed", remaining: 0 },
+        { displayName: "Crypto Builder", status: "not_ready", remaining: 2 }
+      ]
+    }
+  });
+
+  assert.deepEqual(actions.map((action) => action.type), [
+    "refresh_daily",
+    "open_final_review",
+    "continue_seed_pack",
+    "check_skipped_rows"
+  ]);
+  assert.equal(actions[0].tone, "good");
+});
+
+test("non-seed import next actions do not show seed account gaps", () => {
+  const actions = buildSeedImportNextActions({
+    imported: 0,
+    skipped: 1,
+    importMode: "recommended",
+    seedImportReadiness: {
+      summary: { parsed: 0 },
+      accounts: [
+        { displayName: "AI Tools", status: "not_ready", remaining: 3, parsed: 0 }
+      ]
+    }
+  });
+
+  assert.deepEqual(actions.map((action) => action.type), [
+    "fix_candidates",
+    "check_skipped_rows"
+  ]);
 });
 
 test("affiliate research workbench prioritizes candidates and ready snippets", () => {

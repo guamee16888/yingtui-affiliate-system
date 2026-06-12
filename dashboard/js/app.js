@@ -53,6 +53,7 @@ const state = {
   settings: null,
   weekly: null,
   candidatePreview: null,
+  candidateImportResult: null,
   feedbackPreview: null,
   publishTool: null,
   dailyRun: { running: false, message: "" },
@@ -1778,6 +1779,7 @@ function renderCandidates() {
           <button class="button" type="submit">批量导入候选</button>
         </div>
       </form>
+      ${renderCandidateImportResult()}
       ${renderCandidatePreview()}
     </section>
     <section class="panel">
@@ -1809,6 +1811,38 @@ function renderCandidatePreview() {
       <div class="score-bars">${Object.entries(item.scoreBreakdown ?? {}).filter(([key]) => ["painScore","nicheScore","affiliateScore","contentScore","noveltyScore","riskScore"].includes(key)).map(([key, value]) => bar(key, value)).join("")}</div>
     </div>`).join("") || empty("暂无预览结果。")}</div>
   </div>`;
+}
+
+function renderCandidateImportResult() {
+  const result = state.candidateImportResult;
+  if (!result) return "";
+  const actions = result.nextActions ?? [];
+  return `<div class="preview-box import-result-box">
+    <div class="line-head">
+      <strong>导入完成，下一步</strong>
+      <span class="muted">imported ${esc(result.imported ?? 0)} · skipped ${esc(result.skipped ?? 0)} · mode ${esc(result.importMode ?? "recommended")}</span>
+    </div>
+    ${result.errors?.length ? `<p class="muted">解析跳过：${esc(result.errors.join(" "))}</p>` : ""}
+    ${renderSeedImportReadiness(result.seedImportReadiness)}
+    <div class="list">${actions.map(renderCandidateImportAction).join("") || empty("暂无下一步。")}</div>
+  </div>`;
+}
+
+function renderCandidateImportAction(action) {
+  const control = candidateImportActionControl(action.type);
+  return `<div class="list-item import-action-item">
+    <div class="line-head"><strong>${esc(action.label)}</strong>${pill(action.type, action.tone || "neutral")}</div>
+    <p class="muted">${esc(action.detail || "")}</p>
+    ${control ? `<div class="row-actions">${control}</div>` : ""}
+  </div>`;
+}
+
+function candidateImportActionControl(type) {
+  if (type === "refresh_daily") return `<button class="button" type="button" data-run-daily>刷新 Live Feed</button>`;
+  if (type === "open_final_review") return `<button class="button ghost" type="button" data-tab-jump="review">打开发布审核</button>`;
+  if (type === "continue_seed_pack") return `<button class="button ghost" type="button" data-tab-jump="accounts">看账号缺口</button>`;
+  if (type === "review_seed_rows" || type === "fix_candidates" || type === "check_skipped_rows") return `<button class="button ghost" type="button" data-tab-jump="candidates">回到候选收集</button>`;
+  return "";
 }
 
 function renderSeedImportReadiness(readiness) {
@@ -2048,6 +2082,7 @@ function renderSourceImportPack(pack) {
           <button class="button" type="submit">导入可用候选</button>
         </div>
       </form>
+      ${renderCandidateImportResult()}
       ${renderCandidatePreview()}
     </div>
   </section>`;
@@ -3936,7 +3971,7 @@ async function addAffiliate(button) {
 
 async function submitAffiliateResearch(event) {
   event.preventDefault();
-  const form = event.currentTarget;
+  const form = event.target;
   const payload = Object.fromEntries(new FormData(form).entries());
   payload.affiliateScore = Number(payload.affiliateScore || 0);
   await api.post("/api/affiliate-research/upsert", payload);
@@ -3947,11 +3982,12 @@ async function submitAffiliateResearch(event) {
 
 async function submitCandidate(event) {
   event.preventDefault();
-  const form = event.currentTarget;
+  const form = event.target;
   const payload = Object.fromEntries(new FormData(form).entries());
   if (payload.published) payload.published = new Date(payload.published).toISOString();
   await api.post("/api/candidate-inbox/upsert", payload);
   state.candidatePreview = null;
+  state.candidateImportResult = null;
   form.reset();
   toast("候选已保存，刷新 Live Feed 后会参与评分");
   await loadAll();
@@ -3959,10 +3995,11 @@ async function submitCandidate(event) {
 
 async function submitCandidatePaste(event) {
   event.preventDefault();
-  const form = event.currentTarget;
+  const form = event.target;
   const payload = Object.fromEntries(new FormData(form).entries());
   const result = await api.post("/api/candidate-inbox/import-paste", payload);
   state.candidatePreview = null;
+  state.candidateImportResult = result;
   form.reset();
   toast(`已导入 ${result.imported} 个候选，跳过 ${result.skipped ?? 0} 个${result.errors?.length ? `，${result.errors.length} 行解析跳过` : ""}`);
   await loadAll();
@@ -3972,6 +4009,7 @@ async function previewCandidatePaste(formId) {
   const form = document.getElementById(formId);
   if (!form) throw new Error("candidate paste form not found");
   const payload = Object.fromEntries(new FormData(form).entries());
+  state.candidateImportResult = null;
   state.candidatePreview = await api.post("/api/candidate-inbox/preview-paste", payload);
   renderActiveView();
   toast(`已预览 ${state.candidatePreview.previews.length} 个候选`);
@@ -3979,7 +4017,7 @@ async function previewCandidatePaste(formId) {
 
 async function submitFeedbackCsv(event) {
   event.preventDefault();
-  const form = event.currentTarget;
+  const form = event.target;
   const csv = new FormData(form).get("csv");
   const result = await api.post("/api/feedback/import-csv", { csv });
   state.feedbackPreview = null;

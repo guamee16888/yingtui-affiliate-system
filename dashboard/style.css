@@ -1533,6 +1533,21 @@ main {
   color: var(--muted);
   line-height: 1.4;
 }
+.source-pack-import {
+  border: 1px solid rgba(38, 166, 116, .20);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(236, 249, 243, .76), rgba(255, 255, 255, .82));
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+.source-pack-import > div > strong {
+  color: var(--ink);
+  font-weight: 680;
+}
+.source-pack-import > div > p {
+  margin: 5px 0 0;
+}
 .learning-loop {
   display: grid;
   gap: 16px;
@@ -1733,6 +1748,7 @@ main {
 [data-theme="dark"] .source-check-item,
 [data-theme="dark"] .source-pack-bar,
 [data-theme="dark"] .source-pack-row,
+[data-theme="dark"] .source-pack-import,
 [data-theme="dark"] .learning-step,
 [data-theme="dark"] .learning-seed-card,
 [data-theme="dark"] .learning-csv,

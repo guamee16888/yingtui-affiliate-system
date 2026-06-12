@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-12",
-  "generatedAt": "2026-06-12T15:13:06.629Z",
+  "generatedAt": "2026-06-12T16:39:35.136Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
   "overallScore": 38,
   "level": "prototype",
@@ -59,9 +59,9 @@
       "status": "blocked",
       "whyItMatters": "A daily target is not real until it fits account cooldowns and human review time.",
       "evidence": [
-        "18/200 posts scheduled into review slots.",
+        "17/200 posts scheduled into review slots.",
         "154 slots impossible under current cooldown settings.",
-        "174 drafts missing."
+        "175 drafts missing."
       ],
       "gaps": [
         "Current cooldown settings cannot fit the configured daily target.",

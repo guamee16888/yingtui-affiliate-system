@@ -60,7 +60,7 @@
 - Score: 9/100
 - Status: blocked
 - Why it matters: A daily target is not real until it fits account cooldowns and human review time.
-- Evidence: 18/200 posts scheduled into review slots. 154 slots impossible under current cooldown settings. 174 drafts missing.
+- Evidence: 17/200 posts scheduled into review slots. 154 slots impossible under current cooldown settings. 175 drafts missing.
 - Gaps: Current cooldown settings cannot fit the configured daily target. Not enough drafts to fill the calendar.
 - Next: Run npm run content-calendar after every daily generation. Lower per-account daily targets or reduce cooldown hours before scaling.
 

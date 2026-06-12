@@ -110,6 +110,7 @@ const writeActionSelector = [
   "#affiliateForm button[type='submit']",
   "#candidateForm button[type='submit']",
   "#candidatePasteForm button[type='submit']",
+  "#sourcePackPasteForm button[type='submit']",
   "#feedbackCsvForm button[type='submit']",
   "#feedbackForm button[type='submit']",
   "#publishForm button[type='submit']"
@@ -1835,6 +1836,24 @@ function renderSourceImportPack(pack) {
       ${guideHref ? `<a class="button ghost" href="${attr(guideHref)}" target="_blank" rel="noreferrer">打开 guide</a>` : ""}
       <button class="button ghost" data-tab-jump="candidates">去候选收集</button>
       <button class="button ghost" data-copy="npm run source-pack">复制命令</button>
+    </div>
+    <div class="source-pack-import">
+      <div>
+        <strong>填完 CSV 后，直接粘这里预览</strong>
+        <p class="muted">会复用候选收集的评分、去重和导入规则；空 name/url 的模板行不会被导入。</p>
+      </div>
+      <form class="stack-form" id="sourcePackPasteForm">
+        <label>默认来源 <input name="source" value="source_pack" placeholder="source_pack"></label>
+        <label>默认圈子 <select name="circle">${circleOptions()}</select></label>
+        <label>默认类型 <select name="candidateType"><option value="product">product/tool</option><option value="topic">topic/signal</option></select></label>
+        <label>导入策略 <select name="importMode"><option value="recommended" selected>只导入可导入项</option><option value="all">导入全部非重复项</option></select></label>
+        <textarea name="text" rows="7" placeholder="name,url,tagline,source,circle,candidateType,sourceUrl,published,notes&#10;Real tool,https://example.com,One narrow buyer pain,source_pack,indie_hackers,product,,${attr(pack.date)},Found from X search"></textarea>
+        <div class="row-actions">
+          <button class="button ghost" type="button" data-preview-candidates="sourcePackPasteForm">预览评分</button>
+          <button class="button" type="submit">导入可用候选</button>
+        </div>
+      </form>
+      ${renderCandidatePreview()}
     </div>
   </section>`;
 }
@@ -3648,13 +3667,13 @@ document.addEventListener("click", async (event) => {
 });
 
 document.addEventListener("submit", async (event) => {
-  if (!["affiliateForm", "feedbackCsvForm", "candidateForm", "candidatePasteForm"].includes(event.target?.id)) return;
+  if (!["affiliateForm", "feedbackCsvForm", "candidateForm", "candidatePasteForm", "sourcePackPasteForm"].includes(event.target?.id)) return;
   if (guardReadOnlyAction(event)) return;
   try {
     if (event.target.id === "affiliateForm") await submitAffiliateResearch(event);
     if (event.target.id === "feedbackCsvForm") await submitFeedbackCsv(event);
     if (event.target.id === "candidateForm") await submitCandidate(event);
-    if (event.target.id === "candidatePasteForm") await submitCandidatePaste(event);
+    if (["candidatePasteForm", "sourcePackPasteForm"].includes(event.target.id)) await submitCandidatePaste(event);
   } catch (error) {
     toast(error.message);
   }

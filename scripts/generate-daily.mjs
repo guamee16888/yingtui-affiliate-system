@@ -15,11 +15,13 @@ import {
   writeDailyOutput
 } from "./lib/affiliate-system.mjs";
 import { loadAccountPosts, loadCandidateInbox, loadFeedback, loadQueues } from "./lib/data-store.mjs";
+import { readJson, writeJsonAtomic, writeTextAtomic } from "./lib/file-store.mjs";
 import {
   loadContentSourceConfig,
   refreshSourceCandidates,
   sourceCandidatesToTools
 } from "./lib/content-source-system.mjs";
+import { buildScaleReadiness, renderScaleReadinessMarkdown } from "./lib/scale-readiness.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -73,6 +75,7 @@ async function main() {
   });
   const outputFile = await writeDailyOutput(model);
   const jsonFiles = await writeDailyJsonOutputs(model);
+  const scaleFiles = await writeScaleOutputs({ model, accountConfig });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
   if (!feed.usedFallback) {
@@ -87,9 +90,31 @@ async function main() {
   console.log(`Wrote ${outputFile}`);
   console.log(`Wrote ${jsonFiles.dailyFile}`);
   console.log(`Wrote ${jsonFiles.latestFile}`);
+  console.log(`Wrote ${scaleFiles.jsonPath}`);
+  console.log(`Wrote ${scaleFiles.markdownPath}`);
   console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
   console.log(`Source refresh fetched ${sourceRefresh.fetchedCount} new items from ${sourceRefresh.enabledSources} enabled extra sources`);
   console.log(historyMessage);
+}
+
+async function writeScaleOutputs({ model, accountConfig }) {
+  const [contentCalendar, sourceImportPack] = await Promise.all([
+    readJson("data/content-calendar/latest.json", model.contentCalendar ?? null),
+    readJson("data/source-import-pack/latest.json", null)
+  ]);
+  const report = buildScaleReadiness({
+    date: model.date,
+    latest: model,
+    feedbackOps: model.feedbackOps,
+    accountConfig,
+    contentCalendar,
+    sourceImportPack
+  });
+  const jsonPath = "data/scale-readiness.json";
+  const markdownPath = `output/${model.date}-scale-readiness.md`;
+  await writeJsonAtomic(jsonPath, report);
+  await writeTextAtomic(markdownPath, renderScaleReadinessMarkdown(report));
+  return { jsonPath, markdownPath };
 }
 
 main().catch((error) => {

@@ -163,7 +163,7 @@ Tool B | https://example.org | Better reporting for small teams
 npm run daily
 ```
 
-拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并更新历史记录。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
+拉取 Product Hunt，刷新已启用的 `config/content-sources.json` 来源，并合并 `data/candidate-inbox.json` 与 `data/source-candidates.json` 里的 active 候选。生成当天默认文案包，写入 `output/YYYY-MM-DD-daily-x-pack.md`、`data/daily/YYYY-MM-DD.json` 和 `data/latest.json`，并同步刷新 `data/scale-readiness.json`。默认最多挑 40 个高质量候选；低于质量线的不会为了凑数进入 Top Picks。
 
 ```bash
 npm run daily:top10

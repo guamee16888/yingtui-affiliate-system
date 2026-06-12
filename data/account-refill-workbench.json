@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T20:44:29.028Z",
+  "generatedAt": "2026-06-12T21:18:51.075Z",
   "status": "needs_refill",
   "rule": "Fill only real name/url/tagline rows. Blank rows are skipped by candidate import; do not invent candidates to hit volume.",
   "summary": {
@@ -112,7 +112,7 @@
       "actionLabel": "补 10 条草稿/排期",
       "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 24,
+      "readinessScore": 25,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -145,7 +145,7 @@
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 12,
+          "missing": 11,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -224,7 +224,7 @@
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 14,
+          "missing": 13,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -509,7 +509,7 @@
       "actionLabel": "补 10 条草稿/排期",
       "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 24,
+      "readinessScore": 25,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -542,7 +542,7 @@
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 12,
+          "missing": 11,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -621,7 +621,7 @@
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 14,
+          "missing": 13,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -1694,7 +1694,7 @@
       "actionLabel": "补 8 条草稿/排期",
       "actionDetail": "Creator Stack needs unique copy and review slots before it can post today.",
       "actionPriority": 78,
-      "readinessScore": 8,
+      "readinessScore": 11,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -1703,8 +1703,8 @@
         {
           "id": "drafts",
           "label": "Draft gap",
-          "missing": 8,
-          "detail": "Write 8 more unique drafts for this account."
+          "missing": 7,
+          "detail": "Write 7 more unique drafts for this account."
         },
         {
           "id": "schedule",
@@ -1727,7 +1727,7 @@
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 28,
+          "missing": 27,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {

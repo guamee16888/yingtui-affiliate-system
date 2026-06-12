@@ -3,19 +3,19 @@
 - Mode: manual_confirm_ramp
 - Safe test posts now: 3
 - Ready accounts: 0/20
-- Planned drafts: 18/200
+- Planned drafts: 19/200
 - Accounts with measured feedback: 0
 
 ## Start First
 
-1. AI Founder Signals — seed_this_week — score 24/100
-   Drafts 0/10; fresh 3; strong 3; matched 18
+1. AI Founder Signals — seed_this_week — score 25/100
+   Drafts 0/10; fresh 3; strong 3; matched 19
    Next: Add 10 unique drafts before using AI Founder Signals.
    - X live search: AI Founder Signals AI startup circle tools founder workflow
    - Google recent search: AI Founder Signals AI startup circle tools founder workflow
 
 2. AI Tools Lab — seed_this_week — score 23/100
-   Drafts 0/10; fresh 3; strong 3; matched 16
+   Drafts 0/10; fresh 3; strong 3; matched 17
    Next: Add 10 unique drafts before using AI Tools Lab.
    - X live search: AI Tools Lab AI tools discovery tools founder workflow
    - Google recent search: AI Tools Lab AI tools discovery tools founder workflow
@@ -34,9 +34,9 @@
    - X live search: AI Agent Ops AI agents and automation tools founder workflow
    - Google recent search: AI Agent Ops AI agents and automation tools founder workflow
 
-2. Creator Stack — seed_this_week — score 8/100
-   Drafts 2/10; fresh 0; strong 0; matched 2
-   Next: Add 8 unique drafts before using Creator Stack.
+2. Creator Stack — seed_this_week — score 11/100
+   Drafts 3/10; fresh 0; strong 0; matched 3
+   Next: Add 7 unique drafts before using Creator Stack.
    - X live search: Creator Stack creator tools tools founder workflow
    - Google recent search: Creator Stack creator tools tools founder workflow
 

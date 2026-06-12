@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T20:44:29.032Z",
+  "generatedAt": "2026-06-12T21:18:51.080Z",
   "mode": "manual_confirm_ramp",
   "rule": "Scale in batches. Do not unlock broad multi-account posting until seed accounts have fresh drafts and measured feedback.",
   "summary": {
@@ -11,7 +11,7 @@
     "holdAccounts": 12,
     "safeTestPosts": 3,
     "targetDailyPosts": 200,
-    "plannedDrafts": 18,
+    "plannedDrafts": 19,
     "measuredFeedbackAccounts": 0,
     "readyAccounts": 0,
     "blockers": [
@@ -33,21 +33,21 @@
         "id": "draft_gap",
         "title": "Draft gap is too large for the target",
         "severity": "high",
-        "detail": "18/200 unique drafts are planned.",
+        "detail": "19/200 unique drafts are planned.",
         "nextAction": "Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar."
       },
       {
         "id": "account_matrix_gap",
         "title": "Account-level content matrix is not ready",
         "severity": "high",
-        "detail": "0/20 accounts are ready; candidate bench is 54/600, strong 9, fresh 9.",
-        "nextAction": "Run npm run account-matrix, then fill account-level search tasks until the 182 draft gap shrinks."
+        "detail": "0/20 accounts are ready; candidate bench is 57/600, strong 9, fresh 9.",
+        "nextAction": "Run npm run account-matrix, then fill account-level search tasks until the 181 draft gap shrinks."
       },
       {
         "id": "source_gap",
         "title": "Source supply is below target",
         "severity": "medium",
-        "detail": "80 more source candidates are needed for the current account mix.",
+        "detail": "78 more source candidates are needed for the current account mix.",
         "nextAction": "Fill the 100 source-pack rows that still need real candidates."
       },
       {
@@ -111,16 +111,16 @@
       "displayName": "AI Founder Signals",
       "category": "AI startup circle",
       "launchStage": "seed_this_week",
-      "readinessScore": 24,
+      "readinessScore": 25,
       "targetPosts": 10,
       "plannedDrafts": 0,
-      "matchedCandidates": 18,
+      "matchedCandidates": 19,
       "strongCandidates": 3,
       "freshCandidates": 3,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
-        "candidateBench": 12,
+        "candidateBench": 11,
         "strong": 7,
         "fresh": 7,
         "drafts": 10,
@@ -188,13 +188,13 @@
       "readinessScore": 23,
       "targetPosts": 10,
       "plannedDrafts": 0,
-      "matchedCandidates": 16,
+      "matchedCandidates": 17,
       "strongCandidates": 3,
       "freshCandidates": 3,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
-        "candidateBench": 14,
+        "candidateBench": 13,
         "strong": 7,
         "fresh": 7,
         "drafts": 10,
@@ -409,19 +409,19 @@
       "displayName": "Creator Stack",
       "category": "creator tools",
       "launchStage": "seed_this_week",
-      "readinessScore": 8,
+      "readinessScore": 11,
       "targetPosts": 10,
-      "plannedDrafts": 2,
-      "matchedCandidates": 2,
+      "plannedDrafts": 3,
+      "matchedCandidates": 3,
       "strongCandidates": 0,
       "freshCandidates": 0,
       "scheduledPosts": 2,
       "measuredFeedback": 0,
       "missing": {
-        "candidateBench": 28,
+        "candidateBench": 27,
         "strong": 10,
         "fresh": 10,
-        "drafts": 8,
+        "drafts": 7,
         "feedback": 1
       },
       "blockers": [
@@ -432,7 +432,7 @@
         "schedule",
         "feedback"
       ],
-      "nextAction": "Add 8 unique drafts before using Creator Stack.",
+      "nextAction": "Add 7 unique drafts before using Creator Stack.",
       "searchTasks": [
         {
           "accountId": "creator_stack",
@@ -465,6 +465,14 @@
           "name": "Pool’s new app turns your screenshots into something useful",
           "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
           "score": 22,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "tag:www.producthunt.com,2005:Post/1167437",
+          "name": "BlenderHunt",
+          "url": "https://www.producthunt.com/products/blenderhunt",
+          "score": 20,
           "followUpAction": "tweet only",
           "match": "alternative"
         }
@@ -1274,16 +1282,16 @@
       "displayName": "AI Founder Signals",
       "category": "AI startup circle",
       "launchStage": "seed_this_week",
-      "readinessScore": 24,
+      "readinessScore": 25,
       "targetPosts": 10,
       "plannedDrafts": 0,
-      "matchedCandidates": 18,
+      "matchedCandidates": 19,
       "strongCandidates": 3,
       "freshCandidates": 3,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
-        "candidateBench": 12,
+        "candidateBench": 11,
         "strong": 7,
         "fresh": 7,
         "drafts": 10,
@@ -1351,13 +1359,13 @@
       "readinessScore": 23,
       "targetPosts": 10,
       "plannedDrafts": 0,
-      "matchedCandidates": 16,
+      "matchedCandidates": 17,
       "strongCandidates": 3,
       "freshCandidates": 3,
       "scheduledPosts": 0,
       "measuredFeedback": 0,
       "missing": {
-        "candidateBench": 14,
+        "candidateBench": 13,
         "strong": 7,
         "fresh": 7,
         "drafts": 10,
@@ -1570,19 +1578,19 @@
       "displayName": "Creator Stack",
       "category": "creator tools",
       "launchStage": "seed_this_week",
-      "readinessScore": 8,
+      "readinessScore": 11,
       "targetPosts": 10,
-      "plannedDrafts": 2,
-      "matchedCandidates": 2,
+      "plannedDrafts": 3,
+      "matchedCandidates": 3,
       "strongCandidates": 0,
       "freshCandidates": 0,
       "scheduledPosts": 2,
       "measuredFeedback": 0,
       "missing": {
-        "candidateBench": 28,
+        "candidateBench": 27,
         "strong": 10,
         "fresh": 10,
-        "drafts": 8,
+        "drafts": 7,
         "feedback": 1
       },
       "blockers": [
@@ -1593,7 +1601,7 @@
         "schedule",
         "feedback"
       ],
-      "nextAction": "Add 8 unique drafts before using Creator Stack.",
+      "nextAction": "Add 7 unique drafts before using Creator Stack.",
       "searchTasks": [
         {
           "accountId": "creator_stack",
@@ -1626,6 +1634,14 @@
           "name": "Pool’s new app turns your screenshots into something useful",
           "url": "https://techcrunch.com/2026/06/11/pools-new-app-turns-your-screenshots-into-a-searchable-memory-bank/",
           "score": 22,
+          "followUpAction": "tweet only",
+          "match": "alternative"
+        },
+        {
+          "toolId": "tag:www.producthunt.com,2005:Post/1167437",
+          "name": "BlenderHunt",
+          "url": "https://www.producthunt.com/products/blenderhunt",
+          "score": 20,
           "followUpAction": "tweet only",
           "match": "alternative"
         }

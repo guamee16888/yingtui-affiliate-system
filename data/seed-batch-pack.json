@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T20:44:29.034Z",
+  "generatedAt": "2026-06-12T21:18:51.082Z",
   "mode": "manual_research_seed_batch",
   "summary": {
     "accounts": 3,
@@ -17,7 +17,7 @@
       "accountId": "ai_founder_signals",
       "displayName": "AI Founder Signals",
       "launchStage": "seed_this_week",
-      "readinessScore": 24,
+      "readinessScore": 25,
       "rows": 10,
       "missingDrafts": 10,
       "missingFresh": 7,

@@ -21,7 +21,7 @@ import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceImportPack, bui
 import { buildDraftPlan } from "../scripts/lib/draft-planner.mjs";
 import { buildContentCalendar } from "../scripts/lib/content-calendar.mjs";
 import { buildProductRoadmap } from "../scripts/lib/product-roadmap.mjs";
-import { buildFeedbackOps, buildFeedbackSeedTestPlan, buildLearningLoop, renderLearningLoopMarkdown } from "../scripts/lib/feedback-ops.mjs";
+import { buildFeedbackLearningSignals, buildFeedbackOps, buildFeedbackSeedTestPlan, buildLearningLoop, renderLearningLoopMarkdown } from "../scripts/lib/feedback-ops.mjs";
 import { affiliateSearchLinks, buildAffiliateResearchWorkbench } from "../scripts/lib/affiliate-research-workbench.mjs";
 import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/affiliate-links.mjs";
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
@@ -115,6 +115,9 @@ test("feedback ops reports pending metrics and account learning", () => {
     variantType: "painPointHook",
     accountId: "ai_tools_lab",
     accountName: "AI Tools Lab",
+    sourceName: "Product Hunt",
+    sourceType: "producthunt",
+    circle: "ai_startups",
     copyText: "Measured copy",
     posted: true,
     metrics: { impressions: 1000, likes: 20, bookmarks: 5, replies: 2, clicks: 7 }
@@ -157,6 +160,9 @@ test("feedback ops reports pending metrics and account learning", () => {
   assert.equal(ops.accountStats.find((item) => item.accountId === "ai_tools_lab").measured, 1);
   assert.equal(ops.angleStats[0].variantType, "painPointHook");
   assert.equal(ops.sourceStats[0].sourceName, "Product Hunt");
+  assert.equal(ops.learningSignals.topSources[0].sourceName, "Product Hunt");
+  assert.equal(ops.learningSignals.pendingAlerts[0].toolName, "Tool 2");
+  assert.equal(buildFeedbackLearningSignals(ops).status, "early_learning");
 });
 
 test("feedback debt gate blocks scale when posted rows have no metrics", () => {
@@ -724,6 +730,9 @@ test("mapFeedbackCsv matches feedback id and modern X metric headers", () => {
         variantType: "painPointHook",
         accountId: "ai_founder_signals",
         accountName: "AI Founder Signals",
+        sourceName: "Founder Feed",
+        sourceType: "rss",
+        circle: "ai_startups",
         copyText: "A founder workflow note",
         postedUrl: "https://x.com/user/status/456",
         postedAt: "2026-06-12T10:00:00.000Z"
@@ -740,6 +749,8 @@ test("mapFeedbackCsv matches feedback id and modern X metric headers", () => {
   assert.equal(result.entries[0].id, "feedback_modern");
   assert.equal(result.entries[0].toolName, "Modern Tool");
   assert.equal(result.entries[0].accountId, "ai_founder_signals");
+  assert.equal(result.entries[0].sourceName, "Founder Feed");
+  assert.equal(result.entries[0].circle, "ai_startups");
   assert.equal(result.entries[0].postedAt, "2026-06-12T10:00:00.000Z");
   assert.equal(result.entries[0].metrics.impressions, 2400);
   assert.equal(result.entries[0].metrics.bookmarks, 11);
@@ -782,6 +793,72 @@ test("daily model ignores same-day history when marking seen-before", () => {
   assert.equal(sameDay.freshnessReport.stats.topPickFreshPostCandidates, 1);
   assert.equal(priorDay.picked[0].seenBefore, true);
   assert.equal(priorDay.actionList.some((action) => action.type === "post"), false);
+});
+
+test("daily model uses measured feedback as a small next-day learning signal", () => {
+  const winnerTool = {
+    name: "Founder Email Workflow",
+    url: "https://winner.example.com",
+    tagline: "Email automation for startup founders",
+    description: "Email automation for startup founders with pricing, analytics, and a clear onboarding workflow.",
+    published: "2026-06-12T00:00:00.000Z",
+    sourceName: "Founder Feed",
+    sourceType: "rss",
+    circle: "ai_startups"
+  };
+  const otherTool = {
+    name: "Generic Email Workflow",
+    url: "https://other.example.com",
+    tagline: "Email automation for startup founders",
+    description: "Email automation for startup founders with pricing, analytics, and a clear onboarding workflow.",
+    published: "2026-06-12T00:00:00.000Z",
+    sourceName: "Other Feed",
+    sourceType: "rss",
+    circle: "ai_startups"
+  };
+  const feedback = {
+    entries: [
+      buildFeedbackEntry({
+        toolId: createToolId("Old Winner", "https://old.example.com"),
+        toolName: "Old Winner",
+        toolUrl: "https://old.example.com",
+        variantType: "painPointHook",
+        accountId: "ai_founder_signals",
+        accountName: "AI Founder Signals",
+        sourceName: "Founder Feed",
+        sourceType: "rss",
+        circle: "ai_startups",
+        copyText: "Measured winner",
+        posted: true,
+        metrics: { impressions: 2000, likes: 40, bookmarks: 15, replies: 4, clicks: 12 }
+      })
+    ]
+  };
+  const model = buildDailyModel({
+    date: "2026-06-12",
+    feedSource: "test",
+    usedFallback: false,
+    tools: [otherTool, winnerTool],
+    history: { tools: [] },
+    affiliateConfig: { links: [] },
+    accountConfig: {
+      accounts: [{ id: "ai_founder_signals", displayName: "AI Founder Signals", category: "AI startup circle", active: true, dailyPostLimit: 10, cooldownHours: 3 }]
+    },
+    feedback,
+    accountPosts: { items: [] },
+    queues: { items: [] },
+    voice: { style: { avoid: [], maxTweetCharacters: 260, allowEmoji: false } },
+    limit: 2,
+    warnings: []
+  });
+  const winner = model.picked.find((item) => item.tool.url === winnerTool.url);
+  const other = model.picked.find((item) => item.tool.url === otherTool.url);
+
+  assert.equal(model.feedbackLearningSignals.status, "early_learning");
+  assert.equal(model.feedbackLearningSignals.topSources[0].sourceName, "Founder Feed");
+  assert.equal(winner.scoreBreakdown.learningScore > 0, true);
+  assert.equal(winner.scoreBreakdown.learningScore > other.scoreBreakdown.learningScore, true);
+  assert.match(winner.reason, /feedback learning boost/);
 });
 
 test("daily model reports feed freshness even when top picks are old", () => {

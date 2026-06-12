@@ -13,7 +13,7 @@
 Fix the pieces that decide whether 20 accounts can get enough unique, measured, reviewable posts.
 
 - Feedback learning loop: 0/100. Gap: No posted feedback rows yet. Next: Mark every manual post as posted with accountId.
-- Daily high-quality content supply: 14/100. Gap: Need 182 more unique drafts for the current target. Next: Run npm run source-queue and fill the largest circle gap first.
+- Daily high-quality content supply: 15/100. Gap: Need 181 more unique drafts for the current target. Next: Run npm run source-queue and fill the largest circle gap first.
 - Account-level content calendar: 8/100. Gap: Current cooldown settings cannot fit the configured daily target. Next: Run npm run content-calendar after every daily generation.
 
 ### Next: Turn winners into compounding assets
@@ -51,7 +51,7 @@ Do not prioritize real multi-account OAuth until content quality, feedback, cool
 4. Account-level content calendar — 8/100
    Why it matters: A daily target is not real until it fits account cooldowns and human review time.
    Next: Run npm run content-calendar after every daily generation.
-5. Daily high-quality content supply — 14/100
+5. Daily high-quality content supply — 15/100
    Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
    Next: Run npm run source-queue and fill the largest circle gap first.
 
@@ -79,11 +79,11 @@ Do not prioritize real multi-account OAuth until content quality, feedback, cool
 
 ### Daily high-quality content supply
 
-- Score: 14/100
+- Score: 15/100
 - Status: blocked
 - Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
-- Evidence: 18/200 planned unique drafts. 18 qualified tools. 80 source candidates needed by the queue. 100 source-pack rows generated, 100 still need real candidates.
-- Gaps: Need 182 more unique drafts for the current target. Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles.
+- Evidence: 19/200 planned unique drafts. 19 qualified tools. 78 source candidates needed by the queue. 100 source-pack rows generated, 100 still need real candidates.
+- Gaps: Need 181 more unique drafts for the current target. Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles.
 - Next: Run npm run source-queue and fill the largest circle gap first. Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL.
 
 ### Account-level content calendar

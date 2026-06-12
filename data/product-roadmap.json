@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T21:00:28.325Z",
+  "generatedAt": "2026-06-12T21:19:02.481Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
   "overallScore": 33,
   "level": "prototype",
@@ -36,17 +36,17 @@
     {
       "id": "content_supply",
       "name": "Daily high-quality content supply",
-      "score": 14,
+      "score": 15,
       "status": "blocked",
       "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
       "evidence": [
-        "18/200 planned unique drafts.",
-        "18 qualified tools.",
-        "80 source candidates needed by the queue.",
+        "19/200 planned unique drafts.",
+        "19 qualified tools.",
+        "78 source candidates needed by the queue.",
         "100 source-pack rows generated, 100 still need real candidates."
       ],
       "gaps": [
-        "Need 182 more unique drafts for the current target.",
+        "Need 181 more unique drafts for the current target.",
         "Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles."
       ],
       "nextActions": [
@@ -212,9 +212,9 @@
         {
           "id": "content_supply",
           "name": "Daily high-quality content supply",
-          "score": 14,
+          "score": 15,
           "status": "blocked",
-          "gap": "Need 182 more unique drafts for the current target.",
+          "gap": "Need 181 more unique drafts for the current target.",
           "nextAction": "Run npm run source-queue and fill the largest circle gap first."
         },
         {
@@ -329,7 +329,7 @@
     {
       "id": "content_supply",
       "name": "Daily high-quality content supply",
-      "score": 14,
+      "score": 15,
       "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
       "nextAction": "Run npm run source-queue and fill the largest circle gap first."
     }

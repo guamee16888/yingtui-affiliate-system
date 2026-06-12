@@ -5,7 +5,7 @@
 - Source: https://www.producthunt.com/feed
 - Source mix: Product Hunt 50, Candidate Inbox 0, Source Candidates 20, merged 70
 - Evaluated: 70 tools
-- Picked: 18 tools (3 fresh, 15 Seen before)
+- Picked: 19 tools (3 fresh, 16 Seen before)
 - Top score: 29
 - Rule: drafts are material, not a posting queue. Pick only tools you would defend in public.
 
@@ -13,15 +13,15 @@
 
 - Target: 20 accounts x 10 posts = 200 drafts/day
 - Quality floor: score 18+ and not skip
-- Qualified unique items: 18
-- Possible non-identical draft variants: 90
-- Gap: 110
+- Qualified unique items: 19
+- Possible non-identical draft variants: 95
+- Gap: 105
 - Status: short
 - Note: Supply is short for at least one account or circle. Add more source candidates instead of lowering quality just to fill slots.
 
 Circle coverage:
 - AI startup circle: 16 qualified items, up to 80 draft variants
-- Indie hacker circle: 4 qualified items, up to 20 draft variants
+- Indie hacker circle: 5 qualified items, up to 25 draft variants
 - SaaS founder circle: 0 qualified items, up to 0 draft variants
 - Crypto builder circle: 4 qualified items, up to 20 draft variants
 
@@ -29,7 +29,7 @@ Account shortages:
 - Affiliate Builder: 1/10 unique candidates, gap 9
 - SEO Review Lab: 1/10 unique candidates, gap 9
 - Build in Public: 2/10 unique candidates, gap 8
-- Creator Stack: 2/10 unique candidates, gap 8
+- Creator Stack: 3/10 unique candidates, gap 7
 - Ecommerce Ops: 2/10 unique candidates, gap 8
 - Dev Workflows: 0/10 unique candidates, gap 10
 - Sales Support AI: 2/10 unique candidates, gap 8
@@ -38,22 +38,22 @@ Account shortages:
 ## Source Quality Queue
 
 - Queue items: 4
-- Needed candidates: 80
+- Needed candidates: 78
 - Top gap: Indie hacker circle
 
-1. Indie hacker circle: need 36; affected accounts 4; try "micro SaaS" launch
+1. Indie hacker circle: need 34; affected accounts 4; try "micro SaaS" launch
 2. SaaS founder circle: need 20; affected accounts 2; try "SaaS pricing" "case study"
 3. Crypto builder circle: need 16; affected accounts 2; try "crypto wallet" "developer"
 4. AI startup circle: need 8; affected accounts 1; try "AI startup" launch new tool
 
 ## Source Discovery
 
-- Needed candidates: 80
+- Needed candidates: 78
 - Search links: 56
 - Top gap: Indie hacker circle
 
 Today source discovery:
-- Indie hacker circle: need 36, Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson. Links: [X live search](https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch)
+- Indie hacker circle: need 34, Open the X and Google links first, collect 10 candidates, then narrow to 3 that have a concrete product or founder lesson. Links: [X live search](https://x.com/search?q=%22micro%20SaaS%22%20launch&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22micro%20SaaS%22%20launch%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22micro%20SaaS%22%20launch)
 - SaaS founder circle: need 20, Collect 5 candidates from search links, then import only the ones with a clear audience and URL. Links: [X live search](https://x.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22SaaS%20pricing%22%20%22case%20study%22%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22SaaS%20pricing%22%20%22case%20study%22)
 - Crypto builder circle: need 16, Collect 5 candidates from search links, then import only the ones with a clear audience and URL. Links: [X live search](https://x.com/search?q=%22crypto%20wallet%22%20%22developer%22&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22crypto%20wallet%22%20%22developer%22%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22crypto%20wallet%22%20%22developer%22)
 - AI startup circle: need 8, Use this as a watchlist. Add only unusually strong candidates. Links: [X live search](https://x.com/search?q=%22AI%20startup%22%20launch%20new%20tool&src=typed_query&f=live); [Google recent search](https://www.google.com/search?q=%22AI%20startup%22%20launch%20new%20tool%20after%3A2026-01-01); [HN Algolia](https://hn.algolia.com/?q=%22AI%20startup%22%20launch%20new%20tool)
@@ -77,9 +77,9 @@ Weak/tune sources:
 ## Draft Planner
 
 - Rule: Each draft uses one unique candidate. No tool is allocated to more than one account in this plan.
-- Planned posts: 18/200
-- Gap: 182
-- Unique tools used: 18
+- Planned posts: 19/200
+- Gap: 181
+- Unique tools used: 19
 
 Account gaps:
 - AI Tools Lab: 0/10, gap 10
@@ -87,7 +87,7 @@ Account gaps:
 - SEO Review Lab: 2/10, gap 8
 - Productivity Ops: 0/10, gap 10
 - Build in Public: 1/10, gap 9
-- Creator Stack: 2/10, gap 8
+- Creator Stack: 3/10, gap 7
 - Ecommerce Ops: 1/10, gap 9
 - Dev Workflows: 0/10, gap 10
 
@@ -96,7 +96,7 @@ Account gaps:
 - Rule: Schedule drafts into review slots. Every slot still requires manual approval before publishing.
 - Scheduled posts: 15/200
 - Same-day capacity: 46
-- Draft gap: 182
+- Draft gap: 181
 - Capacity gap: 154
 - Ready accounts: 0/20
 
@@ -141,6 +141,26 @@ Top review items:
 Feedback actions:
 - Seed the feedback loop: Start with a tiny manually reviewed batch before scaling. Max new posts before metrics: 3.
 - 给 2 个账号补第一条测试: AI Founder Signals / Crypto Builder Radar
+
+## Feedback Learning Signals
+
+- Status: needs_seed
+- Confidence: none
+- Headline: No measured feedback yet. Post a tiny seed batch, then import X Analytics.
+- Ready to guide tomorrow: no
+- Rule: Feedback can nudge ranking, but cannot override freshness, quality, account cooldown, or manual confirmation gates.
+
+Tomorrow strategy:
+- Run only 2-3 manually confirmed seed posts before trusting rankings.
+
+Top accounts:
+- No measured account yet.
+
+Top angles:
+- No measured angle yet.
+
+Top sources:
+- No measured source yet.
 
 ## Today's Top Picks
 
@@ -198,7 +218,8 @@ Recommended routing:
 15. DoorDash’s new AI chatbot lets you order with prompts and photos → AI Founder Signals (AI Founder Signals: matches tweet only / thread candidate; keywords: AI, startup, workflow; pillar: AI startups.)
 16. Theker just raised $85M to build the factory robot that doesn’t specialize in anything → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
 17. Meet Warren 3.0 → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, Product Hunt; pillar: Product Hunt.)
-18. Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
+18. BlenderHunt → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.)
+19. Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues → AI Tools Lab (AI Tools Lab: matches tweet only / thread candidate; keywords: AI, workflow.)
 
 ## Tool Cards
 
@@ -797,6 +818,41 @@ Check: OK (202 chars)
 I found Meet Warren 3.0 on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/underpay
 Check: OK (194 chars)
 
+### BlenderHunt
+
+- Score breakdown: painScore 8 | nicheScore 7 | affiliateScore 0 | contentScore 5 | noveltyScore 4 | riskScore 0 | seenPenalty -4 | total 20
+- Follow-up action: tweet only
+- Product Hunt: https://www.producthunt.com/products/blenderhunt
+- Published: 2026-06-09T04:09:54-07:00
+- Tagline: The indie marketplace for Blender artists and creators
+- Seen before: yes (1 prior record, last 2026-06-12)
+- Reason: clear pain: removing one narrow, repeated manual step; specific buyer: creators. Caution: Seen before, so it is downgraded today.
+- Recommended account: AI Tools Lab — AI Tools Lab: matches tweet only / thread candidate; keywords: workflow, Product Hunt; pillar: Product Hunt.
+- Affiliate status: No affiliate link yet — research needed
+- Suggested angle: creators want a smaller builder workflow; test whether it solves removing one narrow, repeated manual step.
+
+#### X Copy Variants
+
+**short post**
+Testing BlenderHunt today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a smaller builder workflow. https://www.producthunt.com/products/blenderhunt
+Check: OK (195 chars)
+
+**casual post**
+I like AI tools more when the buyer is obvious. BlenderHunt seems built for creators, not everyone. I'd test setup, pricing, and one real use case first. https://www.producthunt.com/products/blenderhunt
+Check: OK (177 chars)
+
+**contrarian angle**
+Hot take: broad AI tools are harder to write about. BlenderHunt is smaller, which may be better. Clear buyer, clear pain, easier comparison. https://www.producthunt.com/products/blenderhunt
+Check: OK (164 chars)
+
+**pain-point hook**
+People actually search for ways to fix removing one narrow, repeated manual step. That's why BlenderHunt is more interesting than another vague launch. https://www.producthunt.com/products/blenderhunt
+Check: OK (175 chars)
+
+**thread opening**
+I found BlenderHunt on Product Hunt and would not judge it by the launch copy. I'd test 4 things: the problem, the workflow, the pricing, and the closest alternative. https://www.producthunt.com/products/blenderhunt
+Check: OK (190 chars)
+
 ### Fresh off bond sale, Amazon borrows $17.5B from banks as AI spending continues
 
 - Score breakdown: painScore 6 | nicheScore 6 | affiliateScore 2 | contentScore 5 | noveltyScore 7 | riskScore -2 | seenPenalty -4 | total 20
@@ -838,8 +894,8 @@ Check: OK (170 chars)
 - SpaceX, Anthropic, and OpenAI’s hot IPO summer: 18 points, skip. Reason: fresh enough to test now. Caution: broad or crowded angle risk; not enough signal for follow-up.
 - It’s hot IPO summer, and the MANGOS are ripe: 18 points, skip. Reason: fresh enough to test now. Caution: broad or crowded angle risk; not enough signal for follow-up.
 - Metaplanet buys Siiibo Securities to accelerate bitcoin financial ecosystem plans: 17 points, skip. Seen before. Reason: fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
-- Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - Pond: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
+- Firma.dev: 16 points, skip. Reason: has at least one narrow workflow angle. Caution: not enough signal for follow-up.
 - LocIn AI: 15 points, skip. Seen before. Reason: easy before/after/price/alternative content angle; fresh enough to test now. Caution: Seen before, so it is downgraded today; not enough signal for follow-up.
 - Slack Data Agent: 14 points, skip. Reason: fresh enough to test now. Caution: not enough signal for follow-up.
 
@@ -852,5 +908,5 @@ No high-affiliate-score tools without a configured affiliate link today.
 - History records before this run: 110
 - Unique tools seen: 79
 - Last history date before this run: 2026-06-13
-- Seen-before tools in today's picks: 15
-- Records written by this run: 18
+- Seen-before tools in today's picks: 16
+- Records written by this run: 19

@@ -9,7 +9,7 @@ import { buildSourceDiscoveryPack, buildSourceHealth, buildSourceQualityQueue, b
 import { buildDraftPlan } from "./draft-planner.mjs";
 import { buildContentCalendar } from "./content-calendar.mjs";
 import { buildPromotionReviewQueue } from "./promotion-engine.mjs";
-import { buildFeedbackOps } from "./feedback-ops.mjs";
+import { buildFeedbackLearningSignals, buildFeedbackOps } from "./feedback-ops.mjs";
 import { affiliateLinkMatchesTool } from "./affiliate-links.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -617,7 +617,8 @@ export function scoreTool(tool, context) {
   const noveltyScore = clamp(publishedNovelty(tool, context.date) + (titleWords >= 2 ? 2 : 0) + (hasMatch(text, ["new", "launch", "2.0", "beta"]) ? 1 : 0));
   const riskScore = clamp((broadMatches * 2) + hotMatches + (bigBrandMatches * 2) + (nicheScore <= 3 ? 2 : 0) + (painScore <= 3 ? 2 : 0) + sourceNoisePenalty);
   const seenPenalty = seenBefore ? (historyInfo.lastSeen === context.date ? 6 : 4) : 0;
-  const score = painScore + nicheScore + affiliateScore + contentScore + noveltyScore - riskScore - seenPenalty;
+  const learningBoost = feedbackLearningBoost(tool, context.feedbackLearningSignals);
+  const score = painScore + nicheScore + affiliateScore + contentScore + noveltyScore + learningBoost.score - riskScore - seenPenalty;
 
   const scoreBreakdown = {
     painScore,
@@ -625,6 +626,7 @@ export function scoreTool(tool, context) {
     affiliateScore,
     contentScore,
     noveltyScore,
+    learningScore: learningBoost.score,
     riskScore,
     sourceNoisePenalty,
     seenPenalty,
@@ -644,7 +646,37 @@ export function scoreTool(tool, context) {
     historyInfo,
     followUpAction,
     recommendedToFollow,
-    reason: buildReason(scoreBreakdown, angle, affiliate, seenBefore, followUpAction, tool.sourceQuality)
+    reason: buildReason(scoreBreakdown, angle, affiliate, seenBefore, followUpAction, tool.sourceQuality, learningBoost)
+  };
+}
+
+function feedbackLearningBoost(tool, signals = null) {
+  if (!signals || !["early_learning", "guiding_tomorrow"].includes(signals.status)) {
+    return { score: 0, reasons: [] };
+  }
+
+  const hints = signals.scoringHints ?? {};
+  const reasons = [];
+  let score = 0;
+  if (tool.accountId && (hints.accountIds ?? []).includes(tool.accountId)) {
+    score += 2;
+    reasons.push(`matched learned account ${tool.accountName || tool.accountId}`);
+  }
+  if (tool.sourceId && (hints.sourceIds ?? []).includes(tool.sourceId)) {
+    score += 2;
+    reasons.push(`matched learned source ${tool.sourceName || tool.sourceId}`);
+  } else if (tool.sourceName && (hints.sourceNames ?? []).includes(tool.sourceName)) {
+    score += 2;
+    reasons.push(`matched learned source ${tool.sourceName}`);
+  }
+  if (tool.circle && (hints.circles ?? []).includes(tool.circle)) {
+    score += 1;
+    reasons.push(`matched learned circle ${tool.circle}`);
+  }
+
+  return {
+    score: Math.min(Number(hints.maxBoostPerTool ?? 3), score),
+    reasons
   };
 }
 
@@ -659,7 +691,7 @@ function chooseFollowUpAction(scoreBreakdown, affiliate) {
   return "tweet only";
 }
 
-function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action, sourceQuality = null) {
+function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action, sourceQuality = null, learningBoost = { score: 0, reasons: [] }) {
   const strengths = [];
   const cautions = [];
 
@@ -669,6 +701,7 @@ function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action, sourc
   if (scoreBreakdown.contentScore >= 7) strengths.push("easy before/after/price/alternative content angle");
   if (scoreBreakdown.noveltyScore >= 6) strengths.push("fresh enough to test now");
   if (affiliate) strengths.push("affiliate link already configured");
+  if (learningBoost.score > 0) strengths.push(`feedback learning boost: ${learningBoost.reasons.join(", ")}`);
 
   if (scoreBreakdown.riskScore >= 6) cautions.push("broad or crowded angle risk");
   if (sourceQuality?.isNoisy) cautions.push(sourceQuality.reason);
@@ -803,7 +836,15 @@ export function buildAffiliateStatus(item) {
 
 export function buildDailyModel({ date, feedSource, usedFallback, tools, history, affiliateConfig, accountConfig = DEFAULT_ACCOUNT_CONFIG, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, sourceCandidates = null, feedback = { entries: [] }, accountPosts = { items: [] }, queues = { items: [] }, voice, limit, warnings, sourceBreakdown = null }) {
   const historyIndex = buildHistoryIndex(history, { beforeDate: date });
-  const context = { date, historyIndex, affiliateConfig };
+  const preflightFeedbackOps = buildFeedbackOps({
+    date,
+    latest: { tools: tools.map(toFeedbackToolJson) },
+    feedback,
+    accountPosts,
+    accountConfig
+  });
+  const feedbackLearningSignals = buildFeedbackLearningSignals(preflightFeedbackOps);
+  const context = { date, historyIndex, affiliateConfig, feedbackLearningSignals };
   const scored = tools
     .map((tool) => scoreTool(tool, context))
     .sort((a, b) => b.score - a.score);
@@ -826,7 +867,7 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
   const affiliateQueue = scored
     .filter((item) => !item.affiliate && item.scoreBreakdown.affiliateScore >= 6)
     .slice(0, 10);
-  const actionList = buildActionList(picked, affiliateQueue, date);
+  const actionList = buildActionList(picked, affiliateQueue, date, feedbackLearningSignals);
   const freshnessReport = buildFreshnessReport({ date, scored, picked, usedFallback, feedSource });
   const sourceQualityQueue = buildSourceQualityQueue({ supplyPlan, contentSourceConfig });
   const sourceDiscovery = buildSourceDiscoveryPack({ date, sourceQualityQueue, contentSourceConfig });
@@ -871,9 +912,28 @@ export function buildDailyModel({ date, feedSource, usedFallback, tools, history
     draftPlan,
     contentCalendar,
     feedbackOps,
+    feedbackLearningSignals,
     promotionReview,
     historySummary: summarizeHistory(history),
     warnings
+  };
+}
+
+function toFeedbackToolJson(tool) {
+  const toolId = createToolId(tool.name, tool.url);
+  return {
+    id: toolId,
+    toolId,
+    name: tool.name,
+    url: tool.url,
+    sourceId: tool.sourceId ?? "",
+    sourceType: tool.sourceType ?? "producthunt",
+    sourceName: tool.sourceName ?? "Product Hunt",
+    circle: tool.circle ?? "",
+    candidateType: tool.candidateType ?? "product",
+    accountId: tool.accountId ?? "",
+    accountName: tool.accountName ?? "",
+    copyVariants: {}
   };
 }
 
@@ -972,8 +1032,15 @@ function freshnessRecommendation({ usedFallback, stats, freshFeedWatchlist }) {
   return "Do not spend X API credits right now. Refresh later, or work on affiliate research and SEO review candidates.";
 }
 
-function buildActionList(picked, affiliateQueue, date) {
+function buildActionList(picked, affiliateQueue, date, feedbackLearningSignals = null) {
   const actions = [];
+  if (["metrics_blocked", "clear_feedback_debt"].includes(feedbackLearningSignals?.status)) {
+    actions.push({
+      type: "fill feedback",
+      toolName: "X Analytics",
+      detail: feedbackLearningSignals.headline
+    });
+  }
   const postCandidates = picked.filter((item) => isFreshPostCandidate(item, date)).slice(0, 3);
 
   for (const item of postCandidates) {
@@ -1069,6 +1136,10 @@ ${renderPromotionReviewSummary(model.promotionReview)}
 ## Feedback Operating Mode
 
 ${renderFeedbackOpsSummary(model.feedbackOps)}
+
+## Feedback Learning Signals
+
+${renderFeedbackLearningSignals(model.feedbackLearningSignals)}
 
 ## Today's Top Picks
 
@@ -1272,6 +1343,32 @@ function renderFeedbackOpsSummary(ops) {
   ].join("\n");
 }
 
+function renderFeedbackLearningSignals(signals) {
+  if (!signals) return "No feedback learning signal generated.";
+  const topAccounts = (signals.topAccounts ?? []).slice(0, 3).map((item) => `- ${item.displayName}: avg ${item.averageScore}, measured ${item.measured}, top ${item.topVariant || "none"}`).join("\n");
+  const topAngles = (signals.topAngles ?? []).slice(0, 3).map((item) => `- ${item.variantType}: avg ${item.averageScore}, measured ${item.measured}, clicks ${item.clicks}, bookmarks ${item.bookmarks}`).join("\n");
+  const topSources = (signals.topSources ?? []).slice(0, 3).map((item) => `- ${item.sourceName}: avg ${item.averageScore}, measured ${item.measured}`).join("\n");
+  return [
+    `- Status: ${signals.status}`,
+    `- Confidence: ${signals.confidence}`,
+    `- Headline: ${signals.headline}`,
+    `- Ready to guide tomorrow: ${signals.summary?.readyToGuideTomorrow ? "yes" : "no"}`,
+    `- Rule: ${signals.tomorrowStrategy?.rule ?? "Feedback never overrides quality gates."}`,
+    "",
+    "Tomorrow strategy:",
+    ...((signals.tomorrowStrategy?.actions ?? []).map((item) => `- ${item}`)),
+    "",
+    "Top accounts:",
+    topAccounts || "- No measured account yet.",
+    "",
+    "Top angles:",
+    topAngles || "- No measured angle yet.",
+    "",
+    "Top sources:",
+    topSources || "- No measured source yet."
+  ].join("\n");
+}
+
 function renderActionList(actions) {
   if (!actions.length) return "No clear action today. Better to skip than force weak posts.";
 
@@ -1444,6 +1541,7 @@ export function toDailyJson(model) {
     draftPlan: model.draftPlan,
     contentCalendar: model.contentCalendar,
     feedbackOps: model.feedbackOps,
+    feedbackLearningSignals: model.feedbackLearningSignals,
     promotionReview: model.promotionReview,
     actionList: model.actionList.map((action) => ({
       type: action.type,

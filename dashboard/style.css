@@ -560,6 +560,17 @@ main {
 .feedback-followup.warn { border-left-color: var(--warning); }
 .feedback-followup.good { border-left-color: var(--success); }
 .feedback-followup h2 { margin-bottom: 0; }
+.feedback-learning-signal {
+  border-left: 3px solid var(--border-strong);
+}
+.feedback-learning-signal.good { border-left-color: var(--success); }
+.feedback-learning-signal.warn { border-left-color: var(--warning); }
+.feedback-learning-signal.bad { border-left-color: var(--danger); }
+.learning-signal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
 .feedback-debt-gate {
   display: grid;
   gap: 12px;
@@ -1167,7 +1178,7 @@ dialog::backdrop { background: rgba(10, 18, 14, .42); backdrop-filter: blur(3px)
 .toast.show { opacity: 1; transform: translateY(0); }
 
 @media (max-width: 1100px) {
-  .metrics, .filters, .grid, .three-grid, .roadmap-grid, .principle-grid, .readiness-stats, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards, .account-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metrics, .filters, .grid, .three-grid, .roadmap-grid, .principle-grid, .readiness-stats, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards, .account-grid, .learning-signal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .affiliate-workflow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .roadmap-layout { grid-template-columns: 1fr; }
   .roadmap-blocker-strip,
@@ -1179,7 +1190,7 @@ dialog::backdrop { background: rgba(10, 18, 14, .42); backdrop-filter: blur(3px)
   .topbar { position: static; flex-direction: column; align-items: stretch; padding-left: 16px; padding-right: 16px; }
   .top-actions { justify-content: flex-start; max-width: none; }
   main { width: calc(100vw - 24px); padding-top: 16px; }
-  .metrics, .filters, .grid, .three-grid, .roadmap-grid, .principle-grid, .form-grid, .inline-form, .readiness-stats, .readiness-guardrails, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards, .account-grid { grid-template-columns: 1fr; }
+  .metrics, .filters, .grid, .three-grid, .roadmap-grid, .principle-grid, .form-grid, .inline-form, .readiness-stats, .readiness-guardrails, .refresh-policy, .checklist-grid, .focus-grid, .final-review-grid, .pipeline-stats, .affiliate-checks, .weekly-cards, .account-grid, .learning-signal-grid { grid-template-columns: 1fr; }
   .affiliate-workflow { grid-template-columns: 1fr; }
   .roadmap-hero { grid-template-columns: 1fr; }
   .readiness-head, .focus-head { flex-direction: column; }
@@ -1401,6 +1412,7 @@ main {
 .final-review,
 .queue-pipeline,
 .feedback-followup,
+.feedback-learning-signal,
 .affiliate-readiness {
   border: 0;
   border-top: 5px solid var(--accent);

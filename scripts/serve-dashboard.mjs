@@ -484,6 +484,11 @@ function withResolvedAccount(body, latest, accountConfig) {
     ...body,
     toolId: body.toolId || tool?.toolId,
     sourceDate: body.sourceDate || latest?.date || todayString(),
+    sourceId: body.sourceId || tool?.sourceId || "",
+    sourceName: body.sourceName || tool?.sourceName || "",
+    sourceType: body.sourceType || tool?.sourceType || "",
+    circle: body.circle || tool?.circle || "",
+    candidateType: body.candidateType || tool?.candidateType || "",
     accountId: account.id,
     accountName: account.displayName
   };

@@ -6,9 +6,9 @@
 - Target: 20 accounts x 10 posts = 200/day
 - Safe new posts now: 3
 - Fresh publish candidates: 3
-- Planned / scheduled: 18/16
-- Account matrix: 0/20 ready accounts; bench 54/600
-- Source gap: 80
+- Planned / scheduled: 19/16
+- Account matrix: 0/20 ready accounts; bench 57/600
+- Source gap: 78
 - Feedback measured / pending: 0/0
 - Auth ready: not yet
 
@@ -21,13 +21,13 @@
    3 fresh candidates are available for posting today.
    Next: Refresh Live Feed and import external candidates from the source supply workbench.
 3. Draft gap is too large for the target — high
-   18/200 unique drafts are planned.
+   19/200 unique drafts are planned.
    Next: Fill source-pack rows, rerun daily, then rerun draft-plan and content-calendar.
 4. Account-level content matrix is not ready — high
-   0/20 accounts are ready; candidate bench is 54/600, strong 9, fresh 9.
-   Next: Run npm run account-matrix, then fill account-level search tasks until the 182 draft gap shrinks.
+   0/20 accounts are ready; candidate bench is 57/600, strong 9, fresh 9.
+   Next: Run npm run account-matrix, then fill account-level search tasks until the 181 draft gap shrinks.
 5. Source supply is below target — medium
-   80 more source candidates are needed for the current account mix.
+   78 more source candidates are needed for the current account mix.
    Next: Fill the 100 source-pack rows that still need real candidates.
 6. Real multi-account X auth is not connected — deferred
    Account profiles exist, but OAuth binding is intentionally not the current bottleneck.

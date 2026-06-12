@@ -50,11 +50,175 @@ export function buildFeedbackOps({ date, latest = null, feedback = { entries: []
     accountStats,
     angleStats,
     sourceStats,
+    learningSignals: buildFeedbackLearningSignalsFromStats({
+      summary: {
+        posted: posted.length,
+        measured: measured.length,
+        pending: pending.length,
+        learningScore
+      },
+      debtGate,
+      accountStats,
+      angleStats,
+      sourceStats,
+      pendingFeedback: pending.map((entry) => feedbackEntrySummary(entry))
+    }),
     notes: [
       posted.length ? `${pending.length}/${posted.length} posted rows still need metrics.` : "No posted feedback rows yet.",
       measured.length ? "Use measured account, angle, and source winners to choose tomorrow's posts." : "The system cannot learn until at least one posted row has impressions.",
       unlinkedPosts.length ? `${unlinkedPosts.length} account post records are missing matching feedback rows.` : "Account post records and feedback rows are linked."
     ]
+  };
+}
+
+export function buildFeedbackLearningSignals(ops = null) {
+  if (!ops) {
+    return buildFeedbackLearningSignalsFromStats({
+      summary: {},
+      debtGate: null,
+      accountStats: [],
+      angleStats: [],
+      sourceStats: [],
+      pendingFeedback: []
+    });
+  }
+  return buildFeedbackLearningSignalsFromStats({
+    summary: ops.summary ?? {},
+    debtGate: ops.debtGate ?? null,
+    accountStats: ops.accountStats ?? [],
+    angleStats: ops.angleStats ?? [],
+    sourceStats: ops.sourceStats ?? [],
+    pendingFeedback: ops.pendingFeedback ?? []
+  });
+}
+
+function buildFeedbackLearningSignalsFromStats({
+  summary = {},
+  debtGate = null,
+  accountStats = [],
+  angleStats = [],
+  sourceStats = [],
+  pendingFeedback = []
+} = {}) {
+  const measured = Number(summary.measured ?? 0);
+  const pending = Number(summary.pending ?? 0);
+  const topAccounts = accountStats
+    .filter((item) => item.measured > 0)
+    .sort((a, b) => b.averageScore - a.averageScore || b.engagementScore - a.engagementScore || b.measured - a.measured)
+    .slice(0, 3)
+    .map((item) => ({
+      accountId: item.accountId,
+      displayName: item.displayName,
+      category: item.category || "",
+      measured: item.measured,
+      averageScore: item.averageScore,
+      engagementScore: item.engagementScore,
+      topVariant: item.topVariant || ""
+    }));
+  const topAngles = angleStats
+    .filter((item) => item.measured > 0)
+    .sort((a, b) => b.averageScore - a.averageScore || b.engagementScore - a.engagementScore || b.measured - a.measured)
+    .slice(0, 3)
+    .map((item) => ({
+      variantType: item.variantType,
+      measured: item.measured,
+      averageScore: item.averageScore,
+      engagementScore: item.engagementScore,
+      clicks: item.clicks,
+      bookmarks: item.bookmarks
+    }));
+  const topSources = sourceStats
+    .filter((item) => item.measured > 0)
+    .sort((a, b) => b.averageScore - a.averageScore || b.engagementScore - a.engagementScore || b.measured - a.measured)
+    .slice(0, 3)
+    .map((item) => ({
+      sourceId: item.sourceId || "",
+      sourceName: item.sourceName,
+      sourceType: item.sourceType || "",
+      circle: item.circle || "",
+      measured: item.measured,
+      averageScore: item.averageScore,
+      engagementScore: item.engagementScore,
+      bestTool: item.bestTool ?? null
+    }));
+  const status = learningSignalStatus({ measured, pending, debtGate });
+  const confidence = measured >= 10 ? "strong" : measured >= 5 ? "usable" : measured > 0 ? "early" : "none";
+
+  return {
+    status,
+    confidence,
+    headline: learningSignalHeadline({ status, measured, pending, debtGate }),
+    summary: {
+      posted: Number(summary.posted ?? 0),
+      measured,
+      pending,
+      learningScore: Number(summary.learningScore ?? 0),
+      readyToGuideTomorrow: measured >= 5 && debtGate?.severity !== "bad",
+      maxNewPostsBeforeMetrics: Number(debtGate?.maxNewPostsBeforeMetrics ?? summary.maxNewPostsBeforeMetrics ?? 0)
+    },
+    topAccounts,
+    topAngles,
+    topSources,
+    scoringHints: {
+      maxBoostPerTool: 3,
+      accountIds: topAccounts.map((item) => item.accountId).filter(Boolean),
+      variantTypes: topAngles.map((item) => item.variantType).filter(Boolean),
+      sourceNames: topSources.map((item) => item.sourceName).filter(Boolean),
+      sourceIds: topSources.map((item) => item.sourceId).filter(Boolean),
+      circles: topSources.map((item) => item.circle).filter(Boolean)
+    },
+    pendingAlerts: pendingFeedback.slice(0, 5).map((item) => ({
+      id: item.id,
+      toolName: item.toolName,
+      accountId: item.accountId,
+      accountName: item.accountName,
+      variantType: item.variantType,
+      ageHours: item.ageHours
+    })),
+    tomorrowStrategy: learningTomorrowStrategy({ status, confidence, topAccounts, topAngles, topSources, pending, measured })
+  };
+}
+
+function learningSignalStatus({ measured, pending, debtGate }) {
+  if (!measured && pending) return "metrics_blocked";
+  if (!measured) return "needs_seed";
+  if (debtGate?.severity === "bad") return "clear_feedback_debt";
+  if (measured < 5) return "early_learning";
+  return "guiding_tomorrow";
+}
+
+function learningSignalHeadline({ status, measured, pending, debtGate }) {
+  if (status === "metrics_blocked") return `You have ${pending} posted row${pending === 1 ? "" : "s"} without metrics. Fill X Analytics before posting more.`;
+  if (status === "needs_seed") return "No measured feedback yet. Post a tiny seed batch, then import X Analytics.";
+  if (status === "clear_feedback_debt") return debtGate?.headline || "Clear pending feedback before adding more posts.";
+  if (status === "early_learning") return `${measured} measured post${measured === 1 ? "" : "s"} found. Treat winners as hints, not proof.`;
+  return "Measured feedback is ready to guide tomorrow's account, angle, and source choices.";
+}
+
+function learningTomorrowStrategy({ status, confidence, topAccounts, topAngles, topSources, pending, measured }) {
+  const actions = [];
+  if (status === "metrics_blocked" || status === "clear_feedback_debt") {
+    actions.push(`Fill ${pending} pending X Analytics row${pending === 1 ? "" : "s"} before adding volume.`);
+  }
+  if (status === "needs_seed") {
+    actions.push("Run only 2-3 manually confirmed seed posts before trusting rankings.");
+  }
+  if (topAccounts[0]) {
+    actions.push(`Give ${topAccounts[0].displayName} first look tomorrow, but keep per-account cooldowns.`);
+  }
+  if (topAngles[0]) {
+    actions.push(`Test more ${topAngles[0].variantType} copy only when the candidate is fresh and specific.`);
+  }
+  if (topSources[0]) {
+    actions.push(`Prioritize ${topSources[0].sourceName} candidates if they still pass quality gates.`);
+  }
+  if (!actions.length) actions.push("Collect measured feedback before changing tomorrow's strategy.");
+
+  return {
+    confidence,
+    rule: "Feedback can nudge ranking, but cannot override freshness, quality, account cooldown, or manual confirmation gates.",
+    actions: actions.slice(0, 4),
+    measuredBasis: measured
   };
 }
 
@@ -468,12 +632,12 @@ function buildSourceStats(posted, measured, toolById) {
   const map = new Map();
   for (const entry of posted) {
     const tool = toolById.get(entry.toolId);
-    const key = tool?.sourceId || tool?.sourceName || "unknown_source";
+    const key = tool?.sourceId || entry.sourceId || tool?.sourceName || entry.sourceName || "unknown_source";
     const stats = map.get(key) ?? createGroupStats({
-      sourceId: tool?.sourceId || "",
-      sourceName: tool?.sourceName || "Unknown source",
-      sourceType: tool?.sourceType || "",
-      circle: tool?.circle || ""
+      sourceId: tool?.sourceId || entry.sourceId || "",
+      sourceName: tool?.sourceName || entry.sourceName || "Unknown source",
+      sourceType: tool?.sourceType || entry.sourceType || "",
+      circle: tool?.circle || entry.circle || ""
     });
     stats.posts += 1;
     if (!hasRecordedMetrics(entry)) stats.pending += 1;
@@ -481,12 +645,12 @@ function buildSourceStats(posted, measured, toolById) {
   }
   for (const entry of measured) {
     const tool = toolById.get(entry.toolId);
-    const key = tool?.sourceId || tool?.sourceName || "unknown_source";
+    const key = tool?.sourceId || entry.sourceId || tool?.sourceName || entry.sourceName || "unknown_source";
     const stats = map.get(key) ?? createGroupStats({
-      sourceId: tool?.sourceId || "",
-      sourceName: tool?.sourceName || "Unknown source",
-      sourceType: tool?.sourceType || "",
-      circle: tool?.circle || ""
+      sourceId: tool?.sourceId || entry.sourceId || "",
+      sourceName: tool?.sourceName || entry.sourceName || "Unknown source",
+      sourceType: tool?.sourceType || entry.sourceType || "",
+      circle: tool?.circle || entry.circle || ""
     });
     applyMetrics(stats, entry);
     stats.measured += 1;

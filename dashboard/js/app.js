@@ -768,6 +768,7 @@ function renderToday() {
   ${renderDailyChecklistPanel()}
   ${renderLearningStarterPanel("today")}
   ${renderFocusPanel()}
+  ${renderFeedbackLearningSignalPanel("today")}
   ${renderFeedbackFollowUpPanel()}
   ${renderFeedbackOpsPanel(state.feedbackOps ?? state.latest?.feedbackOps, "today")}
   ${renderQueuePipelinePanel("today")}
@@ -1155,6 +1156,55 @@ function renderFeedbackFollowUpPanel() {
     </div>
     <p class="muted">${pending.length ? "这些内容已经标记已发，但还没有 impressions / likes / bookmarks / clicks。补完数据后，系统才能判断该做 thread、SEO 测评页还是联盟研究。" : "当前没有已发但缺数据的文案。继续发少量新鲜候选，然后记得回填表现。"}</p>
     ${recent.length ? `<div class="list">${recent.map(renderPendingFeedbackItem).join("")}</div>` : ""}
+  </section>`;
+}
+
+function renderFeedbackLearningSignalPanel(scope = "full") {
+  const signals = state.latest?.feedbackLearningSignals ?? state.feedbackOps?.learningSignals ?? null;
+  if (!signals) return "";
+  const compact = scope === "today";
+  const severity = ["metrics_blocked", "clear_feedback_debt"].includes(signals.status)
+    ? "bad"
+    : signals.summary?.readyToGuideTomorrow ? "good" : "warn";
+  const topAccounts = (signals.topAccounts ?? []).slice(0, compact ? 2 : 3);
+  const topAngles = (signals.topAngles ?? []).slice(0, compact ? 2 : 3);
+  const topSources = (signals.topSources ?? []).slice(0, compact ? 2 : 3);
+  const alerts = (signals.pendingAlerts ?? []).slice(0, compact ? 2 : 5);
+  return `<section class="panel feedback-learning-signal ${severity}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Feedback signal</p>
+        <h2>明天策略学习信号</h2>
+        <p class="muted">${esc(signals.headline || "")}</p>
+      </div>
+      ${pill(signals.confidence || "none", severity)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(signals.summary?.measured ?? 0)}</strong><span>measured</span></div>
+      <div><strong>${esc(signals.summary?.pending ?? 0)}</strong><span>pending</span></div>
+      <div><strong>${esc(signals.summary?.learningScore ?? 0)}/100</strong><span>learning</span></div>
+      <div><strong>${esc(signals.summary?.maxNewPostsBeforeMetrics ?? 0)}</strong><span>safe next</span></div>
+    </div>
+    <div class="learning-signal-grid">
+      <div class="list mini-list">
+        <strong>明天动作</strong>
+        ${(signals.tomorrowStrategy?.actions ?? []).slice(0, compact ? 3 : 4).map((item) => `<div class="list-item">${esc(item)}</div>`).join("") || empty("先收集真实反馈。")}
+      </div>
+      <div class="list mini-list">
+        <strong>Top account</strong>
+        ${topAccounts.map((item) => `<div class="list-item"><strong>${esc(item.displayName)}</strong><div class="muted">avg ${esc(item.averageScore)} · measured ${esc(item.measured)} · top ${esc((labels[item.topVariant] ?? item.topVariant) || "none")}</div></div>`).join("") || empty("暂无账号赢家。")}
+      </div>
+      <div class="list mini-list">
+        <strong>Top angle</strong>
+        ${topAngles.map((item) => `<div class="list-item"><strong>${esc(labels[item.variantType] ?? item.variantType)}</strong><div class="muted">avg ${esc(item.averageScore)} · clicks ${esc(item.clicks)} · bookmarks ${esc(item.bookmarks)}</div></div>`).join("") || empty("暂无角度赢家。")}
+      </div>
+      ${compact ? "" : `<div class="list mini-list">
+        <strong>Top source</strong>
+        ${topSources.map((item) => `<div class="list-item"><strong>${esc(item.sourceName)}</strong><div class="muted">avg ${esc(item.averageScore)} · measured ${esc(item.measured)}</div></div>`).join("") || empty("暂无来源赢家。")}
+      </div>`}
+    </div>
+    ${alerts.length ? `<div class="list mini-list"><strong>待补 X Analytics</strong>${alerts.map((item) => `<div class="list-item"><strong>${esc(item.toolName)}</strong><div class="muted">${esc(item.accountName || accountLabel(item.accountId))} · ${esc(labels[item.variantType] ?? item.variantType)} · ${esc(item.ageHours ?? 0)}h</div></div>`).join("")}</div>` : ""}
+    ${compact ? `<div class="row-actions"><button class="button ghost" data-tab-jump="feedback">打开反馈页</button></div>` : ""}
   </section>`;
 }
 
@@ -2556,7 +2606,8 @@ function renderFeedback() {
   const rows = [...state.feedback.entries].sort((a, b) => Number(b.engagementScore ?? 0) - Number(a.engagementScore ?? 0));
   const pending = pendingFeedbackEntries();
   const pendingCsv = feedbackCsvTemplateForEntries(pending);
-  $("#view-feedback").innerHTML = `${renderFeedbackOpsPanel(state.feedbackOps ?? state.latest?.feedbackOps, "full")}
+  $("#view-feedback").innerHTML = `${renderFeedbackLearningSignalPanel("full")}
+  ${renderFeedbackOpsPanel(state.feedbackOps ?? state.latest?.feedbackOps, "full")}
   <div class="grid">
     <section class="panel"><h2>待补反馈</h2><p class="muted">发完以后，先把这块清零。没有真实反馈，后面的决策报告会变钝。X Analytics 一般等几个小时或第二天再补。</p>
       <div class="row-actions">

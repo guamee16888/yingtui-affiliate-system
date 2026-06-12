@@ -3,18 +3,18 @@
 - Active accounts: 20
 - Target posts: 200/day
 - Candidate bench target: 600
-- Matched / strong / fresh candidates: 54/9/9
-- Planned / scheduled posts: 18/15
-- Candidate / fresh / draft gaps: 546/191/182
+- Matched / strong / fresh candidates: 57/9/9
+- Planned / scheduled posts: 19/15
+- Candidate / fresh / draft gaps: 543/191/181
 - Ready accounts: 0/20
 - Average readiness: 7/100
 
 ## Quality Radar
 
-- Candidate bench: 9/100 — 54/600 matched account-level candidates.
+- Candidate bench: 10/100 — 57/600 matched account-level candidates.
 - Quality: 5/100 — 9/200 strong candidates clear the quality floor.
 - Freshness: 5/100 — 9/200 candidates are fresh enough to post.
-- Drafts: 9/100 — 18/200 unique drafts are planned.
+- Drafts: 10/100 — 19/200 unique drafts are planned.
 - Schedule: 8/100 — 15/200 posts are in manual review slots.
 
 ## Account Inventory

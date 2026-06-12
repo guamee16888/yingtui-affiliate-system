@@ -65,16 +65,17 @@ output/YYYY-MM-DD-daily-x-pack.md
 19. 打开 Dashboard 的「产品路线图」，先看 Top blockers 和 Next sprint，不要被十几个 Tab 拖散。
 20. 跑 `npm run promotion-review`，把值得进入联盟研究、长推、测评页或观察的候选集中审核。
 21. 打开「账号策略」，看每条候选建议发到哪个账号画像；现在只是分配建议，不做多账号授权。
-22. 打开「发布审核」，先看顶部 `Seed publish queue`。它会把今天最值得测的 1-3 条集中到一起，并显示账号、文案角度、safe gate 和待补反馈状态。
-23. 如果 `Seed publish queue` 给出新鲜发布候选，复制文案或点「发布前确认」手动确认发布。
-24. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
-25. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
-26. 跑 `npm run learning-loop` 或看「反馈启动台」，确认今天最多还能安全新发几条、哪几条是 seed test、哪些已发内容必须先补 X Analytics。
-27. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
-28. 跑 `npm run scale` 或看「今日行动」里的放量准备度，确认今天卡在反馈、来源、排期还是授权。
-29. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
-30. 对值得做测评页的工具点「生成测评页大纲」。
-31. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
+22. 打开「发布审核」，先看顶部 `Feedback command`。它会直接告诉你待补反馈、最老反馈债、今天还能安全新发几条、现在有几条 ready。
+23. 再看 `Seed publish queue`。它会把今天最值得测的 1-3 条集中到一起，并显示账号、文案角度、safe gate 和待补反馈状态。
+24. 如果 `Seed publish queue` 给出新鲜发布候选，复制文案或点「发布前确认」手动确认发布。
+25. 如果你是在 X 页面手动发的，回到 Dashboard 点对应文案的「标记已发」。
+26. 第二天或几个小时后先清空「待补反馈」，填 impressions、likes、bookmarks、replies、clicks 等。
+27. 跑 `npm run learning-loop` 或看「反馈启动台」，确认今天最多还能安全新发几条、哪几条是 seed test、哪些已发内容必须先补 X Analytics。
+28. 跑 `npm run feedback-ops` 或看「反馈学习闭环」，确认账号、angle、来源开始有真实表现数据。
+29. 跑 `npm run scale` 或看「今日行动」里的放量准备度，确认今天卡在反馈、来源、排期还是授权。
+30. 看「跟进队列」「联盟研究」「测评页候选」，只把有反馈的工具继续推进。
+31. 对值得做测评页的工具点「生成测评页大纲」。
+32. 每周跑 `npm run weekly` 或页面里的「生成周报」做复盘。
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
@@ -95,7 +96,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `今日行动`：今天优先做什么。顶部 `今天只做这 3 件事` 会把发布、联盟研究、长文/测评页压成三个明确动作；下面保留原始 action list 和系统建议。
 - `产品路线图`：把 `npm run roadmap` 的产品级 readiness 报告可视化出来，直接回答“除了 X 账号切换还差什么”。它会显示整体分、Top blockers、Next sprint、每个维度的证据/缺口/下一步动作。
 - `放量准备度`：在今日页显示 `npm run scale` 的结果。它会把目标账号数、今日安全发帖数、Fresh 候选、内容排期、来源缺口和反馈债放在一起，避免数据不足时硬放量。
-- `发布审核`：发布前最终确认队列。顶部 `Seed publish queue` 会先列出今天最值得手动测试的 1-3 条，并要求发完立刻标记已发、回填 X Analytics；下面的 final review 会同时检查 Fresh today / Fresh 48h 和 `Feedback debt gate`，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，并按分数自动建议转入联盟研究、长推、SEO 测评页或观察队列。
+- `发布审核`：发布前最终确认队列。顶部 `Feedback command` 会先显示反馈债务、最老待补时长、safe new posts 和 ready now；如果还有待补 metrics，先填反馈模板。下面的 `Seed publish queue` 会列出今天最值得手动测试的 1-3 条，并要求发完立刻标记已发、回填 X Analytics；final review 会同时检查 Fresh today / Fresh 48h 和 `Feedback debt gate`，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，并按分数自动建议转入联盟研究、长推、SEO 测评页或观察队列。
 - `候选收集`：把 Product Hunt 之外的新工具手动放进本地收集箱；active 候选会在下一次 `daily` 或 `刷新 Live Feed` 时参与打分。
 - `来源补给`：把 20×10 的内容缺口拆成圈子任务，集中显示需要补多少候选、哪些账号受影响、搜索入口、CSV 导入模板、质量 checklist 和来源健康度。每天内容不够时先看这里，不要靠低质内容硬凑。
 - `内容日历`：把账号草稿排进本地人工审核槽，显示今天真实能审核多少条、草稿缺口、冷却容量缺口、每个账号的可发时间和文案。这里仍然只是 review calendar，不会自动发送。
@@ -123,6 +124,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 `明天策略学习信号` 会把真实 X Analytics 转成 Top account、Top angle、Top source 和明天动作。没有 measured feedback 时它只会提示先做 seed test；有少量真实反馈后，系统会给匹配的账号/来源候选小幅 `learningScore` 加权，但不会覆盖 Fresh、质量、冷却和手动确认这些硬门槛。
 
 `Feedback debt gate` 是硬门槛：只要已经标记已发但没有回填 X Analytics，顶部发布信心、发布审核队列和发布确认弹窗都会提示先补数据；如果 gate 变成 `blocked_no_metrics` 或 `feedback_debt_high`，本地发布 API 也会拒绝继续发布。手动记录已经发出的内容仍然允许保存，方便把真实历史补进系统。
+
+`Feedback command` 是发布审核页的总控条：它把 `Feedback debt gate` 翻译成 4 个数字：pending metrics、oldest debt、safe new posts、ready now。你每天打开后先看这里；如果 pending metrics 大于 0，就先点 `填入待补反馈模板`，不要继续放量。
 
 `Feed diagnostic` 会告诉你这次 Product Hunt feed 里到底有多少 `Today / 48h / 7d` 工具。如果 Top Picks 没有新鲜候选，它会说明是 feed 本身没新货，还是有新工具但评分不够，并列出 `Fresh feed watchlist` 供你手动观察。
 

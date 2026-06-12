@@ -778,6 +778,12 @@ function pendingFeedbackEntries() {
     .sort((a, b) => String(b.updatedAt || b.createdAt || "").localeCompare(String(a.updatedAt || a.createdAt || "")));
 }
 
+function pendingFeedbackAgeHours(entry) {
+  const source = entry.postedAt || entry.updatedAt || entry.createdAt;
+  const hours = hoursSince(source);
+  return Number.isFinite(hours) ? hours : 0;
+}
+
 function hasRecordedMetrics(entry) {
   const metrics = entry.metrics ?? {};
   return ["impressions", "likes", "bookmarks", "replies", "reposts", "clicks", "profileVisits"]
@@ -789,6 +795,7 @@ function renderToday() {
   ${renderScaleReadinessPanel()}
   ${renderContentOpsPlanPanel()}
   ${renderDailyChecklistPanel()}
+  ${renderFeedbackDebtCommandBar("today")}
   ${renderLearningStarterPanel("today")}
   ${renderFocusPanel()}
   ${renderFeedbackLearningSignalPanel("today")}
@@ -1765,7 +1772,8 @@ function renderFinalReviewQueue() {
   const latest = state.latest ?? {};
   const ageMinutes = dataAgeMinutes(latest.generatedAt);
   const blocked = latest.source?.usedFallback || (ageMinutes !== null && ageMinutes > 360);
-  $("#view-review").innerHTML = `${renderSeedPublishQueue()}
+  $("#view-review").innerHTML = `${renderFeedbackDebtCommandBar("review", plan)}
+  ${renderSeedPublishQueue()}
   <section class="panel final-review ${blocked ? "warn" : "good"}">
     <div class="line-head">
       <div>
@@ -1786,6 +1794,50 @@ function renderFinalReviewQueue() {
       ${pill(`${plan.hold.length} held`, "warn")}
     </div>
     <div class="final-review-grid hold-grid">${plan.hold.map(renderFinalHoldCard).join("")}</div>` : ""}
+  </section>`;
+}
+
+function renderFeedbackDebtCommandBar(scope = "review", plan = finalReviewPlan()) {
+  const pending = pendingFeedbackEntries();
+  const gate = plan.gate ?? feedbackDebtGate();
+  const oldestPendingHours = pending.length ? Math.round(maxNumber(pending.map(pendingFeedbackAgeHours))) : 0;
+  const readyCount = plan.ready?.length ?? 0;
+  const maxNewPosts = plan.maxNewPosts ?? publishGateMax(gate);
+  const kind = pending.length && maxNewPosts <= 0 ? "bad" : pending.length ? "warn" : readyCount ? "good" : "warn";
+  const title = pending.length
+    ? `先补 ${pending.length} 条反馈债务`
+    : readyCount
+      ? `现在可安全审核 ${readyCount} 条`
+      : "先刷新数据或补来源";
+  const detail = pending.length
+    ? "这些内容已经发出，但没有 X Analytics。先补 metrics，系统才知道哪个账号、角度和来源值得放量。"
+    : readyCount
+      ? "可以进入发布审核，但每条仍然要手动确认，发完马上标记已发。"
+      : gate?.headline || "当前没有安全可发候选。先刷新 Live Feed，或去来源补给找新候选。";
+  const pendingCsv = feedbackCsvTemplateForEntries(pending);
+  const compact = scope === "today";
+  return `<section class="panel feedback-command-bar ${kind}">
+    <div class="line-head">
+      <div>
+        <p class="eyebrow">Feedback command</p>
+        <h2>${esc(title)}</h2>
+        <p class="muted">${esc(detail)}</p>
+      </div>
+      ${pill(gate?.title || (pending.length ? "Need metrics" : "Gate clear"), kind)}
+    </div>
+    <div class="pipeline-stats">
+      <div><strong>${esc(pending.length)}</strong><span>pending metrics</span></div>
+      <div><strong>${esc(pending.length ? `${oldestPendingHours}h` : "0h")}</strong><span>oldest debt</span></div>
+      <div><strong>${esc(maxNewPosts)}</strong><span>safe new posts</span></div>
+      <div><strong>${esc(readyCount)}</strong><span>ready now</span></div>
+    </div>
+    ${gate?.headline ? `<div class="command-note">${esc(gate.headline)}</div>` : ""}
+    ${compact ? "" : `<div class="row-actions">
+      <button class="button ghost" data-fill-feedback-csv="${attr(pendingCsv)}"${pending.length ? "" : " disabled"}>填入待补反馈模板</button>
+      <button class="button ghost" data-tab-jump="feedback">打开反馈录入</button>
+      <button class="button ghost" data-tab-jump="review">打开发布审核</button>
+      <button class="button ghost" data-run-daily>刷新 Live Feed</button>
+    </div>`}
   </section>`;
 }
 

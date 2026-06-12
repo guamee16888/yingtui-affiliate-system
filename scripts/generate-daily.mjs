@@ -14,8 +14,8 @@ import {
   writeDailyJsonOutputs,
   writeDailyOutput
 } from "./lib/affiliate-system.mjs";
-import { loadAccountPosts, loadCandidateInbox, loadFeedback, loadQueues } from "./lib/data-store.mjs";
-import { readJson, writeJsonAtomic, writeTextAtomic } from "./lib/file-store.mjs";
+import { loadAccountPosts, loadAffiliateResearch, loadCandidateInbox, loadFeedback, loadQueues } from "./lib/data-store.mjs";
+import { readJson, readText, writeJsonAtomic, writeTextAtomic } from "./lib/file-store.mjs";
 import {
   loadContentSourceConfig,
   refreshSourceCandidates,
@@ -26,11 +26,12 @@ import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from ".
 import { buildScaleRampPlan, renderScaleRampPlanMarkdown } from "./lib/scale-ramp-plan.mjs";
 import { buildSeedBatchPack, renderSeedBatchPackMarkdown, seedBatchRowsToCsv } from "./lib/seed-batch-pack.mjs";
 import { buildAccountRefillWorkbench, renderAccountRefillWorkbenchMarkdown } from "./lib/account-refill-workbench.mjs";
+import { buildProductRoadmap, renderProductRoadmapMarkdown } from "./lib/product-roadmap.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const warnings = [];
-  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox, contentSourceConfig, feedback, accountPosts, queues] = await Promise.all([
+  const [voice, affiliateConfig, accountConfig, history, feed, candidateInbox, contentSourceConfig, feedback, accountPosts, queues, affiliateResearch] = await Promise.all([
     loadVoice(warnings),
     loadAffiliateConfig(warnings),
     loadAccountConfig(warnings),
@@ -40,7 +41,8 @@ async function main() {
     loadContentSourceConfig(warnings),
     loadFeedback(),
     loadAccountPosts(),
-    loadQueues()
+    loadQueues(),
+    loadAffiliateResearch()
   ]);
   const sourceRefresh = await refreshSourceCandidates(contentSourceConfig, warnings);
   const productHuntTools = parseProductHuntFeed(feed.xml);
@@ -84,6 +86,7 @@ async function main() {
   const scaleFiles = await writeScaleOutputs({ model, accountConfig, accountContentMatrix: matrixFiles.matrix });
   const rampFiles = await writeScaleRampOutputs({ model, accountContentMatrix: matrixFiles.matrix, scaleReadiness: scaleFiles.report });
   const seedPackFiles = await writeSeedBatchOutputs({ model, scaleRampPlan: rampFiles.plan });
+  const roadmapFiles = await writeProductRoadmapOutputs({ model, feedback, queues, affiliateResearch, accountPosts, affiliateConfig });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
   if (!feed.usedFallback) {
@@ -109,9 +112,39 @@ async function main() {
   console.log(`Wrote ${seedPackFiles.jsonPath}`);
   console.log(`Wrote ${seedPackFiles.csvPath}`);
   console.log(`Wrote ${seedPackFiles.markdownPath}`);
+  console.log(`Wrote ${roadmapFiles.jsonPath}`);
+  console.log(`Wrote ${roadmapFiles.markdownPath}`);
   console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
   console.log(`Source refresh fetched ${sourceRefresh.fetchedCount} new items from ${sourceRefresh.enabledSources} enabled extra sources`);
   console.log(historyMessage);
+}
+
+async function writeProductRoadmapOutputs({ model, feedback, queues, affiliateResearch, accountPosts, affiliateConfig }) {
+  const [contentCalendar, sourceImportPack, affiliateWorkbench, dashboardHtml, dashboardApp] = await Promise.all([
+    readJson("data/content-calendar/latest.json", model.contentCalendar ?? null),
+    readJson("data/source-import-pack/latest.json", null),
+    readJson("data/affiliate-research-workbench.json", null),
+    readText("dashboard/index.html", ""),
+    readText("dashboard/js/app.js", "")
+  ]);
+  const roadmap = buildProductRoadmap({
+    date: model.date,
+    latest: model,
+    feedback,
+    queues,
+    affiliateResearch,
+    accountPosts,
+    affiliateLinks: affiliateConfig,
+    contentCalendar,
+    sourceImportPack,
+    affiliateWorkbench,
+    publicDemoReady: dashboardHtml.includes("modeBanner") && dashboardApp.includes("公开只读 Demo")
+  });
+  const jsonPath = "data/product-roadmap.json";
+  const markdownPath = `output/${model.date}-product-roadmap.md`;
+  await writeJsonAtomic(jsonPath, { version: 1, ...roadmap });
+  await writeTextAtomic(markdownPath, renderProductRoadmapMarkdown(roadmap));
+  return { jsonPath, markdownPath, roadmap };
 }
 
 async function writeScaleOutputs({ model, accountConfig, accountContentMatrix = null }) {

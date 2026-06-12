@@ -83,6 +83,7 @@ output/YYYY-MM-DD-daily-x-pack.md
 页面 Tab 的含义：
 
 - `今日行动`：今天优先做什么。顶部 `今天只做这 3 件事` 会把发布、联盟研究、长文/测评页压成三个明确动作；下面保留原始 action list 和系统建议。
+- `发布审核`：发布前最终确认队列。它会同时检查 Fresh today / Fresh 48h 和 `Feedback debt gate`，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，先补 metrics 再发。
 - `候选收集`：把 Product Hunt 之外的新工具手动放进本地收集箱；active 候选会在下一次 `daily` 或 `刷新 Live Feed` 时参与打分。
 - `工具池`：所有候选工具卡片，适合按分数、affiliate、风险、是否已发筛选。
 - `文案库`：每个工具的 5 种英文文案，适合集中复制、标记已发，或手动确认发布到 X。

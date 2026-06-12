@@ -471,6 +471,13 @@ main {
 .final-card.good { border-color: color-mix(in srgb, var(--success) 38%, var(--border)); }
 .final-card.warn { border-color: color-mix(in srgb, var(--warning) 44%, var(--border)); }
 .final-card.bad { border-color: color-mix(in srgb, var(--danger) 44%, var(--border)); }
+.final-card.hold {
+  border-color: color-mix(in srgb, var(--warning) 36%, var(--border));
+  background: color-mix(in srgb, var(--warning) 6%, var(--card));
+}
+.hold-grid {
+  opacity: 0.92;
+}
 .mini-checks {
   display: flex;
   gap: 7px;

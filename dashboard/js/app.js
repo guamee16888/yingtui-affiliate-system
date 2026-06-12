@@ -643,7 +643,8 @@ function renderDailyChecklistPanel() {
   const latest = state.latest ?? {};
   const ageMinutes = dataAgeMinutes(latest.generatedAt);
   const pending = pendingFeedbackEntries();
-  const candidates = finalReviewCandidates();
+  const reviewPlan = finalReviewPlan();
+  const candidates = reviewPlan.ready;
   const affiliateQueue = latest.affiliateResearchQueue ?? [];
   const stale = ageMinutes === null || ageMinutes > 360 || latest.source?.usedFallback;
   const items = [
@@ -656,7 +657,7 @@ function renderDailyChecklistPanel() {
     {
       done: candidates.length > 0,
       title: candidates.length ? `审核 ${candidates.length} 条可发候选` : "没有安全发布候选",
-      detail: candidates.length ? "去发布前最终审核队列，最多选 3 条，每条手动确认。" : "今天先研究 affiliate / 长文，不要硬发旧工具。",
+      detail: candidates.length ? `发布审核已按反馈 gate 限制到 ${reviewPlan.maxNewPosts} 条，每条手动确认。` : reviewPlan.gate?.headline || "今天先研究 affiliate / 长文，不要硬发旧工具。",
       action: `<button class="button ghost" data-tab-jump="review">打开发布审核</button>`
     },
     {
@@ -896,11 +897,13 @@ function buildFocusTasks() {
   const actions = state.latest?.actionList ?? [];
   const tools = state.latest?.tools ?? [];
   const byName = new Map(tools.map((tool) => [tool.name, tool]));
+  const reviewPlan = finalReviewPlan();
   const postAction = actions.find((action) => action.type === "post");
   const waitAction = actions.find((action) => action.type === "wait");
   const affiliateAction = actions.find((action) => action.type === "research affiliate");
   const longformAction = actions.find((action) => action.type === "longform");
-  const postTool = postAction ? byName.get(postAction.toolName) : null;
+  const gatedPostItem = reviewPlan.ready[0] ?? null;
+  const postTool = gatedPostItem?.tool ?? (reviewPlan.maxNewPosts > 0 && postAction ? byName.get(postAction.toolName) : null);
   const affiliateTool = affiliateAction ? byName.get(affiliateAction.toolName) : null;
   const longformTool = longformAction ? byName.get(longformAction.toolName) : null;
   const fallbackAffiliate = !affiliateTool ? (state.latest?.affiliateResearchQueue ?? [])[0] : null;
@@ -911,7 +914,7 @@ function buildFocusTasks() {
     step: "1",
     kind: postTool ? "post" : "wait",
     title: postTool ? `发 1 条新鲜 X：${postTool.name}` : "今天先别花 credits 发",
-    detail: postTool ? postAction.reason : waitAction?.reason || readinessAdvice(state.latest ?? {}, freshnessStats(tools)),
+    detail: postTool ? (gatedPostItem ? `Feedback gate 允许 ${reviewPlan.maxNewPosts} 条；先发这条，发完立刻标记账号。` : postAction.reason) : reviewPlan.gate?.headline || waitAction?.reason || readinessAdvice(state.latest ?? {}, freshnessStats(tools)),
     tool: postTool,
     action: postAction,
     cta: postTool ? "发布前确认" : "刷新 Live Feed"
@@ -969,7 +972,8 @@ function renderFocusTask(task) {
 }
 
 function renderFinalReviewQueue() {
-  const candidates = finalReviewCandidates();
+  const plan = finalReviewPlan();
+  const candidates = plan.ready;
   const latest = state.latest ?? {};
   const ageMinutes = dataAgeMinutes(latest.generatedAt);
   const blocked = latest.source?.usedFallback || (ageMinutes !== null && ageMinutes > 360);
@@ -978,24 +982,41 @@ function renderFinalReviewQueue() {
       <div>
         <p class="eyebrow">Final publish review</p>
         <h2>发布前最终审核队列</h2>
-        <p class="muted">只集中看今天最值得发的 3 条。每条仍然必须打开确认弹窗，Dashboard 不会批量发布。</p>
+        <p class="muted">发布候选会先过 Fresh gate，再过 Feedback debt gate。每条仍然必须打开确认弹窗，Dashboard 不会批量发布。</p>
       </div>
-      ${pill(candidates.length ? `${candidates.length}/3 ready` : "No safe post", candidates.length ? "good" : "warn")}
+      ${pill(candidates.length ? `${candidates.length}/${plan.maxNewPosts} ready` : "No safe post", candidates.length ? "good" : "warn")}
     </div>
     ${blocked ? `<div class="safety-note">当前数据不是可付费发布状态：${latest.source?.usedFallback ? "Fallback sample" : "刷新超过 6 小时"}。先刷新 Live Feed，再花 API credits。</div>` : ""}
+    ${plan.gate ? `<div class="safety-note">Feedback gate：${esc(plan.gate.title)}。${esc(plan.gate.headline)} 最多新发 ${esc(plan.maxNewPosts)} 条，超过的候选先放 Hold。</div>` : ""}
     <div class="final-review-grid">${candidates.map(renderFinalReviewCard).join("") || empty("没有符合 Fresh today / Fresh 48h 的发布候选。先刷新 Live Feed，或改做联盟研究和测评页。")}</div>
+    ${plan.hold.length ? `<div class="line-head">
+      <div>
+        <h3>Hold for feedback</h3>
+        <p class="muted">这些也可能不错，但当前 feedback gate 不建议继续发。先补 metrics，再让系统重新排序。</p>
+      </div>
+      ${pill(`${plan.hold.length} held`, "warn")}
+    </div>
+    <div class="final-review-grid hold-grid">${plan.hold.map(renderFinalHoldCard).join("")}</div>` : ""}
   </section>`;
 }
 
 function finalReviewCandidates() {
+  return finalReviewPlan().ready;
+}
+
+function finalReviewPlan() {
   const latest = state.latest ?? {};
   const ageMinutes = dataAgeMinutes(latest.generatedAt);
-  if (latest.source?.usedFallback || (ageMinutes !== null && ageMinutes > 360)) return [];
+  const gate = feedbackDebtGate();
+  const maxNewPosts = publishGateMax(gate);
+  if (latest.source?.usedFallback || (ageMinutes !== null && ageMinutes > 360)) {
+    return { ready: [], hold: [], pool: [], gate, maxNewPosts: 0 };
+  }
   const postedIds = new Set((state.feedback.entries ?? [])
     .filter((entry) => entry.posted !== false)
     .map((entry) => entry.toolId)
     .filter(Boolean));
-  return [...(latest.tools ?? [])]
+  const pool = [...(latest.tools ?? [])]
     .map((tool) => {
       const text = tool.copyVariants?.shortPost ?? "";
       const qa = copyQuality(text);
@@ -1008,8 +1029,29 @@ function finalReviewCandidates() {
     .filter((item) => item.tool.followUpAction !== "skip")
     .filter((item) => Number(item.tool.scoreBreakdown?.riskScore ?? 0) < 8)
     .filter((item) => item.qa.kind !== "bad")
-    .sort((a, b) => b.priority - a.priority)
-    .slice(0, 3);
+    .sort((a, b) => b.priority - a.priority);
+  const limit = Math.min(3, maxNewPosts);
+  const ready = pool.slice(0, limit);
+  const holdReason = finalReviewHoldReason(gate, limit);
+  const hold = pool.slice(limit, limit + 6).map((item) => ({ ...item, holdReason }));
+  return { ready, hold, pool, gate, maxNewPosts: limit };
+}
+
+function feedbackDebtGate() {
+  return state.feedbackOps?.debtGate ?? state.latest?.feedbackOps?.debtGate ?? null;
+}
+
+function publishGateMax(gate) {
+  if (!gate) return 3;
+  const max = Number(gate.maxNewPostsBeforeMetrics);
+  if (!Number.isFinite(max)) return 3;
+  return Math.max(0, Math.min(3, Math.floor(max)));
+}
+
+function finalReviewHoldReason(gate, limit) {
+  if (!gate) return "Only the top 3 are shown for final manual review.";
+  if (limit <= 0) return `${gate.title}: ${gate.headline}`;
+  return `${gate.title}: only ${limit} new post${limit === 1 ? "" : "s"} before metrics.`;
 }
 
 function finalReviewPriority(tool, qa) {
@@ -1047,6 +1089,28 @@ function renderFinalReviewCard(item, index) {
       <button class="button ghost" data-copy="${attr(item.text)}">复制文案</button>
       <button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost">标记已发</button>
       <button class="button ghost" data-feedback="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost">录入反馈</button>
+    </div>
+  </article>`;
+}
+
+function renderFinalHoldCard(item, index) {
+  const tool = item.tool;
+  return `<article class="final-card hold">
+    <div class="line-head">
+      <div>
+        <strong>${esc(`${index + 1}. ${tool.name}`)}</strong>
+        <div class="muted">score ${esc(tool.score)} · ${esc(labels[tool.followUpAction] ?? tool.followUpAction)}</div>
+      </div>
+      ${pill("Hold", "warn")}
+    </div>
+    <p>${esc(item.holdReason)}</p>
+    <p class="muted">${esc(tool.reason)}</p>
+    ${renderAccountRoute(tool)}
+    <pre class="copy-text">${esc(item.text)}</pre>
+    <div class="row-actions">
+      <button class="button ghost" data-copy="${attr(item.text)}">复制观察</button>
+      <button class="button ghost" data-tab-jump="feedback">先补反馈</button>
+      <button class="button ghost" data-queue="${attr(tool.followUpAction === "thread candidate" ? "thread" : "watch")}" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入观察</button>
     </div>
   </article>`;
 }

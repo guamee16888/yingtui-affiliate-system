@@ -261,12 +261,16 @@ function normalizeMatrixTools(latest) {
       seenBefore: item.seenBefore,
       sourceQuality: item.tool.sourceQuality,
       accountRecommendation: item.accountRecommendation,
+      accountId: item.tool.accountId ?? item.accountId ?? "",
+      accountName: item.tool.accountName ?? item.accountName ?? "",
+      seedId: item.tool.seedId ?? item.seedId ?? "",
       copyVariants: item.copyVariants
     };
   });
 }
 
 function accountMatchType(tool, accountId) {
+  if (tool.accountId === accountId) return "seed";
   if (tool.accountRecommendation?.primary?.accountId === accountId) return "primary";
   if ((tool.accountRecommendation?.alternatives ?? []).some((item) => item.accountId === accountId)) return "alternative";
   return "";

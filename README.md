@@ -276,6 +276,7 @@ npm run seed-pack
 ```
 
 生成种子账号补题包，输出到 `data/seed-batch-pack.json`、`output/YYYY-MM-DD-seed-batch-pack.md` 和 `output/YYYY-MM-DD-seed-batch-template.csv`。它会按当前 `Scale ramp plan` 的种子账号分配 CSV 行，方便你只补最值得启动的账号。
+填完 CSV 后粘到「候选收集」或「来源补给」的批量导入预览区，系统会按 `accountId` 显示每个种子账号是否已有 3 条可导入候选：绿灯代表够做小批量种子测试，黄灯代表需要人工修/审，红灯代表不够启动。
 
 ```bash
 npm run roadmap

@@ -1,4 +1,5 @@
 const ROWS_PER_ACCOUNT = 10;
+const MIN_SEED_IMPORTABLE = 3;
 
 export function buildSeedBatchPack({ date, scaleRampPlan = null, rowsPerAccount = ROWS_PER_ACCOUNT, csvPath = "", guidePath = "" }) {
   const accounts = scaleRampPlan?.startAccounts ?? [];
@@ -44,6 +45,57 @@ export function seedBatchRowsToCsv(rows) {
     headers.join(","),
     ...rows.map((row) => headers.map((header) => csvCell(row[header] ?? "")).join(","))
   ].join("\n");
+}
+
+export function buildSeedImportReadiness({ seedBatchPack = null, previews = [] }) {
+  const seedAccounts = seedBatchPack?.rowsByAccount ?? [];
+  const previewByAccount = new Map();
+  for (const preview of previews) {
+    const accountId = preview.candidate?.accountId || preview.accountId || "";
+    if (!accountId) continue;
+    const current = previewByAccount.get(accountId) ?? { parsed: 0, importable: 0, review: 0, skipped: 0 };
+    current.parsed += 1;
+    if (preview.importDecision === "import") current.importable += 1;
+    if (preview.importDecision === "review") current.review += 1;
+    if (preview.importDecision === "skip") current.skipped += 1;
+    previewByAccount.set(accountId, current);
+  }
+
+  const accounts = seedAccounts.map((account) => {
+    const counts = previewByAccount.get(account.accountId) ?? { parsed: 0, importable: 0, review: 0, skipped: 0 };
+    const targetImportable = Math.min(MIN_SEED_IMPORTABLE, Math.max(1, Number(account.missingDrafts || MIN_SEED_IMPORTABLE)));
+    const remaining = Math.max(0, targetImportable - counts.importable);
+    const status = counts.importable >= targetImportable
+      ? "ready_to_seed"
+      : counts.importable + counts.review >= targetImportable || counts.importable > 0
+        ? "needs_review"
+        : "not_ready";
+    return {
+      accountId: account.accountId,
+      displayName: account.displayName,
+      targetImportable,
+      parsed: counts.parsed,
+      importable: counts.importable,
+      review: counts.review,
+      skipped: counts.skipped,
+      remaining,
+      status,
+      reason: seedReadinessReason({ account, counts, targetImportable, remaining, status })
+    };
+  });
+
+  return {
+    targetImportablePerAccount: MIN_SEED_IMPORTABLE,
+    summary: {
+      accounts: accounts.length,
+      ready: accounts.filter((account) => account.status === "ready_to_seed").length,
+      review: accounts.filter((account) => account.status === "needs_review").length,
+      notReady: accounts.filter((account) => account.status === "not_ready").length,
+      importable: accounts.reduce((sum, account) => sum + account.importable, 0),
+      parsed: accounts.reduce((sum, account) => sum + account.parsed, 0)
+    },
+    accounts
+  };
 }
 
 export function renderSeedBatchPackMarkdown(pack) {
@@ -112,6 +164,12 @@ function acceptanceChecklistForCircle(circle) {
   if (circle === "saas_founders") return "real URL | SaaS founder pain | pricing/growth/ops angle | fresh enough";
   if (circle === "indie_hackers") return "real URL | indie/solo founder angle | concrete build or monetization lesson";
   return "real URL | AI/startup/tool angle | clear buyer pain | not broad hype";
+}
+
+function seedReadinessReason({ account, counts, targetImportable, remaining, status }) {
+  if (status === "ready_to_seed") return `${account.displayName} has ${counts.importable}/${targetImportable} importable candidates. Enough for a small manual seed test.`;
+  if (status === "needs_review") return `${account.displayName} has ${counts.importable} importable and ${counts.review} review candidates; fix or approve ${remaining} more.`;
+  return `${account.displayName} still needs ${remaining} importable candidates before seed testing.`;
 }
 
 function fallbackSearchTasks(account) {

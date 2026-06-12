@@ -27,7 +27,7 @@ import { affiliateLinkMatchesTool, realAffiliateLinks } from "../scripts/lib/aff
 import { buildScaleReadiness } from "../scripts/lib/scale-readiness.mjs";
 import { buildAccountContentMatrix, renderAccountContentMatrixMarkdown } from "../scripts/lib/account-content-matrix.mjs";
 import { buildScaleRampPlan } from "../scripts/lib/scale-ramp-plan.mjs";
-import { buildSeedBatchPack, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
+import { buildSeedBatchPack, buildSeedImportReadiness, seedBatchRowsToCsv } from "../scripts/lib/seed-batch-pack.mjs";
 
 function seedTool({ id, accountId, score = 25, published = "2026-06-12T00:00:00.000Z" }) {
   return {
@@ -553,6 +553,19 @@ test("parseCandidatePaste skips source-pack template rows until name and url are
   assert.equal(parsed.errors.length, 0);
   assert.equal(parsed.entries.length, 1);
   assert.equal(parsed.entries[0].name, "Agent Ops");
+});
+
+test("parseCandidatePaste preserves seed account columns", () => {
+  const parsed = parseCandidatePaste([
+    "seedId,accountId,accountName,name,url,tagline,source,circle,candidateType",
+    "seed-1,ai_tools_lab,AI Tools Lab,Agent CRM,https://agent.example.com,AI founder workflow automation,seed_batch_pack,ai_startups,product"
+  ].join("\n"));
+
+  assert.equal(parsed.errors.length, 0);
+  assert.equal(parsed.entries[0].accountId, "ai_tools_lab");
+  assert.equal(parsed.entries[0].accountName, "AI Tools Lab");
+  assert.equal(parsed.entries[0].seedId, "seed-1");
+  assert.equal(buildCandidateItem(parsed.entries[0]).accountId, "ai_tools_lab");
 });
 
 test("parseCandidatePaste handles one candidate per line", () => {
@@ -1490,10 +1503,11 @@ test("account content matrix exposes account-level candidate and draft gaps", ()
   const aiTool = seedTool({ id: "ai_agent_tool", accountId: "ai", score: 30 });
   const aiSecond = seedTool({ id: "ai_workflow_tool", accountId: "ai", score: 26 });
   const saasTool = seedTool({ id: "saas_pricing_tool", accountId: "saas", score: 28 });
+  const saasSeed = { ...seedTool({ id: "seed_saas_tool", accountId: "", score: 26 }), accountId: "saas", accountName: "SaaS" };
   const matrix = buildAccountContentMatrix({
     date: "2026-06-12",
     latest: {
-      tools: [aiTool, aiSecond, saasTool],
+      tools: [aiTool, aiSecond, saasTool, saasSeed],
       freshnessReport: {
         publishableTools: [
           { name: aiTool.name, url: aiTool.url },
@@ -1532,7 +1546,7 @@ test("account content matrix exposes account-level candidate and draft gaps", ()
   assert.equal(matrix.summary.activeAccounts, 2);
   assert.equal(matrix.summary.targetDailyPosts, 4);
   assert.equal(matrix.summary.candidateBenchTarget, 12);
-  assert.equal(matrix.summary.matchedCandidates, 3);
+  assert.equal(matrix.summary.matchedCandidates, 4);
   assert.equal(matrix.summary.freshCandidates, 2);
   assert.equal(matrix.summary.plannedDrafts, 1);
   assert.equal(matrix.summary.scheduledPosts, 1);
@@ -1607,6 +1621,31 @@ test("seed batch pack creates account-specific research rows", () => {
   assert.equal(pack.rows.some((row) => row.circle === "crypto_builders"), true);
   assert.match(csv, /accountId,accountName/);
   assert.match(csv, /https:\/\/x\.com\/search/);
+});
+
+test("seed import readiness shows account launch signal from preview rows", () => {
+  const seedBatchPack = {
+    rowsByAccount: [
+      { accountId: "ai", displayName: "AI Tools", missingDrafts: 10 },
+      { accountId: "crypto", displayName: "Crypto Builder", missingDrafts: 10 }
+    ]
+  };
+  const readiness = buildSeedImportReadiness({
+    seedBatchPack,
+    previews: [
+      { candidate: { accountId: "ai" }, importDecision: "import" },
+      { candidate: { accountId: "ai" }, importDecision: "import" },
+      { candidate: { accountId: "ai" }, importDecision: "import" },
+      { candidate: { accountId: "crypto" }, importDecision: "review" },
+      { candidate: { accountId: "crypto" }, importDecision: "review" },
+      { candidate: { accountId: "crypto" }, importDecision: "review" }
+    ]
+  });
+
+  assert.equal(readiness.summary.ready, 1);
+  assert.equal(readiness.summary.review, 1);
+  assert.equal(readiness.accounts[0].status, "ready_to_seed");
+  assert.equal(readiness.accounts[1].status, "needs_review");
 });
 
 test("affiliate research workbench prioritizes candidates and ready snippets", () => {

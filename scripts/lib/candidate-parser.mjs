@@ -85,7 +85,10 @@ function normalizeHeader(value) {
     candidatetype: "candidateType",
     type: "candidateType",
     published: "published",
-    notes: "notes"
+    notes: "notes",
+    accountid: "accountId",
+    accountname: "accountName",
+    seedid: "seedId"
   }[header] ?? header;
 }
 
@@ -109,6 +112,9 @@ function normalizeCandidate(input, defaults) {
     circle,
     candidateType: String(input.candidateType || defaults.candidateType || "product").trim(),
     published: input.published || defaults.published || new Date().toISOString(),
+    accountId: String(input.accountId || defaults.accountId || "").trim(),
+    accountName: String(input.accountName || defaults.accountName || "").trim(),
+    seedId: String(input.seedId || defaults.seedId || "").trim(),
     notes: String(input.notes || defaults.notes || "").trim(),
     status: "active"
   };

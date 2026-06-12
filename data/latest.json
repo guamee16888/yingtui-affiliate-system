@@ -1,6 +1,6 @@
 {
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T19:44:19.302Z",
+  "generatedAt": "2026-06-12T19:52:24.920Z",
   "source": {
     "feed": "https://www.producthunt.com/feed",
     "usedFallback": false,
@@ -2150,7 +2150,7 @@
   },
   "sourceDiscovery": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:44:19.295Z",
+    "generatedAt": "2026-06-12T19:52:24.912Z",
     "summary": {
       "circles": 4,
       "totalNeededCandidates": 80,
@@ -2688,7 +2688,7 @@
   },
   "sourceHealth": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:44:19.296Z",
+    "generatedAt": "2026-06-12T19:52:24.914Z",
     "minimumQualityScore": 18,
     "summary": {
       "configuredSources": 7,
@@ -4029,7 +4029,7 @@
   },
   "feedbackOps": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:44:19.300Z",
+    "generatedAt": "2026-06-12T19:52:24.918Z",
     "summary": {
       "posted": 0,
       "measured": 0,
@@ -4549,7 +4549,7 @@
   },
   "promotionReview": {
     "date": "2026-06-13",
-    "generatedAt": "2026-06-12T19:44:19.300Z",
+    "generatedAt": "2026-06-12T19:52:24.919Z",
     "mode": "manual_review",
     "rule": "Promotion review only. Nothing is added to queues until you click the queue button.",
     "summary": {
@@ -4932,6 +4932,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 29,
       "scoreBreakdown": {
         "painScore": 8,
@@ -5075,6 +5078,9 @@
       },
       "circle": "crypto_builders",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 26,
       "scoreBreakdown": {
         "painScore": 8,
@@ -5211,6 +5217,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 25,
       "scoreBreakdown": {
         "painScore": 6,
@@ -5349,6 +5358,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 25,
       "scoreBreakdown": {
         "painScore": 6,
@@ -5488,6 +5500,9 @@
       },
       "circle": "crypto_builders",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 25,
       "scoreBreakdown": {
         "painScore": 6,
@@ -5619,6 +5634,9 @@
       },
       "circle": "crypto_builders",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 25,
       "scoreBreakdown": {
         "painScore": 6,
@@ -5746,6 +5764,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 25,
       "scoreBreakdown": {
         "painScore": 8,
@@ -5884,6 +5905,9 @@
       },
       "circle": "",
       "candidateType": "product",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 24,
       "scoreBreakdown": {
         "painScore": 8,
@@ -6020,6 +6044,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 22,
       "scoreBreakdown": {
         "painScore": 6,
@@ -6160,6 +6187,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 22,
       "scoreBreakdown": {
         "painScore": 6,
@@ -6298,6 +6328,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 22,
       "scoreBreakdown": {
         "painScore": 6,
@@ -6439,6 +6472,9 @@
       },
       "circle": "crypto_builders",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 22,
       "scoreBreakdown": {
         "painScore": 6,
@@ -6574,6 +6610,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 21,
       "scoreBreakdown": {
         "painScore": 6,
@@ -6712,6 +6751,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 21,
       "scoreBreakdown": {
         "painScore": 6,
@@ -6851,6 +6893,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 21,
       "scoreBreakdown": {
         "painScore": 6,
@@ -6989,6 +7034,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 21,
       "scoreBreakdown": {
         "painScore": 6,
@@ -7127,6 +7175,9 @@
       },
       "circle": "",
       "candidateType": "product",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 20,
       "scoreBreakdown": {
         "painScore": 6,
@@ -7266,6 +7317,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 20,
       "scoreBreakdown": {
         "painScore": 6,
@@ -7413,6 +7467,9 @@
       },
       "circle": "crypto_builders",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 23,
       "scoreBreakdown": {
         "painScore": 6,
@@ -7465,6 +7522,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 18,
       "scoreBreakdown": {
         "painScore": 6,
@@ -7517,6 +7577,9 @@
       },
       "circle": "ai_startups",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 18,
       "scoreBreakdown": {
         "painScore": 6,
@@ -7571,6 +7634,9 @@
       },
       "circle": "crypto_builders",
       "candidateType": "topic",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 17,
       "scoreBreakdown": {
         "painScore": 6,
@@ -7606,58 +7672,6 @@
       "copyChecks": {}
     },
     {
-      "id": "tool_producthunt_com_firma-dev_aaeac09a66",
-      "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
-      "name": "Firma.dev",
-      "url": "https://www.producthunt.com/products/firma-dev",
-      "domain": "producthunt.com",
-      "tagline": "E-signatures API for your app averaging ~3¢ per envelope",
-      "published": "2026-06-08T08:48:32-07:00",
-      "sourceId": "",
-      "sourceType": "producthunt",
-      "sourceName": "Product Hunt",
-      "sourceUrl": null,
-      "sourceNote": null,
-      "sourceQuality": {
-        "status": "ok",
-        "isNoisy": false,
-        "reason": "Not checked by source quality gate.",
-        "blockedTerms": [],
-        "matchedTerms": []
-      },
-      "circle": "",
-      "candidateType": "product",
-      "score": 16,
-      "scoreBreakdown": {
-        "painScore": 6,
-        "nicheScore": 3,
-        "affiliateScore": 2,
-        "contentScore": 3,
-        "noveltyScore": 4,
-        "riskScore": 2,
-        "sourceNoisePenalty": 0,
-        "seenPenalty": 0,
-        "total": 16
-      },
-      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
-      "affiliateStatus": "no_fit",
-      "affiliateLink": null,
-      "affiliateNote": null,
-      "followUpAction": "skip",
-      "accountRecommendation": null,
-      "seenBefore": false,
-      "seenBeforeDetails": null,
-      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
-      "angle": {
-        "audience": "developers",
-        "outcome": "less glue code",
-        "pain": "removing one annoying developer workflow step",
-        "solution": "e-signatures API for your app averaging ~3¢ per envelope"
-      },
-      "copyVariants": {},
-      "copyChecks": {}
-    },
-    {
       "id": "tool_producthunt_com_pond_078dd3c545",
       "toolId": "tool_producthunt_com_pond_078dd3c545",
       "name": "Pond",
@@ -7679,6 +7693,9 @@
       },
       "circle": "",
       "candidateType": "product",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 16,
       "scoreBreakdown": {
         "painScore": 4,
@@ -7710,6 +7727,61 @@
       "copyChecks": {}
     },
     {
+      "id": "tool_producthunt_com_firma-dev_aaeac09a66",
+      "toolId": "tool_producthunt_com_firma-dev_aaeac09a66",
+      "name": "Firma.dev",
+      "url": "https://www.producthunt.com/products/firma-dev",
+      "domain": "producthunt.com",
+      "tagline": "E-signatures API for your app averaging ~3¢ per envelope",
+      "published": "2026-06-08T08:48:32-07:00",
+      "sourceId": "",
+      "sourceType": "producthunt",
+      "sourceName": "Product Hunt",
+      "sourceUrl": null,
+      "sourceNote": null,
+      "sourceQuality": {
+        "status": "ok",
+        "isNoisy": false,
+        "reason": "Not checked by source quality gate.",
+        "blockedTerms": [],
+        "matchedTerms": []
+      },
+      "circle": "",
+      "candidateType": "product",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
+      "score": 16,
+      "scoreBreakdown": {
+        "painScore": 6,
+        "nicheScore": 3,
+        "affiliateScore": 2,
+        "contentScore": 3,
+        "noveltyScore": 4,
+        "riskScore": 2,
+        "sourceNoisePenalty": 0,
+        "seenPenalty": 0,
+        "total": 16
+      },
+      "reason": "has at least one narrow workflow angle. Caution: not enough signal for follow-up.",
+      "affiliateStatus": "no_fit",
+      "affiliateLink": null,
+      "affiliateNote": null,
+      "followUpAction": "skip",
+      "accountRecommendation": null,
+      "seenBefore": false,
+      "seenBeforeDetails": null,
+      "suggestedAngle": "developers want less glue code; test whether it solves removing one annoying developer workflow step.",
+      "angle": {
+        "audience": "developers",
+        "outcome": "less glue code",
+        "pain": "removing one annoying developer workflow step",
+        "solution": "e-signatures API for your app averaging ~3¢ per envelope"
+      },
+      "copyVariants": {},
+      "copyChecks": {}
+    },
+    {
       "id": "tool_producthunt_com_locin-ai_cb6ba78aae",
       "toolId": "tool_producthunt_com_locin-ai_cb6ba78aae",
       "name": "LocIn AI",
@@ -7731,6 +7803,9 @@
       },
       "circle": "",
       "candidateType": "product",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 15,
       "scoreBreakdown": {
         "painScore": 6,
@@ -7787,6 +7862,9 @@
       },
       "circle": "",
       "candidateType": "product",
+      "accountId": "",
+      "accountName": "",
+      "seedId": "",
       "score": 14,
       "scoreBreakdown": {
         "painScore": 4,

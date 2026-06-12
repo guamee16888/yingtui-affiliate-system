@@ -34,6 +34,7 @@ import { mapFeedbackCsv } from "./lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "./lib/candidate-parser.mjs";
 import { evaluateCandidateQualityGate } from "./lib/candidate-quality-gate.mjs";
 import { buildHistoryIndex, candidateInboxToTools, scoreTool } from "./lib/affiliate-system.mjs";
+import { buildSeedImportReadiness } from "./lib/seed-batch-pack.mjs";
 import { buildDecisionReport } from "./lib/decision-engine.mjs";
 import { buildFeedbackOps, buildLearningLoop } from "./lib/feedback-ops.mjs";
 import { calculateEngagement } from "./lib/scoring.mjs";
@@ -640,11 +641,12 @@ async function buildCandidatePastePlan(body) {
   }
   if (parsed.entries.length > 100) throw new Error("Candidate paste preview is limited to 100 rows at a time");
 
-  const [history, affiliateConfig, candidateInbox, latest] = await Promise.all([
+  const [history, affiliateConfig, candidateInbox, latest, seedBatchPack] = await Promise.all([
     loadHistoryData(),
     loadAffiliateLinks(),
     loadCandidateInbox(),
-    loadLatest()
+    loadLatest(),
+    readJson("data/seed-batch-pack.json", null)
   ]);
   const context = {
     date,
@@ -674,6 +676,7 @@ async function buildCandidatePastePlan(body) {
       skipped: previews.filter((item) => item.importDecision === "skip").length,
       duplicates: previews.filter((item) => item.duplicate).length
     },
+    seedImportReadiness: buildSeedImportReadiness({ seedBatchPack, previews }),
     previews,
     errors: parsed.errors
   };
@@ -723,6 +726,9 @@ function candidatePreviewJson(item, candidate, duplicate, date) {
     sourceName: item.tool.sourceName ?? "Candidate Inbox",
     circle: item.tool.circle ?? "",
     candidateType: item.tool.candidateType ?? "product",
+    accountId: candidate.accountId ?? item.tool.accountId ?? "",
+    accountName: candidate.accountName ?? item.tool.accountName ?? "",
+    seedId: candidate.seedId ?? item.tool.seedId ?? "",
     score: item.score,
     scoreBreakdown: item.scoreBreakdown,
     followUpAction: item.followUpAction,

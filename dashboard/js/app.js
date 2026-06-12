@@ -1799,15 +1799,47 @@ function renderCandidatePreview() {
   return `<div class="preview-box">
     <div class="line-head"><strong>预评分结果</strong><span class="muted">${esc(preview.date ?? "")} · parsed ${esc(preview.parsed ?? rows.length)} · import ${esc(preview.summary?.importable ?? 0)} · review ${esc(preview.summary?.review ?? 0)} · skip ${esc(preview.summary?.skipped ?? 0)} · duplicate ${esc(preview.summary?.duplicates ?? 0)}</span></div>
     ${preview.errors?.length ? `<p class="muted">跳过：${esc(preview.errors.join(" "))}</p>` : ""}
+    ${renderSeedImportReadiness(preview.seedImportReadiness)}
     <div class="list">${rows.map((item) => `<div class="list-item">
       <div class="line-head"><strong>${esc(item.name)}</strong>${pill(candidateDecisionLabels[item.importDecision] ?? item.importDecision, item.importDecision === "import" ? "good" : item.importDecision === "review" ? "warn" : "bad")}${renderQualityGatePill(item.qualityGate)}${pill(labels[item.followUpAction] ?? item.followUpAction, item.followUpAction === "skip" ? "bad" : "good")}<strong class="mini-score">${esc(item.score)}</strong></div>
-      <div class="muted">${esc(item.sourceName)} · ${esc(item.circle || "unknown circle")} · ${esc(item.candidateType || "product")} · ${esc(item.affiliateStatus)} · ${item.seenBefore ? "Seen before" : "New to history"} · ${esc(item.duplicateStatus || "new_candidate")}</div>
+      <div class="muted">${esc(item.sourceName)} · ${esc(item.circle || "unknown circle")} · ${esc(item.candidateType || "product")} · ${item.accountName || item.accountId ? `target ${esc(item.accountName || item.accountId)} · ` : ""}${esc(item.affiliateStatus)} · ${item.seenBefore ? "Seen before" : "New to history"} · ${esc(item.duplicateStatus || "new_candidate")}</div>
       <p class="muted">${esc(item.importReason || "")}</p>
       ${renderQualityGateDetail(item.qualityGate)}
       <p>${esc(item.reason)}</p>
       <div class="score-bars">${Object.entries(item.scoreBreakdown ?? {}).filter(([key]) => ["painScore","nicheScore","affiliateScore","contentScore","noveltyScore","riskScore"].includes(key)).map(([key, value]) => bar(key, value)).join("")}</div>
     </div>`).join("") || empty("暂无预览结果。")}</div>
   </div>`;
+}
+
+function renderSeedImportReadiness(readiness) {
+  if (!readiness?.accounts?.length || !readiness.summary?.parsed) return "";
+  return `<div class="seed-import-readiness">
+    <div class="line-head">
+      <strong>种子账号启动检查</strong>
+      <span class="muted">ready ${esc(readiness.summary.ready)} · review ${esc(readiness.summary.review)} · not ready ${esc(readiness.summary.notReady)}</span>
+    </div>
+    <div class="seed-readiness-grid">
+      ${readiness.accounts.map((account) => `<div class="seed-readiness-card ${attr(account.status)}">
+        <div class="line-head"><strong>${esc(account.displayName)}</strong>${pill(seedReadinessLabel(account.status), seedReadinessTone(account.status))}</div>
+        <div class="muted">import ${esc(account.importable)}/${esc(account.targetImportable)} · review ${esc(account.review)} · skip ${esc(account.skipped)} · remaining ${esc(account.remaining)}</div>
+        <p class="muted">${esc(account.reason)}</p>
+      </div>`).join("")}
+    </div>
+  </div>`;
+}
+
+function seedReadinessLabel(status) {
+  return {
+    ready_to_seed: "够种子测试",
+    needs_review: "还要人工看",
+    not_ready: "不够启动"
+  }[status] ?? status;
+}
+
+function seedReadinessTone(status) {
+  if (status === "ready_to_seed") return "good";
+  if (status === "needs_review") return "warn";
+  return "bad";
 }
 
 function renderQualityGatePill(gate) {

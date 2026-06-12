@@ -455,7 +455,10 @@ export function candidateInboxToTools(inbox, date) {
       sourceUrl: item.sourceUrl || "",
       sourceNote: item.notes || "",
       circle: item.circle || "",
-      candidateType: item.candidateType || "product"
+      candidateType: item.candidateType || "product",
+      accountId: item.accountId || "",
+      accountName: item.accountName || "",
+      seedId: item.seedId || ""
     }))
     .filter((tool) => tool.name && tool.url);
 }
@@ -1487,6 +1490,9 @@ function toToolJson(item) {
     },
     circle: item.tool.circle ?? "",
     candidateType: item.tool.candidateType ?? "product",
+    accountId: item.tool.accountId ?? "",
+    accountName: item.tool.accountName ?? "",
+    seedId: item.tool.seedId ?? "",
     score: item.score,
     scoreBreakdown: item.scoreBreakdown,
     reason: item.reason,

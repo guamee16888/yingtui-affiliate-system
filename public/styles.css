@@ -198,7 +198,7 @@ h2 {
   color: var(--ink);
 }
 
-.demo-panel,
+.preview-panel,
 .primary-card,
 .support-card,
 .flow-section {
@@ -209,7 +209,7 @@ h2 {
   backdrop-filter: blur(14px);
 }
 
-.demo-panel {
+.preview-panel {
   min-width: 0;
   padding: 22px;
 }
@@ -275,17 +275,19 @@ h2 {
 .support-card {
   min-width: 0;
   padding: 22px;
-  background: #17201b;
-  color: #f7faf7;
-  border-color: #17201b;
+  background:
+    linear-gradient(135deg, rgba(23, 102, 74, 0.1), rgba(36, 79, 143, 0.08)),
+    rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  border-color: rgba(183, 208, 194, 0.9);
 }
 
 .support-card p {
-  color: #cbd8d0;
+  color: var(--muted);
 }
 
 .support-card .card-kicker {
-  color: #94d6b9;
+  color: var(--accent);
 }
 
 .flow-section {
@@ -307,17 +309,6 @@ h2 {
   color: var(--muted);
   font-size: 14px;
   font-weight: 680;
-}
-
-.domain-note {
-  margin-top: 18px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.domain-note p {
-  margin: 0;
-  overflow-wrap: anywhere;
 }
 
 @media (max-width: 880px) {
@@ -391,13 +382,12 @@ h2 {
       linear-gradient(180deg, #0b100d 0%, var(--bg) 100%);
   }
 
-  .brand-mark,
-  .support-card {
+  .brand-mark {
     background: #eef5ef;
     color: #101612;
   }
 
-  .demo-panel,
+  .preview-panel,
   .primary-card,
   .support-card,
   .flow-section,
@@ -409,11 +399,10 @@ h2 {
     color: #102016;
   }
 
-  .support-card p {
-    color: #48564d;
-  }
-
-  .support-card .card-kicker {
-    color: #17664a;
+  .support-card {
+    border-color: rgba(112, 202, 163, 0.28);
+    background:
+      linear-gradient(135deg, rgba(112, 202, 163, 0.12), rgba(36, 79, 143, 0.1)),
+      rgba(21, 29, 24, 0.82);
   }
 }

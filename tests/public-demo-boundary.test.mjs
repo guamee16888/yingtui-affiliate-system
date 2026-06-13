@@ -5,8 +5,8 @@ import test from "node:test";
 test("public entry does not expose owner dashboard or staff route", async () => {
   const html = await readFile("public/index.html", "utf8");
   assert.ok(html.includes("/manager/?workspaceId=workspace_default"));
-  assert.ok(html.includes("app.guamee.org"));
   assert.equal(html.includes("admin.guamee.org"), false);
+  assert.equal(html.includes("app.guamee.org"), false);
   assert.equal(html.includes("/dashboard"), false);
   assert.equal(html.includes("/staff"), false);
 });

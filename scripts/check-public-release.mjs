@@ -22,8 +22,8 @@ export async function validatePublicRelease({ distDir = defaultDistDir } = {}) {
   if (rootIndex.includes("admin.guamee.org")) {
     errors.push("Public root must not expose the private admin domain.");
   }
-  if (!rootIndex.includes("app.guamee.org")) {
-    errors.push("Public root must explain the future app.guamee.org boundary.");
+  if (rootIndex.includes("app.guamee.org")) {
+    errors.push("Public root must not expose the future app domain.");
   }
 
   const dataFiles = await listFiles(path.join(distDir, "data"));

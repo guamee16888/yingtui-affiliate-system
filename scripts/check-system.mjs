@@ -86,6 +86,9 @@ const requiredScripts = [
   "today-plan",
   "weekly",
   "check",
+  "demo:sanitize",
+  "build:demo",
+  "release:check",
   "test"
 ];
 

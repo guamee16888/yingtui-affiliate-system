@@ -97,6 +97,7 @@ async function updateTask(taskId, action, extra = {}) {
 
 function render() {
   if (!state.data) return;
+  renderModeBanner();
   if (!state.data.accessAllowed) {
     $("#statusText").textContent = state.data.accessError || "当前员工没有权限查看这个 workspace";
     renderUsers();
@@ -267,7 +268,18 @@ function isReadOnlyMode() {
 }
 
 function readOnlyActionMessage() {
-  return state.data?.deployment?.note || "当前为线上只读模式。写入、发布状态和反馈记录请回到本地 4174。";
+  return state.data?.deployment?.note || "演示环境不支持写入，请在私有管理端操作。";
+}
+
+function renderModeBanner() {
+  const banner = $("#modeBanner");
+  if (!banner) return;
+  banner.hidden = !isReadOnlyMode();
+  if (!isReadOnlyMode()) {
+    banner.innerHTML = "";
+    return;
+  }
+  banner.innerHTML = `<strong>只读演示模式</strong> 当前是公开演示环境，只能查看和复制，不能保存审核、反馈或发布。真实运营请使用私有服务端。`;
 }
 
 function toast(message) {

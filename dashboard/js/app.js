@@ -300,7 +300,7 @@ async function loadStaticFallback(apiError) {
 
 function staticModeMessage(apiError) {
   if (location.hostname === "guamee.org" || location.hostname.endsWith(".pages.dev")) {
-    return "Cloudflare 静态只读模式：可以查看数据，不能刷新、写入反馈或发布到 X。本地操作请运行 npm run start:4174。";
+    return "只读演示模式：当前是公开演示环境，只能查看和复制，不能保存审核、反馈或发布。真实运营请使用私有服务端。";
   }
   return `API 暂不可用，当前为静态只读模式：${apiError.message}`;
 }
@@ -426,13 +426,21 @@ function countByField(items, field) {
 }
 
 function isReadOnlyMode() {
-  return Boolean(state.apiWarning) || location.hostname.endsWith("vercel.app");
+  return Boolean(state.apiWarning) || isPublicDemoHost() || isDemoDataMode();
 }
 
 function readOnlyActionMessage() {
-  return location.hostname.endsWith("vercel.app")
-    ? "线上 Vercel 是只读版。要刷新、保存反馈、生成文件或发布到 X，请回本机运行 npm start。"
-    : "当前 API 不可用，页面处于静态只读模式。请确认本地 npm start 正在运行。";
+  return isPublicDemoHost() || isDemoDataMode()
+    ? "演示环境不支持写入，请在私有管理端操作。"
+    : "当前 API 不可用，页面处于静态只读模式。请确认本地 npm run start:4174 正在运行。";
+}
+
+function isPublicDemoHost() {
+  return location.hostname === "guamee.org" || location.hostname.endsWith(".pages.dev") || location.hostname.endsWith("vercel.app");
+}
+
+function isDemoDataMode() {
+  return state.latest?.mode === "demo" || state.latest?.demo === true;
 }
 
 async function fetchJson(path, fallback = null) {
@@ -465,15 +473,15 @@ function render() {
 
 function renderModeBanner() {
   const banner = $("#modeBanner");
-  const publicDemo = location.hostname.endsWith("vercel.app");
+  const publicDemo = isReadOnlyMode();
   banner.hidden = !publicDemo;
   if (!publicDemo) {
     banner.innerHTML = "";
     return;
   }
   banner.innerHTML = `<div>
-    <strong>公开只读 Demo</strong>
-    <p>这里展示的是已生成的数据和产品界面。刷新 Live Feed、导入候选、保存反馈、发布到 X 都必须在本机运行 <code>npm start</code> 后手动确认。</p>
+    <strong>只读演示模式</strong>
+    <p>当前是公开演示环境，只能查看和复制，不能保存审核、反馈或发布。真实运营请使用私有服务端。</p>
   </div>
   <a class="button ghost" href="https://github.com/guamee16888/yingtui-affiliate-system" target="_blank" rel="noreferrer">查看 GitHub</a>`;
 }

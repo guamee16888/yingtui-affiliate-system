@@ -147,6 +147,16 @@ main {
   color: #214d38;
 }
 
+.mode-banner {
+  border-color: #f1c76b;
+  background: #fff8e6;
+  color: #6d4a00;
+}
+
+.mode-banner[hidden] {
+  display: none;
+}
+
 .metrics {
   display: grid;
   grid-template-columns: repeat(6, minmax(120px, 1fr));

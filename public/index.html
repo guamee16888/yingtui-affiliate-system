@@ -48,6 +48,22 @@
         font-size: 18px;
         line-height: 1.55;
       }
+      .cn {
+        max-width: 760px;
+        margin: -12px 0 28px;
+        color: var(--text);
+        line-height: 1.7;
+      }
+      .demo-pill {
+        display: inline-flex;
+        width: fit-content;
+        padding: 5px 9px;
+        border-radius: 999px;
+        color: #6d4a00;
+        background: #fff3cf;
+        font-size: 12px;
+        font-weight: 800;
+      }
       .grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -92,22 +108,32 @@
   <body>
     <main>
       <p class="eyebrow">AI Creator OS</p>
-      <h1>多账号 X 内容运营系统</h1>
-      <p class="subtitle">本地优先的内容线、任务审核、员工执行和反馈闭环。生产环境按权限进入不同工作台。</p>
+      <h1>AI Creator OS</h1>
+      <p class="subtitle">A multi-account X content operations system for AI, SaaS, Indie and Crypto builder teams.</p>
+      <p class="cn">AI Creator OS 是多账号 X 内容运营系统，支持选题、文案、任务分配、去重、发布队列、反馈复盘。当前公开站是只读演示，不保存审核、反馈或发布。</p>
       <section class="grid" aria-label="AI Creator OS entry points">
         <a href="/dashboard/">
-          <strong>平台总后台</strong>
-          <span>平台管理员使用，查看全局 workspace、内容线、候选池和发布安全。</span>
+          <div>
+            <strong>平台总后台 Demo</strong>
+            <span>平台管理员使用，查看全局 workspace、内容线、候选池和发布安全。</span>
+          </div>
+          <span class="demo-pill">只读演示</span>
           <code>/dashboard/</code>
         </a>
         <a href="/manager/?workspaceId=workspace_default">
-          <strong>管理端</strong>
-          <span>客户/主管使用，只管理当前 workspace 的账号、审核、发布队列和反馈。</span>
+          <div>
+            <strong>管理端 Demo</strong>
+            <span>客户/主管使用，只管理当前 workspace 的账号、审核、发布队列和反馈。</span>
+          </div>
+          <span class="demo-pill">只读演示</span>
           <code>/manager/?workspaceId=workspace_default</code>
         </a>
         <a href="/staff/?workspaceId=workspace_default&userId=user_owner">
-          <strong>员工工作台</strong>
-          <span>执行员工使用，只处理分配给自己的任务和反馈回填。</span>
+          <div>
+            <strong>员工工作台 Demo</strong>
+            <span>执行员工使用，只处理分配给自己的任务和反馈回填。</span>
+          </div>
+          <span class="demo-pill">只读演示</span>
           <code>/staff/?workspaceId=workspace_default&userId=user_owner</code>
         </a>
       </section>

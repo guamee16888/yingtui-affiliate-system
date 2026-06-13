@@ -158,6 +158,16 @@ main {
   color: #1d4d70;
 }
 
+.mode-banner {
+  border-color: #f1c76b;
+  background: #fff8e6;
+  color: #6d4a00;
+}
+
+.mode-banner[hidden] {
+  display: none;
+}
+
 .notice.compact {
   margin: 16px 0 0;
 }

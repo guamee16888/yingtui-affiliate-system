@@ -1046,13 +1046,23 @@ Your posted copy...	https://x.com/your/status/123	1200	18	6	3	1	9	4
 - 如果没有 `copyText`，系统会用匹配工具对应的文案补上。
 - 如果某一行无法匹配 toolName/toolUrl/copyText，会跳过并提示。
 
-## Cloudflare / guamee.org 版本
+## Public Demo Deployment
 
-这个项目现在按 Cloudflare Pages 静态站准备，不再把 AI Creator OS 作为 Vercel 页面维护。线上域名目标：
+`guamee.org` 当前是公开 demo，不是正式客户后台。Cloudflare Pages 静态站只能放 sanitized demo data，不能上传真实 `data/`、真实 `output/`、X token、client secret、API key、真实账号 handle、真实发布链接或私有 affiliate link。
+
+线上域名目标：
 
 ```text
 https://guamee.org
 ```
+
+公开 demo 的固定边界：
+
+- `/` 是产品入口页。
+- `/dashboard/` 是平台总后台 Demo，只读。
+- `/manager/?workspaceId=workspace_default` 是管理端 Demo，只读。
+- `/staff/?workspaceId=workspace_default&userId=user_owner` 是员工工作台 Demo，只读。
+- 线上只允许查看和复制，不允许保存审核、反馈、队列或发布动作。
 
 推荐工作流：
 
@@ -1063,12 +1073,14 @@ npm run start:4174
 ```
 
 2. 本地确认 `/dashboard/`、`/manager/`、`/staff/` 都正常。
-3. 跑验收：
+3. 跑 demo 清洗、构建和 release check：
 
 ```bash
+npm run demo:sanitize
+npm run build:demo
+npm run release:check
 npm run check
 npm test
-npm run build
 ```
 
 4. 大改动通过后再部署到 Cloudflare Pages：
@@ -1080,19 +1092,20 @@ npm run deploy:cloudflare
 Cloudflare Pages 项目建议：
 
 - Project name: `ai-creator-os`
-- Build command: `npm run build`
+- Build command: `npm run build:demo`
 - Build output directory: `dist`
 - Custom domain: `guamee.org`
 
 线上版本边界：
 
-- 可以读取仓库里的 `dashboard/`、`manager/`、`staff/`、`data/`、`output/` 静态快照。
-- 可以打开入口页、平台总后台、管理端和员工端的静态视图。
-- `npm run build` 会生成默认 workspace 的 `/api/manager/*` 和 `/api/staff/summary` 静态快照，公网可看但不可写。
+- 只能读取 `data-demo/` 和 `config-demo/` 生成的 sanitized 静态快照。
+- `npm run build:demo` 会先运行 `npm run demo:sanitize`，再生成默认 demo workspace 的 `/api/manager/*` 和 `/api/staff/summary` 静态快照。
+- `dist/output/` 在 demo build 里只保留说明文件，不发布真实 markdown exports。
 - 不能刷新 Product Hunt。
 - 不能写入 feedback / queue / affiliate research。
 - 不能发布到 X。
 - 不要在 Cloudflare Pages 配置 X token、client secret 或真实账号授权信息。
+- 不要把真实 `data/` 原样部署到公开静态站。
 
 真实运营仍然优先在本地工作台完成：
 
@@ -1100,7 +1113,15 @@ Cloudflare Pages 项目建议：
 npm run start:4174
 ```
 
-如果要更新线上看到的数据，先在本地跑 `npm run daily` 或对应生产命令，确认 `data/`、`output/` 更新后，再提交并部署到 Cloudflare。
+如果要更新线上 demo 看到的数据，先在本地跑 `npm run daily` 或对应生产命令，再跑 `npm run build:demo`。真实运营数据仍留在本地；公开 `dist/` 只使用清洗后的 demo 数据。
+
+真实线上写入以后需要单独后端：
+
+- Cloudflare Workers + D1/KV
+- 或独立 Node 后端 + 数据库
+- 或私有本地服务
+
+API key、X token、affiliate link 不能出现在前端或公开静态 JSON。当前 `/manager` 和 `/staff` 在线版本只是演示，不是真实客户/员工后台。
 
 ## Affiliate Research 搜索
 

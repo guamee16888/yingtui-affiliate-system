@@ -392,16 +392,38 @@ async function xStatusWithAccounts() {
   await loadLocalEnv();
   const config = normalizeAccountConfig(await loadXAccountsConfig());
   const globalStatus = getXPublishStatus();
+  const accountStatuses = config.accounts.map((account) => ({
+    account,
+    authStatus: getAccountXPublishStatus(account.id)
+  }));
+  const scopedReadyAccount = accountStatuses.find(({ account, authStatus }) => account.active && authStatus.publishReady);
+  const globalFallbackAccountId = !scopedReadyAccount && globalStatus.publishReady
+    ? defaultGlobalPublishAccountId(config)
+    : "";
+  const currentPublishAccountId = scopedReadyAccount?.account.id || globalFallbackAccountId || "";
   return {
     ...globalStatus,
-    accounts: config.accounts.map((account) => ({
+    currentPublishAccountId,
+    globalFallbackAccountId,
+    accounts: accountStatuses.map(({ account, authStatus }) => ({
       accountId: account.id,
       displayName: account.displayName,
       handle: account.handle,
       active: account.active,
-      authStatus: getAccountXPublishStatus(account.id)
+      authStatus: account.id === globalFallbackAccountId
+        ? getAccountXPublishStatus(account.id, process.env, new Date(), { useGlobalFallback: true })
+        : authStatus
     }))
   };
+}
+
+function defaultGlobalPublishAccountId(accountConfig) {
+  const configuredId = String(process.env.X_DEFAULT_ACCOUNT_ID || "").trim();
+  if (configuredId) {
+    const account = findAccountById(accountConfig, configuredId);
+    if (account?.active) return account.id;
+  }
+  return accountConfig.accounts.find((account) => account.active)?.id || "";
 }
 
 function runNodeScript(relativeScriptPath, label = "Script") {
@@ -470,7 +492,18 @@ async function publishXPost(body) {
   }
   const safety = buildPostingSafety({ payload, accountConfig, accountPosts, feedback });
   if (safety.blockReasons.length) throw new Error(safety.blockReasons[0]);
-  const result = await publishToX({ text: body.text, confirmed: body.confirmed, accountId: payload.accountId });
+  const accountAuth = getAccountXPublishStatus(payload.accountId);
+  const globalFallbackAccountId = getXPublishStatus().publishReady ? defaultGlobalPublishAccountId(accountConfig) : "";
+  const useGlobalTokenFallback = !accountAuth.publishReady && payload.accountId === globalFallbackAccountId;
+  if (!accountAuth.publishReady && !useGlobalTokenFallback) {
+    throw new Error(`X token is missing for account ${payload.accountId}. Run npm run x:auth -- --account ${payload.accountId}, or set X_DEFAULT_ACCOUNT_ID to your current global token account.`);
+  }
+  const result = await publishToX({
+    text: body.text,
+    confirmed: body.confirmed,
+    accountId: payload.accountId,
+    useGlobalTokenFallback
+  });
   if (body.toolName && body.toolUrl && body.variantType && body.text) {
     const entry = await upsertFeedback({
       ...payload,

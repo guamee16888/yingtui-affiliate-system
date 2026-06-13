@@ -33,12 +33,23 @@ export function getXPublishStatus(env = process.env, now = new Date()) {
   };
 }
 
-export function getAccountXPublishStatus(accountId, env = process.env, now = new Date()) {
-  const status = getXPublishStatus(scopedAccountEnv(env, accountId), now);
+export function getAccountXPublishStatus(accountId, env = process.env, now = new Date(), options = {}) {
+  const scoped = scopedAccountEnv(env, accountId);
+  const status = getXPublishStatus(scoped, now);
+  const globalStatus = options.useGlobalFallback ? getXPublishStatus(env, now) : null;
+  if (!status.publishReady && globalStatus?.publishReady) {
+    return {
+      ...globalStatus,
+      accountId,
+      envPrefix: accountEnvPrefix(accountId),
+      usesGlobalToken: true
+    };
+  }
   return {
     ...status,
     accountId,
-    envPrefix: accountEnvPrefix(accountId)
+    envPrefix: accountEnvPrefix(accountId),
+    usesGlobalToken: false
   };
 }
 
@@ -75,9 +86,9 @@ export function buildXPostPayload(text) {
   return { text: normalized };
 }
 
-export async function publishToX({ text, confirmed, accountId = "" }, env = process.env) {
+export async function publishToX({ text, confirmed, accountId = "", useGlobalTokenFallback = false }, env = process.env) {
   if (!confirmed) throw new Error("Manual confirmation is required before publishing to X.");
-  const accessToken = await resolveXAccessToken(env, accountId);
+  const accessToken = await resolveXAccessToken(env, accountId, { useGlobalTokenFallback });
   if (!accessToken) {
     throw new Error(accountId
       ? `X token is missing for account ${accountId}. Run npm run x:auth -- --account ${accountId}.`
@@ -115,8 +126,12 @@ export function shouldRefreshXToken(env = process.env, now = new Date()) {
   return expiresAt - now.getTime() < 120000;
 }
 
-export async function resolveXAccessToken(env = process.env, accountId = "") {
+export async function resolveXAccessToken(env = process.env, accountId = "", options = {}) {
   const scoped = accountId ? scopedAccountEnv(env, accountId) : env;
+  if (accountId && options.useGlobalTokenFallback && !getXPublishStatus(scoped).publishReady && getXPublishStatus(env).publishReady) {
+    if (shouldRefreshXToken(env)) return refreshXAccessToken(env);
+    return env.X_ACCESS_TOKEN || "";
+  }
   if (shouldRefreshXToken(scoped)) return refreshXAccessToken(env, accountId);
   return scoped.X_ACCESS_TOKEN || "";
 }

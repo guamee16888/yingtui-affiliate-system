@@ -13,7 +13,7 @@ import { parseCandidatePaste } from "../scripts/lib/candidate-parser.mjs";
 import { evaluateCandidateQualityGate } from "../scripts/lib/candidate-quality-gate.mjs";
 import { buildDecisionReport } from "../scripts/lib/decision-engine.mjs";
 import { buildPromotionReviewQueue, buildPromotionSuggestions } from "../scripts/lib/promotion-engine.mjs";
-import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPublishStatus, getXPublishStatus, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
+import { accountEnvPrefix, accountEnvUpdates, buildXPostPayload, getAccountXPublishStatus, getXPublishStatus, resolveXAccessToken, shouldRefreshXToken } from "../scripts/lib/x-publish.mjs";
 import { mergeDotEnvText, parseDotEnv } from "../scripts/lib/env.mjs";
 import { buildDailyModel, candidateInboxToTools, makeCopyVariants, mergeToolSources, scoreTool } from "../scripts/lib/affiliate-system.mjs";
 import { buildAccountStrategy, recommendAccountForItem } from "../scripts/lib/account-system.mjs";
@@ -2424,6 +2424,24 @@ test("x account token status uses account-scoped env keys", () => {
   assert.equal(status.configured, true);
   assert.equal(status.accountId, "ai_tools_lab");
   assert.equal(JSON.stringify(status).includes("secret"), false);
+});
+
+test("x account status can use global token fallback for the selected account", async () => {
+  const env = {
+    X_ACCESS_TOKEN: "global-secret",
+    X_TOKEN_TYPE: "bearer"
+  };
+  const status = getAccountXPublishStatus("ai_tools_lab", env, new Date("2026-06-12T00:00:00.000Z"), {
+    useGlobalFallback: true
+  });
+  const token = await resolveXAccessToken(env, "ai_tools_lab", { useGlobalTokenFallback: true });
+
+  assert.equal(status.configured, true);
+  assert.equal(status.publishReady, true);
+  assert.equal(status.usesGlobalToken, true);
+  assert.equal(status.accountId, "ai_tools_lab");
+  assert.equal(JSON.stringify(status).includes("global-secret"), false);
+  assert.equal(token, "global-secret");
 });
 
 test("x publish status reports expired refreshable token", () => {

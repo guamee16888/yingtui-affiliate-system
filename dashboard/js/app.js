@@ -631,6 +631,36 @@ function accountAuthById(accountId) {
   return (state.xStatus?.accounts ?? []).find((account) => account.accountId === accountId)?.authStatus ?? null;
 }
 
+function publishableAccounts() {
+  return (state.xStatus?.accounts ?? [])
+    .filter((account) => account.active && account.authStatus?.publishReady);
+}
+
+function isPublishableAccount(accountId) {
+  return publishableAccounts().some((account) => account.accountId === accountId);
+}
+
+function selectedPublishAccountId(preferredId = "") {
+  const accounts = publishableAccounts();
+  if (!accounts.length) return "";
+  const stored = localStorage.getItem("yingtui.publishAccountId") || "";
+  const serverCurrent = state.xStatus?.currentPublishAccountId || "";
+  for (const candidate of [stored, serverCurrent, preferredId, accounts[0]?.accountId]) {
+    if (candidate && isPublishableAccount(candidate)) return candidate;
+  }
+  return accounts[0]?.accountId || "";
+}
+
+function publishAccountIdForTool(tool, preferredId = "") {
+  return selectedPublishAccountId(preferredId || recommendedAccountId(tool));
+}
+
+function publishButton({ toolId, toolName, toolUrl, copy, variant = "shortPost", accountId = "", label = "发布前确认" }) {
+  const targetAccountId = selectedPublishAccountId(accountId);
+  if (!targetAccountId) return "";
+  return `<button class="button publish" data-publish="${attr(toolId)}" data-tool="${attr(toolName)}" data-url="${attr(toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(variant)}" data-account-id="${attr(targetAccountId)}">${esc(label)}</button>`;
+}
+
 function recommendedAccountId(tool) {
   return tool?.accountRecommendation?.primary?.accountId || activeAccounts()[0]?.id || "";
 }
@@ -641,8 +671,19 @@ function accountSelectOptions(selectedId = "") {
   return accounts.map((account) => {
     const selected = account.id === selectedId ? " selected" : "";
     const auth = accountAuthById(account.id);
-    const status = auth?.configured ? "已绑定" : "未绑定";
+    const status = auth?.publishReady ? (auth.usesGlobalToken ? "全局 token" : "已绑定") : "未绑定";
     return `<option value="${attr(account.id)}"${selected}>${esc(account.displayName)} · ${esc(account.category)} · ${status}</option>`;
+  }).join("");
+}
+
+function publishAccountSelectOptions(selectedId = "") {
+  const accounts = publishableAccounts();
+  if (!accounts.length) return `<option value="">没有已绑定账号</option>`;
+  const resolved = selectedPublishAccountId(selectedId);
+  return accounts.map((account) => {
+    const selected = account.accountId === resolved ? " selected" : "";
+    const suffix = account.authStatus?.usesGlobalToken ? "全局 token" : "已绑定";
+    return `<option value="${attr(account.accountId)}"${selected}>${esc(account.displayName)} · ${esc(suffix)}</option>`;
   }).join("");
 }
 
@@ -688,8 +729,8 @@ function accountSafety(tool, copyText, accountId, excludeFeedbackId = "") {
   });
   checks.push({
     label: "授权",
-    value: auth?.configured ? "已绑定" : "未绑定",
-    ok: Boolean(auth?.configured),
+    value: auth?.publishReady ? (auth.usesGlobalToken ? "全局 token" : "已绑定") : "未绑定",
+    ok: Boolean(auth?.publishReady),
     block: true
   });
 
@@ -1519,7 +1560,7 @@ function renderLearningSeedItem(item) {
     <pre class="copy-text">${esc(copy)}</pre>
     <div class="row-actions">
       <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
-      <button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">发布前确认</button>
+      ${publishButton({ toolId: item.toolId, toolName: item.toolName, toolUrl: item.toolUrl, copy, variant: item.variantType, accountId: item.accountId })}
       <button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">标记已发</button>
       <button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">录入反馈</button>
     </div>
@@ -1670,7 +1711,7 @@ function renderSeedTestItem(item) {
     <pre class="copy-text">${esc(copy)}</pre>
     <div class="row-actions">
       <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
-      <button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">发布前确认</button>
+      ${publishButton({ toolId: item.toolId, toolName: item.toolName, toolUrl: item.toolUrl, copy, variant: item.variantType, accountId: item.accountId })}
       <button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">标记已发</button>
       <button class="button ghost" data-feedback="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">录入反馈</button>
     </div>
@@ -1853,7 +1894,7 @@ function renderFocusTask(task) {
       </div>
       <p>${esc(task.detail)}</p>
       <div class="row-actions">
-        ${task.kind === "post" && task.tool ? `<button class="button publish" data-publish="${attr(task.tool.toolId)}" data-tool="${attr(task.tool.name)}" data-url="${attr(task.tool.url)}" data-copytext="${attr(copy)}" data-variant="shortPost">${esc(task.cta)}</button>` : ""}
+        ${task.kind === "post" && task.tool ? publishButton({ toolId: task.tool.toolId, toolName: task.tool.name, toolUrl: task.tool.url, copy, variant: "shortPost", label: task.cta }) : ""}
         ${task.kind === "post" && task.tool ? `<button class="button ghost" data-copy="${attr(copy)}">复制文案</button>` : ""}
         ${task.kind === "wait" ? `<button class="button ghost" data-run-daily>刷新 Live Feed</button>` : ""}
         ${task.kind === "wait" ? `<button class="button ghost" data-tab-jump="affiliate">去做联盟研究</button>` : ""}
@@ -2150,7 +2191,7 @@ function renderSeedPublishCard(item, index) {
     <pre class="copy-text">${esc(copy)}</pre>
     ${checklist ? `<div class="mini-checks">${checklist}</div>` : ""}
     <div class="row-actions">
-      ${status === "ready" ? `<button class="button publish" data-publish="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">发布前确认</button>` : ""}
+      ${status === "ready" ? publishButton({ toolId: item.toolId, toolName: item.toolName, toolUrl: item.toolUrl, copy, variant: item.variantType, accountId: item.accountId }) : ""}
       <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
       ${status === "ready" ? `<button class="button ghost" data-posted="${attr(item.toolId)}" data-tool="${attr(item.toolName)}" data-url="${attr(item.toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(item.variantType)}" data-account-id="${attr(item.accountId)}">标记已发</button>` : ""}
       ${status === "pending_metrics" ? `<button class="button ghost" data-fill-feedback-csv="${attr(item.feedbackCsv)}">填入这条反馈模板</button>` : ""}
@@ -2283,7 +2324,7 @@ function renderFinalReviewCard(item, index) {
     ${item.readiness.blockReasons.length ? `<p class="muted">阻断：${esc(item.readiness.blockReasons.join(" "))}</p>` : ""}
     ${item.readiness.overrideReasons.length ? `<p class="muted">需确认：${esc(item.readiness.overrideReasons.join(" "))}</p>` : ""}
     <div class="row-actions">
-      <button class="button publish" data-publish="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost" data-account-id="${attr(accountId)}">打开发布确认</button>
+      ${publishButton({ toolId: tool.toolId, toolName: tool.name, toolUrl: tool.url, copy: item.text, variant: "shortPost", accountId, label: "打开发布确认" })}
       <button class="button ghost" data-copy="${attr(item.text)}">复制文案</button>
       <button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost" data-account-id="${attr(accountId)}">标记已发</button>
       <button class="button ghost" data-feedback="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(item.text)}" data-variant="shortPost" data-account-id="${attr(accountId)}">录入反馈</button>
@@ -2999,7 +3040,7 @@ function renderCalendarSlot(slot) {
       <pre class="copy-text">${esc(copy)}</pre>
       <div class="row-actions">
         <button class="button ghost" data-copy="${attr(copy)}">复制文案</button>
-        <button class="button publish" data-publish="${attr(slot.toolId)}" data-tool="${attr(slot.toolName)}" data-url="${attr(slot.url)}" data-copytext="${attr(copy)}" data-variant="${attr(slot.variantType)}" data-account-id="${attr(slot.accountId)}">发布前确认</button>
+        ${publishButton({ toolId: slot.toolId, toolName: slot.toolName, toolUrl: slot.url, copy, variant: slot.variantType, accountId: slot.accountId })}
         <button class="button ghost" data-posted="${attr(slot.toolId)}" data-tool="${attr(slot.toolName)}" data-url="${attr(slot.url)}" data-copytext="${attr(copy)}" data-variant="${attr(slot.variantType)}" data-account-id="${attr(slot.accountId)}">标记已发</button>
         <button class="button ghost" data-feedback="${attr(slot.toolId)}" data-tool="${attr(slot.toolName)}" data-url="${attr(slot.url)}" data-copytext="${attr(copy)}" data-variant="${attr(slot.variantType)}" data-account-id="${attr(slot.accountId)}">录入反馈</button>
         <a class="button ghost" href="${attr(slot.url)}" target="_blank" rel="noreferrer">打开来源</a>
@@ -3033,7 +3074,7 @@ function renderAction(action) {
     <p class="muted">${esc(action.reason)}</p>
     <div class="row-actions">
       ${canPublish ? `<button class="button ghost" data-copy="${attr(copy)}">复制相关文案</button>` : ""}
-      ${canPublish ? `<button class="button publish" data-publish="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(copy)}" data-variant="shortPost">发布到 X</button>` : ""}
+      ${canPublish ? publishButton({ toolId: tool.toolId, toolName: tool.name, toolUrl: tool.url, copy, variant: "shortPost", label: "发布到 X" }) : ""}
       ${canPublish ? `<button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(copy)}" data-variant="shortPost">标记已发</button>` : ""}
       ${canQueueThread && tool ? `<button class="button ghost" data-queue="thread" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入长推队列</button>` : ""}
     </div>
@@ -3100,7 +3141,7 @@ function renderCopyBlock(tool, variant, text) {
     <pre class="copy-text">${esc(text)}</pre>
     <div class="copy-actions">
       <button class="button ghost" data-copy="${attr(text)}">Copy</button>
-      <button class="button publish" data-publish="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(text)}" data-variant="${attr(variant)}">发布到 X</button>
+      ${publishButton({ toolId: tool.toolId, toolName: tool.name, toolUrl: tool.url, copy: text, variant, label: "发布到 X" })}
       <button class="button ghost" data-posted="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(text)}" data-variant="${attr(variant)}">标记已发</button>
       <button class="button ghost" data-feedback="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}" data-copytext="${attr(text)}" data-variant="${attr(variant)}">录入反馈</button>
       <button class="button ghost" data-queue="thread" data-tool-id="${attr(tool.toolId)}" data-tool="${attr(tool.name)}" data-url="${attr(tool.url)}">加入长推</button>
@@ -3880,7 +3921,7 @@ function renderAccountCard(account) {
     <div class="line-head">
       <strong>${esc(account.displayName)}</strong>
       ${pill(account.active ? "active" : "paused", account.active ? "good" : "warn")}
-      ${pill(auth?.configured ? "auth bound" : "auth missing", auth?.configured ? "good" : "warn")}
+      ${pill(auth?.publishReady ? (auth.usesGlobalToken ? "global token" : "auth bound") : "auth missing", auth?.publishReady ? "good" : "warn")}
     </div>
     <div class="muted">${esc(account.category)} · ${esc(account.id)}</div>
     <p>${esc(account.description)}</p>
@@ -3896,7 +3937,7 @@ function renderAccountBindingCard(account) {
   return `<article class="account-card">
     <div class="line-head">
       <strong>${esc(account.displayName)}</strong>
-      ${pill(auth?.configured ? xAuthStatus(account.id).label : "未绑定", auth?.configured ? "good" : "warn")}
+      ${pill(auth?.publishReady ? xAuthStatus(account.id).label : "未绑定", auth?.publishReady ? "good" : "warn")}
     </div>
     <div class="muted">${esc(account.id)} · ${esc(auth?.envPrefix ?? "")}</div>
     <pre class="copy-text">${esc(command)}</pre>
@@ -4447,7 +4488,7 @@ function maxTweetCharacters() {
 
 function xAuthStatus(accountId = "") {
   const status = accountId ? accountAuthById(accountId) || {} : state.xStatus ?? {};
-  if (!status.configured) {
+  if (!status.publishReady) {
     return {
       label: "未配置",
       blocked: true,
@@ -4480,7 +4521,7 @@ function xAuthStatus(accountId = "") {
     };
   }
   return {
-    label: "已配置",
+    label: status.usesGlobalToken ? "全局 token" : "已配置",
     blocked: false,
     warning: false,
     reason: "X token 可用。"
@@ -4791,7 +4832,11 @@ function openPublish(button) {
   const text = button.dataset.copytext || "";
   const tool = (state.latest?.tools ?? []).find((item) => item.toolId === button.dataset.publish);
   state.publishTool = tool ?? null;
-  const accountId = button.dataset.accountId || recommendedAccountId(tool);
+  const accountId = publishAccountIdForTool(tool, button.dataset.accountId);
+  if (!accountId) {
+    toast("没有已绑定的 X 账号。先运行 npm run x:auth，或设置 X_DEFAULT_ACCOUNT_ID。");
+    return;
+  }
   const data = {
     toolId: button.dataset.publish,
     toolName: button.dataset.tool,
@@ -4801,7 +4846,7 @@ function openPublish(button) {
     accountId,
     text
   };
-  $("#publishAccountSelect").innerHTML = accountSelectOptions(accountId);
+  $("#publishAccountSelect").innerHTML = publishAccountSelectOptions(accountId);
   for (const key of ["toolId", "toolName", "toolUrl", "sourceDate", "variantType", "accountId", "text"]) {
     if (form.elements[key]) form.elements[key].value = data[key] ?? "";
   }
@@ -5258,7 +5303,9 @@ $("#cancelFeedback").addEventListener("click", () => $("#feedbackDialog").close(
 $("#publishForm").addEventListener("submit", submitPublish);
 $("#publishForm").elements.text.addEventListener("input", updatePublishCount);
 $("#publishForm").elements.accountId.addEventListener("change", () => {
-  $("#publishRisk").innerHTML = renderPublishRisk(state.publishTool, $("#publishForm").elements.accountId.value);
+  const accountId = $("#publishForm").elements.accountId.value;
+  if (accountId) localStorage.setItem("yingtui.publishAccountId", accountId);
+  $("#publishRisk").innerHTML = renderPublishRisk(state.publishTool, accountId);
   updatePublishReview();
 });
 $("#cancelPublish").addEventListener("click", () => $("#publishDialog").close());

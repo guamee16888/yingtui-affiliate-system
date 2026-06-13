@@ -44,6 +44,29 @@ app.guamee.org
 - `app.guamee.org` 当前只应该部署 `app-placeholder/` 占位页，并放在 Cloudflare Access 后面。
 - 每个 workspace 默认控制 30 个以内 X 账号。员工或执行人员处理这 30 个账号内的任务，但不拥有平台总后台。
 
+## Local Runtime Data
+
+本地跑 `npm run daily` 会更新运营数据，例如 `data/latest.json`、`data/daily/` 和 `output/` 里的每日报告。这些数据是你的运营资产，不是产品代码，不应该提交到 GitHub。
+
+如果需要备份，把运行产物放到仓库外部，例如：
+
+```text
+/Users/dadada/Documents/英推-runtime-backups/YYYY-MM-DD-HHMMSS/
+```
+
+公开部署只走 sanitized build：`guamee.org` 使用演示数据，`admin.guamee.org` 使用 Access 保护的 admin demo。真实运营数据现在应该保存在本地，未来再进入私有 D1/Postgres。
+
+提交前建议运行：
+
+```bash
+npm run git:safety
+npm run release:check:public
+npm run check
+npm test
+```
+
+详细说明见 [docs/ops/local-runtime-data.md](docs/ops/local-runtime-data.md)。
+
 ## D1 Local MVP
 
 D1 Local MVP 是给未来 `app.guamee.org` 准备的数据库地基。当前默认仍然是本地 JSON 模式：

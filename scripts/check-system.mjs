@@ -103,6 +103,7 @@ const requiredScripts = [
   "today-plan",
   "weekly",
   "backend:contract",
+  "git:safety",
   "d1:status",
   "d1:migrate:local",
   "d1:seed:local",

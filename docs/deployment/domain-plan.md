@@ -4,8 +4,12 @@ This project now has three separate deployment targets.
 
 ## guamee.org
 
-Public website plus sanitized read-only demo.
+Public website plus sanitized manager demo.
 
+- Cloudflare Pages project: `ai-creator-os-public`
+- Git provider: GitHub
+- Repository: `guamee16888/yingtui-affiliate-system`
+- Production branch: `main`
 - Build command: `npm run build:public`
 - Output directory: `dist`
 - Public entry: `/`
@@ -13,6 +17,8 @@ Public website plus sanitized read-only demo.
 - Must not expose `/dashboard`
 - Must not expose `/staff`
 - Must not package real `data/`, `output/`, `.env`, tokens, real X accounts, posted URLs, or real affiliate links
+
+The old direct-upload project `ai-creator-os` must not own `guamee.org`. It does not auto-deploy from GitHub.
 
 ## admin.guamee.org
 

@@ -1,6 +1,33 @@
 # Public Demo Deployment
 
-`guamee.org` is the public marketing surface. It is safe to show to strangers because it only contains a product page and a sanitized read-only manager demo.
+`guamee.org` is the public marketing surface. It is safe to show to strangers because it only contains a product page and a sanitized manager demo running in demo mode.
+
+## Cloudflare Pages project
+
+```text
+Project name:
+ai-creator-os-public
+
+Git provider:
+GitHub
+
+Repository:
+guamee16888/yingtui-affiliate-system
+
+Production branch:
+main
+
+Build command:
+npm run build:public
+
+Output directory:
+dist
+
+Custom domain:
+guamee.org
+```
+
+The previous `ai-creator-os` Pages project was a direct-upload project. It should no longer own `guamee.org`; keep the domain on `ai-creator-os-public` so GitHub pushes trigger automatic public deployments.
 
 ## Build
 
@@ -41,7 +68,7 @@ real affiliate links
 
 ## Runtime behavior
 
-- The root page links only to the read-only manager demo, GitHub, and Telegram.
+- The root page links only to the manager demo, GitHub, and Telegram.
 - `/manager/` reads `/data/demo-manager-summary.json` when no API exists.
 - Write buttons keep their visual shape but do not write in the public demo.
 - Product Hunt refresh, feedback writes, queue writes, affiliate writes, and X publishing stay local-only.

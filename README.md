@@ -1029,6 +1029,20 @@ Your posted copy...	https://x.com/your/status/123	1200	18	6	3	1	9	4
 
 `guamee.org` 现在只适合做公开官网和 sanitized 演示模式 Demo。公开构建由 `npm run build:public` 生成，根页面是产品介绍，只链接到管理端 Demo。
 
+Cloudflare Pages 当前配置：
+
+```text
+Project name: ai-creator-os-public
+Git provider: GitHub
+Repository: guamee16888/yingtui-affiliate-system
+Production branch: main
+Build command: npm run build:public
+Output directory: dist
+Custom domain: guamee.org
+```
+
+旧的 `ai-creator-os` 是 direct-upload 项目，不会跟随 GitHub 自动部署；`guamee.org` 不应该再挂在旧项目上。
+
 兼容别名：
 
 ```text

@@ -4,6 +4,7 @@ const state = {
   managerUserId: params.get("managerUserId") || "",
   status: "all",
   data: null,
+  demoMode: false,
   selectedTaskIds: new Set()
 };
 
@@ -115,17 +116,29 @@ async function loadManager() {
     const suffix = query.toString() ? `?${query}` : "";
     const json = await apiGet(`/api/manager/summary${suffix}`);
     state.data = json;
+    state.demoMode = false;
     state.workspaceId = json.selectedWorkspace?.workspaceId || "";
     state.managerUserId = json.selectedManager?.userId || "";
     updateUrl();
     render();
   } catch (error) {
-    $("#statusText").textContent = `读取失败：${error.message}`;
-    toast(error.message);
+    try {
+      state.data = await readStaticDemo();
+      state.demoMode = true;
+      state.workspaceId = state.data.selectedWorkspace?.workspaceId || "workspace_default";
+      state.managerUserId = state.data.selectedManager?.userId || "";
+      updateUrl();
+      render();
+      toast("已进入只读 Demo 模式");
+    } catch {
+      $("#statusText").textContent = `读取失败：${error.message}`;
+      toast(error.message);
+    }
   }
 }
 
 async function updateTask(taskId, action, extra = {}) {
+  if (state.demoMode) throw new Error("公开 Demo 只读，不会写入任务。");
   const json = await apiPost("/api/manager/task", {
     taskId,
     action,
@@ -149,6 +162,7 @@ function render() {
     return;
   }
   $("#statusText").textContent = `${state.data.selectedWorkspace?.name || "Workspace"} · ${state.data.summary.pendingReview} 条待审核 · ${state.data.summary.unassigned} 条未分配`;
+  renderModeNotice();
   renderSelectors();
   renderMetrics();
   renderResources();
@@ -163,6 +177,14 @@ function renderSelectors() {
   $("#managerSelect").innerHTML = (state.data.managers || []).map((manager) => `
     <option value="${attr(manager.userId)}" ${manager.userId === state.managerUserId ? "selected" : ""}>${esc(manager.name)} (${esc(manager.role)})</option>
   `).join("");
+}
+
+function renderModeNotice() {
+  const notice = $("#modeNotice");
+  if (!notice) return;
+  notice.innerHTML = state.demoMode
+    ? `<strong>公开演示环境，仅可查看，不能保存或发布。</strong> 这里展示 workspace 管理端的信息架构。按钮会保留界面形态，但不会写入任务、不会连接真实 X 账号，也不会显示平台总后台。`
+    : `<strong>管理端规则：</strong>这里只管理当前 workspace 的账号、任务审核、分配和反馈状态。默认控制 30 个以内账号，不显示平台总后台，不自动发推。`;
 }
 
 function renderMetrics() {
@@ -184,14 +206,19 @@ function renderMetrics() {
 function renderResources() {
   const accounts = state.data.accounts || [];
   const staff = state.data.staff || [];
+  const accountLimit = Number(state.data.selectedWorkspace?.accountLimit || 30);
   $("#workspaceResources").innerHTML = `
     <div class="resource-list">
+      <div class="resource-card">
+        <strong>账号容量</strong>
+        <span>${accounts.length}/${accountLimit} accounts in this workspace</span>
+      </div>
       <div class="resource-card">
         <strong>可分配账号</strong>
         <span>${accounts.length ? accounts.map((account) => account.persona || account.accountId).join(" / ") : "none"}</span>
       </div>
       <div class="resource-card">
-        <strong>可分配员工</strong>
+        <strong>执行人员</strong>
         <span>${staff.length ? staff.map((user) => user.name || user.userId).join(" / ") : "none"}</span>
       </div>
       <div class="resource-card">
@@ -431,9 +458,17 @@ function badge(text, type = "") {
 
 async function apiGet(path) {
   const res = await fetch(path);
+  const contentType = res.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) throw new Error(`${path} returned a static page`);
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || `GET ${path} failed`);
   return json.data;
+}
+
+async function readStaticDemo() {
+  const res = await fetch(`/data/demo-manager-summary.json?t=${Date.now()}`);
+  if (!res.ok) throw new Error("static manager demo is missing");
+  return res.json();
 }
 
 async function apiPost(path, body) {

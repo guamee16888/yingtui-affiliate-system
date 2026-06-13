@@ -85,6 +85,16 @@ const requiredScripts = [
   "review:generate",
   "today-plan",
   "weekly",
+  "backend:contract",
+  "admin:preflight",
+  "verify:admin-access",
+  "demo:sanitize",
+  "build:public",
+  "build:admin-demo",
+  "build:demo",
+  "release:check:public",
+  "release:check:admin",
+  "release:check",
   "check",
   "test"
 ];

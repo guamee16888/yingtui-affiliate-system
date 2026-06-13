@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI Creator OS Manager</title>
+    <title>AI Creator OS Workspace Manager</title>
     <link rel="stylesheet" href="/manager/style.css">
   </head>
   <body>
     <header class="shell-header">
       <div>
-        <p class="eyebrow">AI Creator OS · Workspace task review</p>
-        <h1>主管审核台</h1>
+        <p class="eyebrow">AI Creator OS · Workspace manager</p>
+        <h1>Workspace 管理端</h1>
         <p class="subtitle" id="statusText">读取 workspace 任务中...</p>
       </div>
       <div class="header-actions">
@@ -23,14 +23,13 @@
           <select id="managerSelect"></select>
         </label>
         <button class="button secondary" id="refreshButton" type="button">刷新</button>
-        <a class="button secondary" href="/staff/">员工台</a>
       </div>
     </header>
 
     <main>
-      <section class="notice">
-        <strong>极简审核规则：</strong>
-        这里只审核当前 workspace 的任务，支持批准、拒绝、分配账号和员工。不会显示平台全局数据源，不会自动发推。
+      <section class="notice" id="modeNotice">
+        <strong>管理端规则：</strong>
+        这里只管理当前 workspace 的账号、任务审核、分配和反馈状态。默认控制 30 个以内账号，不显示平台总后台，不自动发推。
       </section>
 
       <section class="metrics" id="metrics"></section>
@@ -45,7 +44,7 @@
           <div class="panel-head">
             <div>
               <h2>任务审核</h2>
-              <p id="taskHint">任务批准并分配后，员工可在 /staff 继续复制和手动发布。</p>
+              <p id="taskHint">任务批准并分配后，执行人员使用同一个 workspace 任务池继续处理，不需要公开拆出员工入口。</p>
             </div>
             <select id="statusFilter" aria-label="任务状态">
               <option value="all">全部</option>

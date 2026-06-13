@@ -1,106 +1,100 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Affiliate Topic Dashboard</title>
+    <title>AI Creator OS</title>
+    <meta name="description" content="AI Creator OS 是一个面向多账号 X 内容运营的选题、审核、发布准备和反馈闭环系统。">
     <link rel="stylesheet" href="/public/styles.css">
   </head>
   <body>
-    <header class="app-header">
-      <div>
-        <p class="eyebrow">本地 Affiliate 选题验证</p>
-        <h1>英推选题看板</h1>
-      </div>
-      <div class="header-actions">
-        <a class="button ghost" href="/output/2026-06-06-daily-x-pack.md" id="markdownLink">打开 Markdown</a>
-        <button class="button" id="refreshButton" type="button">刷新数据</button>
-      </div>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark">A</span>
+        <span>AI Creator OS</span>
+      </a>
+      <nav class="nav-links" aria-label="Public navigation">
+        <a href="/manager/?workspaceId=workspace_default">Demo</a>
+        <a href="https://github.com/guamee16888/yingtui-affiliate-system" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://t.me/valuator8" target="_blank" rel="noreferrer">Telegram</a>
+      </nav>
     </header>
 
     <main>
-      <section class="summary-grid" id="summaryGrid" aria-label="Daily summary"></section>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="label">Public safe demo</p>
+          <h1>AI Creator OS for multi-account X content ops</h1>
+          <p class="lede">
+            从候选收集、内容线、任务审核到反馈复盘，把多账号发文变成一条可控的运营流水线。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="/manager/?workspaceId=workspace_default">打开管理端 Demo</a>
+            <a class="button secondary" href="https://t.me/valuator8" target="_blank" rel="noreferrer">联系我</a>
+          </div>
+        </div>
 
-      <section class="layout">
-        <aside class="side-panel">
-          <section class="panel">
-            <div class="panel-heading">
-              <div>
-                <h2>今天照做</h2>
-                <p class="panel-note">先发 3 条推，再查 1 个 Affiliate，再留 1 个长文候选。</p>
-              </div>
+        <aside class="demo-panel" aria-label="Demo scope">
+          <div class="panel-topline">
+            <span>guamee.org</span>
+            <strong>只读公开 Demo</strong>
+          </div>
+          <div class="scope-list">
+            <div>
+              <span>公开展示</span>
+              <strong>管理端 Demo</strong>
             </div>
-            <ol class="action-list" id="actionList"></ol>
-          </section>
-
-          <section class="panel">
-            <div class="panel-heading">
-              <div>
-                <h2>Affiliate 待查</h2>
-                <p class="panel-note">这些工具有变现潜力，但还没配置你的联盟链接。</p>
-              </div>
+            <div>
+              <span>账号规模</span>
+              <strong>30 个以内</strong>
             </div>
-            <div class="queue-list" id="affiliateQueue"></div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-heading">
-              <h2>历史记录</h2>
-            </div>
-            <div class="history-list" id="historyList"></div>
-          </section>
-        </aside>
-
-        <section class="workspace">
-          <div class="toolbar">
-            <label class="search-label">
-              <span>搜索</span>
-              <input id="searchInput" type="search" placeholder="工具名、用途、动作">
-            </label>
-            <div class="filter-group" aria-label="Follow-up filters">
-              <button class="filter active" type="button" data-filter="all">全部</button>
-              <button class="filter" type="button" data-filter="tweet only">只发单条</button>
-              <button class="filter" type="button" data-filter="thread candidate">适合长推</button>
-              <button class="filter" type="button" data-filter="review page candidate">适合测评页</button>
-              <button class="filter" type="button" data-filter="affiliate priority">优先查联盟</button>
-              <button class="filter" type="button" data-filter="skip">跳过</button>
+            <div>
+              <span>真实写入</span>
+              <strong>关闭</strong>
             </div>
           </div>
+        </aside>
+      </section>
 
-          <section class="tool-list" id="toolList" aria-label="Tool cards"></section>
+      <section class="boundary-grid" aria-label="Product boundary">
+        <article class="primary-card">
+          <span class="card-kicker">Public entry</span>
+          <h2>管理端 Demo</h2>
+          <p>
+            给外部访客看的只有 workspace 管理端：账号、任务审核、分配和反馈状态。它展示产品能力，但不连接真实 X 账号，也不写入生产数据。
+          </p>
+          <a class="inline-link" href="/manager/?workspaceId=workspace_default">进入 Demo</a>
+        </article>
 
-          <section class="panel low-priority">
-            <div class="panel-heading">
-              <h2>跳过 / 低优先级</h2>
-            </div>
-            <div class="skipped-list" id="skippedList"></div>
-          </section>
-        </section>
+        <article class="boundary-card private">
+          <span class="card-kicker">Owner only</span>
+          <h2>ad.guamee.org</h2>
+          <p>
+            平台总后台只给你自己看。这里才放全局数据源、所有 workspace、内容线策略、发布队列和系统配置。
+          </p>
+          <code>private admin console</code>
+        </article>
+
+        <article class="boundary-card">
+          <span class="card-kicker">Future app</span>
+          <h2>app.guamee.org</h2>
+          <p>
+            真实客户应用以后放这里。管理端和执行人员共用同一个 workspace 任务池，默认控制 30 个以内账号。
+          </p>
+          <code>auth required</code>
+        </article>
+      </section>
+
+      <section class="flow-section" aria-label="Workflow">
+        <h2>一条更安全的内容生产链路</h2>
+        <div class="flow">
+          <span>候选收集</span>
+          <span>内容线过滤</span>
+          <span>任务审核</span>
+          <span>手动确认发布</span>
+          <span>反馈复盘</span>
+        </div>
       </section>
     </main>
-
-    <template id="toolCardTemplate">
-      <article class="tool-card">
-        <div class="tool-card-header">
-          <div>
-            <div class="tool-meta"></div>
-            <h2></h2>
-            <p class="tagline"></p>
-          </div>
-          <strong class="score"></strong>
-        </div>
-        <div class="status-row"></div>
-        <p class="reason"></p>
-        <div class="score-bars"></div>
-        <div class="copy-tabs"></div>
-        <pre class="copy-text"></pre>
-        <div class="card-actions">
-          <button class="button copy-button" type="button">复制文案</button>
-          <a class="button ghost product-link" target="_blank" rel="noreferrer">Product Hunt</a>
-        </div>
-      </article>
-    </template>
-
-    <script src="/public/app.js" type="module"></script>
   </body>
 </html>

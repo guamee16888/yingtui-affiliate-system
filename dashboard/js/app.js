@@ -299,6 +299,9 @@ async function loadStaticFallback(apiError) {
 }
 
 function staticModeMessage(apiError) {
+  if (isAdminDemoBuild()) {
+    return "受保护总后台演示：静态只读数据，不能刷新、写入反馈或发布到 X。";
+  }
   if (location.hostname.endsWith("vercel.app")) {
     return "Vercel 静态只读模式：可以查看数据，不能刷新、写入反馈或发布到 X。本地操作请运行 npm start。";
   }
@@ -430,6 +433,9 @@ function isReadOnlyMode() {
 }
 
 function readOnlyActionMessage() {
+  if (isAdminDemoBuild()) {
+    return "受保护总后台演示是只读预览。真实写入必须回到本地或未来 app.guamee.org。";
+  }
   return location.hostname.endsWith("vercel.app")
     ? "线上 Vercel 是只读版。要刷新、保存反馈、生成文件或发布到 X，请回本机运行 npm start。"
     : "当前 API 不可用，页面处于静态只读模式。请确认本地 npm start 正在运行。";
@@ -465,10 +471,18 @@ function render() {
 
 function renderModeBanner() {
   const banner = $("#modeBanner");
+  const adminDemo = isAdminDemoBuild();
   const publicDemo = location.hostname.endsWith("vercel.app");
-  banner.hidden = !publicDemo;
-  if (!publicDemo) {
+  banner.hidden = !(adminDemo || publicDemo);
+  if (!adminDemo && !publicDemo) {
     banner.innerHTML = "";
+    return;
+  }
+  if (adminDemo) {
+    banner.innerHTML = `<div>
+      <strong>受保护总后台演示</strong>
+      <p>这个页面只应该部署在 Cloudflare Access 保护的 ad.guamee.org / admin.guamee.org 后面。当前使用 sanitized demo data，不能写入、不能 live publish。</p>
+    </div>`;
     return;
   }
   banner.innerHTML = `<div>
@@ -476,6 +490,11 @@ function renderModeBanner() {
     <p>这里展示的是已生成的数据和产品界面。刷新 Live Feed、导入候选、保存反馈、发布到 X 都必须在本机运行 <code>npm start</code> 后手动确认。</p>
   </div>
   <a class="button ghost" href="https://github.com/guamee16888/yingtui-affiliate-system" target="_blank" rel="noreferrer">查看 GitHub</a>`;
+}
+
+function isAdminDemoBuild() {
+  return document.body?.dataset?.buildTarget === "admin-demo"
+    || ["ad.guamee.org", "admin.guamee.org"].includes(location.hostname);
 }
 
 function updateRunDailyControls() {
@@ -580,7 +599,8 @@ function renderReadiness() {
   const gate = feedbackDebtGate();
   const gateMax = publishGateMax(gate);
   const gateBlocks = feedbackGateBlocksPublishing(gate);
-  const safeApiReady = gateBlocks ? 0 : Math.min(apiReady, gateMax);
+  const publishableByFreshness = !latest.source?.usedFallback && !isOldData;
+  const safeApiReady = gateBlocks || !publishableByFreshness ? 0 : Math.min(apiReady, gateMax);
   const confidenceKind = latest.source?.usedFallback ? "bad" : gateBlocks ? "bad" : isOldData ? "warn" : safeApiReady ? "good" : "warn";
   const confidenceText = latest.source?.usedFallback
     ? "不要 API 发"
@@ -601,7 +621,7 @@ function renderReadiness() {
       <button class="button ghost" type="button" data-run-daily>${state.dailyRun.running ? "刷新中..." : "刷新 Live Feed"}</button>
     </div>
     <div class="readiness-stats">
-      <div><strong>${esc(safeApiReady)}</strong><span>建议花 credits 发</span></div>
+      <div><strong>${esc(safeApiReady)}</strong><span>可 API 发布</span></div>
       <div><strong>${esc(stats.freshToday)}</strong><span>Fresh today</span></div>
       <div><strong>${esc(stats.fresh48)}</strong><span>Fresh 48h</span></div>
       <div><strong>${esc(stats.genericNews)}</strong><span>Generic news</span></div>
@@ -627,7 +647,15 @@ function renderPublishGuard(latest, stats, ageMinutes) {
   const feedbackKind = gateBlocks ? "bad" : gate?.severity === "warn" ? "warn" : "good";
   const ageLabel = ageMinutes === null ? "数据年龄未知" : `数据年龄 ${formatDuration(ageMinutes)}`;
   const sourceLabel = latest.source?.usedFallback ? "Fallback sample" : "Live feed";
-  const ruleLabel = gateBlocks ? "先补 X Analytics" : stats.apiReady > 0 ? `只发 ${Math.min(stats.apiReady, publishGateMax(gate))} 条新鲜候选` : "今天先不 API 发";
+  const ruleLabel = latest.source?.usedFallback
+    ? "不要 API 发"
+    : stale
+      ? "先刷新再发"
+      : gateBlocks
+        ? "先补 X Analytics"
+        : stats.apiReady > 0
+          ? `只发 ${Math.min(stats.apiReady, publishGateMax(gate))} 条新鲜候选`
+          : "今天先不 API 发";
 
   return `<div class="readiness-guardrails">
     <div class="${ageKind}">

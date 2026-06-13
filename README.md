@@ -6,7 +6,7 @@ An operating system for managing multi-account X content workflows. Built for AI
 
 **Keywords:** AI Twitter automation, multi-account X content ops, AI tweet planner, affiliate marketing system, Product Hunt radar, SaaS founder content, indie hacker content, crypto builder content, review-first publishing, manual-confirm tweet automation, X growth workflow.
 
-**Live Demo:** [yingtui-affiliate-system.vercel.app](https://yingtui-affiliate-system.vercel.app)
+**Live Demo:** [guamee.org](https://guamee.org)
 
 **GitHub:** [guamee16888/yingtui-affiliate-system](https://github.com/guamee16888/yingtui-affiliate-system)
 
@@ -19,6 +19,32 @@ An operating system for managing multi-account X content workflows. Built for AI
 它适合现在这个阶段：先验证哪些小工具有人点、有人问、有人收藏，再决定要不要做长推、测评页或 Affiliate 转化。
 
 它不会绕过 X 规则，不接数据库，不登录，不上传数据，不保证收益，也不会编造 affiliate link、价格、佣金、点击量或收入。Dashboard 支持手动确认发布；新增的发布队列默认 dry-run，`globalAutoPublishEnabled` 默认关闭，未审核、重复、超 280 字或未授权的任务不会 live 发布。
+
+## 产品入口边界
+
+当前固定成三层：
+
+```text
+guamee.org
+= 公开官网 + sanitized 只读管理端 Demo
+
+admin.guamee.org
+= 未来私有平台总后台，只给我自己或平台 admin 看
+
+ad.guamee.org
+= 可选短域名，不如 admin.guamee.org 直观
+
+app.guamee.org
+= 未来真实 workspace 应用，需要登录和 workspace 权限
+```
+
+重要边界：
+
+- `guamee.org` 不展示老板总后台，不展示员工端入口，不打包真实 `data/`、`output/` 或 `.env`。
+- `/dashboard` 是本地老板策略台，未来只应该放在 `admin.guamee.org` 或 `ad.guamee.org` 这种私有入口后面。
+- 公开 Demo 只展示 `/manager/?workspaceId=workspace_default`，而且是只读示例数据。
+- 真实客户/团队以后进 `app.guamee.org`。第一版可以把管理端和执行人员操作合在同一个 workspace 管理端里，不必公开拆成 manager/staff 两个入口。
+- 每个 workspace 默认控制 30 个以内 X 账号。员工或执行人员处理这 30 个账号内的任务，但不拥有平台总后台。
 
 ## 快速开始
 
@@ -187,11 +213,11 @@ raw candidate
 
 ## Workspace & Content Lanes
 
-AI Creator OS 现在按三层后台拆开：
+AI Creator OS 现在按域名和权限分层：
 
-- `/dashboard` 是平台总后台，只给老板/admin 使用。它能看全局数据源、内容线、工具池、任务池、发布队列、post-ledger、duplicate risk、所有 workspace 概览和系统配置。
-- `/manager/?workspaceId=workspace_default` 是客户/主管管理端，只能看当前 workspace 的账号、员工、任务、publish jobs、反馈和已订阅内容线。它不显示其他 workspace，不显示平台数据源 API key，也不显示全局账本全量。
-- `/staff/?workspaceId=workspace_default&userId=user_owner` 是员工工作台，只能看当前员工在当前 workspace 被分配的账号和任务，以及自己待补反馈。它不看全局工具池、不看全局内容线配置、不看其他员工任务，也不看 publish settings 全局开关。
+- `/dashboard` 是平台总后台，只给老板/admin 使用。它能看全局数据源、内容线、工具池、任务池、发布队列、post-ledger、duplicate risk、所有 workspace 概览和系统配置。公开站不应该暴露这个入口，未来放在 `ad.guamee.org` 后面。
+- `/manager/?workspaceId=workspace_default` 是 workspace 管理端，只能看当前 workspace 的账号、执行人员、任务、publish jobs、反馈和已订阅内容线。它不显示其他 workspace，不显示平台数据源 API key，也不显示全局账本全量。公开 Demo 只暴露这个入口，并使用示例数据。
+- `/staff/?workspaceId=workspace_default&userId=user_owner` 仍保留为本地实现面，但不作为公开产品入口。未来真实应用可以把员工执行放进同一个 workspace 管理流程里，让团队共同管理 30 个以内账号。
 
 Workspace & Content Lanes 解决的是商业化之后最容易乱的问题：客户管理端可以分开，但数据源不能每个客户单独接一套。客户只订阅内容线，不拥有平台 source connectors。
 
@@ -971,25 +997,161 @@ Your posted copy...	https://x.com/your/status/123	1200	18	6	3	1	9	4
 - 如果没有 `copyText`，系统会用匹配工具对应的文案补上。
 - 如果某一行无法匹配 toolName/toolUrl/copyText，会跳过并提示。
 
-## Vercel 版本
+## Public Demo Deployment
 
-这个项目可以部署到 Vercel 做只读 Dashboard，方便你在外面查看当天候选、历史和队列。
+`guamee.org` 现在只适合做公开官网和 sanitized 只读 Demo。公开构建由 `npm run build:public` 生成，根页面是产品介绍，只链接到只读管理端 Demo。
 
-线上版本的边界：
+兼容别名：
 
-- 可以读取仓库里的 `dashboard/`、`data/`、`output/` 静态文件。
-- 可以打开 Dashboard、看 `data/latest.json`、看历史和队列快照。
+```text
+build:demo = build:public
+release:check = release:check:public
+```
+
+公开版本的边界：
+
+- 公开根页面不链接 `/dashboard`。
+- 公开根页面不链接 `/staff`。
+- `dist/` 不包含真实 `data/` 和 `output/` 文件夹。
+- `dist/` 不包含 `.env`。
+- `dist/` 只包含 `public/`、`manager/` 和 `data/demo-manager-summary.json`。
+- 管理端 Demo 在没有 API 时读取 `demo-manager-summary.json`，只展示示例 workspace，不写入任务。
 - 不能刷新 Product Hunt。
 - 不能写入 feedback / queue / affiliate research。
-- 不能发布到 X，也不要在 Vercel 配置 X token。
+- 不能发布到 X，也不要在公开部署环境配置 X token。
 
-本地仍然是唯一的工作台：
+私有后台边界：
+
+- `ad.guamee.org`：未来私有老板总后台，必须先接 Cloudflare Access 或等价访问控制。
+- `app.guamee.org`：未来真实 workspace 应用，需要登录、权限、workspace 隔离和数据库。
+
+本地仍然是唯一真实运营工作台：
 
 ```bash
 npm start
 ```
 
-如果要更新线上看到的数据，先在本地跑 `npm run daily`，确认 `data/latest.json` 更新后，再提交并部署。
+部署前检查：
+
+```bash
+npm run demo:sanitize
+npm run build:public
+npm run release:check:public
+```
+
+## Admin Demo Deployment
+
+`admin.guamee.org` 是未来私有老板总后台预览环境。这个构建可以包含 `/dashboard`，但只能部署在 Cloudflare Access 保护的子域名后面。
+
+`ad.guamee.org` 也可以用，但 `admin.guamee.org` 更直观，不容易被理解成广告域名。
+
+部署前先跑：
+
+```bash
+npm run admin:preflight
+```
+
+Admin demo 构建：
+
+```bash
+npm run build:admin-demo
+npm run release:check:admin
+```
+
+Admin demo 的边界：
+
+- 可以包含 `dashboard/`。
+- 可以包含 `manager/`。
+- 当前不包含公开员工端入口。
+- 只使用 sanitized demo data。
+- 页面必须显示 `受保护总后台演示`。
+- `globalAutoPublishEnabled=false`。
+- `dryRunByDefault=true`。
+- 不包含真实 `data/`、`output/`、`.env`、token、真实 X handle、真实 postedUrl 或真实 affiliate link。
+- 不允许 live publish。
+- 不允许真实写入。
+
+Cloudflare Pages admin 项目建议：
+
+```text
+Project name: ai-creator-os-admin
+Production branch: main
+Build command: npm run build:admin-demo
+Output directory: dist
+Custom domain: admin.guamee.org
+```
+
+Cloudflare Access 验证：
+
+```bash
+npm run verify:admin-access
+```
+
+如果还没有配置 DNS / Pages custom domain / Access，这个命令可能失败，这是正常的。配置完成后，未登录访问 `https://admin.guamee.org` 应该被 Access 拦截；登录后才能看到 `受保护总后台演示`。
+
+如果要验证其他域名：
+
+```bash
+npm run verify:admin-access -- --url https://ad.guamee.org
+```
+
+本地或临时开放预览可用：
+
+```bash
+npm run verify:admin-access -- --url http://127.0.0.1:4175/dashboard/ --expect-open
+```
+
+Cloudflare 手动配置说明：
+
+- [docs/deployment/domain-plan.md](docs/deployment/domain-plan.md)
+- [docs/deployment/public-demo.md](docs/deployment/public-demo.md)
+- [docs/deployment/admin-access.md](docs/deployment/admin-access.md)
+- [docs/deployment/admin-pages-project.md](docs/deployment/admin-pages-project.md)
+- [docs/deployment/cloudflare-access-admin.md](docs/deployment/cloudflare-access-admin.md)
+
+建议先用 `admin.guamee.org`，名字更直观；如果你已经决定用 `ad.guamee.org`，也可以。
+
+如果要把真实应用接到 D1，先通过 backend contract：
+
+```bash
+npm run backend:contract
+```
+
+## App Backend Roadmap
+
+真实可写后台以后不要直接在线上写 JSON。JSON 模式适合本地验证和快速迭代，但多人、多 workspace、多账号以后需要服务端权限、审计日志和数据库事务。
+
+建议路线：
+
+1. `guamee.org` 保持公开静态 Demo。
+2. `ad.guamee.org` 先用 Cloudflare Access 保护，只给 owner/admin 进入。
+3. `app.guamee.org` 先用 Cloudflare Access 做内测，再做正式 workspace 登录。
+4. Cloudflare D1 作为第一版主数据库，存 workspace、users、accounts、tasks、ledger、feedback、publish jobs、audit logs。
+5. Cloudflare KV 只放低风险缓存、feature flags 或公开配置，不当任务状态主库。
+6. Cloudflare Queues 以后用于 source ingest、publish jobs 和异步重试。
+7. 接 D1 前先让 `npm run backend:contract` 通过。
+
+当前已提供：
+
+- `docs/backend/app-backend-contract.md`
+- `docs/backend/data-boundary.md`
+- `docs/backend/d1-schema.sql`
+- `docs/backend/api-contract.md`
+- `docs/backend/auth-plan.md`
+- `docs/backend/json-to-d1-migration-plan.md`
+- `docs/backend/security-checklist.md`
+- `docs/backend/deployment-plan.md`
+- `scripts/lib/storage-adapter.mjs`
+- `scripts/lib/json-storage-adapter.mjs`
+- `scripts/lib/d1-storage-adapter.stub.mjs`
+
+当前仍然没有做：
+
+- 不接真实 D1。
+- 不接真实登录。
+- 不做云端 token 托管。
+- 不做无确认自动发推。
+- 不把真实老板总后台放到 `guamee.org`。
 
 ## Affiliate Research 搜索
 

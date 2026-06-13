@@ -75,7 +75,7 @@ D1 Local MVP 是给未来 `app.guamee.org` 准备的数据库地基。当前默�
 APP_STORAGE_MODE=json
 ```
 
-JSON 适合现在的本地单人开发、公开 demo 构建和快速验证；D1 是未来真实 workspace、manager/staff 写入、审计日志、任务审核和反馈闭环的主数据库。本轮只做 local D1，不操作远程 D1，不接真实登录，不接 X live publish。
+JSON 适合本地单人开发、公开 demo 构建和快速验证；D1 是真实 workspace、manager/staff 写入、审计日志、任务审核和反馈闭环的主数据库。当前 `app.guamee.org` 已进入 Access + Pages Functions + D1 staging，但仍不接 X live publish、公开注册或计费。
 
 本地命令：
 
@@ -136,7 +136,7 @@ npm run build:app
 npm run release:check:app
 ```
 
-`build:app` 包含 app placeholder 和 manager 页面，不包含 `/dashboard`、`/staff`、真实 `data/`、`output/`、token、secret、真实 posted URL 或真实 affiliate link。
+`build:app` 会把根路径导向 `/manager/?appMode=1`，并包含 manager 页面；它不包含 `/dashboard`、`/staff`、真实 `data/`、`output/`、token、secret、真实 posted URL 或真实 affiliate link。
 
 ## App Cloudflare Staging
 
@@ -160,17 +160,20 @@ npm run app:d1:create:staging -- --yes
 npm run app:d1:migrate:staging -- --yes
 npm run app:d1:seed:staging -- --yes
 npm run app:seed:staging-sql
+npm run app:customer:create -- --workspace-id workspace_client --workspace-name "Client Team" --manager-email owner@example.com --accounts 30 --yes
 npm run verify:app-staging
 ```
 
 说明：
 
 - staging D1 数据库名：`ai_creator_os_app_staging`。
-- `wrangler.jsonc` 里的 staging `database_id` 先保留 `<fill-after-create>`，创建 D1 后再填真实 ID。
+- staging D1 database_id：`46e68b2c-7a1e-4f6c-b2aa-2bc2ce2c8ffd`。
 - `db/seed/app-staging-demo.sql` 只包含安全 demo workspace、demo 用户、demo 账号和 demo 任务。
 - staging seed 不包含 token、secret、真实 X handle、真实 posted URL、affiliate link 或本地 `output` markdown。
 - 线上 app API 只在 `/api/app/v1/*` 下运行，不把 `/dashboard` 放进 app build。
 - 远程 D1 create/migrate/seed 命令都要求显式 `--yes`。
+- `app:customer:create` 默认只打印 SQL；加 `--yes` 才写入远程 D1。它会创建 workspace、manager user、workspace member、4 条内容线订阅、最多 30 个账号占位、publish settings 和审计日志。
+- 新客户邮箱还必须在 Cloudflare Access policy 里被允许，否则会停在 Access 或登录后无法进入 workspace。
 
 部署说明见：
 

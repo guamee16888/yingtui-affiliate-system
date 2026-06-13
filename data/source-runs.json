@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "updatedAt": "2026-06-13T04:56:42.133Z",
   "items": [
     {
       "runId": "sourcerun_75a9952bbe5c",
@@ -29,6 +29,20 @@
       "notes": "Manual candidates ingested into raw-candidates. No tasks or publish jobs were created.",
       "createdAt": "2026-06-13T04:10:28.685Z",
       "updatedAt": "2026-06-13T04:10:28.685Z"
+    },
+    {
+      "runId": "sourcerun_77e330bf73ab",
+      "connectorId": "manual",
+      "startedAt": "2026-06-13T04:56:42.128Z",
+      "finishedAt": "2026-06-13T04:56:42.128Z",
+      "status": "success",
+      "createdCandidates": 0,
+      "skippedDuplicates": 4,
+      "errors": [],
+      "warnings": [],
+      "notes": "Manual candidates ingested into raw-candidates. No tasks or publish jobs were created.",
+      "createdAt": "2026-06-13T04:56:42.128Z",
+      "updatedAt": "2026-06-13T04:56:42.128Z"
     }
   ]
 }

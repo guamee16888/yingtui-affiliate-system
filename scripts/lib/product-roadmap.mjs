@@ -423,10 +423,10 @@ function publicProductDimension(publicDemoReady) {
     id: "public_product",
     name: "Public product surface",
     score: publicDemoReady ? 82 : 75,
-    whyItMatters: "The public repo and Vercel demo help people understand the product and contact you.",
+    whyItMatters: "The public repo and Cloudflare domain help people understand the product and contact you.",
     evidence: [
       "README has product positioning and contact.",
-      "Vercel static dashboard is deployable.",
+      "Cloudflare static site is deployable.",
       publicDemoReady ? "Public demo banner explains local-only actions." : "Public demo banner is not detected."
     ],
     gaps: [

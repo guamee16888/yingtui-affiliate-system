@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "updatedAt": "2026-06-13T04:56:42.132Z",
   "items": [
     {
       "workspaceId": "workspace_default",
@@ -24,7 +24,7 @@
       "requiresFinalApproval": true,
       "active": true,
       "createdAt": "2026-06-13T02:30:52.701Z",
-      "updatedAt": "2026-06-13T04:10:14.858Z",
+      "updatedAt": "2026-06-13T04:56:41.935Z",
       "status": "active"
     }
   ]

@@ -1,4 +1,4 @@
-import { access } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import path from "node:path";
 import { ACTIVE_TASK_STATUSES, CORE_COLLECTIONS, CONTENT_RULES_PATH, loadCollection, loadContentRules } from "./lib/core-data.mjs";
 import { loadManagerSummary } from "./lib/manager-system.mjs";
@@ -148,6 +148,7 @@ checkContentSources();
 checkSourceLanes();
 checkWorkspaceIds(core);
 await checkWorkspaceAccess();
+await checkManagerConsole(core);
 checkPublishSystem(core);
 
 printReport();
@@ -413,6 +414,60 @@ async function checkWorkspaceAccess() {
     if (leaked) errors.push("staff summary returned another workspace or another staff task");
     else passed.push("staff summary is workspace/user-scoped");
   }
+}
+
+async function checkManagerConsole(coreData) {
+  const [managerHtml, dashboardHtml, managerJs, serverJs] = await Promise.all([
+    readFile(path.join(rootDir, "manager/index.html"), "utf8"),
+    readFile(path.join(rootDir, "dashboard/index.html"), "utf8"),
+    readFile(path.join(rootDir, "manager/js/app.js"), "utf8"),
+    readFile(path.join(rootDir, "scripts/serve-dashboard.mjs"), "utf8")
+  ]);
+  if (managerHtml.includes("AI Creator OS 管理端")) passed.push("manager page title is AI Creator OS 管理端");
+  else errors.push("manager page title must be AI Creator OS 管理端");
+  if (dashboardHtml.includes("AI Creator OS 平台总后台")) passed.push("dashboard page is labeled 平台总后台");
+  else errors.push("dashboard page title must include 平台总后台");
+  if (managerHtml.includes("<h1>AI Creator OS 平台总后台</h1>")) errors.push("manager page uses dashboard main title");
+  else passed.push("manager page main title is distinct from dashboard");
+  if (/source connector secret|API key|token/i.test(managerHtml) && !/不能|不会|联系平台管理员/.test(managerHtml)) {
+    errors.push("manager page appears to expose platform secret controls");
+  } else {
+    passed.push("manager page does not expose source connector secret controls");
+  }
+  for (const route of [
+    "/api/manager/summary",
+    "/api/manager/tasks",
+    "/api/manager/accounts",
+    "/api/manager/staff",
+    "/api/manager/assignments",
+    "/api/manager/publish-jobs",
+    "/api/manager/feedback-debt",
+    "/api/manager/lanes",
+    "/api/manager/risks",
+    "/api/manager/settings"
+  ]) {
+    if (serverJs.includes(route)) passed.push(`manager API route exists: ${route}`);
+    else errors.push(`missing manager API route: ${route}`);
+  }
+  if (managerJs.includes("Live publish 当前关闭")) passed.push("manager UI keeps live publish disabled");
+  else errors.push("manager UI should state live publish is disabled");
+  const summary = await loadManagerSummary({});
+  if (JSON.stringify(summary).match(/access_token|refresh_token|client_secret|bearer/i)) {
+    errors.push("manager API summary appears to expose token or secret material");
+  } else {
+    passed.push("manager API summary does not expose token material");
+  }
+  for (const task of summary.tasks ?? []) {
+    if (!task.workspaceId) errors.push(`manager task missing workspaceId: ${task.taskId}`);
+  }
+  const enabled = new Set(summary.selectedWorkspace?.enabledLaneIds ?? []);
+  for (const lane of summary.lanes ?? []) {
+    if (!enabled.has(lane.laneId)) errors.push(`manager lane is not enabled for workspace: ${lane.laneId}`);
+  }
+  for (const job of summary.publishJobs ?? []) {
+    if (!job.workspaceId) errors.push(`manager publish job missing workspaceId: ${job.jobId}`);
+  }
+  if ((summary.lanes ?? []).every((lane) => enabled.has(lane.laneId))) passed.push("manager lanes only include enabled lanes");
 }
 
 function checkUnique(items, field, label) {

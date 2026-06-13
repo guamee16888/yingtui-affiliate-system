@@ -299,8 +299,8 @@ async function loadStaticFallback(apiError) {
 }
 
 function staticModeMessage(apiError) {
-  if (location.hostname.endsWith("vercel.app")) {
-    return "Vercel 静态只读模式：可以查看数据，不能刷新、写入反馈或发布到 X。本地操作请运行 npm start。";
+  if (location.hostname === "guamee.org" || location.hostname.endsWith(".pages.dev")) {
+    return "Cloudflare 静态只读模式：可以查看数据，不能刷新、写入反馈或发布到 X。本地操作请运行 npm run start:4174。";
   }
   return `API 暂不可用，当前为静态只读模式：${apiError.message}`;
 }
@@ -5719,7 +5719,7 @@ function buildClientTodayPlanMarkdown() {
     "## Top Picks",
     tools.slice(0, 5).map((tool, index) => `${index + 1}. ${tool.name} — score ${tool.score ?? "-"} — ${tool.followUpAction ?? ""}`).join("\n") || "No tools available.",
     "",
-    isReadOnlyMode() ? "Generated in static read-only mode. Run `npm start` locally for refresh, feedback, publishing, and file exports." : "Generated from the local Dashboard."
+    isReadOnlyMode() ? "Generated in static read-only mode. Run `npm run start:4174` locally for refresh, feedback, publishing, and file exports." : "Generated from the local Dashboard."
   ];
   return lines.join("\n");
 }

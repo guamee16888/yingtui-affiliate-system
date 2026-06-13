@@ -6,7 +6,7 @@ An operating system for managing multi-account X content workflows. Built for AI
 
 **Keywords:** AI Twitter automation, multi-account X content ops, AI tweet planner, affiliate marketing system, Product Hunt radar, SaaS founder content, indie hacker content, crypto builder content, review-first publishing, manual-confirm tweet automation, X growth workflow.
 
-**Live Demo:** [yingtui-affiliate-system.vercel.app](https://yingtui-affiliate-system.vercel.app)
+**Cloudflare Domain:** [guamee.org](https://guamee.org)
 
 **GitHub:** [guamee16888/yingtui-affiliate-system](https://github.com/guamee16888/yingtui-affiliate-system)
 
@@ -162,7 +162,7 @@ npm run check
 P1 员工工作台已经有手动版：
 
 ```text
-http://127.0.0.1:4173/staff/
+http://127.0.0.1:4174/staff/?workspaceId=workspace_default&userId=user_owner
 ```
 
 它只做员工自己的账号和任务：查看待处理文案、检查 X weighted 字符数、复制文案、标记已复制、手动标记已发、跳过任务。它不做主管台、不自动发推、不接数据库，也不会绕过中心化任务池和发布账本。
@@ -170,7 +170,7 @@ http://127.0.0.1:4173/staff/
 P1 Manager Review 已经有极简版：
 
 ```text
-http://127.0.0.1:4173/manager/
+http://127.0.0.1:4174/manager/?workspaceId=workspace_default
 ```
 
 它只看当前 workspace 的 `post-tasks`，支持主管批准、拒绝、分配账号、分配员工。它不看平台全局数据源，不看老板策略台，不自动发推，不接数据库。任务流转变成：
@@ -266,6 +266,81 @@ npm run candidates:convert
 
 当前阶段明确不做：不接真实付费 API、不分发平台数据源 API key、不让每个 workspace 单独跑 daily、不自动发真实 X、不做投资建议、不做批量重复内容。
 
+## Manager Console
+
+`/manager/` 是独立的客户/主管管理端，不是平台总后台的一部分。
+
+打开方式：
+
+```text
+http://127.0.0.1:4174/manager/?workspaceId=workspace_default
+```
+
+本地小改动和 UI 验收优先跑 4174：
+
+```bash
+npm run start:4174
+```
+
+管理端定位：
+
+- 中文：客户/主管用的多账号 X 内容运营管理端。
+- English: Manager Console for workspace-level X content operations.
+
+和三端的区别：
+
+- `/dashboard/` 是平台总后台：平台管理员看全局 workspace、content lanes、source registry、全局风险和全局 publish settings。
+- `/manager/` 是管理端：客户/主管只看当前 workspace 的账号、员工、任务、审核、发布队列、反馈欠账、已订阅内容线和风险面板。
+- `/staff/` 是员工端：普通员工只看自己负责的账号和分配给自己的任务。
+
+管理端现在有 9 个一级 Tab：
+
+1. 今日总览：今日任务、待审核、已发布、待反馈、风险和员工完成率。
+2. 任务审核：按 workspace 审核任务，支持分配账号/员工、批准、拒绝、批量处理、复制任务 ID 和复制文案。
+3. 账号池：查看当前 workspace 的账号、niche、状态、发文上限、外链上限、任务数和风险提示。
+4. 员工与分配：查看员工任务、完成率、待反馈、账号分配异常和过载提示。
+5. 发布队列：查看当前 workspace 的 publish jobs、status、blocked reason；live publish 默认禁用。
+6. 反馈欠账：查看已发布但还没补 X Analytics 的任务。
+7. 内容线：只显示当前 workspace 已启用的 lanes，以及候选数、任务数、风险数、默认风格和 blocked topics。
+8. 风险面板：中文显示重复文案、同账号重复工具、外链过多、账号异常、超 280、publish blocked、feedback debt 等风险。
+9. 管理端设置：只读显示 workspaceId、plan、accountLimit、enabledLaneIds、publishMode、autoPublishEnabled 和 requiresFinalApproval。
+
+管理端不能做：
+
+- 不能看其他 workspace。
+- 不能看平台总数据源 API key。
+- 不能改全局 source connector。
+- 不能绕过 duplicate-checker。
+- 不能直接 live publish。
+- 不能进入平台总后台。
+- 不能看到 X token、client secret、source connector secret。
+
+Manager API 都是 workspace scoped：
+
+```text
+GET /api/manager/summary?workspaceId=workspace_default
+GET /api/manager/tasks?workspaceId=workspace_default
+GET /api/manager/accounts?workspaceId=workspace_default
+GET /api/manager/staff?workspaceId=workspace_default
+GET /api/manager/assignments?workspaceId=workspace_default
+GET /api/manager/publish-jobs?workspaceId=workspace_default
+GET /api/manager/feedback-debt?workspaceId=workspace_default
+GET /api/manager/lanes?workspaceId=workspace_default
+GET /api/manager/risks?workspaceId=workspace_default
+GET /api/manager/settings?workspaceId=workspace_default
+```
+
+写接口会校验 task/account/job 属于当前 workspace：
+
+```text
+POST /api/manager/task/batch
+POST /api/manager/task/approve
+POST /api/manager/task/reject
+POST /api/manager/account/update
+POST /api/manager/job/cancel
+POST /api/manager/job/retry
+```
+
 ## Dashboard 怎么看
 
 页面顶部有几个常用按钮：
@@ -340,7 +415,7 @@ Dashboard 的 `来源补给` 会把 `Supply coverage`、`Source quality queue`�
 
 `Promotion review` 会把候选工具和反馈信号翻译成手动审核清单：该查 affiliate、该做 SEO review page、该扩成长推，还是只观察。它不会自动入队，更不会自动发布；只有你点按钮后才写入本地队列。
 
-`Product Roadmap` 是长期目标的控制台。它会把 X 账号切换单独标为 deferred，并优先暴露非授权问题：20×10 内容供给是否够、发布时间槽是否能容纳、反馈债是否挡住继续发、联盟研究是否能变现、来源是否足够多样、长文/测评页队列是否开始复利。本地 Dashboard 可以直接点 `刷新路线图` 重新生成；Vercel 线上版仍然只读。
+`Product Roadmap` 是长期目标的控制台。它会把 X 账号切换单独标为 deferred，并优先暴露非授权问题：20×10 内容供给是否够、发布时间槽是否能容纳、反馈债是否挡住继续发、联盟研究是否能变现、来源是否足够多样、长文/测评页队列是否开始复利。本地 Dashboard 可以直接点 `刷新路线图` 重新生成；Cloudflare 线上版仍然只读。
 
 批量粘贴后可以先点 `预览评分`，系统会按同一套 pain/niche/affiliate/content/novelty/risk 规则给候选打分，但不会保存。预览会给每条候选标记 `可导入`、`先人工看` 或 `跳过`，并提示是否和本次粘贴、Candidate Inbox 或今天的 daily 数据重复。
 
@@ -656,7 +731,7 @@ npm run learning-loop
 
 生成反馈学习启动台数据，输出到 `data/learning-loop.json` 和 `output/YYYY-MM-DD-learning-loop.md`。它会把 `feedback-ops` 的结果压成一个执行清单：当前学习阶段、最多还能安全新发几条、先发哪几条 seed posts、哪些已发内容缺 metrics，以及可复制到反馈录入页的 CSV 模板。
 
-在本地 Dashboard 的「反馈启动台」也可以点 `刷新学习报告`，它会先刷新 `feedback-ops`，再刷新 `learning-loop`。Vercel 公开 Demo 仍然只读，不能写本地 JSON。
+在本地 Dashboard 的「反馈启动台」也可以点 `刷新学习报告`，它会先刷新 `feedback-ops`，再刷新 `learning-loop`。Cloudflare 公开站仍然只读，不能写本地 JSON。
 
 ```bash
 npm run decisions
@@ -832,7 +907,7 @@ AI Creator OS 现在有发布队列地基，但默认是安全关闭：
 - `dryRunByDefault` 默认是 `true`。
 - `allowedPublishModes` 默认只有 `manual` 和 `scheduled`，不包含 `auto`。
 - `data/x-connections.json` 只保存连接状态和 `tokenRef`，不保存明文 access token。
-- Vercel 线上版是静态只读，只能看数据，不能 live 发布。
+- Cloudflare 线上版是静态只读，只能看数据，不能 live 发布。
 
 自动发布不是“看到按钮就全发”。一条任务要 live 发布，必须同时满足：
 
@@ -971,25 +1046,61 @@ Your posted copy...	https://x.com/your/status/123	1200	18	6	3	1	9	4
 - 如果没有 `copyText`，系统会用匹配工具对应的文案补上。
 - 如果某一行无法匹配 toolName/toolUrl/copyText，会跳过并提示。
 
-## Vercel 版本
+## Cloudflare / guamee.org 版本
 
-这个项目可以部署到 Vercel 做只读 Dashboard，方便你在外面查看当天候选、历史和队列。
+这个项目现在按 Cloudflare Pages 静态站准备，不再把 AI Creator OS 作为 Vercel 页面维护。线上域名目标：
 
-线上版本的边界：
-
-- 可以读取仓库里的 `dashboard/`、`data/`、`output/` 静态文件。
-- 可以打开 Dashboard、看 `data/latest.json`、看历史和队列快照。
-- 不能刷新 Product Hunt。
-- 不能写入 feedback / queue / affiliate research。
-- 不能发布到 X，也不要在 Vercel 配置 X token。
-
-本地仍然是唯一的工作台：
-
-```bash
-npm start
+```text
+https://guamee.org
 ```
 
-如果要更新线上看到的数据，先在本地跑 `npm run daily`，确认 `data/latest.json` 更新后，再提交并部署。
+推荐工作流：
+
+1. 小改动先在本地 4174 验收：
+
+```bash
+npm run start:4174
+```
+
+2. 本地确认 `/dashboard/`、`/manager/`、`/staff/` 都正常。
+3. 跑验收：
+
+```bash
+npm run check
+npm test
+npm run build
+```
+
+4. 大改动通过后再部署到 Cloudflare Pages：
+
+```bash
+npm run deploy:cloudflare
+```
+
+Cloudflare Pages 项目建议：
+
+- Project name: `ai-creator-os`
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Custom domain: `guamee.org`
+
+线上版本边界：
+
+- 可以读取仓库里的 `dashboard/`、`manager/`、`staff/`、`data/`、`output/` 静态快照。
+- 可以打开入口页、平台总后台、管理端和员工端的静态视图。
+- `npm run build` 会生成默认 workspace 的 `/api/manager/*` 和 `/api/staff/summary` 静态快照，公网可看但不可写。
+- 不能刷新 Product Hunt。
+- 不能写入 feedback / queue / affiliate research。
+- 不能发布到 X。
+- 不要在 Cloudflare Pages 配置 X token、client secret 或真实账号授权信息。
+
+真实运营仍然优先在本地工作台完成：
+
+```bash
+npm run start:4174
+```
+
+如果要更新线上看到的数据，先在本地跑 `npm run daily` 或对应生产命令，确认 `data/`、`output/` 更新后，再提交并部署到 Cloudflare。
 
 ## Affiliate Research 搜索
 
@@ -1072,9 +1183,8 @@ Product Hunt 请求失败：
 
 Dashboard 打不开：
 
-- 优先运行 `npm start`，它会自动避开被占用端口。
-- 打开 `http://127.0.0.1:4173/dashboard/`。
-- 如果端口被占用，可以运行 `node scripts/dashboard.mjs --port 4174`。
+- 小改动优先运行 `npm run start:4174`，打开 `http://127.0.0.1:4174/dashboard/` 或 `http://127.0.0.1:4174/manager/?workspaceId=workspace_default`。
+- 如果只是日常默认启动，也可以运行 `npm start`，它会从 4173 开始自动避开被占用端口。
 
 `latest.json` 不存在：
 

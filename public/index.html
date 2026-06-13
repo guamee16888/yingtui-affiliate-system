@@ -1,106 +1,116 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Affiliate Topic Dashboard</title>
-    <link rel="stylesheet" href="/public/styles.css">
+    <title>AI Creator OS</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f4;
+        --panel: #fff;
+        --text: #17201b;
+        --muted: #647067;
+        --line: #dfe5dc;
+        --accent: #245f8f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+        color: var(--text);
+        background: var(--bg);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      main {
+        width: min(960px, 100%);
+      }
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(36px, 8vw, 72px);
+        line-height: 0.96;
+      }
+      .subtitle {
+        max-width: 680px;
+        margin: 0 0 28px;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.55;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+      a {
+        min-height: 180px;
+        display: grid;
+        align-content: space-between;
+        padding: 18px;
+        color: inherit;
+        text-decoration: none;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--panel);
+        box-shadow: 0 18px 44px rgba(22, 34, 28, 0.08);
+      }
+      a:hover {
+        border-color: #b9c8d5;
+        transform: translateY(-1px);
+      }
+      strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 20px;
+      }
+      span {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      code {
+        color: var(--accent);
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 13px;
+      }
+      @media (max-width: 760px) {
+        .grid { grid-template-columns: 1fr; }
+        a { min-height: 140px; }
+      }
+    </style>
   </head>
   <body>
-    <header class="app-header">
-      <div>
-        <p class="eyebrow">本地 Affiliate 选题验证</p>
-        <h1>英推选题看板</h1>
-      </div>
-      <div class="header-actions">
-        <a class="button ghost" href="/output/2026-06-06-daily-x-pack.md" id="markdownLink">打开 Markdown</a>
-        <button class="button" id="refreshButton" type="button">刷新数据</button>
-      </div>
-    </header>
-
     <main>
-      <section class="summary-grid" id="summaryGrid" aria-label="Daily summary"></section>
-
-      <section class="layout">
-        <aside class="side-panel">
-          <section class="panel">
-            <div class="panel-heading">
-              <div>
-                <h2>今天照做</h2>
-                <p class="panel-note">先发 3 条推，再查 1 个 Affiliate，再留 1 个长文候选。</p>
-              </div>
-            </div>
-            <ol class="action-list" id="actionList"></ol>
-          </section>
-
-          <section class="panel">
-            <div class="panel-heading">
-              <div>
-                <h2>Affiliate 待查</h2>
-                <p class="panel-note">这些工具有变现潜力，但还没配置你的联盟链接。</p>
-              </div>
-            </div>
-            <div class="queue-list" id="affiliateQueue"></div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-heading">
-              <h2>历史记录</h2>
-            </div>
-            <div class="history-list" id="historyList"></div>
-          </section>
-        </aside>
-
-        <section class="workspace">
-          <div class="toolbar">
-            <label class="search-label">
-              <span>搜索</span>
-              <input id="searchInput" type="search" placeholder="工具名、用途、动作">
-            </label>
-            <div class="filter-group" aria-label="Follow-up filters">
-              <button class="filter active" type="button" data-filter="all">全部</button>
-              <button class="filter" type="button" data-filter="tweet only">只发单条</button>
-              <button class="filter" type="button" data-filter="thread candidate">适合长推</button>
-              <button class="filter" type="button" data-filter="review page candidate">适合测评页</button>
-              <button class="filter" type="button" data-filter="affiliate priority">优先查联盟</button>
-              <button class="filter" type="button" data-filter="skip">跳过</button>
-            </div>
-          </div>
-
-          <section class="tool-list" id="toolList" aria-label="Tool cards"></section>
-
-          <section class="panel low-priority">
-            <div class="panel-heading">
-              <h2>跳过 / 低优先级</h2>
-            </div>
-            <div class="skipped-list" id="skippedList"></div>
-          </section>
-        </section>
+      <p class="eyebrow">AI Creator OS</p>
+      <h1>多账号 X 内容运营系统</h1>
+      <p class="subtitle">本地优先的内容线、任务审核、员工执行和反馈闭环。生产环境按权限进入不同工作台。</p>
+      <section class="grid" aria-label="AI Creator OS entry points">
+        <a href="/dashboard/">
+          <strong>平台总后台</strong>
+          <span>平台管理员使用，查看全局 workspace、内容线、候选池和发布安全。</span>
+          <code>/dashboard/</code>
+        </a>
+        <a href="/manager/?workspaceId=workspace_default">
+          <strong>管理端</strong>
+          <span>客户/主管使用，只管理当前 workspace 的账号、审核、发布队列和反馈。</span>
+          <code>/manager/?workspaceId=workspace_default</code>
+        </a>
+        <a href="/staff/?workspaceId=workspace_default&userId=user_owner">
+          <strong>员工工作台</strong>
+          <span>执行员工使用，只处理分配给自己的任务和反馈回填。</span>
+          <code>/staff/?workspaceId=workspace_default&userId=user_owner</code>
+        </a>
       </section>
     </main>
-
-    <template id="toolCardTemplate">
-      <article class="tool-card">
-        <div class="tool-card-header">
-          <div>
-            <div class="tool-meta"></div>
-            <h2></h2>
-            <p class="tagline"></p>
-          </div>
-          <strong class="score"></strong>
-        </div>
-        <div class="status-row"></div>
-        <p class="reason"></p>
-        <div class="score-bars"></div>
-        <div class="copy-tabs"></div>
-        <pre class="copy-text"></pre>
-        <div class="card-actions">
-          <button class="button copy-button" type="button">复制文案</button>
-          <a class="button ghost product-link" target="_blank" rel="noreferrer">Product Hunt</a>
-        </div>
-      </article>
-    </template>
-
-    <script src="/public/app.js" type="module"></script>
   </body>
 </html>

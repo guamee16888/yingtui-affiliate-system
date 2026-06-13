@@ -67,9 +67,10 @@
     "weekly": "node scripts/weekly-report.mjs",
     "check": "node scripts/check-system.mjs",
     "x:auth": "node scripts/x-auth.mjs",
-    "build": "node scripts/build-vercel.mjs",
-    "vercel-build": "node scripts/build-vercel.mjs",
+    "build": "node scripts/build-static.mjs",
+    "deploy:cloudflare": "npm run build && npx wrangler pages deploy dist --project-name ai-creator-os",
     "start": "node scripts/start-dashboard.mjs",
+    "start:4174": "node scripts/start-dashboard.mjs --port 4174",
     "dashboard": "node scripts/dashboard.mjs",
     "test": "node --test"
   },

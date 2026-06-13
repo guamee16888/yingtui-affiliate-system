@@ -31,6 +31,10 @@ document.addEventListener("click", async (event) => {
   try {
     if (action === "copy-text") {
       await navigator.clipboard.writeText(task.copyText);
+      if (isReadOnlyMode()) {
+        toast("已复制文案。线上只读快照不记录 copied 状态。");
+        return;
+      }
       await updateTask(taskId, "copy");
       toast("已复制，并记录为 copied");
       return;
@@ -102,7 +106,8 @@ function render() {
     $("#tasks").innerHTML = "";
     return;
   }
-  $("#statusText").textContent = `${state.data.selectedWorkspace?.name || "Workspace"} · ${state.data.selectedUser?.name || "员工"} · ${state.data.summary.ready} 条可复制 · ${state.data.summary.feedbackDue} 条待补反馈`;
+  const readOnlySuffix = isReadOnlyMode() ? " · 线上只读快照" : "";
+  $("#statusText").textContent = `${state.data.selectedWorkspace?.name || "Workspace"} · ${state.data.selectedUser?.name || "员工"} · ${state.data.summary.ready} 条可复制 · ${state.data.summary.feedbackDue} 条待补反馈${readOnlySuffix}`;
   renderUsers();
   renderMetrics();
   renderFeedbackAlert();
@@ -225,10 +230,10 @@ function renderTask(task) {
       ${task.blockReasons.length ? `<div class="badges">${task.blockReasons.map((reason) => badge(reason, "bad")).join("")}</div>` : ""}
       ${task.postedUrl ? `<p class="muted">已发：<a href="${esc(task.postedUrl)}" target="_blank" rel="noreferrer">${esc(task.postedUrl)}</a></p>` : ""}
       <div class="task-actions">
-        <button class="button" data-action="copy-text" data-task-id="${esc(task.taskId)}" ${task.canCopy ? "" : "disabled"} type="button">复制并记录</button>
-        <button class="button secondary" data-action="copy" data-task-id="${esc(task.taskId)}" ${task.canCopy ? "" : "disabled"} type="button">只记录已复制</button>
-        <button class="button secondary" data-action="posted" data-task-id="${esc(task.taskId)}" ${task.canMarkPosted ? "" : "disabled"} type="button">手动已发</button>
-        <button class="button secondary" data-action="skip" data-task-id="${esc(task.taskId)}" ${task.canSkip ? "" : "disabled"} type="button">跳过</button>
+        <button class="button" data-action="copy-text" data-task-id="${esc(task.taskId)}" ${task.canCopy ? "" : "disabled"} type="button">${isReadOnlyMode() ? "复制文案" : "复制并记录"}</button>
+        <button class="button secondary" data-action="copy" data-task-id="${esc(task.taskId)}" ${task.canCopy && !isReadOnlyMode() ? "" : "disabled"} type="button">只记录已复制</button>
+        <button class="button secondary" data-action="posted" data-task-id="${esc(task.taskId)}" ${task.canMarkPosted && !isReadOnlyMode() ? "" : "disabled"} type="button">手动已发</button>
+        <button class="button secondary" data-action="skip" data-task-id="${esc(task.taskId)}" ${task.canSkip && !isReadOnlyMode() ? "" : "disabled"} type="button">跳过</button>
       </div>
     </article>
   `;
@@ -246,6 +251,7 @@ async function apiGet(path) {
 }
 
 async function apiPost(path, body) {
+  if (isReadOnlyMode()) throw new Error(readOnlyActionMessage());
   const res = await fetch(path, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -254,6 +260,14 @@ async function apiPost(path, body) {
   const json = await res.json();
   if (!json.ok) throw new Error(json.error || `POST ${path} failed`);
   return json.data;
+}
+
+function isReadOnlyMode() {
+  return Boolean(state.data?.deployment?.readOnly);
+}
+
+function readOnlyActionMessage() {
+  return state.data?.deployment?.note || "当前为线上只读模式。写入、发布状态和反馈记录请回到本地 4174。";
 }
 
 function toast(message) {

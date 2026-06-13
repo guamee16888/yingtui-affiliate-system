@@ -32,7 +32,7 @@ admin.guamee.org
 = Cloudflare Access 保护的老板总后台 Demo，只给我自己或平台 admin 看
 
 app.guamee.org
-= 受保护真实客户后台，占位页阶段；未来需要登录、workspace 权限和 D1 写入后端
+= 受保护真实客户后台 staging；Pages Functions + D1 地基阶段
 ```
 
 重要边界：
@@ -41,7 +41,7 @@ app.guamee.org
 - `/dashboard` 是本地老板策略台，未来只应该放在 `admin.guamee.org` 这种私有入口后面。
 - 公开 Demo 只展示 `/manager/?workspaceId=workspace_default`，而且只使用演示模式示例数据。
 - 真实客户/团队以后进 `app.guamee.org`。第一版可以把管理端和执行人员操作合在同一个 workspace 管理端里，不必公开拆成 manager/staff 两个入口。
-- `app.guamee.org` 当前只应该部署 `app-placeholder/` 占位页，并放在 Cloudflare Access 后面。
+- `app.guamee.org` 当前开始进入 staging：部署 `build:app`，放在 Cloudflare Access 后面，使用 Pages Functions + D1。
 - 每个 workspace 默认控制 30 个以内 X 账号。员工或执行人员处理这 30 个账号内的任务，但不拥有平台总后台。
 
 ## Local Runtime Data
@@ -111,13 +111,13 @@ npm run d1:import:local
 - `POST /api/app/v1/manager/tasks/reject`
 - `POST /api/app/v1/manager/feedback`
 
-身份第一版走 Cloudflare Access header：`Cf-Access-Authenticated-User-Email`。本地开发可以用：
+本地开发可以用：
 
 ```text
 http://127.0.0.1:4175/manager/?appMode=1&devEmail=owner@guamee.local
 ```
 
-`devEmail` 只允许本地开发。`NODE_ENV=production` 或 `APP_ENV=production` 时会拒绝。
+`devEmail` 只允许本地开发。`NODE_ENV=production`、`APP_ENV=production` 或 `APP_ENV=staging` 时会拒绝。
 
 默认 storage 仍然是：
 
@@ -125,7 +125,9 @@ http://127.0.0.1:4175/manager/?appMode=1&devEmail=owner@guamee.local
 APP_STORAGE_MODE=json
 ```
 
-D1 adapter 已准备，但远程 D1 仍未上线。当前仍然不做 X live publish、自动发推、公开注册、复杂计费或 Discord 登录。
+线上 staging 不信任普通 email header。`app.guamee.org` 必须通过 Cloudflare Access JWT 获取邮箱，后端验证 `Cf-Access-Jwt-Assertion` 后再查 D1 中的 user/workspace。
+
+当前仍然不做 X live publish、自动发推、公开注册、复杂计费或 Discord 登录。
 
 App build 命令：
 
@@ -135,6 +137,46 @@ npm run release:check:app
 ```
 
 `build:app` 包含 app placeholder 和 manager 页面，不包含 `/dashboard`、`/staff`、真实 `data/`、`output/`、token、secret、真实 posted URL 或真实 affiliate link。
+
+## App Cloudflare Staging
+
+`app.guamee.org` 的下一阶段是 Cloudflare Pages Functions + D1 staging：
+
+```text
+app.guamee.org
+= Cloudflare Access protected
+= Pages project build: npm run build:app
+= Pages Functions route: /api/app/v1/*
+= D1 binding: DB
+= APP_ENV=staging
+= APP_STORAGE_MODE=d1
+```
+
+新增命令：
+
+```bash
+npm run app:d1:status
+npm run app:d1:create:staging -- --yes
+npm run app:d1:migrate:staging -- --yes
+npm run app:d1:seed:staging -- --yes
+npm run app:seed:staging-sql
+npm run verify:app-staging
+```
+
+说明：
+
+- staging D1 数据库名：`ai_creator_os_app_staging`。
+- `wrangler.jsonc` 里的 staging `database_id` 先保留 `<fill-after-create>`，创建 D1 后再填真实 ID。
+- `db/seed/app-staging-demo.sql` 只包含安全 demo workspace、demo 用户、demo 账号和 demo 任务。
+- staging seed 不包含 token、secret、真实 X handle、真实 posted URL、affiliate link 或本地 `output` markdown。
+- 线上 app API 只在 `/api/app/v1/*` 下运行，不把 `/dashboard` 放进 app build。
+- 远程 D1 create/migrate/seed 命令都要求显式 `--yes`。
+
+部署说明见：
+
+- [docs/deployment/app-cloudflare-staging.md](docs/deployment/app-cloudflare-staging.md)
+- [docs/deployment/app-pages-project.md](docs/deployment/app-pages-project.md)
+- [docs/deployment/app-access-d1-checklist.md](docs/deployment/app-access-d1-checklist.md)
 
 ## 快速开始
 

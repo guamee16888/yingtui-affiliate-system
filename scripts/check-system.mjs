@@ -38,13 +38,18 @@ const requiredFiles = [
   "app-placeholder/index.html",
   "app-placeholder/styles.css",
   "docs/deployment/app-placeholder.md",
+  "docs/deployment/app-cloudflare-staging.md",
+  "docs/deployment/app-pages-project.md",
+  "docs/deployment/app-access-d1-checklist.md",
   "db/migrations/0001_initial.sql",
   "db/seed/demo.sql",
+  "db/seed/app-staging-demo.sql",
   "wrangler.jsonc",
   "scripts/lib/app-storage-mode.mjs",
   "scripts/lib/app-storage.mjs",
   "scripts/lib/app-api/session.mjs",
   "scripts/lib/app-api/auth-context.mjs",
+  "scripts/lib/app-api/cloudflare-access-auth.mjs",
   "scripts/lib/app-api/workspace-scope.mjs",
   "scripts/lib/app-api/response.mjs",
   "scripts/lib/app-api/manager-routes.mjs",
@@ -54,11 +59,17 @@ const requiredFiles = [
   "scripts/migrate-json-to-d1.mjs",
   "scripts/d1-status.mjs",
   "scripts/d1-reset-local.mjs",
+  "scripts/app-d1-status.mjs",
+  "scripts/app-d1-create-staging.mjs",
+  "scripts/app-d1-remote.mjs",
+  "scripts/seed-app-staging.mjs",
   "scripts/build-app.mjs",
   "scripts/build-app-placeholder.mjs",
   "scripts/check-app-release.mjs",
   "scripts/check-app-placeholder-release.mjs",
   "scripts/verify-app-access.mjs",
+  "scripts/verify-app-staging.mjs",
+  "functions/api/app/v1/[[path]].mjs",
   ...Object.values(PUBLISH_FILES),
   ...Object.values(SOURCE_LANE_FILES),
   ...Object.values(CORE_COLLECTIONS),
@@ -120,9 +131,15 @@ const requiredScripts = [
   "d1:migrate:dry-run",
   "d1:export-sql",
   "d1:import:local",
+  "app:d1:status",
+  "app:d1:create:staging",
+  "app:d1:migrate:staging",
+  "app:d1:seed:staging",
+  "app:seed:staging-sql",
   "admin:preflight",
   "verify:admin-access",
   "verify:app-access",
+  "verify:app-staging",
   "demo:sanitize",
   "build:public",
   "build:admin-demo",
@@ -199,6 +216,7 @@ checkWorkspaceIds(core);
 await checkWorkspaceAccess();
 checkPublishSystem(core);
 await checkD1LocalMvp();
+await checkAppCloudflareStaging();
 
 printReport();
 if (errors.length) process.exitCode = 1;
@@ -380,6 +398,45 @@ async function checkD1LocalMvp() {
   else errors.push("APP_STORAGE_MODE must default to json");
   if (gitLsFiles().includes("db/seed/from-json.sql")) errors.push("db/seed/from-json.sql must not be git tracked");
   else passed.push("db/seed/from-json.sql is not git tracked");
+}
+
+async function checkAppCloudflareStaging() {
+  const appFunction = await readTextIfExists("functions/api/app/v1/[[path]].mjs");
+  const accessAuth = await readTextIfExists("scripts/lib/app-api/cloudflare-access-auth.mjs");
+  const authContext = await readTextIfExists("scripts/lib/app-api/auth-context.mjs");
+  const stagingSeed = await readTextIfExists("db/seed/app-staging-demo.sql");
+  const wranglerText = await readTextIfExists("wrangler.jsonc");
+
+  if (/onRequest/.test(appFunction) && /handleAppApi(Get|Post)/.test(appFunction)) passed.push("Pages Functions app API route exists");
+  else errors.push("Pages Functions app API route missing");
+  if (/D1_BINDING_MISSING/.test(appFunction)) passed.push("Pages Function has clear D1 binding error");
+  else errors.push("Pages Function must report missing D1 binding clearly");
+  if (/CF_ACCESS_TEAM_DOMAIN/.test(accessAuth) && /CF_ACCESS_AUD/.test(accessAuth)) passed.push("Cloudflare Access JWT helper exists");
+  else errors.push("Cloudflare Access JWT helper missing config checks");
+  if (/staging\/production 环境不能使用 devEmail/.test(authContext) && /isStrictAppEnv/.test(authContext)) passed.push("devEmail is disabled in staging/production");
+  else errors.push("devEmail must be disabled in staging/production");
+  if (/workspace_staging_demo/.test(stagingSeed) && /INSERT\s+OR\s+REPLACE/i.test(stagingSeed)) passed.push("app staging seed exists and is idempotent");
+  else errors.push("app staging seed missing or not idempotent");
+  if (/access_token|refresh_token|client_secret|api[_-]?key|bearer\s+[a-z0-9._-]+/i.test(stagingSeed)) {
+    errors.push("app staging seed contains token-looking text");
+  } else {
+    passed.push("app staging seed has no token-looking text");
+  }
+  if (/x\.com\/[^'"\s]+\/status\/\d+|twitter\.com\/[^'"\s]+\/status\/\d+|postedUrl/i.test(stagingSeed)) {
+    errors.push("app staging seed contains posted URL text");
+  } else {
+    passed.push("app staging seed has no posted URL text");
+  }
+  try {
+    const wrangler = JSON.parse(wranglerText);
+    const stagingDb = wrangler.env?.staging?.d1_databases?.[0] || {};
+    if (stagingDb.binding === "DB" && stagingDb.database_name === "ai_creator_os_app_staging") passed.push("wrangler staging DB binding exists");
+    else errors.push("wrangler staging DB binding is missing");
+    if (wrangler.env?.staging?.vars?.APP_STORAGE_MODE === "d1") passed.push("wrangler staging APP_STORAGE_MODE=d1");
+    else errors.push("wrangler staging APP_STORAGE_MODE must be d1");
+  } catch {
+    errors.push("wrangler.jsonc is not valid JSON");
+  }
 }
 
 function checkFeedbackBindings(coreData) {

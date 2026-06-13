@@ -1,4 +1,5 @@
 import { createStableId } from "./ids.mjs";
+import { buildManagerSummary } from "./manager-system.mjs";
 import { createStorageAdapter } from "./storage-adapter.mjs";
 
 const TASK_PATCH_COLUMNS = {
@@ -24,7 +25,10 @@ export function createD1StorageAdapter(db) {
        WHERE workspace_id = ?`,
       [workspaceId]
     );
-    return row ? workspaceFromRow(row) : null;
+    if (!row) return null;
+    const workspace = workspaceFromRow(row);
+    workspace.enabledLaneIds = await listWorkspaceLaneIds(db, workspaceId);
+    return workspace;
   }
 
   async function listWorkspaceTasks(workspaceId, filters = {}) {
@@ -40,7 +44,14 @@ export function createD1StorageAdapter(db) {
     }
     const rows = await all(
       db,
-      `SELECT * FROM post_tasks WHERE ${clauses.join(" AND ")} ORDER BY created_at DESC, task_id ASC`,
+      `SELECT post_tasks.*, tools.canonical_name AS tool_name, tools.url AS tool_url,
+        topics.lane_id AS lane_id, copy_library.variant_type AS variant_type
+       FROM post_tasks
+       LEFT JOIN tools ON tools.tool_id = post_tasks.tool_id
+       LEFT JOIN topics ON topics.topic_id = post_tasks.topic_id
+       LEFT JOIN copy_library ON copy_library.copy_id = post_tasks.copy_id
+       WHERE ${clauses.join(" AND ")}
+       ORDER BY post_tasks.created_at DESC, post_tasks.task_id ASC`,
       params
     );
     return rows.map(taskFromRow);
@@ -55,10 +66,43 @@ export function createD1StorageAdapter(db) {
     }
     const rows = await all(
       db,
-      `SELECT * FROM post_tasks WHERE ${clauses.join(" AND ")} ORDER BY created_at DESC, task_id ASC`,
+      `SELECT post_tasks.*, tools.canonical_name AS tool_name, tools.url AS tool_url,
+        topics.lane_id AS lane_id, copy_library.variant_type AS variant_type
+       FROM post_tasks
+       LEFT JOIN tools ON tools.tool_id = post_tasks.tool_id
+       LEFT JOIN topics ON topics.topic_id = post_tasks.topic_id
+       LEFT JOIN copy_library ON copy_library.copy_id = post_tasks.copy_id
+       WHERE ${clauses.join(" AND ")}
+       ORDER BY post_tasks.created_at DESC, post_tasks.task_id ASC`,
       params
     );
     return rows.map(taskFromRow);
+  }
+
+  async function loadAuthCollections() {
+    const data = await loadD1Collections();
+    return {
+      users: data.users,
+      workspaces: data.workspaces,
+      assignments: data.assignments,
+      xAccounts: data.xAccounts
+    };
+  }
+
+  async function loadManagerSummary({ workspaceId = "", managerUserId = "" } = {}) {
+    const data = await loadD1Collections();
+    return buildManagerSummary({
+      workspaceId,
+      managerUserId,
+      workspaces: data.workspaces,
+      users: data.users,
+      xAccounts: data.xAccounts,
+      assignments: data.assignments,
+      tasks: data.tasks,
+      ledger: data.ledger,
+      publishJobs: data.publishJobs,
+      feedback: data.feedback
+    });
   }
 
   async function updateTaskStatus(workspaceId, taskId, patch = {}, actor = {}) {
@@ -222,7 +266,9 @@ export function createD1StorageAdapter(db) {
     updateTaskStatus,
     appendLedgerEntry,
     upsertFeedback,
-    writeAuditLog
+    writeAuditLog,
+    loadAuthCollections,
+    loadManagerSummary
   });
 }
 
@@ -261,7 +307,10 @@ function workspaceFromRow(row) {
     requiresFinalApproval: Boolean(row.requires_final_approval),
     status: row.status,
     createdAt: row.created_at,
-    updatedAt: row.updated_at
+    updatedAt: row.updated_at,
+    managerUserIds: [],
+    staffUserIds: [],
+    enabledLaneIds: []
   };
 }
 
@@ -273,8 +322,12 @@ function taskFromRow(row) {
     assignedTo: row.assigned_to || "",
     managerUserId: row.manager_user_id || "",
     toolId: row.tool_id || "",
+    toolName: row.tool_name || row.tool_id || "",
+    toolUrl: row.tool_url || "",
     topicId: row.topic_id || "",
+    laneId: row.lane_id || "",
     copyId: row.copy_id || "",
+    variantType: row.variant_type || "shortPost",
     copyText: row.copy_text || "",
     status: row.status,
     approvalStatus: row.approval_status,
@@ -333,6 +386,123 @@ function auditFromRow(row) {
     entityId: row.entity_id || "",
     metadata: parseJson(row.metadata_json, {}),
     createdAt: row.created_at
+  };
+}
+
+async function loadD1Collections() {
+  const [workspaceRows, memberRows, userRows, assignmentRows, accountRows, taskRows, ledgerRows, publishJobRows, feedbackRows] = await Promise.all([
+    all(db, "SELECT * FROM workspaces WHERE status != 'archived' ORDER BY workspace_id"),
+    all(db, "SELECT * FROM workspace_members WHERE status != 'disabled' ORDER BY workspace_id, user_id"),
+    all(db, "SELECT * FROM users WHERE status != 'disabled' ORDER BY user_id"),
+    all(db, "SELECT * FROM assignments WHERE active != 0 ORDER BY assignment_id"),
+    all(db, "SELECT * FROM x_accounts ORDER BY account_id"),
+    all(
+      db,
+      `SELECT post_tasks.*, tools.canonical_name AS tool_name, tools.url AS tool_url,
+        topics.lane_id AS lane_id, copy_library.variant_type AS variant_type
+       FROM post_tasks
+       LEFT JOIN tools ON tools.tool_id = post_tasks.tool_id
+       LEFT JOIN topics ON topics.topic_id = post_tasks.topic_id
+       LEFT JOIN copy_library ON copy_library.copy_id = post_tasks.copy_id
+       ORDER BY post_tasks.created_at DESC, post_tasks.task_id ASC`
+    ),
+    all(db, "SELECT * FROM post_ledger ORDER BY created_at DESC"),
+    all(db, "SELECT * FROM publish_jobs ORDER BY created_at DESC"),
+    all(db, "SELECT * FROM feedback ORDER BY created_at DESC")
+  ]);
+
+  const workspaces = workspaceRows.map(workspaceFromRow);
+  const workspaceMap = new Map(workspaces.map((workspace) => [workspace.workspaceId, workspace]));
+  const workspaceLaneRows = await all(db, "SELECT workspace_id, lane_id FROM workspace_lanes WHERE enabled != 0 ORDER BY priority, lane_id");
+  for (const row of workspaceLaneRows) {
+    const workspace = workspaceMap.get(row.workspace_id);
+    if (workspace) workspace.enabledLaneIds.push(row.lane_id);
+  }
+  for (const member of memberRows) {
+    const workspace = workspaceMap.get(member.workspace_id);
+    if (!workspace) continue;
+    if (member.role === "manager" || member.role === "admin") workspace.managerUserIds.push(member.user_id);
+    if (member.role === "staff") workspace.staffUserIds.push(member.user_id);
+  }
+
+  const primaryWorkspaceByUser = new Map();
+  for (const member of memberRows) {
+    if (!primaryWorkspaceByUser.has(member.user_id)) primaryWorkspaceByUser.set(member.user_id, member.workspace_id);
+  }
+
+  return {
+    workspaces,
+    users: userRows.map((row) => userFromRow(row, primaryWorkspaceByUser.get(row.user_id))),
+    assignments: assignmentRows.map(assignmentFromRow),
+    xAccounts: accountRows.map(accountFromRow),
+    tasks: taskRows.map(taskFromRow),
+    ledger: ledgerRows.map(ledgerFromRow),
+    publishJobs: publishJobRows.map(publishJobFromRow),
+    feedback: feedbackRows.map(feedbackFromRow)
+  };
+}
+
+async function listWorkspaceLaneIds(db, workspaceId) {
+  const rows = await all(db, "SELECT lane_id FROM workspace_lanes WHERE workspace_id = ? AND enabled != 0 ORDER BY priority, lane_id", [workspaceId]);
+  return rows.map((row) => row.lane_id);
+}
+
+function userFromRow(row, workspaceId = "") {
+  return {
+    userId: row.user_id,
+    email: row.email || "",
+    name: row.name || row.user_id,
+    role: row.role || "staff",
+    status: row.status || "active",
+    active: row.status !== "disabled",
+    workspaceId,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function assignmentFromRow(row) {
+  return {
+    assignmentId: row.assignment_id,
+    workspaceId: row.workspace_id,
+    userId: row.user_id,
+    accountId: row.account_id,
+    active: Boolean(row.active),
+    startDate: row.start_date || "",
+    endDate: row.end_date || "",
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function accountFromRow(row) {
+  return {
+    accountId: row.account_id,
+    workspaceId: row.workspace_id,
+    handle: row.handle || "",
+    persona: row.persona || row.account_id,
+    niche: row.niche || "",
+    status: row.status || "active",
+    dailyPostLimit: Number(row.daily_post_limit || 0),
+    externalLinkLimit: Number(row.external_link_limit || 0),
+    managerUserId: row.manager_user_id || "",
+    ownerUserId: row.owner_user_id || "",
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function publishJobFromRow(row) {
+  return {
+    jobId: row.job_id,
+    workspaceId: row.workspace_id,
+    taskId: row.task_id,
+    accountId: row.account_id,
+    status: row.status,
+    dryRun: Boolean(row.dry_run),
+    scheduledAt: row.scheduled_at || "",
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
   };
 }
 

@@ -1,5 +1,6 @@
 import { CORE_COLLECTIONS, loadCollection } from "../core-data.mjs";
 import { SOURCE_LANE_FILES } from "../source-lanes.mjs";
+import { getCloudflareAccessPayload, isStrictAppEnv } from "./cloudflare-access-auth.mjs";
 import { AppApiError } from "./response.mjs";
 
 const ACCESS_EMAIL_HEADER = "cf-access-authenticated-user-email";
@@ -11,16 +12,22 @@ export async function getAuthContext(request, options = {}) {
   const url = options.url || new URL(request?.url || "/", "http://localhost");
   const emailFromAccess = headerValue(request, ACCESS_EMAIL_HEADER);
   const devEmail = String(url.searchParams.get("devEmail") || env.APP_DEV_EMAIL || "").trim();
-  const isProduction = env.NODE_ENV === "production" || env.APP_ENV === "production";
+  const strictAppEnv = isStrictAppEnv(env);
 
-  if (devEmail && isProduction) {
-    throw new AppApiError("DEV_EMAIL_DISABLED", "生产环境不能使用 devEmail。", 403);
+  if (devEmail && strictAppEnv) {
+    throw new AppApiError("DEV_EMAIL_DISABLED", "staging/production 环境不能使用 devEmail。", 403);
   }
 
-  const email = normalizeEmail(emailFromAccess || devEmail);
+  let email = "";
+  if (strictAppEnv) {
+    const payload = await getCloudflareAccessPayload(request, options);
+    email = normalizeEmail(payload.email);
+  } else {
+    email = normalizeEmail(emailFromAccess || options.accessJwtPayload?.email || devEmail);
+  }
   if (!email) throw new AppApiError("UNAUTHENTICATED", "请先登录。", 401);
 
-  const collections = options.collections || await loadAuthCollections();
+  const collections = options.collections || await loadAuthCollections(options.storage);
   const user = resolveUser(email, collections.users);
   if (!user) throw new AppApiError("USER_NOT_FOUND", "当前用户没有绑定账号。", 403);
 
@@ -39,13 +46,16 @@ export async function getAuthContext(request, options = {}) {
     workspaceId,
     workspaceIds,
     workspaceName: workspace?.name || workspaceId,
-    isDev: Boolean(devEmail && !emailFromAccess),
+    isDev: Boolean(devEmail && !emailFromAccess && !strictAppEnv),
     user,
     workspace
   };
 }
 
-export async function loadAuthCollections() {
+export async function loadAuthCollections(storage) {
+  if (storage && typeof storage.loadAuthCollections === "function") {
+    return storage.loadAuthCollections();
+  }
   const [users, workspaces, assignments, xAccounts] = await Promise.all([
     loadCollection(CORE_COLLECTIONS.users),
     loadCollection(SOURCE_LANE_FILES.workspaces),

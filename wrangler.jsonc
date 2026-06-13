@@ -9,5 +9,24 @@
       "database_id": "00000000-0000-0000-0000-000000000000",
       "migrations_dir": "db/migrations"
     }
-  ]
+  ],
+  "env": {
+    "staging": {
+      "name": "ai-creator-os-app-staging",
+      "vars": {
+        "APP_ENV": "staging",
+        "APP_STORAGE_MODE": "d1",
+        "CF_ACCESS_TEAM_DOMAIN": "",
+        "CF_ACCESS_AUD": ""
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "ai_creator_os_app_staging",
+          "database_id": "<fill-after-create>",
+          "migrations_dir": "db/migrations"
+        }
+      ]
+    }
+  }
 }

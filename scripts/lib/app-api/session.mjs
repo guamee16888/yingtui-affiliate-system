@@ -6,8 +6,8 @@ import { handleStaffGet, handleStaffPost } from "./staff-routes.mjs";
 import { assertAuthenticated, assertWorkspaceAccess } from "./workspace-scope.mjs";
 
 export async function handleAppApiGet({ request, url, options = {} }) {
-  const context = await getAuthContext(request, { ...options, url });
   const storage = options.storage || getAppStorage(options);
+  const context = await getAuthContext(request, { ...options, url, storage });
   const pathname = url.pathname;
 
   if (pathname === "/api/app/v1/session") return appSuccess(sessionView(context));
@@ -22,8 +22,8 @@ export async function handleAppApiGet({ request, url, options = {} }) {
 }
 
 export async function handleAppApiPost({ request, url, body, options = {} }) {
-  const context = await getAuthContext(request, { ...options, url });
   const storage = options.storage || getAppStorage(options);
+  const context = await getAuthContext(request, { ...options, url, storage });
   const pathname = url.pathname;
 
   const managerData = await handleManagerPost({ pathname, body, context, storage });

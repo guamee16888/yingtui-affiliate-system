@@ -11,7 +11,10 @@ const docs = [
   "docs/backend/auth-plan.md",
   "docs/backend/json-to-d1-migration-plan.md",
   "docs/backend/security-checklist.md",
-  "docs/backend/deployment-plan.md"
+  "docs/backend/deployment-plan.md",
+  "docs/deployment/app-cloudflare-staging.md",
+  "docs/deployment/app-pages-project.md",
+  "docs/deployment/app-access-d1-checklist.md"
 ];
 
 const d1Files = [
@@ -24,13 +27,21 @@ const d1Files = [
   "scripts/lib/app-storage-mode.mjs",
   "scripts/lib/app-api/session.mjs",
   "scripts/lib/app-api/auth-context.mjs",
+  "scripts/lib/app-api/cloudflare-access-auth.mjs",
   "scripts/lib/app-api/workspace-scope.mjs",
   "scripts/lib/app-api/response.mjs",
   "scripts/lib/app-api/manager-routes.mjs",
   "scripts/lib/app-api/staff-routes.mjs",
   "scripts/migrate-json-to-d1.mjs",
   "scripts/d1-status.mjs",
-  "scripts/d1-reset-local.mjs"
+  "scripts/d1-reset-local.mjs",
+  "functions/api/app/v1/[[path]].mjs",
+  "db/seed/app-staging-demo.sql",
+  "scripts/seed-app-staging.mjs",
+  "scripts/app-d1-status.mjs",
+  "scripts/app-d1-create-staging.mjs",
+  "scripts/app-d1-remote.mjs",
+  "scripts/verify-app-staging.mjs"
 ];
 
 const requiredTables = [
@@ -152,8 +163,14 @@ for (const script of [
   "d1:migrate:dry-run",
   "d1:export-sql",
   "d1:import:local",
+  "app:d1:status",
+  "app:d1:create:staging",
+  "app:d1:migrate:staging",
+  "app:d1:seed:staging",
+  "app:seed:staging-sql",
   "admin:preflight",
   "verify:admin-access",
+  "verify:app-staging",
   "demo:sanitize",
   "build:public",
   "build:admin-demo",
@@ -187,6 +204,46 @@ mustInclude(appStorage, "APP_STORAGE_MODE=d1 requires a D1 binding", "app-storag
 const appApiSession = await read("scripts/lib/app-api/session.mjs");
 for (const word of ["/api/app/v1/session", "/api/app/v1/workspace", "getAppStorage"]) {
   mustInclude(appApiSession, word, "app-api/session.mjs");
+}
+
+const appFunction = await read("functions/api/app/v1/[[path]].mjs");
+for (const word of ["onRequest", "handleAppApiGet", "handleAppApiPost", "D1_BINDING_MISSING"]) {
+  mustInclude(appFunction, word, "functions app route");
+}
+
+const accessAuth = await read("scripts/lib/app-api/cloudflare-access-auth.mjs");
+for (const word of ["cf-access-jwt-assertion", "CF_ACCESS_TEAM_DOMAIN", "CF_ACCESS_AUD", "RSASSA-PKCS1-v1_5"]) {
+  if (accessAuth.toLowerCase().includes(word.toLowerCase())) passed.push(`cloudflare-access-auth includes ${word}`);
+  else errors.push(`cloudflare-access-auth missing ${word}`);
+}
+
+const stagingSeed = await read("db/seed/app-staging-demo.sql");
+for (const word of ["workspace_staging_demo", "INSERT OR REPLACE", "user_staging_manager"]) {
+  mustInclude(stagingSeed, word, "app-staging-demo.sql");
+}
+if (/access_token|refresh_token|client_secret|api[_-]?key|bearer\s+[a-z0-9._-]+/i.test(stagingSeed)) {
+  errors.push("app staging seed contains token-looking text");
+} else {
+  passed.push("app staging seed has no token-looking text");
+}
+if (/x\.com\/[^'"\s]+\/status\/\d+|twitter\.com\/[^'"\s]+\/status\/\d+|postedUrl/i.test(stagingSeed)) {
+  errors.push("app staging seed contains posted URL text");
+} else {
+  passed.push("app staging seed has no posted URL text");
+}
+
+try {
+  const wrangler = JSON.parse(await read("wrangler.jsonc"));
+  const stagingDb = wrangler.env?.staging?.d1_databases?.[0] || {};
+  if (stagingDb.binding === "DB" && stagingDb.database_name === "ai_creator_os_app_staging") {
+    passed.push("wrangler staging has DB binding");
+  } else {
+    errors.push("wrangler staging missing DB binding");
+  }
+  if (wrangler.env?.staging?.vars?.APP_STORAGE_MODE === "d1") passed.push("wrangler staging APP_STORAGE_MODE=d1");
+  else errors.push("wrangler staging APP_STORAGE_MODE must be d1");
+} catch {
+  errors.push("wrangler.jsonc is not valid JSON");
 }
 
 const mapper = await read("scripts/lib/json-to-d1-mapper.mjs");

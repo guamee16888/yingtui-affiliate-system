@@ -21,7 +21,7 @@ Custom domain:
 admin.guamee.org
 ```
 
-`admin.guamee.org` is recommended over `ad.guamee.org` because the purpose is clearer and it is less likely to be read as an advertising domain.
+Use `admin.guamee.org` for the protected owner dashboard demo.
 
 ## Domain split
 

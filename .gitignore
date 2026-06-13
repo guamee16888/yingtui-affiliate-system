@@ -6,5 +6,7 @@ dist/
 .vercel/
 .DS_Store
 data/backups/
+db/seed/from-json.sql
+.wrangler/
 dashboard/*.bak-*
 .vercel

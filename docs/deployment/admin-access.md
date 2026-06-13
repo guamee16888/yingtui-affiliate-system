@@ -1,6 +1,6 @@
 # Admin Access Demo Deployment
 
-The admin demo is for `ad.guamee.org` or `admin.guamee.org`. It previews the owner dashboard, but it is still sanitized and read-only.
+The admin demo is for `admin.guamee.org`. It previews the owner dashboard, but it is still sanitized and read-only.
 
 Do not deploy this build to a public hostname unless Cloudflare Access is already protecting that hostname.
 
@@ -47,12 +47,6 @@ The build intentionally does not include real `data/`, real `output/`, `.env`, t
 4. Add a custom domain to the Pages project:
 
    ```text
-   ad.guamee.org
-   ```
-
-   or:
-
-   ```text
    admin.guamee.org
    ```
 
@@ -62,7 +56,7 @@ The build intentionally does not include real `data/`, real `output/`, `.env`, t
 
    ```text
    Type: Self-hosted / web application
-   Public hostname: ad.guamee.org or admin.guamee.org
+   Public hostname: admin.guamee.org
    Policy: allow only your email, Google account, GitHub account, or a small owner/admin group
    ```
 

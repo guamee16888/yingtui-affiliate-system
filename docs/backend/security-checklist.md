@@ -30,9 +30,13 @@
 - Do not store plaintext X tokens in D1.
 - `x_connections` only stores `token_ref`, `status`, `scopes`, and `last_verified_at`.
 - `.env` must not enter `dist`.
+- `db/seed/from-json.sql` is generated from operational JSON and must stay gitignored unless it is a deliberately sanitized demo fixture.
+- JSON -> D1 export strips token/secret-like fields and live posted URLs in sanitized mode.
 
 ## Audit
 
 - Every write action creates an `audit_logs` row.
 - API calls create summarized `api_events` rows.
 - Audit logs store event summary, actor, target, status, and timestamp, not sensitive body text.
+- D1 storage adapter writes audit rows for task status updates, ledger append, and feedback upsert.
+- JSON mode keeps `data/audit-logs.json` as the local audit-log shape until app APIs move to D1.

@@ -15,7 +15,7 @@ The public build must not include:
 
 ## Private admin
 
-`ad.guamee.org` is the future private platform admin console. It should be protected by Cloudflare Access before any production data is reachable.
+`admin.guamee.org` is the Cloudflare Access protected platform admin demo. It should remain private before any production data is reachable.
 
 ## Real app
 
@@ -29,17 +29,17 @@ The public build must not include:
 ## First deploy sequence
 
 1. Keep `guamee.org` static and read-only.
-2. Add `ad.guamee.org` behind Cloudflare Access.
+2. Keep `admin.guamee.org` behind Cloudflare Access.
 3. Add `app.guamee.org` behind Cloudflare Access for internal beta.
-4. Create staging D1 from `docs/backend/d1-schema.sql`.
-5. Build a D1 adapter behind the storage adapter interface.
+4. Validate local D1 with `npm run d1:migrate:local`, `npm run d1:migrate:dry-run`, and `npm run d1:import:local`.
+5. Create staging D1 from `db/migrations/0001_initial.sql`.
 6. Move manager workspace reads to D1.
 7. Move write actions to D1 with audit logs.
 8. Only after audit and permission checks, consider publish worker work.
 
 ## Not in this stage
 
-- no real D1 connection
+- no remote D1 production connection
 - no live Cloudflare Worker API
 - no automatic X publish
 - no customer login system

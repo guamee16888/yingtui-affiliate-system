@@ -58,6 +58,7 @@ import {
 import { PUBLISH_FILES, loadPublishCollection, loadPublishSettings } from "./lib/publish-data.mjs";
 import { ingestManualCandidates, loadCandidateSummary, loadLaneSummary, loadSourceLaneData, seedSourceLanes } from "./lib/source-lanes.mjs";
 import { loadWorkspaceSummary } from "./lib/workspace-system.mjs";
+import { getAppStorageMode } from "./lib/app-storage-mode.mjs";
 
 await loadLocalEnv();
 
@@ -143,6 +144,8 @@ async function handleApi(request, response, url) {
 
 async function handleApiGet(url) {
   const pathname = url.pathname;
+  if (pathname === "/api/storage-mode") return { mode: getAppStorageMode(), d1Bound: false };
+  guardD1ReservedRoute(pathname);
   if (pathname === "/api/latest") return loadLatest();
   if (pathname === "/api/staff/summary") return loadStaffSummary({
     workspaceId: url.searchParams.get("workspaceId") || "",
@@ -280,6 +283,7 @@ async function handleApiGet(url) {
 }
 
 async function handleApiPost(pathname, body) {
+  guardD1ReservedRoute(pathname);
   if (pathname === "/api/feedback/upsert") return upsertFeedbackWithAccount(body);
   if (pathname === "/api/candidate-inbox/upsert") return upsertCandidate(validateCandidate(body));
   if (pathname === "/api/candidate-inbox/preview-paste") return previewCandidatePaste(body);
@@ -314,6 +318,13 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/account/publish-mode") return updateAccountPublishMode(body);
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
+}
+
+function guardD1ReservedRoute(pathname) {
+  if (getAppStorageMode() !== "d1") return;
+  if (pathname.startsWith("/api/manager") || pathname.startsWith("/api/staff")) {
+    throw new Error("APP_STORAGE_MODE=d1 is reserved for app.guamee.org D1 MVP. This local server has no D1 binding yet; keep APP_STORAGE_MODE=json for the current dashboard.");
+  }
 }
 
 async function runDailyGeneration() {

@@ -62,7 +62,7 @@ test("api and auth contracts keep role and domain boundaries", async () => {
     assert.ok(api.includes(role), `api contract should include ${role}`);
     assert.ok(auth.includes(role), `auth plan should include ${role}`);
   }
-  for (const domain of ["guamee.org", "ad.guamee.org", "app.guamee.org"]) {
+  for (const domain of ["guamee.org", "admin.guamee.org", "app.guamee.org"]) {
     assert.ok(boundary.includes(domain), `data boundary should include ${domain}`);
   }
 });

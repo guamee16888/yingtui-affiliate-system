@@ -29,10 +29,7 @@ guamee.org
 = 公开官网 + sanitized 只读管理端 Demo
 
 admin.guamee.org
-= 未来私有平台总后台，只给我自己或平台 admin 看
-
-ad.guamee.org
-= 可选短域名，不如 admin.guamee.org 直观
+= Cloudflare Access 保护的老板总后台 Demo，只给我自己或平台 admin 看
 
 app.guamee.org
 = 未来真实 workspace 应用，需要登录和 workspace 权限
@@ -41,10 +38,40 @@ app.guamee.org
 重要边界：
 
 - `guamee.org` 不展示老板总后台，不展示员工端入口，不打包真实 `data/`、`output/` 或 `.env`。
-- `/dashboard` 是本地老板策略台，未来只应该放在 `admin.guamee.org` 或 `ad.guamee.org` 这种私有入口后面。
+- `/dashboard` 是本地老板策略台，未来只应该放在 `admin.guamee.org` 这种私有入口后面。
 - 公开 Demo 只展示 `/manager/?workspaceId=workspace_default`，而且是只读示例数据。
 - 真实客户/团队以后进 `app.guamee.org`。第一版可以把管理端和执行人员操作合在同一个 workspace 管理端里，不必公开拆成 manager/staff 两个入口。
 - 每个 workspace 默认控制 30 个以内 X 账号。员工或执行人员处理这 30 个账号内的任务，但不拥有平台总后台。
+
+## D1 Local MVP
+
+D1 Local MVP 是给未来 `app.guamee.org` 准备的数据库地基。当前默认仍然是本地 JSON 模式：
+
+```text
+APP_STORAGE_MODE=json
+```
+
+JSON 适合现在的本地单人开发、公开 demo 构建和快速验证；D1 是未来真实 workspace、manager/staff 写入、审计日志、任务审核和反馈闭环的主数据库。本轮只做 local D1，不操作远程 D1，不接真实登录，不接 X live publish。
+
+本地命令：
+
+```bash
+npm run d1:status
+npm run d1:migrate:local
+npm run d1:seed:local
+npm run d1:migrate:dry-run
+npm run d1:export-sql
+npm run d1:import:local
+```
+
+说明：
+
+- `db/migrations/0001_initial.sql` 是真实可执行的本地 D1 schema。
+- `db/seed/demo.sql` 是无 token、无 secret、无真实 posted URL 的 demo seed。
+- `npm run d1:migrate:dry-run` 只读取 JSON 并输出映射统计，不写数据库。
+- `npm run d1:export-sql` 会生成 `db/seed/from-json.sql`，该文件已加入 `.gitignore`，不要提交真实运营数据导出的 SQL。
+- `x_connections` 只允许保存 `token_ref`、`status`、`scopes_json`、`last_verified_at`，不保存 X token 明文。
+- static `guamee.org` 和 admin demo 不会因为 D1 Local MVP 获得写入能力。
 
 ## 快速开始
 
@@ -215,7 +242,7 @@ raw candidate
 
 AI Creator OS 现在按域名和权限分层：
 
-- `/dashboard` 是平台总后台，只给老板/admin 使用。它能看全局数据源、内容线、工具池、任务池、发布队列、post-ledger、duplicate risk、所有 workspace 概览和系统配置。公开站不应该暴露这个入口，未来放在 `ad.guamee.org` 后面。
+- `/dashboard` 是平台总后台，只给老板/admin 使用。它能看全局数据源、内容线、工具池、任务池、发布队列、post-ledger、duplicate risk、所有 workspace 概览和系统配置。公开站不应该暴露这个入口，未来放在 `admin.guamee.org` 后面。
 - `/manager/?workspaceId=workspace_default` 是 workspace 管理端，只能看当前 workspace 的账号、执行人员、任务、publish jobs、反馈和已订阅内容线。它不显示其他 workspace，不显示平台数据源 API key，也不显示全局账本全量。公开 Demo 只暴露这个入口，并使用示例数据。
 - `/staff/?workspaceId=workspace_default&userId=user_owner` 仍保留为本地实现面，但不作为公开产品入口。未来真实应用可以把员工执行放进同一个 workspace 管理流程里，让团队共同管理 30 个以内账号。
 
@@ -1022,7 +1049,7 @@ release:check = release:check:public
 
 私有后台边界：
 
-- `ad.guamee.org`：未来私有老板总后台，必须先接 Cloudflare Access 或等价访问控制。
+- `admin.guamee.org`：Cloudflare Access 保护的私有老板总后台 Demo，未来继续作为 owner/admin 入口。
 - `app.guamee.org`：未来真实 workspace 应用，需要登录、权限、workspace 隔离和数据库。
 
 本地仍然是唯一真实运营工作台：
@@ -1042,8 +1069,6 @@ npm run release:check:public
 ## Admin Demo Deployment
 
 `admin.guamee.org` 是未来私有老板总后台预览环境。这个构建可以包含 `/dashboard`，但只能部署在 Cloudflare Access 保护的子域名后面。
-
-`ad.guamee.org` 也可以用，但 `admin.guamee.org` 更直观，不容易被理解成广告域名。
 
 部署前先跑：
 
@@ -1089,12 +1114,6 @@ npm run verify:admin-access
 
 如果还没有配置 DNS / Pages custom domain / Access，这个命令可能失败，这是正常的。配置完成后，未登录访问 `https://admin.guamee.org` 应该被 Access 拦截；登录后才能看到 `受保护总后台演示`。
 
-如果要验证其他域名：
-
-```bash
-npm run verify:admin-access -- --url https://ad.guamee.org
-```
-
 本地或临时开放预览可用：
 
 ```bash
@@ -1109,8 +1128,6 @@ Cloudflare 手动配置说明：
 - [docs/deployment/admin-pages-project.md](docs/deployment/admin-pages-project.md)
 - [docs/deployment/cloudflare-access-admin.md](docs/deployment/cloudflare-access-admin.md)
 
-建议先用 `admin.guamee.org`，名字更直观；如果你已经决定用 `ad.guamee.org`，也可以。
-
 如果要把真实应用接到 D1，先通过 backend contract：
 
 ```bash
@@ -1124,7 +1141,7 @@ npm run backend:contract
 建议路线：
 
 1. `guamee.org` 保持公开静态 Demo。
-2. `ad.guamee.org` 先用 Cloudflare Access 保护，只给 owner/admin 进入。
+2. `admin.guamee.org` 先用 Cloudflare Access 保护，只给 owner/admin 进入。
 3. `app.guamee.org` 先用 Cloudflare Access 做内测，再做正式 workspace 登录。
 4. Cloudflare D1 作为第一版主数据库，存 workspace、users、accounts、tasks、ledger、feedback、publish jobs、audit logs。
 5. Cloudflare KV 只放低风险缓存、feature flags 或公开配置，不当任务状态主库。

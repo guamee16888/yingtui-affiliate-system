@@ -40,7 +40,7 @@ async function adminDashboardHtml() {
       `<section class="mode-banner admin-demo-static" id="modeBanner">
         <div>
           <strong>受保护总后台演示</strong>
-          <p>这个页面只应该部署在 Cloudflare Access 保护的 ad.guamee.org / admin.guamee.org 后面。</p>
+          <p>这个页面只应该部署在 Cloudflare Access 保护的 admin.guamee.org 后面。</p>
         </div>
       </section>`
     );

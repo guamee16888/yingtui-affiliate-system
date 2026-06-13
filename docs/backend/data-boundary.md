@@ -14,7 +14,7 @@
 
 ## Private platform admin data
 
-`ad.guamee.org` is owner-only. It can access platform-wide data:
+`admin.guamee.org` is owner-only. It can access platform-wide data:
 
 - all workspaces
 - global content lanes
@@ -52,6 +52,6 @@ The default workspace account cap is 30. This cap belongs in `workspaces.account
 
 - `guamee.org` cannot write.
 - `guamee.org` cannot expose `/dashboard` or `/staff` as public entry points.
-- `ad.guamee.org` requires owner/admin access.
+- `admin.guamee.org` requires owner/admin access.
 - `app.guamee.org` requires authenticated workspace access.
 - No API response returns raw tokens, connector secrets, or cross-workspace records.

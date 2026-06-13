@@ -1,4 +1,5 @@
-import { access } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { access, readFile } from "node:fs/promises";
 import path from "node:path";
 import { ACTIVE_TASK_STATUSES, CORE_COLLECTIONS, CONTENT_RULES_PATH, loadCollection, loadContentRules } from "./lib/core-data.mjs";
 import { loadManagerSummary } from "./lib/manager-system.mjs";
@@ -20,6 +21,7 @@ const requiredFiles = [
   "data/content-ops-plan.json",
   "data/affiliate-research.json",
   "data/review-pages.json",
+  "data/audit-logs.json",
   "config/affiliate-links.json",
   "config/x-accounts.json",
   "config/content-sources.json",
@@ -33,6 +35,15 @@ const requiredFiles = [
   "manager/index.html",
   "manager/js/app.js",
   "manager/style.css",
+  "db/migrations/0001_initial.sql",
+  "db/seed/demo.sql",
+  "wrangler.jsonc",
+  "scripts/lib/app-storage-mode.mjs",
+  "scripts/lib/d1-storage-adapter.mjs",
+  "scripts/lib/json-to-d1-mapper.mjs",
+  "scripts/migrate-json-to-d1.mjs",
+  "scripts/d1-status.mjs",
+  "scripts/d1-reset-local.mjs",
   ...Object.values(PUBLISH_FILES),
   ...Object.values(SOURCE_LANE_FILES),
   ...Object.values(CORE_COLLECTIONS),
@@ -86,6 +97,13 @@ const requiredScripts = [
   "today-plan",
   "weekly",
   "backend:contract",
+  "d1:status",
+  "d1:migrate:local",
+  "d1:seed:local",
+  "d1:reset:local",
+  "d1:migrate:dry-run",
+  "d1:export-sql",
+  "d1:import:local",
   "admin:preflight",
   "verify:admin-access",
   "demo:sanitize",
@@ -159,6 +177,7 @@ checkSourceLanes();
 checkWorkspaceIds(core);
 await checkWorkspaceAccess();
 checkPublishSystem(core);
+await checkD1LocalMvp();
 
 printReport();
 if (errors.length) process.exitCode = 1;
@@ -265,6 +284,81 @@ function checkPublishSystem(coreData) {
       if (job.tweetLengthStatus?.fitsXPost === false) errors.push(`ready publish job is over 280: ${job.jobId}`);
     }
   }
+}
+
+async function checkD1LocalMvp() {
+  const migration = await readTextIfExists("db/migrations/0001_initial.sql");
+  const mapper = await readTextIfExists("scripts/lib/json-to-d1-mapper.mjs");
+  const adapter = await readTextIfExists("scripts/lib/d1-storage-adapter.mjs");
+  const storageMode = await readTextIfExists("scripts/lib/app-storage-mode.mjs");
+  const docsSchema = await readTextIfExists("docs/backend/d1-schema.sql");
+  const requiredTables = [
+    "workspaces",
+    "users",
+    "workspace_members",
+    "x_accounts",
+    "assignments",
+    "content_lanes",
+    "workspace_lanes",
+    "source_connectors",
+    "source_feeds",
+    "raw_candidates",
+    "tools",
+    "topics",
+    "copy_library",
+    "post_tasks",
+    "post_ledger",
+    "feedback",
+    "publish_settings",
+    "x_connections",
+    "publish_jobs",
+    "publish_attempts",
+    "audit_logs",
+    "api_events"
+  ];
+  for (const table of requiredTables) {
+    const pattern = new RegExp(`create\\s+table\\s+(if\\s+not\\s+exists\\s+)?${table}\\b`, "i");
+    if (pattern.test(migration)) passed.push(`D1 migration table exists: ${table}`);
+    else errors.push(`D1 migration missing table: ${table}`);
+    if (pattern.test(docsSchema)) passed.push(`D1 docs table exists: ${table}`);
+    else errors.push(`D1 docs missing table: ${table}`);
+  }
+  for (const table of [
+    "workspace_members",
+    "x_accounts",
+    "assignments",
+    "workspace_lanes",
+    "raw_candidates",
+    "topics",
+    "copy_library",
+    "post_tasks",
+    "post_ledger",
+    "feedback",
+    "publish_settings",
+    "x_connections",
+    "publish_jobs",
+    "publish_attempts",
+    "audit_logs",
+    "api_events"
+  ]) {
+    const body = tableBody(migration, table);
+    if (/workspace_id\s+TEXT/i.test(body)) passed.push(`D1 private table includes workspace_id: ${table}`);
+    else errors.push(`D1 private table missing workspace_id: ${table}`);
+  }
+  for (const word of ["workspace_id", "task_id", "account_id", "user_id", "status", "created_at"]) {
+    if (new RegExp(`index[\\s\\S]+${word}`, "i").test(migration)) passed.push(`D1 migration indexes ${word}`);
+    else errors.push(`D1 migration missing common index for ${word}`);
+  }
+  if (/token_ref/i.test(migration) && !/access_token|refresh_token/i.test(migration)) passed.push("D1 schema stores token_ref, not raw tokens");
+  else errors.push("D1 schema must store token_ref without raw token columns");
+  if (/mapJsonToD1Rows/.test(mapper) && /rowsToSql/.test(mapper)) passed.push("JSON to D1 mapper exports required functions");
+  else errors.push("JSON to D1 mapper missing required exports");
+  if (/createD1StorageAdapter/.test(adapter) && /workspace_id\s*=\s*\?/i.test(adapter)) passed.push("D1 adapter exists and uses workspace filters");
+  else errors.push("D1 adapter missing or not workspace scoped");
+  if (/DEFAULT_APP_STORAGE_MODE\s*=\s*"json"/.test(storageMode)) passed.push("APP_STORAGE_MODE defaults to json");
+  else errors.push("APP_STORAGE_MODE must default to json");
+  if (gitLsFiles().includes("db/seed/from-json.sql")) errors.push("db/seed/from-json.sql must not be git tracked");
+  else passed.push("db/seed/from-json.sql is not git tracked");
 }
 
 function checkFeedbackBindings(coreData) {
@@ -445,6 +539,27 @@ function duplicates(values) {
   return [...dupes];
 }
 
+async function readTextIfExists(filePath) {
+  try {
+    return await readFile(path.join(rootDir, filePath), "utf8");
+  } catch {
+    return "";
+  }
+}
+
+function tableBody(sql, table) {
+  const match = sql.match(new RegExp(`create\\s+table\\s+(?:if\\s+not\\s+exists\\s+)?${table}\\s*\\(([\\s\\S]*?)\\);`, "i"));
+  return match?.[1] ?? "";
+}
+
+function gitLsFiles() {
+  try {
+    return execFileSync("git", ["ls-files"], { cwd: rootDir, encoding: "utf8" }).split(/\r?\n/).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
 function awaitJsonSyncWarning(filePath, fallback) {
   return jsonCache[filePath] ?? fallback;
 }
@@ -461,5 +576,5 @@ function printReport() {
   console.log(`errors: ${errors.length}`);
   for (const item of errors) console.log(`- ${item}`);
 
-if (!errors.length) console.log("System check passed");
+  if (!errors.length) console.log("System check passed");
 }

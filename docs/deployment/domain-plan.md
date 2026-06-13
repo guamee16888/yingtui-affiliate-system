@@ -14,7 +14,7 @@ Public website plus sanitized read-only demo.
 - Must not expose `/staff`
 - Must not package real `data/`, `output/`, `.env`, tokens, real X accounts, posted URLs, or real affiliate links
 
-## ad.guamee.org or admin.guamee.org
+## admin.guamee.org
 
 Owner-only platform admin preview behind Cloudflare Access.
 
@@ -27,7 +27,7 @@ Owner-only platform admin preview behind Cloudflare Access.
 - Must be deployed only after Cloudflare Access protects the hostname
 - Still cannot live publish or write real production data
 
-`admin.guamee.org` is clearer for visitors and operators. `ad.guamee.org` is shorter but may be read as advertising.
+Use `admin.guamee.org` for this surface so the owner/admin boundary is obvious.
 
 ## app.guamee.org
 

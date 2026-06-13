@@ -21,7 +21,7 @@ Errors use:
 - returns: user, role, workspace memberships
 - never returns: token, cookie secret, OAuth secret
 
-## Admin APIs for ad.guamee.org
+## Admin APIs for admin.guamee.org
 
 `GET /api/app/v1/admin/workspaces`
 

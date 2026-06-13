@@ -2,13 +2,13 @@
 
 ## Roles
 
-- `admin`: platform owner. Can access `ad.guamee.org` and global data.
+- `admin`: platform owner. Can access `admin.guamee.org` and global data.
 - `manager`: workspace manager. Can access one or more workspaces on `app.guamee.org`.
 - `staff`: operator. Can access assigned accounts and tasks inside a workspace.
 
 ## Domain protection
 
-`ad.guamee.org` should be protected first with Cloudflare Access. Only the owner/admin identity should pass.
+`admin.guamee.org` should be protected first with Cloudflare Access. Only the owner/admin identity should pass.
 
 `app.guamee.org` can also use Cloudflare Access during internal beta. Later it should move to a real workspace login system.
 

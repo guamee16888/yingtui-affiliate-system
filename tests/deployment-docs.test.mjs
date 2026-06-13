@@ -13,7 +13,6 @@ test("deployment docs describe public admin and app domains", async () => {
   for (const text of [domain, publicDemo, adminAccess, adminPages, cloudflareAccess]) {
     assert.ok(text.includes("guamee.org"));
   }
-  assert.ok(domain.includes("ad.guamee.org"));
   assert.ok(domain.includes("admin.guamee.org"));
   assert.ok(domain.includes("app.guamee.org"));
   assert.ok(publicDemo.includes("build:public"));

@@ -7,20 +7,20 @@ This contract defines the boundary for the future writable AI Creator OS app. It
 ## Domains
 
 - `guamee.org`: public marketing site plus sanitized, read-only manager demo.
-- `ad.guamee.org`: private platform admin console for the owner only.
+- `admin.guamee.org`: Cloudflare Access protected platform admin demo for the owner only.
 - `app.guamee.org`: future authenticated workspace app for customers, managers, and operators.
 
 ## Product split
 
 `guamee.org` must never use real operational data. It can show product positioning and a sanitized manager demo that cannot write.
 
-`ad.guamee.org` is the platform owner surface. It can see all workspaces, source connectors, content lanes, candidate supply, queue health, system config, and release checks. This is not a public demo surface.
+`admin.guamee.org` is the platform owner surface. It can see all workspaces, source connectors, content lanes, candidate supply, queue health, system config, and release checks. This is not a public demo surface.
 
 `app.guamee.org` is the real workspace app. In the first real app version, manager review and staff execution can be combined into one workspace management flow. A workspace controls up to 30 X accounts by default. Operators work inside the same workspace task pool instead of seeing a separate public staff entry.
 
 ## Writable API boundary
 
-Writable APIs are allowed only on `app.guamee.org` or `ad.guamee.org` after authentication and workspace authorization:
+Writable APIs are allowed only on `app.guamee.org` or `admin.guamee.org` after authentication and workspace authorization:
 
 - approve or reject tasks
 - assign account or operator
@@ -34,9 +34,21 @@ Writable APIs are allowed only on `app.guamee.org` or `ad.guamee.org` after auth
 
 `guamee.org` is read-only. It can serve static HTML, CSS, JS, and sanitized demo JSON. It cannot call live write APIs.
 
+## D1 Local MVP status
+
+The repository now includes a local-only Cloudflare D1 foundation:
+
+- executable schema: `db/migrations/0001_initial.sql`
+- sanitized demo seed: `db/seed/demo.sql`
+- JSON to D1 dry-run/export/import scripts
+- first D1 storage adapter behind the storage-adapter interface
+- audit log tables and adapter write hooks
+
+Default runtime storage remains JSON. `APP_STORAGE_MODE=d1` is reserved for the future app runtime and the current local static server returns a clear error for manager/staff write routes when no D1 binding exists.
+
 ## Not in v1
 
-- no real D1 connection
+- no remote D1 production connection
 - no full login system
 - no cloud token storage
 - no automatic X live publishing

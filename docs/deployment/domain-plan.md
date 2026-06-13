@@ -31,7 +31,16 @@ Use `admin.guamee.org` for this surface so the owner/admin boundary is obvious.
 
 ## app.guamee.org
 
-Future real application.
+Protected placeholder for the future real application.
+
+- Build command now: `npm run build:app-placeholder`
+- Output directory now: `dist`
+- Current entry: `/`
+- Must be protected by Cloudflare Access before sharing
+- Shows `AI Creator OS App` and `受保护应用预览`
+- Must not package `/dashboard`, `/manager`, `/staff`, real `data/`, `output/`, `.env`, tokens, posted URLs, or affiliate links
+
+Future real app requirements:
 
 - Requires auth
 - Requires workspace isolation
@@ -40,4 +49,4 @@ Future real application.
 - KV should be limited to low-risk cache, feature flags, and configuration
 - Queues can later handle source ingest, task generation, publish jobs, and retries
 
-This repository does not implement the real `app.guamee.org` backend yet.
+This repository does not implement the real `app.guamee.org` backend yet. The current app build is only a safe placeholder.

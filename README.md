@@ -32,7 +32,7 @@ admin.guamee.org
 = Cloudflare Access 保护的老板总后台 Demo，只给我自己或平台 admin 看
 
 app.guamee.org
-= 未来真实 workspace 应用，需要登录和 workspace 权限
+= 受保护真实客户后台，占位页阶段；未来需要登录、workspace 权限和 D1 写入后端
 ```
 
 重要边界：
@@ -41,6 +41,7 @@ app.guamee.org
 - `/dashboard` 是本地老板策略台，未来只应该放在 `admin.guamee.org` 这种私有入口后面。
 - 公开 Demo 只展示 `/manager/?workspaceId=workspace_default`，而且是只读示例数据。
 - 真实客户/团队以后进 `app.guamee.org`。第一版可以把管理端和执行人员操作合在同一个 workspace 管理端里，不必公开拆成 manager/staff 两个入口。
+- `app.guamee.org` 当前只应该部署 `app-placeholder/` 占位页，并放在 Cloudflare Access 后面。
 - 每个 workspace 默认控制 30 个以内 X 账号。员工或执行人员处理这 30 个账号内的任务，但不拥有平台总后台。
 
 ## D1 Local MVP
@@ -1133,6 +1134,37 @@ Cloudflare 手动配置说明：
 ```bash
 npm run backend:contract
 ```
+
+## App Placeholder Deployment
+
+`app.guamee.org` 目前不是正式客户后台，而是受保护占位页。这个页面用于避免浏览器直接显示 `ERR_CONNECTION_CLOSED`，同时明确真实 app 后端还没上线。
+
+构建和检查：
+
+```bash
+npm run build:app-placeholder
+npm run release:check:app-placeholder
+```
+
+Cloudflare Pages 建议：
+
+```text
+Project name: ai-creator-os-app
+Production branch: main
+Build command: npm run build:app-placeholder
+Output directory: dist
+Custom domain: app.guamee.org
+```
+
+Cloudflare Access 验证：
+
+```bash
+npm run verify:app-access
+```
+
+如果 `app.guamee.org` 还没创建 Pages 项目或绑定域名，验证可能返回 warning，这是预期结果。需要先在 Cloudflare Pages 添加 custom domain，再在 Zero Trust Access 创建 Self-hosted application，Public hostname 填 `app.guamee.org`，Policy 只允许你的邮箱或 owner/admin group。
+
+占位页不会包含 `/dashboard`、`/manager`、`/staff`、真实 `data/`、`output/`、`.env`、token、postedUrl、affiliate link 或 X posting controls。
 
 ## App Backend Roadmap
 

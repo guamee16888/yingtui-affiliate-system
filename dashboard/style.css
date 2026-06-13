@@ -2385,3 +2385,40 @@ main {
     min-height: 0;
   }
 }
+
+/* Overflow polish: keep dense dashboard controls contained on narrow screens. */
+.tabs {
+  max-width: 100%;
+  min-width: 0;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 1100px) {
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    overflow: visible;
+    mask-image: none;
+  }
+
+  .tab {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .top-actions .button,
+  .top-actions a.button {
+    flex: 1 1 150px;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

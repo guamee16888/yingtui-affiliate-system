@@ -19,8 +19,8 @@ export async function validatePublicRelease({ distDir = defaultDistDir } = {}) {
   if (rootIndex.includes("/dashboard") || rootIndex.includes("/staff")) {
     errors.push("Public root must not link to dashboard or staff.");
   }
-  if (!rootIndex.includes("ad.guamee.org") || !rootIndex.includes("app.guamee.org")) {
-    errors.push("Public root must explain ad.guamee.org and app.guamee.org boundaries.");
+  if (!rootIndex.includes("admin.guamee.org") || !rootIndex.includes("app.guamee.org")) {
+    errors.push("Public root must explain admin.guamee.org and app.guamee.org boundaries.");
   }
 
   const dataFiles = await listFiles(path.join(distDir, "data"));

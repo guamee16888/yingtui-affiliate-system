@@ -59,6 +59,8 @@ import { PUBLISH_FILES, loadPublishCollection, loadPublishSettings } from "./lib
 import { ingestManualCandidates, loadCandidateSummary, loadLaneSummary, loadSourceLaneData, seedSourceLanes } from "./lib/source-lanes.mjs";
 import { loadWorkspaceSummary } from "./lib/workspace-system.mjs";
 import { getAppStorageMode } from "./lib/app-storage-mode.mjs";
+import { handleAppApiGet, handleAppApiPost } from "./lib/app-api/session.mjs";
+import { appFailure } from "./lib/app-api/response.mjs";
 
 await loadLocalEnv();
 
@@ -123,6 +125,22 @@ async function parseBody(request) {
 
 async function handleApi(request, response, url) {
   try {
+    if (url.pathname.startsWith("/api/app/v1/")) {
+      if (request.method === "GET") {
+        const result = await handleAppApiGet({ request, url });
+        sendJson(response, result.status, result.payload);
+        return;
+      }
+      if (request.method === "POST") {
+        const body = await parseBody(request);
+        const result = await handleAppApiPost({ request, url, body });
+        sendJson(response, result.status, result.payload);
+        return;
+      }
+      sendJson(response, 405, { ok: false, code: "METHOD_NOT_ALLOWED", error: "Method not allowed" });
+      return;
+    }
+
     if (request.method === "GET") {
       const data = await handleApiGet(url);
       sendJson(response, 200, { ok: true, data });
@@ -138,6 +156,11 @@ async function handleApi(request, response, url) {
 
     sendJson(response, 405, { ok: false, error: "Method not allowed" });
   } catch (error) {
+    if (url.pathname.startsWith("/api/app/v1/")) {
+      const result = appFailure(error);
+      sendJson(response, result.status, result.payload);
+      return;
+    }
     sendJson(response, 400, { ok: false, error: error.message });
   }
 }

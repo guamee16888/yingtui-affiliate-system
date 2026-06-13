@@ -2,9 +2,14 @@ const params = new URLSearchParams(location.search);
 const state = {
   workspaceId: params.get("workspaceId") || "",
   managerUserId: params.get("managerUserId") || "",
+  devEmail: params.get("devEmail") || "",
+  appMode: params.get("appMode") === "1",
+  session: null,
+  workspace: null,
   status: "all",
   data: null,
   demoMode: false,
+  appError: "",
   selectedTaskIds: new Set()
 };
 
@@ -58,6 +63,17 @@ document.addEventListener("click", async (event) => {
   }
 
   const button = event.target.closest("[data-action]");
+  const feedbackButton = event.target.closest("[data-feedback-save]");
+  if (feedbackButton) {
+    try {
+      await saveFeedback(feedbackButton.dataset.taskId);
+      toast("反馈已保存");
+    } catch (error) {
+      toast(error.message);
+    }
+    return;
+  }
+
   if (!button) return;
   const taskId = button.dataset.taskId;
   const action = button.dataset.action;
@@ -108,6 +124,10 @@ document.addEventListener("change", (event) => {
 await loadManager();
 
 async function loadManager() {
+  if (state.appMode) {
+    await loadAppManager();
+    return;
+  }
   try {
     $("#statusText").textContent = "读取 workspace 任务中...";
     const query = new URLSearchParams();
@@ -137,8 +157,45 @@ async function loadManager() {
   }
 }
 
+async function loadAppManager() {
+  try {
+    $("#statusText").textContent = "读取真实工作区...";
+    const query = appQuery();
+    const suffix = query.toString() ? `?${query}` : "";
+    const [session, workspace, summary] = await Promise.all([
+      apiGet(`/api/app/v1/session${suffix}`),
+      apiGet(`/api/app/v1/workspace${suffix}`),
+      apiGet(`/api/app/v1/manager/summary${suffix}`)
+    ]);
+    state.session = session;
+    state.workspace = workspace;
+    state.data = summary;
+    state.demoMode = false;
+    state.appError = "";
+    state.workspaceId = session.workspaceId || workspace.workspaceId || "";
+    state.managerUserId = session.userId || "";
+    updateUrl();
+    render();
+  } catch (error) {
+    state.data = null;
+    state.appError = error.message || "请先登录 app.guamee.org";
+    renderAppError();
+  }
+}
+
 async function updateTask(taskId, action, extra = {}) {
   if (state.demoMode) throw new Error("公开 Demo 是演示模式，不会写入任务。");
+  if (state.appMode) {
+    if (action === "assign") throw new Error("App API MVP 先支持批准、拒绝和反馈保存。");
+    const query = appQuery();
+    const suffix = query.toString() ? `?${query}` : "";
+    const endpoint = action === "approve"
+      ? "/api/app/v1/manager/tasks/approve"
+      : "/api/app/v1/manager/tasks/reject";
+    await apiPost(`${endpoint}${suffix}`, { taskId, ...extra });
+    await loadAppManager();
+    return;
+  }
   const json = await apiPost("/api/manager/task", {
     taskId,
     action,
@@ -148,6 +205,22 @@ async function updateTask(taskId, action, extra = {}) {
   });
   state.data = json.summary;
   render();
+}
+
+async function saveFeedback(taskId) {
+  if (!state.appMode) throw new Error("反馈保存只在真实工作区模式启用。");
+  const task = state.data?.tasks.find((item) => item.taskId === taskId);
+  if (!task) throw new Error("任务不存在。");
+  const metrics = {};
+  for (const key of ["impressions", "likes", "bookmarks", "replies", "reposts", "clicks", "profileVisits"]) {
+    const input = document.querySelector(`[data-feedback-metric="${key}"][data-task-id="${CSS.escape(taskId)}"]`);
+    metrics[key] = Number(input?.value || 0);
+  }
+  const notes = document.querySelector(`[data-feedback-notes][data-task-id="${CSS.escape(taskId)}"]`)?.value || "";
+  const query = appQuery();
+  const suffix = query.toString() ? `?${query}` : "";
+  await apiPost(`/api/app/v1/manager/feedback${suffix}`, { taskId, metrics, notes });
+  await loadAppManager();
 }
 
 function render() {
@@ -170,6 +243,17 @@ function render() {
   renderTasks();
 }
 
+function renderAppError() {
+  $("#statusText").textContent = state.appError || "请先登录 app.guamee.org";
+  $("#modeNotice").innerHTML = `<strong>请先登录 app.guamee.org</strong> 当前页面需要 Cloudflare Access 身份。开发环境可使用 <code>?appMode=1&devEmail=owner@guamee.local</code>。`;
+  $("#workspaceSelect").innerHTML = "";
+  $("#managerSelect").innerHTML = "";
+  $("#metrics").innerHTML = "";
+  $("#workspaceResources").innerHTML = `<div class="empty">${esc(state.appError || "请先登录。")}</div>`;
+  $("#batchBar").innerHTML = "";
+  $("#tasks").innerHTML = "";
+}
+
 function renderSelectors() {
   $("#workspaceSelect").innerHTML = (state.data.workspaces || []).map((workspace) => `
     <option value="${attr(workspace.workspaceId)}" ${workspace.workspaceId === state.workspaceId ? "selected" : ""}>${esc(workspace.name)}</option>
@@ -177,11 +261,17 @@ function renderSelectors() {
   $("#managerSelect").innerHTML = (state.data.managers || []).map((manager) => `
     <option value="${attr(manager.userId)}" ${manager.userId === state.managerUserId ? "selected" : ""}>${esc(manager.name)} (${esc(manager.role)})</option>
   `).join("");
+  $("#workspaceSelect").disabled = state.appMode;
+  $("#managerSelect").disabled = state.appMode;
 }
 
 function renderModeNotice() {
   const notice = $("#modeNotice");
   if (!notice) return;
+  if (state.appMode) {
+    notice.innerHTML = `<strong>真实工作区 · Workspace App Mode</strong> 当前用户：${esc(state.session?.email || "unknown")} · ${esc(state.workspace?.name || state.data?.selectedWorkspace?.name || "Workspace")}。这里会调用 /api/app/v1 保存审核、拒绝和反馈，并写入 audit log。`;
+    return;
+  }
   notice.innerHTML = state.demoMode
     ? `<strong>公开演示环境，仅可查看，不能保存或发布。</strong> 这里展示 workspace 管理端的信息架构。按钮会保留界面形态，但不会写入任务、不会连接真实 X 账号，也不会显示平台总后台。`
     : `<strong>管理端规则：</strong>这里只管理当前 workspace 的账号、任务审核、分配和反馈状态。默认控制 30 个以内账号，不显示平台总后台，不自动发推。`;
@@ -292,14 +382,43 @@ function renderTask(task) {
       </div>
       <div class="copy-box">${esc(task.copyText)}</div>
       ${renderTaskDetail(task)}
+      ${renderFeedbackForm(task)}
       ${task.blockReasons.length ? `<div class="badges">${task.blockReasons.map((reason) => badge(reason, "bad")).join("")}</div>` : ""}
       <div class="task-actions">
-        <button class="button secondary" data-action="assign" data-task-id="${attr(task.taskId)}" ${task.canAssign ? "" : "disabled"} type="button">保存分配</button>
-        <button class="button" data-action="approve" data-task-id="${attr(task.taskId)}" ${task.canApprove ? "" : "disabled"} type="button">批准</button>
-        <button class="button danger" data-action="reject" data-task-id="${attr(task.taskId)}" ${task.canReject ? "" : "disabled"} type="button">拒绝</button>
+        <button class="button secondary" data-action="assign" data-task-id="${attr(task.taskId)}" ${task.canAssign && !state.appMode && !state.demoMode ? "" : "disabled"} type="button">保存分配</button>
+        <button class="button" data-action="approve" data-task-id="${attr(task.taskId)}" ${task.canApprove && !state.demoMode ? "" : "disabled"} type="button">批准</button>
+        <button class="button danger" data-action="reject" data-task-id="${attr(task.taskId)}" ${task.canReject && !state.demoMode ? "" : "disabled"} type="button">拒绝</button>
       </div>
     </article>
   `;
+}
+
+function renderFeedbackForm(task) {
+  if (!state.appMode || !["posted", "feedback_due"].includes(task.status) && !task.postedUrl) return "";
+  const metrics = task.metrics || {};
+  const metricInput = (key, label) => `
+    <label class="field">
+      <span>${esc(label)}</span>
+      <input data-feedback-metric="${attr(key)}" data-task-id="${attr(task.taskId)}" type="number" min="0" step="1" value="${attr(metrics[key] ?? 0)}">
+    </label>
+  `;
+  return `<div class="feedback-form">
+    <strong>反馈回填</strong>
+    <div class="feedback-grid">
+      ${metricInput("impressions", "Impressions")}
+      ${metricInput("likes", "Likes")}
+      ${metricInput("bookmarks", "Bookmarks")}
+      ${metricInput("replies", "Replies")}
+      ${metricInput("reposts", "Reposts")}
+      ${metricInput("clicks", "Clicks")}
+      ${metricInput("profileVisits", "Profile visits")}
+    </div>
+    <label class="field">
+      <span>Notes</span>
+      <input data-feedback-notes data-task-id="${attr(task.taskId)}" type="text" placeholder="可选：补充观察">
+    </label>
+    <button class="button secondary" data-feedback-save data-task-id="${attr(task.taskId)}" type="button">保存反馈</button>
+  </div>`;
 }
 
 function renderTaskDetail(task) {
@@ -378,10 +497,12 @@ function renderBatchBar() {
 }
 
 function canBatchSelect(task) {
+  if (state.appMode || state.demoMode) return false;
   return task.canAssign || task.canApprove || task.canReject;
 }
 
 async function applyBatch(action) {
+  if (state.appMode) throw new Error("App API MVP 暂不支持批量操作。");
   const taskIds = [...state.selectedTaskIds];
   if (!taskIds.length) throw new Error("先勾选任务。");
   const payload = {
@@ -484,9 +605,18 @@ async function apiPost(path, body) {
 
 function updateUrl() {
   const url = new URL(location.href);
+  if (state.appMode) url.searchParams.set("appMode", "1");
+  if (state.devEmail) url.searchParams.set("devEmail", state.devEmail);
   if (state.workspaceId) url.searchParams.set("workspaceId", state.workspaceId);
   if (state.managerUserId) url.searchParams.set("managerUserId", state.managerUserId);
   history.replaceState({}, "", url);
+}
+
+function appQuery() {
+  const query = new URLSearchParams();
+  if (state.devEmail) query.set("devEmail", state.devEmail);
+  if (state.workspaceId) query.set("workspaceId", state.workspaceId);
+  return query;
 }
 
 function toast(message) {

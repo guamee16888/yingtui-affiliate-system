@@ -20,7 +20,14 @@ const d1Files = [
   "wrangler.jsonc",
   "scripts/lib/d1-storage-adapter.mjs",
   "scripts/lib/json-to-d1-mapper.mjs",
+  "scripts/lib/app-storage.mjs",
   "scripts/lib/app-storage-mode.mjs",
+  "scripts/lib/app-api/session.mjs",
+  "scripts/lib/app-api/auth-context.mjs",
+  "scripts/lib/app-api/workspace-scope.mjs",
+  "scripts/lib/app-api/response.mjs",
+  "scripts/lib/app-api/manager-routes.mjs",
+  "scripts/lib/app-api/staff-routes.mjs",
   "scripts/migrate-json-to-d1.mjs",
   "scripts/d1-status.mjs",
   "scripts/d1-reset-local.mjs"
@@ -55,6 +62,7 @@ const requiredAdapterFiles = [
   "scripts/lib/storage-adapter.mjs",
   "scripts/lib/json-storage-adapter.mjs",
   "scripts/lib/d1-storage-adapter.mjs",
+  "scripts/lib/app-storage.mjs",
   "scripts/lib/json-to-d1-mapper.mjs",
   "scripts/lib/d1-storage-adapter.stub.mjs"
 ];
@@ -104,7 +112,18 @@ for (const indexWord of ["workspace_id", "task_id", "account_id", "user_id", "st
 }
 
 const api = await read("docs/backend/api-contract.md");
-for (const word of ["admin", "manager", "staff", "/api/app/v1/admin", "/api/app/v1/manager", "/api/app/v1/staff"]) {
+for (const word of [
+  "admin",
+  "manager",
+  "staff",
+  "/api/app/v1/session",
+  "/api/app/v1/workspace",
+  "/api/app/v1/admin",
+  "/api/app/v1/manager",
+  "/api/app/v1/staff",
+  "/api/app/v1/manager/feedback",
+  "workspace scope"
+]) {
   mustInclude(api, word, "api-contract.md");
 }
 
@@ -138,9 +157,11 @@ for (const script of [
   "demo:sanitize",
   "build:public",
   "build:admin-demo",
+  "build:app",
   "build:demo",
   "release:check:public",
   "release:check:admin",
+  "release:check:app",
   "release:check"
 ]) {
   if (pkg.scripts?.[script]) passed.push(`Package script exists: ${script}`);
@@ -159,6 +180,14 @@ else passed.push("D1 adapter is a stub only");
 
 const storageMode = await read("scripts/lib/app-storage-mode.mjs");
 mustInclude(storageMode, 'DEFAULT_APP_STORAGE_MODE = "json"', "app-storage-mode.mjs");
+
+const appStorage = await read("scripts/lib/app-storage.mjs");
+mustInclude(appStorage, "APP_STORAGE_MODE=d1 requires a D1 binding", "app-storage.mjs");
+
+const appApiSession = await read("scripts/lib/app-api/session.mjs");
+for (const word of ["/api/app/v1/session", "/api/app/v1/workspace", "getAppStorage"]) {
+  mustInclude(appApiSession, word, "app-api/session.mjs");
+}
 
 const mapper = await read("scripts/lib/json-to-d1-mapper.mjs");
 for (const word of ["mapJsonToD1Rows", "rowsToSql", "tokenRef", "posted_url"]) {

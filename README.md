@@ -97,6 +97,45 @@ npm run d1:import:local
 - `x_connections` 只允许保存 `token_ref`、`status`、`scopes_json`、`last_verified_at`，不保存 X token 明文。
 - static `guamee.org` 和 admin demo 不会因为 D1 Local MVP 获得写入能力。
 
+## App API MVP
+
+`app.guamee.org` 是未来真实客户后台。第一版 App API 只做最小可写闭环：
+
+- `GET /api/app/v1/session`
+- `GET /api/app/v1/workspace`
+- `GET /api/app/v1/manager/summary`
+- `GET /api/app/v1/manager/tasks`
+- `GET /api/app/v1/manager/accounts`
+- `GET /api/app/v1/manager/feedback-debt`
+- `POST /api/app/v1/manager/tasks/approve`
+- `POST /api/app/v1/manager/tasks/reject`
+- `POST /api/app/v1/manager/feedback`
+
+身份第一版走 Cloudflare Access header：`Cf-Access-Authenticated-User-Email`。本地开发可以用：
+
+```text
+http://127.0.0.1:4175/manager/?appMode=1&devEmail=owner@guamee.local
+```
+
+`devEmail` 只允许本地开发。`NODE_ENV=production` 或 `APP_ENV=production` 时会拒绝。
+
+默认 storage 仍然是：
+
+```text
+APP_STORAGE_MODE=json
+```
+
+D1 adapter 已准备，但远程 D1 仍未上线。当前仍然不做 X live publish、自动发推、公开注册、复杂计费或 Discord 登录。
+
+App build 命令：
+
+```bash
+npm run build:app
+npm run release:check:app
+```
+
+`build:app` 包含 app placeholder 和 manager 页面，不包含 `/dashboard`、`/staff`、真实 `data/`、`output/`、token、secret、真实 posted URL 或真实 affiliate link。
+
 ## 快速开始
 
 ```bash

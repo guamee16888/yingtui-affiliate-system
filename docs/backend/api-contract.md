@@ -21,6 +21,13 @@ Errors use:
 - returns: user, role, workspace memberships
 - never returns: token, cookie secret, OAuth secret
 
+`GET /api/app/v1/workspace`
+
+- role: authenticated user
+- scope: current workspace only
+- returns: workspaceId, name, plan, account limit, enabled lanes, publish mode, approval policy
+- never returns: other workspace records
+
 ## Admin APIs for admin.guamee.org
 
 `GET /api/app/v1/admin/workspaces`
@@ -45,6 +52,8 @@ Errors use:
 - never returns: API keys or token material
 
 ## Manager APIs for app.guamee.org
+
+All manager APIs are workspace scope endpoints. A manager can only read or write the workspace returned by the current session. An admin can use the same endpoints for the current workspace, but this v1 API does not expose global admin analytics yet.
 
 `GET /api/app/v1/manager/summary`
 
@@ -76,6 +85,14 @@ Errors use:
 - required params: workspaceId, taskId, reason
 - scope: selected workspace only
 - writes: post_tasks status and audit_logs
+
+`POST /api/app/v1/manager/feedback`
+
+- role: manager or admin
+- required params: workspaceId, taskId, metrics
+- scope: selected workspace only
+- writes: feedback, post_tasks metrics, and audit_logs
+- gate: metrics must be non-negative numbers; zero impressions must return zero rates, not NaN
 
 `POST /api/app/v1/manager/tasks/assign`
 

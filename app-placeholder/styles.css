@@ -75,6 +75,26 @@ h1 {
   line-height: 1.7;
 }
 
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  margin-top: 24px;
+  padding: 0 18px;
+  border-radius: 12px;
+  color: #ffffff;
+  background: var(--accent);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(31, 122, 77, 0.18);
+}
+
+.button:hover {
+  background: #17653f;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));

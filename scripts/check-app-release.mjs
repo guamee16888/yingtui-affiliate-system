@@ -25,6 +25,10 @@ export async function validateAppRelease({ distDir = defaultDistDir } = {}) {
     errors.push("App manager page must show a login-needed state.");
   }
   if (!rootIndex.includes("AI Creator OS App")) errors.push("App root must include AI Creator OS App.");
+  if (!rootIndex.includes("/manager/?appMode=1")) errors.push("App root must send customers to manager app mode.");
+  if (/准备中|Planned|placeholder build/i.test(rootIndex)) {
+    errors.push("App root must not show placeholder or planned-state wording.");
+  }
 
   const files = await listFiles(distDir);
   for (const file of files) {

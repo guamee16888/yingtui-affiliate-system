@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "items": [
+    {
+      "laneId": "ai_startups",
+      "name": "AI 创业圈",
+      "description": "AI products, agents, workflows, automation, and founder insight.",
+      "allowedTopics": [
+        "AI product",
+        "agent",
+        "workflow",
+        "automation",
+        "model apps",
+        "founder insight"
+      ],
+      "blockedTopics": [
+        "income promise",
+        "guaranteed growth",
+        "fake affiliate link"
+      ],
+      "defaultStyle": "practical, product-aware, no hype",
+      "defaultLinkPolicy": "mostly_no_link",
+      "active": true,
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "laneId": "indie_builders",
+      "name": "独立开发者圈",
+      "description": "Solo founder launches, build in public, small tools, revenue, and workflow lessons.",
+      "allowedTopics": [
+        "solo founder",
+        "build in public",
+        "small tool",
+        "launch",
+        "revenue",
+        "workflow"
+      ],
+      "blockedTopics": [
+        "fake MRR",
+        "guaranteed income",
+        "spam launch"
+      ],
+      "defaultStyle": "specific, maker-facing, calm",
+      "defaultLinkPolicy": "mostly_no_link",
+      "active": true,
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "laneId": "saas_founders",
+      "name": "SaaS 创始人圈",
+      "description": "Pricing, onboarding, churn, PLG, sales, and founder operations.",
+      "allowedTopics": [
+        "pricing",
+        "onboarding",
+        "churn",
+        "PLG",
+        "sales",
+        "founder ops",
+        "B2B growth"
+      ],
+      "blockedTopics": [
+        "generic startup motivation",
+        "fake case study",
+        "unverified revenue claim"
+      ],
+      "defaultStyle": "practical, founder-facing, no hype",
+      "defaultLinkPolicy": "mostly_no_link",
+      "active": true,
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "laneId": "crypto_builders",
+      "name": "Crypto builder 圈",
+      "description": "Onchain data tools, wallet UX, security, infra, dev tooling, and community operations.",
+      "allowedTopics": [
+        "onchain data",
+        "wallet UX",
+        "security",
+        "infra",
+        "dev tooling",
+        "protocol dashboard",
+        "community ops"
+      ],
+      "blockedTopics": [
+        "price prediction",
+        "pump",
+        "signal",
+        "financial advice",
+        "investment advice"
+      ],
+      "defaultStyle": "builder-focused, risk-aware, no price calls",
+      "defaultLinkPolicy": "mostly_no_link",
+      "active": true,
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    }
+  ]
+}

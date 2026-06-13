@@ -1,9 +1,9 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T23:01:41.466Z",
+  "generatedAt": "2026-06-13T01:03:35.599Z",
   "objective": "Product-grade multi-account X content ops system with review-first publishing.",
-  "overallScore": 27,
+  "overallScore": 24,
   "level": "prototype",
   "summary": {
     "dimensions": 9,
@@ -16,12 +16,12 @@
     {
       "id": "account_switching",
       "name": "X account switching and binding",
-      "score": 15,
+      "score": 20,
       "status": "deferred",
       "whyItMatters": "The project has account profiles, but real multi-account OAuth switching is intentionally deferred.",
       "evidence": [
         "20 active account profiles configured.",
-        "0 accounts have local post records."
+        "1 accounts have local post records."
       ],
       "gaps": [
         "Need account selector enforcement at publish time.",
@@ -36,17 +36,17 @@
     {
       "id": "content_supply",
       "name": "Daily high-quality content supply",
-      "score": 15,
+      "score": 7,
       "status": "blocked",
       "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
       "evidence": [
-        "19/200 planned unique drafts.",
-        "19 qualified tools.",
-        "78 source candidates needed by the queue.",
+        "4/200 planned unique drafts.",
+        "4 qualified tools.",
+        "105 source candidates needed by the queue.",
         "100 source-pack rows generated, 100 still need real candidates."
       ],
       "gaps": [
-        "Need 181 more unique drafts for the current target.",
+        "Need 196 more unique drafts for the current target.",
         "Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles."
       ],
       "nextActions": [
@@ -81,12 +81,12 @@
       "status": "blocked",
       "whyItMatters": "The system cannot learn angles, accounts, or topics until posted content gets metrics back into JSON.",
       "evidence": [
-        "0 posted feedback rows.",
+        "1 posted feedback rows.",
         "0 rows have impressions.",
-        "0 accounts have post records."
+        "1 accounts have post records."
       ],
       "gaps": [
-        "No posted feedback rows yet."
+        "1 posted rows still need metrics."
       ],
       "nextActions": [
         "Mark every manual post as posted with accountId.",
@@ -116,18 +116,19 @@
     {
       "id": "source_diversity",
       "name": "Source diversity",
-      "score": 28,
+      "score": 0,
       "status": "blocked",
       "whyItMatters": "A multi-account system needs more than one launch feed, especially for SaaS, indie, and crypto angles.",
       "evidence": [
         "0 enabled extra sources.",
         "0 source candidates in the daily merge.",
         "0 candidate inbox items in the daily merge.",
-        "2 healthy sources, 0 tune sources, 0 disable candidates."
+        "0 healthy sources, 0 tune sources, 2 disable candidates."
       ],
       "gaps": [
         "Need more reliable sources beyond Product Hunt and two RSS feeds.",
-        "Need a larger manual/imported candidate bench."
+        "Need a larger manual/imported candidate bench.",
+        "Some sources need filter tuning before scaling."
       ],
       "nextActions": [
         "Run npm run source-health and fix the worst source first.",
@@ -138,16 +139,16 @@
     {
       "id": "quality_safety",
       "name": "Quality and safety gates",
-      "score": 75,
+      "score": 70,
       "status": "watch",
       "whyItMatters": "The system is valuable only if it protects account quality, avoids fake claims, and blocks stale posts.",
       "evidence": [
-        "1 generation warnings.",
-        "4 fresh publish candidates.",
+        "0 generation warnings.",
+        "0 fresh publish candidates.",
         "Manual-confirm publishing is the default mode."
       ],
       "gaps": [
-        "Resolve generation warnings before publishing."
+        "No fresh publish candidates in the latest run."
       ],
       "nextActions": [
         "Keep Fresh today/Fresh 48h as the paid publish gate.",
@@ -157,17 +158,16 @@
     {
       "id": "longform_engine",
       "name": "Thread and SEO review engine",
-      "score": 0,
+      "score": 20,
       "status": "blocked",
       "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
       "evidence": [
-        "0 thread queue items.",
+        "1 thread queue items.",
         "0 review page queue items.",
-        "0 active follow-up items.",
+        "1 active follow-up items.",
         "0 promotion review items are ready to queue."
       ],
       "gaps": [
-        "No active follow-up queue items.",
         "No review page candidates have been promoted into the queue."
       ],
       "nextActions": [
@@ -206,15 +206,15 @@
           "name": "Feedback learning loop",
           "score": 0,
           "status": "blocked",
-          "gap": "No posted feedback rows yet.",
+          "gap": "1 posted rows still need metrics.",
           "nextAction": "Mark every manual post as posted with accountId."
         },
         {
           "id": "content_supply",
           "name": "Daily high-quality content supply",
-          "score": 15,
+          "score": 7,
           "status": "blocked",
-          "gap": "Need 181 more unique drafts for the current target.",
+          "gap": "Need 196 more unique drafts for the current target.",
           "nextAction": "Run npm run source-queue and fill the largest circle gap first."
         },
         {
@@ -243,15 +243,15 @@
         {
           "id": "longform_engine",
           "name": "Thread and SEO review engine",
-          "score": 0,
+          "score": 20,
           "status": "blocked",
-          "gap": "No active follow-up queue items.",
+          "gap": "No review page candidates have been promoted into the queue.",
           "nextAction": "Promote posts with bookmarks/replies into thread or review_page queue."
         },
         {
           "id": "source_diversity",
           "name": "Source diversity",
-          "score": 28,
+          "score": 0,
           "status": "blocked",
           "gap": "Need more reliable sources beyond Product Hunt and two RSS feeds.",
           "nextAction": "Run npm run source-health and fix the worst source first."
@@ -266,9 +266,9 @@
         {
           "id": "quality_safety",
           "name": "Quality and safety gates",
-          "score": 75,
+          "score": 70,
           "status": "watch",
-          "gap": "Resolve generation warnings before publishing.",
+          "gap": "No fresh publish candidates in the latest run.",
           "nextAction": "Keep Fresh today/Fresh 48h as the paid publish gate."
         },
         {
@@ -289,7 +289,7 @@
         {
           "id": "account_switching",
           "name": "X account switching and binding",
-          "score": 15,
+          "score": 20,
           "status": "deferred",
           "gap": "Need account selector enforcement at publish time.",
           "nextAction": "Keep account switching as a separate safety-gated milestone."
@@ -306,11 +306,11 @@
       "nextAction": "Mark every manual post as posted with accountId."
     },
     {
-      "id": "longform_engine",
-      "name": "Thread and SEO review engine",
+      "id": "source_diversity",
+      "name": "Source diversity",
       "score": 0,
-      "whyItMatters": "The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.",
-      "nextAction": "Promote posts with bookmarks/replies into thread or review_page queue."
+      "whyItMatters": "A multi-account system needs more than one launch feed, especially for SaaS, indie, and crypto angles.",
+      "nextAction": "Run npm run source-health and fix the worst source first."
     },
     {
       "id": "affiliate_monetization",
@@ -320,29 +320,29 @@
       "nextAction": "Use the Affiliate research workbench and save real program findings."
     },
     {
+      "id": "content_supply",
+      "name": "Daily high-quality content supply",
+      "score": 7,
+      "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
+      "nextAction": "Run npm run source-queue and fill the largest circle gap first."
+    },
+    {
       "id": "content_calendar",
       "name": "Account-level content calendar",
       "score": 8,
       "whyItMatters": "A daily target is not real until it fits account cooldowns and human review time.",
       "nextAction": "Run npm run content-calendar after every daily generation."
-    },
-    {
-      "id": "content_supply",
-      "name": "Daily high-quality content supply",
-      "score": 15,
-      "whyItMatters": "20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.",
-      "nextAction": "Run npm run source-queue and fill the largest circle gap first."
     }
   ],
   "nextSprint": [
     "Mark every manual post as posted with accountId.",
     "Paste X Analytics export into feedback import after posts have data.",
-    "Promote posts with bookmarks/replies into thread or review_page queue.",
-    "Generate review outlines only after the tool has signal or clear affiliate fit.",
+    "Run npm run source-health and fix the worst source first.",
+    "Add source packs by circle instead of turning on noisy feeds blindly.",
     "Use the Affiliate research workbench and save real program findings.",
     "Only move approved real links into config/affiliate-links.json.",
-    "Run npm run content-calendar after every daily generation.",
-    "Lower per-account daily targets or reduce cooldown hours before scaling."
+    "Run npm run source-queue and fill the largest circle gap first.",
+    "Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL."
   ],
   "productPrinciples": [
     "Quality gates beat volume targets.",

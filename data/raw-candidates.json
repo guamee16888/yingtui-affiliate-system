@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "items": [
+    {
+      "candidateId": "candidate_7dde686d54aa",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "feedId": "feed_ai_manual",
+      "laneIds": [
+        "ai_startups"
+      ],
+      "title": "Agent workflow builder for support teams",
+      "url": "https://www.producthunt.com/search?q=agent%20workflow%20builder",
+      "domain": "producthunt.com",
+      "summary": "AI agent workflow automation for support ops teams that need fewer manual triage steps.",
+      "rawText": "agent workflow automation support team AI product",
+      "sourcePublishedAt": "",
+      "sourceQualityScore": 80,
+      "candidateScore": 80,
+      "status": "new",
+      "duplicateCheckResult": {
+        "ok": true,
+        "action": "allow",
+        "riskLevel": "low",
+        "flags": []
+      },
+      "riskFlags": [],
+      "classification": {
+        "confidence": 0.95,
+        "reason": "Matched ai_startups via lane hints (ai_startups) with score 7."
+      },
+      "createdAt": "2026-06-13T04:07:42.564Z",
+      "updatedAt": "2026-06-13T04:07:59.656Z"
+    },
+    {
+      "candidateId": "candidate_6acd47f996ef",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "feedId": "feed_indie_manual",
+      "laneIds": [
+        "indie_builders"
+      ],
+      "title": "Solo founder launch checklist",
+      "url": "https://news.ycombinator.com/show",
+      "domain": "news.ycombinator.com",
+      "summary": "A build in public launch workflow for indie builders shipping small tools.",
+      "rawText": "solo founder launch build in public revenue workflow",
+      "sourcePublishedAt": "",
+      "sourceQualityScore": 80,
+      "candidateScore": 80,
+      "status": "new",
+      "duplicateCheckResult": {
+        "ok": true,
+        "action": "allow",
+        "riskLevel": "low",
+        "flags": []
+      },
+      "riskFlags": [],
+      "classification": {
+        "confidence": 0.95,
+        "reason": "Matched indie_builders via lane hints (indie_builders) with score 9."
+      },
+      "createdAt": "2026-06-13T04:07:42.564Z",
+      "updatedAt": "2026-06-13T04:07:59.656Z"
+    },
+    {
+      "candidateId": "candidate_f667a7e763aa",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "feedId": "feed_saas_manual",
+      "laneIds": [
+        "saas_founders"
+      ],
+      "title": "SaaS onboarding churn teardown",
+      "url": "https://www.lennysnewsletter.com/",
+      "domain": "lennysnewsletter.com",
+      "summary": "Pricing, onboarding, churn and PLG notes for B2B SaaS founders.",
+      "rawText": "pricing onboarding churn PLG sales founder ops",
+      "sourcePublishedAt": "",
+      "sourceQualityScore": 80,
+      "candidateScore": 80,
+      "status": "new",
+      "duplicateCheckResult": {
+        "ok": true,
+        "action": "allow",
+        "riskLevel": "low",
+        "flags": []
+      },
+      "riskFlags": [],
+      "classification": {
+        "confidence": 0.95,
+        "reason": "Matched saas_founders via lane hints (saas_founders) with score 10."
+      },
+      "createdAt": "2026-06-13T04:07:42.564Z",
+      "updatedAt": "2026-06-13T04:07:59.656Z"
+    },
+    {
+      "candidateId": "candidate_4d04d8e84f2f",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "feedId": "feed_crypto_manual",
+      "laneIds": [
+        "crypto_builders"
+      ],
+      "title": "Wallet security dashboard for builders",
+      "url": "https://github.com/topics/wallet-security",
+      "domain": "github.com",
+      "summary": "A crypto builder dashboard for wallet UX, security, onchain data and infra teams.",
+      "rawText": "wallet UX security onchain data dev tooling crypto builder",
+      "sourcePublishedAt": "",
+      "sourceQualityScore": 80,
+      "candidateScore": 80,
+      "status": "new",
+      "duplicateCheckResult": {
+        "ok": true,
+        "action": "allow",
+        "riskLevel": "low",
+        "flags": []
+      },
+      "riskFlags": [],
+      "classification": {
+        "confidence": 0.95,
+        "reason": "Matched crypto_builders via lane hints (crypto_builders) with score 10."
+      },
+      "createdAt": "2026-06-13T04:07:42.564Z",
+      "updatedAt": "2026-06-13T04:07:59.656Z"
+    }
+  ]
+}

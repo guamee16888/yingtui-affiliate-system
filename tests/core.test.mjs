@@ -549,6 +549,101 @@ test("source noise is a hard skip in daily scoring and seed tests", () => {
   assert.equal(plan.items.length, 0);
 });
 
+test("fresh funding rumors are held when they lack an original operator angle", () => {
+  const scored = scoreTool({
+    name: "Mistral rumored to raise €3B at €20B valuation",
+    url: "https://techcrunch.example.com/mistral-funding",
+    tagline: "Mistral is rumored to be raising €3B at a €20B valuation.",
+    description: "Mistral is rumored to be raising €3B at a €20B valuation.",
+    published: "2026-06-13T00:00:00.000Z",
+    sourceName: "TechCrunch AI",
+    sourceType: "source_feed",
+    circle: "ai_startups",
+    candidateType: "topic"
+  }, {
+    date: "2026-06-13",
+    historyIndex: new Map(),
+    affiliateConfig: { links: [] }
+  });
+
+  assert.equal(scored.editorialSignals.lowOriginalityNews, true);
+  assert.equal(scored.scoreBreakdown.originalityPenalty, 8);
+  assert.equal(scored.followUpAction, "skip");
+  assert.match(scored.reason, /lacks a clear builder/i);
+});
+
+test("media topic without workflow angle is not treated as a publish candidate", () => {
+  const scored = scoreTool({
+    name: "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+    url: "https://techcrunch.example.com/meta-ai-unit",
+    tagline: "Engineers describe internal chaos inside a new AI unit.",
+    description: "Engineers describe internal chaos inside a new AI unit.",
+    published: "2026-06-13T00:00:00.000Z",
+    sourceName: "TechCrunch AI",
+    sourceType: "source_feed",
+    circle: "ai_startups",
+    candidateType: "topic"
+  }, {
+    date: "2026-06-13",
+    historyIndex: new Map(),
+    affiliateConfig: { links: [] }
+  });
+
+  assert.equal(scored.editorialSignals.lowOriginalityNews, true);
+  assert.equal(scored.editorialSignals.mediaTopicWithoutAction, true);
+  assert.equal(scored.followUpAction, "skip");
+});
+
+test("daily model keeps generic fresh news out of publishable freshness candidates", () => {
+  const model = buildDailyModel({
+    date: "2026-06-13",
+    feedSource: "test",
+    usedFallback: false,
+    tools: [
+      {
+        name: "Mistral rumored to raise €3B at €20B valuation",
+        url: "https://techcrunch.example.com/mistral-funding",
+        tagline: "Mistral is rumored to be raising €3B at a €20B valuation.",
+        description: "Mistral is rumored to be raising €3B at a €20B valuation.",
+        published: "2026-06-13T00:00:00.000Z",
+        sourceName: "TechCrunch AI",
+        sourceType: "source_feed",
+        circle: "ai_startups",
+        candidateType: "topic"
+      }
+    ],
+    history: { tools: [] },
+    affiliateConfig: { links: [] },
+    voice: { style: { avoid: [], maxTweetCharacters: 260, allowEmoji: false } },
+    limit: 5,
+    warnings: []
+  });
+
+  assert.equal(model.freshnessReport.stats.lowOriginalityNews, 1);
+  assert.equal(model.freshnessReport.stats.topPickFreshPostCandidates, 0);
+  assert.equal(model.freshnessReport.publishableTools.length, 0);
+  assert.equal(model.actionList.some((action) => action.type === "post"), false);
+});
+
+test("feedback seed plan excludes low-originality news even when it is fresh", () => {
+  const plan = buildFeedbackSeedTestPlan({
+    latest: {
+      generatedAt: "2026-06-13T12:00:00.000Z",
+      tools: [
+        {
+          ...seedTool({ id: "mistral_funding", accountId: "ai", score: 30, published: "2026-06-13T06:00:00.000Z" }),
+          editorialSignals: { lowOriginalityNews: true },
+          scoreBreakdown: { affiliateScore: 4, contentScore: 7, riskScore: 8, originalityPenalty: 8 }
+        }
+      ]
+    },
+    activeAccounts: [{ id: "ai", displayName: "AI Tools", active: true }],
+    debtGate: { maxNewPostsBeforeMetrics: 3 }
+  });
+
+  assert.equal(plan.items.length, 0);
+});
+
 test("mergeToolSources keeps Product Hunt tool when inbox has duplicate", () => {
   const ph = { name: "Same Tool", url: "https://same.example.com", sourceType: "producthunt" };
   const inbox = { name: "Same Tool", url: "https://same.example.com?utm=1", sourceType: "inbox" };
@@ -705,12 +800,13 @@ test("review outline uses placeholder without affiliate link", () => {
 });
 
 test("readJson missing file returns fallback and writeJsonAtomic writes JSON", async () => {
-  const dir = await mkdtemp(path.join(tmpdir(), "yingtui-"));
+  const dir = "data/__tmp-test";
   const file = path.join(dir, "test.json");
+  await rm(path.join(process.cwd(), dir), { recursive: true, force: true });
   assert.deepEqual(await readJson(file, { ok: true }), { ok: true });
   await writeJsonAtomic(file, { hello: "world" });
-  assert.deepEqual(JSON.parse(await readFile(file, "utf8")), { hello: "world" });
-  await rm(dir, { recursive: true, force: true });
+  assert.deepEqual(JSON.parse(await readFile(path.join(process.cwd(), file), "utf8")), { hello: "world" });
+  await rm(path.join(process.cwd(), dir), { recursive: true, force: true });
 });
 
 test("parseCsv handles quoted commas", () => {
@@ -1014,6 +1110,27 @@ test("topic copy reads as market signal, not tool review", () => {
 
   assert.match(variants.find((item) => item.label === "shortPost").text, /not treat it as a tool review/i);
   assert.match(variants.find((item) => item.label === "casualPost").text, /market signal/i);
+});
+
+test("copy variants stay under the raw X 280 character limit", () => {
+  const variants = makeCopyVariants({
+    tool: {
+      name: "Meta's months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+      url: "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/?utm_source=very-long-tracking-parameter",
+      description: "Engineers describe internal chaos inside a new AI unit, with a lot of context that would otherwise make the post too long.",
+      candidateType: "topic",
+      sourceName: "TechCrunch AI"
+    },
+    angle: {
+      audience: "AI founders",
+      pain: "understanding whether big-lab chaos changes small-team strategy",
+      solution: "Engineers describe internal chaos inside a new AI unit.",
+      outcome: "a sharper startup workflow"
+    }
+  }, { style: { avoid: [], maxTweetCharacters: 280, allowEmoji: false } });
+
+  assert.equal(variants.every((item) => item.text.length <= 280), true);
+  assert.equal(variants.every((item) => item.lint.ok), true);
 });
 
 test("account strategy recommends matching account profile", () => {

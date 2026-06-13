@@ -3,51 +3,51 @@
 - Active accounts: 20
 - Target posts: 200/day
 - Candidate bench target: 600
-- Matched / strong / fresh candidates: 57/12/12
-- Planned / scheduled posts: 19/14
-- Candidate / fresh / draft gaps: 543/188/181
+- Matched / strong / fresh candidates: 12/0/0
+- Planned / scheduled posts: 4/4
+- Candidate / fresh / draft gaps: 588/200/196
 - Ready accounts: 0/20
-- Average readiness: 7/100
+- Average readiness: 1/100
 
 ## Quality Radar
 
-- Candidate bench: 10/100 — 57/600 matched account-level candidates.
-- Quality: 6/100 — 12/200 strong candidates clear the quality floor.
-- Freshness: 6/100 — 12/200 candidates are fresh enough to post.
-- Drafts: 10/100 — 19/200 unique drafts are planned.
-- Schedule: 7/100 — 14/200 posts are in manual review slots.
+- Candidate bench: 2/100 — 12/600 matched account-level candidates.
+- Quality: 0/100 — 0/200 strong candidates clear the quality floor.
+- Freshness: 0/100 — 0/200 candidates are fresh enough to post.
+- Drafts: 2/100 — 4/200 unique drafts are planned.
+- Schedule: 2/100 — 4/200 posts are in manual review slots.
 
 ## Account Inventory
 
-- Postable today: 2/200
-- Seed testable accounts: 1
+- Postable today: 0/200
+- Seed testable accounts: 0
 - Ready to scale accounts: 0
-- Content blocked accounts: 19
+- Content blocked accounts: 20
 - Feedback blocked accounts: 20
 
-1. Crypto Builder Radar — 可手动种子测试 — 手动测 2 条
-   Crypto Builder Radar has 2 postable drafts. Publish only after final review, then import X Analytics.
-   Refill CSV rows: 9
+1. AI Tools Lab — 缺草稿/排期 — 补 10 条草稿/排期
+   AI Tools Lab needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
 2. AI Founder Signals — 缺草稿/排期 — 补 10 条草稿/排期
    AI Founder Signals needs unique copy and review slots before it can post today.
    Refill CSV rows: 10
-3. AI Tools Lab — 缺草稿/排期 — 补 10 条草稿/排期
-   AI Tools Lab needs unique copy and review slots before it can post today.
+3. Creator Stack — 缺草稿/排期 — 补 10 条草稿/排期
+   Creator Stack needs unique copy and review slots before it can post today.
    Refill CSV rows: 10
-4. Productivity Ops — 缺草稿/排期 — 补 10 条草稿/排期
-   Productivity Ops needs unique copy and review slots before it can post today.
-   Refill CSV rows: 10
-5. Sales Support AI — 缺草稿/排期 — 补 10 条草稿/排期
+4. Sales Support AI — 缺草稿/排期 — 补 10 条草稿/排期
    Sales Support AI needs unique copy and review slots before it can post today.
    Refill CSV rows: 10
-6. Affiliate Builder — 缺草稿/排期 — 补 10 条草稿/排期
+5. Affiliate Builder — 缺草稿/排期 — 补 10 条草稿/排期
    Affiliate Builder needs unique copy and review slots before it can post today.
+   Refill CSV rows: 10
+6. Build in Public — 缺草稿/排期 — 补 10 条草稿/排期
+   Build in Public needs unique copy and review slots before it can post today.
    Refill CSV rows: 10
 7. Career Workflows — 缺草稿/排期 — 补 10 条草稿/排期
    Career Workflows needs unique copy and review slots before it can post today.
    Refill CSV rows: 10
-8. Dev Workflows — 缺草稿/排期 — 补 10 条草稿/排期
-   Dev Workflows needs unique copy and review slots before it can post today.
+8. Crypto Builder Radar — 缺草稿/排期 — 补 10 条草稿/排期
+   Crypto Builder Radar needs unique copy and review slots before it can post today.
    Refill CSV rows: 10
 
 ## Priority Accounts
@@ -55,33 +55,33 @@
 1. Affiliate Builder — draft_short — score 0/100
    Target 10, planned 0, scheduled 0, matched 0, fresh 0
    Next: Add 10 unique drafts for Affiliate Builder; do not reuse the same tool across accounts.
-2. Career Workflows — draft_short — score 0/100
+2. Build in Public — draft_short — score 0/100
+   Target 10, planned 0, scheduled 0, matched 0, fresh 0
+   Next: Add 10 unique drafts for Build in Public; do not reuse the same tool across accounts.
+3. Career Workflows — draft_short — score 0/100
    Target 10, planned 0, scheduled 0, matched 0, fresh 0
    Next: Add 10 unique drafts for Career Workflows; do not reuse the same tool across accounts.
-3. Dev Workflows — draft_short — score 0/100
+4. Crypto Builder Radar — draft_short — score 0/100
+   Target 10, planned 0, scheduled 0, matched 0, fresh 0
+   Next: Add 10 unique drafts for Crypto Builder Radar; do not reuse the same tool across accounts.
+5. Crypto Trading Tools — draft_short — score 0/100
+   Target 10, planned 0, scheduled 0, matched 0, fresh 0
+   Next: Add 10 unique drafts for Crypto Trading Tools; do not reuse the same tool across accounts.
+6. Dev Workflows — draft_short — score 0/100
    Target 10, planned 0, scheduled 0, matched 0, fresh 0
    Next: Add 10 unique drafts for Dev Workflows; do not reuse the same tool across accounts.
-4. Indie Launch Radar — draft_short — score 0/100
+7. Founder Tooling — draft_short — score 0/100
+   Target 10, planned 0, scheduled 0, matched 0, fresh 0
+   Next: Add 10 unique drafts for Founder Tooling; do not reuse the same tool across accounts.
+8. Indie Launch Radar — draft_short — score 0/100
    Target 10, planned 0, scheduled 0, matched 0, fresh 0
    Next: Add 10 unique drafts for Indie Launch Radar; do not reuse the same tool across accounts.
-5. Indie Monetization — draft_short — score 0/100
+9. Indie Monetization — draft_short — score 0/100
    Target 10, planned 0, scheduled 0, matched 0, fresh 0
    Next: Add 10 unique drafts for Indie Monetization; do not reuse the same tool across accounts.
-6. Market Map Notes — draft_short — score 0/100
+10. Productivity Ops — draft_short — score 0/100
    Target 10, planned 0, scheduled 0, matched 0, fresh 0
-   Next: Add 10 unique drafts for Market Map Notes; do not reuse the same tool across accounts.
-7. SaaS Growth Ops — draft_short — score 0/100
-   Target 10, planned 0, scheduled 0, matched 0, fresh 0
-   Next: Add 10 unique drafts for SaaS Growth Ops; do not reuse the same tool across accounts.
-8. SaaS Pricing Lab — draft_short — score 0/100
-   Target 10, planned 0, scheduled 0, matched 0, fresh 0
-   Next: Add 10 unique drafts for SaaS Pricing Lab; do not reuse the same tool across accounts.
-9. Sales Support AI — draft_short — score 1/100
-   Target 10, planned 0, scheduled 0, matched 1, fresh 0
-   Next: Add 10 unique drafts for Sales Support AI; do not reuse the same tool across accounts.
-10. Crypto Trading Tools — draft_short — score 4/100
-   Target 10, planned 1, scheduled 1, matched 0, fresh 0
-   Next: Add 9 unique drafts for Crypto Trading Tools; do not reuse the same tool across accounts.
+   Next: Add 10 unique drafts for Productivity Ops; do not reuse the same tool across accounts.
 
 ## Search Tasks
 
@@ -91,60 +91,60 @@
 2. Affiliate Builder: "affiliate" "partner program" "SaaS"
    https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01
    Goal: add 10 candidates
-3. Career Workflows: "career and job search" "tool"
+3. Build in Public: "building and experiments" "tool"
+   https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live
+   Goal: add 10 candidates
+4. Build in Public: "building and experiments" "tool"
+   https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01
+   Goal: add 10 candidates
+5. Career Workflows: "career and job search" "tool"
    https://x.com/search?q=%22career%20and%20job%20search%22%20%22tool%22&src=typed_query&f=live
    Goal: add 10 candidates
-4. Career Workflows: "career and job search" "tool"
+6. Career Workflows: "career and job search" "tool"
    https://www.google.com/search?q=%22career%20and%20job%20search%22%20%22tool%22%20after%3A2026-01-01
    Goal: add 10 candidates
-5. Dev Workflows: "developer workflows" "tool"
-   https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live
-   Goal: add 10 candidates
-6. Dev Workflows: "developer workflows" "tool"
-   https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01
-   Goal: add 10 candidates
-7. Indie Launch Radar: "indie hacker" "launch"
-   https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live
-   Goal: add 10 candidates
-8. Indie Launch Radar: "indie hacker" "launch"
-   https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01
-   Goal: add 10 candidates
-9. Indie Monetization: "indie hacker" "launch"
-   https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live
-   Goal: add 10 candidates
-10. Indie Monetization: "indie hacker" "launch"
-   https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01
-   Goal: add 10 candidates
-11. Market Map Notes: "market mapping" "tool"
-   https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live
-   Goal: add 10 candidates
-12. Market Map Notes: "market mapping" "tool"
-   https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01
-   Goal: add 10 candidates
-13. SaaS Growth Ops: "SaaS" "pricing" "founder"
-   https://x.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22&src=typed_query&f=live
-   Goal: add 10 candidates
-14. SaaS Growth Ops: "SaaS" "pricing" "founder"
-   https://www.google.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22%20after%3A2026-01-01
-   Goal: add 10 candidates
-15. SaaS Pricing Lab: "SaaS" "pricing" "founder"
-   https://x.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22&src=typed_query&f=live
-   Goal: add 10 candidates
-16. SaaS Pricing Lab: "SaaS" "pricing" "founder"
-   https://www.google.com/search?q=%22SaaS%22%20%22pricing%22%20%22founder%22%20after%3A2026-01-01
-   Goal: add 10 candidates
-17. Sales Support AI: "sales and customer support" "tool"
-   https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live
-   Goal: add 10 candidates
-18. Sales Support AI: "sales and customer support" "tool"
-   https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01
-   Goal: add 10 candidates
-19. Crypto Trading Tools: "crypto" "builder" "tool"
+7. Crypto Builder Radar: "crypto" "builder" "tool"
    https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live
    Goal: add 10 candidates
-20. Crypto Trading Tools: "crypto" "builder" "tool"
+8. Crypto Builder Radar: "crypto" "builder" "tool"
    https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01
-   Goal: add 9 candidates
+   Goal: add 10 candidates
+9. Crypto Trading Tools: "crypto" "builder" "tool"
+   https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live
+   Goal: add 10 candidates
+10. Crypto Trading Tools: "crypto" "builder" "tool"
+   https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01
+   Goal: add 10 candidates
+11. Dev Workflows: "developer workflows" "tool"
+   https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live
+   Goal: add 10 candidates
+12. Dev Workflows: "developer workflows" "tool"
+   https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01
+   Goal: add 10 candidates
+13. Founder Tooling: "founder workflows" "tool"
+   https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live
+   Goal: add 10 candidates
+14. Founder Tooling: "founder workflows" "tool"
+   https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01
+   Goal: add 10 candidates
+15. Indie Launch Radar: "indie hacker" "launch"
+   https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live
+   Goal: add 10 candidates
+16. Indie Launch Radar: "indie hacker" "launch"
+   https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01
+   Goal: add 10 candidates
+17. Indie Monetization: "indie hacker" "launch"
+   https://x.com/search?q=%22indie%20hacker%22%20%22launch%22&src=typed_query&f=live
+   Goal: add 10 candidates
+18. Indie Monetization: "indie hacker" "launch"
+   https://www.google.com/search?q=%22indie%20hacker%22%20%22launch%22%20after%3A2026-01-01
+   Goal: add 10 candidates
+19. Productivity Ops: "productivity and operations" "tool"
+   https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live
+   Goal: add 10 candidates
+20. Productivity Ops: "productivity and operations" "tool"
+   https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01
+   Goal: add 10 candidates
 
 ## Notes
 

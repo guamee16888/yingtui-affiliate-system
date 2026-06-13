@@ -9,7 +9,7 @@ const distDir = path.join(rootDir, "dist");
 await rm(distDir, { recursive: true, force: true });
 await mkdir(distDir, { recursive: true });
 
-for (const dirname of ["dashboard", "data", "output", "public"]) {
+for (const dirname of ["dashboard", "staff", "manager", "data", "output", "public"]) {
   await cp(path.join(rootDir, dirname), path.join(distDir, dirname), {
     recursive: true,
     filter: (source) => !source.includes(`${path.sep}.DS_Store`)
@@ -19,7 +19,7 @@ for (const dirname of ["dashboard", "data", "output", "public"]) {
 
 await writeFile(
   path.join(distDir, "index.html"),
-  "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/dashboard/\"><title>Affiliate Dashboard</title><a href=\"/dashboard/\">Open Dashboard</a>\n"
+  "<!doctype html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/dashboard/\"><title>AI Creator OS</title><a href=\"/dashboard/\">Open AI Creator OS</a>\n"
 );
 
 console.log(`Built static dashboard in ${distDir}`);

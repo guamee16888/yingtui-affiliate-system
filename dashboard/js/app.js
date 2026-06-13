@@ -25,7 +25,7 @@ async function parseApiResponse(res, path) {
   return res.json();
 }
 
-const tabNames = ["today", "roadmap", "review", "candidates", "supply", "calendar", "tools", "copy", "feedback", "learning", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
+const tabNames = ["today", "roadmap", "review", "publish", "workspaces", "candidates", "supply", "calendar", "tools", "copy", "feedback", "learning", "decisions", "queues", "accounts", "affiliate", "reviews", "history", "weekly", "settings"];
 
 const state = {
   tab: initialTab(),
@@ -54,6 +54,12 @@ const state = {
   accountRefillWorkbench: null,
   accountConflictRadar: null,
   xStatus: { configured: false, note: "" },
+  publishSummary: null,
+  xConnections: null,
+  workspaceSummary: null,
+  laneSummary: null,
+  candidateSummary: null,
+  sourceRuns: { items: [] },
   settings: null,
   weekly: null,
   candidatePreview: null,
@@ -68,6 +74,7 @@ const state = {
   affiliateWorkbenchRun: { running: false, message: "" },
   learningRun: { running: false, message: "" },
   roadmapRun: { running: false, message: "" },
+  publishRun: { running: false, message: "" },
   filters: { search: "", action: "all", affiliate: "all", state: "all", minScore: 0, sortBy: "score" }
 };
 
@@ -117,6 +124,13 @@ const writeActionSelector = [
   "[data-run-refill-workbench]",
   "[data-run-affiliate-workbench]",
   "[data-run-learning-loop]",
+  "[data-publish-prepare]",
+  "[data-publish-dry-run]",
+  "[data-publish-live-run]",
+  "[data-publish-job-action]",
+  "[data-account-publish-mode]",
+  "[data-lanes-seed]",
+  "[data-candidates-ingest]",
   "[data-preview-candidates]",
   "[data-preview-feedback]",
   "[data-publish]",
@@ -141,7 +155,7 @@ const writeActionSelector = [
 
 async function loadAll() {
   try {
-    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, settings, weekly] = await Promise.all([
+    const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, publishSummary, xConnections, workspaceSummary, laneSummary, candidateSummary, sourceRuns, settings, weekly] = await Promise.all([
       api.get("/api/latest"),
       api.get("/api/history"),
       api.get("/api/feedback"),
@@ -166,10 +180,16 @@ async function loadAll() {
       api.get("/api/account-refill-workbench"),
       api.get("/api/account-conflict-radar"),
       api.get("/api/x/status"),
+      api.get("/api/publish/summary"),
+      api.get("/api/x/connections"),
+      api.get("/api/workspace/summary"),
+      api.get("/api/lanes/summary"),
+      api.get("/api/candidates/summary"),
+      api.get("/api/source-runs"),
       api.get("/api/settings"),
       api.get("/api/weekly-summary")
     ]);
-    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, settings, weekly, apiWarning: "" });
+    Object.assign(state, { latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, decisions, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, xStatus, publishSummary, xConnections, workspaceSummary, laneSummary, candidateSummary, sourceRuns, settings, weekly, apiWarning: "" });
     render();
   } catch (error) {
     try {
@@ -183,7 +203,7 @@ async function loadAll() {
 }
 
 async function loadStaticFallback(apiError) {
-  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar] = await Promise.all([
+  const [latest, history, feedback, accountPosts, queues, candidateInbox, affiliateResearch, affiliateWorkbench, reviewPages, feedbackOps, learningLoop, contentCalendar, sourceImportPack, supplyGapFiller, productRoadmap, scaleReadiness, scaleRampPlan, seedBatchPack, contentOpsPlan, accountContentMatrix, accountRefillWorkbench, accountConflictRadar, publishSettings, publishJobs, xConnectionsFile, workspacesFile, workspaceLanesFile, contentLanesFile, rawCandidatesFile, sourceRuns] = await Promise.all([
     fetchJson("/data/latest.json"),
     fetchJson("/data/history.json", { tools: [] }),
     fetchJson("/data/feedback.json", { entries: [] }),
@@ -205,8 +225,21 @@ async function loadStaticFallback(apiError) {
     fetchJson("/data/content-ops-plan.json", { missing: true }),
     fetchJson("/data/account-content-matrix.json", { missing: true }),
     fetchJson("/data/account-refill-workbench.json", { missing: true }),
-    fetchJson("/data/account-conflict-radar.json", { missing: true })
+    fetchJson("/data/account-conflict-radar.json", { missing: true }),
+    fetchJson("/data/publish-settings.json", { settings: {} }),
+    fetchJson("/data/publish-jobs.json", { items: [] }),
+    fetchJson("/data/x-connections.json", { items: [] }),
+    fetchJson("/data/workspaces.json", { items: [] }),
+    fetchJson("/data/workspace-lanes.json", { items: [] }),
+    fetchJson("/data/content-lanes.json", { items: [] }),
+    fetchJson("/data/raw-candidates.json", { items: [] }),
+    fetchJson("/data/source-runs.json", { items: [] })
   ]);
+  const publishSummary = staticPublishSummary(publishSettings, publishJobs, xConnectionsFile);
+  const xConnections = publishSummary.connections;
+  const laneSummary = staticLaneSummary(contentLanesFile, workspaceLanesFile, rawCandidatesFile, workspacesFile);
+  const candidateSummary = staticCandidateSummary(rawCandidatesFile, sourceRuns);
+  const workspaceSummary = staticWorkspaceSummary(workspacesFile, workspaceLanesFile, publishJobs);
   const settings = {
     latestDate: latest?.date ?? null,
     historyCount: history.tools?.length ?? 0,
@@ -251,6 +284,12 @@ async function loadStaticFallback(apiError) {
     accountContentMatrix: accountContentMatrix?.missing ? null : accountContentMatrix,
     accountRefillWorkbench: accountRefillWorkbench?.missing ? null : accountRefillWorkbench,
     accountConflictRadar: accountConflictRadar?.missing ? null : accountConflictRadar,
+    publishSummary,
+    xConnections,
+    workspaceSummary,
+    laneSummary,
+    candidateSummary,
+    sourceRuns,
     xStatus: { configured: false, note: "API unavailable; X publishing disabled in static mode." },
     settings,
     weekly,
@@ -264,6 +303,126 @@ function staticModeMessage(apiError) {
     return "Vercel 静态只读模式：可以查看数据，不能刷新、写入反馈或发布到 X。本地操作请运行 npm start。";
   }
   return `API 暂不可用，当前为静态只读模式：${apiError.message}`;
+}
+
+function staticPublishSummary(settingsFile = {}, jobsFile = {}, connectionsFile = {}) {
+  const jobs = jobsFile.items ?? [];
+  const settings = settingsFile.settings ?? {};
+  const byStatus = countByField(jobs, "status");
+  const connectionItems = connectionsFile.items ?? [];
+  return {
+    totalJobs: jobs.length,
+    queued: byStatus.queued ?? 0,
+    ready: byStatus.ready ?? 0,
+    posted: byStatus.posted ?? 0,
+    failed: byStatus.failed ?? 0,
+    blocked: byStatus.blocked ?? 0,
+    waitingApproval: byStatus.waiting_approval ?? 0,
+    canceled: byStatus.canceled ?? 0,
+    settings,
+    connections: {
+      totalAccounts: connectionItems.length,
+      connected: connectionItems.filter((item) => item.status === "connected").length,
+      notConnected: connectionItems.filter((item) => item.status === "not_connected").length,
+      expired: connectionItems.filter((item) => item.status === "expired").length,
+      revoked: connectionItems.filter((item) => item.status === "revoked").length,
+      error: connectionItems.filter((item) => item.status === "error").length,
+      globalAutoPublishEnabled: Boolean(settings.globalAutoPublishEnabled),
+      dryRunByDefault: settings.dryRunByDefault !== false,
+      accounts: connectionItems.map((connection) => ({ account: { accountId: connection.accountId, persona: connection.handle || connection.accountId, publishMode: "manual", status: "active" }, connection }))
+    },
+    jobs
+  };
+}
+
+function staticLaneSummary(lanesFile = {}, workspaceLanesFile = {}, rawCandidatesFile = {}, workspacesFile = {}) {
+  const lanes = lanesFile.items ?? [];
+  const workspaceLanes = workspaceLanesFile.items ?? [];
+  const rawCandidates = rawCandidatesFile.items ?? [];
+  const workspaces = workspacesFile.items ?? [];
+  const laneStats = lanes.map((lane) => ({
+    laneId: lane.laneId,
+    name: lane.name,
+    active: lane.active !== false,
+    rawCandidates: rawCandidates.filter((candidate) => (candidate.laneIds ?? []).includes(lane.laneId)).length,
+    subscribedWorkspaces: workspaceLanes.filter((item) => item.laneId === lane.laneId && item.enabled !== false).length
+  }));
+  return {
+    summary: {
+      contentLanes: lanes.length,
+      rawCandidates: rawCandidates.length,
+      workspaces: workspaces.length,
+      lanesWithoutWorkspace: laneStats.filter((lane) => !lane.subscribedWorkspaces).length,
+      candidatesWithoutLane: rawCandidates.filter((candidate) => !candidate.laneIds?.length).length
+    },
+    laneStats,
+    workspaceStats: workspaces.map((workspace) => ({
+      workspaceId: workspace.workspaceId,
+      name: workspace.name,
+      enabledLaneIds: workspaceLanes.filter((item) => item.workspaceId === workspace.workspaceId && item.enabled !== false).map((item) => item.laneId)
+    })),
+    lanesWithoutWorkspace: laneStats.filter((lane) => !lane.subscribedWorkspaces).map((lane) => lane.laneId)
+  };
+}
+
+function staticCandidateSummary(rawCandidatesFile = {}, sourceRunsFile = {}) {
+  const rawCandidates = rawCandidatesFile.items ?? [];
+  const sourceRuns = sourceRunsFile.items ?? [];
+  const highRisk = rawCandidates.filter((candidate) => (candidate.riskFlags ?? []).some((flag) => flag.severity === "block")).length;
+  return {
+    summary: {
+      totalRawCandidates: rawCandidates.length,
+      highRiskCandidates: highRisk,
+      candidatesWithoutLane: rawCandidates.filter((candidate) => !candidate.laneIds?.length).length,
+      candidatesWithoutUrl: rawCandidates.filter((candidate) => !candidate.url).length,
+      latestSourceRunId: sourceRuns.at(-1)?.runId || ""
+    },
+    laneCounts: countByLane(rawCandidates),
+    statusCounts: countByField(rawCandidates, "status"),
+    latestSourceRun: sourceRuns.at(-1) ?? null
+  };
+}
+
+function staticWorkspaceSummary(workspacesFile = {}, workspaceLanesFile = {}, publishJobsFile = {}) {
+  const workspaces = workspacesFile.items ?? [];
+  const workspaceLanes = workspaceLanesFile.items ?? [];
+  const publishJobs = publishJobsFile.items ?? [];
+  return {
+    summary: {
+      workspaces: workspaces.length,
+      activeWorkspaces: workspaces.filter((workspace) => workspace.active !== false && workspace.status !== "archived").length,
+      publishJobs: publishJobs.length,
+      overAccountLimit: 0
+    },
+    workspaces: workspaces.map((workspace) => ({
+      workspaceId: workspace.workspaceId,
+      name: workspace.name,
+      plan: workspace.plan,
+      status: workspace.status || "active",
+      accounts: 0,
+      staff: (workspace.staffUserIds ?? []).length,
+      managers: (workspace.managerUserIds ?? []).length,
+      tasks: 0,
+      publishJobs: publishJobs.filter((job) => (job.workspaceId || "workspace_default") === workspace.workspaceId).length,
+      enabledLaneIds: workspaceLanes.filter((item) => item.workspaceId === workspace.workspaceId && item.enabled !== false).map((item) => item.laneId)
+    }))
+  };
+}
+
+function countByLane(rawCandidates) {
+  const counts = {};
+  for (const candidate of rawCandidates ?? []) {
+    for (const laneId of candidate.laneIds ?? []) counts[laneId] = (counts[laneId] ?? 0) + 1;
+  }
+  return counts;
+}
+
+function countByField(items, field) {
+  return (items ?? []).reduce((acc, item) => {
+    const value = item[field] || "none";
+    acc[value] = (acc[value] ?? 0) + 1;
+    return acc;
+  }, {});
 }
 
 function isReadOnlyMode() {
@@ -286,7 +445,7 @@ async function fetchJson(path, fallback = null) {
 }
 
 function render() {
-  $("#dataStatus").textContent = state.apiWarning || `数据日期 ${state.latest?.date ?? "无"} · 本地 JSON · 不自动发推`;
+  $("#dataStatus").textContent = state.apiWarning || `数据日期 ${state.latest?.date ?? "无"} · 本地 JSON · 发布队列默认 dry-run`;
   $("#markdownLink").href = state.latest?.date ? `/output/${state.latest.date}-daily-x-pack.md` : "/output/";
   $("#jsonLink").href = "/data/latest.json";
   renderModeBanner();
@@ -445,6 +604,7 @@ function renderReadiness() {
       <div><strong>${esc(safeApiReady)}</strong><span>建议花 credits 发</span></div>
       <div><strong>${esc(stats.freshToday)}</strong><span>Fresh today</span></div>
       <div><strong>${esc(stats.fresh48)}</strong><span>Fresh 48h</span></div>
+      <div><strong>${esc(stats.genericNews)}</strong><span>Generic news</span></div>
       <div><strong>${esc(stats.seen)}</strong><span>Seen before</span></div>
       <div><strong>${esc(stats.stale)}</strong><span>Older useful</span></div>
     </div>
@@ -532,6 +692,7 @@ function renderFeedDiagnostic(report) {
       <span>Today ${esc(stats.freshToday ?? 0)}</span>
       <span>48h ${esc(stats.fresh48 ?? 0)}</span>
       <span>7d ${esc(stats.fresh7d ?? 0)}</span>
+      <span>Generic news ${esc(stats.lowOriginalityNews ?? state.latest?.tools?.filter(isLowOriginalityNews).length ?? 0)}</span>
       <span>Fresh top picks ${esc(stats.topPickFreshPostCandidates ?? 0)}</span>
     </div>
     ${watchlist.length ? `<div class="feed-watchlist">
@@ -548,7 +709,7 @@ function renderActiveView() {
   $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.tab === state.tab));
   $$(".view").forEach((view) => view.classList.remove("active"));
   $(`#view-${state.tab}`).classList.add("active");
-  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, candidates: renderCandidates, supply: renderSourceSupply, calendar: renderCalendar, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, learning: renderLearning, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
+  const renderers = { today: renderToday, roadmap: renderRoadmap, review: renderFinalReviewQueue, publish: renderPublishOps, workspaces: renderWorkspaces, candidates: renderCandidates, supply: renderSourceSupply, calendar: renderCalendar, tools: renderTools, copy: renderCopyLibrary, feedback: renderFeedback, learning: renderLearning, decisions: renderDecisions, queues: renderQueues, accounts: renderAccounts, affiliate: renderAffiliate, reviews: renderReviews, history: renderHistory, weekly: renderWeekly, settings: renderSettings };
   renderers[state.tab]();
 }
 
@@ -658,7 +819,39 @@ function publishAccountIdForTool(tool, preferredId = "") {
 function publishButton({ toolId, toolName, toolUrl, copy, variant = "shortPost", accountId = "", label = "发布前确认" }) {
   const targetAccountId = selectedPublishAccountId(accountId);
   if (!targetAccountId) return "";
+  const tool = findLatestTool(toolId, toolUrl);
+  if (!canShowPublishButton(tool)) return "";
   return `<button class="button publish" data-publish="${attr(toolId)}" data-tool="${attr(toolName)}" data-url="${attr(toolUrl)}" data-copytext="${attr(copy)}" data-variant="${attr(variant)}" data-account-id="${attr(targetAccountId)}">${esc(label)}</button>`;
+}
+
+function findLatestTool(toolId = "", toolUrl = "") {
+  const normalizedUrl = normalizeUrlKey(toolUrl);
+  return (state.latest?.tools ?? []).find((tool) => {
+    if (toolId && tool.toolId === toolId) return true;
+    return normalizedUrl && normalizeUrlKey(tool.url) === normalizedUrl;
+  }) ?? null;
+}
+
+function normalizeUrlKey(value = "") {
+  try {
+    const url = new URL(String(value));
+    return `${url.origin}${url.pathname}`.replace(/\/$/, "").toLowerCase();
+  } catch {
+    return String(value ?? "").split("?")[0].replace(/\/$/, "").toLowerCase();
+  }
+}
+
+function canShowPublishButton(tool) {
+  if (!tool) return false;
+  const latest = state.latest ?? {};
+  const ageMinutes = dataAgeMinutes(latest.generatedAt);
+  if (latest.source?.usedFallback) return false;
+  if (ageMinutes !== null && ageMinutes > 360) return false;
+  if (tool.followUpAction === "skip") return false;
+  if (tool.seenBefore) return false;
+  if (isLowOriginalityNews(tool)) return false;
+  if (Number(tool.scoreBreakdown?.riskScore ?? 0) >= 8) return false;
+  return freshnessBadge(tool).kind === "fresh";
 }
 
 function recommendedAccountId(tool) {
@@ -1939,6 +2132,237 @@ function renderFinalReviewQueue() {
     </div>
     <div class="final-review-grid hold-grid">${plan.hold.map(renderFinalHoldCard).join("")}</div>` : ""}
   </section>`;
+}
+
+function renderPublishOps() {
+  const summary = state.publishSummary ?? {};
+  const settings = summary.settings ?? {};
+  const connections = state.xConnections ?? summary.connections ?? {};
+  const jobs = summary.jobs ?? [];
+  const globalAuto = Boolean(settings.globalAutoPublishEnabled);
+  const dryRun = settings.dryRunByDefault !== false;
+  const liveDisabled = isReadOnlyMode() || state.publishRun.running || !globalAuto;
+  $("#view-publish").innerHTML = `<div class="publish-ops-layout">
+    <section class="panel publish-ops-hero ${globalAuto ? "warn" : "good"}">
+      <div class="line-head">
+        <div>
+          <p class="eyebrow">Compliant X publish engine</p>
+          <h2>发布运营队列</h2>
+          <p class="muted">这里只管理已审核任务的发布作业。默认 dry-run，不自动刷号，不重复发，不暴露 X token。</p>
+        </div>
+        ${pill(globalAuto ? "Global auto on" : "Global auto off", globalAuto ? "warn" : "good")}
+      </div>
+      <div class="pipeline-stats">
+        <div><strong>${esc(summary.totalJobs ?? 0)}</strong><span>jobs</span></div>
+        <div><strong>${esc(summary.queued ?? 0)}</strong><span>queued</span></div>
+        <div><strong>${esc(summary.ready ?? 0)}</strong><span>dry-run ready</span></div>
+        <div><strong>${esc(summary.blocked ?? 0)}</strong><span>blocked</span></div>
+        <div><strong>${esc(summary.posted ?? 0)}</strong><span>posted</span></div>
+        <div><strong>${esc(connections.connected ?? 0)}/${esc(connections.totalAccounts ?? 0)}</strong><span>connected</span></div>
+      </div>
+      <div class="publish-safety-strip">
+        <div class="good"><span>默认模式</span><strong>${dryRun ? "dry-run" : "live allowed"}</strong><small>dryRunByDefault=${String(dryRun)}</small></div>
+        <div class="${settings.requireApprovalBeforePublish === false ? "bad" : "good"}"><span>审核门槛</span><strong>${settings.requireApprovalBeforePublish === false ? "not required" : "approved only"}</strong><small>未审核任务不会进 live</small></div>
+        <div class="${globalAuto ? "warn" : "good"}"><span>全局自动发布</span><strong>${globalAuto ? "enabled" : "disabled"}</strong><small>${globalAuto ? "只给通过 safe gate 的 job" : "当前不会自动调用 X API"}</small></div>
+      </div>
+      <div class="row-actions">
+        <button class="button" data-publish-prepare ${isReadOnlyMode() || state.publishRun.running ? "disabled" : ""} type="button">准备发布队列</button>
+        <button class="button ghost" data-publish-dry-run ${isReadOnlyMode() || state.publishRun.running ? "disabled" : ""} type="button">运行 dry-run 安全检查</button>
+        <button class="button danger" data-publish-live-run ${liveDisabled ? "disabled" : ""} type="button">执行 live publish</button>
+        <button class="button ghost" data-copy="npm run publish:prepare && npm run publish:dry-run">复制本地命令</button>
+      </div>
+      ${globalAuto ? `<div class="safety-note">live publish 仍然必须满足：账号 connected、workspace/account/task 允许、任务 approved、280 字符、duplicate checker、频率和外链规则全部通过。</div>` : `<div class="safety-note">安全默认值：globalAutoPublishEnabled=false，allowedPublishModes 默认不含 auto。先 dry-run，看清楚 blocked 原因，再决定是否手动试点。</div>`}
+      ${state.publishRun.message ? `<p class="muted">${esc(state.publishRun.message)}</p>` : ""}
+    </section>
+    <section class="panel">
+      <h2>X 授权状态</h2>
+      <div class="list">${(connections.accounts ?? []).map(renderXConnectionRow).join("") || empty("还没有 X 账号连接数据。")}</div>
+    </section>
+    <section class="panel">
+      <h2>账号发布模式</h2>
+      <div class="list">${(connections.accounts ?? []).map(renderPublishModeRow).join("") || empty("还没有账号。")}</div>
+    </section>
+    <section class="panel wide-panel">
+      <div class="line-head">
+        <div>
+          <h2>发布作业</h2>
+          <p class="muted">ready 表示 dry-run 通过，不等于已经 live 发布。blocked 先看原因，不要硬发。</p>
+        </div>
+        ${pill(`${jobs.length} shown`, "neutral")}
+      </div>
+      <div class="publish-job-list">${jobs.slice(0, 50).map(renderPublishJob).join("") || empty("暂无发布作业。先让 Manager 批准任务，再点准备发布队列。")}</div>
+    </section>
+  </div>`;
+}
+
+function renderXConnectionRow(item) {
+  const account = item.account ?? {};
+  const connection = item.connection ?? {};
+  const status = connection.status || "not_connected";
+  const kind = status === "connected" ? "good" : status === "expired" || status === "error" ? "bad" : "warn";
+  return `<div class="list-item">
+    <div class="line-head">
+      <strong>${esc(account.persona || account.accountId)}</strong>
+      ${pill(status, kind)}
+    </div>
+    <div class="muted">${esc(connection.handle || account.handle || account.accountId)} · token ${esc(connection.tokenRef || "none")} · scopes ${(connection.scopes ?? []).map(esc).join(", ") || "none"}</div>
+    ${connection.error ? `<p>${esc(connection.error)}</p>` : ""}
+  </div>`;
+}
+
+function renderPublishModeRow(item) {
+  const account = item.account ?? {};
+  const allowedModes = allowedPublishModes();
+  return `<div class="list-item publish-mode-row">
+    <div>
+      <strong>${esc(account.persona || account.accountId)}</strong>
+      <div class="muted">${esc(account.accountId)} · ${esc(account.status || "active")} · current ${esc(account.publishMode || "manual")}</div>
+    </div>
+    <div class="row-actions">
+      <select data-publish-mode-select="${attr(account.accountId)}">
+        ${allowedModes.map((mode) => `<option value="${attr(mode)}" ${mode === (account.publishMode || "manual") ? "selected" : ""}>${esc(mode)}</option>`).join("")}
+      </select>
+      <button class="button ghost" data-account-publish-mode="${attr(account.accountId)}" type="button">保存模式</button>
+    </div>
+  </div>`;
+}
+
+function allowedPublishModes() {
+  const modes = state.publishSummary?.settings?.allowedPublishModes ?? ["manual", "scheduled"];
+  return modes.includes("manual") ? modes : ["manual", ...modes];
+}
+
+function renderPublishJob(job) {
+  const kind = job.status === "ready" || job.status === "posted" ? "good" : job.status === "blocked" || job.status === "failed" ? "bad" : "warn";
+  const flags = job.safety?.flags ?? [];
+  return `<article class="publish-job ${kind}">
+    <div class="line-head">
+      <div>
+        <strong>${esc(job.taskId)}</strong>
+        <div class="muted">${esc(job.accountId)} · ${esc(job.workspaceId)} · ${esc(job.publishMode)} · ${esc(job.status)}</div>
+      </div>
+      ${pill(job.status, kind)}
+    </div>
+    <div class="publish-job-meta">
+      <span>length ${esc(job.tweetLengthStatus?.weightedCharCount ?? "-")}/280</span>
+      <span>checked ${esc(job.lastCheckedAt ? formatDateTime(job.lastCheckedAt) : "never")}</span>
+      <span>notBefore ${esc(job.notBefore ? formatDateTime(job.notBefore) : "now")}</span>
+    </div>
+    ${job.error ? `<p class="bad-text">${esc(job.error)}</p>` : ""}
+    ${flags.length ? `<ul class="publish-reasons">${flags.slice(0, 4).map((flag) => `<li>${esc(flag.message || flag.type)}</li>`).join("")}</ul>` : ""}
+    <div class="row-actions">
+      ${["queued", "ready", "blocked", "failed"].includes(job.status) ? `<button class="button ghost" data-publish-job-action="cancel" data-job-id="${attr(job.jobId)}" type="button">取消</button>` : ""}
+      ${["blocked", "failed", "canceled"].includes(job.status) ? `<button class="button ghost" data-publish-job-action="retry" data-job-id="${attr(job.jobId)}" type="button">重试检查</button>` : ""}
+    </div>
+  </article>`;
+}
+
+function renderWorkspaces() {
+  const workspaceSummary = state.workspaceSummary ?? { summary: {}, workspaces: [] };
+  const laneSummary = state.laneSummary ?? { summary: {}, laneStats: [], lanesWithoutWorkspace: [] };
+  const candidateSummary = state.candidateSummary ?? { summary: {}, laneCounts: {}, statusCounts: {} };
+  const runs = (state.sourceRuns?.items ?? []).slice(-5).reverse();
+  $("#view-workspaces").innerHTML = `<div class="workspace-layout">
+    <section class="panel workspace-hero">
+      <div>
+        <p class="eyebrow">Platform admin only</p>
+        <h2>Workspace / 内容线</h2>
+        <p class="muted">这里是平台总后台视角：中心化数据源、四条内容线、多个 workspace 订阅。客户 manager 和员工 staff 不应该看到这页。</p>
+      </div>
+      <div class="row-actions">
+        <button class="button" type="button" data-lanes-seed ${isReadOnlyMode() ? "disabled" : ""}>初始化内容线</button>
+        <button class="button ghost" type="button" data-candidates-ingest ${isReadOnlyMode() ? "disabled" : ""}>导入 manual candidates</button>
+        <button class="button ghost" type="button" data-copy="npm run workspace:migrate && npm run lanes:seed && npm run candidates:ingest">复制初始化命令</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>总览</h2>
+      <div class="metric-grid compact">
+        ${miniMetric("workspaces", workspaceSummary.summary.workspaces ?? 0)}
+        ${miniMetric("active", workspaceSummary.summary.activeWorkspaces ?? 0)}
+        ${miniMetric("raw candidates", candidateSummary.summary.totalRawCandidates ?? laneSummary.summary.rawCandidates ?? 0)}
+        ${miniMetric("high risk", candidateSummary.summary.highRiskCandidates ?? 0)}
+        ${miniMetric("no lane", candidateSummary.summary.candidatesWithoutLane ?? laneSummary.summary.candidatesWithoutLane ?? 0)}
+        ${miniMetric("lane gaps", laneSummary.summary.lanesWithoutWorkspace ?? 0)}
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-headline"><h2>Workspaces</h2><button class="button ghost" data-copy="npm run workspace:summary" type="button">复制 summary 命令</button></div>
+      <div class="workspace-card-grid">${(workspaceSummary.workspaces ?? []).map(renderWorkspaceCard).join("") || empty("暂无 workspace。运行 npm run workspace:migrate。")}</div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-headline"><h2>Content lanes</h2><button class="button ghost" data-copy="npm run lanes:summary" type="button">复制 lanes 命令</button></div>
+      <div class="lane-grid">${(laneSummary.laneStats ?? []).map(renderLaneCard).join("") || empty("暂无内容线。运行 npm run lanes:seed。")}</div>
+      ${(laneSummary.lanesWithoutWorkspace ?? []).length ? `<div class="warning-box">未被任何 workspace 订阅：${esc(laneSummary.lanesWithoutWorkspace.join(", "))}</div>` : ""}
+    </section>
+
+    <section class="panel">
+      <div class="panel-headline"><h2>Raw candidates</h2><button class="button ghost" data-copy="npm run candidates:summary" type="button">复制 candidates 命令</button></div>
+      <div class="lane-grid">${Object.entries(candidateSummary.laneCounts ?? {}).map(([laneId, count]) => renderCandidateLaneCount(laneId, count)).join("") || empty("暂无 raw candidates。")}</div>
+      <div class="status-row">${Object.entries(candidateSummary.statusCounts ?? {}).map(([status, count]) => pill(`${status}: ${count}`, status === "rejected" ? "bad" : status === "new" ? "good" : "warn")).join("")}</div>
+    </section>
+
+    <section class="panel">
+      <h2>Recent source runs</h2>
+      <div class="list">${runs.map(renderSourceRun).join("") || empty("暂无 source run。点击导入 manual candidates 后会记录。")}</div>
+    </section>
+  </div>`;
+}
+
+function renderWorkspaceCard(workspace) {
+  return `<article class="workspace-card">
+    <div class="line-head">
+      <strong>${esc(workspace.name || workspace.workspaceId)}</strong>
+      ${pill(workspace.status || "active", workspace.status === "paused" ? "warn" : "good")}
+    </div>
+    <div class="muted">${esc(workspace.workspaceId)} · ${esc(workspace.plan || "internal")}</div>
+    <div class="metric-grid compact">
+      ${miniMetric("accounts", workspace.accounts ?? 0)}
+      ${miniMetric("staff", workspace.staff ?? 0)}
+      ${miniMetric("managers", workspace.managers ?? 0)}
+      ${miniMetric("tasks", workspace.tasks ?? 0)}
+      ${miniMetric("publish jobs", workspace.publishJobs ?? 0)}
+    </div>
+    <div class="status-row">${(workspace.enabledLaneIds ?? []).map((laneId) => pill(laneId, "good")).join("") || pill("no lanes", "bad")}</div>
+    <div class="row-actions">
+      <a class="button ghost" href="/manager/?workspaceId=${attr(workspace.workspaceId)}">打开 manager</a>
+      <a class="button ghost" href="/staff/?workspaceId=${attr(workspace.workspaceId)}">打开 staff</a>
+    </div>
+  </article>`;
+}
+
+function renderLaneCard(lane) {
+  return `<article class="workspace-card">
+    <div class="line-head"><strong>${esc(lane.name || lane.laneId)}</strong>${pill(lane.active ? "active" : "inactive", lane.active ? "good" : "warn")}</div>
+    <div class="muted">${esc(lane.laneId)}</div>
+    <div class="metric-grid compact">
+      ${miniMetric("candidates", lane.rawCandidates ?? 0)}
+      ${miniMetric("feeds", lane.sourceFeeds ?? 0)}
+      ${miniMetric("connectors", lane.connectors ?? 0)}
+      ${miniMetric("workspaces", lane.subscribedWorkspaces ?? 0)}
+    </div>
+  </article>`;
+}
+
+function renderCandidateLaneCount(laneId, count) {
+  return `<article class="workspace-card compact-card">
+    <strong>${esc(laneId)}</strong>
+    <span class="muted">${esc(count)} raw candidates</span>
+  </article>`;
+}
+
+function renderSourceRun(run) {
+  return `<div class="list-item">
+    <div class="line-head"><strong>${esc(run.connectorId || "source")}</strong>${pill(run.status || "unknown", run.status === "failed" ? "bad" : run.status === "partial" ? "warn" : "good")}</div>
+    <div class="muted">${esc(run.runId || "")} · created ${esc(run.createdCandidates ?? 0)} · skipped ${esc(run.skippedDuplicates ?? 0)} · ${esc(run.finishedAt || run.createdAt || "")}</div>
+  </div>`;
+}
+
+function miniMetric(label, value) {
+  return `<div class="mini-metric"><strong>${esc(value)}</strong><span>${esc(label)}</span></div>`;
 }
 
 function renderFeedbackDebtCommandBar(scope = "review", plan = finalReviewPlan()) {
@@ -3347,7 +3771,7 @@ function renderAccounts() {
         <div>
           <p class="eyebrow">Account routing</p>
           <h2>账号策略 v1</h2>
-          <p class="muted">现在只做内容分配，不做授权、不自动轮发。以后授权时，把 token 绑定到这些 accountId 即可。</p>
+          <p class="muted">这里仍然只做内容分配和账号路由；授权状态与发布作业请到「发布运营」查看。</p>
         </div>
         ${pill(strategy.authReady ? "Auth ready" : "Planning only", strategy.authReady ? "good" : "warn")}
       </div>
@@ -4312,15 +4736,26 @@ function freshnessBadge(tool) {
   if (category === "seen") return { label: "Seen before", kind: "seen" };
   if (category === "freshToday") return { label: "Fresh today", kind: "fresh" };
   if (category === "fresh48") return { label: "Fresh 48h", kind: "fresh" };
+  if (category === "genericNews") return { label: "Fresh but generic news", kind: "warn" };
   return { label: "Older but useful", kind: "stale" };
 }
 
 function freshnessCategory(tool) {
   if (tool?.seenBefore) return "seen";
   const ageHours = productAgeHours(tool.published);
+  if (isLowOriginalityNews(tool) && ageHours !== null && ageHours <= 48) return "genericNews";
   if (ageHours !== null && ageHours <= 24) return "freshToday";
   if (ageHours !== null && ageHours <= 48) return "fresh48";
   return "stale";
+}
+
+function isLowOriginalityNews(tool) {
+  if (tool?.editorialSignals?.lowOriginalityNews) return true;
+  if (Number(tool?.scoreBreakdown?.originalityPenalty ?? 0) >= 8) return true;
+  const text = `${tool?.name ?? ""} ${tool?.tagline ?? ""} ${tool?.reason ?? ""}`.toLowerCase();
+  const newsHits = ["rumor", "rumour", "rumored", "rumoured", "raising", "raises", "funding", "valuation", "valued at", "billion", "million"].filter((term) => text.includes(term));
+  const actionHits = ["tool", "product", "workflow", "api", "sdk", "builder", "developer", "operator", "pricing", "launch"].filter((term) => text.includes(term));
+  return newsHits.length >= 2 && actionHits.length < 2;
 }
 
 function productAgeHours(published) {
@@ -4332,12 +4767,13 @@ function productAgeHours(published) {
 }
 
 function freshnessStats(tools) {
-  const stats = { freshToday: 0, fresh48: 0, seen: 0, stale: 0, apiReady: 0 };
+  const stats = { freshToday: 0, fresh48: 0, seen: 0, stale: 0, genericNews: 0, apiReady: 0 };
   for (const tool of tools) {
     const category = freshnessCategory(tool);
     if (category === "freshToday") stats.freshToday += 1;
     if (category === "fresh48") stats.fresh48 += 1;
     if (category === "seen") stats.seen += 1;
+    if (category === "genericNews") stats.genericNews += 1;
     if (category === "stale") stats.stale += 1;
     if (["freshToday", "fresh48"].includes(category)) stats.apiReady += 1;
   }
@@ -4349,6 +4785,7 @@ function readinessAdvice(latest, stats) {
   if (latest.source?.usedFallback) return "当前数据来自 fallback sample，只适合看格式，不建议发布。";
   if (ageMinutes !== null && ageMinutes > 360) return "数据已经超过 6 小时，发布前先跑 npm run daily 刷新一遍。";
   if (stats.apiReady > 0) return "只建议用 API 发布 Fresh today / Fresh 48h；Seen before 先手动观察或放进长文/测评页。";
+  if (stats.genericNews > 0) return "有新新闻，但角度太像复述标题；先改成二阶观察，或放进长文/观察队列。";
   return "今天没有明显的新鲜候选，先别花 credits；可以做历史工具的测评页或联盟研究。";
 }
 
@@ -4361,6 +4798,7 @@ function renderPublishRisk(tool, accountId = "") {
   if (latest.source?.usedFallback) risks.push("当前是 fallback sample，不建议 API 发布。");
   if (dataAgeMinutes(latest.generatedAt) > 360) risks.push("数据刷新超过 6 小时，建议先跑 npm run daily。");
   if (tool.seenBefore) risks.push("历史出现过，不要把它当今天新工具发。");
+  if (isLowOriginalityNews(tool)) risks.push("这条虽然新，但太像新闻标题复述；先改成原创观察或放进长文。");
   if (freshness.kind === "stale") risks.push("发布时间超过 48 小时，更适合长文或 SEO 测评页。");
   const gate = feedbackDebtGate();
   if (feedbackGateBlocksPublishing(gate)) risks.push(`${feedbackGateTitle(gate)}：${feedbackGateSummary(gate)}。`);
@@ -4368,7 +4806,7 @@ function renderPublishRisk(tool, accountId = "") {
   if (xAuth.blocked) risks.push(xAuth.reason);
   else if (xAuth.warning) risks.push(xAuth.reason);
   if (!risks.length) risks.push("新鲜度适合小额 API 测试，发布后记得回填反馈。");
-  const kind = latest.source?.usedFallback || freshness.kind === "stale" || feedbackGateBlocksPublishing(gate) ? "bad" : tool.seenBefore ? "warn" : "good";
+  const kind = latest.source?.usedFallback || freshness.kind === "stale" || isLowOriginalityNews(tool) || feedbackGateBlocksPublishing(gate) ? "bad" : tool.seenBefore ? "warn" : "good";
   const ageText = age === null ? "发布时间未知" : `PH 发布时间约 ${Math.round(age)} 小时前`;
   return `<div class="publish-risk-card ${kind}">
     <div class="line-head">${pill(freshness.label, freshness.kind)}<strong>${esc(ageText)}</strong></div>
@@ -4398,6 +4836,7 @@ function buildPublishReadiness(tool, text, accountId = "") {
   if (forbidden.length) blockReasons.push(`文案包含 voice 禁用词：${forbidden.join(", ")}。`);
   if (latest.source?.usedFallback) blockReasons.push("当前是 fallback sample，不允许 API 发布。");
   if (staleData) blockReasons.push("数据刷新超过 6 小时，先刷新 Live Feed。");
+  if (tool && isLowOriginalityNews(tool)) blockReasons.push("这条是 Fresh but generic news：时间新，但原创角度不足，不建议 API 发布。");
   if (feedbackGateBlocksPublishing(gate)) blockReasons.push(`${feedbackGateTitle(gate)}：${feedbackGateSummary(gate)}。`);
   if (!xAuth.blocked && xAuth.warning) overrideReasons.push(xAuth.reason);
   if (gate && !feedbackGateBlocksPublishing(gate)) overrideReasons.push(`Feedback gate：${feedbackGateSummary(gate)}。`);
@@ -5036,6 +5475,93 @@ async function runDaily() {
   }
 }
 
+async function runPublishPrepare() {
+  if (state.publishRun.running) return;
+  state.publishRun = { running: true, message: "正在准备发布作业..." };
+  renderActiveView();
+  try {
+    const result = await api.post("/api/publish/prepare", {});
+    state.publishRun = { running: false, message: `准备完成：created ${result.created ?? 0}，jobs ${result.totalJobs ?? 0}` };
+    toast("发布队列已准备");
+    await loadAll();
+  } catch (error) {
+    state.publishRun = { running: false, message: `准备失败：${error.message}` };
+    renderActiveView();
+    toast(error.message);
+  }
+}
+
+async function runPublishDryRun() {
+  if (state.publishRun.running) return;
+  state.publishRun = { running: true, message: "正在 dry-run 安全检查..." };
+  renderActiveView();
+  try {
+    const result = await api.post("/api/publish/dry-run", {});
+    state.publishRun = { running: false, message: `Dry-run 完成：ready ${result.ready ?? 0}，blocked ${result.blocked ?? 0}` };
+    toast("Dry-run 已完成");
+    await loadAll();
+  } catch (error) {
+    state.publishRun = { running: false, message: `Dry-run 失败：${error.message}` };
+    renderActiveView();
+    toast(error.message);
+  }
+}
+
+async function runPublishLive() {
+  const ok = window.confirm("这会尝试调用 X API live 发布所有通过 safe gate 的 ready/queued job。确认只在你已经开启全局自动发布并完成授权后使用。继续吗？");
+  if (!ok) return;
+  if (state.publishRun.running) return;
+  state.publishRun = { running: true, message: "正在执行 live publish..." };
+  renderActiveView();
+  try {
+    const result = await api.post("/api/publish/run", { live: true, role: "admin" });
+    state.publishRun = { running: false, message: `Live run 完成：posted ${result.posted ?? 0}，blocked ${result.blocked ?? 0}，failed ${result.failed ?? 0}` };
+    toast("Live publish run 已完成");
+    await loadAll();
+  } catch (error) {
+    state.publishRun = { running: false, message: `Live run 失败：${error.message}` };
+    renderActiveView();
+    toast(error.message);
+  }
+}
+
+async function updatePublishJob(button) {
+  const action = button.dataset.publishJobAction;
+  const jobId = button.dataset.jobId;
+  const endpoint = action === "retry" ? "/api/publish/job/retry" : "/api/publish/job/cancel";
+  await api.post(endpoint, { jobId });
+  toast(action === "retry" ? "已放回队列，重新 dry-run 检查" : "发布作业已取消");
+  await loadAll();
+}
+
+async function saveAccountPublishMode(button) {
+  const accountId = button.dataset.accountPublishMode;
+  const publishMode = Array.from(document.querySelectorAll("[data-publish-mode-select]"))
+    .find((select) => select.dataset.publishModeSelect === accountId)
+    ?.value || "manual";
+  await api.post("/api/account/publish-mode", {
+    accountId,
+    publishMode,
+    autoPublishEnabled: publishMode === "auto",
+    requiresFinalApproval: true,
+    role: "admin"
+  });
+  toast(`已保存 ${accountId} 发布模式：${publishMode}`);
+  await loadAll();
+}
+
+async function seedLanesFromDashboard() {
+  const result = await api.post("/api/lanes/seed", {});
+  toast(`内容线已初始化：${result.lanes ?? 0} lanes，${result.workspaceLanes ?? 0} workspace lanes`);
+  await loadAll();
+}
+
+async function ingestCandidatesFromDashboard() {
+  const result = await api.post("/api/candidates/ingest", {});
+  toast(`Manual candidates 已导入：${result.imported ?? 0} imported，${result.skippedDuplicates ?? 0} skipped`);
+  await loadAll();
+}
+
 async function runCalendar() {
   if (guardReadOnlyAction()) {
     state.calendarRun = { running: false, message: readOnlyActionMessage() };
@@ -5249,6 +5775,20 @@ document.addEventListener("click", async (event) => {
       await runLearningLoop();
     } else if (button.dataset.runRoadmap !== undefined) {
       await runRoadmap();
+    } else if (button.dataset.publishPrepare !== undefined) {
+      await runPublishPrepare();
+    } else if (button.dataset.publishDryRun !== undefined) {
+      await runPublishDryRun();
+    } else if (button.dataset.publishLiveRun !== undefined) {
+      await runPublishLive();
+    } else if (button.dataset.publishJobAction) {
+      await updatePublishJob(button);
+    } else if (button.dataset.accountPublishMode) {
+      await saveAccountPublishMode(button);
+    } else if (button.dataset.lanesSeed !== undefined) {
+      await seedLanesFromDashboard();
+    } else if (button.dataset.candidatesIngest !== undefined) {
+      await ingestCandidatesFromDashboard();
     } else if (button.dataset.previewCandidates) {
       await previewCandidatePaste(button.dataset.previewCandidates);
     } else if (button.dataset.previewFeedback) {

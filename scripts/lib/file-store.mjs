@@ -10,8 +10,18 @@ export function resolveProjectPath(filePath) {
   return path.isAbsolute(filePath) ? filePath : path.join(rootDir, filePath);
 }
 
+function assertProjectWritePath(filePath) {
+  const target = resolveProjectPath(filePath);
+  const relative = path.relative(rootDir, target);
+  const allowed = ["data", "config", "output"];
+  if (relative.startsWith("..") || path.isAbsolute(relative) || !allowed.includes(relative.split(path.sep)[0])) {
+    throw new Error(`Refusing to write outside project data/config/output: ${filePath}`);
+  }
+  return target;
+}
+
 export async function ensureDir(dirPath) {
-  await mkdir(resolveProjectPath(dirPath), { recursive: true });
+  await mkdir(assertProjectWritePath(dirPath), { recursive: true });
 }
 
 export async function readText(filePath, fallback = "") {
@@ -24,7 +34,7 @@ export async function readText(filePath, fallback = "") {
 }
 
 export async function writeTextAtomic(filePath, text) {
-  const target = resolveProjectPath(filePath);
+  const target = assertProjectWritePath(filePath);
   await mkdir(path.dirname(target), { recursive: true });
   await backupJson(filePath);
   const temp = `${target}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
@@ -48,7 +58,7 @@ export async function readJson(filePath, fallback = null) {
 }
 
 export async function writeJsonAtomic(filePath, data) {
-  const target = resolveProjectPath(filePath);
+  const target = assertProjectWritePath(filePath);
   await mkdir(path.dirname(target), { recursive: true });
   await backupJson(filePath);
   const temp = `${target}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;

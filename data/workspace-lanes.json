@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "items": [
+    {
+      "workspaceId": "workspace_default",
+      "laneId": "ai_startups",
+      "enabled": true,
+      "priority": 1,
+      "monthlyQuota": 300,
+      "notes": "Default internal subscription created by Source Lane v1 seed.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "workspaceId": "workspace_default",
+      "laneId": "indie_builders",
+      "enabled": true,
+      "priority": 2,
+      "monthlyQuota": 300,
+      "notes": "Default internal subscription created by Source Lane v1 seed.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "workspaceId": "workspace_default",
+      "laneId": "saas_founders",
+      "enabled": true,
+      "priority": 3,
+      "monthlyQuota": 300,
+      "notes": "Default internal subscription created by Source Lane v1 seed.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "workspaceId": "workspace_default",
+      "laneId": "crypto_builders",
+      "enabled": true,
+      "priority": 4,
+      "monthlyQuota": 300,
+      "notes": "Default internal subscription created by Source Lane v1 seed.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    }
+  ]
+}

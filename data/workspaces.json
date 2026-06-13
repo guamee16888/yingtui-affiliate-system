@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "items": [
+    {
+      "workspaceId": "workspace_default",
+      "name": "Default Workspace",
+      "plan": "internal",
+      "accountLimit": 30,
+      "managerUserIds": [
+        "user_owner"
+      ],
+      "staffUserIds": [
+        "user_owner"
+      ],
+      "enabledLaneIds": [
+        "ai_startups",
+        "indie_builders",
+        "saas_founders",
+        "crypto_builders"
+      ],
+      "publishMode": "manual",
+      "autoPublishEnabled": false,
+      "requiresFinalApproval": true,
+      "active": true,
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T04:10:14.858Z",
+      "status": "active"
+    }
+  ]
+}

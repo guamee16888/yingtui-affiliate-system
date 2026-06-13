@@ -208,6 +208,69 @@ const bigBrandKeywords = [
   "amazon"
 ];
 
+const mediaSourceHints = [
+  "techcrunch",
+  "coindesk",
+  "the block",
+  "decrypt",
+  "the verge",
+  "wired",
+  "bloomberg",
+  "reuters",
+  "forbes",
+  "business insider",
+  "cnbc"
+];
+
+const lowOriginalityNewsKeywords = [
+  "rumor",
+  "rumour",
+  "rumored",
+  "rumoured",
+  "reportedly",
+  "funding",
+  "fundraise",
+  "fundraising",
+  "raises",
+  "raised",
+  "raising",
+  "valuation",
+  "valued at",
+  "billion",
+  "million",
+  "series a",
+  "series b",
+  "series c",
+  "ipo",
+  "acquisition"
+];
+
+const actionableTopicKeywords = [
+  "tool",
+  "tools",
+  "product",
+  "launch",
+  "workflow",
+  "api",
+  "sdk",
+  "github",
+  "open source",
+  "developer",
+  "builder",
+  "founder",
+  "operator",
+  "pricing",
+  "benchmark",
+  "integration",
+  "template",
+  "dashboard",
+  "automation",
+  "customer",
+  "sales",
+  "wallet",
+  "onchain"
+];
+
 const audienceMap = [
   ["shopify", "Shopify stores"],
   ["ecommerce", "ecommerce operators"],
@@ -555,7 +618,7 @@ function inferSolution(tool) {
   if (!description) return "prove it saves time on a real workflow";
   const shortDescription = description.length <= 90
     ? description
-    : `${description.slice(0, 87).trim()}...`;
+    : shortenPhrase(description, 90);
 
   return shortDescription
     .toLowerCase()
@@ -565,6 +628,17 @@ function inferSolution(tool) {
     .replace(/\bshopify\b/g, "Shopify")
     .replace(/\bchrome\b/g, "Chrome")
     .replace(/\bgsuite\b/g, "Google Workspace");
+}
+
+function shortenPhrase(text, max) {
+  const base = String(text ?? "").replace(/\s+/g, " ").trim().slice(0, Math.max(0, max - 3)).trimEnd();
+  const lastSpace = base.lastIndexOf(" ");
+  let phrase = lastSpace >= 32 ? base.slice(0, lastSpace) : base;
+  phrase = phrase
+    .replace(/\b(and|or|but|with|for|to|that|of|the|a|an)$/i, "")
+    .replace(/[.,;:!?-]+$/g, "")
+    .trim();
+  return `${phrase}...`;
 }
 
 export function buildAngle(tool) {
@@ -609,13 +683,15 @@ export function scoreTool(tool, context) {
   const hotMatches = countMatches(text, hotSpotKeywords);
   const bigBrandMatches = countMatches(text, bigBrandKeywords);
   const sourceNoisePenalty = tool.sourceQuality?.isNoisy ? 5 : 0;
+  const editorialSignals = assessEditorialSignals(tool);
+  const originalityPenalty = editorialSignals.penalty;
 
   const painScore = clamp((painMatches * 2) + (descriptionLength >= 45 ? 2 : 0) + (angle.pain ? 2 : 0));
   const nicheScore = clamp((nicheMatches * 2) + (chooseFromMap(text, audienceMap, "") ? 3 : 0) + (titleWords >= 2 ? 1 : 0));
   const affiliateScore = clamp((affiliateMatches * 2) + (affiliate ? 3 : 0) + (hasMatch(text, ["team", "store", "sales", "customer", "email"]) ? 2 : 0));
   const contentScore = clamp((contentMatches * 2) + (painScore >= 6 ? 2 : 0) + (nicheScore >= 6 ? 2 : 0) + (descriptionLength <= 120 ? 1 : 0));
   const noveltyScore = clamp(publishedNovelty(tool, context.date) + (titleWords >= 2 ? 2 : 0) + (hasMatch(text, ["new", "launch", "2.0", "beta"]) ? 1 : 0));
-  const riskScore = clamp((broadMatches * 2) + hotMatches + (bigBrandMatches * 2) + (nicheScore <= 3 ? 2 : 0) + (painScore <= 3 ? 2 : 0) + sourceNoisePenalty);
+  const riskScore = clamp((broadMatches * 2) + hotMatches + (bigBrandMatches * 2) + (nicheScore <= 3 ? 2 : 0) + (painScore <= 3 ? 2 : 0) + sourceNoisePenalty + originalityPenalty);
   const seenPenalty = seenBefore ? (historyInfo.lastSeen === context.date ? 6 : 4) : 0;
   const learningBoost = feedbackLearningBoost(tool, context.feedbackLearningSignals);
   const score = painScore + nicheScore + affiliateScore + contentScore + noveltyScore + learningBoost.score - riskScore - seenPenalty;
@@ -629,6 +705,7 @@ export function scoreTool(tool, context) {
     learningScore: learningBoost.score,
     riskScore,
     sourceNoisePenalty,
+    originalityPenalty,
     seenPenalty,
     total: score
   };
@@ -644,9 +721,52 @@ export function scoreTool(tool, context) {
     scoreBreakdown,
     seenBefore,
     historyInfo,
+    editorialSignals,
     followUpAction,
     recommendedToFollow,
-    reason: buildReason(scoreBreakdown, angle, affiliate, seenBefore, followUpAction, tool.sourceQuality, learningBoost)
+    reason: buildReason(scoreBreakdown, angle, affiliate, seenBefore, followUpAction, tool.sourceQuality, learningBoost, editorialSignals)
+  };
+}
+
+function assessEditorialSignals(tool) {
+  const editorialText = normalizeText([
+    tool.name,
+    tool.description,
+    tool.tagline
+  ].filter(Boolean).join(" "));
+  const sourceText = normalizeText([
+    tool.sourceName,
+    tool.sourceType,
+    tool.sourceUrl,
+    tool.url
+  ].filter(Boolean).join(" "));
+  const newsTerms = lowOriginalityNewsKeywords.filter((term) => editorialText.includes(term));
+  const actionTerms = actionableTopicKeywords.filter((term) => editorialText.includes(term));
+  const mediaSource = mediaSourceHints.some((hint) => sourceText.includes(hint));
+  const isTopic = tool.candidateType === "topic" || tool.sourceType === "source_feed";
+  const hasFundingPattern = newsTerms.length >= 2 || /[$€£]\s?\d/.test(editorialText);
+  const mediaTopicWithoutAction = Boolean(isTopic && mediaSource && actionTerms.length < 2);
+  const lowOriginalityNews = Boolean(
+    mediaTopicWithoutAction
+    || (isTopic && (mediaSource || hasFundingPattern) && hasFundingPattern && actionTerms.length < 2)
+  );
+  const needsAngle = Boolean(isTopic && hasFundingPattern && actionTerms.length < 2);
+  const status = lowOriginalityNews ? "low_originality_news" : needsAngle ? "needs_original_angle" : "ok";
+  const penalty = lowOriginalityNews ? 8 : needsAngle ? 4 : 0;
+
+  return {
+    status,
+    lowOriginalityNews,
+    penalty,
+    mediaSource,
+    mediaTopicWithoutAction,
+    newsTerms: newsTerms.slice(0, 6),
+    actionTerms: actionTerms.slice(0, 6),
+    reason: lowOriginalityNews
+      ? "Fresh as news, but lacks a clear builder, workflow, or operator action for direct posting."
+      : needsAngle
+        ? "Needs a stronger builder, workflow, or operator angle before posting."
+        : "No low-originality news risk detected."
   };
 }
 
@@ -691,7 +811,7 @@ function chooseFollowUpAction(scoreBreakdown, affiliate) {
   return "tweet only";
 }
 
-function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action, sourceQuality = null, learningBoost = { score: 0, reasons: [] }) {
+function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action, sourceQuality = null, learningBoost = { score: 0, reasons: [] }, editorialSignals = null) {
   const strengths = [];
   const cautions = [];
 
@@ -705,6 +825,8 @@ function buildReason(scoreBreakdown, angle, affiliate, seenBefore, action, sourc
 
   if (scoreBreakdown.riskScore >= 6) cautions.push("broad or crowded angle risk");
   if (sourceQuality?.isNoisy) cautions.push(sourceQuality.reason);
+  if (editorialSignals?.lowOriginalityNews) cautions.push(editorialSignals.reason);
+  else if (editorialSignals?.status === "needs_original_angle") cautions.push(editorialSignals.reason);
   if (seenBefore) cautions.push("Seen before, so it is downgraded today");
   if (action === "skip") cautions.push("not enough signal for follow-up");
 
@@ -738,14 +860,18 @@ function fillTemplate(template, item, voice, link) {
 
   return Object.entries(values).reduce((text, [key, value]) => {
     return text.replaceAll(`{${key}}`, value);
-  }, template);
+  }, template)
+    .replace(/\.{4,}/g, "...")
+    .replace(/\.{3}\s+\./g, "...")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export function lintTweet(tweet, voice) {
   const lower = tweet.toLowerCase();
   const banned = (voice.style.avoid ?? []).filter((phrase) => lower.includes(phrase.toLowerCase()));
-  const xLength = tweet.replace(/https?:\/\/\S+/g, "x".repeat(23)).length;
-  const tooLong = xLength > voice.style.maxTweetCharacters;
+  const xLength = String(tweet ?? "").trim().length;
+  const tooLong = xLength > maxTweetCharacters(voice);
   const emojiUsed = voice.style.allowEmoji ? false : /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/u.test(tweet);
 
   return {
@@ -757,29 +883,72 @@ export function lintTweet(tweet, voice) {
   };
 }
 
-function ensureTweet(text, item, voice, link) {
-  let candidate = text.replace(/\s+/g, " ").trim();
+function maxTweetCharacters(voice) {
+  const configured = Number(voice.style?.maxTweetCharacters ?? 280);
+  return Math.min(280, Number.isFinite(configured) && configured > 0 ? configured : 280);
+}
+
+function fitTweetWithinLimit(text, voice, link) {
+  const max = maxTweetCharacters(voice);
+  let candidate = String(text ?? "").replace(/\s+/g, " ").trim();
+  if (candidate.length <= max) return candidate;
+
+  const cleanLink = String(link ?? "").trim();
+  if (cleanLink && candidate.includes(cleanLink)) {
+    const linkPart = ` ${cleanLink}`;
+    const bodyLimit = max - linkPart.length;
+    if (bodyLimit >= 32) {
+      const body = candidate.replace(cleanLink, "").replace(/\s+/g, " ").trim();
+      candidate = `${trimToLimit(body, bodyLimit)}${linkPart}`.trim();
+    }
+  }
+
+  return trimToLimit(candidate, max);
+}
+
+function trimToLimit(text, max) {
+  const clean = String(text ?? "").replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  if (max <= 3) return clean.slice(0, Math.max(0, max));
+
+  const base = clean.slice(0, max - 3).trimEnd();
+  const lastSpace = base.lastIndexOf(" ");
+  const cut = lastSpace >= 24 ? base.slice(0, lastSpace) : base;
+  return `${cut.replace(/(\.{3}|[.,;:!?-])+$/g, "")}...`.slice(0, max);
+}
+
+function fitAndLint(text, item, voice, link) {
+  let candidate = String(text ?? "").replace(/\s+/g, " ").trim();
   let lint = lintTweet(candidate, voice);
+  if (lint.tooLong) {
+    candidate = fitTweetWithinLimit(candidate, voice, link);
+    lint = lintTweet(candidate, voice);
+  }
+  return { candidate, lint };
+}
+
+function ensureTweet(text, item, voice, link) {
+  let { candidate, lint } = fitAndLint(text, item, voice, link);
 
   if (lint.banned.length) {
     for (const phrase of lint.banned) {
       candidate = candidate.replace(new RegExp(escapeRegExp(phrase), "ig"), "").replace(/\s+/g, " ").trim();
     }
-    lint = lintTweet(candidate, voice);
+    ({ candidate, lint } = fitAndLint(candidate, item, voice, link));
   }
 
   if (!lint.ok) {
     candidate = item.tool.candidateType === "topic"
       ? `${item.tool.name}: useful signal, but not a tool review. I would verify the details before posting more. ${link}`
       : `${item.tool.name}: ${item.angle.pain}. I'd test it once before writing more. ${link}`;
-    lint = lintTweet(candidate, voice);
+    ({ candidate, lint } = fitAndLint(candidate, item, voice, link));
   }
 
   if (!lint.ok) {
     candidate = item.tool.candidateType === "topic"
       ? `Worth watching: ${item.tool.name}. Treat it as a signal, not a claim. ${link}`
       : `Worth testing: ${item.tool.name}. Narrow problem, clear buyer. ${link}`;
-    lint = lintTweet(candidate, voice);
+    ({ candidate, lint } = fitAndLint(candidate, item, voice, link));
   }
 
   return {
@@ -968,6 +1137,7 @@ function buildFreshnessReport({ date, scored, picked, usedFallback, feedSource }
     fresh7d: buckets.fresh7d.length,
     older: buckets.older.length,
     unknownPublished: buckets.unknown.length,
+    lowOriginalityNews: scored.filter((item) => item.editorialSignals?.lowOriginalityNews).length,
     topPickFreshPostCandidates: pickedFreshPostCandidates.length,
     topPickSeenBefore: picked.filter((item) => item.seenBefore).length
   };
@@ -1010,6 +1180,7 @@ function freshnessToolSummary(item, date, picked) {
     ageDays: daysSince(item.tool.published, date),
     score: item.score,
     followUpAction: item.followUpAction,
+    editorialSignals: item.editorialSignals ?? null,
     seenBefore: item.seenBefore,
     inTopPicks
   };
@@ -1083,7 +1254,12 @@ function buildActionList(picked, affiliateQueue, date, feedbackLearningSignals =
 
 function isFreshPostCandidate(item, date) {
   const ageDays = daysSince(item.tool.published, date);
-  return !item.seenBefore && item.followUpAction !== "skip" && ageDays !== null && ageDays <= 2;
+  return !item.seenBefore
+    && item.followUpAction !== "skip"
+    && !item.editorialSignals?.lowOriginalityNews
+    && Number(item.scoreBreakdown?.originalityPenalty ?? 0) < 8
+    && ageDays !== null
+    && ageDays <= 2;
 }
 
 export function renderDailyMarkdown(model) {
@@ -1392,6 +1568,7 @@ function renderFreshnessDiagnostic(report) {
     `- Feed fresh 48h: ${stats.fresh48 ?? 0}`,
     `- Feed fresh 7d: ${stats.fresh7d ?? 0}`,
     `- Older/unknown: ${(stats.older ?? 0) + (stats.unknownPublished ?? 0)}`,
+    `- Fresh but generic news: ${stats.lowOriginalityNews ?? 0}`,
     `- Fresh top-pick candidates: ${stats.topPickFreshPostCandidates ?? 0}`,
     `- Diagnosis: ${report.diagnosis}`,
     `- Recommendation: ${report.recommendation}`
@@ -1420,6 +1597,7 @@ function renderScoreBreakdown(scoreBreakdown) {
     `contentScore ${scoreBreakdown.contentScore}`,
     `noveltyScore ${scoreBreakdown.noveltyScore}`,
     `riskScore ${scoreBreakdown.riskScore ? `-${scoreBreakdown.riskScore}` : "0"}`,
+    `originalityPenalty ${scoreBreakdown.originalityPenalty ? `-${scoreBreakdown.originalityPenalty}` : "0"}`,
     `seenPenalty ${scoreBreakdown.seenPenalty ? `-${scoreBreakdown.seenPenalty}` : "0"}`,
     `total ${scoreBreakdown.total}`
   ].join(" | ");
@@ -1594,6 +1772,7 @@ function toToolJson(item) {
     score: item.score,
     scoreBreakdown: item.scoreBreakdown,
     reason: item.reason,
+    editorialSignals: item.editorialSignals ?? null,
     affiliateStatus: affiliateStatus.hasLink ? "matched" : affiliateStatusForItem(item),
     affiliateLink: item.affiliate?.affiliateUrl ?? null,
     affiliateNote: item.affiliate?.note ?? null,

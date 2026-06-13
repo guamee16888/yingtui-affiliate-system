@@ -1,0 +1,267 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T04:10:14.858Z",
+  "items": [
+    {
+      "taskId": "task_8b91a4646a3e",
+      "date": "2026-06-13",
+      "accountId": "ai_tools_lab",
+      "assignedTo": "user_owner",
+      "managerUserId": "user_owner",
+      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+      "topicId": "topic_e5bb11d76297",
+      "copyId": "copy_02def53bb0c2",
+      "copyText": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+      "variantType": "shortPost",
+      "status": "feedback_due",
+      "approvalStatus": "approved",
+      "publishWindow": "",
+      "scheduledAt": "",
+      "copiedAt": "",
+      "postedAt": "2026-06-13T00:11:53.263Z",
+      "postedUrl": "https://x.com/i/web/status/2065587926495641808",
+      "feedbackDueAt": "2026-06-13T00:11:53.263Z",
+      "metrics": {
+        "impressions": 0,
+        "likes": 0,
+        "bookmarks": 0,
+        "replies": 0,
+        "reposts": 0,
+        "clicks": 0,
+        "profileVisits": 0
+      },
+      "duplicateCheckResult": {},
+      "riskFlags": [],
+      "notes": "Published to X from Dashboard via AI Tools Lab",
+      "createdAt": "2026-06-13T00:11:53.264Z",
+      "updatedAt": "2026-06-13T04:07:42.566Z",
+      "workspaceId": "workspace_default"
+    },
+    {
+      "taskId": "task_ac4dfe12c33a",
+      "date": "2026-06-13",
+      "accountId": "ai_founder_signals",
+      "assignedTo": "user_owner",
+      "managerUserId": "",
+      "toolId": "tool_techcrunch_com_how-memory-tools-can-make-ai-models-worse_80af673078",
+      "toolName": "How memory tools can make AI models worse",
+      "toolUrl": "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+      "topicId": "topic_0f00f8e0bdf2",
+      "copyId": "copy_47948173e7c4",
+      "copyText": "Worth watching: How memory tools can make AI models worse. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/",
+      "variantType": "shortPost",
+      "status": "pending_review",
+      "approvalStatus": "pending",
+      "publishWindow": "",
+      "scheduledAt": "",
+      "copiedAt": "",
+      "postedAt": "",
+      "postedUrl": "",
+      "feedbackDueAt": "",
+      "metrics": {
+        "impressions": 0,
+        "likes": 0,
+        "bookmarks": 0,
+        "replies": 0,
+        "reposts": 0,
+        "clicks": 0,
+        "profileVisits": 0
+      },
+      "duplicateCheckResult": {
+        "ok": true,
+        "riskLevel": "low",
+        "flags": [],
+        "recommendation": "approve"
+      },
+      "riskFlags": [],
+      "externalLinks": [
+        "https://techcrunch.com/2026/06/10/how-memory-tools-can-make-ai-models-worse/"
+      ],
+      "affiliateLinkUsed": "",
+      "notes": "Topic: removing one narrow, repeated manual step",
+      "createdAt": "2026-06-13T01:47:06.201Z",
+      "updatedAt": "2026-06-13T04:07:42.566Z",
+      "workspaceId": "workspace_default"
+    },
+    {
+      "taskId": "task_79788cfebdc3",
+      "date": "2026-06-13",
+      "accountId": "ai_tools_lab",
+      "assignedTo": "user_owner",
+      "managerUserId": "",
+      "toolId": "tool_producthunt_com_kosh-money_ada13da65a",
+      "toolName": "KOSH Money",
+      "toolUrl": "https://www.producthunt.com/products/kosh-money",
+      "topicId": "topic_deecbea23f78",
+      "copyId": "copy_641a2f9a0264",
+      "copyText": "Testing KOSH Money today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a narrower workflow. https://www.producthunt.com/products/kosh-money",
+      "variantType": "shortPost",
+      "status": "draft",
+      "approvalStatus": "rejected",
+      "publishWindow": "",
+      "scheduledAt": "",
+      "copiedAt": "",
+      "postedAt": "",
+      "postedUrl": "",
+      "feedbackDueAt": "",
+      "metrics": {
+        "impressions": 0,
+        "likes": 0,
+        "bookmarks": 0,
+        "replies": 0,
+        "reposts": 0,
+        "clicks": 0,
+        "profileVisits": 0
+      },
+      "duplicateCheckResult": {
+        "ok": false,
+        "riskLevel": "block",
+        "flags": [
+          {
+            "type": "copy_too_similar",
+            "message": "这条文案和近期文案相似度偏高，建议改写。",
+            "severity": "warn"
+          },
+          {
+            "type": "account_link_limit",
+            "message": "这个账号今天外链数已经超过限制。",
+            "severity": "block"
+          }
+        ],
+        "recommendation": "block"
+      },
+      "riskFlags": [
+        "copy_too_similar",
+        "account_link_limit"
+      ],
+      "externalLinks": [
+        "https://www.producthunt.com/products/kosh-money"
+      ],
+      "affiliateLinkUsed": "",
+      "notes": "Topic: removing one narrow, repeated manual step",
+      "createdAt": "2026-06-13T01:47:06.206Z",
+      "updatedAt": "2026-06-13T04:07:42.566Z",
+      "workspaceId": "workspace_default"
+    },
+    {
+      "taskId": "task_c9cf65b192a3",
+      "date": "2026-06-13",
+      "accountId": "ai_tools_lab",
+      "assignedTo": "user_owner",
+      "managerUserId": "",
+      "toolId": "tool_producthunt_com_meet-warren-3-0_572792bb13",
+      "toolName": "Meet Warren 3.0",
+      "toolUrl": "https://www.producthunt.com/products/underpay",
+      "topicId": "topic_f87a9beeb618",
+      "copyId": "copy_9a34b83a6aad",
+      "copyText": "Testing Meet Warren 3.0 today. It looks narrow enough to be useful: answering repeat customer questions without adding another queue. Worth a quick look if you care about fewer repetitive support tasks. https://www.producthunt.com/products/underpay",
+      "variantType": "shortPost",
+      "status": "draft",
+      "approvalStatus": "rejected",
+      "publishWindow": "",
+      "scheduledAt": "",
+      "copiedAt": "",
+      "postedAt": "",
+      "postedUrl": "",
+      "feedbackDueAt": "",
+      "metrics": {
+        "impressions": 0,
+        "likes": 0,
+        "bookmarks": 0,
+        "replies": 0,
+        "reposts": 0,
+        "clicks": 0,
+        "profileVisits": 0
+      },
+      "duplicateCheckResult": {
+        "ok": false,
+        "riskLevel": "block",
+        "flags": [
+          {
+            "type": "copy_too_similar",
+            "message": "这条文案和近期文案相似度偏高，建议改写。",
+            "severity": "warn"
+          },
+          {
+            "type": "account_link_limit",
+            "message": "这个账号今天外链数已经超过限制。",
+            "severity": "block"
+          }
+        ],
+        "recommendation": "block"
+      },
+      "riskFlags": [
+        "copy_too_similar",
+        "account_link_limit"
+      ],
+      "externalLinks": [
+        "https://www.producthunt.com/products/underpay"
+      ],
+      "affiliateLinkUsed": "",
+      "notes": "Topic: answering repeat customer questions without adding another queue",
+      "createdAt": "2026-06-13T01:47:06.207Z",
+      "updatedAt": "2026-06-13T04:07:42.566Z",
+      "workspaceId": "workspace_default"
+    },
+    {
+      "taskId": "task_2fe0ad820af5",
+      "date": "2026-06-13",
+      "accountId": "ai_tools_lab",
+      "assignedTo": "user_owner",
+      "managerUserId": "",
+      "toolId": "tool_producthunt_com_blenderhunt_2832a6e62d",
+      "toolName": "BlenderHunt",
+      "toolUrl": "https://www.producthunt.com/products/blenderhunt",
+      "topicId": "topic_d1196e45e98b",
+      "copyId": "copy_dc211780617c",
+      "copyText": "Testing BlenderHunt today. It looks narrow enough to be useful: removing one narrow, repeated manual step. Worth a quick look if you care about a smaller builder workflow. https://www.producthunt.com/products/blenderhunt",
+      "variantType": "shortPost",
+      "status": "draft",
+      "approvalStatus": "rejected",
+      "publishWindow": "",
+      "scheduledAt": "",
+      "copiedAt": "",
+      "postedAt": "",
+      "postedUrl": "",
+      "feedbackDueAt": "",
+      "metrics": {
+        "impressions": 0,
+        "likes": 0,
+        "bookmarks": 0,
+        "replies": 0,
+        "reposts": 0,
+        "clicks": 0,
+        "profileVisits": 0
+      },
+      "duplicateCheckResult": {
+        "ok": false,
+        "riskLevel": "block",
+        "flags": [
+          {
+            "type": "copy_too_similar",
+            "message": "这条文案和近期文案相似度偏高，建议改写。",
+            "severity": "warn"
+          },
+          {
+            "type": "account_link_limit",
+            "message": "这个账号今天外链数已经超过限制。",
+            "severity": "block"
+          }
+        ],
+        "recommendation": "block"
+      },
+      "riskFlags": [
+        "copy_too_similar",
+        "account_link_limit"
+      ],
+      "externalLinks": [
+        "https://www.producthunt.com/products/blenderhunt"
+      ],
+      "affiliateLinkUsed": "",
+      "notes": "Topic: removing one narrow, repeated manual step",
+      "createdAt": "2026-06-13T01:47:06.208Z",
+      "updatedAt": "2026-06-13T04:07:42.566Z",
+      "workspaceId": "workspace_default"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "updatedAt": "",
+  "settings": {
+    "globalAutoPublishEnabled": false,
+    "dryRunByDefault": true,
+    "requireApprovalBeforePublish": true,
+    "maxPostsPerAccountPerDay": 1,
+    "maxExternalLinksPerAccountPerDay": 1,
+    "maxSameToolPerDayGlobal": 3,
+    "maxSameDomainPerDayGlobal": 5,
+    "maxAffiliateLinksPerDayGlobal": 3,
+    "allowedPublishModes": [
+      "manual",
+      "scheduled"
+    ],
+    "defaultPublishMode": "manual"
+  }
+}

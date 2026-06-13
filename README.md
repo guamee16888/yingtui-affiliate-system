@@ -1,8 +1,8 @@
-# AI Affiliate X Ops Dashboard
+# AI Creator OS
 
-多账号 X/Twitter 内容运营、AI 选题验证、英文推文生成、Affiliate research、手动确认发布和草稿排程的一体化本地系统。
+AI Creator OS 用来管理多账号 X 内容运营：选题、文案、任务、发布、去重、反馈、复盘。
 
-Built for AI founders, indie hackers, SaaS builders, crypto builders, affiliate marketers, and content operators who need a serious multi-account X content workflow without handing their accounts or data to a third-party SaaS.
+An operating system for managing multi-account X content workflows. Built for AI founders, indie hackers, SaaS builders, crypto builders, affiliate marketers, and content operators who need a serious workflow without handing their accounts or data to a third-party SaaS.
 
 **Keywords:** AI Twitter automation, multi-account X content ops, AI tweet planner, affiliate marketing system, Product Hunt radar, SaaS founder content, indie hacker content, crypto builder content, review-first publishing, manual-confirm tweet automation, X growth workflow.
 
@@ -14,11 +14,11 @@ Built for AI founders, indie hackers, SaaS builders, crypto builders, affiliate 
 
 ## 项目说明
 
-这是一个本地 Affiliate 选题验证工具。它每天从 Product Hunt 找新工具，给工具打分，生成自然英文 X 文案，并把发推反馈、Affiliate 研究、长线程候选、SEO 测评页候选和每周复盘都沉淀到本地 JSON。
+这是一个本地 AI Creator OS。它每天从 Product Hunt 和候选池找新工具/新话题，给工具打分，生成自然英文 X 文案，并把发推反馈、Affiliate 研究、长线程候选、SEO 测评页候选和每周复盘都沉淀到本地 JSON。
 
 它适合现在这个阶段：先验证哪些小工具有人点、有人问、有人收藏，再决定要不要做长推、测评页或 Affiliate 转化。
 
-它不会自动发推，不接数据库，不登录，不上传数据，不保证收益，也不会编造 affiliate link、价格、佣金、点击量或收入。Dashboard 支持手动确认后发布到 X，但每条都必须你确认。
+它不会绕过 X 规则，不接数据库，不登录，不上传数据，不保证收益，也不会编造 affiliate link、价格、佣金、点击量或收入。Dashboard 支持手动确认发布；新增的发布队列默认 dry-run，`globalAutoPublishEnabled` 默认关闭，未审核、重复、超 280 字或未授权的任务不会 live 发布。
 
 ## 快速开始
 
@@ -80,6 +80,192 @@ output/YYYY-MM-DD-daily-x-pack.md
 
 不要一开始就自动化发推。这个系统的核心是选题验证，不是批量制造内容。
 
+## Foundation v4: 中心化数据与全局去重
+
+Foundation v4 是多人化之前的地基。它解决的不是页面美观，而是一个更关键的问题：未来不能让每个员工各自复制一套系统、各自跑 `daily`、各自生成工具池和文案池。
+
+正确的数据主线是：
+
+```text
+sources / latest
+→ tools
+→ topics
+→ copy-library
+→ duplicate-checker
+→ post-tasks
+→ post-ledger
+→ feedback
+→ weekly / affiliate / review
+```
+
+含义：
+
+- `data/tools.json`：中心化工具池，同一个工具只保留一个 `toolId`。
+- `data/topics.json`：中心化选题池，同一个工具可以有多个角度，但角度要可去重。
+- `data/copy-library.json`：中心化文案库，每条文案有 `copyId`、`normalizedTextHash` 和相似度指纹。
+- `data/post-tasks.json`：中心化发文任务池。未来员工只操作分配给自己的任务。
+- `data/post-ledger.json`：中心化发布账本。所有账号发过什么、哪个工具、哪个链接、哪段文案，都从这里查。
+- `scripts/lib/duplicate-checker.mjs`：全局去重闸门，检查工具、选题、文案、账号、员工、链接和任务风险。
+
+现在仍然不做这些事：
+
+- 不做无审核、无去重、无频控的自动发推。
+- 不做批量重复发布。
+- 不自动点赞、关注、评论。
+- 不规避平台规则。
+- 不保证收益。
+- 不给员工看全局策略台。
+- 不编造 affiliate link。
+
+迁移旧数据到中心化文件：
+
+```bash
+npm run core:migrate
+```
+
+生成中心化任务池：
+
+```bash
+npm run tasks:generate
+```
+
+查看任务池：
+
+```bash
+npm run tasks:summary
+```
+
+查看员工工作台摘要：
+
+```bash
+npm run staff:summary
+```
+
+查看主管审核台摘要：
+
+```bash
+npm run manager:summary
+```
+
+查看发布账本：
+
+```bash
+npm run ledger:summary
+```
+
+检查系统：
+
+```bash
+npm run check
+```
+
+P1 员工工作台已经有手动版：
+
+```text
+http://127.0.0.1:4173/staff/
+```
+
+它只做员工自己的账号和任务：查看待处理文案、检查 X weighted 字符数、复制文案、标记已复制、手动标记已发、跳过任务。它不做主管台、不自动发推、不接数据库，也不会绕过中心化任务池和发布账本。
+
+P1 Manager Review 已经有极简版：
+
+```text
+http://127.0.0.1:4173/manager/
+```
+
+它只看当前 workspace 的 `post-tasks`，支持主管批准、拒绝、分配账号、分配员工。它不看平台全局数据源，不看老板策略台，不自动发推，不接数据库。任务流转变成：
+
+```text
+raw candidate
+→ topic / copy / task
+→ manager approve / reject / assign
+→ staff copy / manual post
+→ feedback
+```
+
+未来做合规排程或多账号授权前，先保证这些中心化命令稳定。员工可以独立操作自己被分配的账号任务，但数据源不能独立。
+
+## Workspace & Content Lanes
+
+AI Creator OS 现在按三层后台拆开：
+
+- `/dashboard` 是平台总后台，只给老板/admin 使用。它能看全局数据源、内容线、工具池、任务池、发布队列、post-ledger、duplicate risk、所有 workspace 概览和系统配置。
+- `/manager/?workspaceId=workspace_default` 是客户/主管管理端，只能看当前 workspace 的账号、员工、任务、publish jobs、反馈和已订阅内容线。它不显示其他 workspace，不显示平台数据源 API key，也不显示全局账本全量。
+- `/staff/?workspaceId=workspace_default&userId=user_owner` 是员工工作台，只能看当前员工在当前 workspace 被分配的账号和任务，以及自己待补反馈。它不看全局工具池、不看全局内容线配置、不看其他员工任务，也不看 publish settings 全局开关。
+
+Workspace & Content Lanes 解决的是商业化之后最容易乱的问题：客户管理端可以分开，但数据源不能每个客户单独接一套。客户只订阅内容线，不拥有平台 source connectors。
+
+正确结构是：
+
+```text
+平台级 source connectors
+→ 平台级 source feeds
+→ 平台级 raw candidates
+→ content lanes 分类
+→ workspace 订阅自己启用的 lanes
+→ 后续再生成 topics / copy / post-tasks
+```
+
+现在有四条内容线：
+
+- `ai_startups`：AI 创业圈，偏 AI product、agent、workflow、automation、founder insight。
+- `indie_builders`：独立开发者圈，偏 solo founder、build in public、small tool、launch、revenue、workflow。
+- `saas_founders`：SaaS 创始人圈，偏 pricing、onboarding、churn、PLG、sales、founder ops。
+- `crypto_builders`：Crypto builder 圈，偏 onchain data、wallet UX、security、infra、dev tooling、community ops；默认拦截 price prediction、pump、signal、financial advice。
+
+如果一个 SaaS 客户只想做 SaaS 创始人圈，只给他的 workspace 启用 `saas_founders` lane 即可。Crypto lane 默认禁止喊单、价格预测、投资建议、杠杆和赌博类话题，只保留 builder/product/security/workflow 角度。
+
+初始化 workspace 和内容线：
+
+```bash
+npm run workspace:migrate
+npm run lanes:seed
+```
+
+`workspace:migrate` 会创建 `workspace_default`，并给旧的 users、x-accounts、assignments、post-tasks、post-ledger、publish-jobs、x-connections、feedback 补 `workspaceId`。重复运行是幂等的，不会重复创建 workspace。
+
+查看 workspace 摘要：
+
+```bash
+npm run workspace:summary
+```
+
+初始化内容线：
+
+```bash
+npm run lanes:seed
+```
+
+查看内容线、workspace 订阅、connector 和 raw candidates 摘要：
+
+```bash
+npm run lanes:summary
+```
+
+导入人工候选：
+
+```bash
+npm run candidates:ingest
+```
+
+查看 raw candidates 摘要：
+
+```bash
+npm run candidates:summary
+```
+
+第一阶段只支持 `data/manual-candidates.json` 人工候选进入 `data/raw-candidates.json`。它会按关键词初步分到四条 lane，检查重复 URL/title，记录 `data/source-runs.json`，并给 Crypto 风险词打 flag。它不会直接生成任务，也不会接真实第三方 API。
+
+把 raw candidates 转进中心化生产链路：
+
+```bash
+npm run candidates:convert
+```
+
+它会按 workspace enabled lanes 过滤候选，然后生成中心化 `tools`、`topics`、`copy-library` 和 `post-tasks`。默认只生成 `pending_review` 任务，不自动发布。`example.com` 模板候选、Crypto 风险候选和 workspace 未订阅 lane 的候选会被跳过。
+
+当前阶段明确不做：不接真实付费 API、不分发平台数据源 API key、不让每个 workspace 单独跑 daily、不自动发真实 X、不做投资建议、不做批量重复内容。
+
 ## Dashboard 怎么看
 
 页面顶部有几个常用按钮：
@@ -98,6 +284,8 @@ output/YYYY-MM-DD-daily-x-pack.md
 - `产品路线图`：把 `npm run roadmap` 的产品级 readiness 报告可视化出来，直接回答“除了 X 账号切换还差什么”。它会显示整体分、Top blockers、Next sprint、每个维度的证据/缺口/下一步动作。
 - `放量准备度`：在今日页显示 `npm run scale` 的结果。它会把目标账号数、今日安全发帖数、Fresh 候选、内容排期、来源缺口和反馈债放在一起，避免数据不足时硬放量。
 - `发布审核`：发布前最终确认队列。顶部 `Feedback command` 会先显示反馈债务、最老待补时长、safe new posts 和 ready now；`Account conflict radar` 会把同工具、同 URL、同文案或账号冷却冲突的候选移出 ready。下面的 `Seed publish queue` 会列出今天最值得手动测试的 1-3 条，并要求发完立刻标记已发、回填 X Analytics；final review 会同时检查 Fresh today / Fresh 48h、`Feedback debt gate` 和账号冲突，只把当前允许继续测试的数量放进 ready；超过上限的候选会进入 `Hold for feedback`，并按分数自动建议转入联盟研究、长推、SEO 测评页或观察队列。
+- `发布运营`：查看合规发布队列。这里能准备 publish jobs、跑 dry-run、看 X connection、看账号 publishMode、取消/重试 job。默认不 live 发布；全局 auto 没开时，live 按钮会保持禁用。
+- `Workspace / 内容线`：平台总后台视角，查看所有 workspace、每个 workspace 启用的 lanes、账号/员工/任务/publish job 数量、每条 lane 的 raw candidate 数量、source run 和 high-risk/no-lane 候选。这里可以初始化内容线和导入 manual candidates，但仍然只写本地 JSON。
 - `候选收集`：把 Product Hunt 之外的新工具手动放进本地收集箱；active 候选会在下一次 `daily` 或 `刷新 Live Feed` 时参与打分。
 - `来源补给`：把 20×10 的内容缺口拆成圈子任务，集中显示需要补多少候选、哪些账号受影响、搜索入口、CSV 导入模板、质量 checklist 和来源健康度。每天内容不够时先看这里，不要靠低质内容硬凑。
 - `内容日历`：把账号草稿排进本地人工审核槽，显示今天真实能审核多少条、草稿缺口、冷却容量缺口、每个账号的可发时间和文案。这里仍然只是 review calendar，不会自动发送。
@@ -223,6 +411,114 @@ npm run affiliate:research
 ```
 
 生成联盟研究工作台，输出到 `data/affiliate-research-workbench.json` 和 `output/YYYY-MM-DD-affiliate-research-workbench.md`。它会合并今日高 affiliateScore 候选、跟进队列、已有研究记录和真实 affiliate 配置，给出优先级、搜索组、缺字段和可复制配置片段。
+
+```bash
+npm run core:migrate
+```
+
+把旧数据汇入 Foundation v4 中心池。它会读取 `data/latest.json`、`data/daily/*.json`、`data/history.json`、`data/feedback.json`、`data/account-posts.json` 和配置文件，更新 `data/tools.json`、`data/topics.json`、`data/copy-library.json`、`data/post-tasks.json`、`data/post-ledger.json`、`data/users.json`、`data/x-accounts.json`、`data/assignments.json`、`data/account-health.json` 和 `data/content-rules.json`。重复运行是幂等的，不会重复创建同一个 tool/copy/task/ledger。
+
+```bash
+npm run workspace:migrate
+```
+
+把本地数据升级到多 workspace 结构。它会确保 `workspace_default` 存在，并给 users、x-accounts、assignments、post-tasks、post-ledger、publish-jobs、publish-attempts、x-connections 和 feedback 补 `workspaceId`。重复运行是幂等的。
+
+```bash
+npm run workspace:summary
+```
+
+查看 workspace 摘要：workspace 数量、每个 workspace 的账号/员工/主管/任务/publish jobs 数量、缺 workspaceId 的数据、是否超过 accountLimit。
+
+```bash
+npm run tasks:generate
+```
+
+从中心化工具池、选题池、文案库和账号分配里生成 `pending_review` 或 `draft` 任务。生成时会调用 `duplicate-checker`，block/high risk 不会进入 approved，也不会自动发布。
+
+```bash
+npm run tasks:summary
+```
+
+查看中心化任务池摘要，包括总任务数、今日任务、状态分布、风险数量、缺账号/缺员工、员工任务数和账号任务数。
+
+```bash
+npm run staff:summary
+```
+
+查看 P1 员工工作台摘要，包括当前 workspace、当前员工、分配账号、可复制任务、已复制任务、待补反馈、超 280 weighted 字符和被拦截任务。可以用 `npm run staff:summary -- --workspace workspace_default --user staff_id` 查看指定员工。
+
+```bash
+npm run manager:summary
+```
+
+查看 Manager Review v1 摘要，包括当前 workspace、主管、待审核任务、已批准/已拒绝任务、未分配任务和不可批准任务。可以用 `npm run manager:summary -- --workspace workspace_default --manager user_owner` 查看指定 workspace。
+
+```bash
+npm run ledger:summary
+```
+
+查看中心化发布账本摘要，包括最近 7 天发布数、同工具/同 domain 排行、重复 copy hash、affiliate link 使用和账号外链情况。
+
+```bash
+npm run publish:prepare
+```
+
+从已批准的 `post-tasks` 里准备发布作业，写入 `data/publish-jobs.json`。重复运行不会重复创建同一个 task 的 job。默认不发布。
+
+```bash
+npm run publish:dry-run
+```
+
+对发布作业跑完整安全检查：账号是否 connected、任务是否 approved、weighted 字符是否 <= 280、duplicate-checker 是否通过、频率/外链/联盟链接/workspace lane 是否合规。它不调用 X API，只把 job 标成 `ready` 或 `blocked`。
+
+```bash
+npm run publish:run
+```
+
+默认仍按 dry-run 路径执行；只有明确传 `npm run publish:run -- --live`，并且 `data/publish-settings.json` 里 `globalAutoPublishEnabled` 为 `true`、对应账号/workspace/task 允许发布、job 通过 safe gate 时，才会调用 X API。不要在没有确认账号授权和内容质量前开 live。
+
+```bash
+npm run publish:summary
+```
+
+查看发布队列摘要：queued、ready、posted、failed、blocked、waiting approval、block 原因和当前安全设置。
+
+```bash
+npm run x:connections
+```
+
+查看 X 连接状态摘要：账号总数、connected/expired/revoked/error、哪些账号开启 scheduled/auto。`data/x-connections.json` 只存公开状态和 `tokenRef`，不要把真实 access token 写入这个文件。
+
+```bash
+npm run lanes:seed
+```
+
+初始化 Source Lane v1 数据地基：四条内容线、默认 workspace、平台级 source connectors、manual source feeds、workspace-lanes 订阅和 manual candidate 模板。重复运行是幂等的，不会重复创建同一条 lane 或 connector。
+
+```bash
+npm run lanes:summary
+```
+
+查看内容线摘要，包括内容线数量、每条线有多少 source feeds 和 raw candidates、每个 workspace 启用了哪些 lanes、哪些 connector 或 candidate 没有 lane。
+
+```bash
+npm run candidates:ingest
+```
+
+从 `data/manual-candidates.json` 导入人工候选到 `data/raw-candidates.json`。它只做候选入池、lane 分类、重复检查和 source run 记录，不会生成 topics、copy 或 post-tasks。
+
+```bash
+npm run candidates:summary
+```
+
+查看 raw candidate 摘要：总数、每条 lane 的数量、状态分布、duplicate/high risk、最近 source run、没有 lane 或没有 URL 的候选。
+
+```bash
+npm run candidates:convert
+```
+
+把 `data/raw-candidates.json` 里的真实候选转成中心化工具、选题、短推文案和员工任务。它会先看 workspace 启用了哪些 lanes，只转换匹配的候选；生成的 copy 默认是 `no_link` 短推，并带 `weightedCharCount`，任务仍然需要人工审核/复制/手动发布。
 
 ```bash
 npm run sources
@@ -416,6 +712,24 @@ npm audit --audit-level=moderate
 
 - `data/latest.json`：Dashboard 默认读取的最新每日结构化数据。
 - `data/daily/*.json`：每天的结构化快照。
+- `data/users.json`：Foundation v4 用户主数据，区分 staff、manager、admin。
+- `data/x-accounts.json`：Foundation v4 账号主数据，给未来员工任务分配和账号健康检查使用。
+- `data/assignments.json`：员工和账号的中心化分配关系。
+- `data/tools.json`：中心化工具池，沉淀 `toolId`、domain、首见/末见、分数和 affiliate 状态。
+- `data/topics.json`：中心化选题池，沉淀工具角度、受众、痛点、用途和去重分组。
+- `data/copy-library.json`：中心化文案库，保存 `copyId`、标准化 hash、相似度指纹和使用记录。
+- `data/post-tasks.json`：中心化发文任务池，未来员工只能操作这里分配给自己的任务。
+- `data/post-ledger.json`：中心化发布账本，记录所有账号发过的工具、文案、链接和 metrics。
+- `data/account-health.json`：账号健康度快照，给去重和任务分配提供账号级信号。
+- `data/content-rules.json`：全局内容和去重规则，例如同工具冷却、外链上限、人工审核要求。
+- `data/workspaces.json`：workspace 主数据。客户/内部团队只订阅内容线，不拥有独立数据源。
+- `data/content-lanes.json`：四条内容线定义，包括 allowedTopics、blockedTopics、默认风格和链接策略。
+- `data/workspace-lanes.json`：workspace 与 lane 的订阅关系，后续任务生成会按这里过滤。
+- `data/source-connectors.json`：平台级数据源连接器，记录 Product Hunt、manual、HN、GitHub、paid search 等连接器；不是客户级配置。
+- `data/source-feeds.json`：平台级 feed 配置，每条 feed 归属一条 content lane。
+- `data/manual-candidates.json`：人工候选入口，第一阶段由人把高质量工具/话题放到这里。
+- `data/raw-candidates.json`：平台级原始候选池，`candidates:ingest` 会写入这里，`candidates:convert` 会把真实候选转成 topics/copy/tasks。
+- `data/source-runs.json`：预留的数据源运行记录，未来接真实 API 时记录每次 source run。
 - `data/history.json`：历史推荐记录，包含 seen before 和降权依据。
 - `data/feedback.json`：发推记录和手动录入的表现数据。
 - `data/feedback-ops.json`：反馈学习闭环报告，包含 pending metrics、账号表现、angle 表现和来源表现。
@@ -509,6 +823,49 @@ Dashboard 里的「今日行动」和「文案库」会出现 `发布到 X` 按�
 8. 点 `确认发布`。
 
 后端还会再次校验 `confirmed: true`，所以不会静默自动发。
+
+## 合规发布队列 / Auto Publish Foundation
+
+AI Creator OS 现在有发布队列地基，但默认是安全关闭：
+
+- `data/publish-settings.json` 里 `globalAutoPublishEnabled` 默认是 `false`。
+- `dryRunByDefault` 默认是 `true`。
+- `allowedPublishModes` 默认只有 `manual` 和 `scheduled`，不包含 `auto`。
+- `data/x-connections.json` 只保存连接状态和 `tokenRef`，不保存明文 access token。
+- Vercel 线上版是静态只读，只能看数据，不能 live 发布。
+
+自动发布不是“看到按钮就全发”。一条任务要 live 发布，必须同时满足：
+
+```text
+account connected
++ workspace/account/task 允许对应 publishMode
++ task approvalStatus approved
++ task status 在 approved/scheduled/assigned/copied 的允许范围
++ weightedCharCount <= 280
++ duplicate-checker 没有 block
++ account status active
++ account daily/link limits ok
++ global same tool/domain/affiliate limits ok
++ publish window reached
++ post-ledger 里没有同 taskId
+```
+
+否则会进入 `blocked`，原因写入 `data/publish-jobs.json` 和 `data/publish-attempts.json`。真实发布成功后会写入 `post-ledger`，并把任务变成 `feedback_due`，要求补 X Analytics。
+
+Dashboard 的「发布运营」可以做四件事：
+
+1. 准备发布队列。
+2. 跑 dry-run 安全检查。
+3. 查看 X connection 和账号 publishMode。
+4. 取消或重试被 blocked/failed 的 job。
+
+不要做的事：
+
+- 不要让多个账号发同一条或高度相似内容。
+- 不要自动点赞、关注、评论、转发。
+- 不要用浏览器指纹或网页模拟规避风控。
+- 不要把 API key、access token 写进仓库或返回给前端。
+- 不要把未审核、超 280、重复、未授权的内容 live 发布。
 
 要真正调用 X API，推荐先用按账号绑定的本地授权命令生成 token：
 
@@ -743,8 +1100,8 @@ Copy 按钮不可用：
 
 ## 当前限制
 
-- 不自动发推；只支持你逐条确认后发布到 X。
-- 多账号 OAuth 目前是本地 `.env` 按账号绑定，不做云端托管 token，也不做自动轮发。
+- 默认不 live 发布；发布运营队列先 dry-run，只有显式开启安全开关并通过审核/去重/频控后才允许 X API 发布。
+- 多账号 OAuth 目前是本地 `.env` 按账号绑定，不做云端托管 token，也不做无规则自动轮发。
 - 不自动抓 X 数据，需要你手动录入。
 - 不自动申请 affiliate program。
 - 不自动把 affiliateLink 写进配置。

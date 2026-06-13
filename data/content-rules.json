@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T01:50:42.667Z",
+  "rules": {
+    "maxSameToolPerDayGlobal": 3,
+    "maxSameDomainPerDayGlobal": 5,
+    "maxSameToolPerAccount7d": 1,
+    "maxSameDomainPerAccount7d": 1,
+    "maxExternalLinksPerAccountDay": 1,
+    "maxAffiliateLinkPerDayGlobal": 3,
+    "maxSameToolPerEmployeeDay": 2,
+    "minTextSimilarityDistance": 0.35,
+    "requireManualApproval": true,
+    "forbiddenWords": [],
+    "linkPolicy": "conservative"
+  }
+}

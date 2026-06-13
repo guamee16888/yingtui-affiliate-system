@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Creator OS Manager</title>
+    <link rel="stylesheet" href="/manager/style.css">
+  </head>
+  <body>
+    <header class="shell-header">
+      <div>
+        <p class="eyebrow">AI Creator OS · Workspace task review</p>
+        <h1>主管审核台</h1>
+        <p class="subtitle" id="statusText">读取 workspace 任务中...</p>
+      </div>
+      <div class="header-actions">
+        <label class="user-select">
+          <span>Workspace</span>
+          <select id="workspaceSelect"></select>
+        </label>
+        <label class="user-select">
+          <span>主管</span>
+          <select id="managerSelect"></select>
+        </label>
+        <button class="button secondary" id="refreshButton" type="button">刷新</button>
+        <a class="button secondary" href="/staff/">员工台</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="notice">
+        <strong>极简审核规则：</strong>
+        这里只审核当前 workspace 的任务，支持批准、拒绝、分配账号和员工。不会显示平台全局数据源，不会自动发推。
+      </section>
+
+      <section class="metrics" id="metrics"></section>
+
+      <section class="layout">
+        <aside class="panel">
+          <h2>Workspace 资源</h2>
+          <div id="workspaceResources"></div>
+        </aside>
+
+        <section class="panel task-panel">
+          <div class="panel-head">
+            <div>
+              <h2>任务审核</h2>
+              <p id="taskHint">任务批准并分配后，员工可在 /staff 继续复制和手动发布。</p>
+            </div>
+            <select id="statusFilter" aria-label="任务状态">
+              <option value="all">全部</option>
+              <option value="pending">待审核</option>
+              <option value="approved">已批准</option>
+              <option value="rejected">已拒绝</option>
+              <option value="unassigned">未分配</option>
+              <option value="blocked">不可批</option>
+            </select>
+          </div>
+          <div id="batchBar" class="batch-bar"></div>
+          <div id="tasks" class="task-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/manager/js/app.js"></script>
+  </body>
+</html>

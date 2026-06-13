@@ -1,7 +1,7 @@
 # Product Roadmap - 2026-06-13
 
 - Objective: Product-grade multi-account X content ops system with review-first publishing.
-- Overall score: 27/100
+- Overall score: 24/100
 - Level: prototype
 - Blockers: 5
 - Deferred: 1
@@ -12,8 +12,8 @@
 
 Fix the pieces that decide whether 20 accounts can get enough unique, measured, reviewable posts.
 
-- Feedback learning loop: 0/100. Gap: No posted feedback rows yet. Next: Mark every manual post as posted with accountId.
-- Daily high-quality content supply: 15/100. Gap: Need 181 more unique drafts for the current target. Next: Run npm run source-queue and fill the largest circle gap first.
+- Feedback learning loop: 0/100. Gap: 1 posted rows still need metrics. Next: Mark every manual post as posted with accountId.
+- Daily high-quality content supply: 7/100. Gap: Need 196 more unique drafts for the current target. Next: Run npm run source-queue and fill the largest circle gap first.
 - Account-level content calendar: 8/100. Gap: Current cooldown settings cannot fit the configured daily target. Next: Run npm run content-calendar after every daily generation.
 
 ### Next: Turn winners into compounding assets
@@ -21,69 +21,69 @@ Fix the pieces that decide whether 20 accounts can get enough unique, measured, 
 After the supply and feedback loop work, convert winners into affiliate research, threads, and review pages.
 
 - Affiliate monetization readiness: 5/100. Gap: No configured affiliate links detected. Next: Use the Affiliate research workbench and save real program findings.
-- Thread and SEO review engine: 0/100. Gap: No active follow-up queue items. Next: Promote posts with bookmarks/replies into thread or review_page queue.
-- Source diversity: 28/100. Gap: Need more reliable sources beyond Product Hunt and two RSS feeds. Next: Run npm run source-health and fix the worst source first.
+- Thread and SEO review engine: 20/100. Gap: No review page candidates have been promoted into the queue. Next: Promote posts with bookmarks/replies into thread or review_page queue.
+- Source diversity: 0/100. Gap: Need more reliable sources beyond Product Hunt and two RSS feeds. Next: Run npm run source-health and fix the worst source first.
 
 ### Later: Polish the public product surface
 
 Keep the dashboard credible, demo-friendly, and safer to operate as the data gets better.
 
-- Quality and safety gates: 75/100. Gap: Resolve generation warnings before publishing. Next: Keep Fresh today/Fresh 48h as the paid publish gate.
+- Quality and safety gates: 70/100. Gap: No fresh publish candidates in the latest run. Next: Keep Fresh today/Fresh 48h as the paid publish gate.
 - Public product surface: 82/100. Gap: Need screenshots/GIFs to make the public repo easier to judge quickly. Next: Add screenshots/GIFs to README after the UI stabilizes.
 
 ### Deferred: Account switching stays safety-gated
 
 Do not prioritize real multi-account OAuth until content quality, feedback, cooldowns, and same-tool safeguards are working.
 
-- X account switching and binding: 15/100. Gap: Need account selector enforcement at publish time. Next: Keep account switching as a separate safety-gated milestone.
+- X account switching and binding: 20/100. Gap: Need account selector enforcement at publish time. Next: Keep account switching as a separate safety-gated milestone.
 
 ## Top Blockers
 
 1. Feedback learning loop — 0/100
    Why it matters: The system cannot learn angles, accounts, or topics until posted content gets metrics back into JSON.
    Next: Mark every manual post as posted with accountId.
-2. Thread and SEO review engine — 0/100
-   Why it matters: The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.
-   Next: Promote posts with bookmarks/replies into thread or review_page queue.
+2. Source diversity — 0/100
+   Why it matters: A multi-account system needs more than one launch feed, especially for SaaS, indie, and crypto angles.
+   Next: Run npm run source-health and fix the worst source first.
 3. Affiliate monetization readiness — 5/100
    Why it matters: Traffic without real affiliate programs becomes vanity; fake links or unverified claims are worse.
    Next: Use the Affiliate research workbench and save real program findings.
-4. Account-level content calendar — 8/100
-   Why it matters: A daily target is not real until it fits account cooldowns and human review time.
-   Next: Run npm run content-calendar after every daily generation.
-5. Daily high-quality content supply — 15/100
+4. Daily high-quality content supply — 7/100
    Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
    Next: Run npm run source-queue and fill the largest circle gap first.
+5. Account-level content calendar — 8/100
+   Why it matters: A daily target is not real until it fits account cooldowns and human review time.
+   Next: Run npm run content-calendar after every daily generation.
 
 ## Next Sprint
 
 1. Mark every manual post as posted with accountId.
 2. Paste X Analytics export into feedback import after posts have data.
-3. Promote posts with bookmarks/replies into thread or review_page queue.
-4. Generate review outlines only after the tool has signal or clear affiliate fit.
+3. Run npm run source-health and fix the worst source first.
+4. Add source packs by circle instead of turning on noisy feeds blindly.
 5. Use the Affiliate research workbench and save real program findings.
 6. Only move approved real links into config/affiliate-links.json.
-7. Run npm run content-calendar after every daily generation.
-8. Lower per-account daily targets or reduce cooldown hours before scaling.
+7. Run npm run source-queue and fill the largest circle gap first.
+8. Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL.
 
 ## Dimensions
 
 ### X account switching and binding
 
-- Score: 15/100
+- Score: 20/100
 - Status: deferred
 - Why it matters: The project has account profiles, but real multi-account OAuth switching is intentionally deferred.
-- Evidence: 20 active account profiles configured. 0 accounts have local post records.
+- Evidence: 20 active account profiles configured. 1 accounts have local post records.
 - Gaps: Need account selector enforcement at publish time. Need per-account OAuth binding and token health checks before real switching. Need same-tool cooldown across accounts before any scale-up.
 - Next: Keep account switching as a separate safety-gated milestone. Do not build unattended multi-account publishing until feedback and quality gates are real.
 
 ### Daily high-quality content supply
 
-- Score: 15/100
+- Score: 7/100
 - Status: blocked
 - Why it matters: 20 accounts need a real candidate pipeline; weak or repeated posts will hurt the whole system.
-- Evidence: 19/200 planned unique drafts. 19 qualified tools. 78 source candidates needed by the queue. 100 source-pack rows generated, 100 still need real candidates.
-- Gaps: Need 181 more unique drafts for the current target. Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles.
+- Evidence: 4/200 planned unique drafts. 4 qualified tools. 105 source candidates needed by the queue. 100 source-pack rows generated, 100 still need real candidates.
+- Gaps: Need 196 more unique drafts for the current target. Need more manual/imported sources from AI startup, indie, SaaS, and crypto circles.
 - Next: Run npm run source-queue and fill the largest circle gap first. Fill the generated source-pack rows, preview scoring, then import only candidates with a clear buyer, pain, and URL.
 
 ### Account-level content calendar
@@ -100,8 +100,8 @@ Do not prioritize real multi-account OAuth until content quality, feedback, cool
 - Score: 0/100
 - Status: blocked
 - Why it matters: The system cannot learn angles, accounts, or topics until posted content gets metrics back into JSON.
-- Evidence: 0 posted feedback rows. 0 rows have impressions. 0 accounts have post records.
-- Gaps: No posted feedback rows yet.
+- Evidence: 1 posted feedback rows. 0 rows have impressions. 1 accounts have post records.
+- Gaps: 1 posted rows still need metrics.
 - Next: Mark every manual post as posted with accountId. Paste X Analytics export into feedback import after posts have data.
 
 ### Affiliate monetization readiness
@@ -115,29 +115,29 @@ Do not prioritize real multi-account OAuth until content quality, feedback, cool
 
 ### Source diversity
 
-- Score: 28/100
+- Score: 0/100
 - Status: blocked
 - Why it matters: A multi-account system needs more than one launch feed, especially for SaaS, indie, and crypto angles.
-- Evidence: 0 enabled extra sources. 0 source candidates in the daily merge. 0 candidate inbox items in the daily merge. 2 healthy sources, 0 tune sources, 0 disable candidates.
-- Gaps: Need more reliable sources beyond Product Hunt and two RSS feeds. Need a larger manual/imported candidate bench.
+- Evidence: 0 enabled extra sources. 0 source candidates in the daily merge. 0 candidate inbox items in the daily merge. 0 healthy sources, 0 tune sources, 2 disable candidates.
+- Gaps: Need more reliable sources beyond Product Hunt and two RSS feeds. Need a larger manual/imported candidate bench. Some sources need filter tuning before scaling.
 - Next: Run npm run source-health and fix the worst source first. Add source packs by circle instead of turning on noisy feeds blindly. Keep disabled sources disabled until they prove they produce useful candidates.
 
 ### Quality and safety gates
 
-- Score: 75/100
+- Score: 70/100
 - Status: watch
 - Why it matters: The system is valuable only if it protects account quality, avoids fake claims, and blocks stale posts.
-- Evidence: 1 generation warnings. 4 fresh publish candidates. Manual-confirm publishing is the default mode.
-- Gaps: Resolve generation warnings before publishing.
+- Evidence: 0 generation warnings. 0 fresh publish candidates. Manual-confirm publishing is the default mode.
+- Gaps: No fresh publish candidates in the latest run.
 - Next: Keep Fresh today/Fresh 48h as the paid publish gate. Add fact-check notes for topic/news-style candidates before scaling.
 
 ### Thread and SEO review engine
 
-- Score: 0/100
+- Score: 20/100
 - Status: blocked
 - Why it matters: The compounding upside is not one-off tweets; it is threads, review pages, and affiliate pages from proven winners.
-- Evidence: 0 thread queue items. 0 review page queue items. 0 active follow-up items. 0 promotion review items are ready to queue.
-- Gaps: No active follow-up queue items. No review page candidates have been promoted into the queue.
+- Evidence: 1 thread queue items. 0 review page queue items. 1 active follow-up items. 0 promotion review items are ready to queue.
+- Gaps: No review page candidates have been promoted into the queue.
 - Next: Promote posts with bookmarks/replies into thread or review_page queue. Generate review outlines only after the tool has signal or clear affiliate fit.
 
 ### Public product surface

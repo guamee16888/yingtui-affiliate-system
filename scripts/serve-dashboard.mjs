@@ -44,15 +44,33 @@ import { loadLocalEnv } from "./lib/env.mjs";
 import { createToolId, todayString } from "./lib/ids.mjs";
 import { findAccountById, normalizeAccountConfig, recommendedAccountIdForTool } from "./lib/account-system.mjs";
 import { getAccountXPublishStatus } from "./lib/x-publish.mjs";
+import { loadStaffSummary, updateStaffTaskAction } from "./lib/staff-system.mjs";
+import { loadManagerSummary, updateManagerTaskAction, updateManagerTaskBatchAction } from "./lib/manager-system.mjs";
+import {
+  dryRunPublishJobs,
+  loadPublishSummary,
+  loadXConnectionsSummary,
+  preparePublishJobs,
+  runPublishJobs,
+  updateAccountPublishMode,
+  updatePublishJobStatus
+} from "./lib/publish-engine.mjs";
+import { PUBLISH_FILES, loadPublishCollection, loadPublishSettings } from "./lib/publish-data.mjs";
+import { ingestManualCandidates, loadCandidateSummary, loadLaneSummary, loadSourceLaneData, seedSourceLanes } from "./lib/source-lanes.mjs";
+import { loadWorkspaceSummary } from "./lib/workspace-system.mjs";
 
 await loadLocalEnv();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const dashboardDir = path.join(rootDir, "dashboard");
+const staffDir = path.join(rootDir, "staff");
+const managerDir = path.join(rootDir, "manager");
 const publicDir = path.join(rootDir, "public");
 const allowedRoots = [
   dashboardDir,
+  staffDir,
+  managerDir,
   publicDir,
   path.join(rootDir, "data"),
   path.join(rootDir, "output")
@@ -105,7 +123,7 @@ async function parseBody(request) {
 async function handleApi(request, response, url) {
   try {
     if (request.method === "GET") {
-      const data = await handleApiGet(url.pathname);
+      const data = await handleApiGet(url);
       sendJson(response, 200, { ok: true, data });
       return;
     }
@@ -123,8 +141,28 @@ async function handleApi(request, response, url) {
   }
 }
 
-async function handleApiGet(pathname) {
+async function handleApiGet(url) {
+  const pathname = url.pathname;
   if (pathname === "/api/latest") return loadLatest();
+  if (pathname === "/api/staff/summary") return loadStaffSummary({
+    workspaceId: url.searchParams.get("workspaceId") || "",
+    userId: url.searchParams.get("userId") || ""
+  });
+  if (pathname === "/api/manager/summary") return loadManagerSummary({
+    workspaceId: url.searchParams.get("workspaceId") || "",
+    managerUserId: url.searchParams.get("managerUserId") || ""
+  });
+  if (pathname === "/api/publish/settings") return loadPublishSettings();
+  if (pathname === "/api/publish/jobs") return filteredPublishJobs(url.searchParams.get("workspaceId") || "");
+  if (pathname === "/api/publish/summary") return loadPublishSummary({ workspaceId: url.searchParams.get("workspaceId") || "" });
+  if (pathname === "/api/workspaces") return (await loadSourceLaneData()).workspaces;
+  if (pathname === "/api/workspace/summary") return loadWorkspaceSummary();
+  if (pathname === "/api/lanes") return (await loadSourceLaneData()).contentLanes;
+  if (pathname === "/api/lanes/summary") return loadLaneSummary();
+  if (pathname === "/api/candidates") return (await loadSourceLaneData()).rawCandidates;
+  if (pathname === "/api/candidates/summary") return loadCandidateSummary();
+  if (pathname === "/api/source-runs") return (await loadSourceLaneData()).sourceRuns;
+  if (pathname === "/api/x/connections") return loadXConnectionsSummary();
   if (pathname === "/api/history") return loadHistoryData();
   if (pathname === "/api/candidate-inbox") return loadCandidateInbox();
   if (pathname === "/api/feedback") return loadFeedback();
@@ -263,6 +301,17 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/affiliate-research-workbench/run") return runAffiliateResearchWorkbenchGeneration();
   if (pathname === "/api/learning-loop/run") return runLearningLoopGeneration();
   if (pathname === "/api/roadmap/generate") return runRoadmapGeneration();
+  if (pathname === "/api/staff/task") return updateStaffTaskAction(body);
+  if (pathname === "/api/manager/task") return updateManagerTaskAction(body);
+  if (pathname === "/api/manager/task/batch") return updateManagerTaskBatchAction(body);
+  if (pathname === "/api/lanes/seed") return seedSourceLanes();
+  if (pathname === "/api/candidates/ingest") return ingestManualCandidates();
+  if (pathname === "/api/publish/prepare") return preparePublishJobs(body);
+  if (pathname === "/api/publish/dry-run") return dryRunPublishJobs(body);
+  if (pathname === "/api/publish/run") return runPublishJobs({ live: Boolean(body.live), actorRole: body.role || "admin" });
+  if (pathname === "/api/publish/job/cancel") return updatePublishJobStatus({ ...body, action: "cancel" });
+  if (pathname === "/api/publish/job/retry") return updatePublishJobStatus({ ...body, action: "retry" });
+  if (pathname === "/api/account/publish-mode") return updateAccountPublishMode(body);
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
 }
@@ -451,6 +500,15 @@ function runNodeScript(relativeScriptPath, label = "Script") {
   });
 }
 
+async function filteredPublishJobs(workspaceId = "") {
+  const jobs = await loadPublishCollection(PUBLISH_FILES.publishJobs);
+  if (!workspaceId) return jobs;
+  return {
+    ...jobs,
+    items: jobs.items.filter((job) => (job.workspaceId || "workspace_default") === workspaceId)
+  };
+}
+
 async function upsertFeedbackWithAccount(body) {
   const latest = await loadLatest();
   const accountConfig = normalizeAccountConfig(await loadXAccountsConfig());
@@ -543,7 +601,8 @@ function withResolvedAccount(body, latest, accountConfig) {
     circle: body.circle || tool?.circle || "",
     candidateType: body.candidateType || tool?.candidateType || "",
     accountId: account.id,
-    accountName: account.displayName
+    accountName: account.displayName,
+    workspaceId: body.workspaceId || account.workspaceId || "workspace_default"
   };
 }
 
@@ -933,6 +992,12 @@ function resolveStaticPath(urlPath) {
   const cleanPath = decodeURIComponent(urlPath.split("?")[0]);
   if (cleanPath === "/" || cleanPath === "/dashboard" || cleanPath === "/dashboard/") {
     return path.join(dashboardDir, "index.html");
+  }
+  if (cleanPath === "/staff" || cleanPath === "/staff/") {
+    return path.join(staffDir, "index.html");
+  }
+  if (cleanPath === "/manager" || cleanPath === "/manager/") {
+    return path.join(managerDir, "index.html");
   }
   if (cleanPath === "/index.html") return path.join(dashboardDir, "index.html");
 

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T23:01:41.462Z",
+  "generatedAt": "2026-06-13T01:03:35.589Z",
   "mode": "manual_conflict_radar",
   "rule": "Use this as a publish-safety gate before account switching. It does not authorize or auto-post.",
   "policy": {
@@ -11,8 +11,8 @@
     "activeAccounts": 20
   },
   "summary": {
-    "recentPosts": 0,
-    "trackedAccounts": 0,
+    "recentPosts": 1,
+    "trackedAccounts": 1,
     "sameToolConflicts": 0,
     "sameUrlConflicts": 0,
     "sameCopyConflicts": 0,

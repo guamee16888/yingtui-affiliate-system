@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T23:01:41.468Z",
+  "updatedAt": "2026-06-13T01:03:35.603Z",
   "tools": [
     {
       "date": "2026-06-06",
@@ -2141,6 +2141,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 29
       },
@@ -2192,6 +2193,7 @@
         "learningScore": 0,
         "riskScore": 2,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 26
       },
@@ -2218,6 +2220,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 25
       },
@@ -2295,6 +2298,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -2321,6 +2325,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -2373,6 +2378,7 @@
         "learningScore": 0,
         "riskScore": 2,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 0,
         "total": 25
       },
@@ -2399,6 +2405,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 24
       },
@@ -2451,6 +2458,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -2477,6 +2485,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -2503,6 +2512,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 22
       },
@@ -2555,6 +2565,7 @@
         "learningScore": 0,
         "riskScore": 4,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -2581,6 +2592,7 @@
         "learningScore": 0,
         "riskScore": 3,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 21
       },
@@ -2633,6 +2645,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 20
       },
@@ -2685,6 +2698,7 @@
         "learningScore": 0,
         "riskScore": 0,
         "sourceNoisePenalty": 0,
+        "originalityPenalty": 0,
         "seenPenalty": 4,
         "total": 20
       },

@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "items": [
+    {
+      "title": "Agent workflow builder for support teams",
+      "url": "https://example.com/agent-workflow-builder",
+      "summary": "AI agent workflow automation for support ops teams that need fewer manual triage steps.",
+      "rawText": "agent workflow automation support team AI product",
+      "sourcePublishedAt": "",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "title": "Solo founder launch checklist",
+      "url": "https://example.com/solo-founder-launch-checklist",
+      "summary": "A build in public launch workflow for indie builders shipping small tools.",
+      "rawText": "solo founder launch build in public revenue workflow",
+      "sourcePublishedAt": "",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "title": "SaaS onboarding churn teardown",
+      "url": "https://example.com/saas-onboarding-churn-teardown",
+      "summary": "Pricing, onboarding, churn and PLG notes for B2B SaaS founders.",
+      "rawText": "pricing onboarding churn PLG sales founder ops",
+      "sourcePublishedAt": "",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "title": "Wallet security dashboard for builders",
+      "url": "https://example.com/wallet-security-dashboard",
+      "summary": "A crypto builder dashboard for wallet UX, security, onchain data and infra teams.",
+      "rawText": "wallet UX security onchain data dev tooling crypto builder",
+      "sourcePublishedAt": "",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "title": "Agent workflow builder for support teams",
+      "url": "https://www.producthunt.com/search?q=agent%20workflow%20builder",
+      "summary": "AI agent workflow automation for support ops teams that need fewer manual triage steps.",
+      "rawText": "agent workflow automation support team AI product",
+      "laneHints": [
+        "ai_startups"
+      ],
+      "sourcePublishedAt": "",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "feedId": "feed_ai_manual",
+      "createdAt": "2026-06-13T04:07:42.564Z",
+      "updatedAt": "2026-06-13T04:07:42.564Z"
+    },
+    {
+      "title": "Solo founder launch checklist",
+      "url": "https://news.ycombinator.com/show",
+      "summary": "A build in public launch workflow for indie builders shipping small tools.",
+      "rawText": "solo founder launch build in public revenue workflow",
+      "laneHints": [
+        "indie_builders"
+      ],
+      "sourcePublishedAt": "",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "feedId": "feed_indie_manual",
+      "createdAt": "2026-06-13T04:07:42.564Z",
+      "updatedAt": "2026-06-13T04:07:42.564Z"
+    },
+    {
+      "title": "SaaS onboarding churn teardown",
+      "url": "https://www.lennysnewsletter.com/",
+      "summary": "Pricing, onboarding, churn and PLG notes for B2B SaaS founders.",
+      "rawText": "pricing onboarding churn PLG sales founder ops",
+      "laneHints": [
+        "saas_founders"
+      ],
+      "sourcePublishedAt": "",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "feedId": "feed_saas_manual",
+      "createdAt": "2026-06-13T04:07:42.564Z",
+      "updatedAt": "2026-06-13T04:07:42.564Z"
+    },
+    {
+      "title": "Wallet security dashboard for builders",
+      "url": "https://github.com/topics/wallet-security",
+      "summary": "A crypto builder dashboard for wallet UX, security, onchain data and infra teams.",
+      "rawText": "wallet UX security onchain data dev tooling crypto builder",
+      "laneHints": [
+        "crypto_builders"
+      ],
+      "sourcePublishedAt": "",
+      "sourceId": "manual_seed",
+      "connectorId": "manual",
+      "feedId": "feed_crypto_manual",
+      "createdAt": "2026-06-13T04:07:42.564Z",
+      "updatedAt": "2026-06-13T04:07:42.564Z"
+    }
+  ]
+}

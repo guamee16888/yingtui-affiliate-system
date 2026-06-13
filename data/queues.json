@@ -1,5 +1,22 @@
 {
   "version": 1,
-  "updatedAt": "",
-  "items": []
+  "updatedAt": "2026-06-13T00:41:11.166Z",
+  "items": [
+    {
+      "id": "queue_e761ac7714db",
+      "toolId": "tool_coindesk_com_vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market_3ab06962de",
+      "toolName": "VanEck bets BNB’s real-world usage can stand out in a crowded crypto ETF market",
+      "toolUrl": "https://www.coindesk.com/markets/2026/06/12/vaneck-bets-bnb-s-real-world-usage-can-stand-out-in-a-crowded-crypto-etf-market",
+      "sourceDates": [
+        "2026-06-13"
+      ],
+      "type": "thread",
+      "status": "new",
+      "priorityScore": 10,
+      "reason": "Dashboard 手动加入",
+      "notes": "",
+      "createdAt": "2026-06-13T00:41:11.166Z",
+      "updatedAt": "2026-06-13T00:41:11.166Z"
+    }
+  ]
 }

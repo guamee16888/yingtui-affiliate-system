@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-06-13",
-  "generatedAt": "2026-06-12T23:01:41.452Z",
+  "generatedAt": "2026-06-13T01:03:35.574Z",
   "status": "needs_refill",
   "rule": "Fill only real name/url/tagline rows. Blank rows are skipped by candidate import; do not invent candidates to hit volume.",
   "summary": {
@@ -10,9 +10,9 @@
     "readyAccounts": 0,
     "focusAccounts": 5,
     "refillAccounts": 20,
-    "totalRefillNeed": 199,
-    "postableToday": 2,
-    "contentBlockedAccounts": 19,
+    "totalRefillNeed": 200,
+    "postableToday": 0,
+    "contentBlockedAccounts": 20,
     "feedbackBlockedAccounts": 20,
     "searchUrlCount": 45
   },
@@ -25,94 +25,15 @@
   ],
   "focusAccounts": [
     {
-      "accountId": "crypto_builder_radar",
-      "displayName": "Crypto Builder Radar",
-      "category": "Crypto builder circle",
-      "status": "ready_to_seed",
-      "statusLabel": "可手动种子测试",
-      "actionLabel": "手动测 2 条",
-      "actionDetail": "Crypto Builder Radar has 2 postable drafts. Publish only after final review, then import X Analytics.",
-      "actionPriority": 102,
-      "readinessScore": 21,
-      "targetPosts": 10,
-      "postableToday": 2,
-      "refillNeed": 9,
-      "firstBottleneck": "drafts",
-      "bottlenecks": [
-        {
-          "id": "drafts",
-          "label": "Draft gap",
-          "missing": 7,
-          "detail": "Write 7 more unique drafts for this account."
-        },
-        {
-          "id": "schedule",
-          "label": "Schedule gap",
-          "missing": 7,
-          "detail": "Add 7 manual review slots before publishing."
-        },
-        {
-          "id": "freshness",
-          "label": "Fresh candidate gap",
-          "missing": 8,
-          "detail": "Find 8 fresh items that fit this account."
-        },
-        {
-          "id": "quality",
-          "label": "Quality gap",
-          "missing": 8,
-          "detail": "Replace broad or weak items with stronger account-specific angles."
-        },
-        {
-          "id": "candidate_bench",
-          "label": "Candidate bench gap",
-          "missing": 26,
-          "detail": "Build toward 30 matched candidates before scale."
-        },
-        {
-          "id": "feedback",
-          "label": "Feedback missing",
-          "missing": 1,
-          "detail": "Post a tiny test, then import X Analytics."
-        }
-      ],
-      "contentBlocked": false,
-      "feedbackBlocked": true,
-      "searchLinks": [
-        {
-          "provider": "X live search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live"
-        },
-        {
-          "provider": "Google recent search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01"
-        },
-        {
-          "provider": "CoinDesk search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://www.coindesk.com/search?s=crypto%20builder%20tool"
-        }
-      ],
-      "searchUrls": [
-        "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
-        "https://www.coindesk.com/search?s=crypto%20builder%20tool"
-      ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
-      "csvRows": 9
-    },
-    {
-      "accountId": "ai_founder_signals",
-      "displayName": "AI Founder Signals",
-      "category": "AI startup circle",
+      "accountId": "ai_tools_lab",
+      "displayName": "AI Tools Lab",
+      "category": "AI tools discovery",
       "status": "needs_drafts",
       "statusLabel": "缺草稿/排期",
       "actionLabel": "补 10 条草稿/排期",
-      "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
+      "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 29,
+      "readinessScore": 4,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -133,19 +54,98 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 6,
-          "detail": "Find 6 fresh items that fit this account."
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 6,
+          "missing": 10,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 11,
+          "missing": 26,
+          "detail": "Build toward 30 matched candidates before scale."
+        },
+        {
+          "id": "feedback",
+          "label": "Feedback missing",
+          "missing": 1,
+          "detail": "Import metrics for posted items."
+        }
+      ],
+      "contentBlocked": true,
+      "feedbackBlocked": true,
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://www.producthunt.com/search?q=AI%20workflow%20launch"
+        },
+        {
+          "provider": "X live search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=AI%20workflow%20launch",
+        "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10
+    },
+    {
+      "accountId": "ai_founder_signals",
+      "displayName": "AI Founder Signals",
+      "category": "AI startup circle",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "actionLabel": "补 10 条草稿/排期",
+      "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
+      "actionPriority": 80,
+      "readinessScore": 3,
+      "targetPosts": 10,
+      "postableToday": 0,
+      "refillNeed": 10,
+      "firstBottleneck": "drafts",
+      "bottlenecks": [
+        {
+          "id": "drafts",
+          "label": "Draft gap",
+          "missing": 10,
+          "detail": "Write 10 more unique drafts for this account."
+        },
+        {
+          "id": "schedule",
+          "label": "Schedule gap",
+          "missing": 10,
+          "detail": "Add 10 manual review slots before publishing."
+        },
+        {
+          "id": "freshness",
+          "label": "Fresh candidate gap",
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
+        },
+        {
+          "id": "quality",
+          "label": "Quality gap",
+          "missing": 10,
+          "detail": "Replace broad or weak items with stronger account-specific angles."
+        },
+        {
+          "id": "candidate_bench",
+          "label": "Candidate bench gap",
+          "missing": 26,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -183,15 +183,15 @@
       "csvRows": 10
     },
     {
-      "accountId": "ai_tools_lab",
-      "displayName": "AI Tools Lab",
-      "category": "AI tools discovery",
+      "accountId": "creator_stack",
+      "displayName": "Creator Stack",
+      "category": "creator tools",
       "status": "needs_drafts",
       "statusLabel": "缺草稿/排期",
       "actionLabel": "补 10 条草稿/排期",
-      "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
+      "actionDetail": "Creator Stack needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 27,
+      "readinessScore": 1,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -212,19 +212,19 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 6,
-          "detail": "Find 6 fresh items that fit this account."
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 6,
+          "missing": 10,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 13,
+          "missing": 28,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -238,106 +238,27 @@
       "feedbackBlocked": true,
       "searchLinks": [
         {
-          "provider": "Product Hunt search",
-          "query": "\"AI\" \"workflow\" \"launch\"",
-          "url": "https://www.producthunt.com/search?q=AI%20workflow%20launch"
-        },
-        {
           "provider": "X live search",
-          "query": "\"AI\" \"workflow\" \"launch\"",
-          "url": "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live"
+          "query": "\"creator tools\" \"tool\"",
+          "url": "https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live"
         },
         {
           "provider": "Google recent search",
-          "query": "\"AI\" \"workflow\" \"launch\"",
-          "url": "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+          "query": "\"creator tools\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "query": "\"creator tools\" \"tool\"",
+          "url": "https://hn.algolia.com/?q=creator%20tools%20tool"
         }
       ],
       "searchUrls": [
-        "https://www.producthunt.com/search?q=AI%20workflow%20launch",
-        "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+        "https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=creator%20tools%20tool"
       ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
-      "csvRows": 10
-    },
-    {
-      "accountId": "productivity_ops",
-      "displayName": "Productivity Ops",
-      "category": "productivity and operations",
-      "status": "needs_drafts",
-      "statusLabel": "缺草稿/排期",
-      "actionLabel": "补 10 条草稿/排期",
-      "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
-      "actionPriority": 80,
-      "readinessScore": 13,
-      "targetPosts": 10,
-      "postableToday": 0,
-      "refillNeed": 10,
-      "firstBottleneck": "drafts",
-      "bottlenecks": [
-        {
-          "id": "drafts",
-          "label": "Draft gap",
-          "missing": 10,
-          "detail": "Write 10 more unique drafts for this account."
-        },
-        {
-          "id": "schedule",
-          "label": "Schedule gap",
-          "missing": 10,
-          "detail": "Add 10 manual review slots before publishing."
-        },
-        {
-          "id": "freshness",
-          "label": "Fresh candidate gap",
-          "missing": 8,
-          "detail": "Find 8 fresh items that fit this account."
-        },
-        {
-          "id": "quality",
-          "label": "Quality gap",
-          "missing": 8,
-          "detail": "Replace broad or weak items with stronger account-specific angles."
-        },
-        {
-          "id": "candidate_bench",
-          "label": "Candidate bench gap",
-          "missing": 23,
-          "detail": "Build toward 30 matched candidates before scale."
-        },
-        {
-          "id": "feedback",
-          "label": "Feedback missing",
-          "missing": 1,
-          "detail": "Post a tiny test, then import X Analytics."
-        }
-      ],
-      "contentBlocked": true,
-      "feedbackBlocked": true,
-      "searchLinks": [
-        {
-          "provider": "Product Hunt search",
-          "query": "\"productivity and operations\" \"tool\"",
-          "url": "https://www.producthunt.com/search?q=productivity%20and%20operations%20tool"
-        },
-        {
-          "provider": "X live search",
-          "query": "\"productivity and operations\" \"tool\"",
-          "url": "https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live"
-        },
-        {
-          "provider": "Google recent search",
-          "query": "\"productivity and operations\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01"
-        }
-      ],
-      "searchUrls": [
-        "https://www.producthunt.com/search?q=productivity%20and%20operations%20tool",
-        "https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01"
-      ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
       "csvRows": 10
     },
     {
@@ -418,98 +339,17 @@
       ],
       "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nsales_support_ai,Sales Support AI,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,2026-06-13,Product Hunt search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,2026-06-13,Product Hunt search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,2026-06-13,Product Hunt search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nsales_support_ai,Sales Support AI,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,2026-06-13,Product Hunt search,\"\"\"sales and customer support\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Sales Support AI | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
       "csvRows": 10
-    }
-  ],
-  "accounts": [
-    {
-      "accountId": "crypto_builder_radar",
-      "displayName": "Crypto Builder Radar",
-      "category": "Crypto builder circle",
-      "status": "ready_to_seed",
-      "statusLabel": "可手动种子测试",
-      "actionLabel": "手动测 2 条",
-      "actionDetail": "Crypto Builder Radar has 2 postable drafts. Publish only after final review, then import X Analytics.",
-      "actionPriority": 102,
-      "readinessScore": 21,
-      "targetPosts": 10,
-      "postableToday": 2,
-      "refillNeed": 9,
-      "firstBottleneck": "drafts",
-      "bottlenecks": [
-        {
-          "id": "drafts",
-          "label": "Draft gap",
-          "missing": 7,
-          "detail": "Write 7 more unique drafts for this account."
-        },
-        {
-          "id": "schedule",
-          "label": "Schedule gap",
-          "missing": 7,
-          "detail": "Add 7 manual review slots before publishing."
-        },
-        {
-          "id": "freshness",
-          "label": "Fresh candidate gap",
-          "missing": 8,
-          "detail": "Find 8 fresh items that fit this account."
-        },
-        {
-          "id": "quality",
-          "label": "Quality gap",
-          "missing": 8,
-          "detail": "Replace broad or weak items with stronger account-specific angles."
-        },
-        {
-          "id": "candidate_bench",
-          "label": "Candidate bench gap",
-          "missing": 26,
-          "detail": "Build toward 30 matched candidates before scale."
-        },
-        {
-          "id": "feedback",
-          "label": "Feedback missing",
-          "missing": 1,
-          "detail": "Post a tiny test, then import X Analytics."
-        }
-      ],
-      "contentBlocked": false,
-      "feedbackBlocked": true,
-      "searchLinks": [
-        {
-          "provider": "X live search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live"
-        },
-        {
-          "provider": "Google recent search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01"
-        },
-        {
-          "provider": "CoinDesk search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://www.coindesk.com/search?s=crypto%20builder%20tool"
-        }
-      ],
-      "searchUrls": [
-        "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
-        "https://www.coindesk.com/search?s=crypto%20builder%20tool"
-      ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: ready_to_seed | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
-      "csvRows": 9
     },
     {
-      "accountId": "ai_founder_signals",
-      "displayName": "AI Founder Signals",
-      "category": "AI startup circle",
+      "accountId": "affiliate_builder",
+      "displayName": "Affiliate Builder",
+      "category": "affiliate and side projects",
       "status": "needs_drafts",
       "statusLabel": "缺草稿/排期",
       "actionLabel": "补 10 条草稿/排期",
-      "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
+      "actionDetail": "Affiliate Builder needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 29,
+      "readinessScore": 0,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -530,19 +370,179 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 6,
-          "detail": "Find 6 fresh items that fit this account."
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 6,
+          "missing": 10,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 11,
+          "missing": 30,
+          "detail": "Build toward 30 matched candidates before scale."
+        },
+        {
+          "id": "feedback",
+          "label": "Feedback missing",
+          "missing": 1,
+          "detail": "Post a tiny test, then import X Analytics."
+        }
+      ],
+      "contentBlocked": true,
+      "feedbackBlocked": true,
+      "searchLinks": [
+        {
+          "provider": "X live search",
+          "query": "\"affiliate\" \"partner program\" \"SaaS\"",
+          "url": "https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"affiliate\" \"partner program\" \"SaaS\"",
+          "url": "https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "query": "\"affiliate\" \"partner program\" \"SaaS\"",
+          "url": "https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS"
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\naffiliate_builder,Affiliate Builder,P1,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P1,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P1,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS,2026-06-13,HN Algolia,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P2,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P2,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS,2026-06-13,HN Algolia,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P3,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P3,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS,2026-06-13,HN Algolia,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\naffiliate_builder,Affiliate Builder,P3,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"affiliate\"\" \"\"partner program\"\" \"\"SaaS\"\"\",https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Affiliate Builder | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10
+    }
+  ],
+  "accounts": [
+    {
+      "accountId": "ai_tools_lab",
+      "displayName": "AI Tools Lab",
+      "category": "AI tools discovery",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "actionLabel": "补 10 条草稿/排期",
+      "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
+      "actionPriority": 80,
+      "readinessScore": 4,
+      "targetPosts": 10,
+      "postableToday": 0,
+      "refillNeed": 10,
+      "firstBottleneck": "drafts",
+      "bottlenecks": [
+        {
+          "id": "drafts",
+          "label": "Draft gap",
+          "missing": 10,
+          "detail": "Write 10 more unique drafts for this account."
+        },
+        {
+          "id": "schedule",
+          "label": "Schedule gap",
+          "missing": 10,
+          "detail": "Add 10 manual review slots before publishing."
+        },
+        {
+          "id": "freshness",
+          "label": "Fresh candidate gap",
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
+        },
+        {
+          "id": "quality",
+          "label": "Quality gap",
+          "missing": 10,
+          "detail": "Replace broad or weak items with stronger account-specific angles."
+        },
+        {
+          "id": "candidate_bench",
+          "label": "Candidate bench gap",
+          "missing": 26,
+          "detail": "Build toward 30 matched candidates before scale."
+        },
+        {
+          "id": "feedback",
+          "label": "Feedback missing",
+          "missing": 1,
+          "detail": "Import metrics for posted items."
+        }
+      ],
+      "contentBlocked": true,
+      "feedbackBlocked": true,
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://www.producthunt.com/search?q=AI%20workflow%20launch"
+        },
+        {
+          "provider": "X live search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"AI\" \"workflow\" \"launch\"",
+          "url": "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=AI%20workflow%20launch",
+        "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10
+    },
+    {
+      "accountId": "ai_founder_signals",
+      "displayName": "AI Founder Signals",
+      "category": "AI startup circle",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "actionLabel": "补 10 条草稿/排期",
+      "actionDetail": "AI Founder Signals needs unique copy and review slots before it can post today.",
+      "actionPriority": 80,
+      "readinessScore": 3,
+      "targetPosts": 10,
+      "postableToday": 0,
+      "refillNeed": 10,
+      "firstBottleneck": "drafts",
+      "bottlenecks": [
+        {
+          "id": "drafts",
+          "label": "Draft gap",
+          "missing": 10,
+          "detail": "Write 10 more unique drafts for this account."
+        },
+        {
+          "id": "schedule",
+          "label": "Schedule gap",
+          "missing": 10,
+          "detail": "Add 10 manual review slots before publishing."
+        },
+        {
+          "id": "freshness",
+          "label": "Fresh candidate gap",
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
+        },
+        {
+          "id": "quality",
+          "label": "Quality gap",
+          "missing": 10,
+          "detail": "Replace broad or weak items with stronger account-specific angles."
+        },
+        {
+          "id": "candidate_bench",
+          "label": "Candidate bench gap",
+          "missing": 26,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -580,15 +580,15 @@
       "csvRows": 10
     },
     {
-      "accountId": "ai_tools_lab",
-      "displayName": "AI Tools Lab",
-      "category": "AI tools discovery",
+      "accountId": "creator_stack",
+      "displayName": "Creator Stack",
+      "category": "creator tools",
       "status": "needs_drafts",
       "statusLabel": "缺草稿/排期",
       "actionLabel": "补 10 条草稿/排期",
-      "actionDetail": "AI Tools Lab needs unique copy and review slots before it can post today.",
+      "actionDetail": "Creator Stack needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
-      "readinessScore": 27,
+      "readinessScore": 1,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -609,19 +609,19 @@
         {
           "id": "freshness",
           "label": "Fresh candidate gap",
-          "missing": 6,
-          "detail": "Find 6 fresh items that fit this account."
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
         },
         {
           "id": "quality",
           "label": "Quality gap",
-          "missing": 6,
+          "missing": 10,
           "detail": "Replace broad or weak items with stronger account-specific angles."
         },
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 13,
+          "missing": 28,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -635,106 +635,27 @@
       "feedbackBlocked": true,
       "searchLinks": [
         {
-          "provider": "Product Hunt search",
-          "query": "\"AI\" \"workflow\" \"launch\"",
-          "url": "https://www.producthunt.com/search?q=AI%20workflow%20launch"
-        },
-        {
           "provider": "X live search",
-          "query": "\"AI\" \"workflow\" \"launch\"",
-          "url": "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live"
+          "query": "\"creator tools\" \"tool\"",
+          "url": "https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live"
         },
         {
           "provider": "Google recent search",
-          "query": "\"AI\" \"workflow\" \"launch\"",
-          "url": "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+          "query": "\"creator tools\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "query": "\"creator tools\" \"tool\"",
+          "url": "https://hn.algolia.com/?q=creator%20tools%20tool"
         }
       ],
       "searchUrls": [
-        "https://www.producthunt.com/search?q=AI%20workflow%20launch",
-        "https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01"
+        "https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=creator%20tools%20tool"
       ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nai_tools_lab,AI Tools Lab,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=AI%20workflow%20launch,2026-06-13,Product Hunt search,\"\"\"AI\"\" \"\"workflow\"\" \"\"launch\"\"\",https://www.producthunt.com/search?q=AI%20workflow%20launch,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: AI Tools Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
-      "csvRows": 10
-    },
-    {
-      "accountId": "productivity_ops",
-      "displayName": "Productivity Ops",
-      "category": "productivity and operations",
-      "status": "needs_drafts",
-      "statusLabel": "缺草稿/排期",
-      "actionLabel": "补 10 条草稿/排期",
-      "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
-      "actionPriority": 80,
-      "readinessScore": 13,
-      "targetPosts": 10,
-      "postableToday": 0,
-      "refillNeed": 10,
-      "firstBottleneck": "drafts",
-      "bottlenecks": [
-        {
-          "id": "drafts",
-          "label": "Draft gap",
-          "missing": 10,
-          "detail": "Write 10 more unique drafts for this account."
-        },
-        {
-          "id": "schedule",
-          "label": "Schedule gap",
-          "missing": 10,
-          "detail": "Add 10 manual review slots before publishing."
-        },
-        {
-          "id": "freshness",
-          "label": "Fresh candidate gap",
-          "missing": 8,
-          "detail": "Find 8 fresh items that fit this account."
-        },
-        {
-          "id": "quality",
-          "label": "Quality gap",
-          "missing": 8,
-          "detail": "Replace broad or weak items with stronger account-specific angles."
-        },
-        {
-          "id": "candidate_bench",
-          "label": "Candidate bench gap",
-          "missing": 23,
-          "detail": "Build toward 30 matched candidates before scale."
-        },
-        {
-          "id": "feedback",
-          "label": "Feedback missing",
-          "missing": 1,
-          "detail": "Post a tiny test, then import X Analytics."
-        }
-      ],
-      "contentBlocked": true,
-      "feedbackBlocked": true,
-      "searchLinks": [
-        {
-          "provider": "Product Hunt search",
-          "query": "\"productivity and operations\" \"tool\"",
-          "url": "https://www.producthunt.com/search?q=productivity%20and%20operations%20tool"
-        },
-        {
-          "provider": "X live search",
-          "query": "\"productivity and operations\" \"tool\"",
-          "url": "https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live"
-        },
-        {
-          "provider": "Google recent search",
-          "query": "\"productivity and operations\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01"
-        }
-      ],
-      "searchUrls": [
-        "https://www.producthunt.com/search?q=productivity%20and%20operations%20tool",
-        "https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01"
-      ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
       "csvRows": 10
     },
     {
@@ -896,6 +817,85 @@
       "csvRows": 10
     },
     {
+      "accountId": "build_in_public",
+      "displayName": "Build in Public",
+      "category": "building and experiments",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "actionLabel": "补 10 条草稿/排期",
+      "actionDetail": "Build in Public needs unique copy and review slots before it can post today.",
+      "actionPriority": 80,
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "postableToday": 0,
+      "refillNeed": 10,
+      "firstBottleneck": "drafts",
+      "bottlenecks": [
+        {
+          "id": "drafts",
+          "label": "Draft gap",
+          "missing": 10,
+          "detail": "Write 10 more unique drafts for this account."
+        },
+        {
+          "id": "schedule",
+          "label": "Schedule gap",
+          "missing": 10,
+          "detail": "Add 10 manual review slots before publishing."
+        },
+        {
+          "id": "freshness",
+          "label": "Fresh candidate gap",
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
+        },
+        {
+          "id": "quality",
+          "label": "Quality gap",
+          "missing": 10,
+          "detail": "Replace broad or weak items with stronger account-specific angles."
+        },
+        {
+          "id": "candidate_bench",
+          "label": "Candidate bench gap",
+          "missing": 30,
+          "detail": "Build toward 30 matched candidates before scale."
+        },
+        {
+          "id": "feedback",
+          "label": "Feedback missing",
+          "missing": 1,
+          "detail": "Post a tiny test, then import X Analytics."
+        }
+      ],
+      "contentBlocked": true,
+      "feedbackBlocked": true,
+      "searchLinks": [
+        {
+          "provider": "X live search",
+          "query": "\"building and experiments\" \"tool\"",
+          "url": "https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"building and experiments\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "HN Algolia",
+          "query": "\"building and experiments\" \"tool\"",
+          "url": "https://hn.algolia.com/?q=building%20and%20experiments%20tool"
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01",
+        "https://hn.algolia.com/?q=building%20and%20experiments%20tool"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nbuild_in_public,Build in Public,P1,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P1,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P1,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=building%20and%20experiments%20tool,2026-06-13,HN Algolia,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=building%20and%20experiments%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P2,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P2,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=building%20and%20experiments%20tool,2026-06-13,HN Algolia,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=building%20and%20experiments%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P3,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P3,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=building%20and%20experiments%20tool,2026-06-13,HN Algolia,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=building%20and%20experiments%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P3,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10
+    },
+    {
       "accountId": "career_workflows",
       "displayName": "Career Workflows",
       "category": "career and job search",
@@ -975,6 +975,164 @@
       "csvRows": 10
     },
     {
+      "accountId": "crypto_builder_radar",
+      "displayName": "Crypto Builder Radar",
+      "category": "Crypto builder circle",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "actionLabel": "补 10 条草稿/排期",
+      "actionDetail": "Crypto Builder Radar needs unique copy and review slots before it can post today.",
+      "actionPriority": 80,
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "postableToday": 0,
+      "refillNeed": 10,
+      "firstBottleneck": "drafts",
+      "bottlenecks": [
+        {
+          "id": "drafts",
+          "label": "Draft gap",
+          "missing": 10,
+          "detail": "Write 10 more unique drafts for this account."
+        },
+        {
+          "id": "schedule",
+          "label": "Schedule gap",
+          "missing": 10,
+          "detail": "Add 10 manual review slots before publishing."
+        },
+        {
+          "id": "freshness",
+          "label": "Fresh candidate gap",
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
+        },
+        {
+          "id": "quality",
+          "label": "Quality gap",
+          "missing": 10,
+          "detail": "Replace broad or weak items with stronger account-specific angles."
+        },
+        {
+          "id": "candidate_bench",
+          "label": "Candidate bench gap",
+          "missing": 30,
+          "detail": "Build toward 30 matched candidates before scale."
+        },
+        {
+          "id": "feedback",
+          "label": "Feedback missing",
+          "missing": 1,
+          "detail": "Post a tiny test, then import X Analytics."
+        }
+      ],
+      "contentBlocked": true,
+      "feedbackBlocked": true,
+      "searchLinks": [
+        {
+          "provider": "X live search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "CoinDesk search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://www.coindesk.com/search?s=crypto%20builder%20tool"
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
+        "https://www.coindesk.com/search?s=crypto%20builder%20tool"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P1,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_builder_radar,Crypto Builder Radar,P3,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Builder Radar | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10
+    },
+    {
+      "accountId": "crypto_trading_tools",
+      "displayName": "Crypto Trading Tools",
+      "category": "crypto tooling",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "actionLabel": "补 10 条草稿/排期",
+      "actionDetail": "Crypto Trading Tools needs unique copy and review slots before it can post today.",
+      "actionPriority": 80,
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "postableToday": 0,
+      "refillNeed": 10,
+      "firstBottleneck": "drafts",
+      "bottlenecks": [
+        {
+          "id": "drafts",
+          "label": "Draft gap",
+          "missing": 10,
+          "detail": "Write 10 more unique drafts for this account."
+        },
+        {
+          "id": "schedule",
+          "label": "Schedule gap",
+          "missing": 10,
+          "detail": "Add 10 manual review slots before publishing."
+        },
+        {
+          "id": "freshness",
+          "label": "Fresh candidate gap",
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
+        },
+        {
+          "id": "quality",
+          "label": "Quality gap",
+          "missing": 10,
+          "detail": "Replace broad or weak items with stronger account-specific angles."
+        },
+        {
+          "id": "candidate_bench",
+          "label": "Candidate bench gap",
+          "missing": 30,
+          "detail": "Build toward 30 matched candidates before scale."
+        },
+        {
+          "id": "feedback",
+          "label": "Feedback missing",
+          "missing": 1,
+          "detail": "Post a tiny test, then import X Analytics."
+        }
+      ],
+      "contentBlocked": true,
+      "feedbackBlocked": true,
+      "searchLinks": [
+        {
+          "provider": "X live search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01"
+        },
+        {
+          "provider": "CoinDesk search",
+          "query": "\"crypto\" \"builder\" \"tool\"",
+          "url": "https://www.coindesk.com/search?s=crypto%20builder%20tool"
+        }
+      ],
+      "searchUrls": [
+        "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
+        "https://www.coindesk.com/search?s=crypto%20builder%20tool"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncrypto_trading_tools,Crypto Trading Tools,P1,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P1,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P1,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P2,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P2,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P3,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P3,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P3,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10
+    },
+    {
       "accountId": "dev_workflows",
       "displayName": "Dev Workflows",
       "category": "developer workflows",
@@ -1051,6 +1209,85 @@
         "https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01"
       ],
       "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ndev_workflows,Dev Workflows,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=developer%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=developer%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=developer%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=developer%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=developer%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=developer%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22developer%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22developer%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ndev_workflows,Dev Workflows,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=developer%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"developer workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=developer%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Dev Workflows | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csvRows": 10
+    },
+    {
+      "accountId": "founder_tooling",
+      "displayName": "Founder Tooling",
+      "category": "founder workflows",
+      "status": "needs_drafts",
+      "statusLabel": "缺草稿/排期",
+      "actionLabel": "补 10 条草稿/排期",
+      "actionDetail": "Founder Tooling needs unique copy and review slots before it can post today.",
+      "actionPriority": 80,
+      "readinessScore": 0,
+      "targetPosts": 10,
+      "postableToday": 0,
+      "refillNeed": 10,
+      "firstBottleneck": "drafts",
+      "bottlenecks": [
+        {
+          "id": "drafts",
+          "label": "Draft gap",
+          "missing": 10,
+          "detail": "Write 10 more unique drafts for this account."
+        },
+        {
+          "id": "schedule",
+          "label": "Schedule gap",
+          "missing": 10,
+          "detail": "Add 10 manual review slots before publishing."
+        },
+        {
+          "id": "freshness",
+          "label": "Fresh candidate gap",
+          "missing": 10,
+          "detail": "Find 10 fresh items that fit this account."
+        },
+        {
+          "id": "quality",
+          "label": "Quality gap",
+          "missing": 10,
+          "detail": "Replace broad or weak items with stronger account-specific angles."
+        },
+        {
+          "id": "candidate_bench",
+          "label": "Candidate bench gap",
+          "missing": 30,
+          "detail": "Build toward 30 matched candidates before scale."
+        },
+        {
+          "id": "feedback",
+          "label": "Feedback missing",
+          "missing": 1,
+          "detail": "Post a tiny test, then import X Analytics."
+        }
+      ],
+      "contentBlocked": true,
+      "feedbackBlocked": true,
+      "searchLinks": [
+        {
+          "provider": "Product Hunt search",
+          "query": "\"founder workflows\" \"tool\"",
+          "url": "https://www.producthunt.com/search?q=founder%20workflows%20tool"
+        },
+        {
+          "provider": "X live search",
+          "query": "\"founder workflows\" \"tool\"",
+          "url": "https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live"
+        },
+        {
+          "provider": "Google recent search",
+          "query": "\"founder workflows\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01"
+        }
+      ],
+      "searchUrls": [
+        "https://www.producthunt.com/search?q=founder%20workflows%20tool",
+        "https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01"
+      ],
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
       "csvRows": 10
     },
     {
@@ -1212,13 +1449,13 @@
       "csvRows": 10
     },
     {
-      "accountId": "market_map_notes",
-      "displayName": "Market Map Notes",
-      "category": "market mapping",
+      "accountId": "productivity_ops",
+      "displayName": "Productivity Ops",
+      "category": "productivity and operations",
       "status": "needs_drafts",
       "statusLabel": "缺草稿/排期",
       "actionLabel": "补 10 条草稿/排期",
-      "actionDetail": "Market Map Notes needs unique copy and review slots before it can post today.",
+      "actionDetail": "Productivity Ops needs unique copy and review slots before it can post today.",
       "actionPriority": 80,
       "readinessScore": 0,
       "targetPosts": 10,
@@ -1268,26 +1505,26 @@
       "searchLinks": [
         {
           "provider": "Product Hunt search",
-          "query": "\"market mapping\" \"tool\"",
-          "url": "https://www.producthunt.com/search?q=market%20mapping%20tool"
+          "query": "\"productivity and operations\" \"tool\"",
+          "url": "https://www.producthunt.com/search?q=productivity%20and%20operations%20tool"
         },
         {
           "provider": "X live search",
-          "query": "\"market mapping\" \"tool\"",
-          "url": "https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live"
+          "query": "\"productivity and operations\" \"tool\"",
+          "url": "https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live"
         },
         {
           "provider": "Google recent search",
-          "query": "\"market mapping\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01"
+          "query": "\"productivity and operations\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01"
         }
       ],
       "searchUrls": [
-        "https://www.producthunt.com/search?q=market%20mapping%20tool",
-        "https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01"
+        "https://www.producthunt.com/search?q=productivity%20and%20operations%20tool",
+        "https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01"
       ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nmarket_map_notes,Market Map Notes,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=market%20mapping%20tool,2026-06-13,Product Hunt search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=market%20mapping%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=market%20mapping%20tool,2026-06-13,Product Hunt search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=market%20mapping%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=market%20mapping%20tool,2026-06-13,Product Hunt search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=market%20mapping%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=market%20mapping%20tool,2026-06-13,Product Hunt search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=market%20mapping%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nproductivity_ops,Productivity Ops,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,2026-06-13,Product Hunt search,\"\"\"productivity and operations\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=productivity%20and%20operations%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Productivity Ops | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
       "csvRows": 10
     },
     {
@@ -1449,15 +1686,15 @@
       "csvRows": 10
     },
     {
-      "accountId": "build_in_public",
-      "displayName": "Build in Public",
-      "category": "building and experiments",
+      "accountId": "seo_review_lab",
+      "displayName": "SEO Review Lab",
+      "category": "SEO review pages",
       "status": "needs_drafts",
       "statusLabel": "缺草稿/排期",
-      "actionLabel": "补 9 条草稿/排期",
-      "actionDetail": "Build in Public needs unique copy and review slots before it can post today.",
-      "actionPriority": 79,
-      "readinessScore": 4,
+      "actionLabel": "补 10 条草稿/排期",
+      "actionDetail": "SEO Review Lab needs unique copy and review slots before it can post today.",
+      "actionPriority": 80,
+      "readinessScore": 0,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -1466,93 +1703,14 @@
         {
           "id": "drafts",
           "label": "Draft gap",
-          "missing": 9,
-          "detail": "Write 9 more unique drafts for this account."
+          "missing": 10,
+          "detail": "Write 10 more unique drafts for this account."
         },
         {
           "id": "schedule",
           "label": "Schedule gap",
-          "missing": 9,
-          "detail": "Add 9 manual review slots before publishing."
-        },
-        {
-          "id": "freshness",
-          "label": "Fresh candidate gap",
           "missing": 10,
-          "detail": "Find 10 fresh items that fit this account."
-        },
-        {
-          "id": "quality",
-          "label": "Quality gap",
-          "missing": 10,
-          "detail": "Replace broad or weak items with stronger account-specific angles."
-        },
-        {
-          "id": "candidate_bench",
-          "label": "Candidate bench gap",
-          "missing": 29,
-          "detail": "Build toward 30 matched candidates before scale."
-        },
-        {
-          "id": "feedback",
-          "label": "Feedback missing",
-          "missing": 1,
-          "detail": "Post a tiny test, then import X Analytics."
-        }
-      ],
-      "contentBlocked": true,
-      "feedbackBlocked": true,
-      "searchLinks": [
-        {
-          "provider": "X live search",
-          "query": "\"building and experiments\" \"tool\"",
-          "url": "https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live"
-        },
-        {
-          "provider": "Google recent search",
-          "query": "\"building and experiments\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01"
-        },
-        {
-          "provider": "HN Algolia",
-          "query": "\"building and experiments\" \"tool\"",
-          "url": "https://hn.algolia.com/?q=building%20and%20experiments%20tool"
-        }
-      ],
-      "searchUrls": [
-        "https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01",
-        "https://hn.algolia.com/?q=building%20and%20experiments%20tool"
-      ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nbuild_in_public,Build in Public,P1,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P1,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P1,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=building%20and%20experiments%20tool,2026-06-13,HN Algolia,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=building%20and%20experiments%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P2,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P2,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=building%20and%20experiments%20tool,2026-06-13,HN Algolia,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=building%20and%20experiments%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P3,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22building%20and%20experiments%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P3,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=building%20and%20experiments%20tool,2026-06-13,HN Algolia,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=building%20and%20experiments%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nbuild_in_public,Build in Public,P3,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"building and experiments\"\" \"\"tool\"\"\",https://x.com/search?q=%22building%20and%20experiments%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Build in Public | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
-      "csvRows": 10
-    },
-    {
-      "accountId": "crypto_trading_tools",
-      "displayName": "Crypto Trading Tools",
-      "category": "crypto tooling",
-      "status": "needs_drafts",
-      "statusLabel": "缺草稿/排期",
-      "actionLabel": "补 9 条草稿/排期",
-      "actionDetail": "Crypto Trading Tools needs unique copy and review slots before it can post today.",
-      "actionPriority": 79,
-      "readinessScore": 4,
-      "targetPosts": 10,
-      "postableToday": 0,
-      "refillNeed": 10,
-      "firstBottleneck": "drafts",
-      "bottlenecks": [
-        {
-          "id": "drafts",
-          "label": "Draft gap",
-          "missing": 9,
-          "detail": "Write 9 more unique drafts for this account."
-        },
-        {
-          "id": "schedule",
-          "label": "Schedule gap",
-          "missing": 9,
-          "detail": "Add 9 manual review slots before publishing."
+          "detail": "Add 10 manual review slots before publishing."
         },
         {
           "id": "freshness",
@@ -1583,27 +1741,27 @@
       "feedbackBlocked": true,
       "searchLinks": [
         {
+          "provider": "Product Hunt search",
+          "query": "\"SEO review pages\" \"tool\"",
+          "url": "https://www.producthunt.com/search?q=SEO%20review%20pages%20tool"
+        },
+        {
           "provider": "X live search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live"
+          "query": "\"SEO review pages\" \"tool\"",
+          "url": "https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live"
         },
         {
           "provider": "Google recent search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01"
-        },
-        {
-          "provider": "CoinDesk search",
-          "query": "\"crypto\" \"builder\" \"tool\"",
-          "url": "https://www.coindesk.com/search?s=crypto%20builder%20tool"
+          "query": "\"SEO review pages\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01"
         }
       ],
       "searchUrls": [
-        "https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01",
-        "https://www.coindesk.com/search?s=crypto%20builder%20tool"
+        "https://www.producthunt.com/search?q=SEO%20review%20pages%20tool",
+        "https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01"
       ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncrypto_trading_tools,Crypto Trading Tools,P1,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P1,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P1,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P2,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P2,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P2,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P3,,,,account_refill,crypto_builders,product,https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P3,,,,account_refill,crypto_builders,product,https://www.coindesk.com/search?s=crypto%20builder%20tool,2026-06-13,CoinDesk search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://www.coindesk.com/search?s=crypto%20builder%20tool,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncrypto_trading_tools,Crypto Trading Tools,P3,,,,account_refill,crypto_builders,topic,https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"crypto\"\" \"\"builder\"\" \"\"tool\"\"\",https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live,real URL | builder/tool angle | not price-only | clear audience | fresh enough,Account: Crypto Trading Tools | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nseo_review_lab,SEO Review Lab,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,2026-06-13,Product Hunt search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,2026-06-13,Product Hunt search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,2026-06-13,Product Hunt search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,2026-06-13,Product Hunt search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
       "csvRows": 10
     },
     {
@@ -1686,13 +1844,13 @@
       "csvRows": 10
     },
     {
-      "accountId": "founder_tooling",
-      "displayName": "Founder Tooling",
-      "category": "founder workflows",
+      "accountId": "market_map_notes",
+      "displayName": "Market Map Notes",
+      "category": "market mapping",
       "status": "needs_drafts",
       "statusLabel": "缺草稿/排期",
       "actionLabel": "补 9 条草稿/排期",
-      "actionDetail": "Founder Tooling needs unique copy and review slots before it can post today.",
+      "actionDetail": "Market Map Notes needs unique copy and review slots before it can post today.",
       "actionPriority": 79,
       "readinessScore": 4,
       "targetPosts": 10,
@@ -1727,7 +1885,7 @@
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 29,
+          "missing": 30,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {
@@ -1742,117 +1900,38 @@
       "searchLinks": [
         {
           "provider": "Product Hunt search",
-          "query": "\"founder workflows\" \"tool\"",
-          "url": "https://www.producthunt.com/search?q=founder%20workflows%20tool"
+          "query": "\"market mapping\" \"tool\"",
+          "url": "https://www.producthunt.com/search?q=market%20mapping%20tool"
         },
         {
           "provider": "X live search",
-          "query": "\"founder workflows\" \"tool\"",
-          "url": "https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live"
+          "query": "\"market mapping\" \"tool\"",
+          "url": "https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live"
         },
         {
           "provider": "Google recent search",
-          "query": "\"founder workflows\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01"
+          "query": "\"market mapping\" \"tool\"",
+          "url": "https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01"
         }
       ],
       "searchUrls": [
-        "https://www.producthunt.com/search?q=founder%20workflows%20tool",
-        "https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01"
+        "https://www.producthunt.com/search?q=market%20mapping%20tool",
+        "https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live",
+        "https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01"
       ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://x.com/search?q=%22founder%20workflows%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22founder%20workflows%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nfounder_tooling,Founder Tooling,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=founder%20workflows%20tool,2026-06-13,Product Hunt search,\"\"\"founder workflows\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=founder%20workflows%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Founder Tooling | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
+      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nmarket_map_notes,Market Map Notes,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=market%20mapping%20tool,2026-06-13,Product Hunt search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=market%20mapping%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=market%20mapping%20tool,2026-06-13,Product Hunt search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=market%20mapping%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=market%20mapping%20tool,2026-06-13,Product Hunt search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=market%20mapping%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://x.com/search?q=%22market%20mapping%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22market%20mapping%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nmarket_map_notes,Market Map Notes,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=market%20mapping%20tool,2026-06-13,Product Hunt search,\"\"\"market mapping\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=market%20mapping%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: Market Map Notes | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
       "csvRows": 10
     },
     {
-      "accountId": "creator_stack",
-      "displayName": "Creator Stack",
-      "category": "creator tools",
+      "accountId": "ai_agent_ops",
+      "displayName": "AI Agent Ops",
+      "category": "AI agents and automation",
       "status": "needs_drafts",
       "statusLabel": "缺草稿/排期",
       "actionLabel": "补 8 条草稿/排期",
-      "actionDetail": "Creator Stack needs unique copy and review slots before it can post today.",
+      "actionDetail": "AI Agent Ops needs unique copy and review slots before it can post today.",
       "actionPriority": 78,
-      "readinessScore": 11,
-      "targetPosts": 10,
-      "postableToday": 0,
-      "refillNeed": 10,
-      "firstBottleneck": "drafts",
-      "bottlenecks": [
-        {
-          "id": "drafts",
-          "label": "Draft gap",
-          "missing": 7,
-          "detail": "Write 7 more unique drafts for this account."
-        },
-        {
-          "id": "schedule",
-          "label": "Schedule gap",
-          "missing": 8,
-          "detail": "Add 8 manual review slots before publishing."
-        },
-        {
-          "id": "freshness",
-          "label": "Fresh candidate gap",
-          "missing": 10,
-          "detail": "Find 10 fresh items that fit this account."
-        },
-        {
-          "id": "quality",
-          "label": "Quality gap",
-          "missing": 10,
-          "detail": "Replace broad or weak items with stronger account-specific angles."
-        },
-        {
-          "id": "candidate_bench",
-          "label": "Candidate bench gap",
-          "missing": 27,
-          "detail": "Build toward 30 matched candidates before scale."
-        },
-        {
-          "id": "feedback",
-          "label": "Feedback missing",
-          "missing": 1,
-          "detail": "Post a tiny test, then import X Analytics."
-        }
-      ],
-      "contentBlocked": true,
-      "feedbackBlocked": true,
-      "searchLinks": [
-        {
-          "provider": "X live search",
-          "query": "\"creator tools\" \"tool\"",
-          "url": "https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live"
-        },
-        {
-          "provider": "Google recent search",
-          "query": "\"creator tools\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01"
-        },
-        {
-          "provider": "HN Algolia",
-          "query": "\"creator tools\" \"tool\"",
-          "url": "https://hn.algolia.com/?q=creator%20tools%20tool"
-        }
-      ],
-      "searchUrls": [
-        "https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01",
-        "https://hn.algolia.com/?q=creator%20tools%20tool"
-      ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P1,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P2,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,product,https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,product,https://hn.algolia.com/?q=creator%20tools%20tool,2026-06-13,HN Algolia,\"\"\"creator tools\"\" \"\"tool\"\"\",https://hn.algolia.com/?q=creator%20tools%20tool,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\ncreator_stack,Creator Stack,P3,,,,account_refill,indie_hackers,topic,https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"creator tools\"\" \"\"tool\"\"\",https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live,real URL | indie/solo founder angle | concrete build or monetization lesson,Account: Creator Stack | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
-      "csvRows": 10
-    },
-    {
-      "accountId": "seo_review_lab",
-      "displayName": "SEO Review Lab",
-      "category": "SEO review pages",
-      "status": "needs_drafts",
-      "statusLabel": "缺草稿/排期",
-      "actionLabel": "补 8 条草稿/排期",
-      "actionDetail": "SEO Review Lab needs unique copy and review slots before it can post today.",
-      "actionPriority": 78,
-      "readinessScore": 7,
+      "readinessScore": 8,
       "targetPosts": 10,
       "postableToday": 0,
       "refillNeed": 10,
@@ -1885,86 +1964,7 @@
         {
           "id": "candidate_bench",
           "label": "Candidate bench gap",
-          "missing": 30,
-          "detail": "Build toward 30 matched candidates before scale."
-        },
-        {
-          "id": "feedback",
-          "label": "Feedback missing",
-          "missing": 1,
-          "detail": "Post a tiny test, then import X Analytics."
-        }
-      ],
-      "contentBlocked": true,
-      "feedbackBlocked": true,
-      "searchLinks": [
-        {
-          "provider": "Product Hunt search",
-          "query": "\"SEO review pages\" \"tool\"",
-          "url": "https://www.producthunt.com/search?q=SEO%20review%20pages%20tool"
-        },
-        {
-          "provider": "X live search",
-          "query": "\"SEO review pages\" \"tool\"",
-          "url": "https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live"
-        },
-        {
-          "provider": "Google recent search",
-          "query": "\"SEO review pages\" \"tool\"",
-          "url": "https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01"
-        }
-      ],
-      "searchUrls": [
-        "https://www.producthunt.com/search?q=SEO%20review%20pages%20tool",
-        "https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live",
-        "https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01"
-      ],
-      "csv": "accountId,accountName,priority,name,url,tagline,source,circle,candidateType,sourceUrl,published,researchProvider,researchQuery,researchUrl,acceptanceChecklist,notes\nseo_review_lab,SEO Review Lab,P1,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,2026-06-13,Product Hunt search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P1,,,,account_refill,ai_startups,product,https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P1,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,2026-06-13,Product Hunt search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P2,,,,account_refill,ai_startups,product,https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P2,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P2,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,2026-06-13,Product Hunt search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P3,,,,account_refill,ai_startups,product,https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,2026-06-13,X live search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://x.com/search?q=%22SEO%20review%20pages%22%20%22tool%22&src=typed_query&f=live,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P3,,,,account_refill,ai_startups,product,https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,2026-06-13,Google recent search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.google.com/search?q=%22SEO%20review%20pages%22%20%22tool%22%20after%3A2026-01-01,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.\nseo_review_lab,SEO Review Lab,P3,,,,account_refill,ai_startups,topic,https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,2026-06-13,Product Hunt search,\"\"\"SEO review pages\"\" \"\"tool\"\"\",https://www.producthunt.com/search?q=SEO%20review%20pages%20tool,real URL | AI/startup/tool angle | clear buyer pain | not broad hype,Account: SEO Review Lab | Status: needs_drafts | Bottleneck: drafts | Fill only real name/url/tagline rows; leave weak rows blank.",
-      "csvRows": 10
-    },
-    {
-      "accountId": "ai_agent_ops",
-      "displayName": "AI Agent Ops",
-      "category": "AI agents and automation",
-      "status": "needs_drafts",
-      "statusLabel": "缺草稿/排期",
-      "actionLabel": "补 7 条草稿/排期",
-      "actionDetail": "AI Agent Ops needs unique copy and review slots before it can post today.",
-      "actionPriority": 77,
-      "readinessScore": 21,
-      "targetPosts": 10,
-      "postableToday": 0,
-      "refillNeed": 10,
-      "firstBottleneck": "drafts",
-      "bottlenecks": [
-        {
-          "id": "drafts",
-          "label": "Draft gap",
-          "missing": 3,
-          "detail": "Write 3 more unique drafts for this account."
-        },
-        {
-          "id": "schedule",
-          "label": "Schedule gap",
-          "missing": 7,
-          "detail": "Add 7 manual review slots before publishing."
-        },
-        {
-          "id": "freshness",
-          "label": "Fresh candidate gap",
-          "missing": 10,
-          "detail": "Find 10 fresh items that fit this account."
-        },
-        {
-          "id": "quality",
-          "label": "Quality gap",
-          "missing": 10,
-          "detail": "Replace broad or weak items with stronger account-specific angles."
-        },
-        {
-          "id": "candidate_bench",
-          "label": "Candidate bench gap",
-          "missing": 26,
+          "missing": 29,
           "detail": "Build toward 30 matched candidates before scale."
         },
         {

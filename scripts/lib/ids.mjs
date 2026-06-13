@@ -1,4 +1,8 @@
 import { createHash } from "node:crypto";
+import { hashText, normalizeText } from "./text-normalizer.mjs";
+import { normalizeDomain } from "./url-utils.mjs";
+
+export { normalizeDomain };
 
 export function slugify(text) {
   const slug = String(text ?? "")
@@ -12,20 +16,42 @@ export function slugify(text) {
   return slug || "item";
 }
 
-export function normalizeDomain(url) {
-  try {
-    const parsed = new URL(url);
-    return parsed.hostname.replace(/^www\./, "").toLowerCase();
-  } catch {
-    return "";
-  }
-}
-
 export function createToolId(name, url) {
   const domain = normalizeDomain(url) || "unknown-domain";
   const slug = slugify(name);
   const hash = createHash("sha1").update(`${domain}::${slug}`).digest("hex").slice(0, 10);
   return `tool_${domain.replace(/[^a-z0-9]+/g, "_")}_${slug}_${hash}`;
+}
+
+export function createUserId(name) {
+  return createStableId("user", [slugify(name)]);
+}
+
+export function createAccountId(handle) {
+  const clean = String(handle ?? "").replace(/^@/, "").trim().toLowerCase();
+  return createStableId("xacc", [slugify(clean || "account")]);
+}
+
+export function createTopicId(toolId, angleType, audience, painPoint, useCase) {
+  return createStableId("topic", [
+    toolId,
+    angleType,
+    normalizeText(audience),
+    normalizeText(painPoint),
+    normalizeText(useCase)
+  ]);
+}
+
+export function createCopyId(topicId, variantType, copyText) {
+  return createStableId("copy", [topicId, variantType, hashText(copyText)]);
+}
+
+export function createTaskId(date, accountId, copyId) {
+  return createStableId("task", [date, accountId || "no_account", copyId]);
+}
+
+export function createLedgerId(taskId, postedUrl) {
+  return createStableId("ledger", [taskId, postedUrl || "manual"]);
 }
 
 export function createStableId(prefix, parts) {

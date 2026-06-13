@@ -1,5 +1,46 @@
 {
   "version": 1,
-  "updatedAt": "",
-  "entries": []
+  "updatedAt": "2026-06-13T04:10:14.858Z",
+  "entries": [
+    {
+      "id": "feedback_35de3141b39a",
+      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+      "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
+      "toolUrl": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+      "sourceDate": "2026-06-13",
+      "variantType": "shortPost",
+      "accountId": "ai_tools_lab",
+      "accountName": "AI Tools Lab",
+      "sourceId": "techcrunch_ai",
+      "sourceName": "TechCrunch AI feed",
+      "sourceType": "source_feed",
+      "circle": "ai_startups",
+      "candidateType": "topic",
+      "taskId": "task_8b91a4646a3e",
+      "copyId": "copy_02def53bb0c2",
+      "needsLinking": false,
+      "copyText": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+      "posted": true,
+      "postedUrl": "https://x.com/i/web/status/2065587926495641808",
+      "postedAt": "2026-06-13T00:11:53.263Z",
+      "metrics": {
+        "impressions": 0,
+        "likes": 0,
+        "bookmarks": 0,
+        "replies": 0,
+        "reposts": 0,
+        "clicks": 0,
+        "profileVisits": 0
+      },
+      "notes": "Published to X from Dashboard via AI Tools Lab",
+      "createdAt": "2026-06-13T00:11:53.264Z",
+      "updatedAt": "2026-06-13T04:07:42.566Z",
+      "engagementScore": 0,
+      "engagementRate": 0,
+      "saveRate": 0,
+      "replyRate": 0,
+      "clickRate": 0,
+      "workspaceId": "workspace_default"
+    }
+  ]
 }

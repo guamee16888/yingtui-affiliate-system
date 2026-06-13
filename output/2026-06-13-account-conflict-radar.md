@@ -2,7 +2,7 @@
 
 - Mode: manual_conflict_radar
 - Status: clear
-- Recent posts: 0
+- Recent posts: 1
 - Blocked candidates: 0
 - Warning candidates: 0
 - Same-tool conflicts: 0

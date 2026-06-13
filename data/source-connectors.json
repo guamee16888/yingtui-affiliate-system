@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "items": [
+    {
+      "connectorId": "manual",
+      "name": "Manual Candidate Intake",
+      "type": "manual",
+      "status": "active",
+      "laneIds": [
+        "ai_startups",
+        "indie_builders",
+        "saas_founders",
+        "crypto_builders"
+      ],
+      "qualityTier": "A",
+      "requiresApiKey": false,
+      "notes": "Human-curated candidates pasted into data/manual-candidates.json.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "connectorId": "product_hunt",
+      "name": "Product Hunt",
+      "type": "api",
+      "status": "active",
+      "laneIds": [
+        "ai_startups",
+        "indie_builders",
+        "saas_founders"
+      ],
+      "qualityTier": "A",
+      "requiresApiKey": true,
+      "notes": "Platform-level connector. Workspaces subscribe to lanes, not this API directly.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "connectorId": "hacker_news",
+      "name": "Hacker News",
+      "type": "api",
+      "status": "paused",
+      "laneIds": [
+        "indie_builders",
+        "saas_founders",
+        "ai_startups"
+      ],
+      "qualityTier": "B",
+      "requiresApiKey": false,
+      "notes": "Future public API connector for Show HN and founder/operator discussions.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "connectorId": "github",
+      "name": "GitHub REST",
+      "type": "api",
+      "status": "paused",
+      "laneIds": [
+        "ai_startups",
+        "indie_builders",
+        "crypto_builders"
+      ],
+      "qualityTier": "B",
+      "requiresApiKey": false,
+      "notes": "Future developer tooling and repo trend connector.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "connectorId": "paid_search",
+      "name": "Paid AI Search",
+      "type": "paid_api",
+      "status": "paused",
+      "laneIds": [
+        "ai_startups",
+        "indie_builders",
+        "saas_founders",
+        "crypto_builders"
+      ],
+      "qualityTier": "A",
+      "requiresApiKey": true,
+      "notes": "Placeholder for Exa/Tavily-style search. Not connected in v1.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    }
+  ]
+}

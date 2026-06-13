@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T04:10:28.688Z",
+  "items": [
+    {
+      "feedId": "feed_ai_manual",
+      "connectorId": "manual",
+      "laneId": "ai_startups",
+      "name": "AI Startup Manual Intake",
+      "url": "",
+      "status": "active",
+      "qualityScore": 85,
+      "notes": "Manual AI tool, agent, workflow, automation, and founder signal candidates.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "feedId": "feed_indie_manual",
+      "connectorId": "manual",
+      "laneId": "indie_builders",
+      "name": "Indie Builder Manual Intake",
+      "url": "",
+      "status": "active",
+      "qualityScore": 82,
+      "notes": "Manual solo founder, launch, build in public, revenue, and workflow candidates.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "feedId": "feed_saas_manual",
+      "connectorId": "manual",
+      "laneId": "saas_founders",
+      "name": "SaaS Founder Manual Intake",
+      "url": "",
+      "status": "active",
+      "qualityScore": 88,
+      "notes": "Manual pricing, onboarding, churn, PLG, sales, and founder ops candidates.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    },
+    {
+      "feedId": "feed_crypto_manual",
+      "connectorId": "manual",
+      "laneId": "crypto_builders",
+      "name": "Crypto Builder Manual Intake",
+      "url": "",
+      "status": "active",
+      "qualityScore": 78,
+      "notes": "Manual wallet UX, security, infra, onchain data, and dev tooling candidates.",
+      "createdAt": "2026-06-13T02:30:52.701Z",
+      "updatedAt": "2026-06-13T02:30:52.701Z"
+    }
+  ]
+}

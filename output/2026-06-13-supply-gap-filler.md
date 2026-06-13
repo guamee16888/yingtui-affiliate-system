@@ -3,8 +3,8 @@
 - Status: needs_supply
 - Headline: Start with Indie hacker circle; source queue still needs 79 candidates.
 - Target posts: 200/day
-- Postable today: 2
-- Total refill need: 199
+- Postable today: 0
+- Total refill need: 200
 - Needed candidates: 79
 - Rows to collect now: 38
 - Focus circles: 4
@@ -13,9 +13,8 @@
 ## Today Action List
 
 1. 补 Indie hacker circle — 先找 10 条真实候选，影响 4 个账号。
-2. 补 Crypto Builder Radar — 账号还缺 9 条，先用搜索组补 9 条。
+2. 补 AI Tools Lab — 账号还缺 10 条，先用搜索组补 10 条。
 3. 导入候选后重新跑 daily — 粘贴 CSV 先预览评分，只导入可导入项，再刷新每日包。
-4. 发布前走最终审核 — 2 条理论可发，但仍要检查账号、重复、freshness 和反馈债。
 
 ## Circle Batches
 
@@ -143,17 +142,17 @@ researchId,priority,name,url,tagline,source,circle,candidateType,sourceUrl,publi
 
 ## Account Batches
 
-### 1. Crypto Builder Radar
+### 1. AI Tools Lab
 
-- Status: 可手动种子测试
-- Refill need: 9
-- Postable today: 2/10
+- Status: 缺草稿/排期
+- Refill need: 10
+- Postable today: 0/10
 - First bottleneck: drafts
-- Next action: Fill 9 real candidates for Crypto Builder Radar.
+- Next action: Fill 10 real candidates for AI Tools Lab.
 - Search links:
-  - X live search: https://x.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22&src=typed_query&f=live
-  - Google recent search: https://www.google.com/search?q=%22crypto%22%20%22builder%22%20%22tool%22%20after%3A2026-01-01
-  - CoinDesk search: https://www.coindesk.com/search?s=crypto%20builder%20tool
+  - Product Hunt search: https://www.producthunt.com/search?q=AI%20workflow%20launch
+  - X live search: https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live
+  - Google recent search: https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01
 
 ### 2. AI Founder Signals
 
@@ -167,31 +166,19 @@ researchId,priority,name,url,tagline,source,circle,candidateType,sourceUrl,publi
   - X live search: https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live
   - Google recent search: https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01
 
-### 3. AI Tools Lab
+### 3. Creator Stack
 
 - Status: 缺草稿/排期
 - Refill need: 10
 - Postable today: 0/10
 - First bottleneck: drafts
-- Next action: Fill 10 real candidates for AI Tools Lab.
+- Next action: Fill 10 real candidates for Creator Stack.
 - Search links:
-  - Product Hunt search: https://www.producthunt.com/search?q=AI%20workflow%20launch
-  - X live search: https://x.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22&src=typed_query&f=live
-  - Google recent search: https://www.google.com/search?q=%22AI%22%20%22workflow%22%20%22launch%22%20after%3A2026-01-01
+  - X live search: https://x.com/search?q=%22creator%20tools%22%20%22tool%22&src=typed_query&f=live
+  - Google recent search: https://www.google.com/search?q=%22creator%20tools%22%20%22tool%22%20after%3A2026-01-01
+  - HN Algolia: https://hn.algolia.com/?q=creator%20tools%20tool
 
-### 4. Productivity Ops
-
-- Status: 缺草稿/排期
-- Refill need: 10
-- Postable today: 0/10
-- First bottleneck: drafts
-- Next action: Fill 10 real candidates for Productivity Ops.
-- Search links:
-  - Product Hunt search: https://www.producthunt.com/search?q=productivity%20and%20operations%20tool
-  - X live search: https://x.com/search?q=%22productivity%20and%20operations%22%20%22tool%22&src=typed_query&f=live
-  - Google recent search: https://www.google.com/search?q=%22productivity%20and%20operations%22%20%22tool%22%20after%3A2026-01-01
-
-### 5. Sales Support AI
+### 4. Sales Support AI
 
 - Status: 缺草稿/排期
 - Refill need: 10
@@ -202,6 +189,18 @@ researchId,priority,name,url,tagline,source,circle,candidateType,sourceUrl,publi
   - Product Hunt search: https://www.producthunt.com/search?q=sales%20and%20customer%20support%20tool
   - X live search: https://x.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22&src=typed_query&f=live
   - Google recent search: https://www.google.com/search?q=%22sales%20and%20customer%20support%22%20%22tool%22%20after%3A2026-01-01
+
+### 5. Affiliate Builder
+
+- Status: 缺草稿/排期
+- Refill need: 10
+- Postable today: 0/10
+- First bottleneck: drafts
+- Next action: Fill 10 real candidates for Affiliate Builder.
+- Search links:
+  - X live search: https://x.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22&src=typed_query&f=live
+  - Google recent search: https://www.google.com/search?q=%22affiliate%22%20%22partner%20program%22%20%22SaaS%22%20after%3A2026-01-01
+  - HN Algolia: https://hn.algolia.com/?q=affiliate%20partner%20program%20SaaS
 
 ## Guardrails
 

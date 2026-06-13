@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Creator OS Staff</title>
+    <link rel="stylesheet" href="/staff/style.css">
+  </head>
+  <body>
+    <header class="shell-header">
+      <div>
+        <p class="eyebrow">AI Creator OS · Manual staff workspace</p>
+        <h1>员工发文工作台</h1>
+        <p class="subtitle" id="statusText">读取中心任务池中...</p>
+      </div>
+      <div class="header-actions">
+        <label class="user-select">
+          <span>员工</span>
+          <select id="userSelect"></select>
+        </label>
+        <button class="button secondary" id="refreshButton" type="button">刷新</button>
+        <a class="button secondary" href="/dashboard/">老板台</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="notice">
+        <strong>手动版规则：</strong>
+        这里只负责复制文案、记录已复制、记录手动已发和跳过任务。不会自动发推，不会切账号，不会接数据库。
+      </section>
+
+      <section class="metrics" id="metrics"></section>
+      <section id="feedbackAlert"></section>
+
+      <section class="layout">
+        <aside class="panel">
+          <h2>账号</h2>
+          <div id="accounts"></div>
+        </aside>
+
+        <section class="panel task-panel">
+          <div class="panel-head">
+            <div>
+              <h2>我的任务</h2>
+              <p id="taskHint">只显示分配给当前员工或其账号的任务。</p>
+            </div>
+            <select id="statusFilter" aria-label="任务状态">
+              <option value="all">全部</option>
+              <option value="ready">可复制</option>
+              <option value="copied">已复制</option>
+              <option value="feedback_due">待补反馈</option>
+              <option value="blocked">不可发</option>
+            </select>
+          </div>
+          <div id="tasks" class="task-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/staff/js/app.js"></script>
+  </body>
+</html>

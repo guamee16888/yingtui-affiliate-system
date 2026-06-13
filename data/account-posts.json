@@ -1,5 +1,24 @@
 {
   "version": 1,
-  "updatedAt": "",
-  "items": []
+  "updatedAt": "2026-06-13T00:11:53.270Z",
+  "items": [
+    {
+      "id": "account_post_53c19e67ea3d",
+      "feedbackId": "feedback_35de3141b39a",
+      "accountId": "ai_tools_lab",
+      "accountName": "AI Tools Lab",
+      "toolId": "tool_techcrunch_com_mistral-is-rumored-to-be-raising-3b-at-20b-valuation_70054787f9",
+      "toolName": "Mistral is rumored to be raising €3B at €20B valuation",
+      "toolUrl": "https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+      "sourceDate": "2026-06-13",
+      "variantType": "shortPost",
+      "copyText": "Worth watching: Mistral is rumored to be raising €3B at €20B valuation. I would not treat it as a tool review. The useful angle is what it says about solo operators. https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/",
+      "postedUrl": "https://x.com/i/web/status/2065587926495641808",
+      "postedAt": "2026-06-13T00:11:53.263Z",
+      "status": "posted",
+      "notes": "Published to X from Dashboard via AI Tools Lab",
+      "createdAt": "2026-06-13T00:11:53.269Z",
+      "updatedAt": "2026-06-13T00:11:53.269Z"
+    }
+  ]
 }

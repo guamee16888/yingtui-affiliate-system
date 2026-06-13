@@ -1,7 +1,7 @@
 {
   "name": "yingtui-affiliate-system",
   "version": "0.1.0",
-  "description": "Multi-account X content ops dashboard for AI affiliate topic validation, tweet draft planning, and manual-confirm publishing workflows.",
+  "description": "AI Creator OS: a multi-account X content operating system for topic discovery, task review, safe publishing workflows, and performance feedback.",
   "private": true,
   "type": "module",
   "keywords": [
@@ -19,6 +19,24 @@
     "history": "node scripts/history.mjs",
     "affiliate-queue": "node scripts/affiliate-queue.mjs",
     "affiliate:research": "node scripts/affiliate-research-summary.mjs",
+    "core:migrate": "node scripts/migrate-core-data.mjs",
+    "tasks:generate": "node scripts/generate-post-tasks.mjs",
+    "tasks:summary": "node scripts/task-summary.mjs",
+    "staff:summary": "node scripts/staff-summary.mjs",
+    "manager:summary": "node scripts/manager-summary.mjs",
+    "ledger:summary": "node scripts/ledger-summary.mjs",
+    "publish:prepare": "node scripts/publish-prepare.mjs",
+    "publish:dry-run": "node scripts/publish-dry-run.mjs",
+    "publish:run": "node scripts/publish-run.mjs",
+    "publish:summary": "node scripts/publish-summary.mjs",
+    "x:connections": "node scripts/x-connections.mjs",
+    "workspace:migrate": "node scripts/workspace-migrate.mjs",
+    "workspace:summary": "node scripts/workspace-summary.mjs",
+    "lanes:seed": "node scripts/seed-content-lanes.mjs",
+    "lanes:summary": "node scripts/source-lanes-summary.mjs",
+    "candidates:ingest": "node scripts/ingest-manual-candidates.mjs",
+    "candidates:summary": "node scripts/candidates-summary.mjs",
+    "candidates:convert": "node scripts/convert-raw-candidates.mjs",
     "sources": "node scripts/source-candidates.mjs",
     "source-discovery": "node scripts/source-discovery.mjs",
     "source-health": "node scripts/source-health.mjs",
@@ -56,7 +74,8 @@
     "test": "node --test"
   },
   "dependencies": {
-    "fast-xml-parser": "^5.2.5"
+    "fast-xml-parser": "^5.2.5",
+    "twitter-text": "^3.1.0"
   },
   "engines": {
     "node": ">=20"

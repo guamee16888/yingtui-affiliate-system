@@ -129,7 +129,7 @@ async function loadManager() {
       state.managerUserId = state.data.selectedManager?.userId || "";
       updateUrl();
       render();
-      toast("已进入只读 Demo 模式");
+      toast("已进入演示模式");
     } catch {
       $("#statusText").textContent = `读取失败：${error.message}`;
       toast(error.message);
@@ -138,7 +138,7 @@ async function loadManager() {
 }
 
 async function updateTask(taskId, action, extra = {}) {
-  if (state.demoMode) throw new Error("公开 Demo 只读，不会写入任务。");
+  if (state.demoMode) throw new Error("公开 Demo 是演示模式，不会写入任务。");
   const json = await apiPost("/api/manager/task", {
     taskId,
     action,

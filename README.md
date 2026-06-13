@@ -26,7 +26,7 @@ An operating system for managing multi-account X content workflows. Built for AI
 
 ```text
 guamee.org
-= 公开官网 + sanitized 只读管理端 Demo
+= 公开官网 + sanitized 演示模式管理端 Demo
 
 admin.guamee.org
 = Cloudflare Access 保护的老板总后台 Demo，只给我自己或平台 admin 看
@@ -39,7 +39,7 @@ app.guamee.org
 
 - `guamee.org` 不展示老板总后台，不展示员工端入口，不打包真实 `data/`、`output/` 或 `.env`。
 - `/dashboard` 是本地老板策略台，未来只应该放在 `admin.guamee.org` 这种私有入口后面。
-- 公开 Demo 只展示 `/manager/?workspaceId=workspace_default`，而且是只读示例数据。
+- 公开 Demo 只展示 `/manager/?workspaceId=workspace_default`，而且只使用演示模式示例数据。
 - 真实客户/团队以后进 `app.guamee.org`。第一版可以把管理端和执行人员操作合在同一个 workspace 管理端里，不必公开拆成 manager/staff 两个入口。
 - `app.guamee.org` 当前只应该部署 `app-placeholder/` 占位页，并放在 Cloudflare Access 后面。
 - 每个 workspace 默认控制 30 个以内 X 账号。员工或执行人员处理这 30 个账号内的任务，但不拥有平台总后台。
@@ -1027,7 +1027,7 @@ Your posted copy...	https://x.com/your/status/123	1200	18	6	3	1	9	4
 
 ## Public Demo Deployment
 
-`guamee.org` 现在只适合做公开官网和 sanitized 只读 Demo。公开构建由 `npm run build:public` 生成，根页面是产品介绍，只链接到只读管理端 Demo。
+`guamee.org` 现在只适合做公开官网和 sanitized 演示模式 Demo。公开构建由 `npm run build:public` 生成，根页面是产品介绍，只链接到管理端 Demo。
 
 兼容别名：
 
@@ -1043,7 +1043,7 @@ release:check = release:check:public
 - `dist/` 不包含真实 `data/` 和 `output/` 文件夹。
 - `dist/` 不包含 `.env`。
 - `dist/` 只包含 `public/`、`manager/` 和 `data/demo-manager-summary.json`。
-- 管理端 Demo 在没有 API 时读取 `demo-manager-summary.json`，只展示示例 workspace，不写入任务。
+- 管理端 Demo 在没有 API 时读取 `demo-manager-summary.json`，展示示例 workspace，不写入任务。
 - 不能刷新 Product Hunt。
 - 不能写入 feedback / queue / affiliate research。
 - 不能发布到 X，也不要在公开部署环境配置 X token。
@@ -1051,7 +1051,7 @@ release:check = release:check:public
 私有后台边界：
 
 - `admin.guamee.org`：Cloudflare Access 保护的私有老板总后台 Demo，未来继续作为 owner/admin 入口。
-- `app.guamee.org`：未来真实 workspace 应用，需要登录、权限、workspace 隔离和数据库。
+- `app.guamee.org`：Cloudflare Access 保护的占位客户后台，未来需要登录、权限、workspace 隔离和数据库。
 
 本地仍然是唯一真实运营工作台：
 
@@ -1162,7 +1162,9 @@ Cloudflare Access 验证：
 npm run verify:app-access
 ```
 
-如果 `app.guamee.org` 还没创建 Pages 项目或绑定域名，验证可能返回 warning，这是预期结果。需要先在 Cloudflare Pages 添加 custom domain，再在 Zero Trust Access 创建 Self-hosted application，Public hostname 填 `app.guamee.org`，Policy 只允许你的邮箱或 owner/admin group。
+当前 Cloudflare Pages 项目为 `ai-creator-os-app`，Custom domain 为 `app.guamee.org`。`app.guamee.org` 和 `ai-creator-os-app.pages.dev` 都应该有 Zero Trust Access 的 Self-hosted application，Policy 使用 `owner only` 或只允许你的邮箱 / owner-admin group。
+
+如果 `app.guamee.org` 还没创建 Pages 项目或绑定域名，验证可能返回 warning，这是预期结果。需要先在 Cloudflare Pages 添加 custom domain，再在 Zero Trust Access 创建 Self-hosted application。
 
 占位页不会包含 `/dashboard`、`/manager`、`/staff`、真实 `data/`、`output/`、`.env`、token、postedUrl、affiliate link 或 X posting controls。
 

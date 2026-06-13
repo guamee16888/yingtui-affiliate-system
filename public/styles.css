@@ -23,6 +23,7 @@ html {
 body {
   margin: 0;
   min-width: 0;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 80% 8%, rgba(36, 79, 143, 0.13), transparent 30%),
     linear-gradient(180deg, #fbfcfa 0%, var(--bg) 64%, #edf2ee 100%);
@@ -199,7 +200,7 @@ h2 {
 
 .demo-panel,
 .primary-card,
-.boundary-card,
+.support-card,
 .flow-section {
   border: 1px solid rgba(219, 227, 220, 0.92);
   border-radius: 22px;
@@ -247,21 +248,20 @@ h2 {
   text-align: right;
 }
 
-.boundary-grid {
+.manager-showcase {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.8fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
   gap: 16px;
   margin-top: 28px;
 }
 
 .primary-card {
-  grid-row: span 2;
   min-width: 0;
   padding: clamp(24px, 4vw, 34px);
 }
 
 .primary-card p,
-.boundary-card p,
+.support-card p,
 .flow-section p {
   color: var(--muted);
 }
@@ -272,29 +272,20 @@ h2 {
   color: var(--ink);
 }
 
-.boundary-card {
+.support-card {
   min-width: 0;
   padding: 22px;
-}
-
-.boundary-card.private {
   background: #17201b;
   color: #f7faf7;
   border-color: #17201b;
 }
 
-.boundary-card.private p {
+.support-card p {
   color: #cbd8d0;
 }
 
-.boundary-card.private .card-kicker {
+.support-card .card-kicker {
   color: #94d6b9;
-}
-
-.boundary-card.private code {
-  border-color: rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.08);
-  color: #dff5eb;
 }
 
 .flow-section {
@@ -318,6 +309,17 @@ h2 {
   font-weight: 680;
 }
 
+.domain-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.domain-note p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 880px) {
   .site-header {
     align-items: flex-start;
@@ -329,7 +331,7 @@ h2 {
   }
 
   .hero,
-  .boundary-grid {
+  .manager-showcase {
     grid-template-columns: 1fr;
   }
 
@@ -390,14 +392,14 @@ h2 {
   }
 
   .brand-mark,
-  .boundary-card.private {
+  .support-card {
     background: #eef5ef;
     color: #101612;
   }
 
   .demo-panel,
   .primary-card,
-  .boundary-card,
+  .support-card,
   .flow-section,
   .button.secondary {
     background: rgba(21, 29, 24, 0.82);
@@ -407,11 +409,11 @@ h2 {
     color: #102016;
   }
 
-  .boundary-card.private p {
+  .support-card p {
     color: #48564d;
   }
 
-  .boundary-card.private .card-kicker {
+  .support-card .card-kicker {
     color: #17664a;
   }
 }

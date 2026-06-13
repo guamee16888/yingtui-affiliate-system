@@ -1,6 +1,6 @@
 # App Placeholder Deployment
 
-`app.guamee.org` is the future real customer workspace app. At this stage it should deploy only a protected placeholder page.
+`app.guamee.org` is the future real customer workspace app. It currently deploys only a protected placeholder page.
 
 ## Cloudflare Pages project
 
@@ -19,6 +19,9 @@ dist
 
 Custom domain:
 app.guamee.org
+
+Default Pages domain:
+ai-creator-os-app.pages.dev
 ```
 
 Add the custom domain from the Cloudflare Pages project's Custom domains screen. Do not rely only on a manually created DNS record.
@@ -34,9 +37,14 @@ Self-hosted
 Public hostname:
 app.guamee.org
 
+Second Access application:
+ai-creator-os-app.pages.dev
+
 Policy:
-Allow only your email or a small owner/admin group
+owner only, or allow only your email / a small owner-admin group
 ```
+
+Protect the default `*.pages.dev` hostname too, so the placeholder cannot be reached by bypassing the custom domain.
 
 After Access is configured, run:
 

@@ -15,7 +15,7 @@
         <span>AI Creator OS</span>
       </a>
       <nav class="nav-links" aria-label="Public navigation">
-        <a href="/manager/?workspaceId=workspace_default">Demo</a>
+        <a href="/manager/?workspaceId=workspace_default">管理端 Demo</a>
         <a href="https://github.com/guamee16888/yingtui-affiliate-system" target="_blank" rel="noreferrer">GitHub</a>
         <a href="https://t.me/valuator8" target="_blank" rel="noreferrer">Telegram</a>
       </nav>
@@ -24,10 +24,10 @@
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <p class="label">Public safe demo</p>
-          <h1>AI Creator OS for multi-account X content ops</h1>
+          <p class="label">Workspace content operations</p>
+          <h1>多账号内容团队的管理端</h1>
           <p class="lede">
-            从候选收集、内容线、任务审核到反馈复盘，把多账号发文变成一条可控的运营流水线。
+            把选题、审核、账号分配和反馈复盘放到一个 workspace 里，让团队按流程发内容。
           </p>
           <div class="hero-actions">
             <a class="button primary" href="/manager/?workspaceId=workspace_default">打开管理端 Demo</a>
@@ -38,51 +38,41 @@
         <aside class="demo-panel" aria-label="Demo scope">
           <div class="panel-topline">
             <span>guamee.org</span>
-            <strong>只读公开 Demo</strong>
+            <strong>管理端演示</strong>
           </div>
           <div class="scope-list">
             <div>
-              <span>公开展示</span>
-              <strong>管理端 Demo</strong>
+              <span>适合角色</span>
+              <strong>客户 / 团队负责人</strong>
             </div>
             <div>
               <span>账号规模</span>
               <strong>30 个以内</strong>
             </div>
             <div>
-              <span>真实写入</span>
-              <strong>关闭</strong>
+              <span>演示边界</span>
+              <strong>不连接真实账号</strong>
             </div>
           </div>
         </aside>
       </section>
 
-      <section class="boundary-grid" aria-label="Product boundary">
+      <section class="manager-showcase" aria-label="Manager demo">
         <article class="primary-card">
-          <span class="card-kicker">Public entry</span>
-          <h2>管理端 Demo</h2>
+          <span class="card-kicker">What the client sees</span>
+          <h2>只开放 workspace 管理端</h2>
           <p>
-            给外部访客看的只有 workspace 管理端：账号、任务审核、分配和反馈状态。它展示产品能力，但不连接真实 X 账号，也不写入生产数据。
+            公开页面只展示客户会用到的管理端：账号、任务审核、分配、发布队列和反馈状态。它展示产品能力，但不连接真实 X 账号。
           </p>
           <a class="inline-link" href="/manager/?workspaceId=workspace_default">进入 Demo</a>
         </article>
 
-        <article class="boundary-card private">
-          <span class="card-kicker">Owner only</span>
-          <h2>admin.guamee.org</h2>
+        <article class="support-card">
+          <span class="card-kicker">Selling point</span>
+          <h2>给团队用，不给团队看总后台</h2>
           <p>
-            平台总后台只给你自己看。这里才放全局数据源、所有 workspace、内容线策略、发布队列和系统配置。
+            客户或员工只处理自己的 workspace。你的平台总后台、全局数据源和系统配置不出现在公开站。
           </p>
-          <code>private admin console</code>
-        </article>
-
-        <article class="boundary-card">
-          <span class="card-kicker">Future app</span>
-          <h2>app.guamee.org</h2>
-          <p>
-            真实客户应用以后放这里。管理端和执行人员共用同一个 workspace 任务池，默认控制 30 个以内账号。
-          </p>
-          <code>auth required</code>
         </article>
       </section>
 
@@ -95,6 +85,12 @@
           <span>手动确认发布</span>
           <span>反馈复盘</span>
         </div>
+      </section>
+
+      <section class="domain-note" aria-label="Deployment boundary">
+        <p>
+          公开站只放管理端演示。真实客户应用未来在 app.guamee.org。
+        </p>
       </section>
     </main>
   </body>

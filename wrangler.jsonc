@@ -2,28 +2,35 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "ai-creator-os-app-local",
   "compatibility_date": "2026-06-13",
+  "pages_build_output_dir": "dist",
+  "vars": {
+    "APP_ENV": "staging",
+    "APP_STORAGE_MODE": "d1",
+    "CF_ACCESS_TEAM_DOMAIN": "guamee.cloudflareaccess.com",
+    "CF_ACCESS_AUD": "9169bf5e619694c81923ed7bec128d2a23d2d3172ae3252e99b913ed0da8dd39"
+  },
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "ai_creator_os_local",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_name": "ai_creator_os_app_staging",
+      "database_id": "46e68b2c-7a1e-4f6c-b2aa-2bc2ce2c8ffd",
       "migrations_dir": "db/migrations"
     }
   ],
   "env": {
-    "staging": {
+    "production": {
       "name": "ai-creator-os-app-staging",
       "vars": {
         "APP_ENV": "staging",
         "APP_STORAGE_MODE": "d1",
-        "CF_ACCESS_TEAM_DOMAIN": "",
-        "CF_ACCESS_AUD": ""
+        "CF_ACCESS_TEAM_DOMAIN": "guamee.cloudflareaccess.com",
+        "CF_ACCESS_AUD": "9169bf5e619694c81923ed7bec128d2a23d2d3172ae3252e99b913ed0da8dd39"
       },
       "d1_databases": [
         {
           "binding": "DB",
           "database_name": "ai_creator_os_app_staging",
-          "database_id": "<fill-after-create>",
+          "database_id": "46e68b2c-7a1e-4f6c-b2aa-2bc2ce2c8ffd",
           "migrations_dir": "db/migrations"
         }
       ]

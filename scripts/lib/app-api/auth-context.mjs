@@ -1,5 +1,3 @@
-import { CORE_COLLECTIONS, loadCollection } from "../core-data.mjs";
-import { SOURCE_LANE_FILES } from "../source-lanes.mjs";
 import { getCloudflareAccessPayload, isStrictAppEnv } from "./cloudflare-access-auth.mjs";
 import { AppApiError } from "./response.mjs";
 
@@ -56,18 +54,7 @@ export async function loadAuthCollections(storage) {
   if (storage && typeof storage.loadAuthCollections === "function") {
     return storage.loadAuthCollections();
   }
-  const [users, workspaces, assignments, xAccounts] = await Promise.all([
-    loadCollection(CORE_COLLECTIONS.users),
-    loadCollection(SOURCE_LANE_FILES.workspaces),
-    loadCollection(CORE_COLLECTIONS.assignments),
-    loadCollection(CORE_COLLECTIONS.xAccounts)
-  ]);
-  return {
-    users: users.items.filter((user) => user.active !== false && user.status !== "disabled"),
-    workspaces: workspaces.items.filter((workspace) => workspace.active !== false && workspace.status !== "archived"),
-    assignments: assignments.items.filter((assignment) => assignment.active !== false),
-    xAccounts: xAccounts.items
-  };
+  throw new AppApiError("APP_AUTH_STORAGE_MISSING", "App API auth storage is not configured.", 500);
 }
 
 export function resolveUser(email, users = []) {

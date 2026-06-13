@@ -429,10 +429,10 @@ async function checkAppCloudflareStaging() {
   }
   try {
     const wrangler = JSON.parse(wranglerText);
-    const stagingDb = wrangler.env?.staging?.d1_databases?.[0] || {};
+    const stagingDb = wrangler.env?.production?.d1_databases?.[0] || {};
     if (stagingDb.binding === "DB" && stagingDb.database_name === "ai_creator_os_app_staging") passed.push("wrangler staging DB binding exists");
     else errors.push("wrangler staging DB binding is missing");
-    if (wrangler.env?.staging?.vars?.APP_STORAGE_MODE === "d1") passed.push("wrangler staging APP_STORAGE_MODE=d1");
+    if (wrangler.env?.production?.vars?.APP_STORAGE_MODE === "d1") passed.push("wrangler staging APP_STORAGE_MODE=d1");
     else errors.push("wrangler staging APP_STORAGE_MODE must be d1");
   } catch {
     errors.push("wrangler.jsonc is not valid JSON");

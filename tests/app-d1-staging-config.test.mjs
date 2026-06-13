@@ -4,13 +4,13 @@ import test from "node:test";
 
 test("wrangler staging config has app DB binding placeholder", async () => {
   const config = JSON.parse(await readFile("wrangler.jsonc", "utf8"));
-  const staging = config.env?.staging;
+  const staging = config.env?.production;
   assert.equal(staging?.name, "ai-creator-os-app-staging");
   assert.equal(staging?.vars?.APP_ENV, "staging");
   assert.equal(staging?.vars?.APP_STORAGE_MODE, "d1");
   assert.equal(staging?.d1_databases?.[0]?.binding, "DB");
   assert.equal(staging?.d1_databases?.[0]?.database_name, "ai_creator_os_app_staging");
-  assert.equal(staging?.d1_databases?.[0]?.database_id, "<fill-after-create>");
+  assert.match(staging?.d1_databases?.[0]?.database_id || "", /^[0-9a-f-]{36}$/);
 });
 
 test("package exposes staging D1 and verify commands", async () => {

@@ -1,5 +1,3 @@
-import { createStableId } from "./ids.mjs";
-import { buildManagerSummary } from "./manager-system.mjs";
 import { createStorageAdapter } from "./storage-adapter.mjs";
 
 const TASK_PATCH_COLUMNS = {
@@ -80,7 +78,7 @@ export function createD1StorageAdapter(db) {
   }
 
   async function loadAuthCollections() {
-    const data = await loadD1Collections();
+    const data = await loadD1Collections(db);
     return {
       users: data.users,
       workspaces: data.workspaces,
@@ -90,8 +88,8 @@ export function createD1StorageAdapter(db) {
   }
 
   async function loadManagerSummary({ workspaceId = "", managerUserId = "" } = {}) {
-    const data = await loadD1Collections();
-    return buildManagerSummary({
+    const data = await loadD1Collections(db);
+    return buildD1ManagerSummary({
       workspaceId,
       managerUserId,
       workspaces: data.workspaces,
@@ -389,7 +387,7 @@ function auditFromRow(row) {
   };
 }
 
-async function loadD1Collections() {
+async function loadD1Collections(db) {
   const [workspaceRows, memberRows, userRows, assignmentRows, accountRows, taskRows, ledgerRows, publishJobRows, feedbackRows] = await Promise.all([
     all(db, "SELECT * FROM workspaces WHERE status != 'archived' ORDER BY workspace_id"),
     all(db, "SELECT * FROM workspace_members WHERE status != 'disabled' ORDER BY workspace_id, user_id"),
@@ -504,6 +502,163 @@ function publishJobFromRow(row) {
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };
+}
+
+function buildD1ManagerSummary({
+  managerUserId = "",
+  workspaceId = "",
+  workspaces = [],
+  users = [],
+  xAccounts = [],
+  assignments = [],
+  tasks = [],
+  ledger = [],
+  publishJobs = [],
+  feedback = []
+}) {
+  const activeWorkspaces = workspaces.filter((workspace) => workspace.active !== false && workspace.status !== "archived");
+  const activeUsers = users.filter((user) => user.active !== false && user.status !== "disabled");
+  const selectedWorkspace = activeWorkspaces.find((workspace) => workspace.workspaceId === workspaceId) || activeWorkspaces[0] || null;
+  const selectedManager = activeUsers.find((user) => user.userId === managerUserId)
+    || activeUsers.find((user) => selectedWorkspace?.managerUserIds?.includes(user.userId))
+    || null;
+  const accessAllowed = Boolean(selectedWorkspace && selectedManager && (
+    selectedWorkspace.managerUserIds.includes(selectedManager.userId)
+    || selectedManager.role === "admin"
+  ));
+  const accounts = selectedWorkspace && accessAllowed
+    ? xAccounts.filter((account) => account.workspaceId === selectedWorkspace.workspaceId && account.status !== "paused")
+    : [];
+  const staffIds = new Set(selectedWorkspace?.staffUserIds || []);
+  for (const assignment of assignments) {
+    if (assignment.workspaceId === selectedWorkspace?.workspaceId && assignment.active !== false) staffIds.add(assignment.userId);
+  }
+  const staff = activeUsers.filter((user) => staffIds.has(user.userId));
+  const accountNames = new Map(accounts.map((account) => [account.accountId, account.persona || account.handle || account.accountId]));
+  const staffNames = new Map(staff.map((user) => [user.userId, user.name || user.userId]));
+  const visibleTasks = selectedWorkspace && accessAllowed
+    ? tasks
+      .filter((task) => task.workspaceId === selectedWorkspace.workspaceId)
+      .map((task) => d1ManagerTaskView(task, { accountNames, staffNames }))
+      .sort((a, b) => String(a.toolName).localeCompare(String(b.toolName)))
+    : [];
+  const workspacePublishJobs = publishJobs.filter((job) => job.workspaceId === selectedWorkspace?.workspaceId);
+  const workspaceFeedback = feedback.filter((entry) => entry.workspaceId === selectedWorkspace?.workspaceId);
+  return {
+    version: 1,
+    generatedAt: new Date().toISOString(),
+    selectedWorkspace: selectedWorkspace ? workspaceViewForSummary(selectedWorkspace) : null,
+    selectedManager: selectedManager ? userViewForSummary(selectedManager) : null,
+    accessAllowed,
+    accessError: accessAllowed ? "" : "Selected manager is not allowed to review this workspace.",
+    workspaces: activeWorkspaces.filter((workspace) => selectedManager?.role === "admin" || workspace.managerUserIds.includes(selectedManager?.userId)).map(workspaceViewForSummary),
+    managers: activeUsers.filter((user) => selectedWorkspace?.managerUserIds.includes(user.userId)).map(userViewForSummary),
+    staff: staff.map(userViewForSummary),
+    accounts: accounts.map(accountViewForSummary),
+    summary: {
+      totalTasks: visibleTasks.length,
+      pendingReview: visibleTasks.filter((task) => task.approvalStatus === "pending" || task.status === "pending_review").length,
+      approved: visibleTasks.filter((task) => task.approvalStatus === "approved").length,
+      rejected: visibleTasks.filter((task) => task.approvalStatus === "rejected").length,
+      assigned: visibleTasks.filter((task) => task.accountId && task.assignedTo).length,
+      unassigned: visibleTasks.filter((task) => !task.accountId || !task.assignedTo).length,
+      blocked: visibleTasks.filter((task) => task.blockReasons.length).length,
+      copiedOrFeedback: visibleTasks.filter((task) => ["copied", "feedback_due"].includes(task.status)).length,
+      publishJobs: workspacePublishJobs.length,
+      feedback: workspaceFeedback.length,
+      ledger: ledger.filter((item) => item.workspaceId === selectedWorkspace?.workspaceId).length
+    },
+    publishJobs: workspacePublishJobs.slice(0, 50),
+    tasks: visibleTasks
+  };
+}
+
+function d1ManagerTaskView(task, { accountNames, staffNames }) {
+  const weightedCharCount = Number(task.weightedCharCount || stringLength(task.copyText || ""));
+  const fitsXPost = weightedCharCount <= 280;
+  const riskFlags = task.riskFlags || [];
+  const duplicateCheckResult = task.duplicateCheckResult || {};
+  const riskLevel = duplicateCheckResult.riskLevel || (riskFlags.length ? "medium" : "low");
+  const locked = ["copied", "feedback_due", "posted", "skipped"].includes(task.status);
+  const blockReasons = [
+    ...(fitsXPost ? [] : [`Over 280 weighted characters (${weightedCharCount}).`]),
+    ...(!task.accountId ? ["Account is not assigned."] : []),
+    ...(!task.assignedTo ? ["Staff is not assigned."] : [])
+  ];
+  const lengthStatus = !fitsXPost ? "over_limit" : weightedCharCount >= 260 ? "watch" : "ok";
+  return {
+    ...task,
+    accountName: accountNames.get(task.accountId) || task.accountId || "Unassigned account",
+    assignedToName: staffNames.get(task.assignedTo) || task.assignedTo || "Unassigned staff",
+    tweetText: task.copyText || "",
+    weightedCharCount,
+    fitsTweetLimit: fitsXPost,
+    publishMode: task.publishMode || "manual",
+    duplicateCheckResult,
+    riskLevel,
+    riskFlags,
+    duplicateFlags: duplicateCheckResult.flags || [],
+    tweetLength: {
+      weightedCharCount,
+      fitsXPost,
+      status: lengthStatus,
+      safeLimit: 260,
+      hardLimit: 280
+    },
+    canAssign: !locked,
+    canReject: !locked,
+    canApprove: !locked && !blockReasons.length,
+    blockReasons,
+    approvalReasons: blockReasons.length ? [] : [
+      "Copy fits the X weighted 280 character limit.",
+      "No blocking duplicate risk is currently detected.",
+      "Account and staff are assigned inside this workspace."
+    ]
+  };
+}
+
+function workspaceViewForSummary(workspace) {
+  return {
+    workspaceId: workspace.workspaceId,
+    name: workspace.name || workspace.workspaceId,
+    plan: workspace.plan || "",
+    accountLimit: Number(workspace.accountLimit || 30),
+    enabledLaneIds: workspace.enabledLaneIds || []
+  };
+}
+
+function userViewForSummary(user) {
+  return {
+    userId: user.userId,
+    name: user.name || user.userId,
+    role: user.role || "staff"
+  };
+}
+
+function accountViewForSummary(account) {
+  return {
+    accountId: account.accountId,
+    handle: account.handle || "",
+    persona: account.persona || account.accountId,
+    niche: account.niche || "",
+    status: account.status || "active",
+    dailyPostLimit: Number(account.dailyPostLimit || 0),
+    externalLinkLimit: Number(account.externalLinkLimit || 0)
+  };
+}
+
+function createStableId(prefix, parts) {
+  let hash = 2166136261;
+  const raw = parts.map((part) => String(part ?? "")).join("::");
+  for (let index = 0; index < raw.length; index += 1) {
+    hash ^= raw.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `${prefix}_${(hash >>> 0).toString(16).padStart(8, "0")}`;
+}
+
+function stringLength(value) {
+  return [...String(value || "")].length;
 }
 
 function parseJson(value, fallback) {

@@ -59,6 +59,7 @@ import { PUBLISH_FILES, loadPublishCollection, loadPublishSettings } from "./lib
 import { ingestManualCandidates, loadCandidateSummary, loadLaneSummary, loadSourceLaneData, seedSourceLanes } from "./lib/source-lanes.mjs";
 import { loadWorkspaceSummary } from "./lib/workspace-system.mjs";
 import { getAppStorageMode } from "./lib/app-storage-mode.mjs";
+import { getAppStorage } from "./lib/app-storage.mjs";
 import { handleAppApiGet, handleAppApiPost } from "./lib/app-api/session.mjs";
 import { appFailure } from "./lib/app-api/response.mjs";
 
@@ -126,14 +127,15 @@ async function parseBody(request) {
 async function handleApi(request, response, url) {
   try {
     if (url.pathname.startsWith("/api/app/v1/")) {
+      const appOptions = { storage: getAppStorage(), loadManagerSummary };
       if (request.method === "GET") {
-        const result = await handleAppApiGet({ request, url });
+        const result = await handleAppApiGet({ request, url, options: appOptions });
         sendJson(response, result.status, result.payload);
         return;
       }
       if (request.method === "POST") {
         const body = await parseBody(request);
-        const result = await handleAppApiPost({ request, url, body });
+        const result = await handleAppApiPost({ request, url, body, options: appOptions });
         sendJson(response, result.status, result.payload);
         return;
       }

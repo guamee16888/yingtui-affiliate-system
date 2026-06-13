@@ -111,6 +111,21 @@ async function writeAuditLog(event = {}) {
   return item;
 }
 
+async function loadAuthCollections() {
+  const [users, workspaces, assignments, xAccounts] = await Promise.all([
+    loadCollection(CORE_COLLECTIONS.users),
+    loadCollection(SOURCE_LANE_FILES.workspaces),
+    loadCollection(CORE_COLLECTIONS.assignments),
+    loadCollection(CORE_COLLECTIONS.xAccounts)
+  ]);
+  return {
+    users: users.items.filter((user) => user.active !== false && user.status !== "disabled"),
+    workspaces: workspaces.items.filter((workspace) => workspace.active !== false && workspace.status !== "archived"),
+    assignments: assignments.items.filter((assignment) => assignment.active !== false),
+    xAccounts: xAccounts.items
+  };
+}
+
 function taskWorkspaceId(task) {
   return task.workspaceId || "workspace_default";
 }
@@ -122,7 +137,8 @@ export const jsonStorageAdapter = createStorageAdapter({
   updateTaskStatus,
   appendLedgerEntry,
   upsertFeedback,
-  writeAuditLog
+  writeAuditLog,
+  loadAuthCollections
 });
 
 export default jsonStorageAdapter;

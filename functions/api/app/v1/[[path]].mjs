@@ -1,6 +1,6 @@
-import { getAppStorage } from "../../../../scripts/lib/app-storage.mjs";
 import { AppApiError, appFailure } from "../../../../scripts/lib/app-api/response.mjs";
 import { handleAppApiGet, handleAppApiPost } from "../../../../scripts/lib/app-api/session.mjs";
+import { createD1StorageAdapter } from "../../../../scripts/lib/d1-storage-adapter.mjs";
 
 export async function onRequest(context) {
   return handlePagesAppRequest(context);
@@ -15,7 +15,7 @@ export async function handlePagesAppRequest(context, overrides = {}) {
     if (!overrides.storage && !context.env?.DB) {
       throw new AppApiError("D1_BINDING_MISSING", "D1 binding DB is not configured.", 500);
     }
-    const storage = overrides.storage || getAppStorage({ env, d1Binding: context.env.DB });
+    const storage = overrides.storage || createD1StorageAdapter(context.env.DB);
     const options = {
       env,
       storage,

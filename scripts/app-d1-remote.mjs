@@ -14,8 +14,8 @@ if (!process.argv.includes("--yes")) {
 }
 
 const command = action === "migrate"
-  ? ["wrangler", "d1", "migrations", "apply", "ai_creator_os_app_staging", "--remote", "--env", "staging", "--config", "wrangler.jsonc"]
-  : ["wrangler", "d1", "execute", "ai_creator_os_app_staging", "--remote", "--env", "staging", "--config", "wrangler.jsonc", "--file", "db/seed/app-staging-demo.sql"];
+  ? ["wrangler", "d1", "migrations", "apply", "ai_creator_os_app_staging", "--remote", "--env", "production", "--config", "wrangler.jsonc"]
+  : ["wrangler", "d1", "execute", "ai_creator_os_app_staging", "--remote", "--env", "production", "--config", "wrangler.jsonc", "--file", "db/seed/app-staging-demo.sql"];
 
 runWrangler(command);
 

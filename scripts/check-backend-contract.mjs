@@ -202,7 +202,7 @@ const appStorage = await read("scripts/lib/app-storage.mjs");
 mustInclude(appStorage, "APP_STORAGE_MODE=d1 requires a D1 binding", "app-storage.mjs");
 
 const appApiSession = await read("scripts/lib/app-api/session.mjs");
-for (const word of ["/api/app/v1/session", "/api/app/v1/workspace", "getAppStorage"]) {
+for (const word of ["/api/app/v1/session", "/api/app/v1/workspace", "resolveStorage"]) {
   mustInclude(appApiSession, word, "app-api/session.mjs");
 }
 
@@ -234,13 +234,13 @@ if (/x\.com\/[^'"\s]+\/status\/\d+|twitter\.com\/[^'"\s]+\/status\/\d+|postedUrl
 
 try {
   const wrangler = JSON.parse(await read("wrangler.jsonc"));
-  const stagingDb = wrangler.env?.staging?.d1_databases?.[0] || {};
+  const stagingDb = wrangler.env?.production?.d1_databases?.[0] || {};
   if (stagingDb.binding === "DB" && stagingDb.database_name === "ai_creator_os_app_staging") {
     passed.push("wrangler staging has DB binding");
   } else {
     errors.push("wrangler staging missing DB binding");
   }
-  if (wrangler.env?.staging?.vars?.APP_STORAGE_MODE === "d1") passed.push("wrangler staging APP_STORAGE_MODE=d1");
+  if (wrangler.env?.production?.vars?.APP_STORAGE_MODE === "d1") passed.push("wrangler staging APP_STORAGE_MODE=d1");
   else errors.push("wrangler staging APP_STORAGE_MODE must be d1");
 } catch {
   errors.push("wrangler.jsonc is not valid JSON");

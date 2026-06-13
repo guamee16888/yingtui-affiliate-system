@@ -1,12 +1,10 @@
-import { loadManagerSummary } from "../manager-system.mjs";
 import { calculateEngagement } from "../scoring.mjs";
-import { createStableId } from "../ids.mjs";
 import { AppApiError, requireValue } from "./response.mjs";
 import { appendNote, assertManagerRole, assertWorkspaceAccess, isFeedbackDebtTask, missingMetrics, taskWorkspaceId } from "./workspace-scope.mjs";
 
 const METRIC_KEYS = ["impressions", "likes", "bookmarks", "replies", "reposts", "clicks", "profileVisits"];
 
-export async function handleManagerGet({ pathname, url, context, storage, loadManagerSummaryFn = loadManagerSummary }) {
+export async function handleManagerGet({ pathname, url, context, storage, loadManagerSummaryFn }) {
   assertManagerRole(context);
   const workspaceId = assertWorkspaceAccess(context, context.workspaceId);
 
@@ -42,6 +40,9 @@ export async function handleManagerPost({ pathname, body, context, storage }) {
 }
 
 async function appManagerSummary(context, loadManagerSummaryFn) {
+  if (typeof loadManagerSummaryFn !== "function") {
+    throw new AppApiError("APP_MANAGER_SUMMARY_MISSING", "Manager summary storage is not configured.", 500);
+  }
   return loadManagerSummaryFn({
     workspaceId: context.workspaceId,
     managerUserId: context.userId
@@ -216,6 +217,16 @@ function auditEvent(context, action, entityType, entityId, metadata = {}) {
     metadata,
     createdAt: new Date().toISOString()
   };
+}
+
+function createStableId(prefix, parts) {
+  let hash = 2166136261;
+  const raw = parts.map((part) => String(part ?? "")).join("::");
+  for (let index = 0; index < raw.length; index += 1) {
+    hash ^= raw.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `${prefix}_${(hash >>> 0).toString(16).padStart(8, "0")}`;
 }
 
 function clampLimit(value) {

@@ -10,6 +10,8 @@ const state = {
   data: null,
   demoMode: false,
   appError: "",
+  appErrorCode: "",
+  appErrorDetails: {},
   selectedTaskIds: new Set()
 };
 
@@ -64,6 +66,19 @@ document.addEventListener("click", async (event) => {
 
   const button = event.target.closest("[data-action]");
   const feedbackButton = event.target.closest("[data-feedback-save]");
+  const discordButton = event.target.closest("[data-discord-verify]");
+  if (discordButton) {
+    try {
+      const query = appQuery();
+      const suffix = query.toString() ? `?${query}` : "";
+      const data = await apiGet(`/api/app/v1/auth/discord/start${suffix}`);
+      location.href = data.authorizationUrl;
+    } catch (error) {
+      toast(error.message);
+    }
+    return;
+  }
+
   if (feedbackButton) {
     try {
       await saveFeedback(feedbackButton.dataset.taskId);
@@ -172,6 +187,8 @@ async function loadAppManager() {
     state.data = summary;
     state.demoMode = false;
     state.appError = "";
+    state.appErrorCode = "";
+    state.appErrorDetails = {};
     state.workspaceId = session.workspaceId || workspace.workspaceId || "";
     state.managerUserId = session.userId || "";
     updateUrl();
@@ -179,6 +196,8 @@ async function loadAppManager() {
   } catch (error) {
     state.data = null;
     state.appError = error.message || "请先登录 app.guamee.org";
+    state.appErrorCode = error.code || "";
+    state.appErrorDetails = error.details || {};
     renderAppError();
   }
 }
@@ -245,11 +264,20 @@ function render() {
 
 function renderAppError() {
   $("#statusText").textContent = state.appError || "请先登录 app.guamee.org";
-  $("#modeNotice").innerHTML = `<strong>请先登录 app.guamee.org</strong> 当前页面需要 Cloudflare Access 身份。开发环境可使用 <code>?appMode=1&devEmail=owner@guamee.local</code>。`;
+  const isDiscordRequired = state.appErrorCode === "DISCORD_VERIFICATION_REQUIRED";
+  $("#modeNotice").innerHTML = isDiscordRequired
+    ? `<strong>需要 Discord 验证</strong> 当前 workspace 要求 Discord 群身份验证。完成后会回到管理端。`
+    : `<strong>请先登录 app.guamee.org</strong> 当前页面需要 Cloudflare Access 身份。开发环境可使用 <code>?appMode=1&devEmail=owner@guamee.local</code>。`;
   $("#workspaceSelect").innerHTML = "";
   $("#managerSelect").innerHTML = "";
   $("#metrics").innerHTML = "";
-  $("#workspaceResources").innerHTML = `<div class="empty">${esc(state.appError || "请先登录。")}</div>`;
+  $("#workspaceResources").innerHTML = isDiscordRequired
+    ? `<div class="empty">
+        <strong>${esc(state.appError || "请先完成 Discord 验证。")}</strong>
+        <p>请使用绑定到你 workspace 的 Discord 账号登录。验证通过后，后端会记录 Discord user id、guild 和 role，不保存 Discord token。</p>
+        <button type="button" class="button primary" data-discord-verify>去 Discord 验证</button>
+      </div>`
+    : `<div class="empty">${esc(state.appError || "请先登录。")}</div>`;
   $("#batchBar").innerHTML = "";
   $("#tasks").innerHTML = "";
 }
@@ -582,7 +610,7 @@ async function apiGet(path) {
   const contentType = res.headers.get("content-type") || "";
   if (!contentType.includes("application/json")) throw new Error(`${path} returned a static page`);
   const json = await res.json();
-  if (!json.ok) throw new Error(json.error || `GET ${path} failed`);
+  if (!json.ok) throw apiError(json, `GET ${path} failed`);
   return json.data;
 }
 
@@ -599,8 +627,15 @@ async function apiPost(path, body) {
     body: JSON.stringify(body)
   });
   const json = await res.json();
-  if (!json.ok) throw new Error(json.error || `POST ${path} failed`);
+  if (!json.ok) throw apiError(json, `POST ${path} failed`);
   return json.data;
+}
+
+function apiError(json, fallback) {
+  const error = new Error(json.error || fallback);
+  error.code = json.code || "";
+  error.details = json.details || {};
+  return error;
 }
 
 function updateUrl() {

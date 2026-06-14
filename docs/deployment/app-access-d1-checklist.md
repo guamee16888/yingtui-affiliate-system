@@ -12,6 +12,19 @@ Use this checklist before treating `app.guamee.org` as ready for internal testin
 - [ ] Unauthenticated access does not show the manager app.
 - [ ] `npm run verify:app-staging -- --expect-protected` passes.
 
+## Discord Entitlement
+
+- [ ] Discord OAuth app callback URL is `https://app.guamee.org/api/app/v1/auth/discord/callback`.
+- [ ] `DISCORD_CLIENT_ID` is set.
+- [ ] `DISCORD_CLIENT_SECRET` is set as a Pages secret.
+- [ ] `DISCORD_STATE_SECRET` is set.
+- [ ] Customer workspace has a `subscriptions` row.
+- [ ] Customer workspace has `require_discord_verification=1`.
+- [ ] Required Discord guild ID and role IDs match the paid Discord server.
+- [ ] If role checks use a bot, `DISCORD_BOT_TOKEN` is set as a Pages secret.
+- [ ] A user outside the required Discord role receives `DISCORD_VERIFICATION_REQUIRED` or `DISCORD_ROLE_REQUIRED`.
+- [ ] A verified user creates a `user_identities` row, not a stored Discord access token.
+
 ## D1
 
 - [ ] D1 database `ai_creator_os_app_staging` exists.
@@ -19,6 +32,7 @@ Use this checklist before treating `app.guamee.org` as ready for internal testin
 - [ ] `APP_STORAGE_MODE=d1`.
 - [ ] `APP_ENV=staging`.
 - [ ] `db/migrations/0001_initial.sql` has been applied.
+- [ ] `db/migrations/0002_app_entitlements.sql` has been applied.
 - [ ] `db/seed/app-staging-demo.sql` has been imported.
 - [ ] Seed contains no token, secret, real X handle, posted URL, affiliate link, or real output markdown.
 
@@ -39,6 +53,5 @@ Use this checklist before treating `app.guamee.org` as ready for internal testin
 - [ ] `app.guamee.org` does not include `/dashboard`.
 - [ ] X live publish remains off.
 - [ ] No public registration.
-- [ ] No Discord login.
+- [ ] Discord is used only as an entitlement gate, not as a full login or billing system.
 - [ ] No billing.
-

@@ -1,9 +1,10 @@
 export class AppApiError extends Error {
-  constructor(code, error, status = 400) {
+  constructor(code, error, status = 400, details = {}) {
     super(error);
     this.name = "AppApiError";
     this.code = code;
     this.status = status;
+    this.details = details;
   }
 }
 
@@ -18,7 +19,8 @@ export function appFailure(error) {
       payload: {
         ok: false,
         code: error.code,
-        error: error.message
+        error: error.message,
+        details: error.details || {}
       }
     };
   }

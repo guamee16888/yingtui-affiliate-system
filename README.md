@@ -107,6 +107,9 @@ npm run d1:import:local
 - `GET /api/app/v1/manager/tasks`
 - `GET /api/app/v1/manager/accounts`
 - `GET /api/app/v1/manager/feedback-debt`
+- `GET /api/app/v1/auth/discord/status`
+- `GET /api/app/v1/auth/discord/start`
+- `GET /api/app/v1/auth/discord/callback`
 - `POST /api/app/v1/manager/tasks/approve`
 - `POST /api/app/v1/manager/tasks/reject`
 - `POST /api/app/v1/manager/feedback`
@@ -127,7 +130,47 @@ APP_STORAGE_MODE=json
 
 线上 staging 不信任普通 email header。`app.guamee.org` 必须通过 Cloudflare Access JWT 获取邮箱，后端验证 `Cf-Access-Jwt-Assertion` 后再查 D1 中的 user/workspace。
 
-当前仍然不做 X live publish、自动发推、公开注册、复杂计费或 Discord 登录。
+当前仍然不做 X live publish、自动发推、公开注册或复杂计费。Discord 只作为 workspace 资格验证层，不替代 Cloudflare Access 登录。
+
+## Discord Entitlement Gate
+
+客户进入 `app.guamee.org` 时有两层门：
+
+```text
+Cloudflare Access
+= 确认这个邮箱可以进入 app
+
+Discord entitlement
+= 确认这个用户属于指定 Discord 群 / 身份组
+```
+
+后端会在每次 `/api/app/v1/*` 请求里检查 D1 的 `subscriptions` 和 `user_identities`。前端显示“去 Discord 验证”只是用户体验，不是安全边界。
+
+Cloudflare Pages 环境变量：
+
+```text
+DISCORD_CLIENT_ID=<Discord OAuth client id>
+DISCORD_CLIENT_SECRET=<Discord OAuth client secret>
+DISCORD_REDIRECT_URI=https://app.guamee.org/api/app/v1/auth/discord/callback
+DISCORD_REQUIRED_GUILD_ID=<your Discord server id>
+DISCORD_REQUIRED_ROLE_IDS=<paid role id,optional comma separated>
+DISCORD_BOT_TOKEN=<optional bot token for role checks>
+DISCORD_STATE_SECRET=<random long secret>
+```
+
+如果配置了 `DISCORD_BOT_TOKEN`，OAuth 只请求 `identify`，后端用 bot 查询群成员和身份组；如果不配置 bot token，则 OAuth 需要 `guilds.members.read`。
+
+新客户默认需要 Discord 验证：
+
+```bash
+npm run app:customer:create -- --workspace-id workspace_client --workspace-name "Client Team" --manager-email owner@example.com --accounts 30 --discord-guild-id 123 --discord-role-ids 456,789
+```
+
+内部自用 workspace 才使用 `--no-discord`：
+
+```bash
+npm run app:customer:create -- --workspace-id workspace_internal --workspace-name "Internal Team" --manager-email you@example.com --accounts 30 --no-discord
+```
 
 App build 命令：
 
@@ -160,7 +203,7 @@ npm run app:d1:create:staging -- --yes
 npm run app:d1:migrate:staging -- --yes
 npm run app:d1:seed:staging -- --yes
 npm run app:seed:staging-sql
-npm run app:customer:create -- --workspace-id workspace_client --workspace-name "Client Team" --manager-email owner@example.com --accounts 30 --yes
+npm run app:customer:create -- --workspace-id workspace_client --workspace-name "Client Team" --manager-email owner@example.com --accounts 30 --discord-guild-id 123 --discord-role-ids 456,789 --yes
 npm run verify:app-staging
 ```
 
@@ -172,7 +215,8 @@ npm run verify:app-staging
 - staging seed 不包含 token、secret、真实 X handle、真实 posted URL、affiliate link 或本地 `output` markdown。
 - 线上 app API 只在 `/api/app/v1/*` 下运行，不把 `/dashboard` 放进 app build。
 - 远程 D1 create/migrate/seed 命令都要求显式 `--yes`。
-- `app:customer:create` 默认只打印 SQL；加 `--yes` 才写入远程 D1。它会创建 workspace、manager user、workspace member、4 条内容线订阅、最多 30 个账号占位、publish settings 和审计日志。
+- `app:customer:create` 默认只打印 SQL；加 `--yes` 才写入远程 D1。它会创建 workspace、manager user、workspace member、4 条内容线订阅、最多 30 个账号占位、publish settings、Discord 资格订阅和审计日志。
+- `app:customer:create` 默认要求 Discord 验证。只有内部自用 workspace 才建议加 `--no-discord`。
 - 新客户邮箱还必须在 Cloudflare Access policy 里被允许，否则会停在 Access 或登录后无法进入 workspace。
 
 部署说明见：

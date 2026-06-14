@@ -83,7 +83,94 @@ export function createD1StorageAdapter(db) {
       users: data.users,
       workspaces: data.workspaces,
       assignments: data.assignments,
-      xAccounts: data.xAccounts
+      xAccounts: data.xAccounts,
+      subscriptions: data.subscriptions,
+      userIdentities: data.userIdentities
+    };
+  }
+
+  async function getWorkspaceEntitlement(workspaceId) {
+    const row = await first(db, "SELECT * FROM subscriptions WHERE workspace_id = ?", [workspaceId]);
+    return row ? subscriptionFromRow(row) : null;
+  }
+
+  async function getUserIdentity(userId, provider) {
+    const row = await first(db, "SELECT * FROM user_identities WHERE user_id = ? AND provider = ?", [userId, provider]);
+    return row ? userIdentityFromRow(row) : null;
+  }
+
+  async function upsertUserIdentity(identity = {}, actor = {}) {
+    const now = new Date().toISOString();
+    const row = {
+      identity_id: identity.identityId || createStableId("identity", [identity.userId, identity.provider]),
+      user_id: identity.userId || "",
+      provider: identity.provider || "discord",
+      provider_user_id: identity.providerUserId || "",
+      username: identity.username || "",
+      guild_id: identity.guildId || "",
+      role_ids_json: JSON.stringify(identity.roleIds || []),
+      status: identity.status || "verified",
+      verified_at: identity.verifiedAt || now,
+      expires_at: identity.expiresAt || "",
+      created_at: identity.createdAt || now,
+      updated_at: now
+    };
+    if (!row.user_id || !row.provider_user_id) throw new Error("User identity requires userId and providerUserId.");
+    await run(
+      db,
+      `INSERT INTO user_identities (
+        identity_id, user_id, provider, provider_user_id, username, guild_id,
+        role_ids_json, status, verified_at, expires_at, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(user_id, provider) DO UPDATE SET
+        provider_user_id = excluded.provider_user_id,
+        username = excluded.username,
+        guild_id = excluded.guild_id,
+        role_ids_json = excluded.role_ids_json,
+        status = excluded.status,
+        verified_at = excluded.verified_at,
+        expires_at = excluded.expires_at,
+        updated_at = excluded.updated_at`,
+      Object.values(row)
+    );
+    await writeLicenseEvent({
+      workspaceId: actor.workspaceId || "",
+      userId: row.user_id,
+      action: `${row.provider}.identity.verified`,
+      metadata: { providerUserId: row.provider_user_id, guildId: row.guild_id }
+    });
+    return userIdentityFromRow(row);
+  }
+
+  async function writeLicenseEvent(event = {}) {
+    const now = new Date().toISOString();
+    const row = {
+      license_event_id: event.licenseEventId || createStableId("license_event", [
+        event.workspaceId || "",
+        event.userId || "",
+        event.action || "event",
+        now
+      ]),
+      workspace_id: event.workspaceId || "",
+      user_id: event.userId || "",
+      action: event.action || "event",
+      metadata_json: JSON.stringify(event.metadata || {}),
+      created_at: event.createdAt || now
+    };
+    await run(
+      db,
+      `INSERT INTO license_events (
+        license_event_id, workspace_id, user_id, action, metadata_json, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?)`,
+      Object.values(row)
+    );
+    return {
+      licenseEventId: row.license_event_id,
+      workspaceId: row.workspace_id,
+      userId: row.user_id,
+      action: row.action,
+      metadata: parseJson(row.metadata_json, {}),
+      createdAt: row.created_at
     };
   }
 
@@ -266,7 +353,11 @@ export function createD1StorageAdapter(db) {
     upsertFeedback,
     writeAuditLog,
     loadAuthCollections,
-    loadManagerSummary
+    loadManagerSummary,
+    getWorkspaceEntitlement,
+    getUserIdentity,
+    upsertUserIdentity,
+    writeLicenseEvent
   });
 }
 
@@ -388,7 +479,7 @@ function auditFromRow(row) {
 }
 
 async function loadD1Collections(db) {
-  const [workspaceRows, memberRows, userRows, assignmentRows, accountRows, taskRows, ledgerRows, publishJobRows, feedbackRows] = await Promise.all([
+  const [workspaceRows, memberRows, userRows, assignmentRows, accountRows, taskRows, ledgerRows, publishJobRows, feedbackRows, subscriptionRows, identityRows] = await Promise.all([
     all(db, "SELECT * FROM workspaces WHERE status != 'archived' ORDER BY workspace_id"),
     all(db, "SELECT * FROM workspace_members WHERE status != 'disabled' ORDER BY workspace_id, user_id"),
     all(db, "SELECT * FROM users WHERE status != 'disabled' ORDER BY user_id"),
@@ -406,7 +497,9 @@ async function loadD1Collections(db) {
     ),
     all(db, "SELECT * FROM post_ledger ORDER BY created_at DESC"),
     all(db, "SELECT * FROM publish_jobs ORDER BY created_at DESC"),
-    all(db, "SELECT * FROM feedback ORDER BY created_at DESC")
+    all(db, "SELECT * FROM feedback ORDER BY created_at DESC"),
+    all(db, "SELECT * FROM subscriptions ORDER BY workspace_id"),
+    all(db, "SELECT * FROM user_identities ORDER BY user_id, provider")
   ]);
 
   const workspaces = workspaceRows.map(workspaceFromRow);
@@ -436,7 +529,9 @@ async function loadD1Collections(db) {
     tasks: taskRows.map(taskFromRow),
     ledger: ledgerRows.map(ledgerFromRow),
     publishJobs: publishJobRows.map(publishJobFromRow),
-    feedback: feedbackRows.map(feedbackFromRow)
+    feedback: feedbackRows.map(feedbackFromRow),
+    subscriptions: subscriptionRows.map(subscriptionFromRow),
+    userIdentities: identityRows.map(userIdentityFromRow)
   };
 }
 
@@ -499,6 +594,40 @@ function publishJobFromRow(row) {
     status: row.status,
     dryRun: Boolean(row.dry_run),
     scheduledAt: row.scheduled_at || "",
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function subscriptionFromRow(row) {
+  return {
+    subscriptionId: row.subscription_id,
+    workspaceId: row.workspace_id,
+    plan: row.plan || "customer",
+    status: row.status || "active",
+    requireDiscordVerification: Boolean(row.require_discord_verification),
+    requiredDiscordGuildId: row.required_discord_guild_id || "",
+    requiredDiscordRoleIds: parseJson(row.required_discord_role_ids_json, []),
+    maxAccounts: Number(row.max_accounts || 30),
+    maxSeats: Number(row.max_seats || 5),
+    expiresAt: row.expires_at || "",
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function userIdentityFromRow(row) {
+  return {
+    identityId: row.identity_id,
+    userId: row.user_id,
+    provider: row.provider,
+    providerUserId: row.provider_user_id,
+    username: row.username || "",
+    guildId: row.guild_id || "",
+    roleIds: parseJson(row.role_ids_json, []),
+    status: row.status || "verified",
+    verifiedAt: row.verified_at || "",
+    expiresAt: row.expires_at || "",
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };

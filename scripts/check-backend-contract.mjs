@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { access, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { rootDir } from "./lib/file-store.mjs";
 
@@ -19,6 +19,7 @@ const docs = [
 
 const d1Files = [
   "db/migrations/0001_initial.sql",
+  "db/migrations/0002_app_entitlements.sql",
   "db/seed/demo.sql",
   "wrangler.jsonc",
   "scripts/lib/d1-storage-adapter.mjs",
@@ -28,6 +29,8 @@ const d1Files = [
   "scripts/lib/app-api/session.mjs",
   "scripts/lib/app-api/auth-context.mjs",
   "scripts/lib/app-api/cloudflare-access-auth.mjs",
+  "scripts/lib/app-api/discord-auth.mjs",
+  "scripts/lib/app-api/discord-routes.mjs",
   "scripts/lib/app-api/workspace-scope.mjs",
   "scripts/lib/app-api/response.mjs",
   "scripts/lib/app-api/manager-routes.mjs",
@@ -66,7 +69,10 @@ const requiredTables = [
   "publish_jobs",
   "publish_attempts",
   "audit_logs",
-  "api_events"
+  "api_events",
+  "subscriptions",
+  "user_identities",
+  "license_events"
 ];
 
 const requiredAdapterFiles = [
@@ -86,7 +92,7 @@ for (const file of [...docs, ...requiredAdapterFiles, ...d1Files]) {
 }
 
 const schema = await read("docs/backend/d1-schema.sql");
-const migration = await read("db/migrations/0001_initial.sql");
+const migration = await readMigrations();
 for (const table of requiredTables) {
   if (new RegExp(`create\\s+table\\s+(if\\s+not\\s+exists\\s+)?${table}\\b`, "i").test(schema)) passed.push(`D1 table exists: ${table}`);
   else errors.push(`Missing D1 table: ${table}`);
@@ -110,7 +116,9 @@ for (const table of [
   "publish_jobs",
   "publish_attempts",
   "audit_logs",
-  "api_events"
+  "api_events",
+  "subscriptions",
+  "license_events"
 ]) {
   const body = tableBody(migration, table);
   if (/workspace_id\s+TEXT/i.test(body)) passed.push(`${table} includes workspace_id`);
@@ -139,7 +147,7 @@ for (const word of [
 }
 
 const auth = await read("docs/backend/auth-plan.md");
-for (const word of ["admin", "manager", "staff", "Cloudflare Access", "admin.guamee.org", "app.guamee.org"]) {
+for (const word of ["admin", "manager", "staff", "Cloudflare Access", "admin.guamee.org", "app.guamee.org", "Discord"]) {
   mustInclude(auth, word, "auth-plan.md");
 }
 
@@ -149,7 +157,7 @@ for (const word of ["guamee.org", "admin.guamee.org", "app.guamee.org", "demo", 
 }
 
 const security = await read("docs/backend/security-checklist.md");
-for (const word of ["token", "workspace", "demo", "280", "duplicate", ".env", "fake affiliate"]) {
+for (const word of ["token", "workspace", "demo", "280", "duplicate", ".env", "fake affiliate", "Discord"]) {
   mustInclude(security, word, "security-checklist.md");
 }
 
@@ -202,8 +210,18 @@ const appStorage = await read("scripts/lib/app-storage.mjs");
 mustInclude(appStorage, "APP_STORAGE_MODE=d1 requires a D1 binding", "app-storage.mjs");
 
 const appApiSession = await read("scripts/lib/app-api/session.mjs");
-for (const word of ["/api/app/v1/session", "/api/app/v1/workspace", "resolveStorage"]) {
+for (const word of ["/api/app/v1/session", "/api/app/v1/workspace", "resolveStorage", "peekDiscordStateWorkspaceId"]) {
   mustInclude(appApiSession, word, "app-api/session.mjs");
+}
+
+const discordAuth = await read("scripts/lib/app-api/discord-auth.mjs");
+for (const word of ["DISCORD_STATE_SECRET", "upsertUserIdentity", "guilds.members.read", "DISCORD_BOT_TOKEN"]) {
+  mustInclude(discordAuth, word, "discord-auth.mjs");
+}
+
+const discordRoutes = await read("scripts/lib/app-api/discord-routes.mjs");
+for (const word of ["auth/discord/status", "auth/discord/start", "auth/discord/callback"]) {
+  mustInclude(discordRoutes, word, "discord-routes.mjs");
 }
 
 const appFunction = await read("functions/api/app/v1/[[path]].mjs");
@@ -270,6 +288,17 @@ async function mustExist(file) {
 async function read(file) {
   try {
     return await readFile(path.join(rootDir, file), "utf8");
+  } catch {
+    return "";
+  }
+}
+
+async function readMigrations() {
+  try {
+    const dir = path.join(rootDir, "db/migrations");
+    const files = (await readdir(dir)).filter((file) => file.endsWith(".sql")).sort();
+    const contents = await Promise.all(files.map((file) => readFile(path.join(dir, file), "utf8")));
+    return contents.join("\n\n");
   } catch {
     return "";
   }

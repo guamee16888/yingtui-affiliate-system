@@ -42,6 +42,7 @@ const requiredFiles = [
   "docs/deployment/app-pages-project.md",
   "docs/deployment/app-access-d1-checklist.md",
   "db/migrations/0001_initial.sql",
+  "db/migrations/0002_app_entitlements.sql",
   "db/seed/demo.sql",
   "db/seed/app-staging-demo.sql",
   "wrangler.jsonc",
@@ -50,6 +51,8 @@ const requiredFiles = [
   "scripts/lib/app-api/session.mjs",
   "scripts/lib/app-api/auth-context.mjs",
   "scripts/lib/app-api/cloudflare-access-auth.mjs",
+  "scripts/lib/app-api/discord-auth.mjs",
+  "scripts/lib/app-api/discord-routes.mjs",
   "scripts/lib/app-api/workspace-scope.mjs",
   "scripts/lib/app-api/response.mjs",
   "scripts/lib/app-api/manager-routes.mjs",
@@ -326,7 +329,10 @@ function checkPublishSystem(coreData) {
 }
 
 async function checkD1LocalMvp() {
-  const migration = await readTextIfExists("db/migrations/0001_initial.sql");
+  const migration = [
+    await readTextIfExists("db/migrations/0001_initial.sql"),
+    await readTextIfExists("db/migrations/0002_app_entitlements.sql")
+  ].join("\n");
   const mapper = await readTextIfExists("scripts/lib/json-to-d1-mapper.mjs");
   const adapter = await readTextIfExists("scripts/lib/d1-storage-adapter.mjs");
   const storageMode = await readTextIfExists("scripts/lib/app-storage-mode.mjs");
@@ -353,7 +359,10 @@ async function checkD1LocalMvp() {
     "publish_jobs",
     "publish_attempts",
     "audit_logs",
-    "api_events"
+    "api_events",
+    "subscriptions",
+    "user_identities",
+    "license_events"
   ];
   for (const table of requiredTables) {
     const pattern = new RegExp(`create\\s+table\\s+(if\\s+not\\s+exists\\s+)?${table}\\b`, "i");
@@ -378,7 +387,9 @@ async function checkD1LocalMvp() {
     "publish_jobs",
     "publish_attempts",
     "audit_logs",
-    "api_events"
+    "api_events",
+    "subscriptions",
+    "license_events"
   ]) {
     const body = tableBody(migration, table);
     if (/workspace_id\s+TEXT/i.test(body)) passed.push(`D1 private table includes workspace_id: ${table}`);
@@ -404,6 +415,8 @@ async function checkAppCloudflareStaging() {
   const appFunction = await readTextIfExists("functions/api/app/v1/[[path]].mjs");
   const accessAuth = await readTextIfExists("scripts/lib/app-api/cloudflare-access-auth.mjs");
   const authContext = await readTextIfExists("scripts/lib/app-api/auth-context.mjs");
+  const discordAuth = await readTextIfExists("scripts/lib/app-api/discord-auth.mjs");
+  const discordRoutes = await readTextIfExists("scripts/lib/app-api/discord-routes.mjs");
   const stagingSeed = await readTextIfExists("db/seed/app-staging-demo.sql");
   const wranglerText = await readTextIfExists("wrangler.jsonc");
 
@@ -415,6 +428,12 @@ async function checkAppCloudflareStaging() {
   else errors.push("Cloudflare Access JWT helper missing config checks");
   if (/staging\/production 环境不能使用 devEmail/.test(authContext) && /isStrictAppEnv/.test(authContext)) passed.push("devEmail is disabled in staging/production");
   else errors.push("devEmail must be disabled in staging/production");
+  if (/DISCORD_STATE_SECRET/.test(discordAuth) && /upsertUserIdentity/.test(discordAuth)) passed.push("Discord OAuth stores verified identity without token material");
+  else errors.push("Discord OAuth helper must store verified identity without token material");
+  if (/auth\/discord\/start/.test(discordRoutes) && /auth\/discord\/callback/.test(discordRoutes)) passed.push("Discord auth routes exist");
+  else errors.push("Discord auth routes missing");
+  if (/DISCORD_VERIFICATION_REQUIRED/.test(authContext) && /subscriptions/.test(authContext)) passed.push("App auth context enforces subscription Discord gate");
+  else errors.push("App auth context must enforce subscription Discord gate");
   if (/workspace_staging_demo/.test(stagingSeed) && /INSERT\s+OR\s+REPLACE/i.test(stagingSeed)) passed.push("app staging seed exists and is idempotent");
   else errors.push("app staging seed missing or not idempotent");
   if (/access_token|refresh_token|client_secret|api[_-]?key|bearer\s+[a-z0-9._-]+/i.test(stagingSeed)) {

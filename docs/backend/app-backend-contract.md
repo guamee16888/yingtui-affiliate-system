@@ -43,8 +43,15 @@ The repository now includes a local-only Cloudflare D1 foundation:
 - JSON to D1 dry-run/export/import scripts
 - first D1 storage adapter behind the storage-adapter interface
 - audit log tables and adapter write hooks
+- subscription and Discord entitlement tables in `db/migrations/0002_app_entitlements.sql`
 
 Default runtime storage remains JSON. `APP_STORAGE_MODE=d1` is reserved for the future app runtime and the current local static server returns a clear error for manager/staff write routes when no D1 binding exists.
+
+## Entitlement gate
+
+Cloudflare Access remains the outer gate for `app.guamee.org`. Discord verification is the inner customer entitlement gate.
+
+Customer workspaces require a `subscriptions` row. By default, new customers require Discord verification, and the verified identity is stored in `user_identities`. Discord OAuth tokens are not stored.
 
 ## Not in v1
 

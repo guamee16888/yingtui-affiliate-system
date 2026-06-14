@@ -130,6 +130,10 @@ async function handleApi(request, response, url) {
       const appOptions = { storage: getAppStorage(), loadManagerSummary };
       if (request.method === "GET") {
         const result = await handleAppApiGet({ request, url, options: appOptions });
+        if (result.response) {
+          await sendWebResponse(response, result.response);
+          return;
+        }
         sendJson(response, result.status, result.payload);
         return;
       }
@@ -165,6 +169,11 @@ async function handleApi(request, response, url) {
     }
     sendJson(response, 400, { ok: false, error: error.message });
   }
+}
+
+async function sendWebResponse(response, webResponse) {
+  response.writeHead(webResponse.status, Object.fromEntries(webResponse.headers.entries()));
+  response.end(Buffer.from(await webResponse.arrayBuffer()));
 }
 
 async function handleApiGet(url) {

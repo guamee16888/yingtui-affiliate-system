@@ -36,6 +36,8 @@ export async function getAuthContext(request, options = {}) {
 
   const workspace = collections.workspaces.find((item) => item.workspaceId === workspaceId) ?? null;
   const role = roleForWorkspace(user, workspace);
+  const entitlement = resolveEntitlement({ user, workspace, collections });
+  if (!options.skipEntitlement) assertEntitlement({ entitlement, workspaceId, url });
 
   return {
     email,
@@ -45,6 +47,8 @@ export async function getAuthContext(request, options = {}) {
     workspaceIds,
     workspaceName: workspace?.name || workspaceId,
     isDev: Boolean(devEmail && !emailFromAccess && !strictAppEnv),
+    subscription: entitlement.subscription,
+    discord: entitlement.discord,
     user,
     workspace
   };
@@ -94,6 +98,77 @@ function roleForWorkspace(user, workspace) {
   if ((workspace?.managerUserIds ?? []).includes(user.userId)) return "manager";
   if ((workspace?.staffUserIds ?? []).includes(user.userId)) return "staff";
   return user.role || "staff";
+}
+
+function resolveEntitlement({ user, workspace, collections }) {
+  const subscription = (collections.subscriptions || []).find((item) => item.workspaceId === workspace?.workspaceId) || {
+    workspaceId: workspace?.workspaceId || "",
+    plan: workspace?.plan || "internal",
+    status: "active",
+    requireDiscordVerification: false,
+    requiredDiscordGuildId: "",
+    requiredDiscordRoleIds: [],
+    maxAccounts: Number(workspace?.accountLimit || 30),
+    maxSeats: 5,
+    expiresAt: ""
+  };
+  const discordIdentity = (collections.userIdentities || [])
+    .find((identity) => identity.userId === user.userId && identity.provider === "discord") || null;
+  const discord = discordEntitlement(subscription, discordIdentity);
+  return { subscription, discord };
+}
+
+function discordEntitlement(subscription, identity) {
+  const required = Boolean(subscription.requireDiscordVerification);
+  const roleIds = subscription.requiredDiscordRoleIds || [];
+  const now = Date.now();
+  const identityExpiresAt = identity?.expiresAt ? new Date(identity.expiresAt).getTime() : 0;
+  const identityExpired = Boolean(identityExpiresAt && Number.isFinite(identityExpiresAt) && identityExpiresAt <= now);
+  const guildMatches = !subscription.requiredDiscordGuildId || identity?.guildId === subscription.requiredDiscordGuildId;
+  const identityRoles = new Set(identity?.roleIds || []);
+  const roleMatches = !roleIds.length || roleIds.some((roleId) => identityRoles.has(roleId));
+  const verified = Boolean(identity && identity.status !== "revoked" && !identityExpired && guildMatches && roleMatches);
+  return {
+    required,
+    verified: !required || verified,
+    providerUserId: identity?.providerUserId || "",
+    username: identity?.username || "",
+    guildId: identity?.guildId || "",
+    requiredGuildId: subscription.requiredDiscordGuildId || "",
+    requiredRoleIds: roleIds,
+    verifiedAt: identity?.verifiedAt || "",
+    reason: !required || verified
+      ? ""
+      : identityExpired
+        ? "discord_identity_expired"
+        : identity && !guildMatches
+          ? "discord_guild_required"
+          : identity && !roleMatches
+            ? "discord_role_required"
+            : "discord_verification_required"
+  };
+}
+
+function assertEntitlement({ entitlement, workspaceId, url }) {
+  const subscription = entitlement.subscription || {};
+  const status = subscription.status || "active";
+  const expiresAt = subscription.expiresAt ? new Date(subscription.expiresAt).getTime() : 0;
+  if (!["active", "trial", "internal"].includes(status)) {
+    throw new AppApiError("SUBSCRIPTION_INACTIVE", "当前 workspace 订阅不可用，请联系管理员。", 403, { status });
+  }
+  if (expiresAt && Number.isFinite(expiresAt) && expiresAt <= Date.now()) {
+    throw new AppApiError("SUBSCRIPTION_EXPIRED", "当前 workspace 已过期，请联系管理员续期。", 403, { expiresAt: subscription.expiresAt });
+  }
+  if (!entitlement.discord?.verified) {
+    const verifyUrl = `/api/app/v1/auth/discord/start?workspaceId=${encodeURIComponent(workspaceId)}`;
+    throw new AppApiError("DISCORD_VERIFICATION_REQUIRED", "请先完成 Discord 验证后再使用工作台。", 403, {
+      verifyUrl,
+      returnTo: `${url.pathname}${url.search}`,
+      reason: entitlement.discord?.reason || "discord_verification_required",
+      requiredGuildId: entitlement.discord?.requiredGuildId || "",
+      requiredRoleIds: entitlement.discord?.requiredRoleIds || []
+    });
+  }
 }
 
 function headerValue(request, headerName) {

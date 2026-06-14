@@ -16,6 +16,9 @@ export function parseArgs(argv = []) {
     managerName: "",
     accountCount: 30,
     plan: "customer",
+    requireDiscord: true,
+    discordGuildId: "",
+    discordRoleIds: [],
     yes: false
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -27,6 +30,9 @@ export function parseArgs(argv = []) {
     else if (key === "--manager-name") args.managerName = next, index += 1;
     else if (key === "--accounts") args.accountCount = Number(next), index += 1;
     else if (key === "--plan") args.plan = next, index += 1;
+    else if (key === "--discord-guild-id") args.discordGuildId = next, index += 1;
+    else if (key === "--discord-role-ids") args.discordRoleIds = splitCsv(next), index += 1;
+    else if (key === "--no-discord") args.requireDiscord = false;
     else if (key === "--yes") args.yes = true;
     else if (key === "--help" || key === "-h") args.help = true;
   }
@@ -126,6 +132,20 @@ export function buildCustomerSql(input) {
     created_at: now,
     updated_at: now
   }));
+  lines.push(insertOrReplace("subscriptions", {
+    subscription_id: stableId("subscription", [args.workspaceId]),
+    workspace_id: args.workspaceId,
+    plan: args.plan,
+    status: "active",
+    require_discord_verification: args.requireDiscord ? 1 : 0,
+    required_discord_guild_id: args.discordGuildId || "",
+    required_discord_role_ids_json: JSON.stringify(args.discordRoleIds || []),
+    max_accounts: args.accountCount || 30,
+    max_seats: 5,
+    expires_at: "",
+    created_at: now,
+    updated_at: now
+  }));
 
   for (let index = 1; index <= args.accountCount; index += 1) {
     const suffix = String(index).padStart(2, "0");
@@ -189,10 +209,11 @@ function printHelp() {
   console.log(`Create a customer workspace in the remote app D1 database.
 
 Usage:
-  npm run app:customer:create -- --workspace-id workspace_acme --workspace-name "Acme Team" --manager-email owner@example.com --manager-name "Acme Owner" --accounts 30 --yes
+  npm run app:customer:create -- --workspace-id workspace_acme --workspace-name "Acme Team" --manager-email owner@example.com --manager-name "Acme Owner" --accounts 30 --discord-guild-id 123 --discord-role-ids 456,789 --yes
 
 Without --yes, the command prints SQL only.
-You still need to allow the manager email in Cloudflare Access for app.guamee.org.`);
+You still need to allow the manager email in Cloudflare Access for app.guamee.org.
+Discord verification is required by default. Use --no-discord only for a private internal workspace.`);
 }
 
 function runWrangler(sql) {
@@ -241,6 +262,10 @@ function normalizeId(value, prefix) {
     .replace(/^_+|_+$/g, "")
     .slice(0, 54);
   return slug.startsWith(`${prefix}_`) ? slug : `${prefix}_${slug || "default"}`;
+}
+
+function splitCsv(value) {
+  return String(value || "").split(",").map((item) => item.trim()).filter(Boolean);
 }
 
 function stableId(prefix, parts) {

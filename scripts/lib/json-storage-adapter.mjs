@@ -112,18 +112,77 @@ async function writeAuditLog(event = {}) {
 }
 
 async function loadAuthCollections() {
-  const [users, workspaces, assignments, xAccounts] = await Promise.all([
+  const [users, workspaces, assignments, xAccounts, subscriptions, userIdentities] = await Promise.all([
     loadCollection(CORE_COLLECTIONS.users),
     loadCollection(SOURCE_LANE_FILES.workspaces),
     loadCollection(CORE_COLLECTIONS.assignments),
-    loadCollection(CORE_COLLECTIONS.xAccounts)
+    loadCollection(CORE_COLLECTIONS.xAccounts),
+    readJson("data/subscriptions.json", { items: [] }),
+    readJson("data/user-identities.json", { items: [] })
   ]);
   return {
     users: users.items.filter((user) => user.active !== false && user.status !== "disabled"),
     workspaces: workspaces.items.filter((workspace) => workspace.active !== false && workspace.status !== "archived"),
     assignments: assignments.items.filter((assignment) => assignment.active !== false),
-    xAccounts: xAccounts.items
+    xAccounts: xAccounts.items,
+    subscriptions: subscriptions.items || [],
+    userIdentities: userIdentities.items || []
   };
+}
+
+async function getWorkspaceEntitlement(workspaceId) {
+  const subscriptions = await readJson("data/subscriptions.json", { items: [] });
+  return (subscriptions.items || []).find((item) => item.workspaceId === workspaceId) || null;
+}
+
+async function getUserIdentity(userId, provider) {
+  const identities = await readJson("data/user-identities.json", { items: [] });
+  return (identities.items || []).find((item) => item.userId === userId && item.provider === provider) || null;
+}
+
+async function upsertUserIdentity(identity = {}, actor = {}) {
+  const identities = await readJson("data/user-identities.json", { items: [] });
+  const now = new Date().toISOString();
+  const item = {
+    identityId: identity.identityId || createStableId("identity", [identity.userId || "", identity.provider || "discord"]),
+    ...identity,
+    provider: identity.provider || "discord",
+    status: identity.status || "verified",
+    verifiedAt: identity.verifiedAt || now,
+    createdAt: identity.createdAt || now,
+    updatedAt: now
+  };
+  const items = (identities.items || []).filter((current) => !(current.userId === item.userId && current.provider === item.provider));
+  items.push(item);
+  await writeJsonAtomic("data/user-identities.json", { ...identities, items, updatedAt: now });
+  await writeLicenseEvent({
+    workspaceId: actor.workspaceId || "",
+    userId: item.userId || "",
+    action: `${item.provider}.identity.verified`,
+    metadata: { providerUserId: item.providerUserId || "", guildId: item.guildId || "" }
+  });
+  return item;
+}
+
+async function writeLicenseEvent(event = {}) {
+  const events = await readJson("data/license-events.json", { items: [] });
+  const now = new Date().toISOString();
+  const item = {
+    licenseEventId: event.licenseEventId || createStableId("license_event", [
+      event.workspaceId || "",
+      event.userId || "",
+      event.action || "event",
+      now
+    ]),
+    ...event,
+    createdAt: event.createdAt || now
+  };
+  await writeJsonAtomic("data/license-events.json", {
+    ...events,
+    items: [...(events.items || []), item],
+    updatedAt: now
+  });
+  return item;
 }
 
 function taskWorkspaceId(task) {
@@ -138,7 +197,11 @@ export const jsonStorageAdapter = createStorageAdapter({
   appendLedgerEntry,
   upsertFeedback,
   writeAuditLog,
-  loadAuthCollections
+  loadAuthCollections,
+  getWorkspaceEntitlement,
+  getUserIdentity,
+  upsertUserIdentity,
+  writeLicenseEvent
 });
 
 export default jsonStorageAdapter;

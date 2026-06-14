@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const requiredTables = [
@@ -24,7 +24,10 @@ const requiredTables = [
   "publish_jobs",
   "publish_attempts",
   "audit_logs",
-  "api_events"
+  "api_events",
+  "subscriptions",
+  "user_identities",
+  "license_events"
 ];
 
 const workspacePrivateTables = [
@@ -47,32 +50,40 @@ const workspacePrivateTables = [
 ];
 
 test("D1 migration contains required app tables", async () => {
-  const sql = await readFile("db/migrations/0001_initial.sql", "utf8");
+  const sql = await readMigrations();
   for (const table of requiredTables) {
     assert.match(sql, new RegExp(`create\\s+table\\s+(if\\s+not\\s+exists\\s+)?${table}\\b`, "i"), table);
   }
 });
 
 test("workspace-private D1 tables include workspace_id", async () => {
-  const sql = await readFile("db/migrations/0001_initial.sql", "utf8");
+  const sql = await readMigrations();
   for (const table of workspacePrivateTables) {
     assert.match(tableBody(sql, table), /workspace_id\s+TEXT/i, table);
   }
 });
 
 test("D1 schema keeps token material indirect and ledger idempotent", async () => {
-  const sql = await readFile("db/migrations/0001_initial.sql", "utf8");
+  const sql = await readMigrations();
   assert.match(tableBody(sql, "x_connections"), /token_ref\s+TEXT/i);
   assert.doesNotMatch(tableBody(sql, "x_connections"), /access_token|refresh_token|client_secret/i);
   assert.match(tableBody(sql, "post_ledger"), /UNIQUE\s*\(\s*workspace_id\s*,\s*task_id\s*\)/i);
 });
 
 test("D1 migration adds common query indexes", async () => {
-  const sql = await readFile("db/migrations/0001_initial.sql", "utf8");
+  const sql = await readMigrations();
   for (const field of ["workspace_id", "task_id", "account_id", "user_id", "status", "created_at"]) {
     assert.match(sql, new RegExp(`index[\\s\\S]+${field}`, "i"), field);
   }
 });
+
+async function readMigrations() {
+  const files = (await readdir("db/migrations"))
+    .filter((file) => file.endsWith(".sql"))
+    .sort();
+  const contents = await Promise.all(files.map((file) => readFile(`db/migrations/${file}`, "utf8")));
+  return contents.join("\n\n");
+}
 
 function tableBody(sql, table) {
   const match = sql.match(new RegExp(`create\\s+table\\s+(?:if\\s+not\\s+exists\\s+)?${table}\\s*\\(([\\s\\S]*?)\\);`, "i"));

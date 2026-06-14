@@ -14,6 +14,10 @@
 - Staff APIs require assigned task or assigned account access.
 - No API may return another workspace's tasks, feedback, ledger, accounts, or publish jobs.
 - Workspace account creation must respect the 30 account default limit unless admin changes the plan.
+- Customer workspaces require an active subscription row.
+- Customer workspaces require Discord verification by default.
+- Discord verification must be checked in backend API code on every app request.
+- A verified Discord identity must match the workspace required guild and at least one required role when roles are configured.
 
 ## Publish safety
 
@@ -28,7 +32,9 @@
 - Do not return token values.
 - Do not return source connector secret values.
 - Do not store plaintext X tokens in D1.
+- Do not store Discord OAuth access tokens.
 - `x_connections` only stores `token_ref`, `status`, `scopes`, and `last_verified_at`.
+- `user_identities` stores Discord identity metadata only: provider user id, username, guild id, role ids, status, and timestamps.
 - `.env` must not enter `dist`.
 - `db/seed/from-json.sql` is generated from operational JSON and must stay gitignored unless it is a deliberately sanitized demo fixture.
 - JSON -> D1 export strips token/secret-like fields and live posted URLs in sanitized mode.

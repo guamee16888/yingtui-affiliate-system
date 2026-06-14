@@ -26,6 +26,7 @@ export async function handlePagesAppRequest(context, overrides = {}) {
 
     if (request.method === "GET") {
       const result = await handleAppApiGet({ request, url, options });
+      if (result.response) return result.response;
       return jsonResponse(result.status, result.payload);
     }
 
@@ -47,7 +48,14 @@ function appEnv(env) {
     APP_ENV: env.APP_ENV || "staging",
     APP_STORAGE_MODE: env.APP_STORAGE_MODE || "d1",
     CF_ACCESS_TEAM_DOMAIN: env.CF_ACCESS_TEAM_DOMAIN || "",
-    CF_ACCESS_AUD: env.CF_ACCESS_AUD || ""
+    CF_ACCESS_AUD: env.CF_ACCESS_AUD || "",
+    DISCORD_CLIENT_ID: env.DISCORD_CLIENT_ID || "",
+    DISCORD_CLIENT_SECRET: env.DISCORD_CLIENT_SECRET || "",
+    DISCORD_REDIRECT_URI: env.DISCORD_REDIRECT_URI || "",
+    DISCORD_REQUIRED_GUILD_ID: env.DISCORD_REQUIRED_GUILD_ID || "",
+    DISCORD_REQUIRED_ROLE_IDS: env.DISCORD_REQUIRED_ROLE_IDS || "",
+    DISCORD_BOT_TOKEN: env.DISCORD_BOT_TOKEN || "",
+    DISCORD_STATE_SECRET: env.DISCORD_STATE_SECRET || ""
   };
 }
 

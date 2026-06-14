@@ -20,6 +20,8 @@ test("customer create SQL provisions workspace manager lanes accounts and audit 
   assert.match(sql, /workspace_acme_acct_01/);
   assert.match(sql, /workspace_acme_acct_02/);
   assert.match(sql, /INSERT OR REPLACE INTO publish_settings/);
+  assert.match(sql, /INSERT OR REPLACE INTO subscriptions/);
+  assert.match(sql, /require_discord_verification/);
   assert.match(sql, /customer\.create/);
   assert.doesNotMatch(sql, /access_token|refresh_token|client_secret|bearer/i);
 });
@@ -34,5 +36,6 @@ test("customer create args cap accounts at 30 and normalize ids", () => {
   assert.equal(args.workspaceId, "workspace_new_client_llc");
   assert.equal(args.managerEmail, "boss@client.com");
   assert.equal(args.accountCount, 30);
+  assert.equal(args.requireDiscord, true);
   assert.equal(args.yes, false);
 });

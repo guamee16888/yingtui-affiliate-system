@@ -1,4 +1,6 @@
 import { getAuthContext } from "./auth-context.mjs";
+import { peekDiscordStateWorkspaceId } from "./discord-auth.mjs";
+import { handleDiscordGet, isDiscordAuthRoute } from "./discord-routes.mjs";
 import { handleManagerGet, handleManagerPost } from "./manager-routes.mjs";
 import { appSuccess, AppApiError } from "./response.mjs";
 import { handleStaffGet, handleStaffPost } from "./staff-routes.mjs";
@@ -6,8 +8,29 @@ import { assertAuthenticated, assertWorkspaceAccess } from "./workspace-scope.mj
 
 export async function handleAppApiGet({ request, url, options = {} }) {
   const storage = resolveStorage(options);
-  const context = await getAuthContext(request, { ...options, url, storage });
   const pathname = url.pathname;
+  const discordWorkspaceId = pathname === "/api/app/v1/auth/discord/callback"
+    ? peekDiscordStateWorkspaceId(url.searchParams.get("state"))
+    : "";
+  const context = await getAuthContext(request, {
+    ...options,
+    url,
+    storage,
+    workspaceId: discordWorkspaceId || options.workspaceId,
+    skipEntitlement: isDiscordAuthRoute(pathname)
+  });
+
+  if (isDiscordAuthRoute(pathname)) {
+    return handleDiscordGet({
+      pathname,
+      request,
+      url,
+      context,
+      storage,
+      env: options.env || {},
+      fetchImpl: options.fetchImpl || fetch
+    });
+  }
 
   if (pathname === "/api/app/v1/session") return appSuccess(sessionView(context));
   if (pathname === "/api/app/v1/workspace") return appSuccess(await workspaceView({ context, storage }));

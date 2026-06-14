@@ -35,7 +35,10 @@ const coreTables = [
   "publish_jobs",
   "publish_attempts",
   "audit_logs",
-  "api_events"
+  "api_events",
+  "subscriptions",
+  "user_identities",
+  "license_events"
 ];
 
 test("backend contract docs exist and are not empty", async () => {

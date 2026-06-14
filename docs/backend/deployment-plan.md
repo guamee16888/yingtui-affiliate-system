@@ -33,13 +33,15 @@ The public build must not include:
 3. Add `app.guamee.org` behind Cloudflare Access for internal beta.
 4. Validate local D1 with `npm run d1:migrate:local`, `npm run d1:migrate:dry-run`, and `npm run d1:import:local`.
 5. Create staging D1 from `db/migrations/0001_initial.sql`.
-6. Move manager workspace reads to D1.
-7. Move write actions to D1 with audit logs.
-8. Only after audit and permission checks, consider publish worker work.
+6. Apply `db/migrations/0002_app_entitlements.sql`.
+7. Configure Discord OAuth env vars for `app.guamee.org`.
+8. Move manager workspace reads to D1.
+9. Move write actions to D1 with audit logs.
+10. Only after audit, workspace permission, and Discord entitlement checks, consider publish worker work.
 
 ## Not in this stage
 
 - no remote D1 production connection
 - no live Cloudflare Worker API
 - no automatic X publish
-- no customer login system
+- no public customer self-signup

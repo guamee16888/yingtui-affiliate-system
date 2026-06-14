@@ -204,6 +204,7 @@ npm run app:d1:migrate:staging -- --yes
 npm run app:d1:seed:staging -- --yes
 npm run app:seed:staging-sql
 npm run app:customer:create -- --workspace-id workspace_client --workspace-name "Client Team" --manager-email owner@example.com --accounts 30 --discord-guild-id 123 --discord-role-ids 456,789 --yes
+npm run app:candidates:produce -- --workspace-id workspace_client --limit 20 --yes
 npm run verify:app-staging
 ```
 
@@ -217,6 +218,7 @@ npm run verify:app-staging
 - 远程 D1 create/migrate/seed 命令都要求显式 `--yes`。
 - `app:customer:create` 默认只打印 SQL；加 `--yes` 才写入远程 D1。它会创建 workspace、manager user、workspace member、4 条内容线订阅、最多 30 个账号占位、publish settings、Discord 资格订阅和审计日志。
 - `app:customer:create` 默认要求 Discord 验证。只有内部自用 workspace 才建议加 `--no-discord`。
+- `app:candidates:produce` 会刷新启用的真实内容源，把候选写入远程 D1 `raw_candidates`，再按客户 workspace 已启用内容线生成 `tools -> topics -> copy_library -> post_tasks`。它不发推；不加 `--yes` 时只打印 dry-run SQL。
 - 新客户邮箱还必须在 Cloudflare Access policy 里被允许，否则会停在 Access 或登录后无法进入 workspace。
 
 部署说明见：

@@ -6,7 +6,7 @@ import { analyzeTweetLength } from "./tweet-length.mjs";
 import { normalizeDomain } from "./url-utils.mjs";
 import { loadSourceLaneData, saveSourceLaneData, workspaceLaneIds } from "./source-lanes.mjs";
 
-const LANE_COPY_PROFILES = {
+export const LANE_COPY_PROFILES = {
   ai_startups: {
     audience: "AI builders and operators",
     painPoint: "turning AI tools into useful workflow leverage",
@@ -306,10 +306,10 @@ function buildTask({ workspace, candidate, tool, topic, copy, laneId, account, a
   };
 }
 
-function buildShortCopy(candidate, laneId) {
+export function buildShortCopy(candidate, laneId) {
   const profile = LANE_COPY_PROFILES[laneId];
   const title = shortPhrase(candidate.title, 72);
-  const pain = shortPhrase(candidate.summary || profile.painPoint, 92);
+  const pain = stripTrailingPunctuation(shortPhrase(candidate.summary || profile.painPoint, 92));
   const candidates = [
     profile.copy(title, pain),
     `Watching ${title}. Useful angle: ${pain}.`,
@@ -322,6 +322,12 @@ function shortPhrase(value, maxLength) {
   const text = String(value ?? "").replace(/\s+/g, " ").trim();
   if (text.length <= maxLength) return text;
   return `${text.slice(0, Math.max(0, maxLength - 3)).replace(/\s+\S*$/, "")}...`;
+}
+
+function stripTrailingPunctuation(value) {
+  const text = String(value || "").trim();
+  if (text.endsWith("...")) return text;
+  return text.replace(/[.!?。！？]+$/g, "").trim();
 }
 
 function pickAccountForLane(laneId, accounts) {

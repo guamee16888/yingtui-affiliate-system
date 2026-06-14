@@ -72,6 +72,30 @@ test("D1 adapter upsertFeedback validates task workspace and writes audit log", 
   );
 });
 
+test("D1 adapter reports a Discord identity already bound to another app user", async () => {
+  const db = createFakeD1();
+  db.tables.user_identities.push({
+    identity_id: "identity_existing",
+    user_id: "user_existing",
+    provider: "discord",
+    provider_user_id: "discord_1"
+  });
+  const adapter = createD1StorageAdapter(db);
+  await assert.rejects(
+    adapter.upsertUserIdentity({
+      userId: "user_new",
+      provider: "discord",
+      providerUserId: "discord_1",
+      username: "Manager"
+    }),
+    (error) => {
+      assert.equal(error.code, "DISCORD_IDENTITY_ALREADY_BOUND");
+      assert.equal(error.status, 409);
+      return true;
+    }
+  );
+});
+
 function createFakeD1() {
   const tables = {
     workspaces: [
@@ -95,7 +119,8 @@ function createFakeD1() {
     ],
     post_ledger: [],
     feedback: [],
-    audit_logs: []
+    audit_logs: [],
+    user_identities: []
   };
   return {
     tables,
@@ -156,6 +181,21 @@ class FakeStatement {
       return {
         results: this.tables.post_ledger.filter((row) => row.workspace_id === this.params[0] && row.task_id === this.params[1])
       };
+    }
+    if (lower.includes("from user_identities")) {
+      if (lower.includes("provider = ?") && lower.includes("provider_user_id = ?")) {
+        const [provider, providerUserId] = this.params;
+        return {
+          results: this.tables.user_identities.filter((row) => row.provider === provider && row.provider_user_id === providerUserId)
+        };
+      }
+      if (lower.includes("user_id = ?") && lower.includes("provider = ?")) {
+        const [userId, provider] = this.params;
+        return {
+          results: this.tables.user_identities.filter((row) => row.user_id === userId && row.provider === provider)
+        };
+      }
+      return { results: this.tables.user_identities };
     }
     return { results: [] };
   }

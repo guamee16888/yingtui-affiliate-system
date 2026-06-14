@@ -1,4 +1,5 @@
 import { createStorageAdapter } from "./storage-adapter.mjs";
+import { AppApiError } from "./app-api/response.mjs";
 
 const TASK_PATCH_COLUMNS = {
   status: "status",
@@ -115,7 +116,21 @@ export function createD1StorageAdapter(db) {
       created_at: identity.createdAt || now,
       updated_at: now
     };
-    if (!row.user_id || !row.provider_user_id) throw new Error("User identity requires userId and providerUserId.");
+    if (!row.user_id || !row.provider_user_id) {
+      throw new AppApiError("USER_IDENTITY_INVALID", "Discord identity 缺少用户信息。", 400);
+    }
+    const existingProviderUser = await first(
+      db,
+      "SELECT user_id FROM user_identities WHERE provider = ? AND provider_user_id = ?",
+      [row.provider, row.provider_user_id]
+    );
+    if (existingProviderUser && existingProviderUser.user_id !== row.user_id) {
+      throw new AppApiError(
+        "DISCORD_IDENTITY_ALREADY_BOUND",
+        "这个 Discord 账号已经绑定到另一个登录邮箱，请联系管理员解绑后再试。",
+        409
+      );
+    }
     await run(
       db,
       `INSERT INTO user_identities (

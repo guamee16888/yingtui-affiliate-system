@@ -147,6 +147,10 @@ input {
   background: var(--panel-soft);
 }
 
+.access-logout {
+  white-space: nowrap;
+}
+
 .button.danger {
   background: var(--bad);
   border-color: var(--bad);

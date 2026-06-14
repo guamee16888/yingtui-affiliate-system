@@ -27,6 +27,7 @@ const rejectTemplates = [
 ];
 
 $("#refreshButton").addEventListener("click", () => loadManager());
+$("#accessLogoutButton").addEventListener("click", () => logoutFromAccess());
 $("#workspaceSelect").addEventListener("change", (event) => {
   state.workspaceId = event.target.value;
   updateUrl();
@@ -265,6 +266,7 @@ async function saveFeedback(taskId) {
 
 function render() {
   if (!state.data) return;
+  renderAccessLogout();
   if (!state.data.accessAllowed) {
     $("#statusText").textContent = state.data.accessError || "当前主管没有权限查看这个 workspace";
     renderSelectors();
@@ -285,6 +287,7 @@ function render() {
 
 function renderAppError() {
   $("#statusText").textContent = state.appError || "请先登录 app.guamee.org";
+  renderAccessLogout();
   const isDiscordRequired = state.appErrorCode === "DISCORD_VERIFICATION_REQUIRED";
   $("#modeNotice").innerHTML = isDiscordRequired
     ? `<strong>需要 Discord 验证</strong> 当前 workspace 要求 Discord 群身份验证。完成后会回到管理端。`
@@ -324,6 +327,17 @@ function renderModeNotice() {
   notice.innerHTML = state.demoMode
     ? `<strong>公开演示环境，仅可查看，不能保存或发布。</strong> 这里展示 workspace 管理端的信息架构。按钮会保留界面形态，但不会写入任务、不会连接真实 X 账号，也不会显示平台总后台。`
     : `<strong>管理端规则：</strong>这里只管理当前 workspace 的账号、任务审核、分配和反馈状态。默认控制 30 个以内账号，不显示平台总后台，不自动发推。`;
+}
+
+function renderAccessLogout() {
+  const button = $("#accessLogoutButton");
+  if (!button) return;
+  button.hidden = !state.appMode;
+}
+
+function logoutFromAccess() {
+  const logoutUrl = new URL("/cdn-cgi/access/logout", location.origin);
+  location.href = logoutUrl.toString();
 }
 
 function renderMetrics() {

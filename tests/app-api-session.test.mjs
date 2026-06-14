@@ -148,6 +148,35 @@ test("Discord callback resolves the workspace from signed state", async () => {
   assert.equal(storage.lastIdentity.guildId, "guild_1");
   assert.deepEqual(storage.lastIdentity.roleIds, ["role_1"]);
   assert.equal(storage.lastActor.workspaceId, "workspace_b");
+
+  const aliasStorage = fakeStorage();
+  const aliasResult = await handleAppApiGet({
+    request: request(`/api/app/v1/link/finish?code=ok&state=${encodeURIComponent(state)}`, {
+      "cf-access-authenticated-user-email": "manager@example.com"
+    }),
+    url: url(`/api/app/v1/link/finish?code=ok&state=${encodeURIComponent(state)}`),
+    options: {
+      storage: aliasStorage,
+      collections: fixtures({
+        workspaces: [
+          { workspaceId: "workspace_a", name: "Workspace A", managerUserIds: ["manager_a"], staffUserIds: [], active: true },
+          { workspaceId: "workspace_b", name: "Workspace B", managerUserIds: ["manager_a"], staffUserIds: [], active: true }
+        ]
+      }),
+      env: {
+        DISCORD_CLIENT_ID: "client_1",
+        DISCORD_CLIENT_SECRET: "secret_1",
+        DISCORD_REQUIRED_GUILD_ID: "guild_1",
+        DISCORD_REQUIRED_ROLE_IDS: "role_1",
+        DISCORD_BOT_TOKEN: "bot_token",
+        DISCORD_STATE_SECRET: "state_secret"
+      },
+      fetchImpl: fakeDiscordFetch()
+    }
+  });
+  assert.equal(aliasResult.payload.ok, true);
+  assert.equal(aliasResult.payload.data.verified, true);
+  assert.equal(aliasStorage.lastActor.workspaceId, "workspace_b");
 });
 
 function request(pathname, headers = {}) {

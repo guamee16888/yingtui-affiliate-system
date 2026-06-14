@@ -136,7 +136,28 @@ document.addEventListener("change", (event) => {
   renderBatchBar();
 });
 
+await finishDiscordOAuthFromUrl();
 await loadManager();
+
+async function finishDiscordOAuthFromUrl() {
+  if (!state.appMode) return;
+  const code = params.get("code") || "";
+  const oauthState = params.get("state") || "";
+  if (!code || !oauthState) return;
+  try {
+    $("#statusText").textContent = "正在完成 Discord 验证...";
+    const query = new URLSearchParams({ code, state: oauthState });
+    await apiGet(`/api/app/v1/link/finish?${query}`);
+    const cleanUrl = new URL(location.href);
+    cleanUrl.searchParams.delete("code");
+    cleanUrl.searchParams.delete("state");
+    cleanUrl.searchParams.set("appMode", "1");
+    history.replaceState({}, "", cleanUrl);
+    toast("Discord 验证已完成");
+  } catch (error) {
+    toast(error.message || "Discord 验证失败，请重试。");
+  }
+}
 
 async function loadManager() {
   if (state.appMode) {
@@ -640,6 +661,8 @@ function apiError(json, fallback) {
 
 function updateUrl() {
   const url = new URL(location.href);
+  url.searchParams.delete("code");
+  url.searchParams.delete("state");
   if (state.appMode) url.searchParams.set("appMode", "1");
   if (state.devEmail) url.searchParams.set("devEmail", state.devEmail);
   if (state.workspaceId) url.searchParams.set("workspaceId", state.workspaceId);

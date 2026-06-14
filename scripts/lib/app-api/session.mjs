@@ -1,6 +1,6 @@
 import { getAuthContext } from "./auth-context.mjs";
 import { peekDiscordStateWorkspaceId } from "./discord-auth.mjs";
-import { handleDiscordGet, isDiscordAuthRoute } from "./discord-routes.mjs";
+import { handleDiscordGet, isDiscordAuthRoute, isDiscordCallbackRoute } from "./discord-routes.mjs";
 import { handleManagerGet, handleManagerPost } from "./manager-routes.mjs";
 import { appSuccess, AppApiError } from "./response.mjs";
 import { handleStaffGet, handleStaffPost } from "./staff-routes.mjs";
@@ -9,7 +9,7 @@ import { assertAuthenticated, assertWorkspaceAccess } from "./workspace-scope.mj
 export async function handleAppApiGet({ request, url, options = {} }) {
   const storage = resolveStorage(options);
   const pathname = url.pathname;
-  const discordWorkspaceId = pathname === "/api/app/v1/auth/discord/callback"
+  const discordWorkspaceId = isDiscordCallbackRoute(pathname)
     ? peekDiscordStateWorkspaceId(url.searchParams.get("state"))
     : "";
   const context = await getAuthContext(request, {

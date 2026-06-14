@@ -22,15 +22,21 @@ export async function handleManagerGet({ pathname, url, context, storage, loadMa
   return null;
 }
 
-export async function handleManagerPost({ pathname, body, context, storage }) {
+export async function handleManagerPost({ pathname, body, context, storage, loadManagerSummaryFn }) {
   assertManagerRole(context);
   const workspaceId = assertWorkspaceAccess(context, context.workspaceId);
 
+  if (pathname === "/api/app/v1/manager/tasks/assign") {
+    return assignTask({ body, context, storage, workspaceId, loadManagerSummaryFn });
+  }
   if (pathname === "/api/app/v1/manager/tasks/approve") {
-    return approveTask({ body, context, storage, workspaceId });
+    return approveTask({ body, context, storage, workspaceId, loadManagerSummaryFn });
   }
   if (pathname === "/api/app/v1/manager/tasks/reject") {
     return rejectTask({ body, context, storage, workspaceId });
+  }
+  if (pathname === "/api/app/v1/manager/tasks/batch") {
+    return batchTasks({ body, context, storage, workspaceId, loadManagerSummaryFn });
   }
   if (pathname === "/api/app/v1/manager/feedback") {
     return saveFeedback({ body, context, storage, workspaceId });
@@ -64,14 +70,38 @@ async function appManagerTasks({ context, url, loadManagerSummaryFn }) {
   return { tasks };
 }
 
-async function approveTask({ body, context, storage, workspaceId }) {
+async function assignTask({ body, context, storage, workspaceId, loadManagerSummaryFn }) {
   const taskId = String(requireValue(body?.taskId, "TASK_ID_REQUIRED", "taskId 必填。")).trim();
   const current = await findWorkspaceTask(storage, workspaceId, taskId);
+  assertTaskMutable(current);
+  const assignment = await assignmentPatch({ body, current, context, loadManagerSummaryFn });
+  const complete = assignment.effective.accountId && assignment.effective.assignedTo;
+  const updated = await storage.updateTaskStatus(workspaceId, taskId, {
+    ...assignment.patch,
+    managerUserId: context.userId,
+    status: current.approvalStatus === "approved" && complete ? "assigned" : current.status
+  }, context);
+  await storage.writeAuditLog(auditEvent(context, "task.assign", "post_task", taskId, {
+    accountId: updated.accountId || "",
+    assignedTo: updated.assignedTo || ""
+  }));
+  return { task: appTaskView(updated) };
+}
+
+async function approveTask({ body, context, storage, workspaceId, loadManagerSummaryFn }) {
+  const taskId = String(requireValue(body?.taskId, "TASK_ID_REQUIRED", "taskId 必填。")).trim();
+  const current = await findWorkspaceTask(storage, workspaceId, taskId);
+  assertTaskMutable(current);
   if (current.approvalStatus === "rejected") {
     throw new AppApiError("TASK_REJECTED", "已拒绝任务不能直接批准。", 409);
   }
+  const assignment = await assignmentPatch({ body, current, context, loadManagerSummaryFn });
+  if (!assignment.effective.accountId || !assignment.effective.assignedTo) {
+    throw new AppApiError("TASK_NOT_ASSIGNED", "批准前必须先分配账号和员工。", 409);
+  }
   const updated = await storage.updateTaskStatus(workspaceId, taskId, {
-    status: current.accountId && current.assignedTo ? "approved" : "pending_review",
+    ...assignment.patch,
+    status: "assigned",
     approvalStatus: "approved",
     managerUserId: context.userId,
     approvedBy: context.userId,
@@ -88,6 +118,7 @@ async function rejectTask({ body, context, storage, workspaceId }) {
   const taskId = String(requireValue(body?.taskId, "TASK_ID_REQUIRED", "taskId 必填。")).trim();
   const reason = String(requireValue(body?.reason, "REJECT_REASON_REQUIRED", "拒绝原因必填。")).trim();
   const current = await findWorkspaceTask(storage, workspaceId, taskId);
+  assertTaskMutable(current);
   const updated = await storage.updateTaskStatus(workspaceId, taskId, {
     status: "skipped",
     approvalStatus: "rejected",
@@ -98,6 +129,36 @@ async function rejectTask({ body, context, storage, workspaceId }) {
   }, context);
   await storage.writeAuditLog(auditEvent(context, "task.reject", "post_task", taskId, { reason }));
   return { task: appTaskView(updated) };
+}
+
+async function batchTasks({ body, context, storage, workspaceId, loadManagerSummaryFn }) {
+  const taskIds = Array.isArray(body?.taskIds) ? body.taskIds.map((item) => String(item || "").trim()).filter(Boolean) : [];
+  if (!taskIds.length) throw new AppApiError("TASK_IDS_REQUIRED", "请先选择任务。", 400);
+  const action = String(requireValue(body?.action, "ACTION_REQUIRED", "action 必填。")).trim();
+  if (!["assign", "approve", "reject"].includes(action)) {
+    throw new AppApiError("ACTION_INVALID", "action 只能是 assign、approve 或 reject。", 400);
+  }
+  const items = [];
+  const failed = [];
+  for (const taskId of taskIds) {
+    try {
+      const payload = { ...body, taskId };
+      const result = action === "assign"
+        ? await assignTask({ body: payload, context, storage, workspaceId, loadManagerSummaryFn })
+        : action === "approve"
+          ? await approveTask({ body: payload, context, storage, workspaceId, loadManagerSummaryFn })
+          : await rejectTask({ body: payload, context, storage, workspaceId });
+      items.push(result.task);
+    } catch (error) {
+      failed.push({ taskId, code: error.code || "TASK_FAILED", error: error.message || "操作失败" });
+    }
+  }
+  await storage.writeAuditLog(auditEvent(context, `task.batch.${action}`, "post_task", taskIds.join(","), {
+    total: taskIds.length,
+    succeeded: items.length,
+    failed: failed.length
+  }));
+  return { items, failed };
 }
 
 async function saveFeedback({ body, context, storage, workspaceId }) {
@@ -129,6 +190,40 @@ async function saveFeedback({ body, context, storage, workspaceId }) {
     metricKeys: Object.keys(metrics)
   }));
   return { feedback, task: appTaskView(updated) };
+}
+
+async function assignmentPatch({ body, current, context, loadManagerSummaryFn }) {
+  const hasAccount = Object.hasOwn(body ?? {}, "accountId");
+  const hasStaff = Object.hasOwn(body ?? {}, "assignedTo");
+  const accountId = hasAccount ? String(body.accountId || "").trim() : current.accountId || "";
+  const assignedTo = hasStaff ? String(body.assignedTo || "").trim() : current.assignedTo || "";
+  const patch = {};
+  if (hasAccount) patch.accountId = accountId;
+  if (hasStaff) patch.assignedTo = assignedTo;
+  if (hasAccount || hasStaff) {
+    await assertAssignmentAllowed({ accountId, assignedTo, context, loadManagerSummaryFn });
+  }
+  return { patch, effective: { accountId, assignedTo } };
+}
+
+async function assertAssignmentAllowed({ accountId, assignedTo, context, loadManagerSummaryFn }) {
+  if (typeof loadManagerSummaryFn !== "function") return;
+  const summary = await loadManagerSummaryFn({
+    workspaceId: context.workspaceId,
+    managerUserId: context.userId
+  });
+  if (accountId && !(summary.accounts || []).some((account) => account.accountId === accountId)) {
+    throw new AppApiError("ACCOUNT_NOT_AVAILABLE", "账号不属于当前 workspace，不能分配。", 400);
+  }
+  if (assignedTo && !(summary.staff || []).some((user) => user.userId === assignedTo)) {
+    throw new AppApiError("STAFF_NOT_AVAILABLE", "员工不属于当前 workspace，不能分配。", 400);
+  }
+}
+
+function assertTaskMutable(task) {
+  if (["copied", "feedback_due", "posted", "skipped"].includes(task.status)) {
+    throw new AppApiError("TASK_LOCKED", "这个任务已经进入执行或关闭状态，不能继续审核。", 409);
+  }
 }
 
 async function findWorkspaceTask(storage, workspaceId, taskId) {

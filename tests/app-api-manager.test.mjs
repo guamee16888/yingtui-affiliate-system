@@ -10,7 +10,7 @@ test("manager summary and tasks are scoped to current workspace", async () => {
     options
   });
   assert.equal(result.payload.ok, true);
-  assert.deepEqual(result.payload.data.tasks.map((task) => task.taskId), ["task_a"]);
+  assert.deepEqual(result.payload.data.tasks.map((task) => task.taskId), ["task_a", "task_unassigned"]);
 });
 
 test("approve task updates approvalStatus and writes audit log", async () => {
@@ -24,6 +24,46 @@ test("approve task updates approvalStatus and writes audit log", async () => {
   assert.equal(result.payload.data.task.approvalStatus, "approved");
   assert.equal(options.storage.tasks[0].approvalStatus, "approved");
   assert.ok(options.storage.audit.some((entry) => entry.action === "task.approve"));
+});
+
+test("assign task saves account and staff in app manager API", async () => {
+  const options = testOptions();
+  const result = await handleAppApiPost({
+    request: request("/api/app/v1/manager/tasks/assign?devEmail=manager@example.com&workspaceId=workspace_a"),
+    url: url("/api/app/v1/manager/tasks/assign?devEmail=manager@example.com&workspaceId=workspace_a"),
+    body: { taskId: "task_unassigned", accountId: "account_b", assignedTo: "staff_b" },
+    options
+  });
+  assert.equal(result.payload.data.task.accountId, "account_b");
+  assert.equal(result.payload.data.task.assignedTo, "staff_b");
+  assert.ok(options.storage.audit.some((entry) => entry.action === "task.assign"));
+});
+
+test("approve task can save the selected assignment before approval", async () => {
+  const options = testOptions();
+  const result = await handleAppApiPost({
+    request: request("/api/app/v1/manager/tasks/approve?devEmail=manager@example.com&workspaceId=workspace_a"),
+    url: url("/api/app/v1/manager/tasks/approve?devEmail=manager@example.com&workspaceId=workspace_a"),
+    body: { taskId: "task_unassigned", accountId: "account_b", assignedTo: "staff_b" },
+    options
+  });
+  assert.equal(result.payload.data.task.status, "assigned");
+  assert.equal(result.payload.data.task.approvalStatus, "approved");
+  assert.equal(options.storage.tasks.find((task) => task.taskId === "task_unassigned").accountId, "account_b");
+});
+
+test("batch manager action returns successes and failures", async () => {
+  const options = testOptions();
+  const result = await handleAppApiPost({
+    request: request("/api/app/v1/manager/tasks/batch?devEmail=manager@example.com&workspaceId=workspace_a"),
+    url: url("/api/app/v1/manager/tasks/batch?devEmail=manager@example.com&workspaceId=workspace_a"),
+    body: { action: "approve", taskIds: ["task_unassigned", "missing"], accountId: "account_b", assignedTo: "staff_b" },
+    options
+  });
+  assert.equal(result.payload.data.items.length, 1);
+  assert.equal(result.payload.data.failed.length, 1);
+  assert.equal(result.payload.data.failed[0].taskId, "missing");
+  assert.ok(options.storage.audit.some((entry) => entry.action === "task.batch.approve"));
 });
 
 test("reject task requires a reason", async () => {
@@ -96,8 +136,8 @@ function testOptions() {
     async loadManagerSummary() {
       return {
         tasks: storage.tasks.filter((task) => task.workspaceId === "workspace_a"),
-        accounts: [],
-        staff: [],
+        accounts: storage.accounts,
+        staff: storage.staff,
         selectedWorkspace: { workspaceId: "workspace_a", name: "Workspace A" },
         selectedManager: { userId: "manager_a", role: "manager" },
         accessAllowed: true,
@@ -111,7 +151,16 @@ function fakeStorage() {
   const storage = {
     tasks: [
       task({ taskId: "task_a", workspaceId: "workspace_a" }),
+      task({ taskId: "task_unassigned", workspaceId: "workspace_a", accountId: "", assignedTo: "", status: "pending_review" }),
       task({ taskId: "task_b", workspaceId: "workspace_b" })
+    ],
+    accounts: [
+      { accountId: "account_a", persona: "Account A" },
+      { accountId: "account_b", persona: "Account B" }
+    ],
+    staff: [
+      { userId: "staff_a", name: "Staff A" },
+      { userId: "staff_b", name: "Staff B" }
     ],
     audit: [],
     feedback: [],
@@ -155,7 +204,7 @@ function task(overrides = {}) {
     toolId: "tool_a",
     copyId: "copy_a",
     copyText: "A compact post.",
-    status: "feedback_due",
+    status: "pending_review",
     approvalStatus: "pending",
     metrics: {},
     ...overrides

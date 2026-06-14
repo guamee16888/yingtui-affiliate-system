@@ -54,7 +54,13 @@ export async function handleAppApiPost({ request, url, body, options = {} }) {
   const context = await getAuthContext(request, { ...options, url, storage });
   const pathname = url.pathname;
 
-  const managerData = await handleManagerPost({ pathname, body, context, storage });
+  const managerData = await handleManagerPost({
+    pathname,
+    body,
+    context,
+    storage,
+    loadManagerSummaryFn: options.loadManagerSummary || storage.loadManagerSummary
+  });
   if (managerData) return appSuccess(managerData);
   const staffData = await handleStaffPost({ pathname, body, context, storage });
   if (staffData) return appSuccess(staffData);

@@ -227,12 +227,13 @@ async function loadAppManager() {
 async function updateTask(taskId, action, extra = {}) {
   if (state.demoMode) throw new Error("公开 Demo 是演示模式，不会写入任务。");
   if (state.appMode) {
-    if (action === "assign") throw new Error("App API MVP 先支持批准、拒绝和反馈保存。");
     const query = appQuery();
     const suffix = query.toString() ? `?${query}` : "";
-    const endpoint = action === "approve"
-      ? "/api/app/v1/manager/tasks/approve"
-      : "/api/app/v1/manager/tasks/reject";
+    const endpoint = action === "assign"
+      ? "/api/app/v1/manager/tasks/assign"
+      : action === "approve"
+        ? "/api/app/v1/manager/tasks/approve"
+        : "/api/app/v1/manager/tasks/reject";
     await apiPost(`${endpoint}${suffix}`, { taskId, ...extra });
     await loadAppManager();
     return;
@@ -448,7 +449,7 @@ function renderTask(task) {
       ${renderFeedbackForm(task)}
       ${task.blockReasons.length ? `<div class="badges">${task.blockReasons.map((reason) => badge(reason, "bad")).join("")}</div>` : ""}
       <div class="task-actions">
-        <button class="button secondary" data-action="assign" data-task-id="${attr(task.taskId)}" ${task.canAssign && !state.appMode && !state.demoMode ? "" : "disabled"} type="button">保存分配</button>
+        <button class="button secondary" data-action="assign" data-task-id="${attr(task.taskId)}" ${task.canAssign && !state.demoMode ? "" : "disabled"} type="button">保存分配</button>
         <button class="button" data-action="approve" data-task-id="${attr(task.taskId)}" ${task.canApprove && !state.demoMode ? "" : "disabled"} type="button">批准</button>
         <button class="button danger" data-action="reject" data-task-id="${attr(task.taskId)}" ${task.canReject && !state.demoMode ? "" : "disabled"} type="button">拒绝</button>
       </div>
@@ -560,12 +561,11 @@ function renderBatchBar() {
 }
 
 function canBatchSelect(task) {
-  if (state.appMode || state.demoMode) return false;
+  if (state.demoMode) return false;
   return task.canAssign || task.canApprove || task.canReject;
 }
 
 async function applyBatch(action) {
-  if (state.appMode) throw new Error("App API MVP 暂不支持批量操作。");
   const taskIds = [...state.selectedTaskIds];
   if (!taskIds.length) throw new Error("先勾选任务。");
   const payload = {
@@ -574,8 +574,18 @@ async function applyBatch(action) {
     workspaceId: state.workspaceId,
     managerUserId: state.managerUserId
   };
-  if (action === "assign") Object.assign(payload, batchAssignment());
+  if (action === "assign" || action === "approve") Object.assign(payload, batchAssignment());
   if (action === "reject") payload.reason = currentRejectReason() || "Rejected in batch manager review.";
+  if (state.appMode) {
+    const query = appQuery();
+    const suffix = query.toString() ? `?${query}` : "";
+    const json = await apiPost(`/api/app/v1/manager/tasks/batch${suffix}`, payload);
+    state.selectedTaskIds.clear();
+    await loadAppManager();
+    const failed = json.failed?.length ?? 0;
+    toast(failed ? `批量完成，失败 ${failed} 条` : `批量${batchActionLabel(action)}完成`);
+    return;
+  }
   const json = await apiPost("/api/manager/task/batch", payload);
   state.data = json.summary;
   state.selectedTaskIds.clear();

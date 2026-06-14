@@ -80,6 +80,7 @@
     "app:d1:seed:staging": "node scripts/app-d1-remote.mjs seed",
     "app:seed:staging-sql": "node scripts/seed-app-staging.mjs",
     "app:customer:create": "node scripts/app-create-customer.mjs",
+    "app:customer:seed-tasks": "node scripts/app-seed-customer-tasks.mjs",
     "admin:preflight": "node scripts/admin-preflight.mjs",
     "verify:admin-access": "node scripts/verify-admin-access.mjs",
     "verify:app-access": "node scripts/verify-app-access.mjs",

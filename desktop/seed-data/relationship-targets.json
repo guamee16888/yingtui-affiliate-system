@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "targetId": "target_demo_ai_builder",
+      "workspaceId": "workspace_default",
+      "accountId": "acct_ai_ops",
+      "targetHandle": "ai_builder_watch",
+      "status": "watch",
+      "notes": "Sample target. Replace with manual research after onboarding."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "laneId": "ai_startups",
+      "name": "AI Startup",
+      "active": true
+    },
+    {
+      "laneId": "indie_builders",
+      "name": "Indie Builders",
+      "active": true
+    },
+    {
+      "laneId": "saas_founders",
+      "name": "SaaS Founders",
+      "active": true
+    },
+    {
+      "laneId": "crypto_builders",
+      "name": "Crypto Builders",
+      "active": true
+    }
+  ]
+}

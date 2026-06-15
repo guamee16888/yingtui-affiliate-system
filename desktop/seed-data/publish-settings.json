@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "settings": {
+    "globalAutoPublishEnabled": false,
+    "dryRunByDefault": true,
+    "requireApprovalBeforePublish": true,
+    "maxPostsPerAccountPerDay": 1,
+    "allowedPublishModes": [
+      "manual"
+    ],
+    "defaultPublishMode": "manual"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "toolId": "tool_desktop_agent_triage",
+      "name": "Agent Triage Desk",
+      "url": "https://example.com/agent-triage-desk",
+      "domain": "example.com",
+      "tagline": "Sample AI support triage workflow for manual review.",
+      "laneId": "ai_startups"
+    },
+    {
+      "toolId": "tool_desktop_pricing_notes",
+      "name": "Pricing Notes Board",
+      "url": "https://example.com/pricing-notes-board",
+      "domain": "example.com",
+      "tagline": "Sample SaaS pricing research board.",
+      "laneId": "saas_founders"
+    }
+  ]
+}

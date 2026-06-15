@@ -6,13 +6,27 @@ import { todayString } from "./ids.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const rootDir = path.resolve(__dirname, "../..");
 
+function runtimeDataRoot() {
+  return process.env.AI_CREATOR_OS_DATA_DIR
+    ? path.resolve(process.env.AI_CREATOR_OS_DATA_DIR)
+    : "";
+}
+
+function shouldUseRuntimeDataRoot(filePath) {
+  if (path.isAbsolute(filePath)) return false;
+  const [topLevel] = filePath.split(/[\\/]/);
+  return Boolean(runtimeDataRoot()) && ["data", "config", "output"].includes(topLevel);
+}
+
 export function resolveProjectPath(filePath) {
+  if (shouldUseRuntimeDataRoot(filePath)) return path.join(runtimeDataRoot(), filePath);
   return path.isAbsolute(filePath) ? filePath : path.join(rootDir, filePath);
 }
 
 function assertProjectWritePath(filePath) {
   const target = resolveProjectPath(filePath);
-  const relative = path.relative(rootDir, target);
+  const baseDir = shouldUseRuntimeDataRoot(filePath) ? runtimeDataRoot() : rootDir;
+  const relative = path.relative(baseDir, target);
   const allowed = ["data", "config", "output"];
   if (relative.startsWith("..") || path.isAbsolute(relative) || !allowed.includes(relative.split(path.sep)[0])) {
     throw new Error(`Refusing to write outside project data/config/output: ${filePath}`);
@@ -77,9 +91,10 @@ export async function backupJson(filePath) {
     throw error;
   }
 
-  const backupDir = path.join(rootDir, "data/backups", todayString());
+  const backupRoot = shouldUseRuntimeDataRoot(filePath) ? runtimeDataRoot() : rootDir;
+  const backupDir = path.join(backupRoot, "data/backups", todayString());
   await mkdir(backupDir, { recursive: true });
-  const safeName = path.relative(rootDir, target).replace(/[/\\:]/g, "__");
+  const safeName = path.relative(backupRoot, target).replace(/[/\\:]/g, "__");
   const backupPath = path.join(backupDir, `${Date.now()}-${safeName}`);
   await copyFile(target, backupPath);
   return backupPath;

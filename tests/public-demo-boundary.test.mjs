@@ -13,7 +13,8 @@ test("public entry does not expose owner dashboard or staff route", async () => 
 
 test("manager page is the only public app entry and hides staff nav", async () => {
   const html = await readFile("manager/index.html", "utf8");
-  assert.ok(html.includes("Workspace 管理端"));
+  assert.ok(html.includes("多账号 X 运营工具箱"));
+  assert.equal(html.includes("Workspace 管理端"), false);
   assert.equal(html.includes("href=\"/staff/\""), false);
 });
 

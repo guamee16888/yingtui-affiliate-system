@@ -1,0 +1,43 @@
+appId: org.guamee.aicreatoros.desktop
+productName: AI Creator OS
+artifactName: AI-Creator-OS-${version}-${os}-${arch}.${ext}
+directories:
+  output: dist-desktop
+  buildResources: assets
+files:
+  - package.json
+  - desktop/**
+  - manager/**
+  - scripts/**
+  - "!dashboard/**"
+  - "!staff/**"
+  - "!public/**"
+  - "!data/**"
+  - "!output/**"
+  - "!config/**"
+  - "!dist/**"
+  - "!dist-desktop/**"
+  - "!release/**"
+  - "!release-local/**"
+  - "!.wrangler/**"
+  - "!.env"
+  - "!.env.*"
+  - "!data/backups/**"
+  - "!scripts/**/*.test.mjs"
+asar: false
+publish: null
+mac:
+  icon: assets/mac/icon.icns
+  target:
+    - dmg
+    - zip
+    - dir
+win:
+  target:
+    - nsis
+    - portable
+    - dir
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true

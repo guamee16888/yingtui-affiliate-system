@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "workspaceId": "workspace_default",
+      "laneId": "ai_startups",
+      "enabled": true,
+      "priority": 1
+    },
+    {
+      "workspaceId": "workspace_default",
+      "laneId": "indie_builders",
+      "enabled": true,
+      "priority": 2
+    },
+    {
+      "workspaceId": "workspace_default",
+      "laneId": "saas_founders",
+      "enabled": true,
+      "priority": 3
+    },
+    {
+      "workspaceId": "workspace_default",
+      "laneId": "crypto_builders",
+      "enabled": true,
+      "priority": 4
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { CORE_COLLECTIONS, loadCollection, saveCollection } from "./core-data.mjs";
 import { createStableId } from "./ids.mjs";
 import { readJson, writeJsonAtomic } from "./file-store.mjs";
+import { listRelationshipTargets as listTargets, upsertRelationshipTarget, updateRelationshipTargetStatus } from "./relationship-targets.mjs";
 import { SOURCE_LANE_FILES } from "./source-lanes.mjs";
 import { createStorageAdapter } from "./storage-adapter.mjs";
 
@@ -185,6 +186,18 @@ async function writeLicenseEvent(event = {}) {
   return item;
 }
 
+async function listRelationshipTargets(workspaceId, accountId) {
+  return listTargets({ workspaceId, accountId });
+}
+
+async function upsertRelationshipTargetForStorage(workspaceId, accountId, input = {}, actor = {}) {
+  return upsertRelationshipTarget({ workspaceId, accountId, input, actor });
+}
+
+async function updateRelationshipTargetStatusForStorage(workspaceId, accountId, targetId, status, notes = "", actor = {}) {
+  return updateRelationshipTargetStatus({ workspaceId, accountId, targetId, status, notes, actor });
+}
+
 function taskWorkspaceId(task) {
   return task.workspaceId || "workspace_default";
 }
@@ -201,7 +214,10 @@ export const jsonStorageAdapter = createStorageAdapter({
   getWorkspaceEntitlement,
   getUserIdentity,
   upsertUserIdentity,
-  writeLicenseEvent
+  writeLicenseEvent,
+  listRelationshipTargets,
+  upsertRelationshipTarget: upsertRelationshipTargetForStorage,
+  updateRelationshipTargetStatus: updateRelationshipTargetStatusForStorage
 });
 
 export default jsonStorageAdapter;

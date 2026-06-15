@@ -62,6 +62,31 @@ import { getAppStorageMode } from "./lib/app-storage-mode.mjs";
 import { getAppStorage } from "./lib/app-storage.mjs";
 import { handleAppApiGet, handleAppApiPost } from "./lib/app-api/session.mjs";
 import { appFailure } from "./lib/app-api/response.mjs";
+import {
+  addDesktopRelationshipTargets,
+  archiveDesktopAccount,
+  clearDesktopXOAuthConfig,
+  completeDesktopSetup,
+  createDesktopTask,
+  exportDesktopAccountsCsv,
+  exportDesktopBackupPackage,
+  finishDesktopXOAuthCallback,
+  importDesktopAccounts,
+  importDesktopNetworkNotes,
+  importDesktopBackup,
+  loadDesktopRelationshipTargets,
+  loadDesktopSetupStatus,
+  loadDesktopXOAuthStatus,
+  markDesktopTaskPosted,
+  revokeDesktopXOAuth,
+  resetDesktopDemoData,
+  saveDesktopXOAuthConfig,
+  saveDesktopFeedback,
+  startDesktopXOAuth,
+  updateDesktopAccountConfig,
+  updateDesktopRelationshipTargetStatus,
+  upsertDesktopAccount
+} from "./lib/desktop-data-store.mjs";
 
 await loadLocalEnv();
 
@@ -86,6 +111,7 @@ let sourcePackRunPromise = null;
 let refillWorkbenchRunPromise = null;
 let affiliateWorkbenchRunPromise = null;
 let learningLoopRunPromise = null;
+let desktopRuntimeHandlers = {};
 
 const mimeTypes = new Map([
   [".html", "text/html; charset=utf-8"],
@@ -111,6 +137,14 @@ function sendJson(response, status, payload) {
     "cache-control": "no-store"
   });
   response.end(JSON.stringify(payload, null, 2));
+}
+
+function sendHtml(response, status, html) {
+  response.writeHead(status, {
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "no-store"
+  });
+  response.end(html);
 }
 
 async function parseBody(request) {
@@ -148,7 +182,24 @@ async function handleApi(request, response, url) {
     }
 
     if (request.method === "GET") {
+      if (url.pathname === "/api/oauth/x/callback") {
+        try {
+          const data = await finishDesktopXOAuthCallback({
+            code: url.searchParams.get("code") || "",
+            state: url.searchParams.get("state") || "",
+            error: url.searchParams.get("error") || ""
+          });
+          sendHtml(response, 200, oauthCallbackHtml(data));
+        } catch (error) {
+          sendHtml(response, 400, oauthCallbackHtml({ message: error.message || "X OAuth 回调失败。" }));
+        }
+        return;
+      }
       const data = await handleApiGet(url);
+      if (url.pathname === "/api/desktop/health") {
+        sendJson(response, 200, data);
+        return;
+      }
       sendJson(response, 200, { ok: true, data });
       return;
     }
@@ -178,6 +229,20 @@ async function sendWebResponse(response, webResponse) {
 
 async function handleApiGet(url) {
   const pathname = url.pathname;
+  if (pathname === "/api/desktop/health") return desktopHealth(url);
+  if (pathname === "/api/desktop/setup") return loadDesktopSetupStatus();
+  if (pathname === "/api/desktop/x-oauth/status") return loadDesktopXOAuthStatus();
+  if (pathname === "/api/oauth/x/start") return startDesktopXOAuth();
+  if (pathname === "/api/desktop/accounts/export") {
+    return { csv: await exportDesktopAccountsCsv(url.searchParams.get("workspaceId") || "workspace_default") };
+  }
+  if (pathname.startsWith("/api/desktop/accounts/") && pathname.endsWith("/targets")) {
+    const accountId = decodeURIComponent(pathname.split("/")[4] || "");
+    return loadDesktopRelationshipTargets({
+      workspaceId: url.searchParams.get("workspaceId") || "workspace_default",
+      accountId
+    });
+  }
   if (pathname === "/api/storage-mode") return { mode: getAppStorageMode(), d1Bound: false };
   guardD1ReservedRoute(pathname);
   if (pathname === "/api/latest") return loadLatest();
@@ -316,7 +381,21 @@ async function handleApiGet(url) {
   throw new Error(`Unknown API route: ${pathname}`);
 }
 
+function desktopHealth(url) {
+  const port = Number(process.env.AI_CREATOR_OS_DESKTOP_PORT || url.port || 0);
+  return {
+    ok: true,
+    mode: process.env.AI_CREATOR_OS_DESKTOP === "1" ? "desktop" : "web",
+    port,
+    storageMode: getAppStorageMode(),
+    desktopDataDir: process.env.AI_CREATOR_OS_DATA_DIR || "",
+    timestamp: new Date().toISOString()
+  };
+}
+
 async function handleApiPost(pathname, body) {
+  if (pathname.startsWith("/api/desktop/")) return handleDesktopApiPost(pathname, body);
+  if (pathname === "/api/oauth/x/revoke") return revokeDesktopXOAuth({ userId: body.actorUserId || "user_owner" });
   guardD1ReservedRoute(pathname);
   if (pathname === "/api/feedback/upsert") return upsertFeedbackWithAccount(body);
   if (pathname === "/api/candidate-inbox/upsert") return upsertCandidate(validateCandidate(body));
@@ -352,6 +431,63 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/account/publish-mode") return updateAccountPublishMode(body);
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
+}
+
+async function handleDesktopApiPost(pathname, body) {
+  const actor = { userId: body.actorUserId || body.managerUserId || "user_owner" };
+  if (pathname === "/api/desktop/accounts/incognito") {
+    if (typeof desktopRuntimeHandlers.openIncognitoAccountWindow !== "function") {
+      throw new Error("请从 /Applications/AI Creator OS.app 打开临时窗。浏览器里的普通开发后端不能拉起本地工作窗。");
+    }
+    return desktopRuntimeHandlers.openIncognitoAccountWindow(body);
+  }
+  if (pathname === "/api/desktop/setup/complete") return completeDesktopSetup(body, actor);
+  if (pathname === "/api/desktop/x-oauth/config") return saveDesktopXOAuthConfig(body, actor);
+  if (pathname === "/api/desktop/x-oauth/clear") return clearDesktopXOAuthConfig(actor);
+  if (pathname === "/api/desktop/demo/reset") return resetDesktopDemoData({ markSetupComplete: true, actor });
+  if (pathname === "/api/desktop/accounts/import") return importDesktopAccounts(body, actor);
+  if (pathname === "/api/desktop/accounts/network-notes/import") return importDesktopNetworkNotes(body, actor);
+  if (pathname === "/api/desktop/accounts/upsert") return upsertDesktopAccount(body, actor);
+  if (pathname === "/api/desktop/accounts/update") return updateDesktopAccountConfig(body, actor);
+  if (pathname === "/api/desktop/accounts/delete") return archiveDesktopAccount(body, actor);
+  if (pathname === "/api/desktop/tasks/create") return createDesktopTask(body, actor);
+  if (pathname === "/api/desktop/tasks/posted") return markDesktopTaskPosted(body, actor);
+  if (pathname === "/api/desktop/feedback") return saveDesktopFeedback(body, actor);
+  if (pathname === "/api/desktop/targets/import") return addDesktopRelationshipTargets(body, actor);
+  if (pathname === "/api/desktop/targets/status") return updateDesktopRelationshipTargetStatus(body, actor);
+  if (pathname === "/api/desktop/backup/export") return exportDesktopBackupPackage(body);
+  if (pathname === "/api/desktop/backup/import") return importDesktopBackup(body, actor);
+  throw new Error(`Unknown Desktop API route: ${pathname}`);
+}
+
+function oauthCallbackHtml(data) {
+  const message = escapeHtml(data.message || "X OAuth callback received.");
+  return `<!doctype html>
+<meta charset="utf-8">
+<title>AI Creator OS Desktop · X OAuth</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f6f7f4; color: #17201b; }
+  main { width: min(560px, calc(100vw - 40px)); padding: 28px; border: 1px solid #dfe5dc; border-radius: 16px; background: #fff; box-shadow: 0 18px 40px rgba(22, 34, 28, 0.08); }
+  h1 { margin: 0 0 10px; font-size: 22px; }
+  p { margin: 0 0 12px; color: #647067; line-height: 1.55; }
+  code { padding: 2px 6px; border-radius: 6px; background: #f0f3ef; }
+</style>
+<main>
+  <h1>X OAuth 回调已收到</h1>
+  <p>${message}</p>
+  <p>现在可以关闭这个窗口，回到 AI Creator OS 桌面版。</p>
+  <p><code>不会创建假正式账号，也不会把 token 返回给前端。</code></p>
+</main>`;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;"
+  }[char]));
 }
 
 function guardD1ReservedRoute(pathname) {
@@ -1069,7 +1205,7 @@ async function serveStatic(request, response) {
     const body = await readFile(filePath);
     response.writeHead(200, {
       "content-type": mimeTypes.get(ext) ?? "application/octet-stream",
-      "cache-control": "no-store"
+      "cache-control": "no-store, no-cache, must-revalidate"
     });
     response.end(body);
   } catch {
@@ -1079,6 +1215,7 @@ async function serveStatic(request, response) {
 }
 
 export function startDashboardServer(args = parseArgs(process.argv.slice(2))) {
+  desktopRuntimeHandlers = args.desktopHandlers || {};
   const server = createServer((request, response) => {
     const url = new URL(request.url ?? "/", `http://${request.headers.host ?? "localhost"}`);
     if (url.pathname.startsWith("/api/")) {
@@ -1094,7 +1231,7 @@ export function startDashboardServer(args = parseArgs(process.argv.slice(2))) {
   });
 
   server.listen(args.port, args.host, () => {
-    console.log(`Dashboard running at http://${args.host}:${args.port}/dashboard/`);
+    if (!args.silent) console.log(`Dashboard running at http://${args.host}:${args.port}/dashboard/`);
   });
   return server;
 }

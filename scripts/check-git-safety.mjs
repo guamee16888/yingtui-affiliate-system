@@ -48,6 +48,12 @@ function checkTrackedFiles(files) {
   if (files.some((file) => file.startsWith("dist/"))) {
     warnings.push("dist/ files are tracked. Build output should stay out of Git.");
   }
+  if (files.some((file) => file.startsWith("dist-desktop/"))) {
+    errors.push("dist-desktop files are tracked. Desktop build output must stay out of Git.");
+  }
+  if (files.some((file) => file.startsWith("release/"))) {
+    errors.push("release files are tracked. Desktop release output must stay out of Git.");
+  }
 }
 
 function checkStagedFiles(files) {
@@ -71,6 +77,12 @@ function checkStagedDiff(diff) {
     }
     if (looksLikePublicHandle(entry.file, entry.line)) {
       warnings.push(`Possible real X handle in public-facing staged diff: ${entry.file}`);
+    }
+    if (entry.file.startsWith("dist-desktop/")) {
+      errors.push(`Desktop build artifact staged: ${entry.file}`);
+    }
+    if (entry.file.startsWith("release/")) {
+      errors.push(`Desktop release artifact staged: ${entry.file}`);
     }
   }
 }

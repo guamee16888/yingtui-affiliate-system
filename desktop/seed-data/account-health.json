@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "workspaceId": "workspace_default",
+      "accountId": "acct_ai_ops",
+      "status": "healthy",
+      "score": 88
+    },
+    {
+      "workspaceId": "workspace_default",
+      "accountId": "acct_saas_founder",
+      "status": "healthy",
+      "score": 82
+    }
+  ]
+}

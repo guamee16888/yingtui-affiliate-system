@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "assignmentId": "assign_owner_ai_ops",
+      "workspaceId": "workspace_default",
+      "userId": "user_owner",
+      "accountId": "acct_ai_ops",
+      "role": "manager",
+      "active": true
+    },
+    {
+      "assignmentId": "assign_staff_saas",
+      "workspaceId": "workspace_default",
+      "userId": "user_staff_demo",
+      "accountId": "acct_saas_founder",
+      "role": "staff",
+      "active": true
+    }
+  ]
+}

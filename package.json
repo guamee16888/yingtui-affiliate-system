@@ -4,6 +4,7 @@
   "description": "AI Creator OS: a multi-account X content operating system for topic discovery, task review, safe publishing workflows, and performance feedback.",
   "private": true,
   "type": "module",
+  "main": "desktop/main.mjs",
   "keywords": [
     "ai-twitter-automation",
     "multi-account-x",
@@ -99,6 +100,22 @@
     "release:check": "node scripts/check-public-release.mjs",
     "check": "node scripts/check-system.mjs",
     "x:auth": "node scripts/x-auth.mjs",
+    "desktop:dev": "node scripts/desktop-dev.mjs",
+    "desktop:doctor": "node scripts/desktop-doctor.mjs",
+    "desktop:pack": "electron-builder --config electron-builder.yml",
+    "desktop:pack:dir": "electron-builder --config electron-builder.yml --dir",
+    "desktop:pack:mac": "electron-builder --config electron-builder.yml --mac",
+    "desktop:pack:win": "electron-builder --config electron-builder.yml --win",
+    "desktop:install:mac": "node scripts/desktop-install-mac.mjs",
+    "desktop:runtime:cleanup": "node scripts/desktop-runtime-cleanup.mjs",
+    "desktop:ui:audit": "node scripts/desktop-visible-text-audit.mjs",
+    "desktop:package-check": "node scripts/desktop-package-check.mjs",
+    "desktop:smoke:mac": "node scripts/desktop-package-check.mjs --smoke",
+    "desktop:smoke:packaged": "node scripts/desktop-package-check.mjs --smoke",
+    "desktop:release:mac-trial": "node scripts/desktop-release-mac-trial.mjs",
+    "desktop:smoke:mac-trial": "node scripts/desktop-mac-trial-smoke.mjs",
+    "icon:mac": "node scripts/generate-mac-icon.mjs",
+    "desktop:check": "node scripts/check-desktop.mjs",
     "build": "node scripts/build-public-demo.mjs",
     "vercel-build": "node scripts/build-public-demo.mjs",
     "start": "node scripts/start-dashboard.mjs",
@@ -111,5 +128,9 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "electron": "^42.4.0",
+    "electron-builder": "^26.15.3"
   }
 }

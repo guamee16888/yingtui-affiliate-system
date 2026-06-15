@@ -591,18 +591,18 @@ function renderDesktopAccountsTab() {
 
 function renderDesktopNetworkNotesImportDetails() {
   return `<details class="desktop-import-compact" open>
-    <summary>批量导入网络/IP备注（一次导入30个账号）</summary>
+    <summary>批量导入代理表 / 网络IP（一次导入30个账号）</summary>
     <div class="desktop-import-box">
       <div class="desktop-import-head">
-        <strong>只更新已有账号</strong>
-        <span>网络/IP 是人工备注，用来记录每个账号常用网络和设备，不会自动切换代理或指纹。</span>
+        <strong>支持代理平台导出的表格</strong>
+        <span>没有 handle/accountId 时，会按账号库顺序从上到下写入；只保存 IP、端口、国家、城市和状态备注。</span>
       </div>
       <label class="field">
-        <span>CSV 粘贴</span>
-        <textarea name="desktopNetworkNotesImportCsv" rows="5" placeholder="handle,networkNote,ipNote,deviceNote,countryRegionNote&#10;@account_01,日本住宅宽带,东京,Pixel 7,日本&#10;@account_02,美国 VPS,洛杉矶,备用手机,美国&#10;&#10;accountId,networkNote,ipNote,deviceNote,countryRegionNote&#10;xacc_xxx,日本住宅宽带,东京,Pixel 7,日本"></textarea>
+        <span>代理表 / CSV 粘贴</span>
+        <textarea name="desktopNetworkNotesImportCsv" rows="8" placeholder="Proxy Address,Port,Username,Password,Last Checked,Status,Country,City&#10;38.154.203.95,5863,username,password,just now,Working,United States,Piscataway&#10;198.105.121.200,6462,username,password,1 minute ago,Working,United Kingdom,London&#10;&#10;也支持精确匹配：&#10;handle,networkNote,ipNote,deviceNote,countryRegionNote&#10;@account_01,日本住宅宽带,东京,Pixel 7,日本"></textarea>
       </label>
-      <div class="desktop-safety-note">只匹配已存在的 handle 或 accountId；不会保存密码、cookie、代理、指纹等敏感字段，CSV 里出现这些字段会被忽略。</div>
-      <button class="button" data-account-action="import-network-notes" type="button">导入网络/IP备注</button>
+      <div class="desktop-safety-note">导入代理表时，Username / Password 会被忽略；系统不会保存 X 密码、cookie、指纹，也不会自动切换代理。</div>
+      <button class="button" data-account-action="import-network-notes" type="button">导入代理表 / 网络IP</button>
     </div>
   </details>`;
 }

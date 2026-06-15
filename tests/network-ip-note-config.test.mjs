@@ -11,9 +11,10 @@ test("desktop account detail exposes network and IP note config only", () => {
   for (const label of ["网络/IP 配置", "网络备注", "IP 归属备注", "设备备注", "国家/地区备注"]) {
     assert.match(appJs, new RegExp(label));
   }
-  assert.match(appJs, /批量导入网络\/IP备注/);
+  assert.match(appJs, /批量导入代理表 \/ 网络IP/);
   assert.match(appJs, /data-account-action="import-network-notes"/);
   assert.match(appJs, /handle,networkNote,ipNote,deviceNote,countryRegionNote/);
+  assert.match(appJs, /Proxy Address,Port,Username,Password,Last Checked,Status,Country,City/);
   assert.match(appJs, /不切换代理、不保存代理账号密码、不管理指纹、不改变系统网络/);
   assert.doesNotMatch(appJs, /proxyUrl|proxyHost|fingerprintId|rotateIp/);
 });
@@ -101,5 +102,49 @@ test("batch network note import ignores sensitive fields and does not store prox
       assert.equal(account[field], undefined);
     }
     assert.equal(account.timezone, "");
+  });
+});
+
+test("proxy provider table imports by account order as network notes only", async () => {
+  await withDesktopTestEnv(async () => {
+    await completeDesktopSetup({ mode: "empty_workspace", workspaceId: "workspace_proxy_table", workspaceName: "Proxy Table" });
+    await importDesktopAccounts({ workspaceId: "workspace_proxy_table", text: "@proxy_a\n@proxy_b" });
+    const result = await importDesktopNetworkNotes({
+      workspaceId: "workspace_proxy_table",
+      csv: "Proxy Address,Port,Username,Password,Last Checked,Status,Country,City\n38.154.203.95,5863,phziy,secret,just now,Working,United States,Piscataway\n198.105.121.200,6462,phziy,secret,1 minute ago,Working,United Kingdom,London"
+    });
+    assert.equal(result.updatedCount, 2);
+    assert.equal(result.skippedCount, 0);
+    assert.deepEqual(result.ignoredFields.sort(), ["password", "username"]);
+
+    const accounts = await loadCollection(CORE_COLLECTIONS.xAccounts);
+    const first = accounts.items.find((item) => item.handle === "@proxy_a");
+    const second = accounts.items.find((item) => item.handle === "@proxy_b");
+    assert.equal(first.ipNote, "38.154.203.95:5863");
+    assert.equal(first.countryRegionNote, "United States / Piscataway");
+    assert.equal(first.notes, "状态: Working；检查: just now");
+    assert.equal(second.ipNote, "198.105.121.200:6462");
+    assert.equal(second.countryRegionNote, "United Kingdom / London");
+    for (const account of [first, second]) {
+      for (const field of ["password", "cookie", "cookies", "proxy", "fingerprint", "token", "secret", "username"]) {
+        assert.equal(account[field], undefined);
+      }
+    }
+  });
+});
+
+test("tab copied proxy provider table is supported", async () => {
+  await withDesktopTestEnv(async () => {
+    await completeDesktopSetup({ mode: "empty_workspace", workspaceId: "workspace_proxy_tsv", workspaceName: "Proxy TSV" });
+    await importDesktopAccounts({ workspaceId: "workspace_proxy_tsv", text: "@proxy_tab" });
+    const result = await importDesktopNetworkNotes({
+      workspaceId: "workspace_proxy_tsv",
+      text: "Proxy Address\tPort\tUsername\tPassword\tLast Checked\tStatus\tCountry\tCity\n142.111.67.146\t5611\tphziy\tsecret\tjust now\tWorking\tJapan\tTokyo"
+    });
+    assert.equal(result.updatedCount, 1);
+    const accounts = await loadCollection(CORE_COLLECTIONS.xAccounts);
+    const account = accounts.items.find((item) => item.handle === "@proxy_tab");
+    assert.equal(account.ipNote, "142.111.67.146:5611");
+    assert.equal(account.countryRegionNote, "Japan / Tokyo");
   });
 });

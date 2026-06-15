@@ -523,15 +523,19 @@ export async function importDesktopNetworkNotes(input = {}, actor = { userId: "u
   const scopedAccounts = accounts.items.filter((account) => (account.workspaceId || "workspace_default") === workspaceId);
   const byAccountId = new Map(scopedAccounts.map((account) => [account.accountId, account]));
   const byHandle = new Map(scopedAccounts.map((account) => [normalizeHandle(account.handle).toLowerCase(), account]));
+  const positionalAccounts = scopedAccounts.filter((account) => account.status !== "archived");
   const patches = new Map();
   const skipped = [];
+  let positionalIndex = 0;
 
   for (const row of parsed.rows) {
     const account = row.accountId
       ? byAccountId.get(row.accountId)
-      : byHandle.get(normalizeHandle(row.handle).toLowerCase());
+      : row.handle
+        ? byHandle.get(normalizeHandle(row.handle).toLowerCase())
+        : positionalAccounts[positionalIndex++];
     if (!account) {
-      skipped.push({ accountId: row.accountId || "", handle: row.handle || "", reason: "not_found" });
+      skipped.push({ accountId: row.accountId || "", handle: row.handle || "", reason: row.handle || row.accountId ? "not_found" : "no_account_for_row" });
       continue;
     }
     const patch = networkNotePatch(row);
@@ -1052,11 +1056,10 @@ export function parseDesktopNetworkNotesImport(input = {}) {
   }
   const pasted = String(input.csv || input.text || "").trim();
   if (pasted) {
-    const parsed = parseCsv(pasted);
+    const parsed = parseFlexibleNetworkTable(pasted);
     if (parsed.length) {
       const headers = parsed[0].map((header) => normalizeNetworkNoteFieldName(header, ignored));
-      const hasHeader = headers.some((field) => field === "handle" || field === "accountId")
-        && headers.some((field) => ["networkLabel", "ipNote", "deviceNote", "countryRegionNote", "notes"].includes(field));
+      const hasHeader = headers.filter(Boolean).length >= 2;
       const dataRows = hasHeader ? parsed.slice(1) : parsed;
       const fallbackFields = ["handle", "networkLabel", "ipNote", "deviceNote", "countryRegionNote", "notes"];
       for (const row of dataRows) {
@@ -1073,10 +1076,12 @@ export function parseDesktopNetworkNotesImport(input = {}) {
   }
   const uniqueRows = [];
   const seen = new Set();
-  for (const row of rows.filter((item) => item.accountId || item.handle)) {
-    const key = row.accountId ? `id:${row.accountId}` : `handle:${normalizeHandle(row.handle).toLowerCase()}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
+  for (const row of rows.filter((item) => hasNetworkNoteUpdate(item) && (item.accountId || item.handle || item.proxyAddress || item.ipNote))) {
+    const key = row.accountId ? `id:${row.accountId}` : row.handle ? `handle:${normalizeHandle(row.handle).toLowerCase()}` : "";
+    if (key) {
+      if (seen.has(key)) continue;
+      seen.add(key);
+    }
     uniqueRows.push(row);
   }
   return { rows: uniqueRows, ignoredFields: [...ignored] };
@@ -1147,6 +1152,16 @@ function normalizeNetworkNoteFieldName(value, ignored = new Set()) {
   const raw = String(value || "").trim();
   const normalized = normalizeFieldName(raw);
   const rawCompact = raw.toLowerCase().replace(/\s+/g, "");
+  if (normalized === "proxyaddress" || normalized === "ipaddress" || rawCompact === "proxyaddress" || rawCompact === "ipaddress" || rawCompact === "代理地址" || rawCompact === "ip地址") return "proxyAddress";
+  if (normalized === "proxyport" || normalized === "port" || rawCompact === "端口") return "proxyPort";
+  if (normalized === "proxylastchecked" || normalized === "lastchecked" || rawCompact === "lastchecked" || rawCompact === "最后检查" || rawCompact === "检测时间") return "proxyLastChecked";
+  if (normalized === "proxystatus" || normalized === "status" || rawCompact === "状态") return "proxyStatus";
+  if (normalized === "proxycity" || normalized === "city" || rawCompact === "城市") return "proxyCity";
+  if (normalized === "proxycountry" || normalized === "country" || rawCompact === "国家") return "proxyCountry";
+  if (normalized === "username" || rawCompact === "用户名" || rawCompact === "账号名") {
+    ignored.add("username");
+    return "";
+  }
   const forbidden = forbiddenImportFieldName(raw, normalized);
   if (forbidden) {
     ignored.add(forbidden);
@@ -1157,7 +1172,7 @@ function normalizeNetworkNoteFieldName(value, ignored = new Set()) {
   if (["network", "networklabel", "networknote"].includes(normalized) || rawCompact === "网络" || rawCompact === "网络备注" || rawCompact === "网络ip") return "networkLabel";
   if (["ip", "ipnote"].includes(normalized) || rawCompact === "ip备注" || rawCompact === "ip归属" || rawCompact === "ip归属备注") return "ipNote";
   if (["device", "devicenote"].includes(normalized) || rawCompact === "设备" || rawCompact === "设备备注" || rawCompact === "手机") return "deviceNote";
-  if (normalized === "countryregionnote" || rawCompact === "国家" || rawCompact === "地区" || rawCompact === "国家地区" || rawCompact === "国家/地区" || rawCompact === "国家地区备注") return "countryRegionNote";
+  if (normalized === "countryregionnote" || rawCompact === "地区" || rawCompact === "国家地区" || rawCompact === "国家/地区" || rawCompact === "国家地区备注") return "countryRegionNote";
   if (normalized === "notes" || rawCompact === "备注") return "notes";
   return DESKTOP_NETWORK_NOTE_FIELDS.has(normalized) ? fieldAlias(normalized) : "";
 }
@@ -1180,7 +1195,34 @@ function networkNotePatch(row = {}) {
   for (const field of ["networkLabel", "ipNote", "deviceNote", "countryRegionNote", "notes"]) {
     if (String(row[field] || "").trim()) patch[field] = String(row[field]).trim();
   }
+  const proxyAddress = String(row.proxyAddress || "").trim();
+  const proxyPort = String(row.proxyPort || "").trim();
+  if (proxyAddress && !patch.ipNote) patch.ipNote = proxyPort ? `${proxyAddress}:${proxyPort}` : proxyAddress;
+  const location = [row.proxyCountry, row.proxyCity].map((item) => String(item || "").trim()).filter(Boolean).join(" / ");
+  if (location && !patch.countryRegionNote) patch.countryRegionNote = location;
+  const proxyNotes = [
+    row.proxyStatus ? `状态: ${row.proxyStatus}` : "",
+    row.proxyLastChecked ? `检查: ${row.proxyLastChecked}` : ""
+  ].filter(Boolean).join("；");
+  if (proxyNotes && !patch.notes) patch.notes = proxyNotes;
   return patch;
+}
+
+function hasNetworkNoteUpdate(row = {}) {
+  return ["networkLabel", "ipNote", "deviceNote", "countryRegionNote", "notes", "proxyAddress", "proxyPort", "proxyCountry", "proxyCity", "proxyStatus", "proxyLastChecked"]
+    .some((field) => String(row[field] || "").trim());
+}
+
+function parseFlexibleNetworkTable(pasted) {
+  const text = String(pasted || "").trim();
+  if (!text) return [];
+  if (text.includes("\t")) {
+    return text.split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => line.split("\t").map((cell) => cell.trim()));
+  }
+  return parseCsv(text);
 }
 
 function normalizeFieldName(value) {

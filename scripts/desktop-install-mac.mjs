@@ -1,8 +1,9 @@
 import { readdir, rm } from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const repoRoot = path.resolve(new URL("..", import.meta.url).pathname);
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceApp = path.join(repoRoot, "dist-desktop", "mac-arm64", "AI Creator OS.app");
 const applicationsDir = "/Applications";
 const targetApp = path.join(applicationsDir, "AI Creator OS.app");

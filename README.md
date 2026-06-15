@@ -157,7 +157,7 @@ AI Creator OS Desktop 是 Mac / Windows 通用的多账号 X 内容运营工作�
 启动桌面版：
 
 ```bash
-cd /Users/dadada/Documents/ai-creator-os-desktop
+cd /Users/dadada/Documents/英推
 npm install
 npm run desktop:doctor
 npm run desktop:check
@@ -232,7 +232,7 @@ npm run desktop:doctor
 
 如果 `npm run desktop:dev` 报错：
 
-1. 确认当前目录是 `/Users/dadada/Documents/ai-creator-os-desktop`，不要在主项目 `/Users/dadada/Documents/英推` 里跑桌面版。
+1. 确认当前目录是 `/Users/dadada/Documents/英推`。
 2. 先跑 `npm install`。
 3. 再跑 `npm run desktop:doctor`，看 `ERROR` 和 `WARN`。
 4. 再跑 `npm run desktop:check`。

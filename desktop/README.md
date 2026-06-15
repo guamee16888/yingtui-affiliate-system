@@ -23,7 +23,7 @@ Not supported:
 ## Run
 
 ```bash
-cd /Users/dadada/Documents/ai-creator-os-desktop
+cd /Users/dadada/Documents/英推
 npm install
 npm run desktop:doctor
 npm run desktop:check
@@ -42,7 +42,7 @@ If health does not pass within 10 seconds, Electron will not open.
 
 ## Troubleshooting
 
-1. Run from `/Users/dadada/Documents/ai-creator-os-desktop`, not the main `/Users/dadada/Documents/英推` project.
+1. Run from `/Users/dadada/Documents/英推`.
 2. Run `npm install`.
 3. Run `npm run desktop:doctor`.
 4. Run `npm run desktop:check`.

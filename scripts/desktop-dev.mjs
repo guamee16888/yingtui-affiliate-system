@@ -10,11 +10,12 @@ const HOST = "127.0.0.1";
 export { buildDesktopManagerUrl };
 
 export async function assertDesktopWorktree(cwd = process.cwd()) {
-  if (path.basename(cwd) !== "ai-creator-os-desktop") {
-    throw new Error(`请在 /Users/dadada/Documents/ai-creator-os-desktop 里运行。当前目录是 ${cwd}`);
+  try {
+    await readFile(path.join(cwd, "desktop", "main.mjs"), "utf8");
+    await readFile(path.join(cwd, "package.json"), "utf8");
+  } catch {
+    throw new Error(`请在 AI Creator OS 项目根目录运行。当前目录是 ${cwd}`);
   }
-  await readFile(path.join(cwd, "desktop", "main.mjs"), "utf8");
-  await readFile(path.join(cwd, "package.json"), "utf8");
   return true;
 }
 

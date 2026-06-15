@@ -21,8 +21,8 @@ export async function collectDesktopDoctorChecks({ cwd = process.cwd(), startTem
   const warn = (message) => add("WARN", message);
   const error = (message) => add("ERROR", message);
 
-  if (path.resolve(cwd) === repoRoot && path.basename(cwd) === "ai-creator-os-desktop") pass(`Current path: ${cwd}`);
-  else error(`Run from /Users/dadada/Documents/ai-creator-os-desktop. Current path: ${cwd}`);
+  if (path.resolve(cwd) === repoRoot) pass(`Current path: ${cwd}`);
+  else error(`Run from the AI Creator OS project root. Current path: ${cwd}`);
 
   try {
     const branch = execFileSync("git", ["branch", "--show-current"], { cwd, encoding: "utf8" }).trim();

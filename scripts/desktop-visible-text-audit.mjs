@@ -77,7 +77,7 @@ async function runNodeAudit() {
       appDataDir: runtime.appDataDir,
       port: runtime.port
     });
-    const sections = JSON.parse(worker.stdout);
+    const sections = parseWorkerSections(worker.stdout);
     const findings = findForbiddenVisibleTerms(sections);
     if (findings.length) {
       console.error("Desktop visible text audit failed.");
@@ -92,6 +92,18 @@ async function runNodeAudit() {
     console.log(`Sections checked: ${sections.map((section) => section.name).join(", ")}`);
   } finally {
     await closeBackend(backendServer);
+  }
+}
+
+function parseWorkerSections(stdout = "") {
+  const text = String(stdout || "").trim();
+  try {
+    return JSON.parse(text);
+  } catch {
+    const start = text.indexOf("[");
+    const end = text.lastIndexOf("]");
+    if (start !== -1 && end > start) return JSON.parse(text.slice(start, end + 1));
+    throw new Error(`Desktop visible text worker did not return JSON: ${text.slice(0, 160)}`);
   }
 }
 

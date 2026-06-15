@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "workspaceId": "workspace_default",
+      "plan": "desktop",
+      "status": "internal",
+      "requireDiscordVerification": false,
+      "maxAccounts": 30,
+      "maxSeats": 5,
+      "expiresAt": ""
+    }
+  ]
+}

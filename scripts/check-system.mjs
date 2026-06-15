@@ -35,6 +35,17 @@ const requiredFiles = [
   "manager/index.html",
   "manager/js/app.js",
   "manager/style.css",
+  "desktop/main.mjs",
+  "desktop/preload.mjs",
+  "desktop/browser-window-manager.mjs",
+  "desktop/menu.mjs",
+  "desktop/app-config.mjs",
+  "desktop/runtime-url.mjs",
+  "desktop/README.md",
+  "desktop/seed-data/workspaces.json",
+  "assets/README.md",
+  "electron-builder.yml",
+  "docs/desktop/windows-packaging.md",
   "app-placeholder/index.html",
   "app-placeholder/styles.css",
   "docs/deployment/app-placeholder.md",
@@ -57,6 +68,9 @@ const requiredFiles = [
   "scripts/lib/app-api/response.mjs",
   "scripts/lib/app-api/manager-routes.mjs",
   "scripts/lib/app-api/staff-routes.mjs",
+  "scripts/lib/account-health-engine.mjs",
+  "scripts/lib/desktop-browser-launcher.mjs",
+  "scripts/lib/relationship-targets.mjs",
   "scripts/lib/d1-storage-adapter.mjs",
   "scripts/lib/json-to-d1-mapper.mjs",
   "scripts/migrate-json-to-d1.mjs",
@@ -70,9 +84,18 @@ const requiredFiles = [
   "scripts/build-app-placeholder.mjs",
   "scripts/check-app-release.mjs",
   "scripts/check-app-placeholder-release.mjs",
+  "scripts/check-desktop.mjs",
+  "scripts/desktop-dev.mjs",
+  "scripts/desktop-health-check.mjs",
+  "scripts/desktop-doctor.mjs",
+  "scripts/desktop-package-check.mjs",
+  "scripts/desktop-release-mac-trial.mjs",
+  "scripts/desktop-mac-trial-smoke.mjs",
+  "scripts/generate-mac-icon.mjs",
   "scripts/verify-app-access.mjs",
   "scripts/verify-app-staging.mjs",
   "functions/api/app/v1/[[path]].mjs",
+  "data/relationship-targets.json",
   ...Object.values(PUBLISH_FILES),
   ...Object.values(SOURCE_LANE_FILES),
   ...Object.values(CORE_COLLECTIONS),
@@ -155,6 +178,19 @@ const requiredScripts = [
   "release:check:app-placeholder",
   "release:check",
   "check",
+  "desktop:dev",
+  "desktop:doctor",
+  "desktop:pack",
+  "desktop:pack:dir",
+  "desktop:pack:mac",
+  "desktop:pack:win",
+  "desktop:package-check",
+  "desktop:smoke:mac",
+  "desktop:smoke:packaged",
+  "desktop:release:mac-trial",
+  "desktop:smoke:mac-trial",
+  "icon:mac",
+  "desktop:check",
   "test"
 ];
 
@@ -220,6 +256,7 @@ await checkWorkspaceAccess();
 checkPublishSystem(core);
 await checkD1LocalMvp();
 await checkAppCloudflareStaging();
+await checkDesktopApp();
 
 printReport();
 if (errors.length) process.exitCode = 1;
@@ -231,6 +268,34 @@ async function loadCoreForCheck() {
   }
   loaded.contentRules = await loadContentRules();
   return loaded;
+}
+
+async function checkDesktopApp() {
+  const desktopConfig = await readFile(path.join(rootDir, "desktop/app-config.mjs"), "utf8");
+  const desktopLauncher = await readFile(path.join(rootDir, "scripts/lib/desktop-browser-launcher.mjs"), "utf8");
+  const builderConfig = await readFile(path.join(rootDir, "electron-builder.yml"), "utf8");
+  if (desktopConfig.includes("DEFAULT_DESKTOP_PORT = 5288")) passed.push("desktop default port is 5288");
+  else errors.push("desktop default port must be 5288");
+  if (desktopConfig.includes("4173") && desktopConfig.includes("4174") && desktopConfig.includes("4175")) passed.push("desktop reserved web ports are checked");
+  else errors.push("desktop reserved web ports check is missing");
+  if (desktopLauncher.includes("`temp:${sanitize(workspaceId)}")) passed.push("desktop incognito window uses temp session");
+  else errors.push("desktop incognito partition must use temp session");
+  if (builderConfig.includes("dist-desktop")) passed.push("electron build output is dist-desktop");
+  else errors.push("electron builder output must be dist-desktop");
+  if (builderConfig.includes("org.guamee.aicreatoros.desktop")) passed.push("electron appId is production-shaped");
+  else errors.push("electron appId should be org.guamee.aicreatoros.desktop");
+  for (const excluded of ["!data/**", "!output/**", "!config/**"]) {
+    if (builderConfig.includes(excluded)) passed.push(`electron build excludes ${excluded}`);
+    else errors.push(`electron build must exclude ${excluded}`);
+  }
+  const unsafePatterns = [/\bwebdriver\b/i, /\bpuppeteer\b/i, /\bplaywright\b/i, /\bfollow_button\b/i];
+  for (const file of ["desktop/main.mjs", "desktop/browser-window-manager.mjs", "scripts/lib/desktop-browser-launcher.mjs"]) {
+    const text = await readFile(path.join(rootDir, file), "utf8");
+    for (const pattern of unsafePatterns) {
+      if (pattern.test(text)) errors.push(`Unsafe desktop automation pattern in ${file}: ${pattern}`);
+    }
+  }
+  passed.push("desktop unsafe automation scan completed");
 }
 
 function checkCollectionShape(coreData) {

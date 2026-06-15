@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "userId": "user_owner",
+      "email": "owner@guamee.local",
+      "name": "Owner",
+      "role": "manager",
+      "workspaceId": "workspace_default",
+      "active": true
+    },
+    {
+      "userId": "user_staff_demo",
+      "email": "staff@guamee.local",
+      "name": "Local Operator",
+      "role": "staff",
+      "workspaceId": "workspace_default",
+      "active": true
+    }
+  ]
+}

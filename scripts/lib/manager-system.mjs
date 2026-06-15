@@ -3,6 +3,7 @@ import { loadFeedback } from "./data-store.mjs";
 import { checkTaskDuplicateRisk } from "./duplicate-checker.mjs";
 import { PUBLISH_FILES, loadPublishCollection } from "./publish-data.mjs";
 import { SOURCE_LANE_FILES } from "./source-lanes.mjs";
+import { calculateAccountHealth } from "./account-health-engine.mjs";
 import { analyzeTweetLength } from "./tweet-length.mjs";
 
 const MANAGER_VISIBLE_STATUSES = new Set([
@@ -11,11 +12,13 @@ const MANAGER_VISIBLE_STATUSES = new Set([
   "approved",
   "assigned",
   "copied",
+  "posted",
   "feedback_due",
+  "feedback_done",
   "skipped"
 ]);
 
-const LOCKED_TASK_STATUSES = new Set(["copied", "feedback_due", "posted", "skipped"]);
+const LOCKED_TASK_STATUSES = new Set(["copied", "feedback_due", "feedback_done", "posted", "skipped"]);
 
 export async function loadManagerSummary(options = {}) {
   const [
@@ -26,7 +29,9 @@ export async function loadManagerSummary(options = {}) {
     postTasks,
     postLedger,
     publishJobs,
-    feedback
+    feedback,
+    accountHealth,
+    contentRules
   ] = await Promise.all([
     loadCollection(SOURCE_LANE_FILES.workspaces),
     loadCollection(CORE_COLLECTIONS.users),
@@ -35,7 +40,9 @@ export async function loadManagerSummary(options = {}) {
     loadCollection(CORE_COLLECTIONS.postTasks),
     loadCollection(CORE_COLLECTIONS.postLedger),
     loadPublishCollection(PUBLISH_FILES.publishJobs),
-    loadFeedback()
+    loadFeedback(),
+    loadCollection(CORE_COLLECTIONS.accountHealth),
+    loadContentRules()
   ]);
 
   return buildManagerSummary({
@@ -48,7 +55,9 @@ export async function loadManagerSummary(options = {}) {
     tasks: postTasks.items,
     ledger: postLedger.items,
     publishJobs: publishJobs.items,
-    feedback: feedback.entries ?? []
+    feedback: feedback.entries ?? [],
+    accountHealth: accountHealth.items,
+    contentRules
   });
 }
 
@@ -106,7 +115,9 @@ export async function updateManagerTaskAction(input) {
       tasks: result.tasks,
       ledger: postLedger.items,
       publishJobs: publishJobs.items,
-      feedback: feedback.entries ?? []
+      feedback: feedback.entries ?? [],
+      accountHealth: accountHealth.items,
+      contentRules
     })
   };
 }
@@ -166,7 +177,9 @@ export async function updateManagerTaskBatchAction(input) {
       tasks: result.tasks,
       ledger: postLedger.items,
       publishJobs: publishJobs.items,
-      feedback: feedback.entries ?? []
+      feedback: feedback.entries ?? [],
+      accountHealth: accountHealth.items,
+      contentRules
     })
   };
 }
@@ -181,7 +194,9 @@ export function buildManagerSummary({
   tasks = [],
   ledger = [],
   publishJobs = [],
-  feedback = []
+  feedback = [],
+  accountHealth = [],
+  contentRules = {}
 }) {
   const activeUsers = users.filter((user) => user.active !== false);
   const activeWorkspaces = workspaces.filter((workspace) => workspace.active !== false);
@@ -225,7 +240,14 @@ export function buildManagerSummary({
       ? workspaceManagers(selectedWorkspace, activeUsers).map(userView)
       : [],
     staff: staff.map(userView),
-    accounts: accounts.map(accountView),
+    accounts: accounts.map((account) => accountView(account, {
+      workspace: selectedWorkspace,
+      tasks,
+      ledger,
+      feedback,
+      accountHealth,
+      contentRules
+    })),
     summary: {
       ...summarizeManagerTasks(visibleTasks),
       publishJobs: workspacePublishJobs.length,
@@ -412,7 +434,7 @@ function workspaceAccounts(workspace, xAccounts, assignments) {
     .map((assignment) => assignment.accountId));
   const accounts = xAccounts.filter((account) => {
     const status = account.status || (account.active === false ? "paused" : "active");
-    if (status !== "active") return false;
+    if (!["active", "paused", "archived"].includes(status)) return false;
     if (account.workspaceId && account.workspaceId === workspace.workspaceId) return true;
     if (assignmentAccountIds.has(account.accountId)) return true;
     if (workspaceUserIds.has(account.managerUserId) || workspaceUserIds.has(account.ownerUserId)) return true;
@@ -477,8 +499,12 @@ function applyActionToTask(task, { action, input, manager, workspace, accounts, 
 function applyAssignmentFields(task, { input, accounts, staff }) {
   const accountId = String(input.accountId ?? task.accountId ?? "").trim();
   const assignedTo = String(input.assignedTo ?? task.assignedTo ?? "").trim();
-  if (accountId && !accounts.some((account) => account.accountId === accountId)) {
+  const selectedAccount = accounts.find((account) => account.accountId === accountId);
+  if (accountId && !selectedAccount) {
     throw new Error(`Account is not available in this workspace: ${accountId}`);
+  }
+  if (selectedAccount && (selectedAccount.status || (selectedAccount.active === false ? "paused" : "active")) !== "active") {
+    throw new Error(`Account is not active: ${accountId}`);
   }
   if (assignedTo && !staff.some((user) => user.userId === assignedTo)) {
     throw new Error(`Staff user is not available in this workspace: ${assignedTo}`);
@@ -581,7 +607,7 @@ function summarizeManagerTasks(tasks) {
 }
 
 function managerTaskSort(a, b) {
-  const statusRank = { pending_review: 0, draft: 1, approved: 2, assigned: 2, copied: 3, feedback_due: 4, skipped: 5 };
+  const statusRank = { pending_review: 0, draft: 1, approved: 2, assigned: 2, copied: 3, posted: 3, feedback_due: 4, feedback_done: 5, skipped: 6 };
   return (statusRank[a.status] ?? 9) - (statusRank[b.status] ?? 9)
     || (a.blockReasons.length ? 0 : 1) - (b.blockReasons.length ? 0 : 1)
     || a.toolName.localeCompare(b.toolName)
@@ -609,16 +635,76 @@ function userView(user) {
   };
 }
 
-function accountView(account) {
+function accountView(account, context = {}) {
+  const accountId = account.accountId;
+  const workspaceId = account.workspaceId || context.workspace?.workspaceId || "workspace_default";
+  const tasks = (context.tasks || []).filter((task) => task.accountId === accountId && taskWorkspaceId(task) === workspaceId);
+  const ledger = (context.ledger || []).filter((entry) => entry.accountId === accountId && (entry.workspaceId || "workspace_default") === workspaceId);
+  const feedback = (context.feedback || []).filter((entry) => entry.accountId === accountId && (entry.workspaceId || "workspace_default") === workspaceId);
+  const today = new Date().toISOString().slice(0, 10);
+  const todayTasks = tasks.filter((task) => (task.date || task.createdAt || "").startsWith(today));
+  const todayPublished = tasks.filter((task) => (task.postedAt || "").startsWith(today) || task.status === "posted").length;
+  const feedbackDebt = tasks.filter((task) => ["posted", "feedback_due", "copied"].includes(task.status || "") && !hasAnyMetrics(task.metrics)).length;
+  const sevenDayLedger = ledger.filter((entry) => isWithinDays(entry.postedAt || entry.createdAt || entry.updatedAt, 7));
+  const health = calculateAccountHealth({
+    account,
+    tasks,
+    ledger: sevenDayLedger.length ? sevenDayLedger : ledger,
+    feedback,
+    contentRules: context.contentRules
+  });
+  const storedHealth = (context.accountHealth || []).find((item) => item.accountId === accountId && (item.workspaceId || workspaceId) === workspaceId) || {};
+
   return {
     accountId: account.accountId,
     handle: account.handle || "",
     persona: account.persona || account.accountId,
+    workspaceId,
+    workspace: context.workspace?.name || workspaceId,
+    laneId: account.laneId || account.contentLaneId || account.niche || "",
+    country: account.country || "",
+    countryManual: Boolean(account.countryManual),
+    region: account.region || "",
+    timezone: account.timezone || "",
+    language: account.language || "en",
+    accountType: account.accountType || "demo",
+    connectionStatus: account.connectionStatus || account.oauthStatus || "not_connected",
+    oauthConnectionId: account.oauthConnectionId || "",
+    publishMode: account.publishMode || "manual",
+    networkLabel: account.networkLabel || "",
+    ipNote: account.ipNote || "",
+    deviceNote: account.deviceNote || "",
+    countryRegionNote: account.countryRegionNote || "",
+    sessionMode: account.sessionMode || "temp",
     niche: account.niche || "",
     status: account.status || (account.active === false ? "paused" : "active"),
     dailyPostLimit: Number(account.dailyPostLimit || 0),
-    externalLinkLimit: Number(account.externalLinkLimit || 0)
+    externalLinkLimit: Number(account.externalLinkLimit || 0),
+    todayTasks: todayTasks.length,
+    todayPublished,
+    pendingFeedback: feedbackDebt,
+    sevenDayPosts: sevenDayLedger.length,
+    sevenDayExternalLinks: countExternalLinks(sevenDayLedger),
+    healthScore: Number(storedHealth.healthScore ?? storedHealth.score ?? health.healthScore),
+    healthStatus: storedHealth.healthStatus || storedHealth.status || health.healthStatus,
+    riskFlags: storedHealth.riskFlags || health.riskFlags,
+    healthExplanations: storedHealth.explanations || health.explanations
   };
+}
+
+function hasAnyMetrics(metrics = {}) {
+  return Object.values(metrics || {}).some((value) => Number(value || 0) > 0);
+}
+
+function isWithinDays(value, days) {
+  if (!value) return false;
+  const time = new Date(value).getTime();
+  if (!Number.isFinite(time)) return false;
+  return Date.now() - time <= days * 86400000;
+}
+
+function countExternalLinks(items = []) {
+  return items.reduce((total, item) => total + (Array.isArray(item.externalLinks) ? item.externalLinks.length : 0), 0);
 }
 
 function uniqueBy(items, key) {

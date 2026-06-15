@@ -132,6 +132,204 @@ APP_STORAGE_MODE=json
 
 当前仍然不做 X live publish、自动发推、公开注册或复杂计费。Discord 只作为 workspace 资格验证层，不替代 Cloudflare Access 登录。
 
+## Desktop App
+
+AI Creator OS Desktop 是 Mac / Windows 通用的多账号 X 内容运营工作台。它把现有 workspace 管理端包进 Electron 桌面 App，并增加账号资产库、单账号无痕工作窗、目标关系库和账号健康度。
+
+桌面 RC v1 的完整本地流程：
+
+```text
+首次启动向导
+→ 选择 Demo / 空白 workspace / 粘贴账号 / 恢复备份
+→ 账号资产库里导入或添加 X handle
+→ 点开账号详情
+→ 打开单账号无痕工作窗，手动登录/查看 X
+→ 添加目标关系
+→ 创建任务并确认文案不超过 280 weighted chars
+→ 人工发布后标记已发布
+→ 回填 impressions/likes/bookmarks/replies/reposts/clicks/profile visits
+→ 查看账号健康度和待补反馈
+→ 导出本地 JSON 备份
+```
+
+桌面版只保存运营元数据，不保存 X 密码、cookie、代理、指纹或 token。CSV 里出现这些字段会被忽略。
+
+启动桌面版：
+
+```bash
+cd /Users/dadada/Documents/ai-creator-os-desktop
+npm install
+npm run desktop:doctor
+npm run desktop:check
+npm run desktop:dev
+```
+
+打包桌面版：
+
+```bash
+npm run icon:mac
+npm run desktop:pack:dir
+npm run desktop:pack:mac
+npm run desktop:package-check
+npm run desktop:release:mac-trial
+npm run desktop:smoke:mac-trial
+```
+
+`desktop:pack:dir` 生成最快的 unpacked app，适合本地 smoke。`desktop:pack:mac` 会生成 macOS `dmg`、`zip` 和 `.app` 目录。`desktop:release:mac-trial` 会把当前 Mac DMG / ZIP 复制到 `release-local/mac-trial/`，并生成 `README-MAC-TRIAL.md`。
+
+当前试用包只做 macOS。Windows 等 Mac 版本试验稳定后再做；`desktop:pack:win` 可以保留，但这轮不跑、不修 Windows 打包。
+
+打包产物默认在：
+
+```text
+dist-desktop/
+release-local/mac-trial/
+```
+
+这些产物不要提交 Git，也不要直接上传给客户。上传或分发前必须先跑：
+
+```bash
+npm run desktop:package-check
+```
+
+本轮是未签名本地 Mac 试用包。macOS 可能提示“无法验证开发者”，这是未签名包的正常现象。正式分发前还需要 Apple Developer 账号、macOS code signing 和 notarization。
+
+Mac 第一次打不开时：
+
+```text
+系统设置 → 隐私与安全性 → 仍要打开
+```
+
+也可以在 Finder 里右键 `AI Creator OS.app`，选择“打开”。
+
+桌面版本地服务默认端口是：
+
+```text
+5288
+```
+
+如果 5288 被占用，会自动尝试 5289、5290 之后的端口。桌面版不会占用现有 `4173`、`4174`、`4175`，也不会影响 `npm start`。
+
+`desktop:dev` 的启动顺序是：
+
+```text
+检查 worktree 和 Electron
+→ 创建桌面数据目录
+→ 查找 5288 或下一个可用端口
+→ 启动本地 backend
+→ 轮询 /api/desktop/health
+→ health 通过后再打开 Electron
+→ Electron 加载 /manager/?desktop=1&appMode=1&devEmail=owner@guamee.local
+```
+
+如果 10 秒内 `/api/desktop/health` 没有 ready，Electron 不会打开。可以单独运行：
+
+```bash
+npm run desktop:doctor
+```
+
+### Desktop Troubleshooting
+
+如果 `npm run desktop:dev` 报错：
+
+1. 确认当前目录是 `/Users/dadada/Documents/ai-creator-os-desktop`，不要在主项目 `/Users/dadada/Documents/英推` 里跑桌面版。
+2. 先跑 `npm install`。
+3. 再跑 `npm run desktop:doctor`，看 `ERROR` 和 `WARN`。
+4. 再跑 `npm run desktop:check`。
+5. 不要用 `file://` 打开页面，桌面版必须通过本地 backend URL 加载。
+6. 默认端口是 `5288`；如果被占用会自动换到 `5289`、`5290` 等。
+7. 如果 Electron 白屏，看终端里的 `Electron loading ...` URL 和 DevTools。
+8. Desktop 模式不等于线上 `app.guamee.org`，默认使用本地 JSON storage。
+9. 无痕窗口不会保存网页登录态，关闭后需要重新登录 X 网页，这是正常行为。
+
+桌面版运行数据不写进 Git 仓库。默认目录：
+
+```text
+macOS: ~/Library/Application Support/AI Creator OS/
+Windows: %APPDATA%/AI Creator OS/
+```
+
+打包版首次启动时只会把 `desktop/seed-data/` 里的干净示例数据初始化到 appData。它不会把 repo 的 `data/latest.json`、`data/daily/`、`output/*.md`、`.env` 或真实 token 打进安装包。
+
+### Account Vault
+
+管理端的账号池升级为“账号资产库”。每个账号卡片显示 handle、workspace、内容线、地区/时区、语言、授权状态、发布模式、每日发布限制、外链限制、今日任务、今日已发布、待反馈、7 日发布、7 日外链、health score、health status 和 risk flags。
+
+桌面版里，“打开无痕窗口”会打开一个独立 Electron `BrowserWindow`。每次窗口使用非持久 session：
+
+```text
+temp:<workspaceId>:<accountId>:<timestamp>
+```
+
+这些窗口不共享 cookie，不共享 localStorage，关闭后不保留网页登录态。窗口只用于人工查看和人工操作，不自动点击、不自动关注、不自动点赞、不自动评论、不自动输入账号密码，也不向 X 页面注入脚本。
+
+官方 X OAuth token 不能变成 X 网页登录态。所以即使未来账号已通过官方 OAuth 授权，用户如果想在 X 网页里操作，也需要在无痕工作窗中手动登录。这是正常行为。
+
+### Relationship Targets
+
+目标关系库保存在：
+
+```text
+data/relationship-targets.json
+```
+
+App API：
+
+```text
+GET  /api/app/v1/manager/accounts/:accountId/targets
+POST /api/app/v1/manager/accounts/:accountId/targets/upsert
+POST /api/app/v1/manager/accounts/:accountId/targets/status
+```
+
+目标关系按 workspace 和 account 过滤，manager 只能操作自己 workspace 的账号，写操作会追加 audit log。第一版只支持打开 X 主页、标记已打开、标记已手动关注、加入观察、忽略和添加备注，不做 API 自动 follow。未来即使接 X Follow API，也必须是单账号、单目标、人工确认、频率限制和 audit log，不允许批量。
+
+### Account Health
+
+账号健康度由 `scripts/lib/account-health-engine.mjs` 计算：
+
+- feedback 欠账多会扣分。
+- 外链比例高会扣分。
+- 重复工具或重复 domain 会扣分。
+- paused / restricted 账号会进入 paused / risky。
+- 稳定发布且有反馈会加分。
+- metrics 缺失不会产生 `NaN`。
+
+### Desktop Safety Boundary
+
+桌面版支持：
+
+- 单账号无痕工作窗。
+- 手动打开 X 主页。
+- 手动查看目标账号。
+- 手动标记关注状态。
+- 账号任务和反馈管理。
+- 官方 OAuth 预留。
+
+桌面版不支持：
+
+- 导入 X 密码。
+- 导入 cookie。
+- 指纹浏览器。
+- 代理 IP 规避。
+- 自动关注。
+- 自动点赞。
+- 自动评论。
+- 模拟浏览器点击。
+- 批量重复发布。
+- 绕过 X 规则。
+
+### Desktop Release Safety
+
+打包前后必须保持这些边界：
+
+- 不打包真实 `data/`。
+- 不打包 `output/` 每日报告。
+- 不打包 `.env`、token、secret、API key。
+- 不打包真实 posted URL。
+- 不打包真实 affiliate/referral link。
+- 运行数据只写入 appData。
+- 不做自动关注、点赞、评论、账号密码导入、cookie 导入、指纹浏览器或代理规避。
+
 ## Discord Entitlement Gate
 
 客户进入 `app.guamee.org` 时有两层门：

@@ -1,4 +1,9 @@
 import { calculateEngagement } from "../scoring.mjs";
+import {
+  listRelationshipTargets,
+  upsertRelationshipTarget,
+  updateRelationshipTargetStatus
+} from "../relationship-targets.mjs";
 import { AppApiError, requireValue } from "./response.mjs";
 import { appendNote, assertManagerRole, assertWorkspaceAccess, isFeedbackDebtTask, missingMetrics, taskWorkspaceId } from "./workspace-scope.mjs";
 
@@ -17,6 +22,11 @@ export async function handleManagerGet({ pathname, url, context, storage, loadMa
   if (pathname === "/api/app/v1/manager/feedback-debt") {
     const tasks = await storage.listWorkspaceTasks(workspaceId);
     return { items: buildFeedbackDebt(tasks) };
+  }
+  const targetsRoute = parseTargetsRoute(pathname);
+  if (targetsRoute?.action === "list") {
+    assertAccountAvailable(context, targetsRoute.accountId, await appManagerSummary(context, loadManagerSummaryFn));
+    return { items: await listTargets({ storage, workspaceId, accountId: targetsRoute.accountId }) };
   }
 
   return null;
@@ -40,6 +50,13 @@ export async function handleManagerPost({ pathname, body, context, storage, load
   }
   if (pathname === "/api/app/v1/manager/feedback") {
     return saveFeedback({ body, context, storage, workspaceId });
+  }
+  const targetsRoute = parseTargetsRoute(pathname);
+  if (targetsRoute?.action === "upsert") {
+    return upsertTarget({ body, context, storage, workspaceId, accountId: targetsRoute.accountId, loadManagerSummaryFn });
+  }
+  if (targetsRoute?.action === "status") {
+    return updateTargetStatus({ body, context, storage, workspaceId, accountId: targetsRoute.accountId, loadManagerSummaryFn });
   }
 
   return null;
@@ -190,6 +207,59 @@ async function saveFeedback({ body, context, storage, workspaceId }) {
     metricKeys: Object.keys(metrics)
   }));
   return { feedback, task: appTaskView(updated) };
+}
+
+async function upsertTarget({ body, context, storage, workspaceId, accountId, loadManagerSummaryFn }) {
+  assertAccountAvailable(context, accountId, await appManagerSummary(context, loadManagerSummaryFn));
+  const result = typeof storage.upsertRelationshipTarget === "function"
+    ? await storage.upsertRelationshipTarget(workspaceId, accountId, body, context)
+    : await upsertRelationshipTarget({ workspaceId, accountId, input: body, actor: context });
+  await storage.writeAuditLog(result.audit || auditEvent(context, "relationship_target.upsert", "relationship_target", result.item?.targetId || body?.targetId || "", {
+    accountId,
+    targetHandle: result.item?.targetHandle || body?.targetHandle || ""
+  }));
+  return { item: result.item };
+}
+
+async function updateTargetStatus({ body, context, storage, workspaceId, accountId, loadManagerSummaryFn }) {
+  if (Array.isArray(body?.targetIds)) {
+    throw new AppApiError("TARGET_BATCH_FORBIDDEN", "目标关系状态必须单账号、单目标、人工确认更新。", 403);
+  }
+  assertAccountAvailable(context, accountId, await appManagerSummary(context, loadManagerSummaryFn));
+  const targetId = String(requireValue(body?.targetId, "TARGET_ID_REQUIRED", "targetId 必填。")).trim();
+  const status = String(requireValue(body?.status, "TARGET_STATUS_REQUIRED", "status 必填。")).trim();
+  const notes = String(body?.notes || "");
+  const result = typeof storage.updateRelationshipTargetStatus === "function"
+    ? await storage.updateRelationshipTargetStatus(workspaceId, accountId, targetId, status, notes, context)
+    : await updateRelationshipTargetStatus({ workspaceId, accountId, targetId, status, notes, actor: context });
+  await storage.writeAuditLog(result.audit || auditEvent(context, "relationship_target.status", "relationship_target", targetId, {
+    accountId,
+    status
+  }));
+  return { item: result.item };
+}
+
+async function listTargets({ storage, workspaceId, accountId }) {
+  if (typeof storage.listRelationshipTargets === "function") {
+    return storage.listRelationshipTargets(workspaceId, accountId);
+  }
+  return listRelationshipTargets({ workspaceId, accountId });
+}
+
+function assertAccountAvailable(context, accountId, summary) {
+  if (!summary.accounts?.some((account) => account.accountId === accountId)) {
+    throw new AppApiError("ACCOUNT_NOT_AVAILABLE", "账号不属于当前 workspace。", 404);
+  }
+  assertWorkspaceAccess(context, context.workspaceId);
+}
+
+function parseTargetsRoute(pathname) {
+  const match = pathname.match(/^\/api\/app\/v1\/manager\/accounts\/([^/]+)\/targets(?:\/(upsert|status))?$/);
+  if (!match) return null;
+  return {
+    accountId: decodeURIComponent(match[1]),
+    action: match[2] || "list"
+  };
 }
 
 async function assignmentPatch({ body, current, context, loadManagerSummaryFn }) {

@@ -3,6 +3,14 @@ node_modules/
 .env.*
 !.env.example
 dist/
+dist-desktop/
+release/
+release-local/
+*.dmg
+*.exe
+*.zip
+*.app
+*.AppImage
 .vercel/
 .DS_Store
 data/backups/

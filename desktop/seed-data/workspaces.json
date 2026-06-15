@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "workspaceId": "workspace_default",
+      "name": "AI Creator OS 本地账号库",
+      "plan": "desktop",
+      "accountLimit": 30,
+      "managerUserIds": [
+        "user_owner"
+      ],
+      "staffUserIds": [
+        "user_owner",
+        "user_staff_demo"
+      ],
+      "enabledLaneIds": [
+        "ai_startups",
+        "indie_builders",
+        "saas_founders",
+        "crypto_builders"
+      ],
+      "publishMode": "manual",
+      "autoPublishEnabled": false,
+      "requiresFinalApproval": true,
+      "active": true,
+      "createdAt": "2026-06-14T00:00:00.000Z",
+      "updatedAt": "2026-06-14T00:00:00.000Z"
+    }
+  ]
+}

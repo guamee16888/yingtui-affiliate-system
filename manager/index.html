@@ -3,23 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI Creator OS Workspace Manager</title>
-    <link rel="stylesheet" href="/manager/style.css">
+    <title>AI Creator OS 桌面版</title>
+    <link rel="stylesheet" href="/manager/style.css?v=20260615-account-inline">
   </head>
   <body>
     <header class="shell-header">
       <div>
-        <p class="eyebrow">AI Creator OS · Workspace manager</p>
-        <h1>Workspace 管理端</h1>
-        <p class="subtitle" id="statusText">读取 workspace 任务中...</p>
+        <p class="eyebrow">AI Creator OS 桌面版</p>
+        <h1>多账号 X 运营工具箱</h1>
+        <p class="subtitle" id="statusText">读取本地账号工具箱...</p>
       </div>
       <div class="header-actions">
         <label class="user-select">
-          <span>Workspace</span>
+          <span>数据空间</span>
           <select id="workspaceSelect"></select>
         </label>
         <label class="user-select">
-          <span>主管</span>
+          <span>操作者</span>
           <select id="managerSelect"></select>
         </label>
         <button class="button secondary" id="refreshButton" type="button">刷新</button>
@@ -29,28 +29,29 @@
 
     <main>
       <section class="notice" id="modeNotice">
-        <strong>管理端规则：</strong>
-        这里只管理当前 workspace 的账号、任务审核、分配和反馈状态。默认控制 30 个以内账号，不显示平台总后台，不自动发推。
+        <strong>本地桌面工具箱：</strong>
+        本地管理账号、任务、目标关系和数据反馈。不保存账号密码、cookie，不管理代理或指纹，不自动关注、点赞、评论或发推。
       </section>
 
       <section class="metrics" id="metrics"></section>
 
       <section class="layout">
         <aside class="panel">
-          <h2>Workspace 资源</h2>
+          <h2>账号工具箱</h2>
           <div id="workspaceResources"></div>
+          <div id="accountVault" class="account-vault"></div>
         </aside>
 
         <section class="panel task-panel">
           <div class="panel-head">
             <div>
-              <h2>任务审核</h2>
-              <p id="taskHint">任务批准并分配后，执行人员使用同一个 workspace 任务池继续处理，不需要公开拆出员工入口。</p>
+              <h2>任务</h2>
+              <p id="taskHint">复制文案、人工发布、回来补数据。桌面版不自动发推。</p>
             </div>
             <select id="statusFilter" aria-label="任务状态">
               <option value="all">全部</option>
-              <option value="pending">待审核</option>
-              <option value="approved">已批准</option>
+              <option value="pending">待确认</option>
+              <option value="approved">已确认</option>
               <option value="rejected">已拒绝</option>
               <option value="unassigned">未分配</option>
               <option value="blocked">不可批</option>
@@ -63,6 +64,8 @@
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="/manager/js/app.js?v=20260614-manager-actions"></script>
+    <div class="drawer-backdrop" id="accountDrawerBackdrop" hidden></div>
+    <aside class="account-drawer" id="accountDrawer" hidden aria-label="账号详情"></aside>
+    <script type="module" src="/manager/js/app.js?v=20260615-account-inline"></script>
   </body>
 </html>

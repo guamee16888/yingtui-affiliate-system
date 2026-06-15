@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-14T00:00:00.000Z",
+  "items": [
+    {
+      "taskId": "task_desktop_agent_triage",
+      "workspaceId": "workspace_default",
+      "toolId": "tool_desktop_agent_triage",
+      "topicId": "topic_desktop_agent_triage",
+      "copyId": "copy_desktop_agent_triage_short",
+      "status": "pending_review",
+      "approvalStatus": "pending",
+      "accountId": "acct_ai_ops",
+      "assignedTo": "user_owner",
+      "copyText": "A lot of AI support tools still sell the model. The more useful angle is the handoff: what gets triaged, who sees it, and what disappears from the queue.",
+      "createdAt": "2026-06-14T00:00:00.000Z"
+    },
+    {
+      "taskId": "task_desktop_pricing_notes",
+      "workspaceId": "workspace_default",
+      "toolId": "tool_desktop_pricing_notes",
+      "topicId": "topic_desktop_pricing_notes",
+      "copyId": "copy_desktop_pricing_notes_short",
+      "status": "pending_review",
+      "approvalStatus": "pending",
+      "accountId": "acct_saas_founder",
+      "assignedTo": "user_staff_demo",
+      "copyText": "A pricing page is not just a pricing page. It is usually the first place a buyer checks whether the product understands their size, risk, and next step.",
+      "createdAt": "2026-06-14T00:00:00.000Z"
+    }
+  ]
+}

@@ -5,12 +5,12 @@ import test from "node:test";
 const html = await readFile(new URL("../manager/index.html", import.meta.url), "utf8");
 const appJs = await readFile(new URL("../manager/js/app.js", import.meta.url), "utf8");
 
-test("desktop product reset opens as a five-tab account toolbox", () => {
+test("desktop product reset opens as an account operations toolbox", () => {
   assert.match(html, /AI Creator OS 桌面版/);
   assert.match(html, /多账号 X 运营工具箱/);
   assert.equal(html.includes("Workspace 管理端"), false);
-  assert.match(appJs, /activeDesktopTab: "accounts"/);
-  for (const label of ["账号库", "任务", "目标关系", "数据反馈", "设置"]) {
+  assert.match(appJs, /activeDesktopTab: "status"/);
+  for (const label of ["状态中心", "账号库", "任务", "供给", "目标关系", "数据反馈", "设置"]) {
     assert.match(appJs, new RegExp(label));
   }
 });

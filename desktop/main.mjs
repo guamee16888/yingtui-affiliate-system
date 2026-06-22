@@ -2,7 +2,11 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { ensureDesktopDataDir, findDesktopPort } from "./app-config.mjs";
-import { openIncognitoAccountWindow, closeAllIncognitoAccountWindows } from "./browser-window-manager.mjs";
+import {
+  openIncognitoAccountWindow,
+  openPersistentAccountWindow,
+  closeAllIncognitoAccountWindows
+} from "./browser-window-manager.mjs";
 import { installDesktopMenu } from "./menu.mjs";
 import { buildDesktopManagerUrl, resolveDesktopLoadUrl } from "./runtime-url.mjs";
 import { appendDesktopLog, exportDesktopBackupPackage } from "../scripts/lib/desktop-data-store.mjs";
@@ -66,7 +70,7 @@ async function startEmbeddedBackend({ appDataDir }) {
     host,
     port,
     silent: true,
-    desktopHandlers: { openIncognitoAccountWindow }
+    desktopHandlers: { openIncognitoAccountWindow, openPersistentAccountWindow }
   });
   await appendDesktopLog({
     type: "desktop.backend.start",
@@ -137,6 +141,7 @@ function escapeHtml(value) {
 
 function registerIpcHandlers() {
   ipcMain.handle("account-window:open-incognito", (_event, input) => openIncognitoAccountWindow(input));
+  ipcMain.handle("account-window:open-persistent", (_event, input) => openPersistentAccountWindow(input));
   ipcMain.handle("desktop:open-external-url", async (_event, url) => {
     const parsed = new URL(String(url || ""));
     if (!["https:", "http:"].includes(parsed.protocol)) throw new Error("Only http(s) URLs can be opened.");

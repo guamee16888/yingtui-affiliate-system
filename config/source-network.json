@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "updatedAt": "",
+  "target": {
+    "accounts": 100,
+    "inventoryPerAccount": 10,
+    "requiredInventory": 1000,
+    "theme": "AI x Crypto",
+    "minimumQualityScore": 70
+  },
+  "lanes": [
+    {
+      "laneId": "ai_builder",
+      "name": "AI Builder",
+      "accountTarget": 20,
+      "keywords": ["Cursor", "Claude Code", "Codex", "MCP", "agent workflow", "developer tools"],
+      "adFit": ["developer tools", "AI coding", "agent workflow", "infra"]
+    },
+    {
+      "laneId": "ai_saas",
+      "name": "AI SaaS",
+      "accountTarget": 20,
+      "keywords": ["Product Hunt", "SaaS growth", "pricing", "landing page", "affiliate", "acquisition"],
+      "adFit": ["AI SaaS", "growth tools", "affiliate", "B2B software"]
+    },
+    {
+      "laneId": "ai_agent",
+      "name": "AI Agent",
+      "accountTarget": 20,
+      "keywords": ["MCP", "agent workflow", "tool use", "automation", "AI OS", "workflow automation"],
+      "adFit": ["agent platforms", "automation", "AI ops", "workflow tools"]
+    },
+    {
+      "laneId": "crypto_builder",
+      "name": "Crypto Builder",
+      "accountTarget": 20,
+      "keywords": ["Base", "Solana", "onchain app", "wallet", "infra", "developer tools"],
+      "adFit": ["wallets", "onchain infra", "developer tools", "protocol tooling"]
+    },
+    {
+      "laneId": "crypto_alpha",
+      "name": "Crypto Alpha",
+      "accountTarget": 20,
+      "keywords": ["narrative", "trend", "new project", "market structure", "ecosystem watch"],
+      "adFit": ["research", "analytics", "launches", "community campaigns"]
+    }
+  ],
+  "sources": [
+    { "sourceId": "kaito_ai_crypto", "name": "Kaito", "tier": "L0", "type": "premium", "laneIds": ["ai_builder", "ai_agent", "crypto_alpha"], "status": "planned", "qualityScore": 95, "freshnessScore": 92, "reviewPolicy": "direct_candidate", "requiresApiKey": true, "url": "https://kaito.ai", "notes": "Premium narrative source. Use for AI and crypto trend discovery once subscribed." },
+    { "sourceId": "messari_research", "name": "Messari", "tier": "L0", "type": "premium", "laneIds": ["crypto_builder", "crypto_alpha"], "status": "planned", "qualityScore": 92, "freshnessScore": 82, "reviewPolicy": "direct_candidate", "requiresApiKey": true, "url": "https://messari.io", "notes": "Research source for protocols, sectors, and narrative context." },
+    { "sourceId": "token_terminal", "name": "Token Terminal", "tier": "L0", "type": "premium", "laneIds": ["crypto_builder", "crypto_alpha"], "status": "planned", "qualityScore": 90, "freshnessScore": 75, "reviewPolicy": "direct_candidate", "requiresApiKey": true, "url": "https://tokenterminal.com", "notes": "Fundamental and project data. Best for non-hype crypto analysis." },
+    { "sourceId": "nansen", "name": "Nansen", "tier": "L0", "type": "premium", "laneIds": ["crypto_alpha"], "status": "planned", "qualityScore": 94, "freshnessScore": 90, "reviewPolicy": "direct_candidate", "requiresApiKey": true, "url": "https://www.nansen.ai", "notes": "Wallet and smart-money signal source. Add when budget allows." },
+    { "sourceId": "the_block_pro", "name": "The Block Pro", "tier": "L0", "type": "premium", "laneIds": ["crypto_builder", "crypto_alpha"], "status": "planned", "qualityScore": 89, "freshnessScore": 82, "reviewPolicy": "direct_candidate", "requiresApiKey": true, "url": "https://www.theblock.co", "notes": "Crypto industry research and market structure source." },
+    { "sourceId": "product_hunt", "name": "Product Hunt", "tier": "L1", "type": "public", "laneIds": ["ai_saas", "ai_builder"], "status": "active", "qualityScore": 82, "freshnessScore": 88, "reviewPolicy": "direct_candidate", "requiresApiKey": false, "url": "https://www.producthunt.com/feed", "notes": "New AI/SaaS launches. Strong for product and affiliate angles." },
+    { "sourceId": "hacker_news", "name": "Hacker News", "tier": "L1", "type": "public", "laneIds": ["ai_builder", "ai_agent", "ai_saas"], "status": "active", "qualityScore": 78, "freshnessScore": 80, "reviewPolicy": "direct_candidate", "requiresApiKey": false, "url": "https://hnrss.org/newest", "notes": "Builder discussion and technical launch signal." },
+    { "sourceId": "github_trending", "name": "GitHub Trending", "tier": "L1", "type": "public", "laneIds": ["ai_builder", "ai_agent", "crypto_builder"], "status": "planned", "qualityScore": 80, "freshnessScore": 78, "reviewPolicy": "direct_candidate", "requiresApiKey": false, "url": "https://github.com/trending", "notes": "Developer traction signal. Convert repos into builder-facing angles." },
+    { "sourceId": "github_releases", "name": "GitHub Releases", "tier": "L1", "type": "public", "laneIds": ["ai_builder", "ai_agent", "crypto_builder"], "status": "planned", "qualityScore": 76, "freshnessScore": 82, "reviewPolicy": "direct_candidate", "requiresApiKey": false, "url": "https://github.com", "notes": "Release source for specific watched repos." },
+    { "sourceId": "indie_hackers", "name": "Indie Hackers", "tier": "L1", "type": "public", "laneIds": ["ai_saas"], "status": "planned", "qualityScore": 75, "freshnessScore": 70, "reviewPolicy": "direct_candidate", "requiresApiKey": false, "url": "https://www.indiehackers.com", "notes": "Founder lessons and SaaS growth material." },
+    { "sourceId": "defillama", "name": "DefiLlama", "tier": "L1", "type": "public", "laneIds": ["crypto_builder", "crypto_alpha"], "status": "planned", "qualityScore": 82, "freshnessScore": 80, "reviewPolicy": "direct_candidate", "requiresApiKey": false, "url": "https://defillama.com", "notes": "Protocol and category tracking. Avoid pure price-only copy." },
+    { "sourceId": "coinmarketcap_new", "name": "CoinMarketCap New", "tier": "L1", "type": "public", "laneIds": ["crypto_alpha"], "status": "planned", "qualityScore": 65, "freshnessScore": 86, "reviewPolicy": "direct_candidate", "requiresApiKey": false, "url": "https://coinmarketcap.com/new", "notes": "Fresh project discovery. Needs strict duplicate and quality filters." },
+    { "sourceId": "base_ecosystem", "name": "Base Ecosystem", "tier": "L1", "type": "public", "laneIds": ["crypto_builder"], "status": "planned", "qualityScore": 78, "freshnessScore": 76, "reviewPolicy": "direct_candidate", "requiresApiKey": false, "url": "https://www.base.org/ecosystem", "notes": "Base app and builder ecosystem watch." },
+    { "sourceId": "reddit_watch", "name": "Reddit", "tier": "L2", "type": "community", "laneIds": ["ai_saas", "crypto_alpha"], "status": "planned", "qualityScore": 45, "freshnessScore": 75, "reviewPolicy": "manual_review_only", "requiresApiKey": false, "url": "https://www.reddit.com", "notes": "Community noise pool. Never convert directly to tasks." },
+    { "sourceId": "telegram_watch", "name": "Telegram", "tier": "L2", "type": "community", "laneIds": ["crypto_alpha"], "status": "planned", "qualityScore": 35, "freshnessScore": 88, "reviewPolicy": "manual_review_only", "requiresApiKey": true, "url": "", "notes": "High-noise crypto watch source. Raw candidates only, manual approval required." },
+    { "sourceId": "discord_watch", "name": "Discord", "tier": "L2", "type": "community", "laneIds": ["ai_agent", "crypto_builder"], "status": "planned", "qualityScore": 40, "freshnessScore": 80, "reviewPolicy": "manual_review_only", "requiresApiKey": true, "url": "", "notes": "Community watch source. Use for discovery, not direct task generation." }
+  ]
+}

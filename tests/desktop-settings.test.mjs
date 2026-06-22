@@ -12,7 +12,7 @@ test("desktop settings expose local dirs and export actions", async () => {
     assert.equal(status.desktopMode, true);
 
     const csv = await exportDesktopAccountsCsv("workspace_settings");
-    assert.match(csv, /^handle,lane,country,language,loginStatus,status,publishMode,dailyPostLimit,externalLinkLimit,networkLabel,ipNote,sessionMode,notes/);
+    assert.match(csv, /^accountId,handle,lane,country,language,loginStatus,status,publishMode,dailyPostLimit,externalLinkLimit,workEnvironment,adsProfileId,networkLabel,ipNote,sessionMode,notes/);
     const backup = await exportDesktopBackupPackage();
     assert.equal(backup.path.startsWith(dir), true);
   });

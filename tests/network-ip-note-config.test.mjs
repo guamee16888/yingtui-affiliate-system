@@ -8,15 +8,23 @@ import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 const appJs = await readFile(new URL("../manager/js/app.js", import.meta.url), "utf8");
 
 test("desktop account detail exposes network and IP note config only", () => {
-  for (const label of ["网络/IP 配置", "网络备注", "IP 归属备注", "设备备注", "国家/地区备注"]) {
+  for (const label of ["网络/IP 配置", "网络备注", "指定 IP / 出口", "设备备注", "国家/地区备注", "检测当前IP"]) {
     assert.match(appJs, new RegExp(label));
   }
   assert.match(appJs, /批量导入代理表 \/ 网络IP/);
   assert.match(appJs, /data-account-action="import-network-notes"/);
+  assert.match(appJs, /data-account-action="check-current-ip"/);
+  assert.match(appJs, /\/api\/desktop\/network\/current-ip/);
   assert.match(appJs, /handle,networkNote,ipNote,deviceNote,countryRegionNote/);
   assert.match(appJs, /Proxy Address,Port,Username,Password,Last Checked,Status,Country,City/);
-  assert.match(appJs, /不切换代理、不保存代理账号密码、不管理指纹、不改变系统网络/);
-  assert.doesNotMatch(appJs, /proxyUrl|proxyHost|fingerprintId|rotateIp/);
+  assert.match(appJs, /代理地址/);
+  assert.match(appJs, /当前公网 IP 不匹配/);
+  assert.doesNotMatch(appJs, /proxyHost|fingerprintId|rotateIp/);
+});
+
+test("batch network note import starts collapsed", () => {
+  assert.doesNotMatch(appJs, /<details class="desktop-import-compact" open>\s+<summary>批量导入代理表 \/ 网络IP/);
+  assert.match(appJs, /<details class="desktop-import-compact">\s+<summary>批量导入代理表 \/ 网络IP/);
 });
 
 test("network and IP config is saved as notes without proxy fields", async () => {

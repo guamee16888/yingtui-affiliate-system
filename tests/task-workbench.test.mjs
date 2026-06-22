@@ -1,6 +1,19 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { completeDesktopSetup, createDesktopTask, importDesktopAccounts, markDesktopTaskPosted } from "../scripts/lib/desktop-data-store.mjs";
+import { CORE_COLLECTIONS, loadCollection } from "../scripts/lib/core-data.mjs";
+import { readJson } from "../scripts/lib/file-store.mjs";
+import { updateManagerTaskAction } from "../scripts/lib/manager-system.mjs";
+import {
+  completeDesktopSetup,
+  createDesktopTask,
+  DESKTOP_X_CREDENTIALS_PATH,
+  finishDesktopXOAuthCallback,
+  importDesktopAccounts,
+  markDesktopTaskPosted,
+  publishDesktopTaskToX,
+  saveDesktopXOAuthConfig,
+  startDesktopXOAuth
+} from "../scripts/lib/desktop-data-store.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop task workbench creates and marks manual post tasks", async () => {
@@ -37,3 +50,88 @@ test("desktop task workbench rejects over 280 weighted characters", async () => 
     );
   });
 });
+
+test("desktop task workbench publishes approved task with account vault token", async () => {
+  await withDesktopTestEnv(async () => {
+    await completeDesktopSetup({ mode: "empty_workspace", workspaceId: "workspace_publish", workspaceName: "Publish Test" });
+    await saveDesktopXOAuthConfig({
+      clientId: "client_1234567890",
+      clientSecret: "secret_abcdefghijklmnopqrstuvwxyz",
+      callbackUrl: "http://127.0.0.1:5288/api/oauth/x/callback",
+      scopes: "tweet.read tweet.write users.read offline.access"
+    });
+    const start = await startDesktopXOAuth();
+    const state = new URL(start.authorizationUrl).searchParams.get("state");
+    const callback = await finishDesktopXOAuthCallback({ code: "auth_code_1", state }, {
+      fetchImpl: async (url) => {
+        if (String(url).endsWith("/oauth2/token")) {
+          return jsonResponse({
+            access_token: "expired_access_token",
+            refresh_token: "refresh_token_1",
+            token_type: "bearer",
+            expires_in: -10
+          });
+        }
+        if (String(url).endsWith("/users/me")) {
+          return jsonResponse({ data: { id: "x_user_1", username: "publish_account", name: "Publish Account" } });
+        }
+        return jsonResponse({ error: "not found" }, 404);
+      }
+    });
+    const created = await createDesktopTask({
+      workspaceId: "workspace_publish",
+      accountId: callback.account.accountId,
+      assignedTo: "user_owner",
+      copyText: "A tiny operating loop beats a giant dashboard when the next action is always clear."
+    });
+    await updateManagerTaskAction({
+      action: "approve",
+      taskId: created.task.taskId,
+      workspaceId: "workspace_publish",
+      managerUserId: "user_owner"
+    });
+
+    const calls = [];
+    const published = await publishDesktopTaskToX({ taskId: created.task.taskId }, { userId: "user_owner" }, {
+      now: new Date("2099-06-20T08:00:00.000Z"),
+      fetchImpl: async (url, options = {}) => {
+        calls.push({ url: String(url), authorization: options.headers?.authorization || options.headers?.Authorization || "", body: options.body ? String(options.body) : "" });
+        if (String(url).endsWith("/oauth2/token")) {
+          return jsonResponse({
+            access_token: "fresh_access_token",
+            refresh_token: "fresh_refresh_token",
+            token_type: "bearer",
+            expires_in: 7200
+          });
+        }
+        if (String(url).endsWith("/2/tweets")) {
+          assert.equal(options.headers.authorization, "Bearer fresh_access_token");
+          assert.match(String(options.body), /tiny operating loop/);
+          return jsonResponse({ data: { id: "tweet_123", text: "posted" } });
+        }
+        return jsonResponse({ error: "not found" }, 404);
+      }
+    });
+
+    assert.equal(published.task.status, "feedback_due");
+    assert.equal(published.task.publishMode, "x_api");
+    assert.equal(published.xPostId, "tweet_123");
+    assert.equal(published.ledger.publishMode, "x_api");
+    assert.equal(calls.length, 2);
+
+    const tasks = await loadCollection(CORE_COLLECTIONS.postTasks);
+    assert.equal(tasks.items.find((task) => task.taskId === created.task.taskId).status, "feedback_due");
+    const credentials = await readJson(DESKTOP_X_CREDENTIALS_PATH, {});
+    assert.equal(credentials.byAccountId[callback.account.accountId].accessTokenRef, "fresh_access_token");
+  });
+});
+
+function jsonResponse(payload, status = 200) {
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    async json() {
+      return payload;
+    }
+  };
+}

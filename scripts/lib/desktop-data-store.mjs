@@ -14,7 +14,10 @@ import { calculateAccountHealth } from "./account-health-engine.mjs";
 export const DESKTOP_STATE_PATH = "data/desktop-state.json";
 export const DESKTOP_AUDIT_PATH = "data/audit-logs.json";
 export const DESKTOP_X_OAUTH_PATH = "data/desktop-x-oauth.json";
+export const DESKTOP_X_CREDENTIALS_PATH = "data/x-credentials.json";
+export const DESKTOP_ACCOUNT_TARGET = 100;
 export const DESKTOP_ALLOWED_IMPORT_FIELDS = new Set([
+  "accountid",
   "handle",
   "lane",
   "laneid",
@@ -36,7 +39,19 @@ export const DESKTOP_ALLOWED_IMPORT_FIELDS = new Set([
   "countryregionnote",
   "sessionmode",
   "notes",
-  "persona"
+  "persona",
+  "proxyid",
+  "proxyurl",
+  "fingerprintid",
+  "browserprovider",
+  "workenvironment",
+  "workenv",
+  "adsprofileid",
+  "adspowerid",
+  "adspowerprofileid",
+  "adspowerenvironmentid",
+  "adsenvironmentid",
+  "environmentid"
 ]);
 export const DESKTOP_FORBIDDEN_IMPORT_FIELDS = new Set(["password", "cookie", "cookies", "proxy", "fingerprint", "token", "secret", "timezone"]);
 const DESKTOP_NETWORK_NOTE_FIELDS = new Set(["accountid", "handle", "network", "networklabel", "networknote", "ip", "ipnote", "device", "devicenote", "countryregionnote", "notes"]);
@@ -205,10 +220,11 @@ export async function finishDesktopXOAuthCallback(input = {}, options = {}) {
   const connectionId = createStableId("xconn", [workspaceId, externalUserId || handle]);
   const expiresAt = token.expires_in ? new Date(Date.now() + Number(token.expires_in) * 1000).toISOString() : "";
 
-  const [accounts, assignments, connections] = await Promise.all([
+  const [accounts, assignments, connections, credentials] = await Promise.all([
     loadCollection(CORE_COLLECTIONS.xAccounts),
     loadCollection(CORE_COLLECTIONS.assignments),
-    loadCollection("data/x-connections.json")
+    loadCollection("data/x-connections.json"),
+    readJson(DESKTOP_X_CREDENTIALS_PATH, emptyCredentialStore())
   ]);
   const existingAccount = accounts.items.find((item) => item.accountId === accountId) || {};
   const officialAccount = normalizeDesktopAccount({
@@ -254,6 +270,20 @@ export async function finishDesktopXOAuthCallback(input = {}, options = {}) {
     saveCollection(CORE_COLLECTIONS.xAccounts, upsertCollection(accounts, officialAccount, "accountId")),
     saveCollection(CORE_COLLECTIONS.assignments, upsertCollection(assignments, assignment, "assignmentId")),
     saveCollection("data/x-connections.json", upsertCollection(connections, connection, "connectionId")),
+    writeJsonAtomic(DESKTOP_X_CREDENTIALS_PATH, upsertCredentialStore(credentials, {
+      accountId,
+      handle,
+      externalUserId,
+      accessTokenRef: token.access_token,
+      refreshTokenRef: token.refresh_token || config.refreshTokenRef || "",
+      tokenType: token.token_type || "bearer",
+      tokenExpiresAt: expiresAt,
+      scopes: config.scopes || defaultXScopes(),
+      appId: "default",
+      status: "connected",
+      connectedAt: existingByAccountCredential(credentials, accountId)?.connectedAt || now,
+      updatedAt: now
+    }, now)),
     writeJsonAtomic(DESKTOP_X_OAUTH_PATH, {
       ...config,
       pendingState: "",
@@ -359,7 +389,7 @@ export async function createOrUpdateDesktopWorkspace(input = {}, actor = { userI
     workspaceId,
     name: workspaceName,
     plan: "desktop",
-    accountLimit: 30,
+    accountLimit: DESKTOP_ACCOUNT_TARGET,
     managerUserIds: ["user_owner"],
     staffUserIds: ["user_owner"],
     enabledLaneIds,
@@ -391,7 +421,7 @@ export async function createOrUpdateDesktopWorkspace(input = {}, actor = { userI
       plan: "desktop",
       status: "internal",
       requireDiscordVerification: false,
-      maxAccounts: 30,
+      maxAccounts: DESKTOP_ACCOUNT_TARGET,
       maxSeats: 5,
       expiresAt: ""
     }, "workspaceId")
@@ -420,10 +450,18 @@ export async function importDesktopAccounts(input = {}, actor = { userId: "user_
   const imported = [];
   let items = [...current.items];
   let assignmentItems = [...assignments.items];
+  const emptySlots = items
+    .filter((account) => account.workspaceId === workspaceId && isDesktopAccountSlot(account))
+    .sort((a, b) => String(a.accountId).localeCompare(String(b.accountId)));
 
   for (const row of parsed.rows) {
+    const normalizedHandle = normalizeHandle(row.handle);
+    const existing = findDesktopAccountForImport(items, workspaceId, row.accountId, normalizedHandle);
+    const targetSlot = !existing && !row.accountId ? emptySlots.shift() : null;
     const account = normalizeDesktopAccount({
+      ...(targetSlot || {}),
       ...row,
+      accountId: row.accountId || targetSlot?.accountId,
       workspaceId,
       laneId: row.laneId || row.lane || defaultLane,
       language: row.language || defaultLanguage,
@@ -477,6 +515,68 @@ export async function upsertDesktopAccount(input = {}, actor = { userId: "user_o
   return { account: result.imported[0], ignoredFields: result.ignoredFields, warning: result.warning };
 }
 
+export async function ensureDesktopAccountSlots(input = {}, actor = { userId: "user_owner" }) {
+  const workspaceId = String(input.workspaceId || "workspace_default").trim();
+  const target = Math.min(Math.max(Number(input.count || DESKTOP_ACCOUNT_TARGET), 1), 500);
+  const accounts = await loadCollection(CORE_COLLECTIONS.xAccounts);
+  const assignments = await loadCollection(CORE_COLLECTIONS.assignments);
+  const now = new Date().toISOString();
+  const workspaceAccounts = accounts.items.filter((account) => account.workspaceId === workspaceId);
+  const created = [];
+  const usedIds = new Set(accounts.items.map((account) => account.accountId));
+  let items = [...accounts.items];
+  let assignmentItems = [...assignments.items];
+
+  for (let index = workspaceAccounts.length + 1; index <= target; index += 1) {
+    const slotId = nextDesktopSlotId(usedIds, index);
+    usedIds.add(slotId);
+    const slot = normalizeDesktopAccount({
+      accountId: slotId,
+      workspaceId,
+      handle: "",
+      persona: `账号槽位 ${String(index).padStart(3, "0")}`,
+      laneId: "none",
+      status: "empty_slot",
+      language: "en",
+      browserProvider: "ads",
+      connectionStatus: "not_connected",
+      notes: "待导入账号"
+    }, now);
+    items.push(slot);
+    assignmentItems = upsertItem(assignmentItems, {
+      assignmentId: createStableId("assign", [workspaceId, "user_owner", slot.accountId]),
+      workspaceId,
+      userId: "user_owner",
+      accountId: slot.accountId,
+      role: "manager",
+      active: true,
+      createdAt: now,
+      updatedAt: now
+    }, "assignmentId");
+    created.push(slot);
+  }
+
+  if (created.length) {
+    await Promise.all([
+      saveCollection(CORE_COLLECTIONS.xAccounts, { ...accounts, items }),
+      saveCollection(CORE_COLLECTIONS.assignments, { ...assignments, items: assignmentItems })
+    ]);
+  }
+  await appendDesktopAudit({
+    type: "account.slots.ensure",
+    workspaceId,
+    actorUserId: actor.userId,
+    summary: `Ensured ${target} desktop account slot(s).`,
+    metadata: { target, createdCount: created.length }
+  });
+  return {
+    target,
+    total: workspaceAccounts.length + created.length,
+    createdCount: created.length,
+    created
+  };
+}
+
 export async function updateDesktopAccountConfig(input = {}, actor = { userId: "user_owner" }) {
   const accountId = String(input.accountId || "").trim();
   if (!accountId) throw new Error("accountId is required");
@@ -494,7 +594,10 @@ export async function updateDesktopAccountConfig(input = {}, actor = { userId: "
     ipNote: input.ipNote ?? current.ipNote ?? "",
     deviceNote: input.deviceNote ?? current.deviceNote ?? "",
     countryRegionNote: input.countryRegionNote ?? current.countryRegionNote ?? "",
-    sessionMode: input.sessionMode ?? current.sessionMode ?? "temp",
+    sessionMode: input.sessionMode ?? current.sessionMode ?? "persistent",
+    proxyUrl: input.proxyUrl ?? current.proxyUrl ?? "",
+    browserProvider: normalizeBrowserProvider(input.browserProvider ?? input.workEnvironment ?? current.browserProvider),
+    adsProfileId: input.adsProfileId ?? current.adsProfileId ?? "",
     notes: input.notes ?? current.notes ?? ""
   });
   await saveCollection(CORE_COLLECTIONS.xAccounts, {
@@ -598,6 +701,7 @@ export async function exportDesktopAccountsCsv(workspaceId = "workspace_default"
   const rows = accounts.items
     .filter((account) => (account.workspaceId || "workspace_default") === workspaceId)
     .map((account) => [
+      account.accountId || "",
       account.handle || "",
       account.laneId || account.contentLaneId || "",
       account.country || account.region || "",
@@ -607,12 +711,14 @@ export async function exportDesktopAccountsCsv(workspaceId = "workspace_default"
       account.publishMode || "",
       account.dailyPostLimit || "",
       account.externalLinkLimit || "",
+      account.browserProvider || "ads",
+      account.adsProfileId || "",
       account.networkLabel || "",
       account.ipNote || "",
-      account.sessionMode || "temp",
+      account.sessionMode || "persistent",
       account.notes || ""
     ]);
-  return toCsv([["handle", "lane", "country", "language", "loginStatus", "status", "publishMode", "dailyPostLimit", "externalLinkLimit", "networkLabel", "ipNote", "sessionMode", "notes"], ...rows]);
+  return toCsv([["accountId", "handle", "lane", "country", "language", "loginStatus", "status", "publishMode", "dailyPostLimit", "externalLinkLimit", "workEnvironment", "adsProfileId", "networkLabel", "ipNote", "sessionMode", "notes"], ...rows]);
 }
 
 export async function createDesktopTask(input = {}, actor = { userId: "user_owner" }) {
@@ -717,6 +823,97 @@ export async function markDesktopTaskPosted(input = {}, actor = { userId: "user_
     summary: "Task marked posted manually in Desktop."
   });
   return { task: nextTask, ledger: ledgerEntry };
+}
+
+export async function publishDesktopTaskToX(input = {}, actor = { userId: "user_owner" }, options = {}) {
+  const taskId = String(input.taskId || "").trim();
+  if (!taskId) throw new Error("taskId is required");
+  const fetchImpl = options.fetchImpl || fetch;
+  const nowDate = options.now instanceof Date ? options.now : new Date();
+  const now = nowDate.toISOString();
+  const [tasks, ledger, accounts, credentials, oauthConfig] = await Promise.all([
+    loadCollection(CORE_COLLECTIONS.postTasks),
+    loadCollection(CORE_COLLECTIONS.postLedger),
+    loadCollection(CORE_COLLECTIONS.xAccounts),
+    readJson(DESKTOP_X_CREDENTIALS_PATH, emptyCredentialStore()),
+    readJson(DESKTOP_X_OAUTH_PATH, null)
+  ]);
+  const task = tasks.items.find((item) => item.taskId === taskId);
+  if (!task) throw new Error(`任务不存在：${taskId}`);
+  if (task.approvalStatus !== "approved") throw new Error("先确认任务，再发布到 X。");
+  if (["posted", "feedback_due", "feedback_done", "skipped"].includes(task.status || "") || task.postedUrl) {
+    throw new Error("这条任务已经发布过了。");
+  }
+  assertTweetLength(task.copyText || "");
+  const accountId = String(task.accountId || "").trim();
+  const account = accounts.items.find((item) => item.accountId === accountId) || {};
+  const selected = selectDesktopCredentialForAccount(accountId, credentials, oauthConfig);
+  if (!selected?.credential?.accessTokenRef) {
+    throw new Error(`${account.handle || account.persona || accountId || "这个账号"} 还没有 X API 授权，请先连接该账号。`);
+  }
+  const fresh = await ensureDesktopCredentialFresh({
+    credential: selected.credential,
+    oauthConfig,
+    fetchImpl,
+    now: nowDate
+  });
+  const published = await publishDesktopTweet(task.copyText || "", fresh.credential.accessTokenRef, fetchImpl);
+  const postedUrl = published.url || (published.id ? `https://x.com/i/web/status/${published.id}` : "");
+  const nextTask = {
+    ...task,
+    status: "feedback_due",
+    approvalStatus: "approved",
+    postedUrl,
+    xPostId: published.id || "",
+    postedAt: now,
+    feedbackDueAt: now,
+    publishMode: "x_api",
+    updatedAt: now,
+    notes: appendNote(task.notes, input.notes || "Published to X from AI Creator OS Desktop.")
+  };
+  const ledgerEntry = {
+    ledgerId: createLedgerId(taskId, postedUrl || now),
+    workspaceId: nextTask.workspaceId || "workspace_default",
+    taskId,
+    accountId,
+    copyId: nextTask.copyId || "",
+    toolId: nextTask.toolId || "",
+    copyText: nextTask.copyText || "",
+    postedUrl,
+    xPostId: published.id || "",
+    postedAt: now,
+    publishMode: "x_api",
+    actorUserId: actor.userId || "",
+    createdAt: now,
+    updatedAt: now
+  };
+  const writes = [
+    saveCollection(CORE_COLLECTIONS.postTasks, { ...tasks, items: tasks.items.map((item) => item.taskId === taskId ? nextTask : item) }),
+    saveCollection(CORE_COLLECTIONS.postLedger, upsertCollection(ledger, ledgerEntry, "ledgerId"))
+  ];
+  if (fresh.changed) {
+    writes.push(writeJsonAtomic(DESKTOP_X_CREDENTIALS_PATH, upsertCredentialStore(credentials, fresh.credential, now)));
+    if (oauthConfig?.authorizedAccountId === accountId) {
+      writes.push(writeJsonAtomic(DESKTOP_X_OAUTH_PATH, {
+        ...oauthConfig,
+        accessTokenRef: fresh.credential.accessTokenRef,
+        refreshTokenRef: fresh.credential.refreshTokenRef || oauthConfig.refreshTokenRef || "",
+        tokenType: fresh.credential.tokenType || oauthConfig.tokenType || "bearer",
+        tokenExpiresAt: fresh.credential.tokenExpiresAt || "",
+        updatedAt: now
+      }));
+    }
+  }
+  await Promise.all(writes);
+  await appendDesktopAudit({
+    type: "task.publish_x",
+    workspaceId: nextTask.workspaceId || "workspace_default",
+    actorUserId: actor.userId,
+    targetId: taskId,
+    summary: "Task published to X from Desktop.",
+    metadata: { accountId, xPostId: published.id || "" }
+  });
+  return { task: nextTask, ledger: ledgerEntry, postedUrl, xPostId: published.id || "" };
 }
 
 export async function saveDesktopFeedback(input = {}, actor = { userId: "user_owner" }) {
@@ -863,16 +1060,18 @@ export async function updateDesktopRelationshipTargetStatus(input = {}, actor = 
 }
 
 export async function recordDesktopWindowOpen(input = {}, actor = { userId: "user_owner" }) {
+  const windowMode = input.windowMode === "persistent" ? "persistent" : "temp";
   await appendDesktopAudit({
-    type: "desktop.window.open_incognito",
+    type: windowMode === "persistent" ? "desktop.window.open_persistent" : "desktop.window.open_incognito",
     workspaceId: input.workspaceId || "workspace_default",
     actorUserId: actor.userId,
     targetId: input.accountId || "",
-    summary: "Incognito account window opened.",
+    summary: windowMode === "persistent" ? "Persistent account window opened." : "Temporary account window opened.",
     metadata: {
       accountId: input.accountId || "",
       handle: input.handle || "",
-      url: input.url || ""
+      url: input.url || "",
+      windowMode
     }
   });
   return { ok: true };
@@ -1117,9 +1316,38 @@ function normalizeDesktopAccount(input = {}, now = new Date().toISOString()) {
     notes: input.notes || "",
     connectionStatus: official ? (input.connectionStatus || "connected") : "not_connected",
     oauthConnectionId: official ? input.oauthConnectionId : "",
+    // 代理和指纹绑定字段
+    proxyId: String(input.proxyId || "").trim(),
+    proxyUrl: String(input.proxyUrl || "").trim(),
+    fingerprintId: String(input.fingerprintId || "").trim(),
+    browserProvider: normalizeBrowserProvider(input.browserProvider || input.workEnvironment || "ads"),
+    adsProfileId: String(input.adsProfileId || input.adsEnvironmentId || input.environmentId || "").trim(),
     createdAt: input.createdAt || now,
     updatedAt: now
   };
+}
+
+function isDesktopAccountSlot(account = {}) {
+  return account.status === "empty_slot" || (!account.handle && /^xacc_slot_/.test(String(account.accountId || "")));
+}
+
+function findDesktopAccountForImport(items = [], workspaceId = "workspace_default", accountId = "", handle = "") {
+  const normalizedHandle = normalizeHandle(handle).toLowerCase();
+  return items.find((account) => {
+    if (account.workspaceId !== workspaceId) return false;
+    if (accountId && account.accountId === accountId) return true;
+    return normalizedHandle && String(account.handle || "").toLowerCase() === normalizedHandle;
+  });
+}
+
+function nextDesktopSlotId(usedIds, preferredIndex) {
+  let index = Math.max(Number(preferredIndex || 1), 1);
+  while (index < 10000) {
+    const id = `xacc_slot_${String(index).padStart(3, "0")}`;
+    if (!usedIds.has(id)) return id;
+    index += 1;
+  }
+  return `xacc_slot_${createStableId("slot", [Date.now(), Math.random()]).slice(-12)}`;
 }
 
 function normalizeImportRow(row = {}, ignored = new Set()) {
@@ -1230,6 +1458,7 @@ function normalizeFieldName(value) {
 }
 
 function fieldAlias(field) {
+  if (field === "accountid") return "accountId";
   if (["lane", "laneid", "contentlane"].includes(field)) return "laneId";
   if (field === "country") return "country";
   if (field === "region") return "country";
@@ -1241,6 +1470,8 @@ function fieldAlias(field) {
   if (["device", "devicenote"].includes(field)) return "deviceNote";
   if (field === "countryregionnote") return "countryRegionNote";
   if (field === "sessionmode") return "sessionMode";
+  if (["browserprovider", "workenvironment", "workenv"].includes(field)) return "browserProvider";
+  if (["adsprofileid", "adspowerid", "adspowerprofileid", "adspowerenvironmentid", "adsenvironmentid", "environmentid"].includes(field)) return "adsProfileId";
   return field;
 }
 
@@ -1263,7 +1494,14 @@ function normalizeDesktopLaneId(value) {
 
 function normalizeSessionMode(value) {
   const mode = String(value || "").trim().toLowerCase();
-  return ["temp", "manual", "fixed_note"].includes(mode) ? mode : "temp";
+  return ["temp", "persistent", "manual", "fixed_note"].includes(mode) ? mode : "persistent";
+}
+
+function normalizeBrowserProvider(value) {
+  const provider = String(value || "").trim().toLowerCase();
+  if (["default", "electron", "local"].includes(provider)) return "default";
+  if (["ads", "adspower", "adsbrowser", "ads_browser", "fingerprint", "fingerprint_browser"].includes(provider)) return "ads";
+  return "ads";
 }
 
 function parseHandles(value) {
@@ -1339,6 +1577,144 @@ function upsertCollection(collection, item, idField) {
     ...collection,
     updatedAt: new Date().toISOString(),
     items: upsertItem(collection.items || [], item, idField)
+  };
+}
+
+function emptyCredentialStore() {
+  return { version: 1, updatedAt: "", byAccountId: {} };
+}
+
+function normalizeCredentialStore(store = {}) {
+  return {
+    version: Number(store.version || 1),
+    updatedAt: store.updatedAt || "",
+    byAccountId: store.byAccountId && typeof store.byAccountId === "object" ? store.byAccountId : {}
+  };
+}
+
+function existingByAccountCredential(store = {}, accountId = "") {
+  return normalizeCredentialStore(store).byAccountId[String(accountId || "").trim()] || null;
+}
+
+function upsertCredentialStore(store = {}, credential = {}, updatedAt = new Date().toISOString()) {
+  const current = normalizeCredentialStore(store);
+  const accountId = String(credential.accountId || "").trim();
+  if (!accountId) return { ...current, updatedAt };
+  return {
+    ...current,
+    updatedAt,
+    byAccountId: {
+      ...current.byAccountId,
+      [accountId]: {
+        ...(current.byAccountId[accountId] || {}),
+        ...credential,
+        accountId,
+        updatedAt
+      }
+    }
+  };
+}
+
+function selectDesktopCredentialForAccount(accountId = "", store = {}, oauthConfig = {}) {
+  const cleanAccountId = String(accountId || "").trim();
+  const vaultCredential = existingByAccountCredential(store, cleanAccountId);
+  if (vaultCredential?.accessTokenRef) return { source: "account_vault", credential: vaultCredential };
+  if (oauthConfig?.authorizedAccountId === cleanAccountId && oauthConfig?.accessTokenRef) {
+    return {
+      source: "desktop_x_oauth",
+      credential: {
+        accountId: cleanAccountId,
+        handle: oauthConfig.authorizedHandle || "",
+        externalUserId: oauthConfig.authorizedExternalUserId || "",
+        accessTokenRef: oauthConfig.accessTokenRef,
+        refreshTokenRef: oauthConfig.refreshTokenRef || "",
+        tokenType: oauthConfig.tokenType || "bearer",
+        tokenExpiresAt: oauthConfig.tokenExpiresAt || "",
+        scopes: oauthConfig.scopes || defaultXScopes(),
+        appId: "default",
+        status: "connected",
+        connectedAt: oauthConfig.connectedAt || "",
+        updatedAt: oauthConfig.updatedAt || ""
+      }
+    };
+  }
+  return null;
+}
+
+async function ensureDesktopCredentialFresh({ credential, oauthConfig, fetchImpl, now }) {
+  if (!desktopCredentialNeedsRefresh(credential, now)) return { credential, changed: false };
+  const refreshed = await refreshDesktopCredential({ credential, oauthConfig, fetchImpl, now });
+  return { credential: refreshed, changed: true };
+}
+
+function desktopCredentialNeedsRefresh(credential = {}, now = new Date()) {
+  const expiresAt = String(credential.tokenExpiresAt || "").trim();
+  if (!expiresAt) return false;
+  const expiry = new Date(expiresAt).getTime();
+  if (Number.isNaN(expiry)) return false;
+  return expiry - now.getTime() < 120000;
+}
+
+async function refreshDesktopCredential({ credential, oauthConfig = {}, fetchImpl, now = new Date() }) {
+  if (!credential.refreshTokenRef) throw new Error("X token 已过期，请重新连接该 X 账号。");
+  if (!oauthConfig?.clientId) throw new Error("X API Client ID 缺失，请先在设置里保存 X API 配置。");
+  const body = new URLSearchParams({
+    grant_type: "refresh_token",
+    refresh_token: credential.refreshTokenRef
+  });
+  const headers = { "content-type": "application/x-www-form-urlencoded" };
+  if (oauthConfig.clientSecretRef) {
+    headers.authorization = `Basic ${Buffer.from(`${oauthConfig.clientId}:${oauthConfig.clientSecretRef}`).toString("base64")}`;
+  } else {
+    body.set("client_id", oauthConfig.clientId);
+  }
+  const response = await fetchImpl("https://api.x.com/2/oauth2/token", {
+    method: "POST",
+    headers,
+    body
+  });
+  const json = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`X token 刷新失败 (${response.status})：${json.error_description || json.detail || json.error || response.statusText || "unknown error"}`);
+  }
+  if (!json.access_token) throw new Error("X token 刷新成功但没有返回 access_token。");
+  const refreshedAt = now.toISOString();
+  return {
+    ...credential,
+    accessTokenRef: json.access_token,
+    refreshTokenRef: json.refresh_token || credential.refreshTokenRef || "",
+    tokenType: json.token_type || credential.tokenType || "bearer",
+    tokenExpiresAt: json.expires_in ? new Date(now.getTime() + Number(json.expires_in) * 1000).toISOString() : credential.tokenExpiresAt || "",
+    status: "connected",
+    updatedAt: refreshedAt
+  };
+}
+
+async function publishDesktopTweet(text, accessToken, fetchImpl) {
+  const normalized = String(text || "").trim();
+  if (!normalized) throw new Error("发布文案不能为空。");
+  assertTweetLength(normalized);
+  const response = await fetchImpl("https://api.x.com/2/tweets", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({ text: normalized })
+  });
+  const json = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const detail = json.detail || json.title || json.error_description || json.error || response.statusText || "unknown error";
+    if (response.status === 401) throw new Error(`X 发布失败 (401)：token 失效或权限不足，请重新连接该 X 账号。${detail}`);
+    if (response.status === 403) throw new Error(`X 发布失败 (403)：当前账号或 X App 没有发布权限。${detail}`);
+    if (response.status === 429) throw new Error(`X 发布失败 (429)：X API 频率限制，请稍后再试。${detail}`);
+    throw new Error(`X 发布失败 (${response.status})：${detail}`);
+  }
+  const id = String(json?.data?.id || "").trim();
+  return {
+    id,
+    text: json?.data?.text || normalized,
+    url: id ? `https://x.com/i/web/status/${id}` : ""
   };
 }
 

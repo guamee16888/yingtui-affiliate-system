@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AI Creator OS 桌面版</title>
-    <link rel="stylesheet" href="/manager/style.css?v=20260615-account-inline">
+    <link rel="stylesheet" href="/manager/style.css?v=20260620-status-center">
   </head>
   <body>
     <header class="shell-header">
@@ -30,7 +30,7 @@
     <main>
       <section class="notice" id="modeNotice">
         <strong>本地桌面工具箱：</strong>
-        本地管理账号、任务、目标关系和数据反馈。不保存账号密码、cookie，不管理代理或指纹，不自动关注、点赞、评论或发推。
+        本地管理账号、任务、目标关系和数据反馈。支持网络/IP 检测和浏览器指纹配置，不保存账号密码、cookie，不自动关注、点赞、评论或发推。
       </section>
 
       <section class="metrics" id="metrics"></section>
@@ -39,6 +39,10 @@
         <aside class="panel">
           <h2>账号工具箱</h2>
           <div id="workspaceResources"></div>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <button class="button secondary" onclick="window.location.href='/manager/proxy-manager.html?desktop=1&appMode=1&workspaceId=' + (new URLSearchParams(window.location.search).get('workspaceId') || 'workspace_default')">网络/IP 管理</button>
+            <button class="button secondary" onclick="window.location.href='/manager/fingerprint-manager.html?desktop=1&appMode=1&workspaceId=' + (new URLSearchParams(window.location.search).get('workspaceId') || 'workspace_default')">浏览器指纹</button>
+          </div>
           <div id="accountVault" class="account-vault"></div>
         </aside>
 
@@ -66,6 +70,6 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <div class="drawer-backdrop" id="accountDrawerBackdrop" hidden></div>
     <aside class="account-drawer" id="accountDrawer" hidden aria-label="账号详情"></aside>
-    <script type="module" src="/manager/js/app.js?v=20260615-account-inline"></script>
+    <script type="module" src="/manager/js/app.js?v=20260620-status-center"></script>
   </body>
 </html>

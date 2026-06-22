@@ -129,6 +129,7 @@ input {
   justify-content: center;
   min-height: 40px;
   padding: 0 14px;
+  white-space: nowrap;
   color: #fff;
   text-decoration: none;
   border: 1px solid var(--accent);
@@ -1019,9 +1020,60 @@ main {
 
 .desktop-filter-bar {
   display: grid;
-  grid-template-columns: minmax(170px, 1.2fr) repeat(2, minmax(105px, 1fr)) auto;
+  grid-template-columns: minmax(170px, 1.2fr) repeat(3, minmax(105px, 1fr)) auto;
   gap: 6px;
   align-items: end;
+}
+
+.desktop-account-capacity {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(120px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.desktop-button-guide {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.desktop-button-guide span {
+  padding: 9px 10px;
+  border: 1px solid #e1dacd;
+  border-radius: 12px;
+  background: #fffdf8;
+}
+
+.desktop-status-check {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid #d9e5df;
+  border-radius: 14px;
+  background: #eff8f4;
+  color: #36524a;
+  font-size: 12px;
+}
+
+.desktop-status-table .desktop-row-actions {
+  width: 170px;
+  min-width: 170px;
+}
+
+.desktop-status-table .desktop-row-actions .button {
+  min-height: 26px;
+}
+
+.desktop-account-table tr.is-empty-slot {
+  color: #8d877c;
+  background: #f7f1e7;
 }
 
 .desktop-table-toolbar {
@@ -1058,7 +1110,7 @@ main {
 
 .desktop-account-table {
   width: 100%;
-  min-width: 1180px;
+  min-width: 1360px;
   border-collapse: collapse;
   table-layout: fixed;
   font-size: 12px;
@@ -1117,7 +1169,8 @@ main {
 }
 
 .desktop-account-table .desktop-row-actions {
-  width: 148px;
+  width: 104px;
+  min-width: 104px;
 }
 
 .inline-account-select,
@@ -1146,12 +1199,16 @@ main {
   display: flex;
   gap: 4px;
   align-items: center;
+  flex-wrap: nowrap;
+  overflow: visible !important;
 }
 
 .desktop-row-actions .button {
+  flex: 0 0 auto;
   min-height: 20px;
   padding: 0 5px;
   font-size: 11px;
+  white-space: nowrap;
 }
 
 .desktop-empty-cell {
@@ -1268,7 +1325,7 @@ main {
 .desktop-action-row .button,
 .desktop-row-actions .button {
   max-width: 100%;
-  white-space: normal;
+  white-space: nowrap;
 }
 
 .desktop-account-grid {
@@ -1321,6 +1378,109 @@ main {
 .desktop-task-list {
   display: grid;
   gap: 10px;
+}
+
+.source-lane-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.source-lane-card {
+  align-content: start;
+}
+
+.source-progress {
+  overflow: hidden;
+  height: 8px;
+  border-radius: 999px;
+  background: #eee5d6;
+}
+
+.source-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #24795b, #76b58f);
+}
+
+.source-manager-card {
+  gap: 14px;
+}
+
+.desktop-section-head.compact {
+  align-items: start;
+  padding-bottom: 4px;
+}
+
+.source-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.source-form-notes {
+  grid-column: span 3;
+}
+
+.source-lane-picker {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffaf2;
+}
+
+.source-lane-picker > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.source-lane-picker label,
+.source-api-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.source-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+
+.source-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.source-table th,
+.source-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.source-table th {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.source-table small {
+  display: block;
+  max-width: 340px;
+  margin-top: 4px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
 .desktop-create-task h3,
@@ -1503,7 +1663,7 @@ main {
 }
 
 .desktop-filter-bar {
-  grid-template-columns: minmax(260px, 1.4fr) repeat(2, minmax(150px, 0.8fr)) auto;
+  grid-template-columns: minmax(240px, 1.3fr) repeat(3, minmax(140px, 0.8fr)) auto;
   gap: 9px;
   align-items: end;
   padding: 12px;
@@ -1527,7 +1687,7 @@ main {
 }
 
 .desktop-account-table {
-  min-width: 1080px;
+  min-width: 1440px;
   border-collapse: separate;
   border-spacing: 0;
   font-size: 12px;
@@ -1557,18 +1717,22 @@ main {
 }
 
 .desktop-account-table .desktop-row-actions {
-  width: 168px;
+  width: 112px;
+  min-width: 112px;
 }
 
 .desktop-row-actions {
   gap: 5px;
+  flex-wrap: nowrap;
 }
 
 .desktop-row-actions .button {
+  flex: 0 0 auto;
   min-height: 26px;
   padding: 0 8px;
   border-radius: 9px;
   font-size: 11px;
+  white-space: nowrap;
 }
 
 .desktop-account-tile,
@@ -1638,6 +1802,8 @@ main {
 
   .desktop-product-reset .metrics,
   .desktop-product-reset .desktop-filter-bar,
+  .desktop-account-capacity,
+  .desktop-button-guide,
   .desktop-account-grid,
   .desktop-settings-grid {
     grid-template-columns: minmax(0, 1fr);

@@ -42,6 +42,7 @@ import { calculateEngagement } from "./lib/scoring.mjs";
 import { getXPublishStatus, publishToX } from "./lib/x-publish.mjs";
 import { loadLocalEnv } from "./lib/env.mjs";
 import { createToolId, todayString } from "./lib/ids.mjs";
+import { fetchCurrentPublicIp } from "./lib/network-lock.mjs";
 import { findAccountById, normalizeAccountConfig, recommendedAccountIdForTool } from "./lib/account-system.mjs";
 import { getAccountXPublishStatus } from "./lib/x-publish.mjs";
 import { loadStaffSummary, updateStaffTaskAction } from "./lib/staff-system.mjs";
@@ -68,6 +69,7 @@ import {
   clearDesktopXOAuthConfig,
   completeDesktopSetup,
   createDesktopTask,
+  ensureDesktopAccountSlots,
   exportDesktopAccountsCsv,
   exportDesktopBackupPackage,
   finishDesktopXOAuthCallback,
@@ -78,6 +80,7 @@ import {
   loadDesktopSetupStatus,
   loadDesktopXOAuthStatus,
   markDesktopTaskPosted,
+  publishDesktopTaskToX,
   revokeDesktopXOAuth,
   resetDesktopDemoData,
   saveDesktopXOAuthConfig,
@@ -87,6 +90,37 @@ import {
   updateDesktopRelationshipTargetStatus,
   upsertDesktopAccount
 } from "./lib/desktop-data-store.mjs";
+import {
+  loadProxies,
+  getProxyById,
+  upsertProxy,
+  importProxies,
+  deleteProxy,
+  testProxy,
+  exportProxiesCsv
+} from "./lib/proxy-manager.mjs";
+import {
+  loadFingerprints,
+  getFingerprintById,
+  upsertFingerprint,
+  deleteFingerprint,
+  exportFingerprintsCsv,
+  generateRandomFingerprint,
+  getFingerprintBrowserOptions
+} from "./lib/fingerprint-manager.mjs";
+import {
+  clearDesktopAdsBrowserConfig,
+  loadDesktopAdsBrowserStatus,
+  openDesktopAdsBrowserProfile,
+  saveDesktopAdsBrowserConfig,
+  testDesktopAdsBrowserConfig
+} from "./lib/ads-browser.mjs";
+import {
+  loadSourceNetworkConfig,
+  refreshSourceNetworkReports,
+  updateSourceNetworkSourceStatus,
+  upsertSourceNetworkSource
+} from "./lib/source-network.mjs";
 
 await loadLocalEnv();
 
@@ -182,6 +216,12 @@ async function handleApi(request, response, url) {
     }
 
     if (request.method === "GET") {
+      // 特殊处理：指纹生成接口（GET，直接返回数据，不包裹 ok/data）
+      if (url.pathname === "/api/desktop/fingerprints/generate") {
+        const data = generateRandomFingerprint();
+        sendJson(response, 200, data);
+        return;
+      }
       if (url.pathname === "/api/oauth/x/callback") {
         try {
           const data = await finishDesktopXOAuthCallback({
@@ -230,11 +270,33 @@ async function sendWebResponse(response, webResponse) {
 async function handleApiGet(url) {
   const pathname = url.pathname;
   if (pathname === "/api/desktop/health") return desktopHealth(url);
+  if (pathname === "/api/desktop/network/current-ip") return fetchCurrentPublicIp();
   if (pathname === "/api/desktop/setup") return loadDesktopSetupStatus();
   if (pathname === "/api/desktop/x-oauth/status") return loadDesktopXOAuthStatus();
+  if (pathname === "/api/desktop/ads-browser/status") return loadDesktopAdsBrowserStatus();
   if (pathname === "/api/oauth/x/start") return startDesktopXOAuth();
   if (pathname === "/api/desktop/accounts/export") {
     return { csv: await exportDesktopAccountsCsv(url.searchParams.get("workspaceId") || "workspace_default") };
+  }
+  if (pathname === "/api/desktop/proxies") {
+    return loadProxies({ workspaceId: url.searchParams.get("workspaceId") || "workspace_default" });
+  }
+  if (pathname === "/api/desktop/proxies/export") {
+    return { csv: await exportProxiesCsv(url.searchParams.get("workspaceId") || "workspace_default") };
+  }
+  if (pathname.startsWith("/api/desktop/proxies/")) {
+    const proxyId = decodeURIComponent(pathname.slice("/api/desktop/proxies/".length));
+    return getProxyById(proxyId);
+  }
+  if (pathname === "/api/desktop/fingerprints") {
+    return loadFingerprints({ workspaceId: url.searchParams.get("workspaceId") || "workspace_default" });
+  }
+  if (pathname === "/api/desktop/fingerprints/export") {
+    return { csv: await exportFingerprintsCsv(url.searchParams.get("workspaceId") || "workspace_default") };
+  }
+  if (pathname.startsWith("/api/desktop/fingerprints/")) {
+    const fingerprintId = decodeURIComponent(pathname.slice("/api/desktop/fingerprints/".length));
+    return getFingerprintById(fingerprintId);
   }
   if (pathname.startsWith("/api/desktop/accounts/") && pathname.endsWith("/targets")) {
     const accountId = decodeURIComponent(pathname.split("/")[4] || "");
@@ -283,6 +345,15 @@ async function handleApiGet(url) {
   if (pathname === "/api/account-refill-workbench") return readJson("data/account-refill-workbench.json", null);
   if (pathname === "/api/account-conflict-radar") return readJson("data/account-conflict-radar.json", null);
   if (pathname === "/api/supply-gap-filler") return readJson("data/supply-gap-filler.json", null);
+  if (pathname === "/api/source-network") {
+    const [config, registry, quality, supply] = await Promise.all([
+      loadSourceNetworkConfig(),
+      readJson("data/source-registry.json", null),
+      readJson("data/source-quality.json", null),
+      readJson("data/source-supply.json", null)
+    ]);
+    return { config, registry, quality, supply };
+  }
   if (pathname === "/api/content-calendar") {
     const latest = await loadLatest();
     return await readJson("data/content-calendar/latest.json", latest?.contentCalendar ?? null);
@@ -414,6 +485,9 @@ async function handleApiPost(pathname, body) {
   if (pathname === "/api/daily/run") return runDailyGeneration();
   if (pathname === "/api/content-calendar/run") return runContentCalendarGeneration();
   if (pathname === "/api/source-import-pack/run") return runSourceImportPackGeneration();
+  if (pathname === "/api/source-network/refresh") return refreshSourceNetworkReports();
+  if (pathname === "/api/source-network/source") return upsertSourceNetworkSource(body);
+  if (pathname === "/api/source-network/source/status") return updateSourceNetworkSourceStatus(body);
   if (pathname === "/api/account-refill-workbench/run") return runAccountRefillWorkbenchGeneration();
   if (pathname === "/api/affiliate-research-workbench/run") return runAffiliateResearchWorkbenchGeneration();
   if (pathname === "/api/learning-loop/run") return runLearningLoopGeneration();
@@ -441,22 +515,40 @@ async function handleDesktopApiPost(pathname, body) {
     }
     return desktopRuntimeHandlers.openIncognitoAccountWindow(body);
   }
+  if (pathname === "/api/desktop/accounts/persistent-window") {
+    if (typeof desktopRuntimeHandlers.openPersistentAccountWindow !== "function") {
+      throw new Error("请从 /Applications/AI Creator OS.app 打开固定账号窗口。浏览器里的普通开发后端不能拉起本地工作窗。");
+    }
+    return desktopRuntimeHandlers.openPersistentAccountWindow(body);
+  }
   if (pathname === "/api/desktop/setup/complete") return completeDesktopSetup(body, actor);
   if (pathname === "/api/desktop/x-oauth/config") return saveDesktopXOAuthConfig(body, actor);
   if (pathname === "/api/desktop/x-oauth/clear") return clearDesktopXOAuthConfig(actor);
+  if (pathname === "/api/desktop/ads-browser/config") return saveDesktopAdsBrowserConfig(body, actor);
+  if (pathname === "/api/desktop/ads-browser/clear") return clearDesktopAdsBrowserConfig(actor);
+  if (pathname === "/api/desktop/ads-browser/test") return testDesktopAdsBrowserConfig();
+  if (pathname === "/api/desktop/ads-browser/open") return openDesktopAdsBrowserProfile(body);
   if (pathname === "/api/desktop/demo/reset") return resetDesktopDemoData({ markSetupComplete: true, actor });
   if (pathname === "/api/desktop/accounts/import") return importDesktopAccounts(body, actor);
+  if (pathname === "/api/desktop/accounts/ensure-slots") return ensureDesktopAccountSlots(body, actor);
   if (pathname === "/api/desktop/accounts/network-notes/import") return importDesktopNetworkNotes(body, actor);
   if (pathname === "/api/desktop/accounts/upsert") return upsertDesktopAccount(body, actor);
   if (pathname === "/api/desktop/accounts/update") return updateDesktopAccountConfig(body, actor);
   if (pathname === "/api/desktop/accounts/delete") return archiveDesktopAccount(body, actor);
   if (pathname === "/api/desktop/tasks/create") return createDesktopTask(body, actor);
   if (pathname === "/api/desktop/tasks/posted") return markDesktopTaskPosted(body, actor);
+  if (pathname === "/api/desktop/tasks/publish-x") return publishDesktopTaskToX(body, actor);
   if (pathname === "/api/desktop/feedback") return saveDesktopFeedback(body, actor);
   if (pathname === "/api/desktop/targets/import") return addDesktopRelationshipTargets(body, actor);
   if (pathname === "/api/desktop/targets/status") return updateDesktopRelationshipTargetStatus(body, actor);
   if (pathname === "/api/desktop/backup/export") return exportDesktopBackupPackage(body);
   if (pathname === "/api/desktop/backup/import") return importDesktopBackup(body, actor);
+  if (pathname === "/api/desktop/proxies/import") return importProxies(body, actor);
+  if (pathname === "/api/desktop/proxies/upsert") return upsertProxy(body, actor);
+  if (pathname === "/api/desktop/proxies/delete") return deleteProxy(body.proxyId, actor);
+  if (pathname === "/api/desktop/proxies/test") return testProxy(body.proxyId, body);
+  if (pathname === "/api/desktop/fingerprints/upsert") return upsertFingerprint(body, actor);
+  if (pathname === "/api/desktop/fingerprints/delete") return deleteFingerprint(body.fingerprintId, actor);
   throw new Error(`Unknown Desktop API route: ${pathname}`);
 }
 

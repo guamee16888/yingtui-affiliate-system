@@ -1,4 +1,4 @@
-import { access, cp, mkdir, readFile, writeFile } from "node:fs/promises";
+import { access, copyFile, cp, mkdir, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -26,6 +26,7 @@ export async function ensureDesktopDataDir(options = {}) {
   await mkdir(path.join(appDataDir, "config"), { recursive: true });
   await mkdir(path.join(appDataDir, "output"), { recursive: true });
   await initializeDemoData({ appDataDir, repoRoot: options.repoRoot || repoRoot });
+  await initializeDemoConfig({ appDataDir, repoRoot: options.repoRoot || repoRoot });
   return { appDataDir, dataDir };
 }
 
@@ -78,6 +79,27 @@ async function initializeDemoData({ appDataDir, repoRoot }) {
     filter: (source) => !source.includes(`${path.sep}backups${path.sep}`) && !source.endsWith(".DS_Store")
   });
   await writeFile(marker, new Date().toISOString(), "utf8");
+}
+
+async function initializeDemoConfig({ appDataDir, repoRoot }) {
+  const target = path.join(appDataDir, "config", "source-network.json");
+  try {
+    await access(target);
+    return;
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  for (const source of [
+    path.join(repoRoot, "config", "source-network.json"),
+    path.join(repoRoot, "desktop", "seed-config", "source-network.json")
+  ]) {
+    try {
+      await copyFile(source, target);
+      return;
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+  }
 }
 
 async function resolveSeedDataDir(root) {

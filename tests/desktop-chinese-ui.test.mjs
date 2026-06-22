@@ -15,10 +15,11 @@ test("desktop shell copy is Chinese and toolbox-oriented", () => {
 });
 
 test("desktop settings explain safety boundaries in Chinese", () => {
-  for (const required of ["不保存 X 密码", "不保存 cookie", "不管理代理", "不做指纹浏览器", "不自动关注、点赞、评论或发推"]) {
+  for (const required of ["不保存 X 密码", "不保存 cookie", "ADS 浏览器环境由 ADS 自己管理", "不自动关注、点赞、评论或发推"]) {
     assert.match(appJs, new RegExp(required));
   }
   assert.match(appJs, /手动添加的账号默认未登录/);
   assert.match(appJs, /网络\/IP 只是人工备注/);
-  assert.match(appJs, /不会保存密码、cookie、代理或指纹信息/);
+  assert.match(appJs, /ADS 环境 ID/);
+  assert.match(appJs, /补齐 100 槽位/);
 });

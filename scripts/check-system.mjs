@@ -280,6 +280,8 @@ async function checkDesktopApp() {
   else errors.push("desktop reserved web ports check is missing");
   if (desktopLauncher.includes("`temp:${sanitize(workspaceId)}")) passed.push("desktop incognito window uses temp session");
   else errors.push("desktop incognito partition must use temp session");
+  if (desktopLauncher.includes("`persist:aicos:${sanitize(workspaceId)}")) passed.push("desktop fixed account window uses persistent session");
+  else errors.push("desktop fixed account partition must use persistent session");
   if (builderConfig.includes("dist-desktop")) passed.push("electron build output is dist-desktop");
   else errors.push("electron builder output must be dist-desktop");
   if (builderConfig.includes("org.guamee.aicreatoros.desktop")) passed.push("electron appId is production-shaped");

@@ -10,6 +10,7 @@ export function buildSupplyGapFiller({
   accountRefillWorkbench = null,
   accountContentMatrix = null,
   contentSourceConfig = null,
+  sourceNetwork = null,
   maxCircleBatches = DEFAULT_MAX_CIRCLE_BATCHES,
   maxAccountBatches = DEFAULT_MAX_ACCOUNT_BATCHES
 }) {
@@ -39,7 +40,9 @@ export function buildSupplyGapFiller({
     ?? accountContentMatrix?.inventory?.summary?.postableToday
     ?? 0);
   const rowsToCollect = todayBatches.reduce((sum, batch) => sum + batch.targetCandidates, 0);
-  const status = totalNeededCandidates > 0 || totalRefillNeed > 0 ? "needs_supply" : "covered";
+  const networkSummary = buildSourceNetworkSummary(sourceNetwork);
+  const networkNeedsSupply = Number(networkSummary?.projectedGap ?? 0) > 0;
+  const status = totalNeededCandidates > 0 || totalRefillNeed > 0 || networkNeedsSupply ? "needs_supply" : "covered";
 
   return {
     version: 1,
@@ -53,6 +56,10 @@ export function buildSupplyGapFiller({
       totalRefillNeed,
       totalNeededCandidates,
       rowsToCollect,
+      sourceNetworkRequiredInventory: Number(networkSummary?.requiredInventory ?? 0),
+      sourceNetworkCurrentInventory: Number(networkSummary?.currentInventory ?? 0),
+      sourceNetworkProjectedInventory: Number(networkSummary?.projectedInventory ?? 0),
+      sourceNetworkProjectedGap: Number(networkSummary?.projectedGap ?? 0),
       focusCircles: todayBatches.length,
       focusAccounts: accountBatches.length,
       sourceRows: Number(sourceImportPack?.summary?.totalRows ?? sourceImportPack?.rows?.length ?? 0),
@@ -64,9 +71,10 @@ export function buildSupplyGapFiller({
         ?? accountContentMatrix?.inventory?.summary?.feedbackBlockedAccounts
         ?? 0)
     },
-    actionList: buildActionList({ todayBatches, accountBatches, postableToday }),
+    actionList: buildActionList({ todayBatches, accountBatches, postableToday, sourceNetwork: networkSummary }),
     todayBatches,
     accountBatches,
+    sourceNetwork: networkSummary,
     guardrails: [
       "Fill only real candidates with name, url, and tagline.",
       "Leave weak or duplicate rows blank; blank rows are ignored by import.",
@@ -93,6 +101,8 @@ export function renderSupplyGapFillerMarkdown(plan) {
 - Total refill need: ${plan.summary.totalRefillNeed}
 - Needed candidates: ${plan.summary.totalNeededCandidates}
 - Rows to collect now: ${plan.summary.rowsToCollect}
+- Source network inventory: ${plan.summary.sourceNetworkCurrentInventory}/${plan.summary.sourceNetworkRequiredInventory}
+- Source network projected gap: ${plan.summary.sourceNetworkProjectedGap}
 - Focus circles: ${plan.summary.focusCircles}
 - Focus accounts: ${plan.summary.focusAccounts}
 
@@ -107,6 +117,10 @@ ${plan.todayBatches.length ? plan.todayBatches.map(renderCircleBatchMarkdown).jo
 ## Account Batches
 
 ${plan.accountBatches.length ? plan.accountBatches.map(renderAccountBatchMarkdown).join("\n\n") : "No account batch needed."}
+
+## Source Network
+
+${renderSourceNetworkGapMarkdown(plan.sourceNetwork)}
 
 ## Guardrails
 
@@ -207,8 +221,26 @@ function buildAccountBatches({ accountRefillWorkbench, maxBatches }) {
     });
 }
 
-function buildActionList({ todayBatches, accountBatches, postableToday }) {
+function buildActionList({ todayBatches, accountBatches, postableToday, sourceNetwork = null }) {
   const actions = [];
+  const topNetworkLane = sourceNetwork?.lanes?.find((lane) => Number(lane.projectedGap || 0) > 0);
+  if (topNetworkLane) {
+    actions.push({
+      type: "source_network_lane",
+      title: `优先补 ${topNetworkLane.name}`,
+      detail: `100 账号库存预计还缺 ${topNetworkLane.projectedGap} 条；当前候选 ${topNetworkLane.directCandidateCount} 条，库存 ${topNetworkLane.currentInventory}/${topNetworkLane.requiredInventory}。`,
+      laneId: topNetworkLane.laneId
+    });
+  }
+  const premiumAction = sourceNetwork?.premiumActions?.[0];
+  if (premiumAction) {
+    actions.push({
+      type: "premium_source_budget",
+      title: `评估 ${premiumAction.sourceName}`,
+      detail: `${premiumAction.sourceName} 可补 ${premiumAction.laneName}，预计缺口 ${premiumAction.projectedGap}。先用公开源验证，再决定是否付费。`,
+      sourceId: premiumAction.sourceId
+    });
+  }
   const topCircle = todayBatches[0];
   const topAccount = accountBatches[0];
   if (topCircle) {
@@ -242,6 +274,73 @@ function buildActionList({ todayBatches, accountBatches, postableToday }) {
     });
   }
   return actions.slice(0, 5);
+}
+
+function buildSourceNetworkSummary(sourceNetwork) {
+  const supply = sourceNetwork?.supply ?? sourceNetwork;
+  if (!supply?.summary) return null;
+  const lanes = (supply.lanes ?? [])
+    .map((lane) => ({
+      laneId: lane.laneId,
+      name: lane.name || lane.laneId,
+      requiredInventory: Number(lane.requiredInventory || 0),
+      currentInventory: Number(lane.currentInventory || 0),
+      directCandidateCount: Number(lane.directCandidateCount || 0),
+      projectedInventory: Number(lane.projectedInventory || 0),
+      projectedGap: Number(lane.projectedGap || 0),
+      status: lane.status || ""
+    }))
+    .sort((a, b) => b.projectedGap - a.projectedGap);
+  const registrySources = sourceNetwork?.registry?.sources ?? [];
+  const premiumActions = lanes
+    .filter((lane) => lane.projectedGap > 0)
+    .map((lane) => {
+      const source = registrySources.find((entry) => entry.tier === "L0" && (entry.laneIds ?? []).includes(lane.laneId));
+      if (!source) return null;
+      return {
+        laneId: lane.laneId,
+        laneName: lane.name,
+        sourceId: source.sourceId,
+        sourceName: source.name,
+        projectedGap: lane.projectedGap
+      };
+    })
+    .filter(Boolean);
+  return {
+    targetAccounts: Number(supply.summary.targetAccounts || 0),
+    inventoryPerAccount: Number(supply.summary.inventoryPerAccount || 0),
+    requiredInventory: Number(supply.summary.requiredInventory || 0),
+    currentInventory: Number(supply.summary.currentInventory || 0),
+    projectedInventory: Number(supply.summary.projectedInventory || 0),
+    currentGap: Number(supply.summary.inventoryGap || 0),
+    projectedGap: Number(supply.summary.projectedGap || 0),
+    directCandidates: Number(supply.summary.directCandidates || 0),
+    reviewOnlyCandidates: Number(supply.summary.reviewOnlyCandidates || 0),
+    lanes,
+    premiumActions
+  };
+}
+
+function renderSourceNetworkGapMarkdown(sourceNetwork) {
+  if (!sourceNetwork) return "No source network data yet. Run npm run source-network or npm run daily.";
+  const lanes = sourceNetwork.lanes?.length
+    ? sourceNetwork.lanes.map((lane) => `- ${lane.name}: current ${lane.currentInventory}/${lane.requiredInventory}, candidates ${lane.directCandidateCount}, projected gap ${lane.projectedGap}`).join("\n")
+    : "- No lane data.";
+  const premium = sourceNetwork.premiumActions?.length
+    ? sourceNetwork.premiumActions.slice(0, 5).map((item) => `- ${item.sourceName}: helps ${item.laneName}, projected gap ${item.projectedGap}`).join("\n")
+    : "- No premium source recommendation yet.";
+  return `- Target accounts: ${sourceNetwork.targetAccounts}
+- Required inventory: ${sourceNetwork.requiredInventory}
+- Projected inventory: ${sourceNetwork.projectedInventory}
+- Projected gap: ${sourceNetwork.projectedGap}
+
+### Lane Gaps
+
+${lanes}
+
+### Premium Source Watchlist
+
+${premium}`;
 }
 
 function buildHeadline({ status, todayBatches, accountBatches, totalNeededCandidates, totalRefillNeed }) {

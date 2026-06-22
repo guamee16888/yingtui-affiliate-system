@@ -3,6 +3,7 @@ import { todayString } from "./lib/ids.mjs";
 import { buildAccountRefillWorkbench } from "./lib/account-refill-workbench.mjs";
 import { buildSourceImportPack, loadContentSourceConfig } from "./lib/content-source-system.mjs";
 import { buildSupplyGapFiller, renderSupplyGapFillerMarkdown } from "./lib/supply-gap-filler.mjs";
+import { buildSourceNetworkReports, writeSourceNetworkReports } from "./lib/source-network.mjs";
 
 const latest = await readJson("data/latest.json", null);
 const accountContentMatrix = await readJson("data/account-content-matrix.json", null);
@@ -12,7 +13,7 @@ const accountRefillWorkbench = await readJson("data/account-refill-workbench.jso
     accountContentMatrix
   }) : null);
 const contentSourceConfig = await loadContentSourceConfig([]);
-const date = latest?.date || accountRefillWorkbench?.date || accountContentMatrix?.date || todayString();
+const date = todayString();
 const savedSourceImportPack = await readJson("data/source-import-pack/latest.json", null);
 const sourceImportPack = savedSourceImportPack?.date === date
   ? savedSourceImportPack
@@ -20,10 +21,12 @@ const sourceImportPack = savedSourceImportPack?.date === date
     date,
     sourceQualityQueue: latest?.sourceQualityQueue ?? null,
     contentSourceConfig,
-    totalRows: 100,
+    totalRows: 300,
     csvPath: `output/source-import-pack/${date}-source-import-template.csv`,
     guidePath: `output/source-import-pack/${date}-source-import-guide.md`
   });
+const sourceNetwork = await buildSourceNetworkReports({ date });
+await writeSourceNetworkReports(sourceNetwork);
 
 const plan = buildSupplyGapFiller({
   date,
@@ -31,7 +34,8 @@ const plan = buildSupplyGapFiller({
   sourceImportPack,
   accountRefillWorkbench,
   accountContentMatrix,
-  contentSourceConfig
+  contentSourceConfig,
+  sourceNetwork
 });
 const jsonPath = "data/supply-gap-filler.json";
 const markdownPath = `output/${date}-supply-gap-filler.md`;

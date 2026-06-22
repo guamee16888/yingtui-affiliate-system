@@ -5,7 +5,7 @@ AI Creator OS Desktop is a Mac / Windows workspace app for compliant multi-accou
 Supported in this v1 skeleton:
 
 - Account Vault for workspace-scoped X accounts.
-- Single-account incognito work windows for manual review and manual operation.
+- Single-account fixed work windows for manual review and manual operation.
 - Task, publishing, feedback, relationship target, and account-health views.
 - Future official X OAuth and official X API publishing path.
 - Local JSON storage under the operating-system app data directory.
@@ -68,17 +68,17 @@ Windows:
 
 Desktop mode initializes demo JSON files into this directory and then reads/writes runtime data there. Normal web development continues to use the repository `data/` directory.
 
-## Incognito Account Window
+## Account Windows
 
-Clicking “打开无痕窗口” opens an Electron `BrowserWindow` with a non-persistent session partition:
+Clicking “固定窗口” opens the account with a stable local Electron profile:
 
 ```text
-temp:<workspaceId>:<accountId>:<timestamp>
+persist:aicos:<workspaceId>:<accountId>
 ```
 
-The window opens `https://x.com/<handle>` when a handle exists, otherwise `https://x.com/home`. It does not share cookies or localStorage with other account windows, and closing it does not preserve browser login state.
+The fixed window can keep the web login state on this computer after the user logs in manually. The app still must not read, import, export, or store raw cookies, passwords, browser fingerprints, or proxy credentials.
 
-Official OAuth tokens are not web login cookies. If the user wants to operate in the X web UI, they must manually log in inside that incognito window. The app must not import cookies or passwords.
+Official OAuth tokens are not web login cookies. If the user wants to operate in the X web UI, they must manually log in inside the account window. The app must not import cookies or passwords.
 
 ## Package
 

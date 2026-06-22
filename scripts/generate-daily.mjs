@@ -31,6 +31,7 @@ import { buildProductRoadmap, renderProductRoadmapMarkdown } from "./lib/product
 import { buildContentOpsPlan, renderContentOpsPlanMarkdown } from "./lib/content-ops-plan.mjs";
 import { buildAccountConflictRadar, renderAccountConflictRadarMarkdown } from "./lib/account-conflict-radar.mjs";
 import { buildSupplyGapFiller, renderSupplyGapFillerMarkdown } from "./lib/supply-gap-filler.mjs";
+import { buildSourceNetworkReports, renderSourceNetworkMarkdown, writeSourceNetworkReports } from "./lib/source-network.mjs";
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -92,7 +93,8 @@ async function main() {
   const seedPackFiles = await writeSeedBatchOutputs({ model, scaleRampPlan: rampFiles.plan });
   const opsPlanFiles = await writeContentOpsPlanOutputs({ model, scaleReadiness: scaleFiles.report, accountRefillWorkbench: refillFiles.workbench });
   const conflictFiles = await writeAccountConflictRadarOutputs({ model, accountConfig, accountPosts, feedback });
-  const supplyGapFiles = await writeSupplyGapFillerOutputs({ model, accountRefillWorkbench: refillFiles.workbench, accountContentMatrix: matrixFiles.matrix, contentSourceConfig });
+  const sourceNetworkFiles = await writeSourceNetworkOutputs({ date: model.date });
+  const supplyGapFiles = await writeSupplyGapFillerOutputs({ model, accountRefillWorkbench: refillFiles.workbench, accountContentMatrix: matrixFiles.matrix, contentSourceConfig, sourceNetwork: sourceNetworkFiles.reports });
   const roadmapFiles = await writeProductRoadmapOutputs({ model, feedback, queues, affiliateResearch, accountPosts, affiliateConfig });
   let historyMessage = "Skipped history update because fallback sample data was used";
 
@@ -123,6 +125,7 @@ async function main() {
   console.log(`Wrote ${opsPlanFiles.markdownPath}`);
   console.log(`Wrote ${conflictFiles.jsonPath}`);
   console.log(`Wrote ${conflictFiles.markdownPath}`);
+  console.log(`Wrote ${sourceNetworkFiles.markdownPath}`);
   console.log(`Wrote ${supplyGapFiles.jsonPath}`);
   console.log(`Wrote ${supplyGapFiles.markdownPath}`);
   console.log(`Wrote ${roadmapFiles.jsonPath}`);
@@ -130,6 +133,17 @@ async function main() {
   console.log(`Merged ${productHuntTools.length} Product Hunt tools, ${inboxTools.length} candidate inbox tools, and ${sourceTools.length} source candidate tools`);
   console.log(`Source refresh fetched ${sourceRefresh.fetchedCount} new items from ${sourceRefresh.enabledSources} enabled extra sources`);
   console.log(historyMessage);
+}
+
+async function writeSourceNetworkOutputs({ date }) {
+  const reports = await buildSourceNetworkReports({ date });
+  await writeSourceNetworkReports(reports);
+  return {
+    reports,
+    jsonPaths: ["data/source-registry.json", "data/source-quality.json", "data/source-supply.json"],
+    markdownPath: `output/${date}-source-network.md`,
+    markdown: renderSourceNetworkMarkdown(reports)
+  };
 }
 
 async function writeAccountConflictRadarOutputs({ model, accountConfig, accountPosts, feedback }) {
@@ -147,7 +161,7 @@ async function writeAccountConflictRadarOutputs({ model, accountConfig, accountP
   return { jsonPath, markdownPath, radar };
 }
 
-async function writeSupplyGapFillerOutputs({ model, accountRefillWorkbench, accountContentMatrix, contentSourceConfig }) {
+async function writeSupplyGapFillerOutputs({ model, accountRefillWorkbench, accountContentMatrix, contentSourceConfig, sourceNetwork = null }) {
   const savedSourceImportPack = await readJson("data/source-import-pack/latest.json", null);
   const sourceImportPack = savedSourceImportPack?.date === model.date
     ? savedSourceImportPack
@@ -155,7 +169,7 @@ async function writeSupplyGapFillerOutputs({ model, accountRefillWorkbench, acco
       date: model.date,
       sourceQualityQueue: model.sourceQualityQueue,
       contentSourceConfig,
-      totalRows: 100,
+      totalRows: 300,
       csvPath: `output/source-import-pack/${model.date}-source-import-template.csv`,
       guidePath: `output/source-import-pack/${model.date}-source-import-guide.md`
     });
@@ -165,7 +179,8 @@ async function writeSupplyGapFillerOutputs({ model, accountRefillWorkbench, acco
     sourceImportPack,
     accountRefillWorkbench,
     accountContentMatrix,
-    contentSourceConfig
+    contentSourceConfig,
+    sourceNetwork
   });
   const jsonPath = "data/supply-gap-filler.json";
   const markdownPath = `output/${model.date}-supply-gap-filler.md`;

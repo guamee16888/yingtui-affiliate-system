@@ -134,7 +134,7 @@ APP_STORAGE_MODE=json
 
 ## Desktop App
 
-AI Creator OS Desktop 是 Mac / Windows 通用的多账号 X 内容运营工作台。它把现有 workspace 管理端包进 Electron 桌面 App，并增加账号资产库、单账号无痕工作窗、目标关系库和账号健康度。
+AI Creator OS Desktop 是 Mac / Windows 通用的多账号 X 内容运营工作台。它把现有 workspace 管理端包进 Electron 桌面 App，并增加账号资产库、单账号固定窗口、目标关系库和账号健康度。
 
 桌面 RC v1 的完整本地流程：
 
@@ -143,7 +143,7 @@ AI Creator OS Desktop 是 Mac / Windows 通用的多账号 X 内容运营工作�
 → 选择 Demo / 空白 workspace / 粘贴账号 / 恢复备份
 → 账号资产库里导入或添加 X handle
 → 点开账号详情
-→ 打开单账号无痕工作窗，手动登录/查看 X
+→ 打开单账号固定窗口，手动登录/查看 X
 → 添加目标关系
 → 创建任务并确认文案不超过 280 weighted chars
 → 人工发布后标记已发布
@@ -240,7 +240,7 @@ npm run desktop:doctor
 6. 默认端口是 `5288`；如果被占用会自动换到 `5289`、`5290` 等。
 7. 如果 Electron 白屏，看终端里的 `Electron loading ...` URL 和 DevTools。
 8. Desktop 模式不等于线上 `app.guamee.org`，默认使用本地 JSON storage。
-9. 无痕窗口不会保存网页登录态，关闭后需要重新登录 X 网页，这是正常行为。
+9. 登录 X 请只用固定账号窗口；固定账号窗口会保留本机网页登录态。
 
 桌面版运行数据不写进 Git 仓库。默认目录：
 
@@ -255,15 +255,15 @@ Windows: %APPDATA%/AI Creator OS/
 
 管理端的账号池升级为“账号资产库”。每个账号卡片显示 handle、workspace、内容线、地区/时区、语言、授权状态、发布模式、每日发布限制、外链限制、今日任务、今日已发布、待反馈、7 日发布、7 日外链、health score、health status 和 risk flags。
 
-桌面版里，“打开无痕窗口”会打开一个独立 Electron `BrowserWindow`。每次窗口使用非持久 session：
+桌面版里，“固定窗口”会为每个账号打开稳定的本机 Electron profile：
 
 ```text
-temp:<workspaceId>:<accountId>:<timestamp>
+persist:aicos:<workspaceId>:<accountId>
 ```
 
-这些窗口不共享 cookie，不共享 localStorage，关闭后不保留网页登录态。窗口只用于人工查看和人工操作，不自动点击、不自动关注、不自动点赞、不自动评论、不自动输入账号密码，也不向 X 页面注入脚本。
+固定窗可以在这台电脑上保留用户手动登录后的网页登录态。系统不会读取、导入、导出或单独保存 X 密码、原始 cookie、浏览器指纹或代理账号密码。
 
-官方 X OAuth token 不能变成 X 网页登录态。所以即使未来账号已通过官方 OAuth 授权，用户如果想在 X 网页里操作，也需要在无痕工作窗中手动登录。这是正常行为。
+官方 X OAuth token 不能变成 X 网页登录态。所以即使未来账号已通过官方 OAuth 授权，用户如果想在 X 网页里操作，也需要在账号窗口中手动登录。
 
 ### Relationship Targets
 
@@ -298,7 +298,7 @@ POST /api/app/v1/manager/accounts/:accountId/targets/status
 
 桌面版支持：
 
-- 单账号无痕工作窗。
+- 单账号固定窗口。
 - 手动打开 X 主页。
 - 手动查看目标账号。
 - 手动标记关注状态。

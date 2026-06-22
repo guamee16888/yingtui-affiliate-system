@@ -1,42 +1,72 @@
-import { BrowserWindow } from "electron";
-import { buildIncognitoAccountWindowConfig } from "../scripts/lib/desktop-browser-launcher.mjs";
+import { BrowserWindow, session } from "electron";
+import {
+  buildIncognitoAccountWindowConfig,
+  buildPersistentAccountWindowConfig
+} from "../scripts/lib/desktop-browser-launcher.mjs";
 import { recordDesktopWindowOpen } from "../scripts/lib/desktop-data-store.mjs";
 
 const accountWindows = new Set();
 
 export async function openIncognitoAccountWindow(input = {}) {
   const config = buildIncognitoAccountWindowConfig(input);
+  return openAccountWindow(input, config, "temp");
+}
+
+export async function openPersistentAccountWindow(input = {}) {
+  const config = buildPersistentAccountWindowConfig(input);
+  return openAccountWindow(input, config, "persistent");
+}
+
+async function openAccountWindow(input, config, windowMode) {
   await recordDesktopWindowOpen({
     workspaceId: input.workspaceId,
     accountId: input.accountId,
     handle: input.handle,
-    url: config.url
+    url: config.url,
+    windowMode
   });
-  const window = new BrowserWindow({
+
+  const proxyUrl = input.proxyUrl || "";
+  const partition = config.browserWindowOptions.webPreferences.partition;
+
+  const win = new BrowserWindow({
     ...config.browserWindowOptions,
     title: `${config.title} · ${config.notice}`
   });
-  accountWindows.add(window);
-  window.on("closed", () => {
-    accountWindows.delete(window);
+  accountWindows.add(win);
+  win.on("closed", () => {
+    accountWindows.delete(win);
   });
-  window.webContents.on("page-title-updated", (event) => {
+  win.webContents.on("page-title-updated", (event) => {
     event.preventDefault();
-    window.setTitle(`${config.title} · ${config.notice}`);
+    win.setTitle(`${config.title} · ${config.notice}`);
   });
-  window.loadURL(config.url);
+
+  // 固定窗口：在 loadURL 之前设置代理
+  if (proxyUrl && windowMode === "persistent") {
+    try {
+      const ses = partition ? session.fromPartition(partition) : session.defaultSession;
+      await ses.setProxy({ proxyRules: proxyUrl });
+      console.log(`[proxy] Proxy set for partition "${partition}": ${proxyUrl}`);
+    } catch (error) {
+      console.error(`[proxy] Failed to set proxy: ${error.message}`);
+    }
+  }
+
+  win.loadURL(config.url);
   return {
     ok: true,
     url: config.url,
-    partition: config.browserWindowOptions.webPreferences.partition,
+    partition,
+    proxyUrl,
     title: config.title,
     notice: config.notice
   };
 }
 
 export function closeAllIncognitoAccountWindows() {
-  for (const window of [...accountWindows]) {
-    if (!window.isDestroyed()) window.close();
+  for (const win of [...accountWindows]) {
+    if (!win.isDestroyed()) win.close();
   }
   accountWindows.clear();
 }

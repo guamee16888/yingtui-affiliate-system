@@ -57,25 +57,84 @@ test("desktop manager hides Cloudflare logout and keeps local selectors usable",
 
 test("desktop account console can reset all account filters", () => {
   assert.match(appJs, /data-account-action="reset-account-filters"/);
-  assert.match(appJs, /state\.accountFilters = \{\s+query: "",\s+lane: "all",\s+status: "all",\s+connection: "all",\s+health: "all",\s+region: "all"\s+\};/);
+  assert.match(appJs, /state\.accountFilters = \{\s+query: "",\s+lane: "all",\s+status: "all",\s+connection: "all",\s+health: "all",\s+region: "all",\s+browser: "all"\s+\};/);
   assert.match(appJs, /账号筛选已重置/);
 });
 
-test("desktop account console separates OAuth from temporary windows", () => {
+test("desktop account console uses fixed account windows as the visible login path", () => {
   assert.match(appJs, /openExternalUrl\(url\)/);
   assert.match(appJs, /系统浏览器打开 X 登录页/);
-  assert.match(appJs, /打开临时窗/);
-  assert.match(appJs, /openTemporaryAccountWindow/);
-  assert.match(appJs, /\/api\/desktop\/accounts\/incognito/);
-  assert.match(serverJs, /\/api\/desktop\/accounts\/incognito/);
-  assert.match(desktopMainJs, /desktopHandlers: \{ openIncognitoAccountWindow \}/);
-  assert.doesNotMatch(appJs, /打开无痕窗口|已打开无痕工作窗/);
+  assert.match(appJs, /账号工作窗/);
+  assert.match(appJs, /openAccountWorkWindow\(account\)/);
+  assert.match(appJs, /ensureAccountNetworkLock\(account\)/);
+  assert.match(appJs, /当前公网 IP 不匹配/);
+  assert.match(appJs, /openPersistentAccountWindow/);
+  assert.match(appJs, /\/api\/desktop\/ads-browser\/open/);
+  assert.match(appJs, /\/api\/desktop\/accounts\/persistent-window/);
+  assert.match(appJs, /\/api\/desktop\/network\/current-ip/);
+  assert.match(serverJs, /\/api\/desktop\/accounts\/persistent-window/);
+  assert.match(serverJs, /\/api\/desktop\/network\/current-ip/);
+  assert.match(desktopMainJs, /desktopHandlers: \{ openIncognitoAccountWindow, openPersistentAccountWindow \}/);
+  assert.doesNotMatch(appJs, /data-account-action="incognito"|临时窗|打开无痕窗口|已打开无痕工作窗/);
 });
 
-test("desktop account console reserves network note fields without proxy automation", () => {
+test("desktop account console reserves network note fields with proxy support", () => {
   assert.match(appJs, /网络\/IP/);
-  assert.match(appJs, /网络\/IP 只是人工备注/);
-  assert.match(appJs, /不接代理、不存 cookie\/密码\/指纹/);
+  assert.match(appJs, /指定 IP \/ 出口/);
+  assert.match(appJs, /代理地址/);
+  assert.match(appJs, /默认浏览器模式下，账号工作窗会按这里的代理地址访问 X/);
+  assert.match(appJs, /ADS 环境 ID/);
+  assert.match(appJs, /name="accountBrowserProvider"/);
+  assert.match(appJs, /name="accountAdsProfileId"/);
+  assert.match(appJs, /data-account-inline-field="browserProvider"/);
+  assert.match(appJs, /data-account-inline-field="adsProfileId"/);
+  assert.match(appJs, /data-account-action="ensure-account-slots"/);
+  assert.match(serverJs, /\/api\/desktop\/accounts\/ensure-slots/);
+});
+
+test("desktop status center is the default account operations view", () => {
+  assert.match(appJs, /activeDesktopTab: "status"/);
+  assert.match(appJs, /desktopTabButton\("status", "状态中心"\)/);
+  assert.match(appJs, /function renderDesktopStatusCenterTab/);
+  assert.match(appJs, /100 账号状态中心/);
+  assert.match(appJs, /data-account-action="check-account-statuses"/);
+  assert.match(appJs, /data-account-action="check-one-account-status"/);
+  assert.match(appJs, /\/api\/desktop\/ads-browser\/test/);
+  assert.match(appJs, /\/api\/desktop\/x-oauth\/status/);
+});
+
+test("desktop settings expose ADS browser API configuration", () => {
+  assert.match(appJs, /ADS 浏览器 API/);
+  assert.match(appJs, /name="adsBaseUrl"/);
+  assert.match(appJs, /name="adsAccessText"/);
+  assert.match(appJs, /data-account-action="save-ads-browser-config"/);
+  assert.match(appJs, /data-account-action="test-ads-browser-config"/);
+  assert.match(serverJs, /\/api\/desktop\/ads-browser\/open/);
+});
+
+test("desktop supply tab shows source network gap data", () => {
+  assert.match(appJs, /desktopTabButton\("supply", "供给"\)/);
+  assert.match(appJs, /function renderDesktopSupplyTab/);
+  assert.match(appJs, /\/api\/source-network/);
+  assert.match(appJs, /每日供给缺口/);
+  assert.match(appJs, /data-account-action="save-source-network-source"/);
+  assert.match(appJs, /data-account-action="refresh-source-network"/);
+  assert.match(appJs, /data-account-action="toggle-source-status"/);
+  assert.match(appJs, /\/api\/source-network\/source/);
+  assert.match(appJs, /\/api\/source-network\/refresh/);
+  assert.match(serverJs, /pathname === "\/api\/source-network"/);
+  assert.match(serverJs, /\/api\/source-network\/source/);
+  assert.match(serverJs, /\/api\/source-network\/source\/status/);
+  assert.match(serverJs, /\/api\/source-network\/refresh/);
+});
+
+test("desktop tasks expose explicit X API publish controls", () => {
+  assert.match(appJs, /data-desktop-task-action="publish-x"/);
+  assert.match(appJs, /data-desktop-task-action="move-to-connected-account"/);
+  assert.match(appJs, /primaryConnectedDesktopAccount/);
+  assert.match(appJs, /\/api\/desktop\/tasks\/publish-x/);
+  assert.match(appJs, /发布到 X/);
+  assert.match(serverJs, /\/api\/desktop\/tasks\/publish-x/);
 });
 
 test("desktop first-run buttons are delegated through setup handler", () => {

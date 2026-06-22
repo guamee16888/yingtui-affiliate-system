@@ -5,6 +5,9 @@ contextBridge.exposeInMainWorld("aiCreatorOS", {
   openIncognitoAccountWindow(input) {
     return ipcRenderer.invoke("account-window:open-incognito", input);
   },
+  openPersistentAccountWindow(input) {
+    return ipcRenderer.invoke("account-window:open-persistent", input);
+  },
   openExternalUrl(url) {
     return ipcRenderer.invoke("desktop:open-external-url", url);
   },

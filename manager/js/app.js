@@ -3,6 +3,7 @@ import { renderDesktopOnboarding } from "./desktop-onboarding.js";
 
 const params = new URLSearchParams(location.search);
 const desktopPort = Number(location.port || 0);
+const DESKTOP_ACCOUNT_TARGET = 100;
 const isLocalDesktopBackend = ["127.0.0.1", "localhost"].includes(location.hostname)
   && desktopPort >= 5288
   && desktopPort <= 5399
@@ -22,7 +23,8 @@ const state = {
     status: "all",
     connection: "all",
     health: "all",
-    region: "all"
+    region: "all",
+    browser: "all"
   },
   data: null,
   demoMode: false,
@@ -30,8 +32,12 @@ const state = {
   appErrorCode: "",
   appErrorDetails: {},
   desktopSetup: null,
-  activeDesktopTab: "accounts",
+  activeDesktopTab: "status",
   xOAuthStatus: null,
+  adsBrowserStatus: null,
+  desktopStatusCheck: null,
+  sourceNetwork: null,
+  supplyGap: null,
   taskDraftAccountId: "",
   selectedTaskIds: new Set(),
   selectedAccountIds: new Set(),
@@ -244,11 +250,11 @@ document.addEventListener("input", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  const inlineCountry = event.target.closest("input[data-account-inline-field=\"country\"]");
-  if (!inlineCountry || event.key !== "Enter") return;
+  const inlineInput = event.target.closest("input[data-account-inline-field=\"country\"], input[data-account-inline-field=\"adsProfileId\"]");
+  if (!inlineInput || event.key !== "Enter") return;
   event.preventDefault();
-  inlineCountry.blur();
-  saveInlineAccountField(inlineCountry).catch((error) => toast(error.message));
+  inlineInput.blur();
+  saveInlineAccountField(inlineInput).catch((error) => toast(error.message));
 });
 
 await finishDiscordOAuthFromUrl();
@@ -326,12 +332,18 @@ async function loadDesktopManager() {
     state.managerUserId = state.managerUserId || "user_owner";
     query.set("workspaceId", state.workspaceId);
     query.set("managerUserId", state.managerUserId);
-    const [summary, xOAuthStatus] = await Promise.all([
+    const [summary, xOAuthStatus, adsBrowserStatus, sourceNetwork, supplyGap] = await Promise.all([
       apiGet(`/api/manager/summary?${query}`),
-      apiGet("/api/desktop/x-oauth/status")
+      apiGet("/api/desktop/x-oauth/status"),
+      safeApiGet("/api/desktop/ads-browser/status"),
+      safeApiGet("/api/source-network"),
+      safeApiGet("/api/supply-gap-filler")
     ]);
     state.data = summary;
     state.xOAuthStatus = xOAuthStatus;
+    state.adsBrowserStatus = adsBrowserStatus;
+    state.sourceNetwork = sourceNetwork;
+    state.supplyGap = supplyGap;
     if (state.activeDesktopTab === "targets") await ensureDesktopTargetsLoaded();
     state.demoMode = false;
     state.appError = "";
@@ -413,6 +425,36 @@ async function saveFeedback(taskId) {
   const suffix = query.toString() ? `?${query}` : "";
   await apiPost(`/api/app/v1/manager/feedback${suffix}`, payload);
   await loadAppManager();
+}
+
+async function checkDesktopAccountStatuses() {
+  const checkedAt = new Date().toISOString();
+  let adsApiOk = false;
+  let adsApiMessage = "ADS API 未配置";
+  try {
+    state.adsBrowserStatus = await apiGet("/api/desktop/ads-browser/status");
+    if (state.adsBrowserStatus?.configured) {
+      const result = await apiPost("/api/desktop/ads-browser/test", {});
+      adsApiOk = Boolean(result.ok);
+      adsApiMessage = result.message || "ADS 浏览器连接正常";
+    }
+  } catch (error) {
+    adsApiMessage = error.message || "ADS API 检查失败";
+  }
+  try {
+    state.xOAuthStatus = await apiGet("/api/desktop/x-oauth/status");
+  } catch {
+    state.xOAuthStatus = { configured: false };
+  }
+  state.desktopStatusCheck = {
+    checkedAt,
+    adsApiOk,
+    adsApiMessage,
+    xConfigured: Boolean(state.xOAuthStatus?.configured),
+    xConnected: Boolean(state.xOAuthStatus?.authorizedAccountId)
+  };
+  render();
+  toast(adsApiOk ? "状态检查完成：ADS API 可连接" : `状态检查完成：${adsApiMessage}`);
 }
 
 function render() {
@@ -506,11 +548,13 @@ function renderDesktopProduct() {
   $("#modeNotice").innerHTML = `
     <div class="desktop-product-note">
       <strong>多账号 X 运营工具箱</strong>
-      <span>本地桌面工具箱：不保存账号密码、cookie，不管理代理或指纹，不自动关注、点赞、评论或发推。</span>
+      <span>本地桌面工具箱：不保存原始密码/cookie；账号工作窗可打开 ADS 环境或本机默认窗口，不自动关注、点赞、评论或发推。</span>
     </div>
     <nav class="desktop-tabs" aria-label="桌面版主导航">
+      ${desktopTabButton("status", "状态中心")}
       ${desktopTabButton("accounts", "账号库")}
       ${desktopTabButton("tasks", "任务")}
+      ${desktopTabButton("supply", "供给")}
       ${desktopTabButton("targets", "目标关系")}
       ${desktopTabButton("feedback", "数据反馈")}
       ${desktopTabButton("settings", "设置")}
@@ -520,6 +564,7 @@ function renderDesktopProduct() {
     ["账号总数", accounts.length],
     ["已登录", loggedInAccounts.length],
     ["未登录", loggedOutAccounts.length],
+    ["供给缺口", sourceNetworkProjectedGap()],
     ["待确认", pendingDesktopTasks().length],
     ["待反馈", pendingFeedback.length],
     ["风险账号", riskyAccounts.length]
@@ -538,33 +583,340 @@ function desktopTabButton(id, label) {
 }
 
 function renderDesktopTabContent() {
+  if (state.activeDesktopTab === "status") return renderDesktopStatusCenterTab();
   if (state.activeDesktopTab === "tasks") return renderDesktopTasksTab();
+  if (state.activeDesktopTab === "supply") return renderDesktopSupplyTab();
   if (state.activeDesktopTab === "targets") return renderDesktopTargetsTab();
   if (state.activeDesktopTab === "feedback") return renderDesktopFeedbackTab();
   if (state.activeDesktopTab === "settings") return renderDesktopSettingsTab();
   return renderDesktopAccountsTab();
 }
 
+function renderDesktopSupplyTab() {
+  const sourceNetwork = state.sourceNetwork || {};
+  const supply = sourceNetwork.supply || {};
+  const summary = supply.summary || {};
+  const lanes = [...(supply.lanes || [])].sort((a, b) => Number(b.projectedGap || 0) - Number(a.projectedGap || 0));
+  const premiumActions = sourceNetworkPremiumActions(sourceNetwork, lanes);
+  const gap = Number(summary.projectedGap ?? 0);
+  return `<section class="desktop-product-panel">
+    <div class="desktop-section-head">
+      <div>
+        <h2>每日供给缺口</h2>
+        <p class="muted">按 100 个 AI x Crypto 账号、每号 10 条库存计算。这里告诉你今天该补哪条内容线、该开哪个源、是否值得上付费源。</p>
+      </div>
+      <div class="desktop-action-row">
+        ${badge(gap > 0 ? `预计缺 ${gap}` : "供给够用", gap > 0 ? "warn" : "good")}
+        <button class="button secondary" data-account-action="refresh-source-network" type="button">重算供给</button>
+      </div>
+    </div>
+    ${summary.requiredInventory ? `
+      <div class="desktop-mini-metrics">
+        ${detailItem("目标账号", summary.targetAccounts || 100)}
+        ${detailItem("目标库存", summary.requiredInventory || 0)}
+        ${detailItem("当前库存", summary.currentInventory || 0)}
+        ${detailItem("候选池", summary.directCandidates || 0)}
+        ${detailItem("预计库存", summary.projectedInventory || 0)}
+        ${detailItem("预计缺口", gap)}
+      </div>
+      <div class="source-lane-grid">
+        ${lanes.map(renderSourceLaneCard).join("")}
+      </div>
+      <section class="desktop-setting-card">
+        <h3>今天优先动作</h3>
+        <div class="desktop-task-list">
+          ${renderSourceNetworkActions(lanes, premiumActions)}
+        </div>
+      </section>
+      ${renderSourceNetworkManager(sourceNetwork)}
+    ` : `<div class="empty">还没有供给报表。先点“重算供给”；也可以先在下面添加数据源。</div>${renderSourceNetworkManager(sourceNetwork)}`}
+  </section>`;
+}
+
+function renderSourceNetworkManager(sourceNetwork = {}) {
+  const config = sourceNetwork.config || {};
+  const registry = sourceNetwork.registry || {};
+  const lanes = registry.lanes?.length ? registry.lanes : config.lanes || [];
+  const sources = registry.sources?.length ? registry.sources : config.sources || [];
+  return `<section class="desktop-setting-card source-manager-card">
+    <div class="desktop-section-head compact">
+      <div>
+        <h3>数据源管理</h3>
+        <p class="muted">新增 RSS、公开站点或付费源后，会写入本机 source network，并重新计算每日任务缺口。</p>
+      </div>
+      <button class="button" data-account-action="save-source-network-source" type="button">添加数据源</button>
+    </div>
+    <div class="source-form-grid">
+      <label class="field"><span>名称</span><input name="sourceName" type="text" placeholder="例如：Product Hunt AI"></label>
+      <label class="field"><span>URL / API 地址</span><input name="sourceUrl" type="text" placeholder="https://example.com/feed"></label>
+      <label class="field"><span>层级</span><select name="sourceTier">${sourceTierOptions("L1")}</select></label>
+      <label class="field"><span>状态</span><select name="sourceStatus">${sourceStatusOptions("active")}</select></label>
+      <label class="field"><span>质量分</span><input name="sourceQualityScore" type="number" min="0" max="100" value="75"></label>
+      <label class="field"><span>新鲜度</span><input name="sourceFreshnessScore" type="number" min="0" max="100" value="70"></label>
+      <label class="field source-form-notes"><span>备注</span><input name="sourceNotes" type="text" placeholder="这个源适合补什么角度"></label>
+    </div>
+    <div class="source-lane-picker">
+      <strong>覆盖内容线</strong>
+      <div>
+        ${lanes.map((lane) => `<label><input type="checkbox" name="sourceLaneIds" value="${attr(lane.laneId)}"> ${esc(lane.name || lane.laneId)}</label>`).join("")}
+      </div>
+    </div>
+    <label class="source-api-check"><input name="sourceRequiresCredential" type="checkbox"> 需要 API key / 付费订阅</label>
+    <div class="source-table-wrap">
+      <table class="source-table">
+        <thead><tr><th>源</th><th>层级</th><th>内容线</th><th>状态</th><th>候选</th><th>质量</th><th>操作</th></tr></thead>
+        <tbody>
+          ${sources.length ? sources.map(renderSourceNetworkRow).join("") : `<tr><td colspan="7" class="desktop-empty-cell">暂无数据源。先添加一个公开 RSS 或网站。</td></tr>`}
+        </tbody>
+      </table>
+    </div>
+  </section>`;
+}
+
+function renderSourceNetworkRow(source = {}) {
+  const nextStatus = source.status === "active" ? "paused" : "active";
+  return `<tr>
+    <td><strong>${esc(source.name || source.sourceId)}</strong><small>${esc(source.url || source.notes || source.sourceId)}</small></td>
+    <td>${badge(source.tier || "L1", source.tier === "L0" ? "warn" : source.tier === "L2" ? "bad" : "good")}</td>
+    <td>${esc((source.laneIds || []).join(", ") || "-")}</td>
+    <td>${badge(labelSourceStatus(source.status), source.status === "active" ? "good" : "warn")}</td>
+    <td>${esc(source.candidateCount || 0)}</td>
+    <td>${esc(source.qualityScore || 0)} / ${esc(source.freshnessScore || 0)}</td>
+    <td><button class="button secondary" data-account-action="toggle-source-status" data-source-id="${attr(source.sourceId)}" data-source-status="${attr(nextStatus)}" type="button">${source.status === "active" ? "暂停" : "启用"}</button></td>
+  </tr>`;
+}
+
+function renderSourceLaneCard(lane) {
+  const required = Number(lane.requiredInventory || 0);
+  const projected = Number(lane.projectedInventory || 0);
+  const pct = required ? Math.min(100, Math.round((projected / required) * 100)) : 0;
+  const gap = Number(lane.projectedGap || 0);
+  return `<article class="desktop-task-item source-lane-card">
+    <div class="desktop-task-head"><div><strong>${esc(lane.name || lane.laneId)}</strong><span>${esc(lane.laneId || "")}</span></div>${badge(gap > 0 ? `缺 ${gap}` : "够用", gap > 0 ? "warn" : "good")}</div>
+    <div class="source-progress"><span style="width:${pct}%"></span></div>
+    <div class="desktop-mini-metrics">
+      ${detailItem("当前库存", lane.currentInventory || 0)}
+      ${detailItem("候选", lane.directCandidateCount || 0)}
+      ${detailItem("预计库存", lane.projectedInventory || 0)}
+      ${detailItem("目标", lane.requiredInventory || 0)}
+    </div>
+  </article>`;
+}
+
+function renderSourceNetworkActions(lanes, premiumActions) {
+  const lane = lanes.find((item) => Number(item.projectedGap || 0) > 0);
+  const actions = [];
+  if (lane) {
+    actions.push(`<article class="desktop-task-item"><strong>先补 ${esc(lane.name || lane.laneId)}</strong><span class="muted">预计缺口 ${esc(lane.projectedGap)} 条。优先找新鲜、可改写、有明确受众的候选，不要拿泛新闻硬凑。</span></article>`);
+  }
+  for (const action of premiumActions.slice(0, 3)) {
+    actions.push(`<article class="desktop-task-item"><strong>评估 ${esc(action.sourceName)}</strong><span class="muted">可补 ${esc(action.laneName)}，预计缺口 ${esc(action.projectedGap)}。建议先用 L1 公开源验证需求，再决定是否付费。</span></article>`);
+  }
+  return actions.join("") || `<div class="empty">暂无补源动作。</div>`;
+}
+
+function sourceNetworkPremiumActions(sourceNetwork, lanes) {
+  const sources = sourceNetwork?.registry?.sources || [];
+  return lanes
+    .filter((lane) => Number(lane.projectedGap || 0) > 0)
+    .map((lane) => {
+      const source = sources.find((item) => item.tier === "L0" && (item.laneIds || []).includes(lane.laneId));
+      if (!source) return null;
+      return {
+        laneId: lane.laneId,
+        laneName: lane.name || lane.laneId,
+        sourceId: source.sourceId,
+        sourceName: source.name,
+        projectedGap: lane.projectedGap
+      };
+    })
+    .filter(Boolean);
+}
+
+function sourceNetworkProjectedGap() {
+  return Number(state.sourceNetwork?.supply?.summary?.projectedGap ?? state.supplyGap?.summary?.sourceNetworkProjectedGap ?? 0);
+}
+
+function renderDesktopStatusCenterTab() {
+  const model = desktopStatusCenterModel();
+  return `<section class="desktop-product-panel">
+    <div class="desktop-section-head">
+      <div>
+        <h2>100 账号状态中心</h2>
+        <p class="muted">每天先看这里：ADS 环境、X API、任务、发布和反馈状态集中检查。</p>
+      </div>
+      <div class="desktop-action-row">
+        <button class="button" data-account-action="check-account-statuses" type="button">检查全部状态</button>
+        <button class="button secondary" data-desktop-tab="accounts" type="button">去账号库配置</button>
+      </div>
+    </div>
+    <div class="desktop-account-capacity">
+      ${detailItem("可操作账号", `${model.summary.operable}/${model.summary.target}`)}
+      ${detailItem("ADS 已绑定", `${model.summary.adsReady}/${model.summary.target}`)}
+      ${detailItem("X API 已连接", `${model.summary.xReady}/${model.summary.target}`)}
+      ${detailItem("今日待发", model.summary.readyTasks)}
+      ${detailItem("待反馈", model.summary.pendingFeedback)}
+    </div>
+    ${model.check ? `<div class="desktop-status-check">
+      <strong>上次检查</strong>
+      <span>${esc(formatDateTime(model.check.checkedAt))}</span>
+      ${badge(model.check.adsApiOk ? "ADS API 可连接" : model.check.adsApiMessage || "ADS API 未检查", model.check.adsApiOk ? "good" : "warn")}
+      ${badge(model.check.xConfigured ? "X OAuth 已配置" : "X OAuth 未配置", model.check.xConfigured ? "good" : "warn")}
+    </div>` : `<div class="desktop-status-check"><strong>还没检查</strong><span>点“检查全部状态”刷新 ADS API / X OAuth 配置状态。</span></div>`}
+    <div class="desktop-account-table-wrap">
+      <table class="desktop-account-table desktop-status-table">
+        <thead>
+          <tr>
+            <th class="index-col">序号</th>
+            <th>账号</th>
+            <th>ADS 环境</th>
+            <th>X API</th>
+            <th>今日任务</th>
+            <th>今日已发</th>
+            <th>待反馈</th>
+            <th>下一步</th>
+            <th class="desktop-row-actions">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${model.rows.length ? model.rows.map(renderDesktopStatusRow).join("") : `<tr><td colspan="9" class="desktop-empty-cell">暂无账号。先去账号库导入账号。</td></tr>`}
+        </tbody>
+      </table>
+    </div>
+  </section>`;
+}
+
+function renderDesktopStatusRow(row) {
+  return `<tr class="${row.isSlot ? "is-empty-slot" : ""}">
+    <td class="index-col">${esc(row.index)}</td>
+    <td><strong>${esc(row.label)}</strong><small>${esc(row.accountId)}</small></td>
+    <td>${badge(row.adsLabel, row.adsBadge)}</td>
+    <td>${badge(row.xLabel, row.xBadge)}</td>
+    <td>${esc(row.todayTasks)}</td>
+    <td>${esc(row.todayPublished)}</td>
+    <td>${esc(row.pendingFeedback)}</td>
+    <td><strong>${esc(row.nextAction)}</strong><small>${esc(row.detail)}</small></td>
+    <td class="desktop-row-actions">
+      <button class="button" data-account-action="persistent-window" data-account-id="${attr(row.accountId)}" ${row.canOpen ? "" : "disabled"} type="button">账号工作窗</button>
+      <button class="button secondary" data-account-action="check-one-account-status" data-account-id="${attr(row.accountId)}" type="button">检查</button>
+    </td>
+  </tr>`;
+}
+
+function desktopStatusCenterModel() {
+  const accounts = state.data?.accounts || [];
+  const rows = accounts.map((account, index) => desktopStatusRow(account, index + 1));
+  const target = desktopAccountTarget();
+  const summary = {
+    target,
+    operable: rows.filter((row) => row.operable).length,
+    adsReady: rows.filter((row) => row.adsReady).length,
+    xReady: rows.filter((row) => row.xReady).length,
+    readyTasks: rows.reduce((sum, row) => sum + Number(row.readyTasks || 0), 0),
+    pendingFeedback: rows.reduce((sum, row) => sum + Number(row.pendingFeedback || 0), 0)
+  };
+  return { rows, summary, check: state.desktopStatusCheck };
+}
+
+function desktopStatusRow(account = {}, index = 1) {
+  const isSlot = isEmptyAccountSlot(account);
+  const browserProvider = accountBrowserProvider(account);
+  const adsReady = !isSlot && (browserProvider === "default" || Boolean(account.adsProfileId));
+  const xReady = !isSlot && (accountLoginStatus(account) === "connected" || state.xOAuthStatus?.authorizedAccountId === account.accountId);
+  const readyTasks = readyTaskCountForAccount(account.accountId);
+  const pendingFeedback = Number(account.pendingFeedback || 0);
+  const todayTasks = Number(account.todayTasks || 0);
+  const todayPublished = Number(account.todayPublished || 0);
+  const next = desktopAccountNextAction({ account, isSlot, browserProvider, adsReady, xReady, readyTasks, pendingFeedback });
+  return {
+    index,
+    accountId: account.accountId || "",
+    label: isSlot ? account.persona || `账号槽位 ${index}` : account.handle || account.persona || account.accountId,
+    isSlot,
+    adsReady,
+    xReady,
+    operable: adsReady && xReady,
+    canOpen: !isSlot && adsReady,
+    todayTasks,
+    todayPublished,
+    pendingFeedback,
+    readyTasks,
+    adsLabel: desktopAdsStatusLabel({ isSlot, browserProvider, adsReady, adsProfileId: account.adsProfileId }),
+    adsBadge: isSlot ? "warn" : adsReady ? "good" : "bad",
+    xLabel: isSlot ? "空槽" : xReady ? "已连接" : "未连接",
+    xBadge: isSlot ? "warn" : xReady ? "good" : "bad",
+    nextAction: next.action,
+    detail: next.detail
+  };
+}
+
+function desktopAdsStatusLabel({ isSlot, browserProvider, adsReady, adsProfileId }) {
+  if (isSlot) return "空槽";
+  if (browserProvider === "default") return "默认浏览器";
+  if (adsReady) return `ADS ${adsProfileId}`;
+  return "缺 ADS ID";
+}
+
+function desktopAccountNextAction({ account, isSlot, browserProvider, adsReady, xReady, readyTasks, pendingFeedback }) {
+  if (isSlot) return { action: "导入账号", detail: "这个槽位还没有 handle。" };
+  if (!adsReady && browserProvider === "ads") return { action: "填 ADS 环境 ID", detail: "否则账号工作窗无法打开对应 ADS 环境。" };
+  if (!xReady) return { action: "连接 X API", detail: "需要走官方 OAuth 后才能用 API 发布/校验。" };
+  if (pendingFeedback > 0) return { action: "补反馈", detail: "先回填已发布内容的数据，再继续放量。" };
+  if (readyTasks > 0) return { action: "可以发布", detail: `有 ${readyTasks} 条已确认待发布任务。` };
+  if (!Number(account.todayTasks || 0)) return { action: "补任务", detail: "今日还没有任务，先从候选池生成文案。" };
+  return { action: "正常", detail: "配置完整，等待任务或下一轮发布。" };
+}
+
+function readyTaskCountForAccount(accountId = "") {
+  return (state.data?.tasks || []).filter((task) =>
+    task.accountId === accountId
+    && task.approvalStatus === "approved"
+    && !["posted", "feedback_due", "feedback_done", "skipped"].includes(task.status || "")
+  ).length;
+}
+
+function desktopTaskPublishBlocker(task = {}, overLimit = false) {
+  if (overLimit) return "超过 280 字符，不能发布。";
+  if (task.approvalStatus !== "approved") return "先确认任务，再发布。";
+  if (["posted", "feedback_due", "feedback_done", "skipped"].includes(task.status || "") || task.postedUrl) return "这条任务已经发布过。";
+  const account = (state.data?.accounts || []).find((item) => item.accountId === task.accountId) || {};
+  const connected = accountLoginStatus(account) === "connected" || state.xOAuthStatus?.authorizedAccountId === task.accountId;
+  if (!connected) return "该账号还没连接 X API，请先在账号库连接。";
+  return "";
+}
+
+function primaryConnectedDesktopAccount() {
+  const accounts = state.data?.accounts || [];
+  const currentId = state.xOAuthStatus?.authorizedAccountId || "";
+  return accounts.find((account) => account.accountId === currentId && accountLoginStatus(account) === "connected")
+    || accounts.find((account) => accountLoginStatus(account) === "connected")
+    || null;
+}
+
 function renderDesktopAccountsTab() {
   const accounts = filteredAccounts();
+  const allAccounts = state.data.accounts || [];
   return `<section class="desktop-product-panel">
     <div class="desktop-section-head">
       <div>
         <h2>账号库</h2>
-        <p class="muted">本地管理账号、内容线、国家、任务和反馈。手动添加的账号默认未登录。</p>
+        <p class="muted">本地管理账号、内容线、国家、任务和反馈。目标按 100 个账号槽位管理；手动添加的账号默认未登录。</p>
       </div>
       <div class="desktop-action-row">
         <button class="button" data-account-action="connect-x" type="button">连接 X 账号</button>
-        <button class="button secondary" data-account-action="add-account" type="button">添加账号</button>
+        <button class="button secondary" data-account-action="add-account" type="button">添加单个账号</button>
+        <button class="button secondary" data-account-action="ensure-account-slots" type="button">补齐 100 槽位</button>
         <button class="button secondary" data-account-action="export-accounts" type="button">导出账号</button>
       </div>
     </div>
+    ${renderDesktopAccountCapacity(allAccounts)}
+    ${renderDesktopAccountButtonGuide()}
     <details class="desktop-import-compact">
       <summary>批量导入账号</summary>
       <div class="desktop-import-box">
         <div class="desktop-import-head">
-          <strong>添加账号</strong>
-          <span>当前只保存账号 handle、内容线、国家、语言和备注。不会保存密码、cookie、代理或指纹信息。</span>
+          <strong>添加 / 更新账号</strong>
+          <span>支持 handle、内容线、国家、语言、工作环境和 ADS 环境 ID。已有空槽时，新 handle 会优先填进空槽。</span>
         </div>
         <div class="desktop-import-grid">
           <label class="field"><span>默认内容线</span><select name="desktopImportLane">${contentLaneOptions("ai_startups")}</select></label>
@@ -573,7 +925,7 @@ function renderDesktopAccountsTab() {
           <label class="field"><span>每日上限</span><input name="desktopImportDailyLimit" type="number" min="1" max="100" value="10"></label>
         </div>
         <label class="field"><span>批量粘贴 handle</span><textarea name="desktopAccountImportText" rows="3" placeholder="@account_001&#10;@account_002"></textarea></label>
-        <label class="field"><span>批量导入 CSV</span><textarea name="desktopAccountImportCsv" rows="3" placeholder="handle,lane,country,language,notes"></textarea></label>
+        <label class="field"><span>批量导入 CSV</span><textarea name="desktopAccountImportCsv" rows="3" placeholder="handle,lane,country,language,workEnvironment,adsProfileId,networkNote,notes&#10;@account_001,ai_startups,日本,en,ads,123456,日本住宅宽带,主号"></textarea></label>
         <div class="desktop-safety-note">网络/IP 只是人工备注，不接代理、不存 cookie/密码/指纹，也不会自动切换 IP。</div>
         <button class="button" data-account-action="import-accounts" type="button">批量导入账号</button>
       </div>
@@ -583,6 +935,7 @@ function renderDesktopAccountsTab() {
       <input data-account-filter="query" type="search" placeholder="搜索 handle / 名称 / accountId" value="${attr(state.accountFilters.query)}">
       ${desktopFilterSelect("connection", "登录状态", accountOptionsFrom("connectionStatus"), labelConnection)}
       ${desktopFilterSelect("health", "健康状态", accountOptionsFrom("healthStatus"), labelHealth)}
+      ${desktopFilterSelect("browser", "工作环境", accountBrowserFilterOptions(), labelBrowserFilter)}
       <button class="button secondary" data-account-action="reset-account-filters" type="button">重置筛选</button>
     </div>
     ${accounts.length ? renderDesktopAccountTable(accounts) : `<div class="empty">当前筛选下没有账号。</div>`}
@@ -590,8 +943,8 @@ function renderDesktopAccountsTab() {
 }
 
 function renderDesktopNetworkNotesImportDetails() {
-  return `<details class="desktop-import-compact" open>
-    <summary>批量导入代理表 / 网络IP（一次导入30个账号）</summary>
+  return `<details class="desktop-import-compact">
+    <summary>批量导入代理表 / 网络IP（支持 100 个账号）</summary>
     <div class="desktop-import-box">
       <div class="desktop-import-head">
         <strong>支持代理平台导出的表格</strong>
@@ -605,6 +958,49 @@ function renderDesktopNetworkNotesImportDetails() {
       <button class="button" data-account-action="import-network-notes" type="button">导入代理表 / 网络IP</button>
     </div>
   </details>`;
+}
+
+function renderDesktopAccountCapacity(accounts = []) {
+  const stats = desktopAccountStats(accounts);
+  return `<div class="desktop-account-capacity">
+    ${detailItem("账号槽位", `${stats.total}/${stats.target}`)}
+    ${detailItem("空槽位", stats.emptySlots)}
+    ${detailItem("ADS 环境", `${stats.adsReady}/${stats.target}`)}
+    ${detailItem("缺 ADS ID", stats.missingAdsId)}
+    ${detailItem("默认浏览器", stats.defaultBrowser)}
+  </div>`;
+}
+
+function renderDesktopAccountButtonGuide() {
+  return `<div class="desktop-button-guide">
+    <span><strong>连接 X 账号</strong>：走官方 OAuth，把 API 发布权限绑定到当前账号。</span>
+    <span><strong>添加单个账号</strong>：临时追加一行；大量账号请用批量导入。</span>
+    <span><strong>补齐 100 槽位</strong>：只创建空槽，不会覆盖已有账号。</span>
+    <span><strong>导出账号</strong>：导出当前账号配置 CSV。</span>
+  </div>`;
+}
+
+function desktopAccountStats(accounts = []) {
+  const target = desktopAccountTarget();
+  const emptySlots = accounts.filter((account) => isEmptyAccountSlot(account)).length;
+  const adsAccounts = accounts.filter((account) => accountBrowserProvider(account) === "ads");
+  return {
+    target,
+    total: accounts.length,
+    emptySlots,
+    adsReady: adsAccounts.filter((account) => account.adsProfileId).length,
+    missingAdsId: adsAccounts.filter((account) => !isEmptyAccountSlot(account) && !account.adsProfileId).length,
+    defaultBrowser: accounts.filter((account) => accountBrowserProvider(account) === "default").length
+  };
+}
+
+function desktopAccountTarget() {
+  const configured = Number(state.workspace?.accountLimit || state.data?.selectedWorkspace?.accountLimit || 0);
+  return Math.max(DESKTOP_ACCOUNT_TARGET, configured || 0);
+}
+
+function isEmptyAccountSlot(account = {}) {
+  return account.status === "empty_slot" || (!account.handle && /^xacc_slot_/.test(String(account.accountId || "")));
 }
 
 function desktopFilterSelect(key, label, options, labeler = (value) => value) {
@@ -628,9 +1024,9 @@ function renderDesktopAccountTile(account) {
       ${detailItem("待反馈", account.pendingFeedback ?? 0)}
       ${detailItem("健康分", `${account.healthScore ?? 0} · ${labelHealth(account.healthStatus || "watch")}`)}
     </div>
-    <p class="muted small">临时工作窗只用于人工查看和人工操作，不会自动登录 X，也不会保存登录态；登录状态只由 X OAuth 或本地记录决定。</p>
+    <p class="muted small">登录 X 请只用账号工作窗。ADS 模式打开外部指纹环境，默认模式复用本机浏览器 profile。</p>
     <div class="desktop-action-row">
-      <button class="button secondary" data-account-action="incognito" data-account-id="${attr(account.accountId)}" type="button">打开临时窗</button>
+      <button class="button" data-account-action="persistent-window" data-account-id="${attr(account.accountId)}" type="button">账号工作窗</button>
       <button class="button secondary" data-account-action="detail" data-account-id="${attr(account.accountId)}" type="button">查看账号</button>
       <button class="button secondary" data-account-action="create-task" data-account-id="${attr(account.accountId)}" type="button">创建任务</button>
       <button class="button secondary" data-account-action="add-target" data-account-id="${attr(account.accountId)}" type="button">添加目标</button>
@@ -652,6 +1048,8 @@ function renderDesktopAccountTable(accounts) {
           <th>今日任务</th>
           <th>待反馈</th>
           <th>健康</th>
+          <th>工作环境</th>
+          <th>ADS 环境 ID</th>
           <th>网络/IP</th>
           <th>备注</th>
           <th class="desktop-row-actions">操作</th>
@@ -684,12 +1082,18 @@ function renderDesktopAccountTableRow(account, index) {
     <td>${Number(account.todayTasks ?? 0)}</td>
     <td>${Number(account.pendingFeedback ?? 0)}</td>
     <td>${esc(health)}</td>
+    <td>
+      <select class="inline-account-select" data-account-inline-field="browserProvider" data-account-id="${attr(account.accountId)}" aria-label="修改工作环境">
+        ${browserProviderOptions(accountBrowserProvider(account))}
+      </select>
+    </td>
+    <td>
+      <input class="inline-account-input" data-account-inline-field="adsProfileId" data-account-id="${attr(account.accountId)}" type="text" inputmode="numeric" value="${attr(account.adsProfileId || "")}" placeholder="环境 ID" aria-label="填写 ADS 环境 ID">
+    </td>
     <td>${esc(accountNetworkLabel(account))}</td>
     <td>${esc(account.notes || "无")}</td>
     <td class="desktop-row-actions">
-      <button class="button secondary" data-account-action="incognito" data-account-id="${attr(account.accountId)}" type="button">临时窗</button>
-      <button class="button secondary" data-account-action="detail" data-account-id="${attr(account.accountId)}" type="button">详情</button>
-      <button class="button secondary" data-account-action="create-task" data-account-id="${attr(account.accountId)}" type="button">任务</button>
+      <button class="button" data-account-action="persistent-window" data-account-id="${attr(account.accountId)}" type="button">账号工作窗</button>
     </td>
   </tr>`;
 }
@@ -702,7 +1106,7 @@ function renderDesktopTasksTab() {
   const posted = tasks.filter((task) => ["posted", "feedback_due", "feedback_done"].includes(task.status || "") || task.postedUrl);
   const done = tasks.filter((task) => task.status === "feedback_done");
   return `<section class="desktop-product-panel">
-    <div class="desktop-section-head"><div><h2>任务</h2><p class="muted">创建文案任务、复制文案、人工发布后回来标记和补反馈。不会自动发推。</p></div></div>
+    <div class="desktop-section-head"><div><h2>任务</h2><p class="muted">创建文案任务；确认后可手动点“发布到 X”走官方 API，发布成功后进入反馈回填。</p></div></div>
     <div class="desktop-mini-metrics">${detailItem("待确认", pending.length)}${detailItem("已确认", confirmed.length)}${detailItem("已发布", posted.length)}${detailItem("待反馈", posted.filter((task) => task.status !== "feedback_done").length)}${detailItem("已完成", done.length)}</div>
     <div class="desktop-create-task">
       <h3>创建任务</h3>
@@ -723,15 +1127,23 @@ function renderDesktopTasksTab() {
 function renderDesktopTaskItem(task) {
   const length = task.tweetLength || { weightedCharCount: task.weightedCharCount || 0 };
   const overLimit = Number(length.weightedCharCount || 0) > 280 || task.fitsTweetLimit === false;
+  const isApproved = task.approvalStatus === "approved";
+  const isPosted = ["posted", "feedback_due", "feedback_done"].includes(task.status || "") || Boolean(task.postedUrl);
+  const publishBlocker = desktopTaskPublishBlocker(task, overLimit);
+  const connectedAccount = primaryConnectedDesktopAccount();
+  const canMoveToConnectedAccount = isApproved && !isPosted && connectedAccount?.accountId && task.accountId !== connectedAccount.accountId && publishBlocker.includes("还没连接 X API");
   return `<article class="desktop-task-item">
     <div class="desktop-task-head"><div><strong>${esc(task.accountName || task.accountId || "未选择账号")}</strong><span>${esc(labelStatus(task.status || task.approvalStatus || "pending"))}</span></div>${badge(`${Number(length.weightedCharCount || 0)}/280`, overLimit ? "bad" : "good")}</div>
     <div class="copy-box">${esc(task.copyText || "")}</div>
     ${overLimit ? `<div class="desktop-safety-note danger-note">超过 280 字符，不能确认。</div>` : ""}
+    ${publishBlocker && isApproved && !isPosted ? `<div class="desktop-safety-note">${esc(publishBlocker)}</div>` : ""}
     <div class="desktop-action-row">
       <button class="button secondary" type="button" data-copy-detail="copyText" data-task-id="${attr(task.taskId)}">复制文案</button>
-      <button class="button" data-action="approve" data-task-id="${attr(task.taskId)}" ${task.canApprove && !overLimit ? "" : "disabled"} type="button">确认</button>
-      <button class="button danger" data-action="reject" data-task-id="${attr(task.taskId)}" ${task.canReject ? "" : "disabled"} type="button">拒绝</button>
-      <button class="button secondary" data-desktop-task-action="mark-posted" data-task-id="${attr(task.taskId)}" ${["feedback_due", "feedback_done"].includes(task.status || "") ? "disabled" : ""} type="button">标记已发布</button>
+      <button class="button" data-action="approve" data-task-id="${attr(task.taskId)}" ${task.canApprove && !overLimit && !isApproved && !isPosted ? "" : "disabled"} type="button">确认任务</button>
+      ${canMoveToConnectedAccount ? `<button class="button secondary" data-desktop-task-action="move-to-connected-account" data-task-id="${attr(task.taskId)}" type="button">改到 ${esc(connectedAccount.handle || connectedAccount.persona || "已连接账号")}</button>` : ""}
+      ${isApproved && !isPosted ? `<button class="button" data-desktop-task-action="publish-x" data-task-id="${attr(task.taskId)}" ${publishBlocker ? "disabled" : ""} type="button">发布到 X</button>` : ""}
+      <button class="button danger" data-action="reject" data-task-id="${attr(task.taskId)}" ${task.canReject && !isPosted ? "" : "disabled"} type="button">拒绝</button>
+      <button class="button secondary" data-desktop-task-action="mark-posted" data-task-id="${attr(task.taskId)}" ${isPosted || !isApproved ? "disabled" : ""} type="button">手动标记已发</button>
       ${["posted", "feedback_due"].includes(task.status || "") || task.postedUrl ? `<button class="button secondary" data-desktop-tab="feedback" type="button">填写反馈</button>` : ""}
     </div>
   </article>`;
@@ -798,14 +1210,16 @@ function renderDesktopFeedbackItem(task) {
 
 function renderDesktopSettingsTab() {
   const status = state.xOAuthStatus || {};
+  const adsStatus = state.adsBrowserStatus || {};
   return `<section class="desktop-product-panel">
-    <div class="desktop-section-head"><div><h2>设置</h2><p class="muted">本地数据、X API / OAuth 和安全边界。</p></div></div>
+    <div class="desktop-section-head"><div><h2>设置</h2><p class="muted">本地数据、X API / OAuth、ADS 浏览器和安全边界。</p></div></div>
     <div class="desktop-settings-grid">
       <section class="desktop-setting-card"><h3>本地数据</h3>${detailItem("数据目录", state.desktopSetup?.dataDir || "未读取")}<div class="desktop-action-row"><button class="button secondary" data-account-action="open-data-dir" type="button">打开数据目录</button><button class="button secondary" data-account-action="export-backup" type="button">导出备份</button><button class="button secondary" data-account-action="import-backup" type="button">导入备份</button><button class="button danger" data-account-action="reset-demo" type="button">重置样例数据</button></div></section>
       <section class="desktop-setting-card"><h3>X API / OAuth 配置</h3><p class="muted">AI Creator OS 不保存 X 密码或 cookie。以后连接账号会使用 X 官方 OAuth；通过后用本地 tokenRef 维持 API 连接，不需要每次重新连接。</p>${detailItem("X API 状态", status.configured ? "已配置" : "未配置")}${detailItem("Client Secret", status.maskedClientSecret ? "已保存" : "未保存")}${detailItem("Token 存储", status.tokenStorageLabel || "未写入 token")}<label class="field"><span>Client ID</span><input name="xClientId" type="text" value="${attr(status.clientId || "")}"></label><label class="field"><span>Client Secret</span><input name="xClientSecret" type="password" placeholder="${attr(status.maskedClientSecret ? "已保存，重新填写可覆盖" : "未保存")}"></label><label class="field"><span>Callback URL</span><input name="xCallbackUrl" type="text" value="${attr(status.callbackUrl || defaultXCallbackUrl())}"></label><label class="field"><span>Scopes</span><input name="xScopes" type="text" value="${attr((status.scopes || ["tweet.read", "tweet.write", "users.read", "offline.access"]).join(" "))}"></label><div class="desktop-action-row"><button class="button" data-account-action="save-x-oauth-config" type="button">保存配置</button><button class="button secondary" data-account-action="test-x-oauth-config" type="button">测试配置</button><button class="button secondary" data-account-action="clear-x-oauth-config" type="button">清空配置</button></div></section>
+      <section class="desktop-setting-card"><h3>ADS 浏览器 API</h3><p class="muted">配置后，每个账号可填写 ADS 环境 ID。点“账号工作窗”会调用 ADS 本地 API 打开对应指纹环境；未配置或切换为默认浏览器时，继续用本 App 固定窗口。</p>${detailItem("ADS 状态", adsStatus.configured ? "已配置" : "未配置")}${detailItem("访问令牌", adsStatus.accessConfigured ? "已保存" : "可选 / 未保存")}<label class="field"><span>ADS API 地址</span><input name="adsBaseUrl" type="text" value="${attr(adsStatus.baseUrl || "http://local.adspower.net:50325")}"></label><label class="field"><span>ADS 访问令牌</span><input name="adsAccessText" type="password" placeholder="${attr(adsStatus.maskedAccess ? "已保存，重新填写可覆盖" : "如果 ADS 开启访问令牌，在这里填写")}"></label><div class="desktop-action-row"><button class="button" data-account-action="save-ads-browser-config" type="button">保存 ADS 配置</button><button class="button secondary" data-account-action="test-ads-browser-config" type="button">测试 ADS 连接</button><button class="button secondary" data-account-action="clear-ads-browser-config" type="button">清空 ADS 配置</button></div></section>
       <section class="desktop-setting-card"><h3>桌面应用</h3>${detailItem("版本", "0.1.0")}${detailItem("默认端口", new URL(location.href).port || "5288")}${detailItem("日志目录", state.desktopSetup?.logsDir || "未读取")}<button class="button secondary" data-account-action="open-logs-dir" type="button">打开日志目录</button></section>
-      <section class="desktop-setting-card"><h3>浏览器和网络说明</h3><p class="muted">临时窗口只用于人工查看网页，不会保存网页登录态。关闭后需要重新登录，这是正常行为。</p><p class="muted">如果你已经在 Chrome / Safari 登录了 X，可以用系统浏览器打开 X。AI Creator OS 不接管浏览器登录状态。</p><div class="desktop-action-row"><button class="button secondary" data-account-action="open-system-x" type="button">用系统浏览器打开 X</button></div></section>
-      <section class="desktop-setting-card"><h3>安全说明</h3><ul class="desktop-safety-list"><li>不保存 X 密码。</li><li>不保存 cookie。</li><li>网络/IP 仅作为人工备注，不会切换代理、不会管理指纹、不会改变系统网络。</li><li>不做指纹浏览器。</li><li>不自动关注、点赞、评论或发推。</li></ul></section>
+      <section class="desktop-setting-card"><h3>浏览器和网络说明</h3><p class="muted">账号工作窗会按账号配置打开：ADS 浏览器优先走外部 ADS 环境；默认浏览器则使用本 App 固定窗口并保留本机登录态。</p><p class="muted">系统不会读取、导入或导出 cookie，也不会保存 X 密码。</p><div class="desktop-action-row"><button class="button secondary" data-account-action="open-system-x" type="button">用系统浏览器打开 X</button></div></section>
+      <section class="desktop-setting-card"><h3>安全说明</h3><ul class="desktop-safety-list"><li>不保存 X 密码。</li><li>不保存 cookie 导入文件。</li><li>ADS 浏览器环境由 ADS 自己管理，AI Creator OS 只保存环境 ID 并调用本地启动接口。</li><li>默认浏览器模式只使用 Electron 本机持久 profile 保留网页登录态。</li><li>不自动关注、点赞、评论或发推。</li></ul></section>
     </div>
   </section>`;
 }
@@ -853,7 +1267,7 @@ function renderModeNotice() {
     return;
   }
   if (state.appMode) {
-    notice.innerHTML = `<strong>${state.desktopMode ? "桌面版 · " : ""}真实工作区 · Workspace App Mode</strong> 当前用户：${esc(state.session?.email || "unknown")} · ${esc(state.workspace?.name || state.data?.selectedWorkspace?.name || "Workspace")}。这里会调用 /api/app/v1 保存审核、拒绝、反馈和目标关系，并写入 audit log。无痕工作窗仅用于人工查看/人工操作，不保存浏览器登录态。`;
+    notice.innerHTML = `<strong>${state.desktopMode ? "桌面版 · " : ""}真实工作区 · Workspace App Mode</strong> 当前用户：${esc(state.session?.email || "unknown")} · ${esc(state.workspace?.name || state.data?.selectedWorkspace?.name || "Workspace")}。这里会调用 /api/app/v1 保存审核、拒绝、反馈和目标关系，并写入 audit log。账号工作窗用于打开对应账号环境。`;
     return;
   }
   notice.innerHTML = state.demoMode
@@ -959,7 +1373,7 @@ function renderAccountVault() {
     ? `<div class="desktop-import-box">
         <div class="desktop-import-head">
           <strong>添加 / 导入账号</strong>
-        <span>只保存 handle、内容线、国家、语言和备注。</span>
+        <span>支持 handle、内容线、国家、语言、工作环境、ADS 环境 ID 和网络备注。</span>
         </div>
         <div class="desktop-import-grid">
           <label class="field">
@@ -987,12 +1401,13 @@ function renderAccountVault() {
         </label>
         <label class="field">
           <span>CSV</span>
-          <textarea name="desktopAccountImportCsv" rows="3" placeholder="handle,lane,country,language,notes"></textarea>
+          <textarea name="desktopAccountImportCsv" rows="3" placeholder="handle,lane,country,language,workEnvironment,adsProfileId,networkNote,notes"></textarea>
         </label>
         <div class="desktop-safety-note">AI Creator OS 不保存账号密码、cookie、代理或指纹信息。CSV 里出现这些字段会被忽略。</div>
         <div class="desktop-inline-actions">
           <button class="button" data-account-action="import-accounts" type="button">导入账号</button>
-          <button class="button secondary" data-account-action="add-account" type="button">手动添加账号</button>
+          <button class="button secondary" data-account-action="add-account" type="button">添加单个账号</button>
+          <button class="button secondary" data-account-action="ensure-account-slots" type="button">补齐 100 槽位</button>
           <button class="button secondary" data-account-action="export-accounts" type="button">导出账号</button>
         </div>
       </div>`
@@ -1036,13 +1451,15 @@ function renderDesktopAccountConsole({ accounts, allSelectable, desktopTools }) 
     <div class="desktop-console-head">
       <div>
         <h2>账号控制台</h2>
-        <p class="muted">像表格软件一样管理账号、状态、任务和人工工作窗。</p>
+        <p class="muted">像表格软件一样管理 100 个账号槽位、ADS 环境、任务和账号工作窗。</p>
       </div>
       <div class="desktop-console-actions">
         ${badge("本地工具箱", "good")}
         <button class="button secondary" data-account-action="export-accounts" type="button">导出账号</button>
       </div>
     </div>
+    ${renderDesktopAccountCapacity(state.data.accounts || [])}
+    ${renderDesktopAccountButtonGuide()}
     <details class="desktop-import-compact">
       <summary>添加 / 批量导入账号</summary>
       ${desktopTools}
@@ -1062,6 +1479,7 @@ function renderDesktopAccountConsole({ accounts, allSelectable, desktopTools }) 
       <input data-account-filter="query" type="search" placeholder="搜索 handle / persona / accountId" value="${attr(state.accountFilters.query)}">
       ${filterSelect("connection", "登录状态", accountOptionsFrom("connectionStatus"), labelConnection)}
       ${filterSelect("health", "健康状态", accountOptionsFrom("healthStatus"))}
+      ${filterSelect("browser", "工作环境", accountBrowserFilterOptions(), labelBrowserFilter)}
     </div>
     <div class="desktop-table-toolbar">
       <label class="desktop-checkline">
@@ -1086,6 +1504,8 @@ function renderDesktopAccountConsole({ accounts, allSelectable, desktopTools }) 
             <th>待反馈</th>
             <th>7日发布</th>
             <th>外链</th>
+            <th>工作环境</th>
+            <th>ADS 环境 ID</th>
             <th>国家</th>
             <th>网络/IP</th>
             <th>语言</th>
@@ -1093,7 +1513,7 @@ function renderDesktopAccountConsole({ accounts, allSelectable, desktopTools }) 
           </tr>
         </thead>
         <tbody>
-          ${accounts.length ? accounts.map(renderDesktopAccountRow).join("") : `<tr><td colspan="15" class="desktop-empty-cell">当前筛选下没有账号。</td></tr>`}
+          ${accounts.length ? accounts.map(renderDesktopAccountRow).join("") : `<tr><td colspan="17" class="desktop-empty-cell">当前筛选下没有账号。</td></tr>`}
         </tbody>
       </table>
     </div>
@@ -1112,7 +1532,7 @@ function renderDesktopAccountRow(account, index) {
     </td>
     <td class="index-col">${esc(index + 1)}</td>
     <td title="${attr(account.accountId)}">
-      <strong>${esc(account.handle || account.persona || account.accountId)}</strong>
+      <button class="inline-link" data-account-action="detail" data-account-id="${attr(account.accountId)}" type="button">${esc(account.handle || account.persona || account.accountId)}</button>
       <small>${esc(account.persona || account.accountId)}</small>
     </td>
     <td>
@@ -1128,14 +1548,20 @@ function renderDesktopAccountRow(account, index) {
     <td>${esc(account.sevenDayPosts ?? 0)}</td>
     <td>${esc(account.sevenDayExternalLinks ?? 0)}</td>
     <td>
+      <select class="inline-account-select" data-account-inline-field="browserProvider" data-account-id="${attr(account.accountId)}" aria-label="修改工作环境">
+        ${browserProviderOptions(accountBrowserProvider(account))}
+      </select>
+    </td>
+    <td>
+      <input class="inline-account-input" data-account-inline-field="adsProfileId" data-account-id="${attr(account.accountId)}" type="text" inputmode="numeric" value="${attr(account.adsProfileId || "")}" placeholder="环境 ID" aria-label="填写 ADS 环境 ID">
+    </td>
+    <td>
       <input class="inline-account-input" data-account-inline-field="country" data-account-id="${attr(account.accountId)}" type="text" value="${attr(accountCountryValue(account))}" placeholder="-" aria-label="填写国家">
     </td>
     <td>${esc(accountNetworkLabel(account))}</td>
     <td>${esc(account.language || "en")}</td>
     <td class="desktop-row-actions">
-      <button class="button secondary" data-account-action="incognito" data-account-id="${attr(account.accountId)}" type="button">临时窗</button>
-      <button class="button secondary" data-account-action="create-task" data-account-id="${attr(account.accountId)}" type="button">任务</button>
-      <button class="button secondary" data-account-action="detail" data-account-id="${attr(account.accountId)}" type="button">详情</button>
+      <button class="button" data-account-action="persistent-window" data-account-id="${attr(account.accountId)}" type="button">账号工作窗</button>
     </td>
   </tr>`;
 }
@@ -1173,7 +1599,7 @@ function renderAccountCard(account) {
     </div>
     <div class="risk-line">${(account.riskFlags || []).length ? account.riskFlags.map((flag) => badge(flag, "warn")).join("") : badge("no risk flags", "good")}</div>
     <div class="account-actions">
-      <button class="button" data-account-action="incognito" data-account-id="${attr(account.accountId)}" ${state.desktopMode ? "" : "disabled title=\"请在桌面 App 中打开\""} type="button">${state.desktopMode ? "打开临时窗" : "请在桌面 App 中打开"}</button>
+      <button class="button" data-account-action="persistent-window" data-account-id="${attr(account.accountId)}" ${state.desktopMode ? "" : "disabled title=\"请在桌面 App 中打开\""} type="button">${state.desktopMode ? "账号工作窗" : "请在桌面 App 中打开"}</button>
       <button class="button secondary" data-account-action="create-task" data-account-id="${attr(account.accountId)}" ${state.desktopMode ? "" : "disabled"} type="button">创建任务</button>
       <button class="button secondary" data-account-action="add-target" data-account-id="${attr(account.accountId)}" ${state.appMode || state.desktopMode ? "" : "disabled"} type="button">添加目标</button>
       <button class="button secondary" data-account-action="detail" data-account-id="${attr(account.accountId)}" type="button">查看详情</button>
@@ -1199,7 +1625,8 @@ function filteredAccounts() {
     .filter((account) => filters.status === "all" || (account.status || "") === filters.status)
     .filter((account) => filters.connection === "all" || (account.connectionStatus || "") === filters.connection)
     .filter((account) => filters.health === "all" || (account.healthStatus || "") === filters.health)
-    .filter((account) => filters.region === "all" || accountRegionValue(account) === filters.region);
+    .filter((account) => filters.region === "all" || accountRegionValue(account) === filters.region)
+    .filter((account) => accountMatchesBrowserFilter(account, filters.browser));
 }
 
 function handleAccountSelectionOrFilter(input) {
@@ -1264,6 +1691,52 @@ async function handleAccountAction(action, accountId, sourceElement = null) {
     state.xOAuthStatus = await apiGet("/api/desktop/x-oauth/status");
     toast(state.xOAuthStatus.configured ? "X API / OAuth 配置完整" : "请先在设置里配置 X API / OAuth。");
     render();
+    return;
+  }
+  if (action === "save-ads-browser-config") {
+    const payload = collectAdsBrowserConfigPayload();
+    state.adsBrowserStatus = await apiPost("/api/desktop/ads-browser/config", payload);
+    toast("ADS 浏览器配置已保存");
+    render();
+    return;
+  }
+  if (action === "test-ads-browser-config") {
+    const result = await apiPost("/api/desktop/ads-browser/test", {});
+    state.adsBrowserStatus = await apiGet("/api/desktop/ads-browser/status");
+    toast(result.message || "ADS 浏览器连接正常");
+    render();
+    return;
+  }
+  if (action === "clear-ads-browser-config") {
+    if (!confirm("确认清空 ADS 浏览器 API 配置？")) return;
+    state.adsBrowserStatus = await apiPost("/api/desktop/ads-browser/clear", {});
+    toast("ADS 浏览器配置已清空");
+    render();
+    return;
+  }
+  if (action === "refresh-source-network") {
+    state.sourceNetwork = await apiPost("/api/source-network/refresh", {});
+    toast("供给缺口已重算");
+    render();
+    return;
+  }
+  if (action === "save-source-network-source") {
+    const payload = collectSourceNetworkSourcePayload();
+    state.sourceNetwork = await apiPost("/api/source-network/source", payload);
+    toast("数据源已添加，并已重算供给缺口");
+    render();
+    return;
+  }
+  if (action === "toggle-source-status") {
+    const sourceId = sourceElement?.dataset.sourceId || "";
+    const status = sourceElement?.dataset.sourceStatus || "active";
+    state.sourceNetwork = await apiPost("/api/source-network/source/status", { sourceId, status });
+    toast(status === "active" ? "数据源已启用" : "数据源已暂停");
+    render();
+    return;
+  }
+  if (action === "check-account-statuses") {
+    await checkDesktopAccountStatuses();
     return;
   }
   if (action === "open-system-x") {
@@ -1336,6 +1809,17 @@ async function handleAccountAction(action, accountId, sourceElement = null) {
     await loadDesktopManager();
     return;
   }
+  if (action === "ensure-account-slots") {
+    const target = desktopAccountTarget();
+    if (!confirm(`确认把账号库补齐到 ${target} 个槽位？\n\n只会新增空槽，不会覆盖已有账号。后续批量导入新 handle 会优先填入空槽。`)) return;
+    const result = await apiPost("/api/desktop/accounts/ensure-slots", {
+      workspaceId: state.workspaceId || "workspace_default",
+      count: target
+    });
+    toast(result.createdCount ? `已新增 ${result.createdCount} 个账号空槽` : "账号槽位已经足够");
+    await loadDesktopManager();
+    return;
+  }
   if (action === "add-account") {
     const handle = prompt("添加账号 handle，例如 @my_account：", "@");
     if (!handle || handle === "@") return;
@@ -1369,7 +1853,8 @@ async function handleAccountAction(action, accountId, sourceElement = null) {
       status: "all",
       connection: "all",
       health: "all",
-      region: "all"
+      region: "all",
+      browser: "all"
     };
     state.selectedAccountIds.clear();
     render();
@@ -1378,9 +1863,19 @@ async function handleAccountAction(action, accountId, sourceElement = null) {
   }
   const account = findAccount(accountId);
   if (!account) throw new Error("账号不存在。");
-  if (action === "incognito") {
-    await openTemporaryAccountWindow(account);
-    toast("已打开临时工作窗");
+  if (action === "check-one-account-status") {
+    const row = desktopStatusRow(account, 1);
+    toast(`${row.label}：${row.nextAction}。${row.detail}`);
+    return;
+  }
+  if (action === "persistent-window") {
+    await openAccountWorkWindow(account);
+    await apiPost("/api/desktop/accounts/update", { accountId: account.accountId, sessionMode: "persistent", browserProvider: accountBrowserProvider(account) });
+    await loadDesktopManager();
+    return;
+  }
+  if (action === "check-current-ip") {
+    await checkAccountCurrentIp(account);
     return;
   }
   if (action === "copy-handle") {
@@ -1420,17 +1915,77 @@ async function handleAccountAction(action, accountId, sourceElement = null) {
   await openAccountDrawer(accountId, action);
 }
 
-async function openTemporaryAccountWindow(account) {
+async function openPersistentAccountWindow(account) {
   const payload = {
     workspaceId: state.workspaceId || account.workspaceId,
     accountId: account.accountId,
     handle: account.handle,
-    mode: "electron"
+    mode: "electron",
+    proxyUrl: account.proxyUrl || ""
   };
-  if (window.aiCreatorOS?.openIncognitoAccountWindow) {
-    return window.aiCreatorOS.openIncognitoAccountWindow(payload);
+  if (window.aiCreatorOS?.openPersistentAccountWindow) {
+    return window.aiCreatorOS.openPersistentAccountWindow(payload);
   }
-  return apiPost("/api/desktop/accounts/incognito", payload);
+  return apiPost("/api/desktop/accounts/persistent-window", payload);
+}
+
+async function openAccountWorkWindow(account) {
+  if (accountBrowserProvider(account) === "ads") {
+    if (!account.adsProfileId) {
+      await openAccountDrawer(account.accountId, "config");
+      throw new Error("请先填写 ADS 环境 ID，或把工作环境切回默认浏览器。");
+    }
+    const result = await apiPost("/api/desktop/ads-browser/open", {
+      accountId: account.accountId,
+      handle: account.handle,
+      adsProfileId: account.adsProfileId,
+      url: account.handle ? `https://x.com/${encodeURIComponent(account.handle.replace(/^@/, ""))}` : "https://x.com/home"
+    });
+    toast(result.message || "已在 ADS 浏览器打开账号工作窗。");
+    return result;
+  }
+  await ensureAccountNetworkLock(account);
+  const result = await openPersistentAccountWindow(account);
+  toast("已打开默认浏览器账号工作窗。手动登录一次后，下次会保留网页登录态。");
+  return result;
+}
+
+async function ensureAccountNetworkLock(account) {
+  // 如果有代理地址，跳过 IP 检测（代理会自动切换出口 IP）
+  if (account.proxyUrl) return;
+
+  const assignedIp = normalizeAssignedIp(account.ipNote || "");
+  if (!assignedIp) {
+    const proceed = confirm(`账号 ${account.handle || account.accountId} 还没有设置指定 IP 和代理地址。\n\n建议先点账号名进入详情，填写"代理地址"或"指定 IP / 出口"。\n\n仍然打开账号工作窗吗？`);
+    if (!proceed) throw new Error("已取消打开账号工作窗。");
+    return;
+  }
+  const current = await apiGet(`/api/desktop/network/current-ip?t=${Date.now()}`);
+  const currentIp = normalizeAssignedIp(current.ip || "");
+  if (!currentIp) throw new Error("没有检测到当前公网 IP，请先检查网络。");
+  if (currentIp !== assignedIp) {
+    throw new Error(`当前公网 IP 不匹配。\n账号指定 IP：${assignedIp}\n当前公网 IP：${currentIp}\n请先切到这个账号绑定的网络，或者填写代理地址。`);
+  }
+}
+
+async function checkAccountCurrentIp(account) {
+  const assignedIp = normalizeAssignedIp(account.ipNote || "");
+  const current = await apiGet(`/api/desktop/network/current-ip?t=${Date.now()}`);
+  const currentIp = normalizeAssignedIp(current.ip || "");
+  if (!assignedIp) {
+    toast(`当前公网 IP：${currentIp || "未检测到"}。这个账号还没有设置指定 IP。`);
+    return;
+  }
+  if (assignedIp === currentIp) {
+    toast(`IP 匹配：${currentIp}`);
+    return;
+  }
+  toast(`IP 不匹配：指定 ${assignedIp}，当前 ${currentIp || "未检测到"}`);
+}
+
+function normalizeAssignedIp(value = "") {
+  const match = String(value || "").match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/);
+  return match ? match[0] : "";
 }
 
 async function createDesktopTaskForAccount(account) {
@@ -1500,14 +2055,43 @@ function collectXOAuthConfigPayload() {
   };
 }
 
+function collectAdsBrowserConfigPayload() {
+  return {
+    baseUrl: document.querySelector("[name=\"adsBaseUrl\"]")?.value?.trim() || "",
+    accessText: document.querySelector("[name=\"adsAccessText\"]")?.value || ""
+  };
+}
+
+function collectSourceNetworkSourcePayload() {
+  const laneIds = [...document.querySelectorAll("[name=\"sourceLaneIds\"]")]
+    .filter((input) => input.checked)
+    .map((input) => input.value);
+  if (!laneIds.length) throw new Error("请选择至少一条内容线。");
+  return {
+    name: document.querySelector("[name=\"sourceName\"]")?.value?.trim() || "",
+    url: document.querySelector("[name=\"sourceUrl\"]")?.value?.trim() || "",
+    tier: document.querySelector("[name=\"sourceTier\"]")?.value || "L1",
+    status: document.querySelector("[name=\"sourceStatus\"]")?.value || "active",
+    laneIds,
+    qualityScore: Number(document.querySelector("[name=\"sourceQualityScore\"]")?.value || 75),
+    freshnessScore: Number(document.querySelector("[name=\"sourceFreshnessScore\"]")?.value || 70),
+    requiresCredential: Boolean(document.querySelector("[name=\"sourceRequiresCredential\"]")?.checked),
+    notes: document.querySelector("[name=\"sourceNotes\"]")?.value?.trim() || ""
+  };
+}
+
 function collectAccountConfigPayload(accountId) {
   return {
     accountId,
     laneId: document.querySelector(`[name="accountLaneId"][data-account-id="${CSS.escape(accountId)}"]`)?.value || "none",
     country: document.querySelector(`[name="accountCountry"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || "",
     language: document.querySelector(`[name="accountLanguage"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || "en",
+    sessionMode: "persistent",
+    browserProvider: document.querySelector(`[name="accountBrowserProvider"][data-account-id="${CSS.escape(accountId)}"]`)?.value || "ads",
+    adsProfileId: document.querySelector(`[name="accountAdsProfileId"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || "",
     networkLabel: document.querySelector(`[name="accountNetworkLabel"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || "",
     ipNote: document.querySelector(`[name="accountIpNote"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || "",
+    proxyUrl: document.querySelector(`[name="accountProxyUrl"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || "",
     deviceNote: document.querySelector(`[name="accountDeviceNote"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || "",
     countryRegionNote: document.querySelector(`[name="accountCountryRegionNote"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || "",
     notes: document.querySelector(`[name="accountNotes"][data-account-id="${CSS.escape(accountId)}"]`)?.value?.trim() || ""
@@ -1523,7 +2107,9 @@ async function saveInlineAccountField(input) {
   const value = String(input.value || "").trim();
   if (field === "laneId" && value === (account.laneId || "none")) return;
   if (field === "country" && value === accountCountryValue(account)) return;
-  if (!["laneId", "country"].includes(field)) return;
+  if (field === "browserProvider" && value === accountBrowserProvider(account)) return;
+  if (field === "adsProfileId" && value === String(account.adsProfileId || "")) return;
+  if (!["laneId", "country", "browserProvider", "adsProfileId"].includes(field)) return;
   input.dataset.saving = "1";
   input.disabled = true;
   try {
@@ -1531,7 +2117,13 @@ async function saveInlineAccountField(input) {
       accountId,
       [field]: value
     });
-    toast(field === "laneId" ? "内容线已保存" : "国家已保存");
+    const labels = {
+      laneId: "内容线已保存",
+      country: "国家已保存",
+      browserProvider: "工作环境已保存",
+      adsProfileId: "ADS 环境 ID 已保存"
+    };
+    toast(labels[field] || "账号配置已保存");
     await loadDesktopManager();
   } finally {
     input.disabled = false;
@@ -1581,7 +2173,7 @@ function renderAccountDrawer(account, section) {
     <button class="button secondary" data-close-account-drawer type="button">关闭</button>
   </div>
   <div class="drawer-actions">
-    <button class="button" data-account-action="incognito" data-account-id="${attr(account.accountId)}" ${state.desktopMode ? "" : "disabled"} type="button">打开临时窗</button>
+    <button class="button" data-account-action="persistent-window" data-account-id="${attr(account.accountId)}" ${state.desktopMode ? "" : "disabled"} type="button">账号工作窗</button>
     <button class="button secondary" data-account-action="open-system-x" data-account-id="${attr(account.accountId)}" type="button">用系统浏览器打开 X</button>
     <button class="button secondary" data-account-action="create-task" data-account-id="${attr(account.accountId)}" ${state.desktopMode ? "" : "disabled"} type="button">创建任务</button>
     <button class="button secondary" data-account-action="add-target" data-account-id="${attr(account.accountId)}" ${state.appMode || state.desktopMode ? "" : "disabled"} type="button">添加目标关系</button>
@@ -1597,7 +2189,8 @@ function renderAccountDrawer(account, section) {
       ${detailItem("内容线", labelLane(account.laneId || ""))}
       ${detailItem("国家", accountCountryLabel(account))}
       ${detailItem("网络/IP", accountNetworkLabel(account))}
-      ${detailItem("窗口会话", labelSessionMode(account.sessionMode))}
+      ${detailItem("工作环境", labelBrowserProvider(accountBrowserProvider(account)))}
+      ${detailItem("ADS 环境 ID", account.adsProfileId || "未填写")}
       ${detailItem("语言", account.language || "en")}
       ${detailItem("登录状态", labelConnection(accountLoginStatus(account)))}
       ${detailItem("发布方式", "手动")}
@@ -1609,18 +2202,22 @@ function renderAccountDrawer(account, section) {
       <label class="field"><span>修改内容线</span><select name="accountLaneId" data-account-id="${attr(account.accountId)}">${contentLaneOptions(account.laneId || "none")}</select></label>
       <label class="field"><span>国家</span><input name="accountCountry" data-account-id="${attr(account.accountId)}" type="text" value="${attr(accountCountryValue(account))}" placeholder="手动填写，例如：日本 / 美国 / 英国"></label>
       <label class="field"><span>语言</span><input name="accountLanguage" data-account-id="${attr(account.accountId)}" type="text" value="${attr(account.language || "en")}"></label>
+      <label class="field"><span>工作环境</span><select name="accountBrowserProvider" data-account-id="${attr(account.accountId)}">${browserProviderOptions(accountBrowserProvider(account))}</select></label>
+      <label class="field"><span>ADS 环境 ID</span><input name="accountAdsProfileId" data-account-id="${attr(account.accountId)}" type="text" inputmode="numeric" value="${attr(account.adsProfileId || "")}" placeholder="只填 ADS 环境 ID，例如：123456"></label>
     </div>
     <h3>网络/IP 配置</h3>
-    <p class="muted">这里只做人工备注，不切换代理、不保存代理账号密码、不管理指纹、不改变系统网络。</p>
+    <p class="muted">默认浏览器模式下，账号工作窗会按这里的代理地址访问 X；ADS 模式下请在 ADS 环境里配置代理。</p>
     <div class="desktop-import-grid">
       <label class="field"><span>网络备注</span><input name="accountNetworkLabel" data-account-id="${attr(account.accountId)}" type="text" value="${attr(account.networkLabel || "")}" placeholder="例如：日本住宅宽带 / 美国 VPS / 自用网络"></label>
-      <label class="field"><span>IP 归属备注</span><input name="accountIpNote" data-account-id="${attr(account.accountId)}" type="text" value="${attr(account.ipNote || "")}" placeholder="例如：东京 / 洛杉矶 / 家庭网络"></label>
+      <label class="field"><span>指定 IP / 出口</span><input name="accountIpNote" data-account-id="${attr(account.accountId)}" type="text" value="${attr(account.ipNote || "")}" placeholder="例如：38.154.203.95 或 38.154.203.95:5863"></label>
+      <label class="field"><span>代理地址</span><input name="accountProxyUrl" data-account-id="${attr(account.accountId)}" type="text" value="${attr(account.proxyUrl || "")}" placeholder="例如：socks5://38.154.203.95:5863 或 http://ip:port"></label>
       <label class="field"><span>设备备注</span><input name="accountDeviceNote" data-account-id="${attr(account.accountId)}" type="text" value="${attr(account.deviceNote || "")}" placeholder="例如：MacBook / 备用手机 / 自用设备"></label>
       <label class="field"><span>国家/地区备注</span><input name="accountCountryRegionNote" data-account-id="${attr(account.accountId)}" type="text" value="${attr(account.countryRegionNote || "")}" placeholder="例如：日本 / 美国 / 英国"></label>
     </div>
     <label class="field"><span>备注</span><textarea name="accountNotes" data-account-id="${attr(account.accountId)}" rows="3">${esc(account.notes || "")}</textarea></label>
     <div class="desktop-action-row">
       <button class="button" data-account-action="save-account-config" data-account-id="${attr(account.accountId)}" type="button">保存账号配置</button>
+      <button class="button secondary" data-account-action="check-current-ip" data-account-id="${attr(account.accountId)}" type="button">检测当前IP</button>
       <button class="button secondary" data-account-action="connect-x" data-account-id="${attr(account.accountId)}" type="button">${accountLoginStatus(account) === "connected" ? "重新连接 X 账号" : "连接 X 账号"}</button>
     </div>
   </section>
@@ -1768,6 +2365,25 @@ function accountRegionValue(account) {
   return accountCountryValue(account);
 }
 
+function accountBrowserFilterOptions() {
+  return ["ads", "default", "missing_ads_id"];
+}
+
+function accountMatchesBrowserFilter(account = {}, filter = "all") {
+  if (filter === "all") return true;
+  if (filter === "missing_ads_id") return accountBrowserProvider(account) === "ads" && !account.adsProfileId && !isEmptyAccountSlot(account);
+  return accountBrowserProvider(account) === filter;
+}
+
+function labelBrowserFilter(value = "") {
+  const labels = {
+    ads: "ADS 浏览器",
+    default: "默认浏览器",
+    missing_ads_id: "缺 ADS 环境 ID"
+  };
+  return labels[value] || labelBrowserProvider(value);
+}
+
 function accountCountryLabel(account = {}) {
   return accountCountryValue(account) || "-";
 }
@@ -1795,11 +2411,27 @@ function accountNetworkLabel(account = {}) {
 
 function labelSessionMode(value = "") {
   const labels = {
-    temp: "临时窗口",
+    temp: "账号工作窗",
+    persistent: "账号工作窗",
     manual: "手动固定",
     fixed_note: "固定网络备注"
   };
-  return labels[value] || labels.temp;
+  return labels[value] || labels.persistent;
+}
+
+function accountBrowserProvider(account = {}) {
+  return ["default", "ads"].includes(account.browserProvider) ? account.browserProvider : "ads";
+}
+
+function labelBrowserProvider(value = "") {
+  return value === "default" ? "默认浏览器" : "ADS 浏览器";
+}
+
+function browserProviderOptions(selected = "ads") {
+  return [
+    ["ads", "ADS 浏览器"],
+    ["default", "默认浏览器"]
+  ].map(([value, label]) => `<option value="${attr(value)}" ${selected === value ? "selected" : ""}>${esc(label)}</option>`).join("");
 }
 
 function unique(items) {
@@ -1815,6 +2447,31 @@ function contentLaneOptions(selected = "") {
     ["custom", "自定义"],
     ["none", "未分类"]
   ].map(([value, label]) => `<option value="${attr(value)}" ${selected === value ? "selected" : ""}>${esc(label)}</option>`).join("");
+}
+
+function sourceTierOptions(selected = "L1") {
+  return [
+    ["L0", "L0 付费源"],
+    ["L1", "L1 公开源"],
+    ["L2", "L2 社群源"]
+  ].map(([value, label]) => `<option value="${attr(value)}" ${selected === value ? "selected" : ""}>${esc(label)}</option>`).join("");
+}
+
+function sourceStatusOptions(selected = "active") {
+  return [
+    ["active", "启用"],
+    ["planned", "计划中"],
+    ["paused", "暂停"]
+  ].map(([value, label]) => `<option value="${attr(value)}" ${selected === value ? "selected" : ""}>${esc(label)}</option>`).join("");
+}
+
+function labelSourceStatus(value = "") {
+  const labels = {
+    active: "启用",
+    planned: "计划中",
+    paused: "暂停"
+  };
+  return labels[value] || value || "未设置";
 }
 
 function laneFromChoice(value = "") {
@@ -1936,6 +2593,27 @@ async function handleDesktopTaskAction(action, taskId) {
   if (!state.desktopMode) throw new Error("需要桌面版。");
   const task = state.data?.tasks.find((item) => item.taskId === taskId);
   if (!task) throw new Error("任务不存在。");
+  if (action === "move-to-connected-account") {
+    const account = primaryConnectedDesktopAccount();
+    if (!account) throw new Error("没有已连接的 X API 账号。请先连接 @guamee4。");
+    await updateTask(taskId, "assign", {
+      accountId: account.accountId,
+      assignedTo: task.assignedTo || state.managerUserId || "user_owner"
+    });
+    toast(`已改到 ${account.handle || account.persona || "已连接账号"}，现在可以发布到 X`);
+    return;
+  }
+  if (action === "publish-x") {
+    if (task.approvalStatus !== "approved") throw new Error("先确认任务，再发布到 X。");
+    if (!confirm("确认用 X API 发布这条文案？发布成功后会进入待反馈。")) return;
+    const result = await apiPost("/api/desktop/tasks/publish-x", {
+      taskId,
+      notes: "Published by explicit Desktop X API confirmation."
+    });
+    toast(result.postedUrl ? `发布成功：${result.postedUrl}` : "发布成功，已进入待反馈");
+    await loadDesktopManager();
+    return;
+  }
   if (action === "mark-posted") {
     const postedUrl = prompt("粘贴人工发布后的 X 链接（可留空稍后补）：", task.postedUrl || "");
     if (postedUrl === null) return;
@@ -2207,6 +2885,13 @@ function defaultXCallbackUrl() {
   return `http://127.0.0.1:${port}/api/oauth/x/callback`;
 }
 
+function formatDateTime(value = "") {
+  if (!value) return "未检查";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString("zh-CN", { hour12: false });
+}
+
 function labelLane(value = "") {
   const labels = {
     ai_startups: "AI 创业圈",
@@ -2251,6 +2936,14 @@ async function apiGet(path) {
   const json = await res.json();
   if (!json.ok) throw apiError(json, `GET ${path} failed`);
   return json.data;
+}
+
+async function safeApiGet(path) {
+  try {
+    return await apiGet(path);
+  } catch {
+    return null;
+  }
 }
 
 async function readStaticDemo() {

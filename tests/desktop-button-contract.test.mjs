@@ -7,6 +7,7 @@ const managerCss = await readFile(new URL("../manager/style.css", import.meta.ur
 const onboardingJs = await readFile(new URL("../manager/js/desktop-onboarding.js", import.meta.url), "utf8");
 const serverJs = [
   await readFile(new URL("../scripts/ops/serve-dashboard.mjs", import.meta.url), "utf8"),
+  await readFile(new URL("../scripts/lib/dashboard/api-get-routes.mjs", import.meta.url), "utf8"),
   await readFile(new URL("../scripts/lib/desktop/api-get-routes.mjs", import.meta.url), "utf8"),
   await readFile(new URL("../scripts/lib/desktop/api-post-routes.mjs", import.meta.url), "utf8")
 ].join("\n");

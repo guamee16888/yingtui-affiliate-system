@@ -8,13 +8,10 @@ import {
   loadAccountPosts,
   loadCandidateInbox,
   loadAffiliateLinks,
-  loadAffiliateResearch,
   loadFeedback,
   loadHistoryData,
   loadLatest,
-  loadQueues,
   loadReviewPages,
-  loadVoiceConfig,
   loadXAccountsConfig,
   saveReviewPages,
   upsertAccountPostFromFeedback,
@@ -25,43 +22,41 @@ import {
   updateCandidateStatus,
   updateQueueStatus
 } from "../lib/storage/interface.mjs";
-import { buildPromotionSuggestions } from "../lib/promotion-engine.mjs";
 import { buildReviewOutline, buildReviewRecord, reviewFilePath } from "../lib/review-outline.mjs";
 import { formatTodayPlanMarkdown } from "../lib/formatters.mjs";
 import { readJson, writeTextAtomic } from "../lib/file-store.mjs";
-import { buildWeeklyReport, generateWeeklyReport } from "../lib/weekly-report.mjs";
+import { generateWeeklyReport } from "../lib/weekly-report.mjs";
 import { mapFeedbackCsv } from "../lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "../lib/candidate-parser.mjs";
 import { evaluateCandidateQualityGate } from "../lib/candidate-quality-gate.mjs";
 import { buildHistoryIndex, candidateInboxToTools, scoreTool } from "../lib/affiliate-system.mjs";
 import { buildSeedImportNextActions, buildSeedImportReadiness } from "../lib/seed-batch-pack.mjs";
 import { buildAccountRefillImpact } from "../lib/account-refill-impact.mjs";
-import { buildDecisionReport } from "../lib/decision-engine.mjs";
-import { buildFeedbackOps, buildLearningLoop } from "../lib/feedback-ops.mjs";
+import { buildFeedbackOps } from "../lib/feedback-ops.mjs";
 import { calculateEngagement } from "../lib/scoring.mjs";
 import { getXPublishStatus, publishToX } from "../lib/x-publish.mjs";
 import { loadLocalEnv } from "../lib/env.mjs";
 import { createToolId, todayString } from "../lib/ids.mjs";
 import { findAccountById, normalizeAccountConfig, recommendedAccountIdForTool } from "../lib/account-system.mjs";
 import { getAccountXPublishStatus } from "../lib/x-publish.mjs";
-import { loadStaffSummary, updateStaffTaskAction } from "../lib/staff-system.mjs";
+import { updateStaffTaskAction } from "../lib/staff-system.mjs";
 import { loadManagerSummary, updateManagerTaskAction, updateManagerTaskBatchAction } from "../lib/manager-system.mjs";
 import {
   dryRunPublishJobs,
-  loadPublishSummary,
-  loadXConnectionsSummary,
   preparePublishJobs,
   runPublishJobs,
   updateAccountPublishMode,
   updatePublishJobStatus
 } from "../lib/publish-engine.mjs";
-import { PUBLISH_FILES, loadPublishCollection, loadPublishSettings } from "../lib/publish-data.mjs";
-import { ingestManualCandidates, loadCandidateSummary, loadLaneSummary, loadSourceLaneData, seedSourceLanes } from "../lib/source-lanes.mjs";
-import { loadWorkspaceSummary } from "../lib/workspace-system.mjs";
-import { getAppStorageMode } from "../lib/app-storage-mode.mjs";
+import { ingestManualCandidates, seedSourceLanes } from "../lib/source-lanes.mjs";
 import { getAppStorage } from "../lib/app-storage.mjs";
 import { handleAppApiGet, handleAppApiPost } from "../lib/app-api/session.mjs";
 import { appFailure } from "../lib/app-api/response.mjs";
+import {
+  defaultGlobalPublishAccountId,
+  guardD1ReservedRoute,
+  handleDashboardApiGet
+} from "../lib/dashboard/api-get-routes.mjs";
 import { handleDesktopApiGet } from "../lib/desktop/api-get-routes.mjs";
 import { handleDesktopApiPost } from "../lib/desktop/api-post-routes.mjs";
 import {
@@ -69,7 +64,6 @@ import {
   revokeDesktopXOAuth
 } from "../lib/storage/interface.mjs";
 import {
-  loadSourceNetworkConfig,
   refreshSourceNetworkReports,
   updateSourceNetworkSourceStatus,
   upsertSourceNetworkSource
@@ -191,7 +185,7 @@ async function handleApi(request, response, url) {
         );
         return;
       }
-      const data = await handleApiGet(url);
+      const data = await handleDashboardApiGet(url);
       sendJson(response, 200, { ok: true, data });
       return;
     }
@@ -217,155 +211,6 @@ async function handleApi(request, response, url) {
 async function sendWebResponse(response, webResponse) {
   response.writeHead(webResponse.status, Object.fromEntries(webResponse.headers.entries()));
   response.end(Buffer.from(await webResponse.arrayBuffer()));
-}
-
-async function handleApiGet(url) {
-  const pathname = url.pathname;
-  if (pathname === "/api/storage-mode") return { mode: getAppStorageMode(), d1Bound: false };
-  guardD1ReservedRoute(pathname);
-  if (pathname === "/api/latest") return loadLatest();
-  if (pathname === "/api/staff/summary") return loadStaffSummary({
-    workspaceId: url.searchParams.get("workspaceId") || "",
-    userId: url.searchParams.get("userId") || ""
-  });
-  if (pathname === "/api/manager/summary") return loadManagerSummary({
-    workspaceId: url.searchParams.get("workspaceId") || "",
-    managerUserId: url.searchParams.get("managerUserId") || ""
-  });
-  if (pathname === "/api/publish/settings") return loadPublishSettings();
-  if (pathname === "/api/publish/jobs") return filteredPublishJobs(url.searchParams.get("workspaceId") || "");
-  if (pathname === "/api/publish/summary") return loadPublishSummary({ workspaceId: url.searchParams.get("workspaceId") || "" });
-  if (pathname === "/api/workspaces") return (await loadSourceLaneData()).workspaces;
-  if (pathname === "/api/workspace/summary") return loadWorkspaceSummary();
-  if (pathname === "/api/lanes") return (await loadSourceLaneData()).contentLanes;
-  if (pathname === "/api/lanes/summary") return loadLaneSummary();
-  if (pathname === "/api/candidates") return (await loadSourceLaneData()).rawCandidates;
-  if (pathname === "/api/candidates/summary") return loadCandidateSummary();
-  if (pathname === "/api/source-runs") return (await loadSourceLaneData()).sourceRuns;
-  if (pathname === "/api/x/connections") return loadXConnectionsSummary();
-  if (pathname === "/api/history") return loadHistoryData();
-  if (pathname === "/api/candidate-inbox") return loadCandidateInbox();
-  if (pathname === "/api/feedback") return loadFeedback();
-  if (pathname === "/api/account-posts") return loadAccountPosts();
-  if (pathname === "/api/affiliate-links") return loadAffiliateLinks();
-  if (pathname === "/api/queues") return loadQueues();
-  if (pathname === "/api/review-pages") return loadReviewPages();
-  if (pathname === "/api/affiliate-research") return loadAffiliateResearch();
-  if (pathname === "/api/affiliate-research-workbench") return readJson("data/affiliate-research-workbench.json", null);
-  if (pathname === "/api/product-roadmap") return readJson("data/product-roadmap.json", null);
-  if (pathname === "/api/scale-readiness") return readJson("data/scale-readiness.json", null);
-  if (pathname === "/api/scale-ramp-plan") return readJson("data/scale-ramp-plan.json", null);
-  if (pathname === "/api/seed-batch-pack") return readJson("data/seed-batch-pack.json", null);
-  if (pathname === "/api/content-ops-plan") return readJson("data/content-ops-plan.json", null);
-  if (pathname === "/api/account-content-matrix") return readJson("data/account-content-matrix.json", null);
-  if (pathname === "/api/account-refill-workbench") return readJson("data/account-refill-workbench.json", null);
-  if (pathname === "/api/account-conflict-radar") return readJson("data/account-conflict-radar.json", null);
-  if (pathname === "/api/supply-gap-filler") return readJson("data/supply-gap-filler.json", null);
-  if (pathname === "/api/source-network") {
-    const [config, registry, quality, supply] = await Promise.all([
-      loadSourceNetworkConfig(),
-      readJson("data/source-registry.json", null),
-      readJson("data/source-quality.json", null),
-      readJson("data/source-supply.json", null)
-    ]);
-    return { config, registry, quality, supply };
-  }
-  if (pathname === "/api/content-calendar") {
-    const latest = await loadLatest();
-    return await readJson("data/content-calendar/latest.json", latest?.contentCalendar ?? null);
-  }
-  if (pathname === "/api/source-import-pack") return readJson("data/source-import-pack/latest.json", null);
-  if (pathname === "/api/settings") {
-    const [latest, history, voice, affiliateLinks, feedback, queues, reviews, affiliateResearch, candidateInbox, accountPosts] = await Promise.all([
-      loadLatest(),
-      loadHistoryData(),
-      loadVoiceConfig(),
-      loadAffiliateLinks(),
-      loadFeedback(),
-      loadQueues(),
-      loadReviewPages(),
-      loadAffiliateResearch(),
-      loadCandidateInbox(),
-      loadAccountPosts()
-    ]);
-    return {
-      latestDate: latest?.date ?? null,
-      historyCount: history.tools?.length ?? 0,
-      forbiddenWords: voice.style?.avoid ?? [],
-      maxTweetCharacters: voice.style?.maxTweetCharacters ?? 260,
-      affiliateLinks: affiliateLinks.links ?? [],
-      feedbackCount: feedback.entries?.length ?? 0,
-      accountPostCount: accountPosts.items?.length ?? 0,
-      queueCount: queues.items?.length ?? 0,
-      candidateInboxCount: candidateInbox.items?.length ?? 0,
-      reviewPageCount: reviews.items?.length ?? 0,
-      affiliateResearchCount: affiliateResearch.items?.length ?? 0
-    };
-  }
-  if (pathname === "/api/weekly-summary") {
-    const [latest, history, feedback, queues, affiliateLinks, weekly] = await Promise.all([
-      loadLatest(),
-      loadHistoryData(),
-      loadFeedback(),
-      loadQueues(),
-      loadAffiliateLinks(),
-      buildWeeklyReport()
-    ]);
-    return {
-      ...weekly.data,
-      latestDate: latest?.date ?? null,
-      historyCount: history.tools?.length ?? 0,
-      feedbackCount: feedback.entries?.length ?? 0,
-      queueCount: queues.items?.length ?? 0,
-      suggestions: buildPromotionSuggestions({ latest, history, feedback, affiliateLinks }).slice(0, 10)
-    };
-  }
-  if (pathname === "/api/decision-report") {
-    const [latest, history, feedback, queues, affiliateLinks] = await Promise.all([
-      loadLatest(),
-      loadHistoryData(),
-      loadFeedback(),
-      loadQueues(),
-      loadAffiliateLinks()
-    ]);
-    return buildDecisionReport({ latest, history, feedback, queues, affiliateLinks });
-  }
-  if (pathname === "/api/feedback-ops") {
-    const [latest, feedback, accountPosts, accountConfig] = await Promise.all([
-      loadLatest(),
-      loadFeedback(),
-      loadAccountPosts(),
-      loadXAccountsConfig()
-    ]);
-    return buildFeedbackOps({
-      date: latest?.date ?? todayString(),
-      latest,
-      feedback,
-      accountPosts,
-      accountConfig
-    });
-  }
-  if (pathname === "/api/learning-loop") {
-    const [latest, feedback, accountPosts, accountConfig] = await Promise.all([
-      loadLatest(),
-      loadFeedback(),
-      loadAccountPosts(),
-      loadXAccountsConfig()
-    ]);
-    const ops = buildFeedbackOps({
-      date: latest?.date ?? todayString(),
-      latest,
-      feedback,
-      accountPosts,
-      accountConfig
-    });
-    return {
-      version: 1,
-      ...buildLearningLoop({ ops })
-    };
-  }
-  if (pathname === "/api/x/status") return xStatusWithAccounts();
-  throw new Error(`Unknown API route: ${pathname}`);
 }
 
 function handleApiPost(pathname, body) {
@@ -439,13 +284,6 @@ function escapeHtml(value) {
     "\"": "&quot;",
     "'": "&#39;"
   }[char]));
-}
-
-function guardD1ReservedRoute(pathname) {
-  if (getAppStorageMode() !== "d1") return;
-  if (pathname.startsWith("/api/manager") || pathname.startsWith("/api/staff")) {
-    throw new Error("APP_STORAGE_MODE=d1 is reserved for app.guamee.org D1 MVP. This local server has no D1 binding yet; keep APP_STORAGE_MODE=json for the current dashboard.");
-  }
 }
 
 async function runDailyGeneration() {
@@ -569,44 +407,6 @@ async function runRoadmapGeneration() {
   };
 }
 
-async function xStatusWithAccounts() {
-  await loadLocalEnv();
-  const config = normalizeAccountConfig(await loadXAccountsConfig());
-  const globalStatus = getXPublishStatus();
-  const accountStatuses = config.accounts.map((account) => ({
-    account,
-    authStatus: getAccountXPublishStatus(account.id)
-  }));
-  const scopedReadyAccount = accountStatuses.find(({ account, authStatus }) => account.active && authStatus.publishReady);
-  const globalFallbackAccountId = !scopedReadyAccount && globalStatus.publishReady
-    ? defaultGlobalPublishAccountId(config)
-    : "";
-  const currentPublishAccountId = scopedReadyAccount?.account.id || globalFallbackAccountId || "";
-  return {
-    ...globalStatus,
-    currentPublishAccountId,
-    globalFallbackAccountId,
-    accounts: accountStatuses.map(({ account, authStatus }) => ({
-      accountId: account.id,
-      displayName: account.displayName,
-      handle: account.handle,
-      active: account.active,
-      authStatus: account.id === globalFallbackAccountId
-        ? getAccountXPublishStatus(account.id, process.env, new Date(), { useGlobalFallback: true })
-        : authStatus
-    }))
-  };
-}
-
-function defaultGlobalPublishAccountId(accountConfig) {
-  const configuredId = String(process.env.X_DEFAULT_ACCOUNT_ID || "").trim();
-  if (configuredId) {
-    const account = findAccountById(accountConfig, configuredId);
-    if (account?.active) return account.id;
-  }
-  return accountConfig.accounts.find((account) => account.active)?.id || "";
-}
-
 function runNodeScript(relativeScriptPath, label = "Script") {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [path.join(rootDir, relativeScriptPath)], {
@@ -630,15 +430,6 @@ function runNodeScript(relativeScriptPath, label = "Script") {
       else reject(new Error(`${label} failed (${code}): ${result.stderr || result.stdout || "no output"}`));
     });
   });
-}
-
-async function filteredPublishJobs(workspaceId = "") {
-  const jobs = await loadPublishCollection(PUBLISH_FILES.publishJobs);
-  if (!workspaceId) return jobs;
-  return {
-    ...jobs,
-    items: jobs.items.filter((job) => (job.workspaceId || "workspace_default") === workspaceId)
-  };
 }
 
 async function upsertFeedbackWithAccount(body) {

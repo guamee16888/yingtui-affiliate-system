@@ -15,7 +15,8 @@ import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 const serverSource = [
   await readFile(new URL("../scripts/ops/serve-dashboard.mjs", import.meta.url), "utf8"),
   await readFile(new URL("../scripts/lib/desktop/api-get-routes.mjs", import.meta.url), "utf8"),
-  await readFile(new URL("../scripts/lib/desktop/api-post-routes.mjs", import.meta.url), "utf8")
+  await readFile(new URL("../scripts/lib/desktop/api-post-routes.mjs", import.meta.url), "utf8"),
+  await readFile(new URL("../scripts/lib/dashboard/api-post-routes.mjs", import.meta.url), "utf8")
 ].join("\n");
 
 test("desktop server exposes the X OAuth routes", () => {

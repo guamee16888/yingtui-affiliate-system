@@ -42,7 +42,6 @@ import { calculateEngagement } from "../lib/scoring.mjs";
 import { getXPublishStatus, publishToX } from "../lib/x-publish.mjs";
 import { loadLocalEnv } from "../lib/env.mjs";
 import { createToolId, todayString } from "../lib/ids.mjs";
-import { fetchCurrentPublicIp } from "../lib/network-lock.mjs";
 import { findAccountById, normalizeAccountConfig, recommendedAccountIdForTool } from "../lib/account-system.mjs";
 import { getAccountXPublishStatus } from "../lib/x-publish.mjs";
 import { loadStaffSummary, updateStaffTaskAction } from "../lib/staff-system.mjs";
@@ -63,30 +62,12 @@ import { getAppStorageMode } from "../lib/app-storage-mode.mjs";
 import { getAppStorage } from "../lib/app-storage.mjs";
 import { handleAppApiGet, handleAppApiPost } from "../lib/app-api/session.mjs";
 import { appFailure } from "../lib/app-api/response.mjs";
+import { handleDesktopApiGet } from "../lib/desktop/api-get-routes.mjs";
 import { handleDesktopApiPost } from "../lib/desktop/api-post-routes.mjs";
 import {
-  exportDesktopAccountsCsv,
   finishDesktopXOAuthCallback,
-  loadDesktopRelationshipTargets,
-  loadDesktopSetupStatus,
-  loadDesktopXOAuthStatus,
-  revokeDesktopXOAuth,
-  startDesktopXOAuth
+  revokeDesktopXOAuth
 } from "../lib/storage/interface.mjs";
-import {
-  loadProxies,
-  getProxyById,
-  exportProxiesCsv
-} from "../lib/proxy-manager.mjs";
-import {
-  loadFingerprints,
-  getFingerprintById,
-  exportFingerprintsCsv,
-  generateRandomFingerprint
-} from "../lib/fingerprint-manager.mjs";
-import {
-  loadDesktopAdsBrowserStatus
-} from "../lib/ads-browser.mjs";
 import {
   loadSourceNetworkConfig,
   refreshSourceNetworkReports,
@@ -188,12 +169,6 @@ async function handleApi(request, response, url) {
     }
 
     if (request.method === "GET") {
-      // 特殊处理：指纹生成接口（GET，直接返回数据，不包裹 ok/data）
-      if (url.pathname === "/api/desktop/fingerprints/generate") {
-        const data = generateRandomFingerprint();
-        sendJson(response, 200, data);
-        return;
-      }
       if (url.pathname === "/api/oauth/x/callback") {
         try {
           const data = await finishDesktopXOAuthCallback({
@@ -207,11 +182,16 @@ async function handleApi(request, response, url) {
         }
         return;
       }
-      const data = await handleApiGet(url);
-      if (url.pathname === "/api/desktop/health") {
-        sendJson(response, 200, data);
+      const desktopResult = await handleDesktopApiGet(url);
+      if (desktopResult?.handled) {
+        sendJson(
+          response,
+          desktopResult.status,
+          desktopResult.wrap ? { ok: true, data: desktopResult.data } : desktopResult.data
+        );
         return;
       }
+      const data = await handleApiGet(url);
       sendJson(response, 200, { ok: true, data });
       return;
     }
@@ -241,42 +221,6 @@ async function sendWebResponse(response, webResponse) {
 
 async function handleApiGet(url) {
   const pathname = url.pathname;
-  if (pathname === "/api/desktop/health") return desktopHealth(url);
-  if (pathname === "/api/desktop/network/current-ip") return fetchCurrentPublicIp();
-  if (pathname === "/api/desktop/setup") return loadDesktopSetupStatus();
-  if (pathname === "/api/desktop/x-oauth/status") return loadDesktopXOAuthStatus();
-  if (pathname === "/api/desktop/ads-browser/status") return loadDesktopAdsBrowserStatus();
-  if (pathname === "/api/oauth/x/start") return startDesktopXOAuth();
-  if (pathname === "/api/desktop/accounts/export") {
-    return { csv: await exportDesktopAccountsCsv(url.searchParams.get("workspaceId") || "workspace_default") };
-  }
-  if (pathname === "/api/desktop/proxies") {
-    return loadProxies({ workspaceId: url.searchParams.get("workspaceId") || "workspace_default" });
-  }
-  if (pathname === "/api/desktop/proxies/export") {
-    return { csv: await exportProxiesCsv(url.searchParams.get("workspaceId") || "workspace_default") };
-  }
-  if (pathname.startsWith("/api/desktop/proxies/")) {
-    const proxyId = decodeURIComponent(pathname.slice("/api/desktop/proxies/".length));
-    return getProxyById(proxyId);
-  }
-  if (pathname === "/api/desktop/fingerprints") {
-    return loadFingerprints({ workspaceId: url.searchParams.get("workspaceId") || "workspace_default" });
-  }
-  if (pathname === "/api/desktop/fingerprints/export") {
-    return { csv: await exportFingerprintsCsv(url.searchParams.get("workspaceId") || "workspace_default") };
-  }
-  if (pathname.startsWith("/api/desktop/fingerprints/")) {
-    const fingerprintId = decodeURIComponent(pathname.slice("/api/desktop/fingerprints/".length));
-    return getFingerprintById(fingerprintId);
-  }
-  if (pathname.startsWith("/api/desktop/accounts/") && pathname.endsWith("/targets")) {
-    const accountId = decodeURIComponent(pathname.split("/")[4] || "");
-    return loadDesktopRelationshipTargets({
-      workspaceId: url.searchParams.get("workspaceId") || "workspace_default",
-      accountId
-    });
-  }
   if (pathname === "/api/storage-mode") return { mode: getAppStorageMode(), d1Bound: false };
   guardD1ReservedRoute(pathname);
   if (pathname === "/api/latest") return loadLatest();
@@ -422,18 +366,6 @@ async function handleApiGet(url) {
   }
   if (pathname === "/api/x/status") return xStatusWithAccounts();
   throw new Error(`Unknown API route: ${pathname}`);
-}
-
-function desktopHealth(url) {
-  const port = Number(process.env.AI_CREATOR_OS_DESKTOP_PORT || url.port || 0);
-  return {
-    ok: true,
-    mode: process.env.AI_CREATOR_OS_DESKTOP === "1" ? "desktop" : "web",
-    port,
-    storageMode: getAppStorageMode(),
-    desktopDataDir: process.env.AI_CREATOR_OS_DATA_DIR || "",
-    timestamp: new Date().toISOString()
-  };
 }
 
 function handleApiPost(pathname, body) {

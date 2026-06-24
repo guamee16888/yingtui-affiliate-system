@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "updatedAt": "",
+  "target": {
+    "dailyMinCandidates": 50,
+    "dailyMaxCandidates": 200,
+    "minimumScore": 60
+  },
+  "hub": {
+    "hubId": "openclaw_source_hub",
+    "name": "OpenClaw Source Hub",
+    "connectorId": "openclaw",
+    "notes": "Aggregates AI, Crypto, and Founder hunters into raw-candidates for AI Creator OS."
+  },
+  "llm": {
+    "enabled": true,
+    "provider": "zhipu",
+    "model": "glm-4.7",
+    "endpoint": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+    "apiKeyEnv": "ZHIPUAI_API_KEY",
+    "timeoutMs": 45000,
+    "acceptScore": 65,
+    "maxJudgementsPerRun": 120,
+    "thinking": "disabled"
+  },
+  "hunters": [
+    {
+      "hunterId": "openclaw_ai_hunter",
+      "name": "AI Hunter",
+      "dailyTarget": 80,
+      "minimumScore": 62,
+      "laneIds": ["ai_startups", "indie_builders", "saas_founders"],
+      "keywords": ["ai", "agent", "llm", "workflow", "automation", "developer tool", "mcp", "coding"],
+      "judgeProfile": {
+        "profileId": "ai_signal_judge",
+        "role": "AI / SaaS 内容情报评审",
+        "acceptWhen": ["新 AI 产品或 Agent 工作流", "开发者工具、MCP、自动化、生产力工具", "适合做 X 线程、观点帖或工具推荐"],
+        "rejectWhen": ["泛泛 AI 新闻", "只有营销口号没有产品细节", "招聘、政治、纯教程列表", "未授权 API 绕过、逆向私有接口、盗用/白嫖算力、规避付费"],
+        "outputFocus": ["产品亮点", "可传播角度", "适合账号类型"]
+      },
+      "sources": [
+        {
+          "sourceId": "openclaw_product_hunt_ai",
+          "sourceNetworkSourceId": "product_hunt",
+          "name": "Product Hunt AI/SaaS",
+          "type": "rss",
+          "status": "active",
+          "url": "https://www.producthunt.com/feed",
+          "laneIds": ["ai_startups", "indie_builders", "saas_founders"],
+          "qualityScore": 82,
+          "freshnessScore": 88,
+          "maxItems": 40,
+          "includeKeywords": ["ai", "agent", "automation", "workflow", "saas", "builder", "developer", "startup", "productivity", "analytics", "marketing", "sales", "support", "data", "tool", "app", "product"],
+          "excludeKeywords": ["giveaway", "coupon", "casino", "betting"]
+        },
+        {
+          "sourceId": "openclaw_hn_ai",
+          "sourceNetworkSourceId": "hacker_news",
+          "name": "Hacker News AI Builder Watch",
+          "type": "hn_algolia",
+          "status": "active",
+          "url": "https://hn.algolia.com/api/v1/search_by_date?query=AI%20agent%20workflow&tags=story&hitsPerPage=50",
+          "laneIds": ["ai_startups", "indie_builders"],
+          "qualityScore": 78,
+          "freshnessScore": 80,
+          "maxItems": 50,
+          "includeKeywords": ["ai", "agent", "llm", "workflow", "automation", "developer", "model", "prompt", "show hn", "launch", "open source", "tool"],
+          "excludeKeywords": ["job", "hiring", "politics"]
+        },
+        {
+          "sourceId": "openclaw_github_ai",
+          "sourceNetworkSourceId": "github_trending",
+          "name": "GitHub AI Repo Watch",
+          "type": "github_search",
+          "status": "active",
+          "url": "https://api.github.com/search/repositories?q=topic:ai+created:>{since}+stars:>20&sort=stars&order=desc&per_page=50",
+          "daysBack": 14,
+          "laneIds": ["ai_startups", "indie_builders"],
+          "qualityScore": 80,
+          "freshnessScore": 78,
+          "maxItems": 50,
+          "includeKeywords": ["agent", "llm", "ai", "mcp", "workflow", "automation", "developer"],
+          "excludeKeywords": ["awesome-list", "course", "tutorial-list", "copilot-api", "free gpt", "bypass", "reverse engineering", "unofficial api", "token steal", "credential"]
+        }
+      ]
+    },
+    {
+      "hunterId": "openclaw_crypto_hunter",
+      "name": "Crypto Hunter",
+      "dailyTarget": 60,
+      "minimumScore": 65,
+      "laneIds": ["crypto_builders"],
+      "keywords": ["base", "solana", "defi", "wallet", "onchain", "protocol", "developer", "dashboard"],
+      "judgeProfile": {
+        "profileId": "crypto_signal_judge",
+        "role": "Crypto / DeFi 内容情报评审",
+        "acceptWhen": ["协议、钱包、链上工具、开发者基础设施", "Base、Solana、DeFi、staking、lending、DEX 等建设者话题", "能转成链上观察、项目拆解或工具推荐"],
+        "rejectWhen": ["价格预测", "合约跟单", "杠杆交易", "中心化交易所噪音", "100x 暴富叙事"],
+        "outputFocus": ["协议价值", "链上/开发者角度", "风险标签"]
+      },
+      "sources": [
+        {
+          "sourceId": "openclaw_defillama",
+          "sourceNetworkSourceId": "defillama",
+          "name": "DefiLlama Protocol Watch",
+          "type": "defillama_protocols",
+          "status": "active",
+          "url": "https://api.llama.fi/protocols",
+          "laneIds": ["crypto_builders"],
+          "qualityScore": 82,
+          "freshnessScore": 80,
+          "maxItems": 60,
+          "includeKeywords": ["base", "solana", "defi", "wallet", "onchain", "protocol", "dex", "staking", "lending"],
+          "excludeKeywords": ["cex", "centralized exchange", "exchange", "trading", "spot", "perpetual", "price prediction", "signal", "leverage", "gambling"]
+        },
+        {
+          "sourceId": "openclaw_github_crypto",
+          "sourceNetworkSourceId": "github_trending",
+          "name": "GitHub Crypto Builder Watch",
+          "type": "github_search",
+          "status": "active",
+          "url": "https://api.github.com/search/repositories?q=topic:web3+created:>{since}+stars:>10&sort=stars&order=desc&per_page=50",
+          "daysBack": 30,
+          "laneIds": ["crypto_builders"],
+          "qualityScore": 76,
+          "freshnessScore": 78,
+          "maxItems": 50,
+          "includeKeywords": ["wallet", "onchain", "protocol", "defi", "smart contract", "solana", "base", "ethereum"],
+          "excludeKeywords": ["cex", "centralized exchange", "exchange", "trading", "spot", "perpetual", "price prediction", "signal", "leverage", "100x"]
+        }
+      ]
+    },
+    {
+      "hunterId": "openclaw_founder_hunter",
+      "name": "Founder Hunter",
+      "dailyTarget": 60,
+      "minimumScore": 60,
+      "laneIds": ["indie_builders", "saas_founders", "ai_startups"],
+      "keywords": ["founder", "saas", "pricing", "growth", "launch", "churn", "onboarding", "build in public"],
+      "judgeProfile": {
+        "profileId": "founder_signal_judge",
+        "role": "Founder / Growth 内容情报评审",
+        "acceptWhen": ["创业者真实问题", "SaaS 定价、增长、留存、启动、获客", "适合做经验帖、复盘帖或观点帖"],
+        "rejectWhen": ["招聘", "无泛化价值的个人碎片", "纯广告", "政治争议"],
+        "outputFocus": ["创业痛点", "可复用经验", "争议或讨论点"]
+      },
+      "sources": [
+        {
+          "sourceId": "openclaw_hn_founder",
+          "sourceNetworkSourceId": "hacker_news",
+          "name": "Hacker News Founder Watch",
+          "type": "hn_algolia",
+          "status": "active",
+          "url": "https://hn.algolia.com/api/v1/search_by_date?query=founder%20SaaS%20pricing%20growth&tags=story&hitsPerPage=50",
+          "laneIds": ["indie_builders", "saas_founders"],
+          "qualityScore": 76,
+          "freshnessScore": 76,
+          "maxItems": 50,
+          "includeKeywords": ["founder", "saas", "pricing", "growth", "launch", "churn", "onboarding", "startup", "show hn", "ask hn", "revenue", "marketing"],
+          "excludeKeywords": ["politics", "job", "hiring"]
+        },
+        {
+          "sourceId": "openclaw_hn_saas_launch",
+          "sourceNetworkSourceId": "hacker_news",
+          "name": "Hacker News SaaS Launch Watch",
+          "type": "hn_algolia",
+          "status": "active",
+          "url": "https://hn.algolia.com/api/v1/search_by_date?query=SaaS%20launch%20revenue%20onboarding&tags=story&hitsPerPage=50",
+          "laneIds": ["indie_builders", "saas_founders"],
+          "qualityScore": 74,
+          "freshnessScore": 76,
+          "maxItems": 50,
+          "includeKeywords": ["saas", "launch", "revenue", "onboarding", "pricing", "growth", "startup", "show hn", "founder"],
+          "excludeKeywords": ["politics", "job", "hiring"]
+        },
+        {
+          "sourceId": "openclaw_hn_indie_revenue",
+          "sourceNetworkSourceId": "hacker_news",
+          "name": "Hacker News Indie Revenue Watch",
+          "type": "hn_algolia",
+          "status": "active",
+          "url": "https://hn.algolia.com/api/v1/search_by_date?query=indie%20founder%20revenue%20growth&tags=story&hitsPerPage=50",
+          "laneIds": ["indie_builders", "saas_founders"],
+          "qualityScore": 72,
+          "freshnessScore": 74,
+          "maxItems": 50,
+          "includeKeywords": ["indie", "founder", "revenue", "growth", "launch", "startup", "build in public", "saas"],
+          "excludeKeywords": ["politics", "job", "hiring"]
+        },
+        {
+          "sourceId": "openclaw_product_hunt_saas",
+          "sourceNetworkSourceId": "product_hunt",
+          "name": "Product Hunt Founder/SaaS",
+          "type": "rss",
+          "status": "active",
+          "url": "https://www.producthunt.com/feed",
+          "laneIds": ["indie_builders", "saas_founders", "ai_startups"],
+          "qualityScore": 82,
+          "freshnessScore": 88,
+          "maxItems": 40,
+          "includeKeywords": ["saas", "founder", "startup", "growth", "marketing", "sales", "support", "automation", "productivity", "analytics", "data", "tool", "app", "product"],
+          "excludeKeywords": ["giveaway", "coupon", "casino", "betting"]
+        }
+      ]
+    }
+  ]
+}

@@ -20,3 +20,7 @@ db/seed/from-json.sql
 .wrangler/
 dashboard/*.bak-*
 .vercel
+
+# OpenClaw runtime reports and logs
+data/openclaw-source-hunter-latest.json
+output/*openclaw*

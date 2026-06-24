@@ -1,1 +1,1 @@
-export * from "../../desktop-data-store.mjs";
+export * from "../../desktop/index.mjs";

@@ -5,7 +5,7 @@ import test from "node:test";
 const appJs = await readFile(new URL("../manager/js/app.js", import.meta.url), "utf8");
 const managerCss = await readFile(new URL("../manager/style.css", import.meta.url), "utf8");
 const onboardingJs = await readFile(new URL("../manager/js/desktop-onboarding.js", import.meta.url), "utf8");
-const serverJs = await readFile(new URL("../scripts/serve-dashboard.mjs", import.meta.url), "utf8");
+const serverJs = await readFile(new URL("../scripts/ops/serve-dashboard.mjs", import.meta.url), "utf8");
 const desktopMainJs = await readFile(new URL("../desktop/main.mjs", import.meta.url), "utf8");
 
 test("manager UI data-action buttons have matching handlers", () => {

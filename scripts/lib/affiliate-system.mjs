@@ -371,7 +371,7 @@ export async function loadJsonConfig(relativePath, fallback, warnings) {
       return fallback;
     }
 
-    throw new Error(`Config error in ${relativePath}: ${error.message}`);
+    throw new Error(`Config error in ${relativePath}: ${error.message}`, { cause: error });
   }
 }
 
@@ -404,7 +404,6 @@ export async function loadHistory(warnings = []) {
     const history = JSON.parse(await readText(HISTORY_PATH));
     return {
       version: 1,
-      tools: [],
       ...history,
       tools: Array.isArray(history.tools) ? history.tools : []
     };
@@ -414,7 +413,7 @@ export async function loadHistory(warnings = []) {
       return { version: 1, tools: [] };
     }
 
-    throw new Error(`History error in ${HISTORY_PATH}: ${error.message}`);
+    throw new Error(`History error in ${HISTORY_PATH}: ${error.message}`, { cause: error });
   }
 }
 
@@ -449,7 +448,7 @@ export async function fetchFeedWithFallback(feedUrl, warnings) {
         usedFallback: true
       };
     } catch (fallbackError) {
-      throw new Error(`Feed failed and fallback sample is unavailable: ${fallbackError.message}`);
+      throw new Error(`Feed failed and fallback sample is unavailable: ${fallbackError.message}`, { cause: fallbackError });
     }
   }
 }

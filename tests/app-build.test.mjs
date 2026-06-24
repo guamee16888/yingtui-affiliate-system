@@ -3,8 +3,8 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { buildApp } from "../scripts/build-app.mjs";
-import { validateAppRelease } from "../scripts/check-app-release.mjs";
+import { buildApp } from "../scripts/build/build-app.mjs";
+import { validateAppRelease } from "../scripts/build/check-app-release.mjs";
 
 test("build:app includes app shell and manager app mode but excludes dashboard data", async () => {
   const distDir = tempDist("app");

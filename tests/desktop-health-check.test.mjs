@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import test from "node:test";
-import { checkDesktopHealth } from "../scripts/desktop-health-check.mjs";
-import { startDashboardServer } from "../scripts/serve-dashboard.mjs";
+import { checkDesktopHealth } from "../scripts/desktop/desktop-health-check.mjs";
+import { startDashboardServer } from "../scripts/ops/serve-dashboard.mjs";
 import { findDesktopPort } from "../desktop/app-config.mjs";
 
 test("desktop health check succeeds only when backend reports ok true", async () => {

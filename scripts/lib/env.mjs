@@ -4,7 +4,7 @@ import path from "node:path";
 export const defaultEnvPath = path.resolve(".env");
 
 export async function loadLocalEnv(filePath = defaultEnvPath, target = process.env) {
-  let text = "";
+  let text;
   try {
     text = await readFile(filePath, "utf8");
   } catch (error) {

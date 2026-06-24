@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
-import { readPngInfo } from "../scripts/desktop-mac-trial-smoke.mjs";
+import { readPngInfo } from "../scripts/desktop/desktop-mac-trial-smoke.mjs";
 
 test("mac icon assets exist and icon.png is at least 1024", async () => {
   await access("assets/icon.png");

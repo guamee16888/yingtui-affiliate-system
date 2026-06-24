@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
-import { cleanupDesktopRuntime } from "../scripts/desktop-runtime-cleanup.mjs";
+import { cleanupDesktopRuntime } from "../scripts/desktop/desktop-runtime-cleanup.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop runtime cleanup backs up data and removes visible legacy terms", async () => {
@@ -70,7 +70,7 @@ test("desktop runtime cleanup backs up data and removes visible legacy terms", a
 
 test("desktop runtime cleanup command is wired in package scripts", async () => {
   const pkg = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
-  assert.equal(pkg.scripts["desktop:runtime:cleanup"], "node scripts/desktop-runtime-cleanup.mjs");
+  assert.equal(pkg.scripts["desktop:runtime:cleanup"], "node scripts/desktop/desktop-runtime-cleanup.mjs");
 });
 
 async function writeJson(file, data) {

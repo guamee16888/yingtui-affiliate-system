@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { emptyCollection, DEFAULT_CONTENT_RULES } from "../scripts/lib/core-data.mjs";
-import { buildCoreMigration } from "../scripts/migrate-core-data.mjs";
+import { buildCoreMigration } from "../scripts/ops/migrate-core-data.mjs";
 
 function emptyCore() {
   return {

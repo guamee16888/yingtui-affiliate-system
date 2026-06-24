@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { DESKTOP_VISIBLE_FORBIDDEN_TERMS, findForbiddenVisibleTerms } from "../scripts/desktop-visible-text-audit.mjs";
+import { DESKTOP_VISIBLE_FORBIDDEN_TERMS, findForbiddenVisibleTerms } from "../scripts/desktop/desktop-visible-text-audit.mjs";
 
 test("desktop visible text audit flags forbidden page terms with snippets", () => {
   const findings = findForbiddenVisibleTerms([
@@ -32,7 +32,7 @@ test("desktop visible text audit allows current toolbox wording", () => {
 
 test("desktop visible text audit command is wired in package scripts", async () => {
   const pkg = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
-  assert.equal(pkg.scripts["desktop:ui:audit"], "node scripts/desktop-visible-text-audit.mjs");
+  assert.equal(pkg.scripts["desktop:ui:audit"], "node scripts/desktop/desktop-visible-text-audit.mjs");
   for (const term of ["演示账号", "账号状态", "时区", "America/New_York", "shortPost", "下一版接入"]) {
     assert.ok(DESKTOP_VISIBLE_FORBIDDEN_TERMS.includes(term));
   }

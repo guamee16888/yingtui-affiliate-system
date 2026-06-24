@@ -1,5 +1,5 @@
 import { CORE_COLLECTIONS, emptyCollection, loadCollection, normalizeCollection, saveCollection, withUpdatedAt } from "./core-data.mjs";
-import { loadFeedback, saveFeedback } from "./data-store.mjs";
+import { loadFeedback, saveFeedback } from "./storage/interface.mjs";
 import { PUBLISH_FILES, loadPublishCollection, savePublishCollection } from "./publish-data.mjs";
 import { buildSourceLaneSeed, loadSourceLaneData, saveSourceLaneData, workspaceLaneIds } from "./source-lanes.mjs";
 

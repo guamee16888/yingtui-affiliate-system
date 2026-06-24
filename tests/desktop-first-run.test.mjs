@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import path from "node:path";
-import { completeDesktopSetup, loadDesktopSetupStatus } from "../scripts/lib/desktop-data-store.mjs";
+import { completeDesktopSetup, loadDesktopSetupStatus } from "../scripts/lib/storage/interface.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop first run initializes appData outside repo data", async () => {

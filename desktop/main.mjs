@@ -9,7 +9,7 @@ import {
 } from "./browser-window-manager.mjs";
 import { installDesktopMenu } from "./menu.mjs";
 import { buildDesktopManagerUrl, resolveDesktopLoadUrl } from "./runtime-url.mjs";
-import { appendDesktopLog, exportDesktopBackupPackage } from "../scripts/lib/desktop-data-store.mjs";
+import { appendDesktopLog, exportDesktopBackupPackage } from "../scripts/lib/storage/interface.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const host = "127.0.0.1";
@@ -65,7 +65,7 @@ async function startEmbeddedBackend({ appDataDir }) {
   const port = await findDesktopPort({ host });
   process.env.AI_CREATOR_OS_DESKTOP_PORT = String(port);
   process.env.AI_CREATOR_OS_DATA_DIR = appDataDir;
-  const { startDashboardServer } = await import("../scripts/serve-dashboard.mjs");
+  const { startDashboardServer } = await import("../scripts/ops/serve-dashboard.mjs");
   backendServer = startDashboardServer({
     host,
     port,

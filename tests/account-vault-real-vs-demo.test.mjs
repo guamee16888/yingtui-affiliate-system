@@ -5,7 +5,7 @@ import {
   exportDesktopAccountsCsv,
   importDesktopAccounts,
   upsertDesktopAccount
-} from "../scripts/lib/desktop-data-store.mjs";
+} from "../scripts/lib/storage/interface.mjs";
 import { CORE_COLLECTIONS, loadCollection } from "../scripts/lib/core-data.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 

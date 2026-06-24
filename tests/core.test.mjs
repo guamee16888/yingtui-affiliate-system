@@ -6,7 +6,7 @@ import { tmpdir } from "node:os";
 import { createToolId, slugify } from "../scripts/lib/ids.mjs";
 import { calculateEngagement } from "../scripts/lib/scoring.mjs";
 import { readJson, writeJsonAtomic } from "../scripts/lib/file-store.mjs";
-import { buildAccountPost, buildCandidateItem, buildFeedbackEntry, buildQueueItem } from "../scripts/lib/data-store.mjs";
+import { buildAccountPost, buildCandidateItem, buildFeedbackEntry, buildQueueItem } from "../scripts/lib/storage/interface.mjs";
 import { buildReviewOutline } from "../scripts/lib/review-outline.mjs";
 import { mapFeedbackCsv, parseCsv } from "../scripts/lib/csv-feedback.mjs";
 import { parseCandidatePaste } from "../scripts/lib/candidate-parser.mjs";

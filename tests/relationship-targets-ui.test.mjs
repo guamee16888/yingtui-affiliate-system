@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { addDesktopRelationshipTargets, completeDesktopSetup, importDesktopAccounts, updateDesktopRelationshipTargetStatus } from "../scripts/lib/desktop-data-store.mjs";
+import { addDesktopRelationshipTargets, completeDesktopSetup, importDesktopAccounts, updateDesktopRelationshipTargetStatus } from "../scripts/lib/storage/interface.mjs";
 import { readJson } from "../scripts/lib/file-store.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 

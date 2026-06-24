@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { classifyAppStagingResponse, parseVerifyAppStagingArgs, verifyAppStaging } from "../scripts/verify-app-staging.mjs";
+import { classifyAppStagingResponse, parseVerifyAppStagingArgs, verifyAppStaging } from "../scripts/build/verify-app-staging.mjs";
 
 test("verify-app-staging treats Access redirects and forbidden statuses as protected", () => {
   for (const status of [302, 401, 403]) {

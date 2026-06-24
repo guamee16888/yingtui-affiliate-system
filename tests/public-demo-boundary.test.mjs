@@ -19,7 +19,7 @@ test("manager page is the only public app entry and hides staff nav", async () =
 });
 
 test("public build script does not copy private dashboard or staff surfaces", async () => {
-  const script = await readFile("scripts/build-public-demo.mjs", "utf8");
+  const script = await readFile("scripts/build/build-public-demo.mjs", "utf8");
   assert.doesNotMatch(script, /for \(const dirname of \[[^\]]*"dashboard"/);
   assert.doesNotMatch(script, /for \(const dirname of \[[^\]]*"staff"/);
   assert.ok(script.includes("demo-manager-summary.json"));

@@ -9,10 +9,10 @@ import {
   revokeDesktopXOAuth,
   saveDesktopXOAuthConfig,
   startDesktopXOAuth
-} from "../scripts/lib/desktop-data-store.mjs";
+} from "../scripts/lib/storage/interface.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
-const serverSource = await readFile(new URL("../scripts/serve-dashboard.mjs", import.meta.url), "utf8");
+const serverSource = await readFile(new URL("../scripts/ops/serve-dashboard.mjs", import.meta.url), "utf8");
 
 test("desktop server exposes the X OAuth routes", () => {
   for (const route of [

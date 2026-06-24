@@ -13,7 +13,7 @@ import {
   publishDesktopTaskToX,
   saveDesktopXOAuthConfig,
   startDesktopXOAuth
-} from "../scripts/lib/desktop-data-store.mjs";
+} from "../scripts/lib/storage/interface.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop task workbench creates and marks manual post tasks", async () => {

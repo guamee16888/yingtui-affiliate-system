@@ -16,7 +16,7 @@ export async function getAuthContext(request, options = {}) {
     throw new AppApiError("DEV_EMAIL_DISABLED", "staging/production 环境不能使用 devEmail。", 403);
   }
 
-  let email = "";
+  let email;
   if (strictAppEnv) {
     const payload = await getCloudflareAccessPayload(request, options);
     email = normalizeEmail(payload.email);

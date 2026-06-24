@@ -1,5 +1,5 @@
 import { todayString } from "./ids.mjs";
-import { loadFeedback, loadHistoryData, loadLatest, loadQueues } from "./data-store.mjs";
+import { loadFeedback, loadHistoryData, loadLatest, loadQueues } from "./storage/interface.mjs";
 import { writeJsonAtomic, writeTextAtomic } from "./file-store.mjs";
 
 export async function generateWeeklyReport(date = todayString()) {

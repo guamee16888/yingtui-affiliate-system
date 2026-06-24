@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { archiveDesktopAccount, completeDesktopSetup, importDesktopAccounts } from "../scripts/lib/desktop-data-store.mjs";
+import { archiveDesktopAccount, completeDesktopSetup, importDesktopAccounts } from "../scripts/lib/storage/interface.mjs";
 import { loadCollection, CORE_COLLECTIONS } from "../scripts/lib/core-data.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 

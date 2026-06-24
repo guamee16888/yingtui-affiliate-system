@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { classifyAppAccessResponse, parseVerifyArgs, verifyAppAccess } from "../scripts/verify-app-access.mjs";
+import { classifyAppAccessResponse, parseVerifyArgs, verifyAppAccess } from "../scripts/build/verify-app-access.mjs";
 
 test("verify-app-access flags publicly visible app placeholder", () => {
   const result = classifyAppAccessResponse({

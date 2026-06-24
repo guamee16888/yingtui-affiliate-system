@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { runMacTrialSmoke } from "../scripts/desktop-mac-trial-smoke.mjs";
+import { runMacTrialSmoke } from "../scripts/desktop/desktop-mac-trial-smoke.mjs";
 
 test("mac trial smoke reports missing DMG", async () => {
   const { packageDir, releaseDir } = await makeTrialFixture();
@@ -53,7 +53,7 @@ async function writeCleanPackage(packageDir) {
     "desktop/browser-window-manager.mjs",
     "desktop/seed-data/workspaces.json",
     "manager/index.html",
-    "scripts/serve-dashboard.mjs"
+    "scripts/ops/serve-dashboard.mjs"
   ]) {
     await writePackageFile(packageDir, `${appRoot}/Resources/app/${file}`, "demo");
   }

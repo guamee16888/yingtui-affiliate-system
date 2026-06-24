@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { classifyAdminAccessResponse, parseVerifyArgs, verifyAdminAccess } from "../scripts/verify-admin-access.mjs";
+import { classifyAdminAccessResponse, parseVerifyArgs, verifyAdminAccess } from "../scripts/build/verify-admin-access.mjs";
 
 test("verify-admin-access flags publicly visible admin demo", () => {
   const result = classifyAdminAccessResponse({

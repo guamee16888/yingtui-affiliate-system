@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { completeDesktopSetup, createDesktopTask, importDesktopAccounts, markDesktopTaskPosted, saveDesktopFeedback } from "../scripts/lib/desktop-data-store.mjs";
+import { completeDesktopSetup, createDesktopTask, importDesktopAccounts, markDesktopTaskPosted, saveDesktopFeedback } from "../scripts/lib/storage/interface.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop feedback stores non-negative metrics without NaN and completes task", async () => {

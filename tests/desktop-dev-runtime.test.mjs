@@ -4,7 +4,7 @@ import { createServer } from "node:net";
 import test from "node:test";
 import { canListen, DEFAULT_DESKTOP_PORT, findDesktopPort, getDesktopAppDataDir } from "../desktop/app-config.mjs";
 import { buildDesktopManagerUrl, resolveDesktopLoadUrl } from "../desktop/runtime-url.mjs";
-import { assertDesktopWorktree, resolveElectronBin } from "../scripts/desktop-dev.mjs";
+import { assertDesktopWorktree, resolveElectronBin } from "../scripts/desktop/desktop-dev.mjs";
 
 test("desktop dev URL carries desktop app mode and local dev email", () => {
   const url = new URL(buildDesktopManagerUrl({ port: 5288 }));

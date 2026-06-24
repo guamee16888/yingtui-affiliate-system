@@ -3,8 +3,8 @@ import { readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { buildAdminDemo } from "../scripts/build-admin-demo.mjs";
-import { validateAdminRelease } from "../scripts/check-admin-release.mjs";
+import { buildAdminDemo } from "../scripts/build/build-admin-demo.mjs";
+import { validateAdminRelease } from "../scripts/build/check-admin-release.mjs";
 
 test("build:admin-demo includes protected dashboard with sanitized data", async () => {
   const distDir = tempDist("admin-build");

@@ -3,7 +3,7 @@ import {
   buildIncognitoAccountWindowConfig,
   buildPersistentAccountWindowConfig
 } from "../scripts/lib/desktop-browser-launcher.mjs";
-import { recordDesktopWindowOpen } from "../scripts/lib/desktop-data-store.mjs";
+import { recordDesktopWindowOpen } from "../scripts/lib/storage/interface.mjs";
 
 const accountWindows = new Set();
 

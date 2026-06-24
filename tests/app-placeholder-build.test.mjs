@@ -3,8 +3,8 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { buildAppPlaceholder } from "../scripts/build-app-placeholder.mjs";
-import { validateAppPlaceholderRelease } from "../scripts/check-app-placeholder-release.mjs";
+import { buildAppPlaceholder } from "../scripts/build/build-app-placeholder.mjs";
+import { validateAppPlaceholderRelease } from "../scripts/build/check-app-placeholder-release.mjs";
 
 test("build:app-placeholder outputs only the protected app placeholder", async () => {
   const distDir = tempDist("app-placeholder");

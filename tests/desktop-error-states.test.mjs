@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { importDesktopBackup } from "../scripts/lib/desktop-data-store.mjs";
+import { importDesktopBackup } from "../scripts/lib/storage/interface.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop backup import reports a friendly invalid-format error", async () => {

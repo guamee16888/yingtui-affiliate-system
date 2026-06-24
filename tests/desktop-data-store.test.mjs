@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
-import { completeDesktopSetup, exportDesktopBackupPackage, resetDesktopDemoData } from "../scripts/lib/desktop-data-store.mjs";
+import { completeDesktopSetup, exportDesktopBackupPackage, resetDesktopDemoData } from "../scripts/lib/storage/interface.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop demo seed and backup package write to appData", async () => {

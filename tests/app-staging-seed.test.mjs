@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { validateAppStagingSeed } from "../scripts/seed-app-staging.mjs";
+import { validateAppStagingSeed } from "../scripts/d1/seed-app-staging.mjs";
 
 test("app staging seed is safe and idempotent", async () => {
   const result = await validateAppStagingSeed();

@@ -1652,7 +1652,7 @@ Dashboard 打不开：
 
 - 优先运行 `npm start`，它会自动避开被占用端口。
 - 打开 `http://127.0.0.1:4173/dashboard/`。
-- 如果端口被占用，可以运行 `node scripts/dashboard.mjs --port 4174`。
+- 如果端口被占用，可以运行 `node scripts/ops/dashboard.mjs --port 4174`。
 
 `latest.json` 不存在：
 

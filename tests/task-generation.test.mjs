@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildPostTasks } from "../scripts/generate-post-tasks.mjs";
+import { buildPostTasks } from "../scripts/publish/generate-post-tasks.mjs";
 
 test("task generation creates one pending review task and stays idempotent", () => {
   const base = {

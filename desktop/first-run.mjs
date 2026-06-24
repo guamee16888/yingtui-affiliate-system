@@ -1,4 +1,4 @@
-import { loadDesktopSetupStatus, completeDesktopSetup } from "../scripts/lib/desktop-data-store.mjs";
+import { loadDesktopSetupStatus, completeDesktopSetup } from "../scripts/lib/storage/interface.mjs";
 
 export async function shouldShowFirstRunWizard() {
   const status = await loadDesktopSetupStatus();

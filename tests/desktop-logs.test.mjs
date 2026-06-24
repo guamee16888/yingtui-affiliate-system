@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
-import { appendDesktopLog } from "../scripts/lib/desktop-data-store.mjs";
+import { appendDesktopLog } from "../scripts/lib/storage/interface.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop logs are written under appData and redact sensitive fields", async () => {

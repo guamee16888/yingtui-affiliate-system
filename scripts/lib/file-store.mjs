@@ -65,7 +65,7 @@ export async function readJson(filePath, fallback = null) {
   } catch (error) {
     if (error.code === "ENOENT") return fallback;
     if (error instanceof SyntaxError) {
-      throw new Error(`JSON parse failed for ${filePath}. Original file was kept unchanged. ${error.message}`);
+      throw new Error(`JSON parse failed for ${filePath}. Original file was kept unchanged. ${error.message}`, { cause: error });
     }
     throw error;
   }

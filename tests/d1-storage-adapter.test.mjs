@@ -229,7 +229,7 @@ class FakeStatement {
       rows = rows.filter((row) => row.status === status);
     }
     if (lower.includes("account_id = ?")) {
-      const accountId = this.params[index++];
+      const accountId = this.params[index];
       rows = rows.filter((row) => row.account_id === accountId);
     }
     return rows.sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)) || String(a.task_id).localeCompare(String(b.task_id)));

@@ -1,5 +1,5 @@
 import { CORE_COLLECTIONS, loadCollection, loadContentRules, saveCollection } from "./core-data.mjs";
-import { loadFeedback } from "./data-store.mjs";
+import { loadFeedback } from "./storage/interface.mjs";
 import { checkTaskDuplicateRisk } from "./duplicate-checker.mjs";
 import { PUBLISH_FILES, loadPublishCollection } from "./publish-data.mjs";
 import { SOURCE_LANE_FILES } from "./source-lanes.mjs";

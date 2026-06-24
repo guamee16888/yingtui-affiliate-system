@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildCustomerSql, parseArgs } from "../scripts/app-create-customer.mjs";
+import { buildCustomerSql, parseArgs } from "../scripts/d1/app-create-customer.mjs";
 
 test("customer create SQL provisions workspace manager lanes accounts and audit log", () => {
   const sql = buildCustomerSql({

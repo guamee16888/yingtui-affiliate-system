@@ -3,8 +3,8 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { buildPublicDemo } from "../scripts/build-public-demo.mjs";
-import { validatePublicRelease } from "../scripts/check-public-release.mjs";
+import { buildPublicDemo } from "../scripts/build/build-public-demo.mjs";
+import { validatePublicRelease } from "../scripts/build/check-public-release.mjs";
 
 test("build:public excludes private dashboard staff and real data", async () => {
   const distDir = await tempDist("public-build");

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { completeDesktopSetup, exportDesktopAccountsCsv, exportDesktopBackupPackage, loadDesktopSetupStatus } from "../scripts/lib/desktop-data-store.mjs";
+import { completeDesktopSetup, exportDesktopAccountsCsv, exportDesktopBackupPackage, loadDesktopSetupStatus } from "../scripts/lib/storage/interface.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 
 test("desktop settings expose local dirs and export actions", async () => {

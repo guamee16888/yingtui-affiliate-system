@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { findSensitiveText, runDesktopPackageCheck } from "../scripts/desktop-package-check.mjs";
+import { findSensitiveText, runDesktopPackageCheck } from "../scripts/desktop/desktop-package-check.mjs";
 
 test("desktop package check passes a clean app bundle shape", async () => {
   const root = await makePackageRoot();
@@ -20,7 +20,7 @@ test("desktop package check passes a clean app bundle shape", async () => {
     "desktop/browser-window-manager.mjs",
     "desktop/seed-data/workspaces.json",
     "manager/index.html",
-    "scripts/serve-dashboard.mjs"
+    "scripts/ops/serve-dashboard.mjs"
   ]) {
     await writePackageFile(appRoot, file, "demo");
   }

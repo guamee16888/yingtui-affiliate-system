@@ -6,7 +6,7 @@ import {
   saveDesktopAdsBrowserConfig,
   testDesktopAdsBrowserConfig
 } from "../scripts/lib/ads-browser.mjs";
-import { completeDesktopSetup, ensureDesktopAccountSlots, importDesktopAccounts, updateDesktopAccountConfig } from "../scripts/lib/desktop-data-store.mjs";
+import { completeDesktopSetup, ensureDesktopAccountSlots, importDesktopAccounts, updateDesktopAccountConfig } from "../scripts/lib/storage/interface.mjs";
 import { CORE_COLLECTIONS, loadCollection } from "../scripts/lib/core-data.mjs";
 import { withDesktopTestEnv } from "./helpers/desktop-test-env.mjs";
 

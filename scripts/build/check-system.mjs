@@ -1,0 +1,744 @@
+import { execFileSync } from "node:child_process";
+import { access, readFile } from "node:fs/promises";
+import path from "node:path";
+import { ACTIVE_TASK_STATUSES, CORE_COLLECTIONS, CONTENT_RULES_PATH, loadCollection, loadContentRules } from "../lib/core-data.mjs";
+import { loadManagerSummary } from "../lib/manager-system.mjs";
+import { readJson, rootDir } from "../lib/file-store.mjs";
+import { loadStaffSummary } from "../lib/staff-system.mjs";
+import { SOURCE_LANE_FILES } from "../lib/source-lanes.mjs";
+import { DEFAULT_PUBLISH_SETTINGS, PUBLISH_FILES } from "../lib/publish-data.mjs";
+
+const requiredFiles = [
+  "package.json",
+  "data/latest.json",
+  "data/history.json",
+  "data/feedback.json",
+  "data/queues.json",
+  "data/account-posts.json",
+  "data/source-candidates.json",
+  "data/account-content-matrix.json",
+  "data/account-refill-workbench.json",
+  "data/content-ops-plan.json",
+  "data/affiliate-research.json",
+  "data/review-pages.json",
+  "data/audit-logs.json",
+  "config/affiliate-links.json",
+  "config/x-accounts.json",
+  "config/content-sources.json",
+  "config/voice.json",
+  "dashboard/index.html",
+  "dashboard/js/app.js",
+  "dashboard/style.css",
+  "staff/index.html",
+  "staff/js/app.js",
+  "staff/style.css",
+  "manager/index.html",
+  "manager/js/app.js",
+  "manager/style.css",
+  "desktop/main.mjs",
+  "desktop/preload.mjs",
+  "desktop/browser-window-manager.mjs",
+  "desktop/menu.mjs",
+  "desktop/app-config.mjs",
+  "desktop/runtime-url.mjs",
+  "desktop/README.md",
+  "desktop/seed-data/workspaces.json",
+  "assets/README.md",
+  "electron-builder.yml",
+  "docs/desktop/windows-packaging.md",
+  "app-placeholder/index.html",
+  "app-placeholder/styles.css",
+  "docs/deployment/app-placeholder.md",
+  "docs/deployment/app-cloudflare-staging.md",
+  "docs/deployment/app-pages-project.md",
+  "docs/deployment/app-access-d1-checklist.md",
+  "db/migrations/0001_initial.sql",
+  "db/migrations/0002_app_entitlements.sql",
+  "db/seed/demo.sql",
+  "db/seed/app-staging-demo.sql",
+  "wrangler.jsonc",
+  "scripts/lib/app-storage-mode.mjs",
+  "scripts/lib/app-storage.mjs",
+  "scripts/lib/app-api/session.mjs",
+  "scripts/lib/app-api/auth-context.mjs",
+  "scripts/lib/app-api/cloudflare-access-auth.mjs",
+  "scripts/lib/app-api/discord-auth.mjs",
+  "scripts/lib/app-api/discord-routes.mjs",
+  "scripts/lib/app-api/workspace-scope.mjs",
+  "scripts/lib/app-api/response.mjs",
+  "scripts/lib/app-api/manager-routes.mjs",
+  "scripts/lib/app-api/staff-routes.mjs",
+  "scripts/lib/account-health-engine.mjs",
+  "scripts/lib/desktop-browser-launcher.mjs",
+  "scripts/lib/relationship-targets.mjs",
+  "scripts/lib/d1-storage-adapter.mjs",
+  "scripts/lib/json-to-d1-mapper.mjs",
+  "scripts/d1/migrate-json-to-d1.mjs",
+  "scripts/d1/d1-status.mjs",
+  "scripts/d1/d1-reset-local.mjs",
+  "scripts/d1/app-d1-status.mjs",
+  "scripts/d1/app-d1-create-staging.mjs",
+  "scripts/d1/app-d1-remote.mjs",
+  "scripts/d1/seed-app-staging.mjs",
+  "scripts/build/build-app.mjs",
+  "scripts/build/build-app-placeholder.mjs",
+  "scripts/build/check-app-release.mjs",
+  "scripts/build/check-app-placeholder-release.mjs",
+  "scripts/desktop/check-desktop.mjs",
+  "scripts/desktop/desktop-dev.mjs",
+  "scripts/desktop/desktop-health-check.mjs",
+  "scripts/desktop/desktop-doctor.mjs",
+  "scripts/desktop/desktop-package-check.mjs",
+  "scripts/desktop/desktop-release-mac-trial.mjs",
+  "scripts/desktop/desktop-mac-trial-smoke.mjs",
+  "scripts/desktop/generate-mac-icon.mjs",
+  "scripts/build/verify-app-access.mjs",
+  "scripts/build/verify-app-staging.mjs",
+  "functions/api/app/v1/[[path]].mjs",
+  "data/relationship-targets.json",
+  ...Object.values(PUBLISH_FILES),
+  ...Object.values(SOURCE_LANE_FILES),
+  ...Object.values(CORE_COLLECTIONS),
+  CONTENT_RULES_PATH
+];
+
+const requiredScripts = [
+  "daily",
+  "daily:top10",
+  "dashboard",
+  "history",
+  "affiliate-queue",
+  "affiliate:research",
+  "core:migrate",
+  "tasks:generate",
+  "tasks:summary",
+  "staff:summary",
+  "manager:summary",
+  "ledger:summary",
+  "publish:prepare",
+  "publish:dry-run",
+  "publish:run",
+  "publish:summary",
+  "x:connections",
+  "workspace:migrate",
+  "workspace:summary",
+  "lanes:seed",
+  "lanes:summary",
+  "candidates:ingest",
+  "candidates:summary",
+  "candidates:convert",
+  "sources",
+  "source-discovery",
+  "source-health",
+  "source-queue",
+  "source-pack",
+  "draft-plan",
+  "content-calendar",
+  "account-matrix",
+  "refill-workbench",
+  "content-ops-plan",
+  "roadmap",
+  "accounts",
+  "feedback",
+  "feedback-ops",
+  "decisions",
+  "promote",
+  "promotion-review",
+  "review:queue",
+  "review:generate",
+  "today-plan",
+  "weekly",
+  "backend:contract",
+  "git:safety",
+  "d1:status",
+  "d1:migrate:local",
+  "d1:seed:local",
+  "d1:reset:local",
+  "d1:migrate:dry-run",
+  "d1:export-sql",
+  "d1:import:local",
+  "app:d1:status",
+  "app:d1:create:staging",
+  "app:d1:migrate:staging",
+  "app:d1:seed:staging",
+  "app:seed:staging-sql",
+  "admin:preflight",
+  "verify:admin-access",
+  "verify:app-access",
+  "verify:app-staging",
+  "demo:sanitize",
+  "build:public",
+  "build:admin-demo",
+  "build:app",
+  "build:app-placeholder",
+  "build:demo",
+  "release:check:public",
+  "release:check:admin",
+  "release:check:app",
+  "release:check:app-placeholder",
+  "release:check",
+  "check",
+  "desktop:dev",
+  "desktop:doctor",
+  "desktop:pack",
+  "desktop:pack:dir",
+  "desktop:pack:mac",
+  "desktop:pack:win",
+  "desktop:package-check",
+  "desktop:smoke:mac",
+  "desktop:smoke:packaged",
+  "desktop:release:mac-trial",
+  "desktop:smoke:mac-trial",
+  "icon:mac",
+  "desktop:check",
+  "test"
+];
+
+const passed = [];
+const warnings = [];
+const errors = [];
+const jsonCache = {
+  "data/feedback.json": await readJson("data/feedback.json", { entries: [] }),
+  "data/history.json": await readJson("data/history.json", { tools: [] }),
+  "config/affiliate-links.json": await readJson("config/affiliate-links.json", { links: [] }),
+  "config/voice.json": await readJson("config/voice.json", { style: { avoid: [] } }),
+  "config/x-accounts.json": await readJson("config/x-accounts.json", { accounts: [] }),
+  "config/content-sources.json": await readJson("config/content-sources.json", { sources: [], circles: [], dailyTargets: {} }),
+  [SOURCE_LANE_FILES.contentLanes]: await readJson(SOURCE_LANE_FILES.contentLanes, { items: [] }),
+  [SOURCE_LANE_FILES.workspaces]: await readJson(SOURCE_LANE_FILES.workspaces, { items: [] }),
+  [SOURCE_LANE_FILES.workspaceLanes]: await readJson(SOURCE_LANE_FILES.workspaceLanes, { items: [] }),
+  [SOURCE_LANE_FILES.sourceConnectors]: await readJson(SOURCE_LANE_FILES.sourceConnectors, { items: [] }),
+  [SOURCE_LANE_FILES.sourceFeeds]: await readJson(SOURCE_LANE_FILES.sourceFeeds, { items: [] }),
+  [SOURCE_LANE_FILES.rawCandidates]: await readJson(SOURCE_LANE_FILES.rawCandidates, { items: [] }),
+  [SOURCE_LANE_FILES.sourceRuns]: await readJson(SOURCE_LANE_FILES.sourceRuns, { items: [] }),
+  [PUBLISH_FILES.settings]: await readJson(PUBLISH_FILES.settings, DEFAULT_PUBLISH_SETTINGS),
+  [PUBLISH_FILES.xConnections]: await readJson(PUBLISH_FILES.xConnections, { items: [] }),
+  [PUBLISH_FILES.publishJobs]: await readJson(PUBLISH_FILES.publishJobs, { items: [] }),
+  [PUBLISH_FILES.publishAttempts]: await readJson(PUBLISH_FILES.publishAttempts, { items: [] })
+};
+
+for (const file of requiredFiles) {
+  try {
+    await access(path.join(rootDir, file));
+    passed.push(`File exists: ${file}`);
+  } catch {
+    errors.push(`Missing required file: ${file}`);
+  }
+}
+
+const pkg = await readJson("package.json", { scripts: {} });
+for (const script of requiredScripts) {
+  if (pkg.scripts?.[script]) passed.push(`Package script exists: ${script}`);
+  else errors.push(`Missing package script: ${script}`);
+}
+
+const latest = await readJson("data/latest.json", null);
+if (!latest?.date || !Array.isArray(latest.tools)) errors.push("latest.json structure is invalid");
+else passed.push("latest.json structure is valid");
+for (const key of ["accountStrategy", "sourceHealth", "sourceDiscovery", "contentCalendar", "promotionReview", "feedbackOps"]) {
+  if (!latest?.[key]) errors.push(`latest.json ${key} is missing. Run npm run daily.`);
+  else passed.push(`latest.json ${key} exists`);
+}
+
+const core = await loadCoreForCheck();
+checkCollectionShape(core);
+checkUniqueIds(core);
+checkLedgerAndTasks(core);
+checkFeedbackBindings(core);
+checkLegacyData(latest);
+checkAffiliateLinks();
+checkVoice(latest);
+checkXAccounts();
+checkContentSources();
+checkSourceLanes();
+checkWorkspaceIds(core);
+await checkWorkspaceAccess();
+checkPublishSystem(core);
+await checkD1LocalMvp();
+await checkAppCloudflareStaging();
+await checkDesktopApp();
+
+printReport();
+if (errors.length) process.exitCode = 1;
+
+async function loadCoreForCheck() {
+  const loaded = {};
+  for (const [key, filePath] of Object.entries(CORE_COLLECTIONS)) {
+    loaded[key] = await loadCollection(filePath);
+  }
+  loaded.contentRules = await loadContentRules();
+  return loaded;
+}
+
+async function checkDesktopApp() {
+  const desktopConfig = await readFile(path.join(rootDir, "desktop/app-config.mjs"), "utf8");
+  const desktopLauncher = await readFile(path.join(rootDir, "scripts/lib/desktop-browser-launcher.mjs"), "utf8");
+  const builderConfig = await readFile(path.join(rootDir, "electron-builder.yml"), "utf8");
+  if (desktopConfig.includes("DEFAULT_DESKTOP_PORT = 5288")) passed.push("desktop default port is 5288");
+  else errors.push("desktop default port must be 5288");
+  if (desktopConfig.includes("4173") && desktopConfig.includes("4174") && desktopConfig.includes("4175")) passed.push("desktop reserved web ports are checked");
+  else errors.push("desktop reserved web ports check is missing");
+  if (desktopLauncher.includes("`temp:${sanitize(workspaceId)}")) passed.push("desktop incognito window uses temp session");
+  else errors.push("desktop incognito partition must use temp session");
+  if (desktopLauncher.includes("`persist:aicos:${sanitize(workspaceId)}")) passed.push("desktop fixed account window uses persistent session");
+  else errors.push("desktop fixed account partition must use persistent session");
+  if (builderConfig.includes("dist-desktop")) passed.push("electron build output is dist-desktop");
+  else errors.push("electron builder output must be dist-desktop");
+  if (builderConfig.includes("org.guamee.aicreatoros.desktop")) passed.push("electron appId is production-shaped");
+  else errors.push("electron appId should be org.guamee.aicreatoros.desktop");
+  for (const excluded of ["!data/**", "!output/**", "!config/**"]) {
+    if (builderConfig.includes(excluded)) passed.push(`electron build excludes ${excluded}`);
+    else errors.push(`electron build must exclude ${excluded}`);
+  }
+  const unsafePatterns = [/\bwebdriver\b/i, /\bpuppeteer\b/i, /\bplaywright\b/i, /\bfollow_button\b/i];
+  for (const file of ["desktop/main.mjs", "desktop/browser-window-manager.mjs", "scripts/lib/desktop-browser-launcher.mjs"]) {
+    const text = await readFile(path.join(rootDir, file), "utf8");
+    for (const pattern of unsafePatterns) {
+      if (pattern.test(text)) errors.push(`Unsafe desktop automation pattern in ${file}: ${pattern}`);
+    }
+  }
+  passed.push("desktop unsafe automation scan completed");
+}
+
+function checkCollectionShape(coreData) {
+  for (const [key, collection] of Object.entries(coreData)) {
+    if (key === "contentRules") continue;
+    if (typeof collection.version !== "number") errors.push(`${key} missing numeric version`);
+    if (typeof collection.updatedAt !== "string") errors.push(`${key} missing updatedAt`);
+    if (!Array.isArray(collection.items)) errors.push(`${key} missing items array`);
+    if (typeof collection.version === "number" && typeof collection.updatedAt === "string" && Array.isArray(collection.items)) {
+      passed.push(`${key} collection shape is valid`);
+    }
+  }
+  if (!coreData.contentRules?.rules) errors.push("content-rules missing rules object");
+  else passed.push("content-rules exists");
+}
+
+function checkUniqueIds(coreData) {
+  checkUnique(coreData.tools.items, "toolId", "tools");
+  checkUnique(coreData.topics.items, "topicId", "topics");
+  checkUnique(coreData.copyLibrary.items, "copyId", "copy-library");
+  checkUnique(coreData.postTasks.items, "taskId", "post-tasks");
+  checkUnique(coreData.postLedger.items, "ledgerId", "post-ledger");
+  for (const copy of coreData.copyLibrary.items) {
+    if (!copy.normalizedTextHash) errors.push(`copy missing normalizedTextHash: ${copy.copyId || copy.copyText?.slice(0, 30)}`);
+  }
+}
+
+function checkLedgerAndTasks(coreData) {
+  const duplicateLedgerHashes = duplicates(coreData.postLedger.items.map((item) => item.normalizedTextHash).filter(Boolean));
+  for (const hash of duplicateLedgerHashes) {
+    errors.push(`post-ledger duplicate normalizedTextHash: ${hash}`);
+  }
+  const duplicateLedgerTaskIds = duplicates(coreData.postLedger.items.map((item) => item.taskId).filter(Boolean));
+  for (const taskId of duplicateLedgerTaskIds) {
+    errors.push(`post-ledger duplicate taskId: ${taskId}`);
+  }
+  const ledgerTaskIds = new Set(coreData.postLedger.items.map((item) => item.taskId).filter(Boolean));
+  for (const task of coreData.postTasks.items) {
+    if (task.status === "posted" && !ledgerTaskIds.has(task.taskId)) {
+      errors.push(`posted task missing ledger: ${task.taskId}`);
+    }
+  }
+  const activeCopyIds = coreData.postTasks.items
+    .filter((task) => ACTIVE_TASK_STATUSES.has(task.status))
+    .map((task) => task.copyId)
+    .filter(Boolean);
+  for (const copyId of duplicates(activeCopyIds)) {
+    errors.push(`active tasks reuse copyId: ${copyId}`);
+  }
+  const rules = coreData.contentRules.rules ?? {};
+  const byAccountDate = new Map();
+  for (const task of coreData.postTasks.items.filter((item) => ACTIVE_TASK_STATUSES.has(item.status))) {
+    const key = `${task.accountId || "none"}::${task.date}`;
+    byAccountDate.set(key, (byAccountDate.get(key) ?? 0) + 1);
+  }
+  for (const [key, count] of byAccountDate.entries()) {
+    const accountId = key.split("::")[0];
+    const account = coreData.xAccounts.items.find((item) => item.accountId === accountId);
+    const limit = Number(account?.dailyPostLimit ?? rules.defaultDailyPostLimit ?? 10);
+    if (count > limit) errors.push(`account active tasks exceed daily limit: ${key} (${count}/${limit})`);
+  }
+}
+
+function checkPublishSystem(coreData) {
+  const settings = awaitJsonSyncWarning(PUBLISH_FILES.settings, DEFAULT_PUBLISH_SETTINGS).settings ?? {};
+  const jobs = awaitJsonSyncWarning(PUBLISH_FILES.publishJobs, { items: [] });
+  const attempts = awaitJsonSyncWarning(PUBLISH_FILES.publishAttempts, { items: [] });
+  const connections = awaitJsonSyncWarning(PUBLISH_FILES.xConnections, { items: [] });
+  if (!settings) errors.push("publish settings missing settings object");
+  if (settings.globalAutoPublishEnabled !== false) errors.push("globalAutoPublishEnabled must remain false by default");
+  else passed.push("publish global auto is safely off");
+  if (settings.dryRunByDefault !== true) errors.push("publish dryRunByDefault must be true by default");
+  else passed.push("publish dry-run default is on");
+  if (Array.isArray(settings.allowedPublishModes) && settings.allowedPublishModes.includes("auto") && !settings.globalAutoPublishEnabled) {
+    warnings.push("auto mode is allowed while global auto publish is off");
+  }
+  if (!Array.isArray(jobs.items)) errors.push("publish-jobs missing items array");
+  else passed.push("publish-jobs structure is valid");
+  if (!Array.isArray(attempts.items)) errors.push("publish-attempts missing items array");
+  else passed.push("publish-attempts structure is valid");
+  if (!Array.isArray(connections.items)) errors.push("x-connections missing items array");
+  else passed.push("x-connections structure is valid");
+  for (const connection of connections.items ?? []) {
+    if (JSON.stringify(connection).match(/access_token|refresh_token|X_ACCESS_TOKEN/i)) {
+      errors.push(`x connection appears to contain raw token material: ${connection.connectionId || connection.accountId}`);
+    }
+  }
+  const taskById = new Map(coreData.postTasks.items.map((task) => [task.taskId, task]));
+  for (const job of jobs.items ?? []) {
+    const task = taskById.get(job.taskId);
+    if (job.status === "ready") {
+      if (!task || task.approvalStatus !== "approved") errors.push(`ready publish job is not approved: ${job.jobId}`);
+      if (job.tweetLengthStatus?.fitsXPost === false) errors.push(`ready publish job is over 280: ${job.jobId}`);
+    }
+  }
+}
+
+async function checkD1LocalMvp() {
+  const migration = [
+    await readTextIfExists("db/migrations/0001_initial.sql"),
+    await readTextIfExists("db/migrations/0002_app_entitlements.sql")
+  ].join("\n");
+  const mapper = await readTextIfExists("scripts/lib/json-to-d1-mapper.mjs");
+  const adapter = await readTextIfExists("scripts/lib/d1-storage-adapter.mjs");
+  const storageMode = await readTextIfExists("scripts/lib/app-storage-mode.mjs");
+  const docsSchema = await readTextIfExists("docs/backend/d1-schema.sql");
+  const requiredTables = [
+    "workspaces",
+    "users",
+    "workspace_members",
+    "x_accounts",
+    "assignments",
+    "content_lanes",
+    "workspace_lanes",
+    "source_connectors",
+    "source_feeds",
+    "raw_candidates",
+    "tools",
+    "topics",
+    "copy_library",
+    "post_tasks",
+    "post_ledger",
+    "feedback",
+    "publish_settings",
+    "x_connections",
+    "publish_jobs",
+    "publish_attempts",
+    "audit_logs",
+    "api_events",
+    "subscriptions",
+    "user_identities",
+    "license_events"
+  ];
+  for (const table of requiredTables) {
+    const pattern = new RegExp(`create\\s+table\\s+(if\\s+not\\s+exists\\s+)?${table}\\b`, "i");
+    if (pattern.test(migration)) passed.push(`D1 migration table exists: ${table}`);
+    else errors.push(`D1 migration missing table: ${table}`);
+    if (pattern.test(docsSchema)) passed.push(`D1 docs table exists: ${table}`);
+    else errors.push(`D1 docs missing table: ${table}`);
+  }
+  for (const table of [
+    "workspace_members",
+    "x_accounts",
+    "assignments",
+    "workspace_lanes",
+    "raw_candidates",
+    "topics",
+    "copy_library",
+    "post_tasks",
+    "post_ledger",
+    "feedback",
+    "publish_settings",
+    "x_connections",
+    "publish_jobs",
+    "publish_attempts",
+    "audit_logs",
+    "api_events",
+    "subscriptions",
+    "license_events"
+  ]) {
+    const body = tableBody(migration, table);
+    if (/workspace_id\s+TEXT/i.test(body)) passed.push(`D1 private table includes workspace_id: ${table}`);
+    else errors.push(`D1 private table missing workspace_id: ${table}`);
+  }
+  for (const word of ["workspace_id", "task_id", "account_id", "user_id", "status", "created_at"]) {
+    if (new RegExp(`index[\\s\\S]+${word}`, "i").test(migration)) passed.push(`D1 migration indexes ${word}`);
+    else errors.push(`D1 migration missing common index for ${word}`);
+  }
+  if (/token_ref/i.test(migration) && !/access_token|refresh_token/i.test(migration)) passed.push("D1 schema stores token_ref, not raw tokens");
+  else errors.push("D1 schema must store token_ref without raw token columns");
+  if (/mapJsonToD1Rows/.test(mapper) && /rowsToSql/.test(mapper)) passed.push("JSON to D1 mapper exports required functions");
+  else errors.push("JSON to D1 mapper missing required exports");
+  if (/createD1StorageAdapter/.test(adapter) && /workspace_id\s*=\s*\?/i.test(adapter)) passed.push("D1 adapter exists and uses workspace filters");
+  else errors.push("D1 adapter missing or not workspace scoped");
+  if (/DEFAULT_APP_STORAGE_MODE\s*=\s*"json"/.test(storageMode)) passed.push("APP_STORAGE_MODE defaults to json");
+  else errors.push("APP_STORAGE_MODE must default to json");
+  if (gitLsFiles().includes("db/seed/from-json.sql")) errors.push("db/seed/from-json.sql must not be git tracked");
+  else passed.push("db/seed/from-json.sql is not git tracked");
+}
+
+async function checkAppCloudflareStaging() {
+  const appFunction = await readTextIfExists("functions/api/app/v1/[[path]].mjs");
+  const accessAuth = await readTextIfExists("scripts/lib/app-api/cloudflare-access-auth.mjs");
+  const authContext = await readTextIfExists("scripts/lib/app-api/auth-context.mjs");
+  const discordAuth = await readTextIfExists("scripts/lib/app-api/discord-auth.mjs");
+  const discordRoutes = await readTextIfExists("scripts/lib/app-api/discord-routes.mjs");
+  const stagingSeed = await readTextIfExists("db/seed/app-staging-demo.sql");
+  const wranglerText = await readTextIfExists("wrangler.jsonc");
+
+  if (/onRequest/.test(appFunction) && /handleAppApi(Get|Post)/.test(appFunction)) passed.push("Pages Functions app API route exists");
+  else errors.push("Pages Functions app API route missing");
+  if (/D1_BINDING_MISSING/.test(appFunction)) passed.push("Pages Function has clear D1 binding error");
+  else errors.push("Pages Function must report missing D1 binding clearly");
+  if (/CF_ACCESS_TEAM_DOMAIN/.test(accessAuth) && /CF_ACCESS_AUD/.test(accessAuth)) passed.push("Cloudflare Access JWT helper exists");
+  else errors.push("Cloudflare Access JWT helper missing config checks");
+  if (/staging\/production 环境不能使用 devEmail/.test(authContext) && /isStrictAppEnv/.test(authContext)) passed.push("devEmail is disabled in staging/production");
+  else errors.push("devEmail must be disabled in staging/production");
+  if (/DISCORD_STATE_SECRET/.test(discordAuth) && /upsertUserIdentity/.test(discordAuth)) passed.push("Discord OAuth stores verified identity without token material");
+  else errors.push("Discord OAuth helper must store verified identity without token material");
+  if (/auth\/discord\/start/.test(discordRoutes) && /auth\/discord\/callback/.test(discordRoutes)) passed.push("Discord auth routes exist");
+  else errors.push("Discord auth routes missing");
+  if (/DISCORD_VERIFICATION_REQUIRED/.test(authContext) && /subscriptions/.test(authContext)) passed.push("App auth context enforces subscription Discord gate");
+  else errors.push("App auth context must enforce subscription Discord gate");
+  if (/workspace_staging_demo/.test(stagingSeed) && /INSERT\s+OR\s+REPLACE/i.test(stagingSeed)) passed.push("app staging seed exists and is idempotent");
+  else errors.push("app staging seed missing or not idempotent");
+  if (/access_token|refresh_token|client_secret|api[_-]?key|bearer\s+[a-z0-9._-]+/i.test(stagingSeed)) {
+    errors.push("app staging seed contains token-looking text");
+  } else {
+    passed.push("app staging seed has no token-looking text");
+  }
+  if (/x\.com\/[^'"\s]+\/status\/\d+|twitter\.com\/[^'"\s]+\/status\/\d+|postedUrl/i.test(stagingSeed)) {
+    errors.push("app staging seed contains posted URL text");
+  } else {
+    passed.push("app staging seed has no posted URL text");
+  }
+  try {
+    const wrangler = JSON.parse(wranglerText);
+    const stagingDb = wrangler.env?.production?.d1_databases?.[0] || {};
+    if (stagingDb.binding === "DB" && stagingDb.database_name === "ai_creator_os_app_staging") passed.push("wrangler staging DB binding exists");
+    else errors.push("wrangler staging DB binding is missing");
+    if (wrangler.env?.production?.vars?.APP_STORAGE_MODE === "d1") passed.push("wrangler staging APP_STORAGE_MODE=d1");
+    else errors.push("wrangler staging APP_STORAGE_MODE must be d1");
+  } catch {
+    errors.push("wrangler.jsonc is not valid JSON");
+  }
+}
+
+function checkFeedbackBindings(coreData) {
+  const feedback = awaitJsonSyncWarning("data/feedback.json", { entries: [] });
+  const toolIds = new Set(coreData.tools.items.map((item) => item.toolId));
+  const copyIds = new Set(coreData.copyLibrary.items.map((item) => item.copyId));
+  const taskIds = new Set(coreData.postTasks.items.map((item) => item.taskId));
+  for (const entry of feedback.entries ?? []) {
+    if (entry.toolId && !toolIds.has(entry.toolId)) warnings.push(`feedback toolId not in tools: ${entry.id}`);
+    if (entry.copyId && !copyIds.has(entry.copyId)) warnings.push(`feedback copyId not in copy-library: ${entry.id}`);
+    if (entry.taskId && !taskIds.has(entry.taskId)) warnings.push(`feedback taskId not in post-tasks: ${entry.id}`);
+    if (!entry.taskId || !entry.copyId || !entry.toolId) warnings.push(`feedback needs linking: ${entry.id}`);
+  }
+}
+
+function checkLegacyData(latestData) {
+  const history = awaitJsonSyncWarning("data/history.json", { tools: [] });
+  if ((history.tools ?? []).some((tool) => /Sample/i.test(tool.toolName ?? ""))) {
+    errors.push("history appears to contain fallback sample tools");
+  }
+  if (latestData?.source?.usedFallback) warnings.push("latest.json uses fallback sample; do not publish from this data.");
+  if (core.tools.items.some((tool) => /Sample Product Hunt/i.test(tool.name ?? ""))) {
+    errors.push("tools appears to contain fallback sample tools");
+  }
+}
+
+function checkAffiliateLinks() {
+  const affiliate = awaitJsonSyncWarning("config/affiliate-links.json", { links: [] });
+  for (const link of affiliate.links ?? []) {
+    const url = String(link.affiliateUrl ?? "");
+    if (/example\.com|your-id|your_ref|placeholder/i.test(url)) {
+      errors.push(`fake or placeholder affiliate link configured: ${link.name || link.match || url}`);
+    }
+  }
+}
+
+function checkVoice(latestData) {
+  const voice = awaitJsonSyncWarning("config/voice.json", { style: { avoid: [] } });
+  const forbidden = voice.style?.avoid ?? [];
+  for (const tool of latestData?.tools ?? []) {
+    for (const text of Object.values(tool.copyVariants ?? {})) {
+      for (const word of forbidden) {
+        if (String(text).toLowerCase().includes(String(word).toLowerCase())) {
+          errors.push(`Forbidden word "${word}" found in copy for ${tool.name}`);
+        }
+      }
+      if (String(text).trim().length > 280) {
+        errors.push(`Copy is ${String(text).trim().length}/280 characters for ${tool.name}`);
+      }
+      if (/example\.com\/\?ref=your-id/i.test(text)) errors.push(`Fake affiliate link found in copy for ${tool.name}`);
+    }
+  }
+}
+
+function checkXAccounts() {
+  const xAccounts = awaitJsonSyncWarning("config/x-accounts.json", { accounts: [] });
+  if (!Array.isArray(xAccounts.accounts) || xAccounts.accounts.length < 1) errors.push("x-accounts config has no accounts");
+  if ((xAccounts.accounts ?? []).length > Number(xAccounts.rotationPolicy?.maxAccounts ?? 10)) {
+    errors.push("x-accounts config exceeds maxAccounts");
+  }
+}
+
+function checkContentSources() {
+  const contentSources = awaitJsonSyncWarning("config/content-sources.json", { sources: [], circles: [], dailyTargets: {} });
+  if (!Array.isArray(contentSources.sources)) errors.push("content-sources config has invalid sources");
+  if (!Array.isArray(contentSources.circles) || contentSources.circles.length < 4) {
+    errors.push("content-sources config should define the four target circles");
+  }
+}
+
+function checkSourceLanes() {
+  const laneIds = ["ai_startups", "indie_builders", "saas_founders", "crypto_builders"];
+  const lanes = awaitJsonSyncWarning(SOURCE_LANE_FILES.contentLanes, { items: [] });
+  const workspaces = awaitJsonSyncWarning(SOURCE_LANE_FILES.workspaces, { items: [] });
+  const workspaceLanes = awaitJsonSyncWarning(SOURCE_LANE_FILES.workspaceLanes, { items: [] });
+  const connectors = awaitJsonSyncWarning(SOURCE_LANE_FILES.sourceConnectors, { items: [] });
+  const feeds = awaitJsonSyncWarning(SOURCE_LANE_FILES.sourceFeeds, { items: [] });
+  const rawCandidates = awaitJsonSyncWarning(SOURCE_LANE_FILES.rawCandidates, { items: [] });
+  const sourceRuns = awaitJsonSyncWarning(SOURCE_LANE_FILES.sourceRuns, { items: [] });
+  for (const laneId of laneIds) {
+    if ((lanes.items ?? []).some((lane) => lane.laneId === laneId)) passed.push(`source lane exists: ${laneId}`);
+    else errors.push(`missing source lane: ${laneId}`);
+  }
+  for (const [label, collection] of [["workspace-lanes", workspaceLanes], ["source-feeds", feeds], ["source-runs", sourceRuns], ["raw-candidates", rawCandidates]]) {
+    if (!Array.isArray(collection.items)) errors.push(`${label} missing items array`);
+    else passed.push(`${label} structure is valid`);
+  }
+  if (!(workspaces.items ?? []).length) errors.push("workspaces has no workspace");
+  for (const workspace of workspaces.items ?? []) {
+    const explicit = (workspaceLanes.items ?? [])
+      .filter((item) => item.workspaceId === workspace.workspaceId && item.enabled !== false)
+      .map((item) => item.laneId);
+    const enabled = explicit.length ? explicit : workspace.enabledLaneIds ?? [];
+    if (workspace.active !== false && !enabled.length) errors.push(`active workspace has no enabled lanes: ${workspace.workspaceId}`);
+  }
+  for (const connector of connectors.items ?? []) {
+    if (!connector.laneIds?.length) warnings.push(`source connector has no lanes: ${connector.connectorId}`);
+  }
+  const normalizedUrls = new Set();
+  const duplicateUrls = new Set();
+  for (const candidate of rawCandidates.items ?? []) {
+    if (!candidate.laneIds?.length) warnings.push(`raw candidate has no lanes: ${candidate.candidateId}`);
+    const url = String(candidate.url || "").replace(/[?#].*$/, "").replace(/\/$/, "").toLowerCase();
+    if (url) {
+      if (normalizedUrls.has(url)) duplicateUrls.add(url);
+      normalizedUrls.add(url);
+    }
+    if (/example\.com/i.test(candidate.url || "")) errors.push(`raw candidate contains fallback/example URL: ${candidate.candidateId || candidate.title}`);
+    const cryptoRiskText = [candidate.title, candidate.summary, candidate.rawText].join(" ").toLowerCase();
+    if ((candidate.laneIds ?? []).includes("crypto_builders") && /price prediction|pump|financial advice|investment advice|signal/.test(cryptoRiskText)) {
+      const hasFlag = (candidate.riskFlags ?? []).some((flag) => flag.type === "crypto_blocked_topic");
+      if (!hasFlag) errors.push(`crypto high risk candidate missing riskFlags: ${candidate.candidateId}`);
+    }
+  }
+  for (const url of duplicateUrls) warnings.push(`raw candidate duplicate URL: ${url}`);
+}
+
+function checkWorkspaceIds(coreData) {
+  const workspaces = awaitJsonSyncWarning(SOURCE_LANE_FILES.workspaces, { items: [] });
+  const known = new Set((workspaces.items ?? []).map((workspace) => workspace.workspaceId));
+  for (const account of coreData.xAccounts.items) {
+    if (!account.workspaceId) errors.push(`account missing workspaceId: ${account.accountId}`);
+    else if (!known.has(account.workspaceId)) errors.push(`account references unknown workspaceId: ${account.accountId} -> ${account.workspaceId}`);
+  }
+  for (const user of coreData.users.items) {
+    const inferred = coreData.assignments.items.some((assignment) => assignment.userId === user.userId);
+    if (!user.workspaceId && !inferred) warnings.push(`user missing workspaceId and cannot be inferred: ${user.userId}`);
+  }
+  for (const task of coreData.postTasks.items) {
+    if (!task.workspaceId) errors.push(`post-task missing workspaceId: ${task.taskId}`);
+  }
+  for (const item of coreData.postLedger.items) {
+    if (!item.workspaceId) errors.push(`post-ledger missing workspaceId: ${item.ledgerId}`);
+  }
+  const jobs = awaitJsonSyncWarning(PUBLISH_FILES.publishJobs, { items: [] });
+  for (const job of jobs.items ?? []) {
+    if (!job.workspaceId) errors.push(`publish-job missing workspaceId: ${job.jobId}`);
+  }
+}
+
+async function checkWorkspaceAccess() {
+  const workspaces = awaitJsonSyncWarning(SOURCE_LANE_FILES.workspaces, { items: [] }).items ?? [];
+  const first = workspaces.find((workspace) => workspace.active !== false);
+  if (!first) return;
+  const managerId = first.managerUserIds?.[0] || "";
+  const staffId = first.staffUserIds?.[0] || "";
+  if (managerId) {
+    const summary = await loadManagerSummary({ workspaceId: first.workspaceId, managerUserId: managerId });
+    const leaked = (summary.tasks ?? []).some((task) => task.workspaceId !== first.workspaceId);
+    if (leaked) errors.push("manager summary returned another workspace task");
+    else passed.push("manager summary is workspace-scoped");
+  }
+  if (staffId) {
+    const summary = await loadStaffSummary({ workspaceId: first.workspaceId, userId: staffId });
+    const leaked = (summary.tasks ?? []).some((task) => task.workspaceId !== first.workspaceId || task.assignedTo !== staffId);
+    if (leaked) errors.push("staff summary returned another workspace or another staff task");
+    else passed.push("staff summary is workspace/user-scoped");
+  }
+}
+
+function checkUnique(items, field, label) {
+  const values = items.map((item) => item[field]).filter(Boolean);
+  const dupes = duplicates(values);
+  if (dupes.length) {
+    for (const dupe of dupes) errors.push(`${label} duplicate ${field}: ${dupe}`);
+  } else {
+    passed.push(`${label} ${field} values are unique`);
+  }
+}
+
+function duplicates(values) {
+  const seen = new Set();
+  const dupes = new Set();
+  for (const value of values) {
+    if (seen.has(value)) dupes.add(value);
+    seen.add(value);
+  }
+  return [...dupes];
+}
+
+async function readTextIfExists(filePath) {
+  try {
+    return await readFile(path.join(rootDir, filePath), "utf8");
+  } catch {
+    return "";
+  }
+}
+
+function tableBody(sql, table) {
+  const match = sql.match(new RegExp(`create\\s+table\\s+(?:if\\s+not\\s+exists\\s+)?${table}\\s*\\(([\\s\\S]*?)\\);`, "i"));
+  return match?.[1] ?? "";
+}
+
+function gitLsFiles() {
+  try {
+    return execFileSync("git", ["ls-files"], { cwd: rootDir, encoding: "utf8" }).split(/\r?\n/).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+function awaitJsonSyncWarning(filePath, fallback) {
+  return jsonCache[filePath] ?? fallback;
+}
+
+function printReport() {
+  console.log("System check report");
+  console.log(`passed: ${passed.length}`);
+  for (const item of passed.slice(0, 12)) console.log(`- ${item}`);
+  if (passed.length > 12) console.log(`- ...${passed.length - 12} more passed checks`);
+
+  console.log(`warnings: ${warnings.length}`);
+  for (const item of warnings) console.log(`- ${item}`);
+
+  console.log(`errors: ${errors.length}`);
+  for (const item of errors) console.log(`- ${item}`);
+
+  if (!errors.length) console.log("System check passed");
+}

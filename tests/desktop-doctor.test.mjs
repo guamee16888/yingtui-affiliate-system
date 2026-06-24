@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { collectDesktopDoctorChecks, DESKTOP_DOCTOR_REQUIRED_FILES } from "../scripts/desktop-doctor.mjs";
+import { collectDesktopDoctorChecks, DESKTOP_DOCTOR_REQUIRED_FILES } from "../scripts/desktop/desktop-doctor.mjs";
 
 test("desktop doctor checks the runtime stabilization files", () => {
-  assert.ok(DESKTOP_DOCTOR_REQUIRED_FILES.includes("scripts/desktop-dev.mjs"));
-  assert.ok(DESKTOP_DOCTOR_REQUIRED_FILES.includes("scripts/desktop-health-check.mjs"));
+  assert.ok(DESKTOP_DOCTOR_REQUIRED_FILES.includes("scripts/desktop/desktop-dev.mjs"));
+  assert.ok(DESKTOP_DOCTOR_REQUIRED_FILES.includes("scripts/desktop/desktop-health-check.mjs"));
   assert.ok(DESKTOP_DOCTOR_REQUIRED_FILES.includes("desktop/main.mjs"));
 });
 

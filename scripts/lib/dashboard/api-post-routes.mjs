@@ -25,18 +25,18 @@ import {
 } from "../source-network.mjs";
 import { guardD1ReservedRoute } from "./api-get-routes.mjs";
 import {
+  importCandidatePaste,
+  previewCandidatePaste,
+  validateCandidate
+} from "./candidate-import-workflows.mjs";
+import {
   exportTodayPlan,
   generateReviewOutline,
-  importCandidatePaste,
   importFeedbackCsv,
-  previewCandidatePaste,
   previewFeedbackCsv,
   publishXPost,
-  upsertFeedbackWithAccount,
-  validateAffiliateResearch,
-  validateCandidate,
-  validateQueue
-} from "./post-workflows.mjs";
+  upsertFeedbackWithAccount
+} from "./publish-feedback-workflows.mjs";
 import {
   runAccountRefillWorkbenchGeneration,
   runAffiliateResearchWorkbenchGeneration,
@@ -87,4 +87,16 @@ export function handleDashboardApiPost(pathname, body) {
   if (pathname === "/api/account/publish-mode") return updateAccountPublishMode(body);
   if (pathname === "/api/x/publish") return publishXPost(body);
   throw new Error(`Unknown API route: ${pathname}`);
+}
+
+function validateQueue(body) {
+  if (!body.toolName || !body.toolUrl || !body.type) {
+    throw new Error("toolName, toolUrl and type are required");
+  }
+  return body;
+}
+
+function validateAffiliateResearch(body) {
+  if (!body.toolName || !body.toolUrl) throw new Error("toolName and toolUrl are required");
+  return body;
 }

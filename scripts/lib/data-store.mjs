@@ -27,15 +27,15 @@ export const DEFAULT_AFFILIATE_RESEARCH = { version: 1, updatedAt: "", items: []
 export const DEFAULT_REVIEW_PAGES = { version: 1, updatedAt: "", items: [] };
 
 export async function loadLatest() {
-  return readJson(DATA_FILES.latest, null);
+  return await readJson(DATA_FILES.latest, null);
 }
 
 export async function loadHistoryData() {
-  return readJson(DATA_FILES.history, { version: 1, tools: [] });
+  return await readJson(DATA_FILES.history, { version: 1, tools: [] });
 }
 
 export async function loadFeedback() {
-  return readJson(DATA_FILES.feedback, DEFAULT_FEEDBACK);
+  return await readJson(DATA_FILES.feedback, DEFAULT_FEEDBACK);
 }
 
 export async function saveFeedback(feedback) {
@@ -43,7 +43,7 @@ export async function saveFeedback(feedback) {
 }
 
 export async function loadQueues() {
-  return readJson(DATA_FILES.queues, DEFAULT_QUEUES);
+  return await readJson(DATA_FILES.queues, DEFAULT_QUEUES);
 }
 
 export async function saveQueues(queues) {
@@ -51,7 +51,7 @@ export async function saveQueues(queues) {
 }
 
 export async function loadAccountPosts() {
-  return readJson(DATA_FILES.accountPosts, DEFAULT_ACCOUNT_POSTS);
+  return await readJson(DATA_FILES.accountPosts, DEFAULT_ACCOUNT_POSTS);
 }
 
 export async function saveAccountPosts(accountPosts) {
@@ -59,15 +59,15 @@ export async function saveAccountPosts(accountPosts) {
 }
 
 export async function loadXAccountsConfig() {
-  return readJson(DATA_FILES.xAccounts, { version: 1, rotationPolicy: {}, accounts: [] });
+  return await readJson(DATA_FILES.xAccounts, { version: 1, rotationPolicy: {}, accounts: [] });
 }
 
 export async function loadCandidateInbox() {
-  return readJson(DATA_FILES.candidateInbox, DEFAULT_CANDIDATE_INBOX);
+  return await readJson(DATA_FILES.candidateInbox, DEFAULT_CANDIDATE_INBOX);
 }
 
 export async function loadSourceCandidates() {
-  return readJson(DATA_FILES.sourceCandidates, DEFAULT_SOURCE_CANDIDATES);
+  return await readJson(DATA_FILES.sourceCandidates, DEFAULT_SOURCE_CANDIDATES);
 }
 
 export async function saveCandidateInbox(inbox) {
@@ -75,7 +75,7 @@ export async function saveCandidateInbox(inbox) {
 }
 
 export async function loadAffiliateResearch() {
-  return readJson(DATA_FILES.affiliateResearch, DEFAULT_AFFILIATE_RESEARCH);
+  return await readJson(DATA_FILES.affiliateResearch, DEFAULT_AFFILIATE_RESEARCH);
 }
 
 export async function saveAffiliateResearch(data) {
@@ -83,7 +83,7 @@ export async function saveAffiliateResearch(data) {
 }
 
 export async function loadReviewPages() {
-  return readJson(DATA_FILES.reviewPages, DEFAULT_REVIEW_PAGES);
+  return await readJson(DATA_FILES.reviewPages, DEFAULT_REVIEW_PAGES);
 }
 
 export async function saveReviewPages(data) {
@@ -91,11 +91,11 @@ export async function saveReviewPages(data) {
 }
 
 export async function loadAffiliateLinks() {
-  return readJson(DATA_FILES.affiliateLinks, { links: [] });
+  return await readJson(DATA_FILES.affiliateLinks, { links: [] });
 }
 
 export async function loadVoiceConfig() {
-  return readJson(DATA_FILES.voice, { style: { avoid: [] } });
+  return await readJson(DATA_FILES.voice, { style: { avoid: [] } });
 }
 
 export function buildFeedbackEntry(input) {
@@ -202,7 +202,7 @@ export async function upsertAccountPost(input) {
 
 export async function upsertAccountPostFromFeedback(entry) {
   if (!entry?.posted || !entry.accountId) return null;
-  return upsertAccountPost({
+  return await upsertAccountPost({
     feedbackId: entry.id,
     accountId: entry.accountId,
     accountName: entry.accountName,

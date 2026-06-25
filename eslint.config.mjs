@@ -64,5 +64,11 @@ export default [
         document: "readonly"
       }
     }
+  },
+  {
+    files: ["tests/**/*.mjs"],
+    rules: {
+      "require-await": "off"
+    }
   }
 ];

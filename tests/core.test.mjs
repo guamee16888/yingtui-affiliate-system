@@ -1,8 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, rm, readFile } from "node:fs/promises";
+import { rm, readFile } from "node:fs/promises";
 import path from "node:path";
-import { tmpdir } from "node:os";
 import { createToolId, slugify } from "../scripts/lib/ids.mjs";
 import { calculateEngagement } from "../scripts/lib/scoring.mjs";
 import { readJson, writeJsonAtomic } from "../scripts/lib/file-store.mjs";

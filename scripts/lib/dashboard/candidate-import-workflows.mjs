@@ -42,7 +42,7 @@ export async function importCandidatePaste(body) {
   };
 }
 
-export async function previewCandidatePaste(body) {
+export function previewCandidatePaste(body) {
   return buildCandidatePastePlan(body);
 }
 

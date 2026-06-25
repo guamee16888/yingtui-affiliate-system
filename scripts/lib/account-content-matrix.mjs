@@ -119,7 +119,7 @@ ${matrix.notes.map((note) => `- ${note}`).join("\n")}
 `;
 }
 
-function buildAccountRow({ date, account, tools, publishableUrls, draftPlan = null, calendar = null, feedback = null }) {
+function buildAccountRow({ account, tools, publishableUrls, draftPlan = null, calendar = null, feedback = null }) {
   const targetPosts = Number(account.dailyPostLimit || 10);
   const candidateBenchTarget = targetPosts * BENCH_MULTIPLIER;
   const matches = tools
@@ -373,7 +373,7 @@ export function accountRefillRowsToCsv(rows) {
   ].join("\n");
 }
 
-function refillResearchTask({ account, query, index, circle }) {
+function refillResearchTask({ query, index, circle }) {
   const providers = circle === "crypto_builders"
     ? [
         { provider: "X live search", url: `https://x.com/search?q=${encodeURIComponent(query)}&src=typed_query&f=live` },

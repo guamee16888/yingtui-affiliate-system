@@ -391,7 +391,7 @@ async function all(db, sql, params = []) {
   return result.results || result || [];
 }
 
-async function run(db, sql, params = []) {
+function run(db, sql, params = []) {
   const statement = bind(db.prepare(sql), params);
   return statement.run();
 }

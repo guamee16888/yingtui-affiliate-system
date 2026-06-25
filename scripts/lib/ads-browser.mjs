@@ -149,7 +149,7 @@ function adsHeaders(config) {
   return headers;
 }
 
-async function readJsonResponse(response) {
+function readJsonResponse(response) {
   return response.json().catch(() => ({}));
 }
 

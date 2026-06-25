@@ -7,12 +7,12 @@ import { recordDesktopWindowOpen } from "../scripts/lib/storage/interface.mjs";
 
 const accountWindows = new Set();
 
-export async function openIncognitoAccountWindow(input = {}) {
+export function openIncognitoAccountWindow(input = {}) {
   const config = buildIncognitoAccountWindowConfig(input);
   return openAccountWindow(input, config, "temp");
 }
 
-export async function openPersistentAccountWindow(input = {}) {
+export function openPersistentAccountWindow(input = {}) {
   const config = buildPersistentAccountWindowConfig(input);
   return openAccountWindow(input, config, "persistent");
 }

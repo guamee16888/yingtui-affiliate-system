@@ -54,7 +54,7 @@ export async function loadContentSourceConfig(warnings = []) {
   }
 }
 
-export async function loadSourceCandidates() {
+export function loadSourceCandidates() {
   return readJson(SOURCE_CANDIDATES_PATH, DEFAULT_SOURCE_CANDIDATES);
 }
 

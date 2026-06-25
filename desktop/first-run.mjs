@@ -5,6 +5,6 @@ export async function shouldShowFirstRunWizard() {
   return !status.setupCompleted;
 }
 
-export async function completeFirstRun(input = {}) {
+export function completeFirstRun(input = {}) {
   return completeDesktopSetup(input, { userId: "user_owner" });
 }

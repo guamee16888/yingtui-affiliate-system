@@ -186,15 +186,15 @@ async function writeLicenseEvent(event = {}) {
   return item;
 }
 
-async function listRelationshipTargets(workspaceId, accountId) {
+function listRelationshipTargets(workspaceId, accountId) {
   return listTargets({ workspaceId, accountId });
 }
 
-async function upsertRelationshipTargetForStorage(workspaceId, accountId, input = {}, actor = {}) {
+function upsertRelationshipTargetForStorage(workspaceId, accountId, input = {}, actor = {}) {
   return upsertRelationshipTarget({ workspaceId, accountId, input, actor });
 }
 
-async function updateRelationshipTargetStatusForStorage(workspaceId, accountId, targetId, status, notes = "", actor = {}) {
+function updateRelationshipTargetStatusForStorage(workspaceId, accountId, targetId, status, notes = "", actor = {}) {
   return updateRelationshipTargetStatus({ workspaceId, accountId, targetId, status, notes, actor });
 }
 

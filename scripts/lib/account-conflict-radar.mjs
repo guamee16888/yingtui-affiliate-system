@@ -334,7 +334,7 @@ function compactRecord(record) {
   };
 }
 
-function conflictHeadline({ status, totalConflicts, blockedCandidates, warningCandidates }) {
+function conflictHeadline({ status, blockedCandidates, warningCandidates }) {
   if (status === "needs_review") return `${blockedCandidates} candidates should stay out of ready because conflict risk exists. Clear duplicates before scaling.`;
   if (status === "watch") return `${warningCandidates} candidates need manual review, but no hard duplicate conflict was found.`;
   return "No active account conflict found. Keep manual confirmation and feedback gates on.";

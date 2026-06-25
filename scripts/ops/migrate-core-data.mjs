@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { CORE_COLLECTIONS, CONTENT_RULES_PATH, DEFAULT_CONTENT_RULES, emptyCollection, ensureCoreDataFiles, loadCollection, loadContentRules, saveCollection, upsertById } from "../lib/core-data.mjs";
 import { buildFeedbackEntry, loadFeedback, saveFeedback } from "../lib/storage/interface.mjs";
 import { readJson, writeJsonAtomic } from "../lib/file-store.mjs";
-import { createCopyId, createLedgerId, createStableId, createTaskId, createTopicId, createToolId, createUserId, todayString } from "../lib/ids.mjs";
+import { createCopyId, createLedgerId, createStableId, createTaskId, createTopicId, createToolId, todayString } from "../lib/ids.mjs";
 import { hashText, normalizeText, createSimilarityFingerprint, extractExternalLinks } from "../lib/text-normalizer.mjs";
 import { isProductHuntUrl, normalizeDomain } from "../lib/url-utils.mjs";
 import { affiliateLinkMatchesTool } from "../lib/affiliate-links.mjs";

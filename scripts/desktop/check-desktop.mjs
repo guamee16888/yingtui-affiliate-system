@@ -89,7 +89,7 @@ async function checkPackageScripts() {
   }
 }
 
-async function checkPortAndDataDir() {
+function checkPortAndDataDir() {
   if (DEFAULT_DESKTOP_PORT !== 5288) errors.push("Desktop default port must be 5288.");
   else passed.push("Desktop default port is 5288");
   if (RESERVED_WEB_PORTS.has(DEFAULT_DESKTOP_PORT)) errors.push("Desktop default port uses a reserved web port.");
@@ -102,7 +102,7 @@ async function checkPortAndDataDir() {
   }
 }
 
-async function checkIncognitoConfig() {
+function checkIncognitoConfig() {
   const config = buildIncognitoAccountWindowConfig({
     workspaceId: "workspace_default",
     accountId: "acc_1",

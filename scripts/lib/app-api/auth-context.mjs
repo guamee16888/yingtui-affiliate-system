@@ -54,7 +54,7 @@ export async function getAuthContext(request, options = {}) {
   };
 }
 
-export async function loadAuthCollections(storage) {
+export function loadAuthCollections(storage) {
   if (storage && typeof storage.loadAuthCollections === "function") {
     return storage.loadAuthCollections();
   }

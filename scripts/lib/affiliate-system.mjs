@@ -1,5 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createToolId, normalizeDomain } from "./ids.mjs";
@@ -101,7 +101,7 @@ function todayInShanghai() {
   }).format(new Date());
 }
 
-async function readText(relativePath) {
+function readText(relativePath) {
   return readFile(path.join(rootDir, relativePath), "utf8");
 }
 

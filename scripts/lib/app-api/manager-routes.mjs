@@ -32,7 +32,7 @@ export async function handleManagerGet({ pathname, url, context, storage, loadMa
   return null;
 }
 
-export async function handleManagerPost({ pathname, body, context, storage, loadManagerSummaryFn }) {
+export function handleManagerPost({ pathname, body, context, storage, loadManagerSummaryFn }) {
   assertManagerRole(context);
   const workspaceId = assertWorkspaceAccess(context, context.workspaceId);
 
@@ -62,7 +62,7 @@ export async function handleManagerPost({ pathname, body, context, storage, load
   return null;
 }
 
-async function appManagerSummary(context, loadManagerSummaryFn) {
+function appManagerSummary(context, loadManagerSummaryFn) {
   if (typeof loadManagerSummaryFn !== "function") {
     throw new AppApiError("APP_MANAGER_SUMMARY_MISSING", "Manager summary storage is not configured.", 500);
   }
@@ -239,7 +239,7 @@ async function updateTargetStatus({ body, context, storage, workspaceId, account
   return { item: result.item };
 }
 
-async function listTargets({ storage, workspaceId, accountId }) {
+function listTargets({ storage, workspaceId, accountId }) {
   if (typeof storage.listRelationshipTargets === "function") {
     return storage.listRelationshipTargets(workspaceId, accountId);
   }

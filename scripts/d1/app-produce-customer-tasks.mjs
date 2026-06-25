@@ -139,7 +139,7 @@ async function main() {
   console.log("Remote D1 candidate production complete.");
 }
 
-async function readRemoteD1(workspaceId) {
+function readRemoteD1(workspaceId) {
   const sql = [
     `SELECT * FROM workspaces WHERE workspace_id = ${sqlValue(workspaceId)};`,
     `SELECT * FROM workspace_lanes WHERE workspace_id = ${sqlValue(workspaceId)};`,

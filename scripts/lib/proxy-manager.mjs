@@ -1,12 +1,8 @@
-import { createHash, randomBytes } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
 import http from "node:http";
 import https from "node:https";
 import { URL } from "node:url";
-import { getDesktopAppDataDir } from "../../desktop/app-config.mjs";
-import { emptyCollection, loadCollection, saveCollection } from "./core-data.mjs";
-import { readJson, resolveProjectPath, writeJsonAtomic } from "./file-store.mjs";
+import { emptyCollection } from "./core-data.mjs";
+import { readJson, writeJsonAtomic } from "./file-store.mjs";
 import { createStableId } from "./ids.mjs";
 
 const PROXY_COLLECTION_PATH = "data/proxies.json";
@@ -164,6 +160,7 @@ export async function importProxies(input = {}, actor = { userId: "user_owner" }
  * 删除代理
  */
 export async function deleteProxy(proxyId, actor = { userId: "user_owner" }) {
+  void actor;
   const collection = await readJson(PROXY_COLLECTION_PATH, emptyCollection());
   const items = (collection.items || []).filter(item => item.proxyId !== proxyId);
 

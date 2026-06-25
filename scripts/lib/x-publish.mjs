@@ -71,7 +71,7 @@ export function accountEnvUpdates(accountId, updates) {
   };
 }
 
-function xStatusNote({ configured, refreshConfigured, expired, refreshDue, health }) {
+function xStatusNote({ configured, refreshConfigured, refreshDue, health }) {
   if (!configured) return "Set X_ACCESS_TOKEN to an OAuth 2.0 User Context token with tweet.write scope.";
   if (health === "expired_refresh_ready") return "X access token is expired, but refresh token is configured. Publishing will refresh before posting.";
   if (health === "expired_no_refresh") return "X access token is expired and no refresh token is configured. Run npm run x:auth again.";
@@ -126,7 +126,7 @@ export function shouldRefreshXToken(env = process.env, now = new Date()) {
   return expiresAt - now.getTime() < 120000;
 }
 
-export async function resolveXAccessToken(env = process.env, accountId = "", options = {}) {
+export function resolveXAccessToken(env = process.env, accountId = "", options = {}) {
   const scoped = accountId ? scopedAccountEnv(env, accountId) : env;
   if (accountId && options.useGlobalTokenFallback && !getXPublishStatus(scoped).publishReady && getXPublishStatus(env).publishReady) {
     if (shouldRefreshXToken(env)) return refreshXAccessToken(env);

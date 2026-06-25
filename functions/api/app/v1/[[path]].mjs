@@ -2,7 +2,7 @@ import { AppApiError, appFailure } from "../../../../scripts/lib/app-api/respons
 import { handleAppApiGet, handleAppApiPost } from "../../../../scripts/lib/app-api/session.mjs";
 import { createD1StorageAdapter } from "../../../../scripts/lib/d1-storage-adapter.mjs";
 
-export async function onRequest(context) {
+export function onRequest(context) {
   return handlePagesAppRequest(context);
 }
 

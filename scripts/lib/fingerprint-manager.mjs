@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
-import { emptyCollection, loadCollection, saveCollection } from "./core-data.mjs";
-import { readJson, resolveProjectPath, writeJsonAtomic } from "./file-store.mjs";
+import { emptyCollection } from "./core-data.mjs";
+import { readJson, writeJsonAtomic } from "./file-store.mjs";
 import { createStableId } from "./ids.mjs";
 
 const FINGERPRINT_COLLECTION_PATH = "data/fingerprints.json";
@@ -167,6 +166,7 @@ export async function upsertFingerprint(input = {}, actor = { userId: "user_owne
  * 删除指纹配置
  */
 export async function deleteFingerprint(fingerprintId, actor = { userId: "user_owner" }) {
+  void actor;
   const collection = await readJson(FINGERPRINT_COLLECTION_PATH, emptyCollection());
   const items = (collection.items || []).filter(item => item.fingerprintId !== fingerprintId);
 

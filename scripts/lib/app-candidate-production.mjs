@@ -424,7 +424,7 @@ function buildDuplicateContext({ d1, workspaceId, date }) {
   };
 }
 
-function taskForDuplicateCheck({ task, raw, tool, copy, date }) {
+function taskForDuplicateCheck({ task, raw, tool, date }) {
   return {
     taskId: task.task_id,
     date,

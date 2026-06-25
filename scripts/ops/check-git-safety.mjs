@@ -36,7 +36,7 @@ function checkRuntimeDataStatus(lines) {
 }
 
 function checkTrackedFiles(files) {
-  if (files.some((file) => file === ".env" || /^\.env\./.test(file))) {
+  if (files.some(isPrivateEnvFile)) {
     errors.push("Environment file is tracked by Git. Remove it from Git before committing.");
   }
   if (files.includes("db/seed/from-json.sql")) {
@@ -58,7 +58,7 @@ function checkTrackedFiles(files) {
 
 function checkStagedFiles(files) {
   for (const file of files) {
-    if (file === ".env" || /^\.env\./.test(file)) {
+    if (isPrivateEnvFile(file)) {
       errors.push(`Staged environment file: ${file}`);
     }
   }
@@ -122,6 +122,10 @@ function looksLikePublicHandle(filePath, line) {
   if (!publicPath) return false;
   return /"handle"\s*:\s*"@?[A-Za-z0-9_]{3,15}"/i.test(line)
     || /\bhttps?:\/\/(?:x|twitter)\.com\/[A-Za-z0-9_]{3,15}\b/i.test(line);
+}
+
+function isPrivateEnvFile(filePath) {
+  return filePath === ".env" || (/^\.env\./.test(filePath) && filePath !== ".env.example");
 }
 
 function parseStatusPath(line) {

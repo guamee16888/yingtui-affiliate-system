@@ -9,6 +9,8 @@ release-local/
 *.dmg
 *.exe
 *.zip
+*.tar.gz
+*.tgz
 *.app
 *.AppImage
 .vercel/

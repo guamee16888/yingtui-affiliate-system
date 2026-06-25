@@ -1,152 +1,32 @@
-import { XMLParser } from "fast-xml-parser";
-import { createStableId, createToolId } from "./ids.mjs";
-import { readJson, writeJsonAtomic } from "./file-store.mjs";
+import { createToolId } from "./ids.mjs";
+import {
+  DEFAULT_CONTENT_SOURCE_CONFIG,
+  DEFAULT_SOURCE_CANDIDATES,
+  normalizeContentSourceConfig
+} from "./content-source/config.mjs";
+import { daysSince, evaluateSourceCandidateQuality } from "./content-source/quality.mjs";
 
-export const CONTENT_SOURCES_PATH = "config/content-sources.json";
-export const SOURCE_CANDIDATES_PATH = "data/source-candidates.json";
-
-export const DEFAULT_CONTENT_SOURCE_CONFIG = {
-  version: 1,
-  dailyTargets: {
-    accounts: 20,
-    postsPerAccount: 10,
-    minimumQualityScore: 18
-  },
-  circles: [
-    { id: "ai_startups", name: "AI startup circle", keywords: ["AI", "agent", "workflow", "automation"] },
-    { id: "indie_hackers", name: "Indie hacker circle", keywords: ["indie", "builder", "launch", "micro SaaS"] },
-    { id: "saas_founders", name: "SaaS founder circle", keywords: ["SaaS", "B2B", "pricing", "growth"] },
-    { id: "crypto_builders", name: "Crypto builder circle", keywords: ["crypto", "web3", "wallet", "onchain"] }
-  ],
-  sources: []
-};
-
-export const DEFAULT_SOURCE_CANDIDATES = {
-  version: 1,
-  updatedAt: "",
-  items: []
-};
-
-const parser = new XMLParser({
-  ignoreAttributes: false,
-  attributeNamePrefix: ""
-});
-
-export function normalizeContentSourceConfig(config = DEFAULT_CONTENT_SOURCE_CONFIG) {
-  const circles = Array.isArray(config.circles) ? config.circles : DEFAULT_CONTENT_SOURCE_CONFIG.circles;
-  const sources = Array.isArray(config.sources) ? config.sources : [];
-
-  return {
-    ...DEFAULT_CONTENT_SOURCE_CONFIG,
-    ...config,
-    dailyTargets: {
-      ...DEFAULT_CONTENT_SOURCE_CONFIG.dailyTargets,
-      ...(config.dailyTargets ?? {})
-    },
-    circles: circles.map((circle) => ({
-      id: String(circle.id || "").trim(),
-      name: String(circle.name || circle.id || "").trim(),
-      keywords: Array.isArray(circle.keywords) ? circle.keywords : []
-    })).filter((circle) => circle.id),
-    sources: sources.map(normalizeSource).filter((source) => source.id && source.url)
-  };
-}
-
-export async function loadContentSourceConfig(warnings = []) {
-  try {
-    return normalizeContentSourceConfig(await readJson(CONTENT_SOURCES_PATH, DEFAULT_CONTENT_SOURCE_CONFIG));
-  } catch (error) {
-    warnings.push(`Content source config failed: ${error.message}. Using built-in defaults.`);
-    return normalizeContentSourceConfig(DEFAULT_CONTENT_SOURCE_CONFIG);
-  }
-}
-
-export async function loadSourceCandidates() {
-  return readJson(SOURCE_CANDIDATES_PATH, DEFAULT_SOURCE_CANDIDATES);
-}
-
-export async function saveSourceCandidates(data) {
-  await writeJsonAtomic(SOURCE_CANDIDATES_PATH, {
-    ...DEFAULT_SOURCE_CANDIDATES,
-    ...data,
-    updatedAt: new Date().toISOString(),
-    items: Array.isArray(data.items) ? data.items : []
-  });
-}
-
-export async function refreshSourceCandidates(config, warnings = []) {
-  const normalized = normalizeContentSourceConfig(config);
-  const enabledSources = normalized.sources.filter((source) => source.enabled);
-  const existing = await loadSourceCandidates();
-
-  if (!enabledSources.length) {
-    return {
-      fetchedCount: 0,
-      cachedCount: existing.items?.length ?? 0,
-      enabledSources: 0,
-      sourceCandidates: existing
-    };
-  }
-
-  const fetched = [];
-  const refreshedSourceIds = new Set();
-
-  for (const source of enabledSources) {
-    try {
-      fetched.push(...await fetchSource(source));
-      refreshedSourceIds.add(source.id);
-    } catch (error) {
-      warnings.push(`Source ${source.name} unavailable: ${error.message}`);
-    }
-  }
-
-  const retained = (existing.items ?? []).filter((item) => !refreshedSourceIds.has(item.source));
-  const merged = mergeSourceCandidateItems(retained, fetched);
-  await saveSourceCandidates({ ...existing, items: merged });
-
-  return {
-    fetchedCount: fetched.length,
-    cachedCount: merged.length,
-    enabledSources: enabledSources.length,
-    sourceCandidates: { ...existing, items: merged }
-  };
-}
-
-export function sourceCandidatesToTools(sourceCandidates, date, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG) {
-  const config = normalizeContentSourceConfig(contentSourceConfig);
-  const sourceById = new Map(config.sources.map((source) => [source.id, source]));
-
-  return (sourceCandidates.items ?? [])
-    .filter((item) => item.status === "active")
-    .map((item) => {
-      const source = sourceById.get(item.source) ?? {
-        id: item.source || "",
-        name: item.sourceName || item.source || "Source Candidate",
-        circle: item.circle || "",
-        candidateType: item.candidateType || "topic",
-        excludeKeywords: []
-      };
-      return {
-        id: item.id,
-        sourceId: item.source || "",
-        name: item.name,
-        url: item.url,
-        tagline: item.tagline || item.description,
-        description: item.description || item.tagline,
-        published: item.published || `${date}T00:00:00+08:00`,
-        updated: item.updatedAt,
-        author: item.sourceName || item.source || "source",
-        sourceType: "source_feed",
-        sourceName: item.sourceName || item.source || "Source Candidate",
-        sourceUrl: item.sourceUrl || "",
-        sourceNote: item.notes || "",
-        circle: item.circle || source.circle || "",
-        candidateType: item.candidateType || source.candidateType || "topic",
-        sourceQuality: evaluateSourceCandidateQuality(item, source)
-      };
-    })
-    .filter((tool) => tool.name && tool.url);
-}
+export {
+  CONTENT_SOURCES_PATH,
+  SOURCE_CANDIDATES_PATH,
+  DEFAULT_CONTENT_SOURCE_CONFIG,
+  DEFAULT_SOURCE_CANDIDATES,
+  loadContentSourceConfig,
+  loadSourceCandidates,
+  normalizeContentSourceConfig,
+  saveSourceCandidates
+} from "./content-source/config.mjs";
+export {
+  refreshSourceCandidates,
+  sourceCandidatesToTools
+} from "./content-source/candidates.mjs";
+export { evaluateSourceCandidateQuality } from "./content-source/quality.mjs";
+export {
+  renderSourceDiscoveryMarkdown,
+  renderSourceHealthMarkdown,
+  renderSourceQualityQueueMarkdown,
+  renderSourceSupplyWorkbenchMarkdown
+} from "./content-source/render.mjs";
 
 export function buildSupplyPlan({ date, scored = [], accountStrategy = null, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG }) {
   const config = normalizeContentSourceConfig(contentSourceConfig);
@@ -452,115 +332,6 @@ export function buildSourceSupplyWorkbench({
   };
 }
 
-export function renderSourceSupplyWorkbenchMarkdown(workbench) {
-  if (!workbench) return "# Source Supply Workbench\n\nNo source workbench available. Run npm run daily first.\n";
-  const summary = workbench.summary ?? {};
-  return `# Source Supply Workbench - ${workbench.date}
-
-- Status: ${workbench.status}
-- Target drafts: ${summary.targetDrafts}
-- Qualified tools: ${summary.qualifiedTools}
-- Possible drafts: ${summary.possibleDrafts}
-- Supply gap: ${summary.supplyGap}
-- Needed candidates: ${summary.totalNeededCandidates}
-- Top gap: ${summary.topCircle || "none"}
-- Active inbox: ${summary.activeInboxCount}
-- Active source candidates: ${summary.activeSourceCandidateCount}
-- Sources enabled: ${summary.enabledSources}/${summary.configuredSources}
-
-## Workflow
-
-${(workbench.workflow ?? []).map((item, index) => `${index + 1}. ${item}`).join("\n")}
-
-## Top Source Gaps
-
-${(workbench.circles ?? []).map((circle, index) => `### ${index + 1}. ${circle.circleName}
-
-- Needed candidates: ${circle.neededCandidates}
-- Current qualified tools: ${circle.currentQualifiedTools}
-- Affected accounts: ${circle.affectedAccounts.length ? circle.affectedAccounts.map((account) => `${account.displayName} gap ${account.gap}`).join("; ") : "none"}
-- Opening move: ${circle.openingMove}
-- Source health: ${circle.health.enabledSources}/${circle.health.trackedSources} enabled, ${circle.health.qualifiedCandidates} qualified${circle.health.weakestSource ? `, weakest ${circle.health.weakestSource}` : ""}
-
-Search links:
-${circle.searchLinks.length ? circle.searchLinks.slice(0, 8).map((link) => `- [${link.label}: ${link.query}](${link.url})`).join("\n") : "- No search links yet."}
-
-Source ideas:
-${circle.sourceIdeas.length ? circle.sourceIdeas.map((source) => `- ${source.name}: ${source.url} — ${source.why}`).join("\n") : "- No source ideas yet."}
-
-Import template:
-\`\`\`csv
-${circle.importTemplate}
-\`\`\`
-
-Quality checklist:
-${circle.qualityChecklist.map((item) => `- ${item}`).join("\n")}`).join("\n\n") || "No source gaps detected."}
-
-## Commands
-
-${(workbench.commands ?? []).map((command) => `- \`${command}\``).join("\n")}
-`;
-}
-
-export function renderSourceDiscoveryMarkdown(pack) {
-  if (!pack?.circles?.length) return "# Source Discovery Pack\n\nNo source discovery actions needed.\n";
-
-  return `# Source Discovery Pack - ${pack.date}
-
-- Circles: ${pack.summary.circles}
-- Needed candidates: ${pack.summary.totalNeededCandidates}
-- Search links: ${pack.summary.totalSearchLinks}
-- Top gap: ${pack.summary.topCircle || "none"}
-
-${pack.circles.map((circle, index) => `## ${index + 1}. ${circle.circleName}
-
-- Needed candidates: ${circle.neededCandidates}
-- Current qualified tools: ${circle.currentQualifiedTools}
-- Opening move: ${circle.openingMove}
-- Import hint: ${circle.importHint}
-
-Search links:
-${circle.searchLinks.map((link) => `- [${link.label}](${link.url}) — ${link.query}`).join("\n")}
-
-Source ideas:
-${circle.sourceIdeas.map((source) => `- ${source.name}: ${source.url} — ${source.why}`).join("\n")}
-
-Quality checklist:
-${circle.qualityChecklist.map((item) => `- ${item}`).join("\n")}`).join("\n\n")}
-`;
-}
-
-export function renderSourceHealthMarkdown(health) {
-  if (!health) return "# Source Health\n\nNo source health report available. Run npm run source-health.\n";
-
-  return `# Source Health - ${health.date}
-
-- Configured sources: ${health.summary.configuredSources}
-- Enabled sources: ${health.summary.enabledSources}
-- Tracked sources: ${health.summary.trackedSources}
-- Healthy sources: ${health.summary.healthySources}
-- Tune sources: ${health.summary.tuneSources}
-- Disable candidates: ${health.summary.disableCandidates}
-- Total candidates: ${health.summary.totalCandidates}
-- Qualified candidates: ${health.summary.qualifiedCandidates}
-- Noise candidates: ${health.summary.noiseCandidates}
-
-## Recommendations
-
-${health.recommendations.length ? health.recommendations.map((item, index) => `${index + 1}. ${item}`).join("\n") : "No source-health actions yet."}
-
-## Sources
-
-${health.sources.map((source, index) => `${index + 1}. ${source.name} — ${source.status} — ${source.healthScore}/100
-   Circle: ${source.circle || "unknown"} · enabled ${source.enabled ? "yes" : "no"} · candidates ${source.totalCandidates} · qualified ${source.qualifiedCandidates} · noise ${source.noiseCandidates}
-   Recommendation: ${source.recommendation}`).join("\n")}
-
-## Circle Coverage
-
-${health.circles.map((circle) => `- ${circle.name}: sources ${circle.sources}, enabled ${circle.enabledSources}, candidates ${circle.totalCandidates}, qualified ${circle.qualifiedCandidates}, source gap ${circle.sourceGap}, candidate gap ${circle.candidateGap}`).join("\n")}
-`;
-}
-
 export function buildSourceImportPackRows({ sourceQualityQueue = null, contentSourceConfig = DEFAULT_CONTENT_SOURCE_CONFIG, totalRows = 100, date = "" }) {
   const config = normalizeContentSourceConfig(contentSourceConfig);
   const queueItems = sourceQualityQueue?.items?.length
@@ -765,48 +536,6 @@ function summarizeRows(rows, key) {
     .sort((a, b) => Number(b.rows) - Number(a.rows) || String(a[key]).localeCompare(String(b[key])));
 }
 
-export function renderSourceQualityQueueMarkdown(queue) {
-  if (!queue?.items?.length) {
-    return "# Source Quality Queue\n\nNo source gaps detected under the current target.\n";
-  }
-
-  return `# Source Quality Queue
-
-- Queue items: ${queue.summary.items}
-- Needed candidates: ${queue.summary.totalNeededCandidates}
-- Top gap: ${queue.summary.topCircle || "none"}
-
-${queue.items.map((item, index) => `## ${index + 1}. ${item.circleName}
-
-- Needed candidates: ${item.neededCandidates}
-- Current qualified tools: ${item.currentQualifiedTools}
-- Affected accounts: ${item.affectedAccounts.length ? item.affectedAccounts.map((account) => `${account.displayName} gap ${account.gap}`).join("; ") : "none"}
-- Import hint: ${item.importHint}
-
-Search queries:
-${item.searchQueries.map((query) => `- ${query}`).join("\n")}
-
-Recommended configured sources:
-${item.recommendedSources.length ? item.recommendedSources.map((source) => `- ${source.name} (${source.enabled ? "enabled" : "disabled"}) — ${source.url}`).join("\n") : "- No configured source yet. Add one to config/content-sources.json after testing it."}`).join("\n\n")}
-`;
-}
-
-function normalizeSource(source) {
-  return {
-    id: String(source.id || "").trim(),
-    name: String(source.name || source.id || "").trim(),
-    circle: String(source.circle || "").trim(),
-    url: String(source.url || "").trim(),
-    type: String(source.type || "rss").trim(),
-    candidateType: String(source.candidateType || "topic").trim(),
-    enabled: source.enabled === true,
-    maxItems: Number(source.maxItems || 20),
-    qualityHint: String(source.qualityHint || "").trim(),
-    includeKeywords: Array.isArray(source.includeKeywords) ? source.includeKeywords : [],
-    excludeKeywords: Array.isArray(source.excludeKeywords) ? source.excludeKeywords : []
-  };
-}
-
 function sourceHealthForSource({ date, source, candidates, scoreByToolId, minimumQualityScore }) {
   const activeCandidates = candidates.filter((item) => item.status === "active");
   const candidateQuality = activeCandidates.map((item) => ({
@@ -990,192 +719,6 @@ function sourceIdeasForCircle(circleId) {
   return ideas[circleId] ?? [];
 }
 
-export function evaluateSourceCandidateQuality(item, source = {}) {
-  const text = sourceQualityText(item);
-  const noisyTerms = [
-    "price prediction",
-    "resistance",
-    "bottomed",
-    "war",
-    "crime",
-    "lawsuit",
-    "live updates",
-    "really bottomed",
-    "climbs back",
-    "rockets",
-    "bulls",
-    "trump",
-    "iran",
-    "froze",
-    "laundering"
-  ];
-  const blockedTerms = [
-    ...noisyTerms.filter((term) => hasSourceQualityTerm(text, term)),
-    ...(source.excludeKeywords ?? []).map((term) => String(term).toLowerCase()).filter((term) => hasSourceQualityTerm(text, term))
-  ];
-
-  if (blockedTerms.length) {
-    return {
-      status: "noise",
-      isNoisy: true,
-      reason: `Blocked by source noise term: ${blockedTerms[0]}.`,
-      blockedTerms,
-      matchedTerms: []
-    };
-  }
-
-  const circle = String(item.circle || source.circle || "").toLowerCase();
-  const sourceName = String(source.name || item.sourceName || item.source || "").toLowerCase();
-  const isCryptoSource = circle === "crypto_builders" || sourceName.includes("coindesk") || sourceName.includes("crypto");
-
-  if (isCryptoSource) {
-    const matchedTerms = CRYPTO_BUILDER_TERMS.filter((term) => hasSourceQualityTerm(text, term));
-    const blockedMarketTerms = CRYPTO_MARKET_NOISE_TERMS.filter((term) => hasSourceQualityTerm(text, term));
-    const hasBuilderAngle = CRYPTO_BUILDER_ANGLE_TERMS.some((term) => hasSourceQualityTerm(text, term));
-
-    if (!matchedTerms.length) {
-      return {
-        status: "noise",
-        isNoisy: true,
-        reason: "Crypto source item lacks a crypto or builder-facing angle.",
-        blockedTerms: blockedMarketTerms,
-        matchedTerms
-      };
-    }
-
-    if (blockedMarketTerms.length && !hasBuilderAngle) {
-      return {
-        status: "noise",
-        isNoisy: true,
-        reason: `Crypto source item looks market-only, not builder-facing: ${blockedMarketTerms[0]}.`,
-        blockedTerms: blockedMarketTerms,
-        matchedTerms
-      };
-    }
-
-    return {
-      status: "ok",
-      isNoisy: false,
-      reason: matchedTerms.length ? `Matched crypto/source terms: ${matchedTerms.slice(0, 3).join(", ")}.` : "Passed source quality gate.",
-      blockedTerms: [],
-      matchedTerms
-    };
-  }
-
-  return {
-    status: "ok",
-    isNoisy: false,
-    reason: "Passed source quality gate.",
-    blockedTerms: [],
-    matchedTerms: []
-  };
-}
-
-const CRYPTO_BUILDER_TERMS = [
-  "crypto",
-  "bitcoin",
-  "btc",
-  "ethereum",
-  "eth",
-  "ether",
-  "solana",
-  "sol",
-  "onchain",
-  "blockchain",
-  "defi",
-  "wallet",
-  "token",
-  "stablecoin",
-  "web3",
-  "protocol",
-  "exchange",
-  "etf",
-  "bnb",
-  "arbitrum",
-  "base",
-  "polygon",
-  "smart contract",
-  "custody",
-  "staking",
-  "airdrop",
-  "dao",
-  "dex",
-  "liquidity",
-  "rwa",
-  "usdc",
-  "usdt",
-  "coinbase",
-  "binance"
-];
-
-const CRYPTO_BUILDER_ANGLE_TERMS = [
-  "developer",
-  "api",
-  "sdk",
-  "tool",
-  "tooling",
-  "dashboard",
-  "infrastructure",
-  "protocol",
-  "founder",
-  "product",
-  "launch",
-  "wallet",
-  "exchange",
-  "etf",
-  "stablecoin",
-  "custody",
-  "analytics",
-  "compliance",
-  "onchain",
-  "smart contract"
-];
-
-const CRYPTO_MARKET_NOISE_TERMS = [
-  "nasdaq",
-  "ipo",
-  "stock",
-  "stocks",
-  "shares",
-  "earnings",
-  "wall street",
-  "spacex",
-  "tesla",
-  "musk",
-  "price",
-  "bulls",
-  "bearish",
-  "rally",
-  "soars",
-  "plunges"
-];
-
-function sourceQualityText(item) {
-  return normalizeSourceQualityText(`${item.name ?? ""} ${item.description ?? ""} ${item.tagline ?? ""}`);
-}
-
-function normalizeSourceQualityText(value) {
-  return String(value ?? "")
-    .toLowerCase()
-    .replace(/[_-]+/g, " ")
-    .replace(/[^a-z0-9]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function hasSourceQualityTerm(text, term) {
-  const normalizedTerm = normalizeSourceQualityText(term);
-  if (!normalizedTerm) return false;
-  return ` ${text} `.includes(` ${normalizedTerm} `);
-}
-
-function daysSince(published, date) {
-  const base = new Date(`${date}T12:00:00Z`);
-  const time = new Date(published);
-  if (Number.isNaN(base.getTime()) || Number.isNaN(time.getTime())) return null;
-  return Math.max(0, (base.getTime() - time.getTime()) / 86400000);
-}
-
 function roundRate(value) {
   return Math.round(Number(value || 0) * 100) / 100;
 }
@@ -1301,74 +844,6 @@ function sourceSupplyQualityChecklist() {
   ];
 }
 
-async function fetchSource(source) {
-  if (!["rss", "atom"].includes(source.type)) throw new Error(`unsupported source type ${source.type}`);
-  const response = await fetch(source.url, {
-    signal: AbortSignal.timeout(10000),
-    headers: { "user-agent": "yingtui-affiliate-system/0.3" }
-  });
-
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-
-  const xml = await response.text();
-  const parsed = parser.parse(xml);
-  const entries = source.type === "atom"
-    ? asArray(parsed.feed?.entry)
-    : asArray(parsed.rss?.channel?.item);
-
-  return entries.slice(0, source.maxItems).map((entry) => entryToCandidate(entry, source)).filter(Boolean);
-}
-
-function entryToCandidate(entry, source) {
-  const name = stripHtml(entry.title?.["#text"] ?? entry.title ?? "").trim();
-  const url = atomLink(entry) || String(entry.link?.["#text"] ?? entry.link ?? "").trim();
-  const description = stripHtml(entry.summary?.["#text"] ?? entry.summary ?? entry.description?.["#text"] ?? entry.description ?? entry.content?.["#text"] ?? entry.content ?? source.qualityHint);
-  if (!name || !url) return null;
-  if (!passesKeywordFilters(`${name} ${description}`, source)) return null;
-
-  const published = entry.published ?? entry.pubDate ?? entry.updated ?? new Date().toISOString();
-  const toolId = createToolId(name, url);
-
-  return {
-    id: createStableId("source_candidate", [source.id, toolId]),
-    toolId,
-    name,
-    url,
-    tagline: description.slice(0, 180),
-    description,
-    source: source.id,
-    sourceName: source.name,
-    sourceUrl: source.url,
-    circle: source.circle,
-    candidateType: source.candidateType,
-    published,
-    status: "active",
-    notes: source.qualityHint,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  };
-}
-
-function passesKeywordFilters(text, source) {
-  const lower = text.toLowerCase();
-  const includes = source.includeKeywords ?? [];
-  const excludes = source.excludeKeywords ?? [];
-
-  if (includes.length && !includes.some((keyword) => lower.includes(String(keyword).toLowerCase()))) return false;
-  if (excludes.some((keyword) => lower.includes(String(keyword).toLowerCase()))) return false;
-  return true;
-}
-
-function mergeSourceCandidateItems(existing, incoming) {
-  const byTool = new Map();
-  for (const item of [...existing, ...incoming]) {
-    const toolId = item.toolId || createToolId(item.name, item.url);
-    const previous = byTool.get(toolId);
-    byTool.set(toolId, previous ? { ...previous, ...item, createdAt: previous.createdAt, updatedAt: new Date().toISOString() } : { ...item, toolId });
-  }
-  return Array.from(byTool.values()).sort((a, b) => String(b.published).localeCompare(String(a.published)));
-}
-
 function accountMatchesItem(account, item) {
   const text = `${item.tool?.name ?? ""} ${item.tool?.description ?? ""} ${item.tool?.circle ?? ""} ${item.angle?.audience ?? ""} ${item.angle?.outcome ?? ""}`.toLowerCase();
   return (account.keywords ?? []).some((keyword) => text.includes(String(keyword).toLowerCase()))
@@ -1390,28 +865,4 @@ function uniqueByTool(items) {
     unique.push(item);
   }
   return unique;
-}
-
-function atomLink(entry) {
-  const links = asArray(entry.link);
-  const alternate = links.find((link) => link.rel === "alternate") ?? links[0];
-  return String(alternate?.href ?? "").trim();
-}
-
-function asArray(value) {
-  if (!value) return [];
-  return Array.isArray(value) ? value : [value];
-}
-
-function stripHtml(value = "") {
-  return String(value)
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, "\"")
-    .replace(/&#39;/g, "'")
-    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
-    .replace(/\s+/g, " ")
-    .trim();
 }
